@@ -1,0 +1,69 @@
+;-*-unibyte: t;-*-
+
+
+;;; 10-Apr-1998
+(lse-define-fill-in "see-attachement"
+    '(token)
+    '(token                 "attachement")
+    '(replacement           "in attachement.")
+;;; see-attachement
+)
+
+;;; 25-May-1995
+(lse-define-fill-in "mail-cc"
+    '(token                 "cc")
+    '(auto-expand); 1-Jul-2002
+    '(description           "Specifies additional mailing addresses to send the message to.")
+    '(leading               "")
+    '(replacement           "Cc:          «text»")
+;;; mail-cc
+)
+
+;;; 25-May-1995
+(lse-define-fill-in "mail-bcc"
+    '(token                 "bcc")
+    '(auto-expand); 1-Jul-2002
+    '(description           "Blind carbon copies"
+      "Specifies additional mailing addresses to send the message to, which"
+      "should not appear in the header of the message actually sent."
+     )
+    '(leading               "")
+    '(replacement           "Bcc:         «text»")
+;;; mail-bcc
+)
+
+;;; 25-May-1995
+(lse-define-fill-in "mail-from"
+    '(token                 "from")
+    '(description           "Use this field to say who you are, when the account you are using to send the mail is not your own."
+      "The contents of this field should be a valid mailing address,"
+      "since replies will normally go there."
+     )
+    '(leading               "")
+    '(replacement           "From:        «mail-address»")
+;;; mail-from
+)
+
+;;; 25-May-1995
+(lse-define-fill-in "mail-reply-to"
+    '(token                 "reply-to")
+    '(description           "Use this field to direct replies to a different address")
+    '(leading               "")
+    '(replacement           "Reply-to:    «mail-address»")
+;;; mail-reply-to
+)
+
+;;; 14-Feb-1996
+(lse-define-fill-in "mail-address"
+    '(token)
+    '(replacement           (lse-tpu:insert (user-login-name)) & "@" & @ this-mail-address)
+;;; mail-address
+)
+
+;;; 14-Feb-1996
+(lse-define-fill-in "this-mail-address"
+    '(token)
+    '(description           "Mail address of node")
+    '(replacement           "swing.co.at")
+;;; this-mail-address
+)

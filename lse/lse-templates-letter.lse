@@ -1,0 +1,361 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Ausfertigung" 
+  '(description   "Ausfertigung eines Briefes: Original oder Kopie ..." )
+  '(replacement 
+      "[«text»]"
+   )
+)
+
+(lse-define-fill-in "\\autosignature" 
+  '(token)
+  '(description   "Scanned signature is put into letter" )
+  '(replacement 
+      "\\autosignature"
+    )                
+)
+
+(lse-define-fill-in "BEILAGEN" 
+  '(description   "Beilagen zu Brief" )
+  '(replacement 
+      "\\beilagen{«text»}"
+   )
+)
+
+(lse-define-fill-in "\\beilagen"
+  '(token)
+  '(description   "Beilagen fuer letter style" )
+  '(replacement @ "BEILAGEN")
+)
+
+(lse-define-fill-in "Betrifft" 
+  '(description   "Thema des Briefes" )
+  '(menu 
+        \\betrifft
+        "\\bestellung{«text»}"; 17-Oct-1995 
+        "\\Bestellung"        ; 17-Oct-1995 
+        "\\auftragsbestaetigung{«text»}"
+        "\\Auftragsbestaetigung" 
+        "\\anmeldebestaetigung{«text»}"
+        "\\Anmeldebestaetigung" 
+   )
+)
+
+(lse-define-fill-in "\\betrifft"
+  '(token)
+  '(description   "Betrifft - Klausel fuer letter style" )
+  '(replacement 
+      "\\betrifft{«text»}"
+   )
+)
+
+(lse-define-fill-in "\\briefdatum"
+  '(token)
+  '(replacement 
+      (line "\\briefdatum " @ "current-date-dd-mm-yyyy")
+      ;; "\\briefdatum «tag.monat.jahr»"
+   )
+)
+
+(lse-define-fill-in "\\foreignletter" 
+  '(token)
+  '(description   "Letter is sent to address in other country than Austria" )
+  '(replacement 
+      "\\foreignletter"
+   )
+)
+
+(lse-define-fill-in "E-MAIL" 
+  '(description   "Latex e-mail document style" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,e-mail]{business}"
+      ""
+      lse-indent+1
+      "\\briefautor{«Initialen»}"
+      "««\\briefdatum»»"
+      "\\autosignature"
+      lse-indent-1
+      ""
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\defletter%"
+      lse-indent+1
+      "{"
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\TheAdressat[\\TheKey]"
+      ""
+      "««betrifft»»"
+      ""
+      "\\Anrede"
+      ""
+      "«text»···"
+      ""
+      "«gruesse»"
+      ""
+      "}"
+      lse-indent-1
+      ""
+      "«\\printletter»"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "\\Gruesse"
+  '(token)
+  '(description   "Mit freundlichen Gruessen (des \\Briefautor's)")
+  '(replacement "\\Gruesse")
+)
+
+(lse-define-fill-in "\\Hochachtung"
+  '(token)
+  '(description   "Hochachtungsvoll (des \\Briefautor's)")
+  '(replacement
+      "\\Hochachtung"
+   )
+)
+
+(lse-define-fill-in "\\VorzugHochachtung"
+  '(token)
+  '(description   "Mit vorzueglicher Hochachtung (des \\Briefautor's)")
+  '(replacement
+      "\\VorzugHochachtung"
+   )
+)
+
+(lse-define-fill-in "\\Herzlich"
+  '(token)
+  '(description   "Mit herzlichen Gruessen (des \\Briefautor's)")
+  '(replacement
+      "\\Herzlich"
+   )
+)
+
+(lse-define-fill-in "\\Sincerely"
+  '(token)
+  '(description   "Sincerely yours (des \\Briefautor's)")
+  '(replacement
+      "\\Sincerely"
+   )
+)
+
+(lse-define-fill-in "\\Faithfully"
+  '(token)
+  '(description   "Faithfully yours (des \\Briefautor's)")
+  '(replacement
+      "\\Faithfully"
+   )
+)
+
+(lse-define-fill-in "GRUESSE" 
+  '(description   "Gruss Floskeln" )
+  '(menu 
+      \\Gruesse
+      \\Hochachtung
+      \\VorzugHochachtung
+      \\Herzlich
+      \\Sincerely
+      \\Faithfully
+   )
+)
+
+(lse-define-fill-in "Jahr" 
+  '(description   "Jahr des Briefdatums")
+)
+
+;;;  6-Dec-1994 
+(lse-define-fill-in "Kartei_Firma_Name"
+    '(token)
+    '(description           "Inserts name of company as choosen by user from kartei completion mode")
+    '(replacement           (lse-latex-mode:insert-firma-of-kartei))
+;;; Kartei_Firma_Name
+)
+
+;;;  6-Dec-1994 
+(lse-define-fill-in "Kartei_Person_Name"
+    '(token)
+    '(description           "Inserts name of person as choosen by user from kartei completion mode")
+    '(replacement           (lse-latex-mode:insert-person-of-kartei))
+;;; Kartei_Person_Name
+)
+
+(lse-define-fill-in "LETTER" 
+  '(description   "Latex letter document style" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,letter]{business}"
+      ""
+      lse-indent+1
+      "\\briefautor{«Initialen»}"
+      "««\\briefdatum»»"
+      "««\\nofoldmark»»"
+      "««\\autosignature»»"
+      "««ShowFaxnumber»»"; 17-Oct-1995 
+      ""
+      "««Include-Projekt-Letter-Definition»»"
+      ""
+      lse-indent-1
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\defletter%"
+      lse-indent+1
+      "{"
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\TheAdressat[\\TheKey]"
+      ""
+      "««betrifft»»"
+      ""
+      "\\Anrede"
+      ""
+      "«text»···"
+      ""
+      "«gruesse»"
+      ""
+      "««ps»»"
+      ""
+      "\\vfill"
+      ""
+      "««cc»»"
+      ""
+      "««beilagen»»"
+      "}"
+      lse-indent-1
+      ""
+      "«\\printletter»"
+      "««\\printletter[Duplikat]»»"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "Monat" 
+  '(description   "Monat des Briefdatums (als Zahl: z.B. `10' fuer Oktober)")
+)
+
+(lse-define-fill-in "\\nofoldmark" 
+  '(description   "Letter should contain no fold-mark" )
+  '(replacement 
+      "\\nofoldmark"
+   )
+)
+
+(lse-define-fill-in "\\printletter" 
+  '(description   "\\printletter command for different cases" )
+  '(token)
+  '(menu 
+        "\\printletterperson{«Kartei_Person_Name»}[««Kartei-Key»»]"
+        "\\printletterfirma{«Kartei_Firma_Name»}[««Kartei-Key»»]"
+        "\\printletterspecial{«text»}{«text»}" 
+    )                
+)
+
+(lse-define-fill-in "\\printletter[Duplikat]" 
+  '(token)
+  '(replacement 
+      "\\printletterausfertigung[Duplikat]"
+    )                
+)
+
+(lse-define-fill-in "\\Printletterausfertigung"
+  '(token)
+  '(replacement 
+      "\\printletterausfertigung«Ausfertigung»"
+   )
+)
+
+(lse-define-fill-in "Serien-Brief" 
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,letter,««options»»]{business}"
+      ""
+      lse-indent+1
+      "\\briefautor{«text»}"
+      @ "\\briefdatum" ; "  \\briefdatum «tag.monat.jahr»"
+      ""
+      "\\makeatletter"
+      lse-indent+1
+      "\\@ifundefined{verteiler}{\\def\\verteiler{verteiler}}{}"
+      lse-indent-1
+      "\\makeatother"
+      ""
+      "\\def\\oneperson #1 {\\printletterperson{#1}}"
+      "\\def\\onefirma #1 {\\printletterfirma{#1}}"
+      lse-indent-1
+      ""    
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\defletter%"
+      lse-indent+1
+      "{"
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\TheAdressat[\\TheKey]"
+      ""
+      "\\Anrede"
+      ""
+      "«text»···"
+      ""                     
+      "\\Gruesse"
+      ""
+      "\\vfill"
+      ""
+      "\\beilagen{«text»}"
+      "}"
+      lse-indent-1
+      ""
+      "\\input{\\verteiler.list}"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+;;; 17-Oct-1995 
+(lse-define-fill-in "ShowFaxnumber"
+    '(menu
+        ShowFaxnumberFirma
+        ShowFaxnumberPerson
+     )
+;;; ShowFaxnumber
+)
+
+(lse-define-fill-in "ShowFaxnumberFirma"
+    '(token)
+    '(token                 "\\ShowFaxnumberFirma")
+    '(description           "Display fax number of recipient below address of letter")
+    '(replacement           "\\ShowFaxnumberFirma[«Kartei-Key»]")
+;;; ShowFaxnummerFirma
+)
+
+(lse-define-fill-in "ShowFaxnumberPerson"
+    '(token)
+    '(token                 "\\ShowFaxnumberPerson")
+    '(description           "Display fax number of recipient below address of letter")
+    '(replacement           "\\ShowFaxnumberPerson[«Kartei-Key»]")
+;;; ShowFaxnummerPerson
+)
+
+(lse-define-fill-in "Tag" 
+  '(description   "Tag des Briefdatums")
+)
+
+(lse-define-fill-in "tag.monat.jahr" 
+  '(replacement 
+      "«tag».«monat».«jahr»"
+   )
+)
+
+(lse-define-fill-in "Telefon_Klappe" 
+  '(description   "Durchwahl des Authors")
+  '(menu
+      "[11]"
+      "[12]"
+      "[13]"
+      "[««text»»]"
+   )
+)

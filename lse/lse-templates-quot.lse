@@ -1,0 +1,41 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Quotation-File" 
+  '(description   "Definition of a single quotation")
+  '(replacement 
+      @ "entry-head"
+      "\\def\\QuotCreator/{«text»}"
+      "\\def\\QuotSource/{«Quotation-Source»}"
+      "\\def\\QuotSourcePage/{«Quotation-Page»}"
+      "\\def\\QuotContents/%"
+      "  {«text»"
+      "  }"
+      "««Quotation-Comment»»"
+      @ "entry-tail"
+  )
+)
+
+(lse-define-fill-in "Quotation-Comment"
+  '(description   "Comment about the quotation")
+  '(description)
+  '(replacement
+      "\\def\\QuotComment/%"
+      "  {«text»}"
+   )
+)
+
+;;; 24-May-1995
+(lse-define-fill-in "Quotation-Source"
+    '(token)
+    '(description           "Expands to source of quotation")
+    '(replacement           (lse-quot-kartei:insert-source))
+;;; Quotation-Source
+)
+
+;;; 24-May-1995
+(lse-define-fill-in "Quotation-Page"
+    '(token)
+    '(description           "Expands to page of quotation")
+    '(replacement           (lse-quot-kartei:insert-page))
+;;; Quotation-Page
+)

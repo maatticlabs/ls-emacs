@@ -1,0 +1,383 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "!{}"
+  '(description
+    "Tabular preamble: inserts intracolumn material without suppressing space"
+   )
+  '(replacement
+      "!{«text»}"
+   )
+)
+
+(lse-define-fill-in ">{}"
+  '(description
+    "Tabular preamble: inserts material directly in front of column"
+   )
+  '(replacement
+      ">{«text»}"
+   )
+)
+
+(lse-define-fill-in "<{}"
+  '(description
+    "Tabular preamble: inserts material right after column"
+   )
+  '(replacement
+      "<{«text»}"
+   )
+)
+
+(lse-define-fill-in "b{}"
+  '(description
+    "Tabular preamble: column of specified width. Equivalent to \\parbox[b]"
+   )
+  '(replacement
+      "b{«dimension»}"
+   )
+)
+
+(lse-define-fill-in "m{}"
+  '(description
+    "Tabular preamble: column of specified width. Equivalent to \\parbox[c]"
+   )
+  '(replacement
+      "m{«dimension»}"
+   )
+)
+
+(lse-define-fill-in "p{}"
+  '(description
+    "Tabular preamble: column of specified width. Equivalent to \\parbox[t]"
+   )
+  '(replacement
+      "p{«dimension»}"
+   )
+)
+
+(lse-define-fill-in "BUSINESS"
+  '(description   "SWing business document style" )
+  '(replacement
+      "\\documentstyle[12pt,german,swing,««options»»···]{business}"
+      ""
+      lse-indent+1
+      "\\pageheading{{«text» \\hfill}}"
+      "\\swingfooting"
+      lse-indent-1
+      ""
+      "\\begin{document}"
+      ""
+      @ text-block
+      ""
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "changebar"
+  '(replacement
+      "\\begin{changebar}"
+      @ text-block
+      "\\end{changebar}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "COL_POS"
+  '(description   "Menu of valid arguments in the tabular preamble" )
+  '(menu
+      "l"
+      "c"
+      "r"
+      p{}
+      m{}
+      b{}
+      !{}
+      @{}
+      >{}
+      <{«text»}
+      *{n}{}
+   )
+)
+
+(lse-define-fill-in "\\inputbibitem"
+  '(replacement
+      "\\inputbibitem «cite_key»"
+   )
+)
+
+(lse-define-fill-in "LATEX"
+  '(description   "LaTeX grammar" )
+  '(menu
+      Letter
+      Entwicklungs-Dokument
+      Rechnung
+      Angebot
+      Lieferschein
+      Projekt-Letter-Definition
+      Business
+      Folie
+      Lern-Ziel
+      Person_Kartei_Eintrag
+      Firma_Kartei_Eintrag
+      Bib-File
+      E-Mail
+      Overhead
+      Trainer-Manual
+      Serien-Brief
+      Seminar-Beschreibung
+      Time/system
+      Etiketten
+      Aktennotiz
+      Firmenbeschreibung
+   )
+)
+
+(lse-define-fill-in "multicols"
+  '(description   "FMi's multi-column environment (TUGboat, Vol. 10/3, p.407)" )
+  '(replacement
+      "\\begin{multicols}{«no_col»}[««text»»]"
+      @ text-block
+      "\\end{multicols}"
+   )
+)
+
+(lse-define-fill-in "note"
+  '(replacement
+      "\\begin{note}««note-title»»"
+      @ text-block
+      "\\end{note}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "note-title"
+  '(description   "Titel der Bemerkung" )
+  '(replacement
+      "[«text»]"
+   )
+)
+
+(lse-define-fill-in "PageRef"
+  '(replacement
+      "\\pageref{«text»}"
+   )
+)
+
+(lse-define-fill-in "pardescription"
+  '(token)
+  '(description   "Paragraph description list environment")
+  '(replacement
+      "\\begin{pardescription}"
+      @  "another_item_labeled"
+      "««another_item_labeled»»···"
+      "\\end{pardescription}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "paragraph_itemize"
+  '(replacement
+      "\\begin{paritemize}"
+      "\\item «item_text»."
+      "««another_item»»···"
+      "\\end{paritemize}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "paragraph_description"
+  '(replacement
+      "\\begin{pardescription}"
+      "\\item «item_label» «text»."
+      "««another_item_labeled»»···"
+      "\\end{pardescription}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "ruledtext"
+  '(replacement
+      "\\begin{ruledtext}"
+      @ text-block
+      "\\end{ruledtext}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "TABLE_ENTRY"
+  '(description   "Tabular entry" )
+  '(replacement
+        "««column_entry»»··· \\CR ««hline»»"
+   )
+)
+
+(lse-define-fill-in "thebibliographie"
+  '(description   "Produce a bibliography list" )
+  '(replacement
+      "\\begin{thebibliography}{\\kern +4.0em}"
+      lse-indent+1
+      "«\\inputbibitem»···"
+      lse-indent-1
+      "\\end{thebibliography}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "Time/system"
+  '(description   "SWing business document style for Time/system" )
+  '(replacement
+      "\\documentstyle[10pt,German,Swing,Time_System]{Business}"
+      ""
+      lse-indent+1
+      "\\pageheading{{«text» \\hfill}}"
+      lse-indent-1
+      ""
+      "\\begin{document}"
+      ""
+      @ text-block
+      ""
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "\\bold"
+  '(token)
+  '(replacement
+      "{\\bold ««text»»\\/}"
+   )
+)
+
+(lse-define-fill-in "\\def"
+  '(token)
+  '(description   "Define TeX command")
+  '(replacement
+      "\\def\\«text»/{{««text»»}}"
+   )
+)
+
+(lse-define-fill-in "fraglich"
+  '(token)
+  '(token         "\\fraglich")
+  '(replacement
+      "\\Fraglich{««text»»}"
+   )
+)
+
+(lse-define-fill-in "FTABULAR"
+  '(token)
+  '(description   "Table making environment" )
+  '(replacement
+        "\\begin{tabular}{@{\\lthickvline}«column»···@{\\rthickvline}}"
+        lse-indent+1
+        "\\thickhline"
+        lse-indent+1
+        "««table_entry»»"
+        lse-indent-1
+        "\\thickhline"
+        lse-indent+1
+        "«table_entry»···"
+        lse-indent-1
+        "\\thickhline"
+        lse-indent-1
+        "\\end{tabular}"
+        "««text»»"
+   )
+)
+
+(lse-define-fill-in "\\idiom"
+  '(token)
+  '(replacement
+      "\\idiom`«text»'"
+   )
+)
+
+(lse-define-fill-in "LARGER"
+  '(token)
+  '(description   "select larger type size")
+  '(replacement
+      "\\begin{Larger}"
+      @ text-block
+      "\\end{Larger}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "\\Larger"
+  '(token)
+  '(replacement
+      "{\\Larger «text»}"
+   )
+)
+
+(lse-define-fill-in "LIST"
+  '(token)
+  '(description   "Custom list making environment" )
+  '(replacement
+      "\\begin{list}%"
+      lse-indent+1
+      "{«default_label»}%"
+      "{"
+      lse-indent+1
+      "\\setlength{\\topsep}{0cm}"
+      "\\setlength{\\partopsep}{\\parskip}"
+      "\\setlength{\\parsep}{0.5\\parskip}"
+      "\\setlength{\\itemsep}{0cm}"
+      "\\setlength{\\leftmargin}{«dimension»}"
+      "\\setlength{\\rightmargin}{0cm}"
+      "\\setlength{\\listparindent}{0cm}"
+      "\\setlength{\\itemindent}{0cm}"
+      "\\setlength{\\labelsep}{0.5em}"
+      "\\setlength{\\labelwidth}{«dimension»}"
+      lse-indent-1
+      "}"
+      lse-indent-1
+      "\\raggedright"
+      "\\item ««item_label»» «text»"
+      "««another_item_labeled»»···"
+      "\\end{list}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "\\sidiom"
+  '(token)
+  '(replacement
+      "\\sidiom`«text»'"
+   )
+)
+
+(lse-define-fill-in "SMALLER"
+  '(token)
+  '(description   "select smaller type size" )
+  '(replacement
+      "\\begin{Smaller}"
+      @ text-block
+      "\\end{Smaller}"
+      "««text»»"
+   )
+)
+
+(lse-define-fill-in "\\SMALLER"
+  '(token)
+  '(description   "select smaller typesize" )
+  '(replacement
+      "{\\Smaller «text»}"
+   )
+)
+
+(lse-define-fill-in "%"
+  '(token)
+  '(description   "LATEX block comment" )
+  '(replacement
+      "%+"
+      "% ««text»»"
+      "%-"
+   )
+)
+
+(lse-define-fill-in "$"
+  '(token)
+  '(description   "LaTeX Math  mode")
+  '(replacement
+      "\\( «text» \\) ««text»»"
+   )
+)

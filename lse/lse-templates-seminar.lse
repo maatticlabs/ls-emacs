@@ -1,0 +1,95 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "\\DefSeminarHotel/" 
+  '(description   "Hotel in dem das Seminar veranstaltet wird" )
+  '(replacement 
+      "\\DefSeminarHotel/{«text»}%"   
+   )
+)
+
+(lse-define-fill-in "\\DefSeminarSubtitel/" 
+  '(description   "Untertitel des Seminars" )
+  '(replacement 
+      "\\DefSeminarSubtitel/{«text»}%"
+   )
+)
+
+(lse-define-fill-in "\\DefSeminarTermin/" 
+  '(description   "Definition eines einzelnen Termins" )
+  '(replacement 
+      "\\DefSeminarTermin/[«text»]%"
+      "  {\\DefSeminarDatum/[«tag».«monat».«jahr»]%"
+      "   \\DefSeminarOrt/{«text»}%"     
+      "   ««\\DefSeminarHotel/»»"
+      "  }%"
+    )  
+)
+
+(lse-define-fill-in "Seminar-Beschreibung" 
+  '(description   "Swing Seminar Informationen" )
+  '(menu 
+        Seminar-Definition
+        Seminar-Programm  
+        Seminar-Termin    
+    )                    
+)
+
+(lse-define-fill-in "Seminar-Definition"
+  '(token)
+  '(description   "Titel & Dauer des Seminars")
+  '(replacement 
+      "\\DefSeminarTitel/{«text»}"
+      "««\\DefSeminarSubtitel/»»"
+      "\\DefSeminarVortragender/{«text»}"
+      "\\DefSeminarDauer/{«text»}"
+   )
+)          
+
+(lse-define-fill-in "Seminar-Kapitel" 
+  '(replacement 
+      "\\subsubsection*{«text»}"
+      "  \\begin{itemize}"     
+      "  \\item «text»"
+      "  ««another_item»»···"
+      "  \\end{itemize}"
+      "  %"     
+      ""
+   )
+)
+
+(lse-define-fill-in "Seminar-Programm"
+  '(token)
+  '(description   "Beschreibung eines Swing-Seminars" )
+  '(replacement 
+      "\\gdef\\sbversion/{«text»}% Datum: «text»"
+      "\\gdef\\sbname/{«text»}% Kuerzel = File-Name"
+      ""
+      "  \\subsection*{Teilnehmerkreis}"
+      "    «text»"
+      "    %"
+      ""
+      "  \\subsection*{Zielsetzung}"
+      "    «text»"
+      "    %"
+      ""      
+      "  \\subsection*{Lernziele}"
+      "    «text»"
+      "    %"
+      ""
+      "  \\clearpage"
+      ""
+      "  \\section*{Programm}"
+      "    \\raggedright"
+      "    «Seminar-Kapitel»···"
+      ""      
+    )  
+)                
+
+(lse-define-fill-in "Seminar-Termin"
+  '(token)
+  '(description   "Datum & Ort des Seminars")
+  '(replacement 
+      "\\DefSeminarTermin/[]{\\UseSeminarTermin/[«text»]}% aktueller Termin"
+      "«\DefSeminarTermin/>..."
+   )
+)

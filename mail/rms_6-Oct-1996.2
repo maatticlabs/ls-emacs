@@ -1,0 +1,75 @@
+> If GNU software is significantly useful to the project you are working on,
+> do you think it would be appropriate for the office to contribute something
+> to the FSF, to help us develop more software?
+
+Emacs and GCC are significantly useful for me. Thank you for reminding
+me about a contribution.
+
+I'd also like to contribute software to the FSF.
+
+Before using Emacs, I used DEC LSE (Language Sensitive Editor) for a
+long time. Three years ago I implemented the LSE functionality in
+Emacs. I'd like to make this package -- named LS-Emacs -- available
+under the terms of the GPL.
+
+The basic concept of LS-Emacs is the support of language specific
+templates. These templates are defined declaratively and describe the
+syntactical structure of a document or program written in a specific
+language. This mechanism is way more powerful yet easier to use than
+mechanisms like `tex-latex-block' or keyword abbrevs.
+
+There a some problems with LS-Emacs which deterred my from making
+LS-Emacs public yet:
+
+- I tried to make LS-Emacs similar to DEC editors like EDT and
+  LSE. Therefore, the keybindings differ from the standard Emacs
+  bindings. Worse, the LS-Emacs keybindings work only for keyboards
+  compatible to a DEC VTx00 terminal. 
+
+- I started to implement LS-Emacs with Emacs 18.59. Later, I switched
+  to Emacs 19 but I didn't make consistent use of all the nice new
+  features. Parts of LS-Emacs use text properties, but the package
+  would profit a lot from a redesign and reimplementation.
+
+- LS-Emacs doesn't work gracefully with all versions of Emacs 19. New
+  versions of Emacs tend to break one or another of LS-Emacs's functions.
+
+- There are still some annoying bugs hidden in LS-Emacs.
+
+- LS-Emacs is not at all optimized. While the performance is adequate on a
+  Pentium machine some optimization would be desirable.
+
+I planned to work on these issues but it doesn't seem likely that I'll
+find enough leisure anytime soon. Does it make sense to make LS-Emacs
+public nevertheless?
+
+During implementation of LS-Emacs I sometimes missed some
+functionality in Emacs. Some of those points are implemented in
+version 19 of Emacs, e.g., insert-in-front-hooks. Other things I would
+like are:
+
+- Support for ranges. LS-Emacs uses markers to delimit important
+  ranges in the buffer. Many Emacs functions play havoc with these
+  markers. For instance, deleting a line containing a range and
+  yanking it back somewhere else in the buffer results in the collapse
+  of the range. Even functions like `fixup-whitespace' mangle the
+  range.
+
+  This severely restricts the functionality of LS-Emacs and sometimes
+  it results in situations where LS-Emacs gets rather confused (goes
+  into a loop, for example).
+
+  Ranges are a difficult topic and I respect the view expressed in the
+  Emacs Lisp Reference Manual (Why Text Properties are not
+  Intervals). Yet, I think a solution should be possible.
+
+- Windows and frames should be first class objects. It would be very
+  convenient if one could make variables window local or frame
+  local. In addition, I'd like a possibility of making some windows
+  permanent. It all too often happens that some Emacs function deletes
+  a window I'd rather keep, e.g., functions of the vc-library
+  often do this.
+
+  
+
+  

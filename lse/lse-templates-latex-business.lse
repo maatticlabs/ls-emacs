@@ -1,0 +1,47 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "AKTENNOTIZ" 
+  '(description   "Latex letter document style for Aktennotizen" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,letter]{business}"
+      ""
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\briefkopf"
+      "\\thispagestyle{empty}"
+      "\\bigskip"
+      ""
+      "\\begin{center}"
+      lse-indent+1
+      "\\larger \\bf Aktennotiz «text» \\\\[3\\bigskipamount]"
+      "\\larger \\bf «text»      \\\\[3\\bigskipamount]"
+      lse-indent-1
+      "\\end{center}"
+      ""
+      "\\raggedright"
+      "«text»"
+      lse-indent-1
+      ""  
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "Etiketten" 
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,«Etiketten-Layout»]{label}"
+      ""
+      "\\begin{document}"
+      lse-indent+1
+      "««put_label»»···"
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "Etiketten-Layout" 
+   '(menu 
+       "XEROX_8X_3Y" 
+       "XEROX_2X_8Y" 
+    )
+)

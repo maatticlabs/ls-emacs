@@ -1,0 +1,294 @@
+;-*-unibyte: t;-*-
+;;;; Copyright (C) 2000 TTTech Computertechnik AG. All rights reserved
+;;;; Schönbrunnerstraße 7, A--1040 Wien, Austria. office@tttech.com
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-gnats-pr
+;;;;
+;;;; Purpose
+;;;;    LS-Emacs templates for GNATS problem reports
+;;;;
+;;;; Revision Dates
+;;;;     6-Sep-2000 (CT) Creation (of header)
+;;;;     6-Sep-2000 (CT) Use same fill-in for subject and synopsis and make
+;;;;                     `gnats-pr-synopsis' auto-replicating
+;;;;    30-Aug-2001 (CT) `gnats-pr-composed-of` and `gnats-pr-part-of` added
+;;;;    24-Sep-2001 (CT) `gnats-pr-responsible` added
+;;;;    ««revision-date»»···
+;;;;--
+;;;;
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr"
+    '(token)
+    '(description           "Root fill-in for GNATS problem report")
+    '(replacement
+        "To:            bugs"
+        "Subject:       «gnats-pr-synopsis»";  6-Sep-2000 ; was «text»
+        "From:          " & (insert (lse-user-e-mail-address))
+        "Reply-To:      " & (insert (lse-user-e-mail-address))
+        ""
+        ">Submitter-Id: TTTech"
+        ">Originator:   " & lse-insert-user-full-name
+        ">Organization: TTTech Computertechnik AG"
+        ">Confidential: «yes/no»"
+        ">Synopsis:     «gnats-pr-synopsis»"
+        ">Severity:     «gnats-pr-severity»"
+        ">Priority:     «gnats-pr-priority»"
+        ">Category:     «gnats-pr-category»"
+        ">Class:        «gnats-pr-class»"
+        "««gnats-pr-responsible»»"; 24-Sep-2001 
+        "««gnats-pr-release»»"
+        "««gnats-pr-description»»"
+        "««gnats-pr-environment»»"
+        "««gnats-pr-repeat»»"
+        "««gnats-pr-fix»»"
+        "«¦gnats-pr-submit¦»"
+     )
+;;; gnats-pr
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-synopsis"
+    '(token)
+    '(token                 "synopsis")
+    '(auto-replicate        1);  6-Sep-2000 
+    '(description           "One line synopsis (abstract) of the problem")
+;;; gnats-pr-synopsis
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-severity"
+    '(token)
+    '(token                 "severity")
+    '(description           "Severity of the problem")
+    '(menu
+        ("critical"         "Most Severe"); 14-Sep-2001 swapped with serious
+        ("serious"          "severe");      14-Sep-2001 
+        ("non-critical"     "Least severe")
+     )
+;;; gnats-pr-severity
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-priority"
+    '(token)
+    '(token                 "priority")
+    '(description           "Priority of problem ")
+    '(menu
+        "low"
+        "medium"
+        "high"
+     )
+;;; gnats-pr-priority
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-category"
+    '(token)
+    '(token                 "category")
+    '(description           "Category of problem report")
+    '(sort)
+    '(menu
+        "TTPbuild"
+        "TTPload"
+        "TTPos"
+        "TTPostool"
+        "TTPosview"
+        "TTPplan"
+        "TTPtools"
+        "TTPview"
+        "pending"
+        "TTPherd"     ; 27-Jun-2001 vvvvvvvvv
+        "TTPverify"
+        "TTPchip"
+        "hwtest"
+        "hwdrivers"
+        "TTPCspec"
+        "TTPAspec"
+        "internal"
+        "DemoAppl"
+        "admin"
+        "C2_boot_rom"
+        "C2_protocol" ; 27-Jun-2001 ^^^^^^^^^
+     )
+;;; gnats-pr-category
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-class"
+    '(token)
+    '(token                 "class")
+    '(description           "Class of problem")
+    '(sort)
+    '(menu
+        "sw-bug"
+        "doc-bug"
+        "change-request"
+        "support"
+     )
+;;; gnats-pr-class
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-release"
+    '(token)
+    '(token                 "Release")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description           "Release of product which shows problem")
+    '(replacement           ">Release:      «text»")
+;;; gnats-pr-release
+)
+
+;;; 24-Sep-2001 
+(lse-define-fill-in "gnats-pr-responsible"
+    '(token)
+    '(token                 "Responsible")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description           "Person responsible for working on problem")
+    '(replacement           ">Responsible:  «text»")
+;;; gnats-pr-responsible
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-environment"
+    '(token)
+    '(token                 "environment")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description
+        "Environment where the problem happened "
+        "machine, os, target, libraries"     
+     )
+    '(replacement
+        ">Environment:"
+        "«text»···"
+     )
+;;; gnats-pr-environment
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-description"
+    '(token)
+    '(token                 "description")
+    '(description           "Precise description of the problem")
+    '(auto-expand) ; 26-Jan-2001 
+    '(replacement
+        ">Description:"
+        "«text»···"
+        "--"
+        "««gnats-pr-effort»»"
+        "««gnats-pr-depends»»"
+        "««gnats-pr-composed-of»»" ; 30-Aug-2001 
+        "««gnats-pr-part-of»»"     ; 30-Aug-2001 
+     )
+;;; gnats-pr-description
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-repeat"
+    '(token)
+    '(token                 "repeat")
+    '(token                 "how-to-repeat")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description
+       "Description how to reproduce the problem"
+       "code/input/activities to reproduce the problem"
+     )
+    '(replacement
+        ">How-To-Repeat:"
+        "«text»···"
+     )
+;;; gnats-pr-repeat
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-fix"
+    '(token)
+    '(token                 "fix")
+    '(token                 "work-around")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description
+        "how to correct or work around the problem, if known"
+     )
+    '(replacement
+        ">Fix:"
+        "«text»···"
+     )
+;;; gnats-pr-fix
+)
+
+;;; 29-Aug-2000 
+(lse-define-fill-in "gnats-pr-submit"
+    '(token)
+    '(token                 "submit")
+    '(description           "Submit problem report")
+    '(function
+        lse-gnats-pr:send
+     )
+;;; gnats-pr-submit
+)
+
+;;; 30-Aug-2000 
+(lse-define-fill-in "gnats-pr-effort"
+    '(token)
+    '(token                 "effort")
+    '(auto-expand) ; 26-Jan-2001 
+    '(description           "Estimated effort for implementation of fix")
+    '(replacement
+        "Effort:        «gnats-pr-effort-time» («gnats-pr-effort-person»)"
+     )
+;;; gnats-pr-effort
+)
+
+;;; 30-Aug-2000 
+(lse-define-fill-in "gnats-pr-effort-time"
+    '(description           "Person days or person weeks estimated")
+    '(menu
+        ("«text» PD"     "person days")
+        ("«text» PW"     "person weeks")
+     )
+;;; gnats-pr-effort-time
+)
+
+;;; 30-Aug-2001 
+(lse-define-fill-in "gnats-pr-composed-of"
+    '(token)
+    '(token                 "composed-of")
+    '(description
+        "Lists gnats-issues describing workpackages of this issue"
+     )
+    '(auto-expand)
+    '(replacement
+        "Composed_of:   «number»···"
+     )
+;;; gnats-pr-composed-of
+)
+
+;;; 30-Aug-2001 
+(lse-define-fill-in "gnats-pr-part-of"
+    '(token)
+    '(token                 "part-of")
+    '(description           "Lists the gnats issue this issue is a part of")
+    '(auto-expand)
+    '(replacement           "Part_of:       «number»")
+;;; gnats-pr-part-of
+)
+
+;;; 30-Aug-2000 
+(lse-define-fill-in "gnats-pr-effort-person"
+    '(description           "Person who did estimation")
+    '(replacement           (insert (user-login-name)))
+;;; gnats-pr-effort-person
+)
+
+;;; 30-Aug-2000 
+(lse-define-fill-in "gnats-pr-depends"
+    '(token)
+    '(token                 "depends")
+    '(description           "Other problem report this one depends one")
+    '(replacement           "Depends:       «number»")
+;;; gnats-pr-depends
+)
+
+;

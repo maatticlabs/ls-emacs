@@ -1,0 +1,795 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Bib-File"
+  '(description   "Definition of a single bibliographic reference")
+  '(replacement
+      @ "entry-head"
+      "\\entryflag{autobib=:««text»»:}"
+      "\\DefBibLabel/{«entry-name»}"
+      "\\DefBibAuthor/{«text»}"
+      "\\DefBibYear/{«text»}"
+      "\\DefBibTitle/%"
+      "  {«text»}"
+      "««\\DefBibSubtitle/»»"
+      "««\\DefBibEdition/»»"
+      "\\DefBibPublisher/%"
+      "  {«Publisher»}"
+      "««\\DefBibISBN/»»"
+      "\\BibOptional"
+      "««\\DefBibCitedBy/»»"
+      "««\\DefBibRequestedBy/»»"
+      "««\\DefBibOwner/»»"
+      "««\\DefBibPrice/»»"
+      "««\\DefBibSupplier/»»"
+      "««\\DefBibDeliveryDate/»»"
+      "««\\DefBibLocation/»»"
+      "««\\DefBibForeignOwner/»»"
+      "««\\DefBibKeywords/»»"
+      "««\\DefBibReviewSummary/»»"
+      "««\\DefBibAnnotation/»»"
+      @ "entry-tail"
+  )
+)
+
+;;;  3-Mar-1995
+(lse-define-fill-in "Bib-Owned-Info"
+    '(token)
+    '(description           "Information about Owner, Delivery, Price...")
+    '(replacement
+        @ \\DefBibOwner/
+        @ \\DefBibPrice/
+        @ \\DefBibSupplier/
+        @ \\DefBibDeliveryDate/
+     )
+;;; Bib-Owned-Info
+)
+
+;;; 10-Oct-1994
+(lse-define-fill-in "\\DefBibAnnotation/"
+  '(token)
+  '(token         "bibAnnotation")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Annotation for inclusion in annotated bibliography")
+  '(replacement
+      "\\DefBibAnnotation/%"
+      "  {«text»"
+      "  }"
+  )
+)
+
+(lse-define-fill-in "\\DefBibBorrowedBy/"
+  '(token)
+  '(token         "bibborrowedby")
+  '(token         "borrowedby")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Name of Borrower")
+  '(replacement   "\\DefBibBorrowedBy/{«text»}")
+)
+
+(lse-define-fill-in "\\DefBibCitedBy/"
+  '(token)
+  '(token         "bibcitedby")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Reference of book or article where this reference is cited")
+  '(replacement   "\\DefBibCitedBy/{«text»}")
+)
+
+(lse-define-fill-in "\\DefBibDeliveryDate/"
+  '(token)
+  '(token         "bibdeliverydate")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Date of delivery to Swing")
+  '(replacement   "\\DefBibDeliveryDate/{«current-date» ««(Ansicht)»»}")
+)
+
+(lse-define-fill-in "(Ansicht)"
+  '(replacement "(Ansicht)")
+)
+
+(lse-define-fill-in "\\DefBibEdition/"
+  '(token)
+  '(token         "bibedition")
+  '(auto-expand)  ; 17-Aug-2000
+  '(replacement   "\\DefBibEdition/{«text»}")
+)
+
+(lse-define-fill-in "\\DefBibForeignOwner/"
+  '(token)
+  '(token         "bibforeignowner")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Owner of book (owner outside \\swing/)")
+  '(replacement   "\\DefBibForeignOwner/{«text»}")
+)
+
+(lse-define-fill-in "\\DefBibISBN/"
+  '(token)
+  '(token         "bibisbn")
+  '(token         "bib-isbn"); 21-Nov-2000
+  '(auto-expand)  ;  7-Sep-2000
+  '(replacement   "\\DefBibISBN/{«BibISBN»}")
+)
+
+(lse-define-fill-in "BibISBN"
+  '(token                 "isbn")
+  '(description           "ISBN number of book")
+  '(rcompletion-action    lse-bib-kartei:check-isbn); 19-Aug-1995
+  '(menu
+      ("0-937175-"  "O'Reilly")
+      ("1-56592-"   "O'Reilly")
+      ("0-201-"     "Addison Wesley")
+      ("0-13-"      "Prentice Hall")
+      ("0-19-"      "Oxford University Press")
+      ("0-14-"      "Penguin Books")
+      ("0-387-"     "Springer NY")
+      ("3-540-"     "Springer Berlin");            24-Nov-1995
+      ("0-412-"     "Chapman")
+      ("0-471-"     "Wiley")
+      ("0-8053-"    "Benjamin Cummings")
+      ("0-07-"      "McGraw")
+      ("0-465-"     "Basic Books")
+      ("0-932633-"  "Dorset")
+      ("0-262-"     "MIT Press")
+      ("0-12-"      "Academic Press")
+      ("1-884842-"  "SIGS Books");                 24-Nov-1995
+      ("1-9627477-" "SIGS Books");                 24-Nov-1995
+      ("3-89319-"   "Addison-Wesley Deutschland"); 24-Nov-1995
+   )
+;;; BibISBN
+)
+
+(lse-define-fill-in "\\DefBibKeywords/"
+  '(token)
+  '(token         "bibkeywords")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Keywords describing contents of book or article")
+  '(replacement
+      "\\DefBibKeywords/%"
+      "  {«text»"
+      "  }"
+  )
+)
+
+(lse-define-fill-in "\\BibOptional"
+  '(token)
+  '(token         "biboptional")
+  '(replacement   "\\BibOptional")
+)
+
+(lse-define-fill-in "\\DefBibLocation/"
+  '(token)
+  '(token         "biblocation")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Location(s) of reference")
+  '(replacement   "\\DefBibLocation/{«text»}")
+)
+
+(lse-define-fill-in "\\DefBibOwner/"
+  '(token)
+  '(token         "bibowner")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Owner of book (\\swing/ or one of the partners os swing)")
+  '(replacement   "\\DefBibOwner/{«Owner»}")
+)
+
+(lse-define-fill-in "\\DefBibPrice/"
+  '(token)
+  '(token         "bibprice")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Price of book")
+  '(replacement   "\\DefBibPrice/{«price»}")
+)
+
+(lse-define-fill-in "Price"
+  '(menu
+      "\\eur{«text»}"   ; 11-Feb-2002
+      "\\usd{«text»}"   ; 24-Nov-1995
+      "\\sfr{«text»}"
+      "\\pound{«text»}" ; 24-Nov-1995
+      "\\oes{«text»}"
+      "\\dm{«text»}"
+  )
+)
+
+(lse-define-fill-in "\\DefBibPublisher/"
+  '(token)
+  '(token         "bibpublisher")
+  '(auto-expand)  ; 17-Aug-2000
+  '(replacement
+      "\\DefBibPublisher/%"
+      "  {«Publisher»}"
+  )
+)
+
+(lse-define-fill-in "\\DefBibRequestedBy/"
+  '(token)
+  '(token         "bibrequestedby")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Name of person who wants to buy (and pay) this book")
+  '(replacement   "\\DefBibRequestedBy/{«Person»}")
+)
+
+(lse-define-fill-in "\\DefBibReviewSummary/"
+  '(token)
+  '(token         "bibreviewsummary")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Assessment of quality and relevance of cited book or article")
+  '(replacement
+      "\\DefBibReviewSummary/%"
+      "  {«text»"
+      "  }"
+  )
+)
+
+(lse-define-fill-in "\\DefBibSubtitle/"
+  '(token)
+  '(token         "bibsubtitle")
+  '(auto-expand)  ; 17-Aug-2000
+  '(replacement
+      "\\DefBibSubtitle/"
+      "  {«text»}"
+  )
+)
+
+(lse-define-fill-in "\\DefBibSupplier/"
+  '(token)
+  '(token         "bibsupplier")
+  '(auto-expand)  ; 17-Aug-2000
+  '(description   "Name of company or library which can supply this book")
+  '(replacement   "\\DefBibSupplier/{«Supplier»}")
+)
+
+(lse-define-fill-in "Supplier"
+  '(token)
+  '(menu
+        "amazon.de"                     ; 30-Apr-1999
+        "amazon.com"                    ; 30-Apr-1999
+        "Lehmanns"                      ; 21-Nov-2000
+        "Konrad"                        ; 17-Jan-1998
+        "Barnes \\& Noble"              ; 17-Jan-1998
+        "Borders"                       ; 17-Jan-1998
+        "British Bookshop"
+        "Alpha"
+        "LMZ"
+  )
+)
+
+(lse-define-fill-in "Publisher"
+  '(token); 24-Nov-1995
+  '(max-line-move         2)
+  '(sort)
+  '(menu
+      \\academic/
+      \\acm/
+      \\addison/
+      \\addisonBRD/
+      \\basicbooks/
+      \\benjamin/
+      \\bi/
+      \\biw/
+      \\cambridge/
+      \\chapman/
+      \\chicago/
+      \\degruyter/
+      \\dorset/
+      \\dover/
+      \\elsevier/
+      \\elsevierny/
+      \\freeman/
+      \\freepress/
+      \\hanser/
+      \\harperperennial/
+      \\harperrow/
+      \\harvard/
+      \\ieee/
+      \\littlebc/
+      \\littlebcl/
+      \\macmillan/
+      \\mcgraw/
+      \\mit/
+      \\morgan/
+      \\morrow/
+      \\northholland/
+      \\oreilly/
+      \\oxford/
+      \\penguin/
+      \\prentice/
+      \\random/
+      \\sigs/
+      \\sigsbooks/
+      \\simonschuster/
+      \\springerb/
+      \\springerny/
+      \\teubner/
+      \\vnr/
+      \\warner/
+      \\wiley/
+      \\wileych/
+      \\yourdon/
+      \\yourdonp/
+      \\acmcompsurveys/
+      \\acmsenotes/
+      \\acmsigplan/
+      \\acmtransplas/
+      \\commacm/
+      \\byte/
+      \\cppreport/
+      \\ddj/
+      \\hoot/
+      \\ieeecomp/
+      \\ieeesoft/
+      \\ieeetransse/
+      \\joop/
+      \\joupam/
+      \\objectmagazine/
+      \\objektspektrum/
+      \\procacmoopla/
+      \\procieeesrs/
+      \\road/
+      \\sej/
+      \\swpae/
+      \\tugboat/
+  )
+)
+
+(lse-define-fill-in "\\academic/"
+  '(token)
+  '(replacement "\\BibAcademic/")
+  '(description   "Academic Press Inc")
+)
+
+(lse-define-fill-in "\\acm/"
+  '(token)
+  '(replacement "\\BibACM/")
+  '(description   "ACM Press, \\BibAddison/")
+)
+
+(lse-define-fill-in "\\addison/"
+  '(token)
+  '(replacement "\\BibAddison/")
+  '(description   "Addison-Wesley Publishing Company, Inc., Reading, Mass")
+)
+
+;;; 24-Nov-1995
+(lse-define-fill-in "\\addisonBRD/"
+  '(token)
+  '(replacement "\\BibAddisonBRD/")
+  '(description   "Addison-Wesley Verlag (Deutschland), Bonn")
+)
+
+(lse-define-fill-in "\\basicbooks/"
+  '(token)
+  '(replacement "\\BibBasicBooks/")
+  '(description   "Basic Books, New York")
+)
+
+(lse-define-fill-in "\\benjamin/"
+  '(token)
+  '(replacement "\\BibBenjamin/")
+  '(description   "The Benjamin/Cummings Publishing Company, Inc")
+)
+
+(lse-define-fill-in "\\bi/"
+  '(token)
+  '(replacement "\\BibBI/")
+  '(description   "Bibliographisches Institut, Mannheim-Wien-Zuerich")
+)
+
+(lse-define-fill-in "\\biw/"
+  '(token)
+  '(replacement "\\BibBIW/")
+  '(description   "B.I.-Wissenschaftsverlag, Mannheim/Wien/Zuerich")
+)
+
+(lse-define-fill-in "\\cambridge/"
+  '(token)
+  '(replacement "\\BibCambridge/")
+  '(description   "Cambridge University Press, Cambridge")
+)
+
+(lse-define-fill-in "\\chapman/"
+  '(token)
+  '(replacement "\\BibChapman/")
+  '(description   "Chapman \\& Hall")
+)
+
+(lse-define-fill-in "\\chicago/"
+  '(token)
+  '(replacement "\\BibChicago/")
+  '(description   "The University of Chicago Press, Chicago")
+)
+
+(lse-define-fill-in "\\degruyter/"
+  '(token)
+  '(replacement "\\BibDeGruyter/")
+  '(description   "DeGruyter, Berlin, New York")
+)
+
+(lse-define-fill-in "\\dorset/"
+  '(token)
+  '(replacement "\\BibDorset/")
+  '(description   "Dorset House Publishing Co., Inc., New York")
+)
+
+(lse-define-fill-in "\\dover/"
+  '(token)
+  '(replacement "\\BibDover/")
+  '(description   "Dover Publications Inc., New York")
+)
+
+(lse-define-fill-in "\\elsevier/"
+  '(token)
+  '(replacement "\\BibElsevier/")
+  '(description   "Elsevier N. Holland")
+)
+
+(lse-define-fill-in "\\elsevierny/"
+  '(token)
+  '(replacement "\\BibElsevierNY/")
+  '(description   "Elsevier Scientific Publishing, New York")
+)
+
+(lse-define-fill-in "\\freeman/"
+  '(token)
+  '(replacement "\\BibFreeman/")
+  '(description   "{W.H.\\,Freeman, New York}")
+)
+
+(lse-define-fill-in "\\freepress/"
+  '(token)
+  '(replacement "\\BibFreePress/")
+  '(description   "{The Free Press, New York}")
+)
+
+(lse-define-fill-in "\\hanser/"
+  '(token)
+  '(replacement "\\BibHanser/")
+  '(description   "{Carl Hanser Verlag, Muenchen}")
+)
+
+; 16-Oct-1995
+(lse-define-fill-in "\\harperperennial/"
+  '(token)
+  '(replacement "\\BibHarperPerennial/")
+  '(description   "HarperPerennial, New York")
+)
+
+(lse-define-fill-in "\\harperrow/"
+  '(token)
+  '(replacement "\\BibHarperRow/")
+  '(description   "Harper and Row, New York")
+)
+
+(lse-define-fill-in "\\harvard/"
+  '(token)
+  '(replacement "\\BibHarvard/")
+  '(description   "Harvard University Press, Cambridge")
+)
+
+(lse-define-fill-in "\\ieee/"
+  '(token)
+  '(replacement "\\BibIEEE/")
+  '(description   "IEEE Computer Society Press")
+)
+
+(lse-define-fill-in "\\littlebc/"
+  '(token)
+  '(replacement "\\BibLittleBC/")
+  '(description   "Little, Brown, and Company, Boston")
+)
+
+(lse-define-fill-in "\\littlebcl/"
+  '(token)
+  '(replacement "\\BibLittleBCl/")
+  '(description   "Little, Brown, and Company, London")
+)
+
+(lse-define-fill-in "\\macmillan/"
+  '(token)
+  '(replacement "\\BibMacmillan/")
+  '(description   "Macmillan Publishing Company")
+)
+
+(lse-define-fill-in "\\mcgraw/"
+  '(token)
+  '(replacement "\\BibMcgraw/")
+  '(description   "McGraw-Hill Book Company, New York")
+)
+
+(lse-define-fill-in "\\mit/"
+  '(token)
+  '(replacement "\\BibMIT/")
+  '(description   "MIT Press, Cambridge")
+)
+
+(lse-define-fill-in "\\morgan/"
+  '(token)
+  '(replacement "\\BibMorgan/")
+  '(description   "Morgan Kaufmann Publishers, Palo Alto, Calif.")
+)
+
+(lse-define-fill-in "\\morrow/"
+  '(token)
+  '(replacement "\\BibMorrow/")
+  '(description   "William Morrow, New York")
+)
+
+(lse-define-fill-in "\\northholland/"
+  '(token)
+  '(replacement "\\BibNorthHolland/")
+  '(description   "North-Holland")
+)
+
+(lse-define-fill-in "\\oreilly/"
+  '(token)
+  '(replacement "\\BibOReilly/")
+  '(description   "O'Reilly \& Associates, Inc., Sebastopol, CA")
+)
+
+(lse-define-fill-in "\\oxford/"
+  '(token)
+  '(replacement "\\BibOxford/")
+  '(description   "Oxford University Press, New York")
+)
+
+(lse-define-fill-in "\\penguin/"
+    '(token)
+    '(description "Penguin Books Ltd")
+    '(replacement "\\BibPenguin/")
+;;; \\penguin/
+)
+
+(lse-define-fill-in "\\prentice/"
+  '(token)
+  '(replacement "\\BibPrentice/")
+  '(description   "Prentice Hall Book Co., Inc., Englewood Cliffs, New Yersey")
+)
+
+(lse-define-fill-in "\\random/"
+  '(token)
+  '(replacement "\\BibRandom/")
+  '(description   "Random House, New York")
+)
+
+(lse-define-fill-in "\\sigs/"
+  '(token)
+  '(replacement "\\BibSIGS/")
+  '(description   "SIGS Publications, Inc., New York")
+)
+
+(lse-define-fill-in "\\sigsbooks/"
+  '(token)
+  '(replacement "\\BibSIGSbooks/")
+  '(description   "SIGS Books, Inc., New York")
+)
+
+(lse-define-fill-in "\\simonschuster/"
+  '(token)
+  '(replacement "\\BibSimonSchuster/")
+  '(description   "Simon \\& Schuster, Inc., New York")
+)
+
+(lse-define-fill-in "\\springerb/"
+  '(token)
+  '(replacement "\\BibSpringerB/")
+  '(description   "Springer-Verlag Berlin")
+)
+
+(lse-define-fill-in "\\springerny/"
+  '(token)
+  '(replacement "\\BibSpringerNY/")
+  '(description   "Springer-Verlag New York, Inc")
+)
+
+(lse-define-fill-in "\\teubner/"
+  '(token)
+  '(replacement "\\BibTeubner/")
+  '(description   "Teubner Verlag")
+)
+
+(lse-define-fill-in "\\vnr/"
+  '(token)
+  '(replacement "\\BibVNR/")
+  '(description   "Van Nostrand Reinhold, New York")
+)
+
+(lse-define-fill-in "\\warner/"
+  '(token)
+  '(replacement "\\BibWarner/")
+  '(description   "Warner Books, New York")
+)
+
+(lse-define-fill-in "\\wiley/"
+  '(token)
+  '(replacement "\\BibWiley/")
+  '(description   "Wiley, New York")
+)
+
+(lse-define-fill-in "\\wileych/"
+  '(token)
+  '(replacement "\\BibWileyCh/")
+  '(description   "John Wiley \\& Sons, Inc., Chichester")
+)
+
+(lse-define-fill-in "\\yourdon/"
+  '(token)
+  '(replacement "\\BibYourdon/")
+  '(description   "\\yourdon/ Press, New York")
+)
+
+(lse-define-fill-in "\\yourdonp/"
+  '(token)
+  '(replacement "\\BibYourdonP/")
+  '(description   "\\yourdon/ Press, \\BibPrentice/")
+)
+
+(lse-define-fill-in "\\ACMcompSurveys/"
+  '(token)
+  '(replacement "\\ACMcompSurveys/, «Volume»")
+  '(description   "ACM Computing Surveys")
+)
+
+(lse-define-fill-in "\\ACMseNotes/"
+  '(token)
+  '(replacement "\\ACMseNotes/, «Volume»")
+  '(description   "ACM SIGSOFT Software Engineering Notes")
+)
+
+(lse-define-fill-in "\\ACMsigplan/"
+  '(token)
+  '(replacement "\\ACMsigplan/, «Volume»")
+  '(description   "ACM SIGPLAN Notices")
+)
+
+(lse-define-fill-in "\\ACMtransPLaS/"
+  '(token)
+  '(replacement "\\ACMtransPLaS/, «Volume»")
+  '(description   "ACM Transactions on Programming Languages and Systems")
+)
+
+(lse-define-fill-in "\\byte/"
+  '(token)
+  '(replacement "\\Byte/, «Volume»")
+  '(description   "Byte")
+)
+
+(lse-define-fill-in "\\CommACM/"
+  '(token)
+  '(replacement "\\CommACM/, «Volume»")
+  '(description   "Communications of the ACM")
+)
+
+(lse-define-fill-in "\\CppReport/"
+  '(token)
+  '(replacement "\\CppReport/, «Volume»")
+  '(description   "\\cpplus/ Report, SIGS Publications, Inc., New York")
+)
+
+(lse-define-fill-in "\\DDJ/"
+  '(token)
+  '(replacement "\\DDJ/, «Volume»")
+  '(description   "Dr. Dobb's Journal")
+)
+
+(lse-define-fill-in "\\HOOT/"
+  '(token)
+  '(replacement "\\HOOT/, «Volume»")
+  '(description   "Hotline on Object-Oriented Technology")
+)
+
+(lse-define-fill-in "\\IEEEcomp/"
+  '(token)
+  '(replacement "\\IEEEcomp/, «Volume»")
+  '(description   "IEEE Computer")
+)
+
+(lse-define-fill-in "\\IEEEsoft/"
+  '(token)
+  '(replacement "\\IEEEsoft/, «Volume»")
+  '(description   "IEEE Software")
+)
+
+(lse-define-fill-in "\\IEEEtransSE/"
+  '(token)
+  '(replacement "\\IEEEtransSE/, \\vol{SE--«text»}(««Number»»), ««text»»")
+  '(description   "IEEE Transactions on Software Engineering")
+)
+
+(lse-define-fill-in "\\JOOP/"
+  '(token)
+  '(replacement "\\JOOP/, «Volume»")
+  '(description   "Journal of Object-Oriented Programming")
+)
+
+(lse-define-fill-in "\\JouPAM/"
+  '(token)
+  '(replacement "\\JouPAM/, «Volume»")
+  '(description   "Journal of Pascal, Ada, and Modula--2")
+)
+
+(lse-define-fill-in "\\ObjectMagazine/"
+  '(token)
+  '(replacement "\\ObjectMagazine/, «Volume»")
+  '(description   "Object Magazine")
+)
+
+(lse-define-fill-in "\\ObjektSpektrum/"
+  '(token)
+  '(replacement "\\ObjektSpektrum/, «Volume»")
+  '(description   "Objekt Spektrum")
+)
+
+(lse-define-fill-in "\\ProcACMooPLA/"
+  '(token)
+  '(replacement "\\ProcACMooPLA/, «Volume»")
+  '(description   "Proceedings of the ACM Conference on OO Programming Systems, Languages and Applications")
+)
+
+(lse-define-fill-in "\\ProcIEEEsrs/"
+  '(token)
+  '(replacement "\\ProcIEEEsrs/, «Volume»")
+  '(description   "Proceedings of the IEEE Conference on Specfications of Reliable Software")
+)
+
+(lse-define-fill-in "\\ROAD/"
+  '(token)
+  '(replacement "\\ROAD/, «Volume»")
+  '(description   "Report on Object Analysis & Design")
+)
+
+(lse-define-fill-in "\\SEJ/"
+  '(token)
+  '(replacement "\\SEJ/, «Volume»")
+  '(description   "Software Engineering Journal")
+)
+
+(lse-define-fill-in "\\SWPaE/"
+  '(token)
+  '(replacement "\\SWPaE/, «Volume»")
+  '(description   "Software --- Practice and Experience")
+)
+
+(lse-define-fill-in "\\tugboat/"
+  '(token)
+  '(replacement "\\BibTugboat/, «Volume»")
+  '(description   "TUGboat")
+)
+
+(lse-define-fill-in "Number"
+  '(leading       "(")
+  '(trailer       ")")
+  '(description   "Number of volume")
+  '(replacement "")
+)
+
+(lse-define-fill-in "Owner"
+    '(sort)
+    '(menu
+        "\\gk/"
+        "\\rh/"
+        "\\ct/"
+        "\\swing/"
+     )
+;;; Owner
+)
+
+;;; 24-May-1995
+(lse-define-fill-in "Pages"
+    '(token)
+    '(description           "Specifies pages occupied by an article")
+    '(leading               ",")
+    '(replacement           "pp\\.««text»»")
+;;; Pages
+)
+
+;;; 10-Jun-1995
+(lse-define-fill-in "Person"
+    '(replacement           @ owner)
+;;; Person
+)
+
+(lse-define-fill-in "Volume"
+  '(token)
+  '(replacement
+      "\\vol{«text»}(««Number»»), ««text»», ««Pages»»"
+  )
+)

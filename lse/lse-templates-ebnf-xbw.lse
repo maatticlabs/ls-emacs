@@ -1,0 +1,71 @@
+;-*-unibyte: t;-*-
+
+;;;+
+;;; Templates for XbW
+;;;-
+
+;;; 18-Mar-1997 
+(lse-define-fill-in "XbW-token"
+    '(token)
+    '(token                 "\\XbW")
+    '(description           "Token restricted to XbW Document")
+    '(max-line-move         3)
+    '(replacement-vanguard  xbw-ebnf-add-prev-eof-comment)
+    '(replacement
+        "\\XbW«=" & xbw-ebnf-insert-leader & ":«ebnf-token»=»"
+     )
+;;; XbW-token
+)
+
+(lse-define-fill-in "XbW-chapter"
+    '(token)
+    '(token                 "Chapter")
+    '(description           "Begins a new chapter")
+    '(max-line-move         3)
+    '(replacement           "\\XbWChapter«:«text»:»")
+;;; XbW-chapter
+)
+
+(lse-define-fill-in "XbW-production"
+    '(token)
+    '(token                 "Production")
+    '(description           "Define an EBNF production")
+    '(max-line-move         3)
+    '(replacement
+        "\\begin{XbWProduction} «name» : "
+        lse-indent+1
+        "«ebnf-token»···"
+        lse-indent-1
+        "\\end{XbWProduction} "
+        ""
+     )
+;;; XbW-production
+)
+
+(lse-define-fill-in "XbW-section"
+    '(token)
+    '(token                 "Section")
+    '(description           "Begins a new section")
+    '(max-line-move         3)
+    '(replacement           "\\XbWSection«:«text»:»")
+;;; XbW-section
+)
+
+(lse-define-fill-in "XbW-sub-section"
+    '(token)
+    '(token                 "Subsection")
+    '(description           "Begins a new subsection")
+    '(max-line-move         3)
+    '(replacement           "\\XbWSubsection«:«text»:»")
+;;; XbW-sub-section
+)
+
+(lse-define-fill-in "XbW-sub-sub-section"
+    '(token)
+    '(token                 "Subsubsection")
+    '(description           "Begins a new subsubsection")
+    '(max-line-move         3)
+    '(replacement           "\\XbWSubsubsection«:«text»:»")
+;;; XbW-sub-sub-section
+)
+

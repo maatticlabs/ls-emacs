@@ -1,0 +1,113 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "kassabuch-file"
+    '(replacement
+        "%command   day description      kategorie-planung        betrag mwst person"
+        "«kassabuch»···"
+     )
+;;; kassabuch-file
+)
+
+(lse-define-fill-in "Kassabuch" 
+  '(menu 
+      \\A
+      \\E
+      \\KtoP
+      \\EE
+      \\Entnahme
+   )
+)
+
+(lse-define-fill-in "\\A" 
+  '(token)
+  '(replacement 
+      "\\A"                   & lse-tabulator 
+      "«Tag» "                &
+      "«Description» "        &
+      "«Ausgaben-Kategorie» " &
+      "«Betrag» "             &
+      "(««MWSt»»)"            & lse-tabulator 
+      "««Person»»"
+   )
+)   
+
+(lse-define-fill-in "\\E" 
+  '(token)
+  '(replacement 
+      "\\E"             & lse-tabulator 
+      "«Tag» "          &
+      "«Description» "  &
+      "«Betrag»"
+    )
+)
+
+(lse-define-fill-in "\\EE" 
+  '(token)
+  '(replacement 
+      "\\EE"                  & lse-tabulator 
+      "«Tag» "                &
+      "«Description» "        &
+      "«Einnahmen-Kategorie»" & 
+      "«Betrag» "             &
+      "(««MWSt»»)"            & lse-tabulator 
+      "««Person»»"
+   )
+)   
+
+(lse-define-fill-in "\\Entnahme" 
+  '(token)
+  '(replacement 
+      "\\Entnahme"           & lse-tabulator 
+      "«Tag» "               &
+      "«Description» "       &
+      "«Entnahme-Kategorie»" & 
+      "«Betrag» "            &
+      "(««MWSt»»)"
+   )
+)
+
+(lse-define-fill-in "Entnahme-Kategorie" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+      "Entnahme GK"
+      "Entnahme RH"
+      "Entnahme CT"
+   )
+)
+
+(lse-define-fill-in "description"
+    '(description           "Beschreibung des Eintrags")
+    '(replacement-leading   "<")
+    '(replacement-trailer   ">")
+    '(rcompletion-trailer   just-one-space lse-tabulator)
+;;; description
+)
+
+(lse-define-fill-in "\\KtoP" 
+  '(token)
+  '(replacement 
+      "\\KtoP"          & lse-tabulator 
+      "«Tag» "          &
+      "«Description» "  &
+      "«Betrag»"
+   )
+)
+
+(lse-define-fill-in "Tag" 
+  '(description           "Day of transaction")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+)
+
+(lse-define-fill-in "Person" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+      "GK"
+      "RH"
+      "CT"
+   )
+)
+

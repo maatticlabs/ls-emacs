@@ -1,0 +1,238 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "ANGEBOT" 
+  '(description   "Latex letter document style for Angebote" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,letter]{business}"
+      ""
+      lse-indent+1
+      "\\briefautor{«Initialen»}"                        
+      @ "\\briefdatum"
+      "««\\foreignletter»»"
+      "««\\nofoldmark»»"
+      ""
+      "««Include-Projekt-Letter-Definition»»"
+      lse-indent-1
+      ""
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\defletter%"
+      lse-indent+1
+      "{"
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\TheAdressat[\\TheKey]"
+      ""
+      "\\Angebot"
+      ""
+      "\\Anrede"
+      ""
+      "«text»···"
+      ""                                            
+      "\\bigskip"
+      "Dieses Angebot ist verbindlich und basiert auf den \">Allgemeinen"
+      "Geschäftsbedingungen\"< und der \">Honorarordnung\"<"
+      "der \\swinggesmbh/"
+      "Dieses Angebot ist 30~Tage gültig."
+      ""
+      "Wir hoffen, Ihnen mit diesem Angebot gedient zu haben und verbleiben"
+      ""
+      "«gruesse»"
+      ""  
+      "\\vfill"
+      ""
+      "\\beilagen%"
+      lse-indent+1
+      "{"
+      "Allgemeine Geschäftsbedingungen, Jänner 1989 \\\\"
+      "Honorarordnung, Juli 1990"
+      "}"
+      lse-indent-1
+      "}"
+      lse-indent-1
+      ""  
+      "\\printletterperson{«Kartei_Zuname»_««Kartei_Vorname»»}[««Kartei-Key»»]"
+      "\\printletterausfertigung[Duplikat]"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "ANGEBOTS-CODE"
+  '(description   "Code fuer Angebot: Firmenkurzname--Datum")
+)
+
+(lse-define-fill-in "Include-Projekt-Letter-Definition" 
+  '(replacement 
+        "\\input{$SDM$LETTERS:PROJEKT_LETTER.DEF}"
+   )
+)
+
+(lse-define-fill-in "LIEFERSCHEIN" 
+  '(description   "Latex letter document style" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,letter]{business}"
+      ""
+      lse-indent+1
+      "\\def\\unserzeichen/{{«text»}}"
+      "\\def\\lieferdatum/{{«text»}}"
+      "««\\foreignletter»»"
+      "««\\nofoldmark»»"
+      ""
+      "\\input{$SDM$LETTERS:PROJEKT_LETTER.DEF}"
+      ""
+      "\\def\\heute{«text»}"
+      ""
+      lse-indent-1
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\adressat%"
+      lse-indent+1
+      "{"
+      "\\kundenadr/"
+      "}"
+      lse-indent-1
+      ""
+      "\\lieferschein{«lieferschein-code»}"
+      ""
+      lse-indent+1
+      "Zu den in Ihrer Bestellung~\\bestellcode/ vom~\\bestelldatum/"
+      "vereinbarten Bedingungen liefern wir Ihnen:"
+      ""
+      "««text»»···"
+      ""
+      "\\bigskip"
+      ""
+      lse-indent-1
+      "\\vfill"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "LIEFERSCHEIN-CODE" 
+  '(description   "Code fuer Lieferschein: Firmenkurzname--Datum")
+)
+
+(lse-define-fill-in "PROJEKT-LETTER-DEFINITION" 
+  '(description   "Angebots-Code, Bestell-Code, ..., fuer kaufm. Korrespondenz" )
+  '(replacement 
+      lse-indent+1
+      "\\def\\kunde/{{«text»}}            % Firmenkurzname / Abteilung"
+      "\\def\\angebotdatum/{{«text»}}       % Datum des Angebots von Swing"
+      "\\def\\angebotcode/{{«text»}}        % Angebots-Code von Swing"
+      "\\def\\bestelldatum/{{«text»}}       % Datum der Bestellung"
+      "\\def\\bestellcode/{{«text»}}        % Bestellnummer etc."
+      "\\def\\lieferantencode/{{«text»}}      % Code des Kunden fuer Swing"
+      "\\def\\kundenadr/%                 % Adresse des Kunden"
+      lse-indent+1
+      "{"
+      "«paragraph_text»···"
+      "}"
+      lse-indent-1
+      "\\def\\projectname/{{«text»}}        % Name des Projekts"
+      "\\def\\projectid/{{«text»}}          % Kurzbezeichnung des Projekts"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "RECHNUNG" 
+  '(description   "Latex letter document style for bills" )
+  '(replacement 
+      "\\documentstyle[12pt,german,swing,««text»»letter]{business}"
+      ""
+      lse-indent+1
+      "\\briefautor{«Initialen»}"
+      @ "\\briefdatum"
+      "««\\foreignletter»»"
+      "««\\nofoldmark»»"
+      ""
+      "««Include-Projekt-Letter-Definition»»"
+      ""
+      lse-indent-1
+      "\\begin{document}"
+      ""
+      lse-indent+1
+      "\\defletter%"
+      lse-indent+1
+      "{"
+      "\\briefkopf««Telefon_Klappe»»"
+      ""
+      "\\TheAdressat[\\TheKey]"
+      ""
+      "\\Rechnung"
+      ""
+      lse-indent+1
+      "Füur «text» stelle ich in Rechnung:"
+      ""
+      "«Rechnungs-Tabelle»···"
+      ""
+      "Ich ersuche um Überweisung des Rechnungsbetrages auf das \\kontoi/."
+      ""
+      "\\bigskip"
+      "«rechnungs-zahlungsziel»"
+      ""             
+      lse-indent-1
+      "«gruesse»"
+      ""
+      "\\vfill"
+      "}"
+      lse-indent-1
+      ""
+      "«\\printletter»[Original]"
+      "%\\printletterausfertigung[1. Duplikat]"
+      "%\\printletterausfertigung[2. Duplikat]"
+      "%\\printletterausfertigung[3. Duplikat]"
+      "%\\printletterausfertigung[Buchhaltung «text»]"
+      "%\\printletterausfertigung[1. Duplikat «text»]"
+      "%\\printletterausfertigung[2. Duplikat «text»]"
+      ""
+      lse-indent-1
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "RECHNUNGS-CODE" 
+  '(description   "Code fuer Rechnung: Firmenkurzname--Datum")
+)
+
+(lse-define-fill-in "RECHNUNGS-ZAHLUNGSZIEL" 
+  '(menu 
+        "Zahlungsziel: «text»." 
+        "Die Rechnung ist sofort und ohne jeden Abzug fällig."
+   )
+)
+
+;;; 10-Nov-1995
+(lse-define-fill-in "Rechnungs-Tabelle"
+    '(token)
+    '(token                 "RTable")
+    '(description           "Selbstrechnende Tabelle mit Auflistung der Rechnungsposten")
+    '(replacement
+        "\\begin{Rtable}"
+        "«Rechnungs-Posten»···"
+        "\\end{Rtable}"
+     )
+;;; Rechnungs-Tabelle
+)
+
+;;; 10-Nov-1995
+(lse-define-fill-in "Rechnungs-Posten"
+    '(token)
+    '(token                 "RPosten")
+    '(description           "Einzelposten einer Rechnungs-Tabelle")
+    '(replacement
+        "\\Rpos"
+        "  {«text»}"
+        "  {«text»}"
+        "  {«text»}"
+        "  \\\\ ««hline»»"
+     )
+;;; Rechnungs-Posten
+)

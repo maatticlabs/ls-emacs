@@ -1,0 +1,153 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Description" 
+  '(replacement-leading   "[")
+  '(replacement-trailer  "]" )
+  '(replacement-vanguard  lse-tabulator)
+  '(description           "Beschreibung des Eintrags")
+)
+
+(lse-define-fill-in "finanzplanung-file"
+    '(replacement
+        "%command   kategorie               monat  betrag     mwst  description"
+        "«finanzplanung»···"
+     )
+;;; finanzplanung-file
+)
+
+(lse-define-fill-in "Finanzplanung" 
+  '(menu 
+     \\A 
+     \\E
+     \\Entnahme
+     \\An
+     \\En
+     \\Entnahmen
+     \\Konto
+     \\StartKonto
+   )
+)
+
+(lse-define-fill-in "\\A" 
+  '(description   "Ausgabe")
+  '(token)
+  '(replacement 
+      "\\A"                   & lse-tabulator 
+      "«Ausgaben-Kategorie» " &
+      "«Monat» "              &
+      "«Betrag» "             &
+      "(««MWSt»») "           & 
+      "««Description»»"
+    )
+)
+
+(lse-define-fill-in "\\E" 
+  '(description   "Einnahme")
+  '(token)
+  '(replacement 
+     "\\E"                   & lse-tabulator 
+     "«Einnahmen-Kategorie»" & 
+     "«Monat» "              &
+     "«Betrag» "             &
+     "(««MWSt»») "           & 
+     "««Description»»"
+   )
+)
+
+(lse-define-fill-in "\\Entnahme" 
+  '(description   "Entnahme eines Gesellschafters")
+  '(token)
+  '(replacement 
+     "\\Entnahme"       & lse-tabulator 
+     "«Gesellschafter»" & 
+     "«Monat» "         &
+     "«Betrag» "        &
+     "(««MWSt»»)"
+   )
+)
+
+(lse-define-fill-in "\\An" 
+  '(description   "Periodische Ausgaben")
+  '(token)
+  '(replacement 
+     "\\An"                      & lse-tabulator 
+     "«Ausgaben-Kategorie» "     &
+     "«Monat:Monat:Monat»"       &
+     "«Betrag» "                 &
+     "(««MWSt»») "               &
+     "««Description»»"
+   )
+)
+
+(lse-define-fill-in "\\En" 
+  '(description   "Periodische Einnahmen")
+  '(token)
+  '(replacement 
+     "\\En"                      & lse-tabulator 
+     "«Einnahmen-Kategorie»"     & 
+     "«Monat:Monat:Monat»"       &
+     "«Betrag» "                 &
+     "(««MWSt»») "               &
+     "««Description»»"
+   )
+)    
+
+(lse-define-fill-in "\\Entnahmen" 
+  '(description   "Periodische Entnahmen eines Gesellschafters")
+  '(token)
+  '(replacement 
+     "\\Entnahmen"               & lse-tabulator 
+     "«Gesellschafter»"          & 
+     "«Monat:Monat:Monat»"       &
+     "«Betrag» "                 &
+     "(««MWSt»»)"
+   )
+)
+
+(lse-define-fill-in "\\Konto" 
+  '(description   "Kontostand")
+  '(token)
+  '(replacement 
+     "\\Konto"            & lse-tabulator 
+     "«Konten-Kategorie»" & 
+     "«Monat» "           &
+     "«Betrag»"
+   )
+)
+
+(lse-define-fill-in "\\StartKonto" 
+  '(description   "Kontostand am 1. Juli")
+  '(token)
+  '(replacement 
+     "\\StartKonto"       & lse-tabulator 
+     "«Konten-Kategorie»" &
+     "«Betrag»"
+   )
+)
+
+(lse-define-fill-in "Monat" 
+  '(replacement-leading   "[")
+  '(replacement-trailer   "]")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+)
+
+(lse-define-fill-in "Monat:Monat:Monat" 
+  '(description           "Start-Monat:End-Monat:Inkrement")
+  '(replacement-leading   "[")
+  '(replacement-trailer   "]")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+)
+
+(lse-define-fill-in "Konten-Kategorie" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+    "Konto CA"
+    "Konto PSK"
+    "Kassa"
+   )
+)
+
+
+

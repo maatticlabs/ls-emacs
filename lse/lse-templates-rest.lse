@@ -1,0 +1,443 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 2002 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.cluster
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-rest
+;;;;
+;;;; Purpose
+;;;;    Define templates for LS-Emacs language ReST (reStructuredText)
+;;;;
+;;;; Revision Dates
+;;;;    10-Sep-2002 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+;;;;
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-file"
+    '(description           "Root fill-in for ReST language")
+    '(replacement
+        ".. #««header-comment»»"
+        ""
+        "««rest-item»»···"
+     )
+;;; rest-file
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-item"
+    '(description           "Item of reStructuredText")
+    '(sort)
+    '(menu
+        rest-block-quote
+        rest-bullet-list
+        rest-citation-definition
+        rest-citation-reference
+        rest-comment
+        rest-definition-list
+        rest-enumerated-list
+        rest-footnote-definition
+        rest-footnote-reference
+        rest-hyperlink-target
+        rest-literal-block
+        rest-section
+        rest-subsection
+        rest-subsubsection
+
+        rest-simple-table
+        rest-grid-table
+     )
+;;; rest-item
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-block-quote"
+    '(token)
+    '(token                 "block-quote")
+    '(description
+      "Text block indented relative to the preceeding text"
+     )
+    '(replacement
+        ""
+        @ text-block
+        ""
+     )
+;;; rest-block-quote
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-bullet-item"
+    '(token                 "item")
+    '(description           "One item of a bulleted list")
+    '(auto-expand)
+    '(hang-indent           2)
+    '(replacement-vanguard
+        (message "rest-bullet-type %s" (get-text-property (point) 'rest-bullet-type))
+        (setq rest:bullet-type
+              (or
+                (get-text-property (point) 'rest-bullet-type)
+                "«rest-bullet-type»"
+              )
+        )
+     )
+    '(replacement
+        (insert rest:bullet-type) & " «rest-text»"
+        ""
+     )
+;;; rest-bullet-item
+)
+
+;;;  4-Oct-2002
+(lse-define-fill-in "rest-bullet-list"
+    '(token)
+    '(token                 "bullet-list")
+    '(token                 "itemize")
+    '(description           "Bulleted list")
+    '(menu
+        rest-bullet-list:-
+        rest-bullet-list:*
+        rest-bullet-list:+
+     )
+;;; rest-bullet-list
+)
+
+;;;  4-Oct-2002
+(lse-define-fill-in "rest-bullet-list:-"
+    '(description           "Bulleted list with `-` bullet")
+    '(properties            rest-bullet-type "-")
+    '(replacement           @ rest@bullet@list)
+;;; rest-bullet-list:-
+)
+
+;;;  4-Oct-2002
+(lse-define-fill-in "rest-bullet-list:*"
+    '(description           "Bulleted list with `*` bullet")
+    '(properties            rest-bullet-type "*")
+    '(replacement           @ rest@bullet@list)
+;;; rest-bullet-list:*
+)
+
+;;;  4-Oct-2002
+(lse-define-fill-in "rest-bullet-list:+"
+    '(description           "Bulleted list with `+` bullet")
+    '(properties            rest-bullet-type "+")
+    '(replacement           @ rest@bullet@list)
+;;; rest-bullet-list:+
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest@bullet@list"
+    '(replacement
+        "«rest-bullet-item»···"
+     )
+;;; rest-bullet-list
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-bullet-type"
+    '(auto-expand)
+    '(menu
+        "-"
+        "*"
+        "+"
+     )
+;;; rest-bullet-type
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-citation-definition"
+    '(token)
+    '(token                 "citation-definition")
+    '(description           "Define a citation")
+    '(replacement           ".. «rest-citation-label» «rest-text»")
+;;; rest-citation-definition
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-citation-label"
+    '(description           "Label to be used for the citation")
+    '(replacement-leading   "[")
+     '(replacement-trailer   "]")
+;;; rest-citation-label
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-citation-reference"
+    '(token)
+    '(token                 "citation-reference")
+    '(description           "Refer to a citation")
+    '(replacement           "«rest-citation-label»_")
+;;; rest-citation-reference
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-comment"
+    '(token)
+    '(token                 "#")
+    '(description
+     "Comment which isn't interpreted as marked-ip text"
+     )
+    '(replacement           ".. # «text»")
+;;; rest-comment
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-definition-classifier"
+    '(description           "Optional classifier for definition item")
+    '(replacement-leading   " : ")
+;;; rest-definition-classifier
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-definition-list"
+    '(token)
+    '(token                 "definition-list")
+    '(description           "Definition list")
+    '(replacement
+        "«rest-definition-term» ««rest-definition-classifier»»"
+        @ «text-block»
+        ""
+     )
+;;; rest-definition-list
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-definition-term"
+    '(description
+      "Simple one-line word or phrase introducing a definition item"
+     )
+;;; rest-definition-term
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-enumerated-item"
+    '(token                 "num-item")
+    '(description           "One item in a enumerated list")
+    '(replacement
+        "«rest-enumeration-tag» «rest-text»"
+        ""
+     )
+;;; rest-enumerated-item
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-enumerated-list"
+    '(token)
+    '(token                 "enumerated-list")
+    '(description           "Enumerated list")
+    '(replacement
+        "«rest-enumerated-item»···"
+     )
+;;; rest-enumerated-list
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-enumeration-tag"
+    '(auto-expand)
+    '(menu
+        ("«digit»."        "1., 2., ...")
+        ("«digit»)"        "1), 2), ...")
+        ("(«digit»)"       "(1), (2), ...")
+        ("«letter-lc»."    "a., b., ...")
+        ("«letter-lc»)"    "a), b), ...")
+        ("(«letter-lc»)"   "(a), (b), ...")
+        ("«letter-uc»."    "A., B., ...")
+        ("«letter-uc»)"    "A), B), ...")
+        ("(«letter-uc»)"   "(A), (B), ...")
+     )
+;;; rest-enumeration-tag
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-fn-label"
+    '(description
+      "Defines a labelled auto-numbered footnote which can be referenced "
+      "more than once"
+     )
+;;; rest-fn-label
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-footnote-definition"
+    '(token)
+    '(token                 "footnote-definition")
+    '(description           "Defines a footnote")
+    '(replacement           ".. [#««rest-fn-label»»] «rest-text»")
+;;; rest-footnote-definition
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-footnote-reference"
+    '(token)
+    '(token                 "footnote-reference")
+    '(description           "Refer to footnote")
+    '(menu
+         ("[#]_"                  "Plain auto-numbered footnote reference")
+         ("[#««rest-fn-label»»]_" "Labelled auto-numbered footnote reference")
+     )
+;;; rest-footnote-reference
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-hyperlink-target"
+    '(token)
+    '(token                 "hyperlink-target")
+    '(description
+      "A hyperlink target defines a location within or outside of the "
+      "document, which may be linked to by hyperlink references."
+     )
+    '(menu
+        rest-hyperlink-target-internal
+        rest-hyperlink-target-external
+     )
+;;; rest-hyperlink-target
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-hyperlink-target-external"
+    '(token)
+    '(token                 "external-hyperlink-target")
+    '(description
+      "An external hyperlink allows linking to another document with an"
+      "absolute or relative URI"
+     )
+    '(replacement
+        @ rest-hyperlink-target-name
+        & "http://«text»"
+     )
+;;; rest-hyperlink-target-external
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-hyperlink-target-internal"
+    '(token)
+    '(token                 "internal-hyperlink-target")
+    '(description
+      "A internal hyperlink allows linking within a document"
+     )
+    '(replacement           @ rest-hyperlink-target-name "" "«text»")
+;;; rest-hyperlink-target-internal
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-hyperlink-target-name"
+    '(replacement           ".. _«rest-reference»: ")
+;;; rest-hyperlink-target-name
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-literal-block"
+    '(token)
+    '(token                 "literal-block")
+    '(token                 "::")
+    '(description
+      "Literal block of text -- no markup processing is done for the contents"
+     )
+    '(replacement
+        "::"
+        lse-environment-indent
+        ""
+        @ text-block
+        ""
+     )
+;;; rest-literal-block
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-reference"
+    '(menu
+       ("«text»"     "A reference name")
+       ("`«text»`"   "A reference phrase")
+     )
+;;; rest-reference
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-reference-definition"
+    '(token)
+    '(token                 "label")
+    '(description           "Define a reference name or phrase")
+    '(replacement-trailer   "_")
+    '(menu
+       @ rest-reference
+     )
+;;; rest-reference-definition
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-section"
+    '(token)
+    '(token                 "section")
+    '(description           "Start a new section")
+    '(replacement
+        "«rest-section-title»"
+        ""
+        "«rest-item»"
+        ""
+     )
+;;; rest-section
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-section-title"
+    '(description           "Title of section to start")
+    '(rcompletion-leading   (lse-rest:overline ?=))
+    '(rcompletion-trailer   (lse-rest:underline ?=))
+;;; rest-section-title
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-subsection"
+    '(token)
+    '(token                 "subsection")
+    '(description           "Start a new subsection")
+    '(replacement
+        "«rest-subsection-title»"
+        ""
+        "«rest-item»"
+        ""
+     )
+;;; rest-subsection
+)
+
+;;; 10-Sep-2002
+(lse-define-fill-in "rest-subsection-title"
+    '(description           "Title of subsection to start")
+    '(rcompletion-trailer   (lse-rest:underline ?-))
+;;; rest-subsection-title
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-subsubsection"
+    '(token)
+    '(token                 "subsubsection")
+    '(description           "Start a new subsubsection")
+    '(replacement
+        "«rest-subsubsection-title»"
+        ""
+        "«rest-item»"
+        ""
+     )
+;;; rest-subsubsection-title
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-subsubsection-title"
+    '(description           "Title of subsubsection to start")
+    '(rcompletion-trailer   (lse-rest:underline ?.))
+;;; rest-subsubsection-title
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "rest-text"
+    '(description           "Enter your text here")
+;    '(replacement-leading   lse-hang-indent)
+;    '(rcompletion-action    lse-nohang-indent)
+;;; rest-text
+)
+
+; ««lse-define-fill-in»»···
+;;; End of lse-templates-rest.lse

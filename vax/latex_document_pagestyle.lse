@@ -1,0 +1,202 @@
+!
+!
+! Document and Page Style Commands
+!
+delete token \documentstyle
+define token \documentstyle -
+	/language=latex -
+	/descr = "LaTeX document style selection command" -
+	/topic_string="LATEX Commands Document_styles" -
+
+"\documentstyle<<optionlist>>{<article|report|memo|letter|slides|milstd|bookform>}"
+end define
+
+delete placeholder optionlist /language = latex
+define placeholder optionlist -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/descr = "Optional Latex document substyles" 
+
+"[<options>...]"
+end define
+
+delete placeholder options /language = latex
+define placeholder options /language = latex -
+	/type = menu -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/duplication = horizontal -
+	/descr = "Valid substyle options, 10pt is the default for all styles"-
+	/separator = "," 
+
+"11pt"		/placeholder
+"12pt"		/placeholder
+"draft"		/placeholder
+"twoside"	/placeholder
+"twocolumn"	/placeholder
+"fleqn"		/placeholder
+"leqno"		/placeholder
+end define
+
+delete placeholder 11pt
+define placeholder 11pt -
+	/description="Typeset the document in 11 point type" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"11pt"
+end define
+
+delete placeholder 12pt
+define placeholder 12pt -
+	/description="Typeset the document in 12 point type" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"12pt"
+end define
+
+delete placeholder draft
+define placeholder draft -
+	/description="Mark overfull hboxes" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"draft"
+end define
+
+delete placeholder twoside
+define placeholder twoside -
+	/description="Define twosided substyle" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"twoside"
+end define
+
+delete placeholder twocolumn
+define placeholder twocolumn -
+	/description="Typeset the document with two columns per page" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"twocolumn"
+end define
+
+delete placeholder fleqn
+define placeholder fleqn -
+	/description="Displayed math environments flush left" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"fleqn"
+end define
+
+delete placeholder leqno
+define placeholder leqno -
+	/description="Put equation numbers on the left" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"leqno"
+end define
+
+delete placeholder article|report|memo|letter|slides|milstd|bookform -
+	/language = latex
+define placeholder article|report|memo|letter|slides|milstd|bookform -
+	/language = latex -
+	/type = menu -
+	/descr = "Valid arguments for the \documentstyle command" -
+	/topic_string = "LATEX Commands Document_styles" -
+
+"article"	
+"report"	
+"memo"		
+"letter"	
+"slides"	
+"milstd"
+"bookform"
+end define
+
+delete token \flushbottom
+define token \flushbottom -
+	/description="Make all text pages the same height" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles \flushbottom" -
+
+"\flushbottom"
+end define
+
+delete token \raggedbottom
+define token \raggedbottom -
+	/description="Let height of text vary from page to page" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles \raggedbottom" -
+
+"\raggedbottom"
+end define
+
+delete placeholder pagestyle /language = latex
+define placeholder pagestyle /language = latex -
+	/topic_string = "LATEX Commands Page_Styles" -
+	/type = menu -
+	/descr = "Document page style commands" 
+
+"\pagestyle{<styles>}"
+"\thispagestyle{<styles>}"
+end define
+
+delete placeholder styles /language = latex
+define placeholder styles /language = latex -
+	/topic_string = "LATEX Commands Page_Styles" -
+	/descr = "Predefined \pagestyle and \thispagestyle arguments" - 
+	/type = menu 
+
+"plain"
+"empty"
+"headings"
+"myheadings"
+end define
+
+delete token \pagestyle
+define token \pagestyle -
+	/description="Set the page style for the entire document" -
+	/language=latex -
+	/topic_string="LATEX Commands Page_Styles \pagestyle" -
+
+"\pagestyle{<styles>}"
+end define
+
+delete token \thispagestyle
+define token \thispagestyle -
+	/language=latex -
+	/descr = "Set the page style for this page only" -
+	/topic_string="LATEX Commands Page_styles \thispagestyle" -
+
+"\thispagestyle{<styles>}"
+end define
+
+delete token \pagenumbering
+define token \pagenumbering -
+	/language=latex -
+	/descr = "Set the style of the page numbers" -
+	/topic_string="LATEX Commands Page_Styles \pagenumbering" -
+
+"\pagenumbering{<pgno_options>}"
+end define
+
+delete placeholder pgno_options
+define placeholder pgno_options -
+	/language=latex -
+	/descr = "Valid options for the \pagenumbering command" -
+	/topic_string="LATEX Commands Page_Styles \pagenumbering" -
+	/type=menu -
+
+"arabic"
+"roman"
+"Roman"
+"alph"
+"Alph"
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_DOCUMENT_PAGESTYLE.LSE
+!	 *1    30-JAN-1986 15:31:22 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_DOCUMENT_PAGESTYLE.LSE

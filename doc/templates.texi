@@ -1,0 +1,1022 @@
+@node    Templates, Programming, Editing, Top
+@chapter Defining Templates for a LS-Emacs Language
+
+This chapter describes how you can define and change language templates.
+It is advantageous if you have a basic understanding of how to program in
+Emacs Lisp, but such knowledge is not really necessary. If you do not
+know Emacs Lisp, it might be a good idea to study the definitions of
+existing LS-Emacs language templates in conjunction with reading this
+chapter. As LS-Emacs provides templates for the definition of LS-Emacs
+language templates
+@c --- Baron Münchhausen would have loved recursion ---
+you need not worry about syntactic detail; LS-Emacs will take care of
+all the gory details for you.
+
+@cindex Template definition, Backus-Naur form
+@cindex Language definition, Backus-Naur form
+@cindex Backus-Naur form, language definition
+In principle, one could easily write a program to translate a formal
+language specification, e.g., in Backus-Naur form, into the syntax
+required by LS-Emacs. Yet, templates generated in this way would not be
+user-friendly and rather ineffective.@footnote{If you don't believe me,
+try to use the templates offered by Digital for DEC LSE!} Therefore it
+is better to perform the translation by hand. For this process, a
+Backus-Naur form is a very good starting point.
+
+You should always try to consider how the user will work with the
+templates you are defining. Normally, it is necessary to do a fair
+amount of prototyping to arrive at effective templates. Alternatively,
+you can start with simple templates and fine-tune them during the first
+weeks of use. The latter alternative probably requires more total effort but
+it is easier if you don't have recent experience in template design.
+
+@menu
+* Template-Files::              
+* Template-Directories::        
+* Language-Definition::         
+* Fill-In-Definition::          
+* Token-Definition::            
+* Indentation::                 
+* Comment-Expansion::           
+@end menu
+
+@node    Template-Files, Template-Directories, Templates, Templates
+@section Template Definition Files
+
+A LS-Emacs language comprises a number of general parameter settings
+and a set of fill-ins and tokens.
+
+@cindex Master file, language definition
+@cindex Language definition, master file
+@cindex Template file, language definition
+@cindex Language definition, template file
+@cindex Templates, sharing between languages
+The definition of a LS-Emacs language consists of a number of files. The
+language master file defines the characteristics of the language and specifies
+which template files define the fill-ins and tokens for the language. Because
+many languages can use the same template file, this allows sharing of
+templates between different languages. Sharing of templates has three
+primary advantages:
+
+@itemize @bullet
+@item
+Reuse. Each template must be defined only once.
+
+@item
+Consistency between different languages. The user of LS-Emacs has less
+templates to learn and can transfer the knowledge gathered in using
+one language to other languages.
+
+@item
+Ease of change. If you want to change something, you have to do less
+work, and there is no danger of introducing inconsistencies. Fine-tuning
+of one language benefits all others which share the tuned templates.
+@end itemize
+
+@cindex Template file, name
+@cindex Master file, name
+Both language master files and template files have extension
+@file{.lse}. The master file of a language named «name» is named
+@file{lse-language-«name».lse}. The template files are named
+@file{lse-templates-«x».lse}. Normally, one of these files uses the
+language-name in place of @file{«x»}. The template file
+@file{lse-templates-generic.lse} is used by each and every language by
+default.
+
+@cindex Loading languages
+@cindex Language, loading
+@cindex Templates, loading
+To speed-up the loading of language templates, the definitions are
+stored in compiled form. For a language named @code{«name»}, the
+compiled definitions are stored in the file
+@file{lse-language-«name».lsc}.  To load a compiled language both the
+source (@file{.lse}) and the compiled (@file{.lsc}) language master files
+are necessary.  The first one defines the language characteristics, the
+second one the compiled fill-ins and tokens. To compile a language, use
+the command @code{lse-language:compile}; to load a language, use
+@code{lse-language:use}. @b{Do not use Emacs functions like
+@code{load-file}, @code{load-library}, or @code{require} to load either
+language master or template files!}
+
+@node    Template-Directories, Language-Definition, Template-Files, Templates
+@section Template Definition Directories
+
+@cindex Template file, directory
+@cindex Master file, directory
+@cindex Directory, template file
+@cindex Directory, master file
+LS-Emacs uses two environment variables to find the language definition
+files. @code{EMACSLSESRC} contains the pathname of the directory
+containing the source files (extension @file{.lse}). @code{EMACSLSEDIR}
+contains the pathname of the directory containing the compiled
+language templates (extension @file{.lsc}).
+
+@node    Language-Definition, Fill-In-Definition, Template-Directories, Templates
+@section Definition of LS-Emacs Languages
+
+@cindex Templates, language definition
+This section explains the parameters or characteristics you can
+define for a language.
+
+@cindex Language, & major mode
+@cindex Major mode, & language
+The language characteristics are defined in the language master file
+@file{lse-language-«name».lse} which contains exactly one call of the
+function @code{lse-language:define}. It @b{must not} contain any
+definitions of fill-ins or tokens. In this file you should also define
+language specific lisp functions, e.g., a hook-function linking the
+language with a major mode of Emacs.
+
+@defun lse-language:define name properties hooks files &optional
+fill-in-size token-size
+
+@cindex Language, characteristics
+@cindex Characteristics, language
+With this function, you define the characteristics of a LS-Emacs language.
+
+@table @var
+@item name
+@cindex Language, name
+@cindex Name, language
+The name of the language (used as part of the file name too). This name
+is used for manipulating the language inside LS-Emacs. Language related
+commands of LS-Emacs all require the language name as parameter. Specify
+a string inside double quotes.
+
+@item properties
+A list of property settings. The primary properties are explained in
+@ref{Language-Properties}. In addition to LS-Emacs-specific language
+properties you can define the value of any Emacs variable for the
+language.@footnote{Of course, such a variable should be defined as
+buffer-local.}
+
+@item hooks
+@cindex Language, hooks
+@cindex Hooks, language
+A list of language hooks. These hooks are Emacs lisp functions which are
+executed when the language is activated for a buffer. For instance, some
+languages use @code{auto-fill-mode} as language hook. You can define any
+lisp function (which may be called) without parameters as language hook.
+
+@item files
+A list of files containing template definitions. Do not specify the
+extension @file{.lse}. The file @file{lse-templates-generic.lse} must
+not be included in this list --- it is added automatically by
+LS-Emacs. The template files are loaded in the order specified; later
+template files can mask definitions in earlier files.
+@file{lse-templates-generic.lse} is loaded before all other template
+files.
+
+@item fill-in-size
+The size of the fill-in (hash-) table. This should be a prime number.
+
+@item token-size
+The size of the token (hash-) table. This should be a prime number. 
+@end table
+@end defun
+
+@menu
+* Language-Properties::         
+@end menu
+
+@node       Language-Properties,  , Language-Definition, Language-Definition
+@subsection Properties of LS-Emacs Languages
+
+@cindex Language, properties
+@cindex Properties, language
+Language properties control the behavior of LS-Emacs. This section
+describes the properties specific to LS-Emacs. In addition, you can use
+any buffer-local Emacs variable as language property.
+
+@vtable @code
+@item lse-language:expand-initial
+Controls whether LS-Emacs will expand the root fill-in of the language
+when you start editing a new document. By default, LS-Emacs does not
+expand the root fill-in.
+
+@item lse-language:initial-fill-in
+LS-Emacs inserts the value of this property into each new document of
+the language. Normally, this is just a flat fill-in. But you can specify
+any string for this property. Consider setting
+@code{lse-language:expand-initial}, when you need a lengthy string for
+this property.
+
+@item lse-language:tab-increment
+Controls the amount of indentation used per indentation level. Functions
+like @code{lse-indent+1} change the indentation level by just this
+value. Normally, a value of  either 2 or 4 is used. @xref{Indentation}.
+
+@item lse-tpu:ident-chars
+This property controls --- together with
+@code{lse-tpu:ident-group-chars} --- what LS-Emacs considers to be a word.
+The default value are the alphanumeric characters @code{A-Za-z0-9}. If
+the language allows additional letters like ä, ö, ü, etc., you
+define this property accordingly.
+
+@code{lse-tpu:ident-chars} defines the characters that comprise a simple
+word.
+
+@item lse-tpu:ident-group-chars
+This property defines characters like a hyphen which are used to combine
+simple words into a compound word. The default value is `@code{-_*@@+}',
+which is rather lispy. For a natural language, use the value `@code{-}'.
+Many programming languages need the value `@code{_}'.
+
+@item lse_comment_delim_char_set
+Defines all characters which may occur in --- leading and trailing ---
+comment delimiters. LS-Emacs uses this property to skip over empty
+comments and to identify lines consisting of an empty comment only.
+The default value is `@code{;}'.
+
+@item lse_comment_head_delim
+Defines the string which is used to start a comment. LS-Emacs uses this
+property to insert comments into a buffer. If a language allows more
+than one set of comment delimiters --- like @code{C++} --- choose the
+one you want to use primarily.
+The default value is `@code{;}'.
+
+@item lse_comment_head_delim_pattern
+Defines a regular expression which matches all possibilities of comment
+starters.  LS-Emacs uses this property to find the start of comments.
+This property is often defined so that whitespace following the comment
+starter is included in the match.
+The default value is `@code{;+ *}'. @xref{Comment-Expansion}.
+
+@item lse_comment_tail_delim
+Defines the string which is used to terminate a comment. LS-Emacs uses
+this property to insert comments into a buffer. If a language allows
+more than one set of comment delimiters --- like @code{C++} --- choose
+the one you want to use primarily.  The default value is to have no
+comment terminator. 
+
+@item lse_comment_tail_delim_pattern
+Defines a regular expression which matches all possibilities of comment
+terminators. LS-Emacs uses this property to find the end of comments.
+This property is often defined so that whitespace preceding the comment
+terminator is included in the match. The default value is no
+terminator, i.e., comments are terminated by the end of the line.
+@xref{Comment-Expansion}. 
+@end vtable
+
+@node    Fill-In-Definition, Token-Definition, Language-Definition, Templates
+@section Definition of Fill-Ins
+
+The definitions of fill-ins are stored in template files. You
+define a fill-in by the command @code{lse-define-fill-in}. This section
+explains how to use this function.
+
+@defun lse-define-fill-in fill-in-name &rest body
+@cindex Fill-In, definition
+@cindex Templates, fill-in definition
+
+This function is the primary work-horse for defining LS-Emacs templates.
+It (re-)defines a fill-in with name @var{fill-in-name} and definition
+@var{body}.
+
+@cindex Fill-In, name
+@cindex Name, fill-in
+The @var{fill-in-name} is used to refer to the fill-in wherever it is
+needed. LS-Emacs is case-insensitive when dealing with names of
+languages, fill-ins and tokens. A @var{fill-in-name} can contain any
+printable character except the characters used by fill-in
+delimiters.@footnote{That is one of the reasons why LS-Emacs normally
+uses 8-bit characters for delimiting fill-ins.} Specify a string inside
+double quotes as @var{fill-in-name} and try to choose a name which
+explains the meaning of the fill-in.
+
+The @var{body} is a list of properties of the fill-in. These properties
+can be defined in any order. Each property is a cons cell; the first
+element is a symbol naming the property to be defined, the other
+elements specify the value of the property. A minimum definition of a
+fill-in consists of just the description-property for a terminal fill-in
+or just the expansion-property for a non-terminal fill-in. Each and
+every fill-in definition should contain a description property unless it
+is @b{never} directly seen by the user of LS-Emacs.
+
+@cindex Fill-In, properties
+@cindex Properties, fill-in
+There are five groups of fill-in properties:
+@itemize @bullet
+@item
+Description-properties provide information for interactive help about
+the fill-in.
+
+@item
+Expansion-properties define the type, and control expansion, of the fill-in.
+
+@item
+Killing-properties control the behavior of @code{lse-kill-fill-in}.
+
+@item
+Replacement-properties specify how LS-Emacs behaves before and after
+--- manual or automatic --- replacement of the fill-in.
+
+@item
+Token-properties define tokens associated with the fill-in.
+@end itemize
+
+The following subsections will detail the properties you can define.
+@end defun
+
+@menu
+* Description-Properties::      
+* Expansion-Properties::        
+* Killing-Properties::          
+* Replacement-Properties::      
+* Token-Properties::            
+@end menu
+
+@node       Description-Properties, Expansion-Properties, Fill-In-Definition, Fill-In-Definition
+@subsection Description-Properties
+
+@cindex Fill-In, description properties
+@cindex Description properties, fill-in
+Description-properties provide interactive help for the fill-in. A
+description property is a list starting with the symbol
+@code{description} followed by strings. The second element of the list
+is displayed by the command @code{lse-describe-fill-in} and in menus.
+The other elements of the list are displayed by @code{lse-help-fill-in}
+separated from each other by new-lines.
+
+@node       Expansion-Properties, Killing-Properties, Description-Properties, Fill-In-Definition
+@subsection Expansion-Properties
+
+@cindex Fill-In, expansion properties
+@cindex Expansion properties, fill-in 
+Expansion-properties define the type of the fill-in and control expansion.
+The definition of a terminal fill-in contains no expansion-property, all
+other fill-in definitions contain exactly one expansion-property.  The
+expansion-property is a list. The first element determines the type of
+the fill-in --- replacement, menu, or function ---
+(@pxref{Fill-In-Expansion}), the rest of the expansion-property specifies
+the value of the expansion.
+
+Expansion of a replacement or function fill-in directly leads to an
+action --- LS-Emacs will interpret the value of the expansion-property.
+By way of contrast, expansion of a menu fill-in results in the first
+instance in a dialogue between the user and LS-Emacs; only after 
+selection of one alternative will LS-Emacs do something --- either
+perform the expansion of another fill-in or replace the menu fill-in by
+the text chosen by the user.
+
+@menu
+* Replacement-Expansion-Property::  
+* Menu-Expansion-Property::     
+* Function-Expansion-Property::  
+@end menu
+
+@node          Replacement-Expansion-Property, Menu-Expansion-Property, Expansion-Properties, Expansion-Properties
+@subsubsection Replacement-Expansion-Property
+
+@cindex Fill-In, replacement expansion
+@cindex Fill-In, expansion replacement
+@cindex Expansion, replacement, Fill-In
+@cindex Replacement expansion, Fill-In
+Fill-ins with an expansion-property of the replacement type are the most
+common kind of fill-in. In this case, the expansion-property is a list
+of objects which specify the replacement text. On expansion, LS-Emacs
+inserts this replacement text into the buffer. When you define the
+expansion-property, you can use different types of objects: strings,
+lisp-symbols, special symbols like @code{@@} and @code{&}, and valid
+lisp-forms. We will consider the use of these different types shortly.
+
+When LS-Emacs expands an expansion-property of the replacement type, it
+iterates over the elements of the list defined as replacement. LS-Emacs
+will interpret each element in turn and take the appropriate action.
+Except after some special lisp-functions and the special symbol
+@code{&}, LS-Emacs will start the insertion of the value of each element
+on a new line at the proper level of indentation. You can change the
+indentation level by including the appropriate lisp-function in the
+definition of the expansion-property.
+
+@table @strong
+@item strings
+The most common type of replacement object is a string. LS-Emacs will
+simply insert that string into the buffer. For Emacs, a string is any
+sequence of characters enclosed in a pair of double quotes. You can
+include a double quote in a string by preceding it by a
+backslash.@footnote{A backslash character in a string has special
+meaning for LS-Emacs. To include a backslash in a string you have to use
+two backslashes in a row.} Do not use new-lines inside a string --- the
+result will disappoint both you and the user of your templates.
+
+If the expansion-property contains two strings in a row, LS-Emacs will
+insert the first string into the buffer followed by a new-line and the
+appropriate indentation followed by the second string. To avoid the
+new-line, use the special symbol @code{&}.
+
+@item lisp-symbols
+When expanding the fill-in, LS-Emacs will first check if there is a
+function defined for the symbol. If so, LS-Emacs will call the function
+without parameters.@footnote{To use a function which needs parameters
+you have to use a lisp-form.} If there is no function defined, LS-Emacs
+will insert the symbol-value into the buffer if it is a string;
+otherwise an error will occur.
+
+Normally, the function will either control the indentation
+or insert some text into the buffer, e.g., the current date, the name of
+the buffer, or maybe the name of the user. The function should not
+change the position of the point --- otherwise the next element of the
+replacement will be inserted at the wrong place.
+
+LS-Emacs provides a number of functions for controlling
+indentation. @footnote{Use of these functions will inhibit the new-line(s)
+which LS-Emacs normally inserts between elements of the
+expansion-property.} @xref{Indentation}.
+
+@c @node Indentation-Functions, Menu-Expansion-Property, Replacement-Expansion-Property, Expansion-Properties
+@cindex Indentation, functions
+@cindex Fill-In, indentation functions
+@ftable @code
+@item delete-horizontal-space
+Deletes all white space around the point.
+
+@item fixup-whitespace
+Replaces white space between the objects at either side of the point with
+either one space or no space as appropriate.
+
+@item just-one-space
+Deletes white space around the point except for one space.
+
+@item lse-environment-indent
+Sets the indentation level of the current and the following lines to
+that of the line containing the flat fill-in LS-Emacs currently expands.
+
+@item lse-expansion-indent
+Sets the indentation level of the current and the following lines to
+the position of the flat fill-in LS-Emacs currently expands.
+
+@item lse-indent+1
+Increase the indentation level of the current and the following lines by
+@code{lse-language:tab-increment} compared to the previous line.
+
+@item lse-indent-1
+Decrease the indentation level of the current and the following lines by
+@code{lse-language:tab-increment} compared to the previous line.
+
+@item lse-newline
+Insert a new-line without indentation.
+
+@item lse-newline-and-indent
+Insert a new-line and indent to the current indentation level.
+
+@item lse-no-indent
+Remove indentation from the current line and the following lines.
+
+@item lse-outer-environment-indent
+Corresponds to the sequence @code{lse-environment-indent} followed by
+@code{lse-indent-1}.
+
+@item lse-tabulator
+Aligns to the next alignment position of the previous line, or inserts
+@code{lse-language:tab-increment} spaces if there is none.
+@end ftable
+
+@item @code{@@}
+Instructs LS-Emacs to interpret the next element of the
+expansion-property as name of a fill-in to be expanded as part of the
+current fill-in. You can specify a string or a symbol for this name.
+
+When expanding the fill-in, LS-Emacs will look-up the expansion-property
+of the fill-in named by the @code{@@} symbol and expand it. This
+corresponds to a subroutine-call and allows the sharing of common
+expansion-properties between any number of fill-ins.  Whenever you
+notice commonality in the expansion-properties of two fill-ins you
+should consider sharing by means of the @code{@@} symbol!
+
+@item @code{&}
+This symbol inhibits the implicit new-line between the previous and next
+element of the expansion-property. You need this symbol when you want to
+combine a literal string and a lisp-function in a single line.
+
+@item lisp-forms
+You can specify any valid lisp-form in parentheses. LS-Emacs will
+evaluate the form by means of @code{eval}. Use lisp-forms when you want
+to call a lisp-function which needs parameters. Normally the form will
+insert text into the buffer or control the indentation. It should not
+change the position of the point.
+
+One use of lisp-forms are calls to the function @code{lse-indent}. The
+argument specifies the number of indentation levels by which the
+indentation of the current and the following lines are changed.
+@code{(lse-indent -1)} corresponds to a call of @code{lse-indent-1}.
+@end table
+
+@node          Menu-Expansion-Property, Function-Expansion-Property, Replacement-Expansion-Property, Expansion-Properties
+@subsubsection Menu-Expansion-Property
+
+@cindex Fill-In, menu expansion
+@cindex Fill-In, expansion menu
+@cindex Menu expansion, fill-in
+@cindex Expansion, menu, fill-in 
+Menu fill-ins allow the user to select one of a number of alternative
+expansions. The expansion-property is a list of menu-entries. For each
+menu-entry you can use different types of objects: strings, symbols,
+lists comprising two strings, and the special symbol @code{@@}. Unless
+you specify the fill-in property @code{'(sort)}, LS-Emacs will display
+the menu-entries in the sequence given by the expansion-property. Using
+the @code{sort} property is particularly useful for menus containing
+the special symbol @code{@@}.
+
+@table @strong
+@item symbols
+LS-Emacs interprets a menu-entry of type symbol as reference to another
+fill-in.  If the user selects this entry, LS-Emacs will expand that
+fill-in according to its type. While it makes no sense to refer to a
+terminal fill-in, any type of non-terminal fill-in --- replacement,
+menu, or function --- will be fine. The referenced fill-in should
+provide a description property that can be used as description of the
+entry in the menu.
+
+@item lists
+A menu-entry of type list must contain two strings. When the user
+selects the entry, LS-Emacs uses the first string as replacement. The
+second string is used as description in the menu. Normally, this type
+should be used rather than a string without description.
+
+@item strings
+A menu-entry of type string specifies the replacement to be used when
+the user selects the entry. In most cases, it will be better to use a
+list containing both the replacement and a description. You should use
+strings only in trivial cases.
+
+@item @code{@@}
+Instructs LS-Emacs to interpret the next menu-entry as name of another
+menu-fill-in. You can specify a string or a symbol for this name. LS-Emacs
+will include the menu-entries of the other fill-in in the menu presented
+to the user. This corresponds to a macro-expansion. Use @code{@@} when
+two or more of menu-fill-ins share a number of menu-entries.
+
+You should consider using the @code{sort}-property when using @code{@@}
+in a menu.
+@end table
+
+@node          Function-Expansion-Property,  , Menu-Expansion-Property, Expansion-Properties
+@subsubsection Function-Expansion-Property
+
+@cindex Fill-In, function expansion
+@cindex Fill-In, expansion function
+@cindex Function expansion, fill-in
+@cindex Expansion, function, fill-in
+Fill-ins with an expansion-property of type function are the least
+common kind of fill-in. The expansion-property is a list of
+lisp-functions and lisp-forms.
+
+When expanding a function fill-in, LS-Emacs does not remove the flat
+state of the fill-in. Therefore, no element of the expansion-property
+should insert text into the buffer --- at least not at the current
+position, which is inside the flat fill-in. Function fill-ins are useful
+to display information provided by a lisp-function, to manipulate the
+buffer in some way, e.g., call a compiler or another utility to process
+(part of) the buffer's contents, or to switch to another buffer related
+to the first one, e.g., from the header file of a @code{C} module to the
+source file or vice versa.
+
+With function fill-ins you can ease the cognitive burden of having to
+remember too many function-names for the user.
+
+@node       Killing-Properties, Replacement-Properties, Expansion-Properties, Fill-In-Definition
+@subsection Killing-Properties
+
+@cindex Fill-In, killing properties
+@cindex Killing properties, fill-in 
+Killing-Properties control how much text is removed from the buffer by
+@code{lse-kill-fill-in} and allow the specification of an action to be
+performed after killing.
+
+In any case, @code{lse-kill-fill-in} removes the flat fill-in plus
+adjacent white space. By using the properties @code{leading} and
+@code{trailer} you can force LS-Emacs to remove additional text. This is
+for instance useful to remove the separator between duplicates when the
+user kills the duplicate.
+
+@cindex Kill-Action, fill-in
+@cindex Fill-In, kill-action
+
+Each of the killing-properties @code{leading} and @code{trailer} is a
+list of two elements, the first naming the property --- either
+@code{leading} or @code{trailer} --- the second a string specifying the
+text to remove (without whitespace!). If you use dotted-pair notation
+for the list, e.g., @code{'(leading . "«text»")}, the string will be
+interpreted as a regular expression. If you use normal list notation,
+e.g., @code{'(trailer "«text»")}, the string will be interpreted as a
+literal string. @footnote{A regular expression is much more powerful,
+but you have to take care to quote characters which have special meaning
+in regular expressions.}
+
+If you specify the replacement-property @code{separator}, you should
+also specify a corresponding killing-property for @code{leading} (but
+without whitespace!).
+
+@quotation
+
+@b{Note for DEC LSE Users:} @code{leading} and @code{trailing} are much
+more important in DEC LSE than in LS-Emacs. This is due to the fact
+that LS-Emacs provides the possibility to define leading and trailing
+text added automatically to each replacement of a fill-in
+(properties @code{replacement-leading} and @code{replacement-trailer}).
+You should rely on these replacement-properties rather than on the
+killing-properties wherever possible.
+@end quotation
+
+@node          kill-action,  , Killing-Properties, Killing-Properties
+@subsubsection kill-action
+
+@cindex Kill-Action, fill-in
+@cindex Fill-In, Kill-action
+This property specifies an action to be performed after the fill-in was
+killed. The point is at the position of the killed fill-in. One use of this
+property allows to insert indentation in place of the killed fill-in ---
+this is handy for table-editing. Another use could be the automatic
+killing of flat fill-ins down in the buffer by using the LS-Emacs
+function @code{lse-kill-future-fill-in}.
+
+This property is a list starting with the symbol
+@code{kill-action} followed by the body of the kill-action.
+The semantics of the body is the same as for an expansion-property of
+type replacement (@pxref{Replacement-Expansion}). Normally, the elements
+of the body will be lisp-functions or lisp-forms, but you can also
+specify literal text to be inserted into the buffer.
+
+@node       Replacement-Properties, Token-Properties, Killing-Properties, Fill-In-Definition
+@subsection Replacement-Properties
+
+@cindex Fill-In, replacement properties
+@cindex Replacement properties, fill-in 
+Replacement-Properties control the behavior of LS-Emacs before and
+after the replacement of a fill-in which may have been caused
+by either @code{lse-replace-fill-in} (for any kind of replaceable
+fill-in) or by @code{lse-expand} (for a fill-in of type replacement). 
+
+LS-Emacs looks at the following properties before it starts replacement:
+@code{replacement-leading}, @code{replacement-trailer},
+@code{replacement-vanguard}, and @code{separator}.
+
+LS-Emacs looks at the following properties after replacement:
+@code{auto-replicate}, @code{max-line-move}, @code{no-history},
+@code{rcompletion-action}, @code{rcompletion-leading}, and 
+@code{rcompletion-trailer}.
+
+@menu
+* auto-replicate::              
+* max-line-move::               
+* no-history::                  
+* rcompletion-action::          
+* rcompletion-leading::         
+* rcompletion-trailer::         
+* replacement-leading::         
+* replacement-trailer::         
+* replacement-vanguard::        
+* separator::                   
+@end menu
+
+@node          auto-replicate, max-line-move, Replacement-Properties, Replacement-Properties
+@subsubsection auto-replicate
+
+@cindex Fill-In, auto-replicate
+@cindex Auto-Replicate, fill-in
+This replacement-property specifies how many following instances of
+the fill-in should be replaced using the deep-state contents of the
+current fill-in. 
+
+After finishing replacement of the fill-in, LS-Emacs takes the value of
+@code{auto-replicate} and tries to find as many fill-ins with the same
+name between the point and the end of the buffer. Each of those found is
+replicated using the value of the replacement just finished.
+
+Use this replacement-property wherever a document requires exactly the
+same value in more than one place when that value can be determined only
+at run-time. A typical example for the use of @code{auto-replicate} is
+provided by programming languages like @code{Ada} which recommend that
+the @code{END} statement of a sub-program be followed by its
+name.@footnote{I would strongly recommend to use this practice for all
+programming languages!}
+
+To define this replacement-property use a list with two elements
+@code{'(auto-replicate «number»)}, where «number» specifies how many 
+instances are to be replicated automatically. If you don't define the
+property, LS-Emacs will not auto-replicate the fill-in.
+
+@node          max-line-move, no-history, auto-replicate, Replacement-Properties
+@subsubsection max-line-move
+
+@cindex Fill-In, max-line-move
+@cindex Max-Line-Move, fill-in
+After the successful expansion of a fill-in, LS-Emacs tries to position
+the point on the next flat fill-in. This replacement-property specifies how
+far LS-Emacs looks down in the buffer. It is a list with two elements
+@code{'(max-line-move «number»)}, where number specifies the number of
+lines to be looked at. If you don't define this property, LS-Emacs will
+use a default value of one, i.e., look only at the current line. If you
+want the point to stay at the end of the expansion specify a value of zero
+for «number».
+
+@node          no-history, rcompletion-action, max-line-move, Replacement-Properties
+@subsubsection no-history
+
+@cindex Fill-In, no-history
+@cindex No-History, fill-in
+If you specify this property, LS-Emacs won't record the expansion on the
+expansion-history, i.e., no un-expansion will be possible. 
+
+@node          rcompletion-action, rcompletion-leading, no-history, Replacement-Properties
+@subsubsection rcompletion-action
+
+@cindex Fill-In, rcompletion-action
+@cindex Rcompletion-Action, fill-in
+This property is similar to @code{rcompletion-leading} and
+@code{rcompletion-trailer} and specifies an action to be performed after
+successful completion of a replacement. The point is at the position where
+the replacement was finished when the completion-action is
+performed.@footnote{The difference between @code{rcompletion-action},
+@code{rcompletion-leading}, and @code{rcompletion-trailer} is the
+position of the point during interpretation of the corresponding property by
+LS-Emacs.}
+
+This property is a list starting with the symbol
+@code{rcompletion-action} followed by the body of the completion-action.
+The semantics of the body is the same as for an expansion-property of
+type replacement (@pxref{Replacement-Expansion}). Normally, the elements
+of the body will be lisp-functions or lisp-forms, but you can also
+specify literal text to be inserted into the buffer.
+
+@node          rcompletion-leading, rcompletion-trailer, rcompletion-action, Replacement-Properties
+@subsubsection rcompletion-leading
+
+@cindex Fill-In, rcompletion-leading
+@cindex Rcompletion-Leading, fill-in
+This property is similar to @code{rcompletion-action} and
+@code{rcompletion-trailer} and specifies an action to be performed after
+successful completion of a replacement. The point is at the position where
+replacement started when this property is interpreted.
+
+This property is a list starting with the symbol
+@code{rcompletion-leading} followed by the body of the completion-action.
+The semantics of the body is the same as for an expansion-property of
+type replacement (@pxref{Replacement-Expansion}). Normally, the elements
+of the body will be lisp-functions or lisp-forms, but you can also
+specify literal text to be inserted into the buffer. The conventional
+use for this property is to adjust indentation in front of the replacement.
+
+@node          rcompletion-trailer, replacement-leading, rcompletion-leading, Replacement-Properties
+@subsubsection rcompletion-trailer
+
+@cindex Fill-In, rcompletion-trailer
+@cindex Rcompletion-Trailer, fill-in
+This property is similar to @code{rcompletion-action} and
+@code{rcompletion-leading} and specifies an action to be performed after
+successful completion of a replacement. The point is at the end of the range
+of the replacement when this property is interpreted.
+
+This property is a list starting with the symbol
+@code{rcompletion-trailer} followed by the body of the completion-action.
+The semantics of the body is the same as for an expansion-property of
+type replacement (@pxref{Replacement-Expansion}). Normally, the elements
+of the body will be lisp-functions or lisp-forms, but you can also
+specify literal text to be inserted into the buffer. The conventional
+use for this property is to adjust indentation behind the replacement.
+
+@quotation
+@b{Note:} Normally, the positions where @code{rcompletion-trailer} and
+@code{rcompletion-action} are interpreted are equal. Yet, this is not
+necessarily always the case. If the replacement contains function calls,
+the positions may well differ. So you have to think carefully about the
+effect to be achieved before you decide which property to use.
+@end quotation
+
+@node          replacement-leading, replacement-trailer, rcompletion-trailer, Replacement-Properties
+@subsubsection replacement-leading
+
+@cindex Fill-In, replacement-leading
+@cindex Replacement-Leading, fill-in
+This property specifies text to be automatically inserted in front of
+the replacement, however it is started. That is done before the
+replacement is begun. 
+
+This property is a list starting with the symbol
+@code{replacement-leading} followed by the body of the
+replacement-leading. The semantics of the body is the same as for an
+expansion-property of type replacement (@pxref{Replacement-Expansion}).
+
+A typical use for this property are fill-ins which need to
+be enclosed in quotes or brackets. Do not use this property to specify
+leading indentation, use @code{rcompletion-leading} instead (the
+replacement itself may change the indentation again, which is probably
+not what you intended).
+
+@node          replacement-trailer, replacement-vanguard, replacement-leading, Replacement-Properties
+@subsubsection replacement-trailer
+
+@cindex Fill-In, replacement-trailer
+@cindex Replacement-Trailer, fill-in
+This property specifies text to be automatically inserted behind 
+the replacement, however it is started. That is done before the
+replacement is begun. 
+
+This property is a list starting with the symbol
+@code{replacement-trailer} followed by the body of the
+replacement-trailer. The semantics of the body is the same as for an
+expansion-property of type replacement (@pxref{Replacement-Expansion}).
+
+A typical use for this property are fill-ins which need to
+be enclosed in quotes or brackets. Do not use this property to specify
+trailing indentation, use @code{rcompletion-trailer} instead (the
+replacement itself will change the indentation again, which is certainly
+not what you intended).
+
+@node          replacement-vanguard, separator, replacement-trailer, Replacement-Properties
+@subsubsection replacement-vanguard
+
+@cindex Fill-In, replacement-vanguard
+@cindex Replacement-vanguard, fill-in
+This property is similar to @code{replacement-leading} and
+@code{replacement-trailer}, but the difference in its handling is subtle. In
+contrast to the latter properties, @code{replacement-vanguard} specifies
+an action to be performed before removing the flat fill-in. When the
+value of @code{replacement-vanguard} is expanded, the position of the point
+is just before the leading delimiter of the flat fill-in.
+
+Use this property for defining things like leading indentation, which
+should not be considered to be part of the replacement --- the result of
+the expansion of @code{replacement-leading} and friends is considered to
+be part of the replacement.
+
+@node          separator,  , replacement-vanguard, Replacement-Properties
+@subsubsection separator
+
+@cindex Fill-In, separator
+@cindex Separator, fill-in
+This property defines how a duplicate will be separated from its
+original. By default, LS-Emacs uses the fill-in
+@code{$$default$$separator} as separator (the default value of this
+fill-in is @code{lse-newline-and-indent}). 
+
+This property is a list starting with the symbol @code{separator}
+followed by the body of the separator. The semantics of the body is the
+same as for an expansion-property of type replacement
+(@pxref{Replacement-Expansion}).
+If you specify a value for this property which expands into more
+than pure whitespace, you have to define the killing-property @code{leading}
+appropriately.
+ 
+@cindex Fill-In, separator, default
+@cindex Separator default, fill-in
+You can change the default of the separator by redefining
+@code{$$default$$separator}, but it should expand to whitespace only
+(otherwise you would have to implement a corresponding default for
+@code{leading}!).
+
+@node       Token-Properties,  , Replacement-Properties, Fill-In-Definition
+@subsection Token-Properties
+
+@cindex Fill-In, token properties
+@cindex Token properties, fill-in 
+A token-property defines a token associated to the fill-in. In contrast
+to all other properties, you can define as many token-properties as you
+think necessary. Quite a number of fill-ins are associated with more
+than one token. 
+
+A token-property is a list with the first element @code{token}. The
+second element is an optional string and specifies the name of the token. If no
+name is given the token-name is equal to the name of the fill-in.
+
+@node    Token-Definition, Indentation, Fill-In-Definition, Templates
+@section Definition of Tokens
+
+@cindex Token, types
+@cindex Token, definition
+@cindex Definition, token
+The large majority of tokens is associated to fill-ins, so-called
+fill-in-tokens. Normally, they are defined alongside the associated
+fill-in. Yet, sometimes you may want to define a fill-in-token
+independently from the fill-in definition. This chapter explains how to
+do that and how to define so-called simple tokens, which are not
+associated to a fill-in at all.
+
+@defun lse-define-fill-in-token token-name fill-in
+@cindex Token, fill-in, definition
+@cindex Fill-In, token, definition
+@cindex Definition, fill-in, token
+@cindex Definition, token, fill-in
+This function defines a token named @var{token-name} for the
+@var{fill-in}. @var{fill-in} can be a string naming the fill-in or the
+lisp-symbol defined for the fill-in. For explicit calls you will
+probably prefer to pass a string for @var{fill-in}.
+ 
+An explicit call to this function is equivalent to using the
+token-property inside the fill-in concerned with the parameter
+@var{token-name}. Unless you have good reasons not to, you should always define
+the token with the token-property rather than explicitly.
+@end defun
+ 
+@defun lse-define-simple-token token-name expansion
+@cindex Token, simple, definition
+@cindex Simple, token, definition
+@cindex Definition, simple token
+@cindex Definition, token, simple
+This function defines a simple token with the name @var{token-name}. The
+expansion is either a string or a cons cell which can be evaluated. On
+expansion, LS-Emacs inserts the string into the buffer or evaluates the
+cons cell --- whichever is bound to the token.
+
+Simple tokens are useful to provide an easy way to include the 8-bit
+characters used as fill-in delimiters into the buffer (see
+@file{lse-templates-generic.lse}). The expansion of a simple token
+should be very simple, otherwise you'd better define a fill-in with
+an associated token.
+@end defun
+
+@node    Indentation, Comment-Expansion, Token-Definition, Templates
+@section Indentation
+
+This chapter explains how LS-Emacs manages indentation.
+
+@cindex Indentation, concepts
+First, we will look at the basics. Consider a flat fill-in somewhere in
+a line. When you instruct LS-Emacs to expand that fill-in, there are two
+particularly important columns:
+
+@vtable @code
+@item environment-indent
+This is the position of the first non-blank character in the line.
+
+@item expansion-indent
+This is the start position of the flat fill-in to be expanded.
+@end vtable
+
+@noindent
+If the fill-in is the first element of the line, then these two
+columns coincide.
+
+If you don't use functions changing the indentation, LS-Emacs will
+indent all lines of the expansion to the column given by
+@code{expansion-indent}. The expansion of many fill-ins contains lines
+which should be further indented by one indentation-level.@footnote{The
+depth of an indentation-level is defined by the language property
+@code{lse-language:tab-increment}.} @b{Do not ever use explicit blanks
+to cause that indentation!} Instead, enclose the lines to be further
+indented inside a pair of calls to @code{lse-indent+1} and
+@code{lse-indent-1}!
+
+Sometimes, you will want to indent part of the expansion of a fill-in
+relative to the @code{environment-indent}. The function
+@code{lse-environment-indent} lets you do just that. To return to an
+indentation relative to the position of the expanded fill-in, use
+@code{lse-expansion-indent}. A typical example for the use of
+@code{lse-environment-indent} is the definition of a record-type in a
+programming language like @code{Pascal} or @code{Ada}. Let's consider
+the situation in @code{Ada}: The type-definition starts with something of the
+form
+
+@example
+type foo is «type-definition»;
+@end example
+
+If you expand @code{«type-definition»}, LS-Emacs will display a menu
+containing the menu-entry @code{record-type-definition} as one
+alternative. If you had defined the fill-in
+@code{record-type-definition} without using
+@code{lse-environment-indent}, the expansion would be indented like this:
+
+@example
+type foo is record
+                «record-component»···; 
+            end record;
+@end example
+
+When you use @code{lse-environment-indent} for the definition of
+@code{record-type-definition}, the expansion looks much better and does
+not waste valuable space:
+
+@example
+type foo is record
+    «record-component»···; 
+end record;
+@end example
+
+For a complete list of LS-Emacs functions controlling indentation, see
+@ref{Replacement-Expansion-Property}.
+@node    Comment-Expansion,  , Indentation, Templates
+@section Expansion of Comments
+
+@cindex Comment, expansion
+@cindex Expansion of comments
+If a flat fill-in is located inside a comment, LS-Emacs will put the
+entire replacement inside a comment. This means, that for each new-line
+started, LS-Emacs will first add a comment terminator to the previous
+line and then insert a comment starter at the new line. It will also use
+the correct indentation. LS-Emacs will use the language properties
+@code{lse_comment_head_delim_pattern} and
+@code{lse_comment_tail_delim_pattern} to determine the comment
+delimiters used for starting and terminating comments according to the
+context. 
+
+If you want to define fill-ins for things like the header-comment of a
+document, you should define the fill-in itself without comment
+delimiters and use it in flat form inside a comment. The expansion will
+provide all comment delimiters necessary. This allows the use of the
+same fill-in for languages with different comment delimiters and offers
+therefore all benefits of reuse. A typical example is the definition of
+the fill-in @code{header-comment} in the template file
+@file{lse-templates-generic.lse}. 
+

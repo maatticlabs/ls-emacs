@@ -1,0 +1,1836 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-templates-texinfo
+;;;;
+;;;; Purpose
+;;;;    Define lse-templates for texinfo
+;;;;
+;;;; Revision Dates
+;;;;    10-Jun-1994 (CT) Creation
+;;;;    13-Jun-1994 (CT) Fill-In chapter, section, and friends defined
+;;;;    26-Jun-1994 (CT) «@node-name» used instead of «name»
+;;;;-- 
+(lse-define-fill-in "@*"
+    '(token)
+    '(description           "Force a line break")
+    '(replacement           "@*")
+;;; @*
+)
+
+(lse-define-fill-in "@appendix"
+    '(token)
+    '(description           "Begin an appendix with title «text»")
+    '(replacement           "@appendix «@node-name»")
+;;; @appendix
+)
+
+(lse-define-fill-in "@appendixsection"
+    '(token)
+    '(description           "Begin an appendix section within an appendix")
+    '(replacement           "@appendixsection «@node-name»")
+;;; @appendixsection
+)
+
+(lse-define-fill-in "@appendixsubsec"
+    '(token)
+    '(description           "Begin an appendix subsection within an appendix")
+    '(replacement           "@appendixsubsec «@node-name»")
+;;; @appendixsubsec
+)
+
+(lse-define-fill-in "@appendixsubsubsec"
+    '(token)
+    '(description           "Begin an appendix subsubsection within an appendix")
+    '(replacement           "@appendixsubsubsec «@node-name»")
+;;; @appendixsubsubsec
+)
+
+(lse-define-fill-in "@author"
+    '(token)
+    '(description           "Set name of author flush-left")
+    '(replacement           "@author «text»")
+;;; @author
+)
+
+(lse-define-fill-in "@b"
+    '(token)
+    '(description           "Print «text» in bold font (no effect in Info)")
+    '(replacement           "@b{«text»}")
+;;; @b
+)
+
+(lse-define-fill-in "@bullet"
+    '(token)
+    '(description           "Generate a large round dot")
+    '(replacement           "@bullet{}")
+;;; @bullet
+)
+
+(lse-define-fill-in "@c"
+    '(token)
+    '(description           "Comment line")
+    '(replacement           "@c ««text»»")
+;;; @c
+)
+
+(lse-define-fill-in "@cartouche"
+    '(token)
+    '(description           "Draw a box with rounded corner around its contents")
+    '(replacement
+        "@cartouche"
+        @ text-block
+        "@end cartouche"
+     )
+;;; @cartouche
+)
+
+(lse-define-fill-in "@center"
+    '(token)
+    '(description           "Center the line of text following @center")
+    '(replacement           "@center «text»")
+;;; @center
+)
+
+(lse-define-fill-in "@chapheading"
+    '(token)
+    '(description           "Print a chapter-like heading in the text, but not in the table of contents")
+    '(replacement           "@chapheading «text»")
+;;; @chapheading
+)
+
+(lse-define-fill-in "@chapter"
+    '(token)
+    '(description           "Begin a chapter (title appears in the table of contents)")
+    '(replacement           "@chapter «@node-name»")
+;;; @chapter
+)
+
+(lse-define-fill-in "@cindex"
+    '(token)
+    '(description           "Make an entry in the concept index for «text»")
+    '(replacement           "@cindex «text»")
+;;; @cindex
+)
+
+(lse-define-fill-in "@cite"
+    '(token)
+    '(description           "Refer to a book that lacks a companion Info file."
+                            "If the book is written in Texinfo, it is better to use"
+                            "a cross reference command since a reader can easily follow"
+                            "such a reference in Info."
+     )
+    '(replacement           "@cite{«name»}")
+;;; @cite
+)
+
+(lse-define-fill-in "@clear"
+    '(token)
+    '(description           "Clear the value of flag «name»")
+    '(replacement           "@clear «name»")
+;;; @clear
+)
+
+(lse-define-fill-in "@code"
+    '(token)
+    '(description           "Indicate text that is a piece of a program and which consists of entire syntactic tokens")
+    '(replacement           "@code{«text»}")
+;;; @code
+)
+
+(lse-define-fill-in "@contents"
+    '(token)
+    '(description           "Generate a table of contents in the printed version of the document")
+    '(replacement           "@contents")
+;;; @contents
+)
+
+(lse-define-fill-in "@copyright"
+    '(token)
+    '(description           "Generate a copyright sign")
+    '(replacement           "@copyright{}")
+;;; @copyright
+)
+
+(lse-define-fill-in "@defcodeindex"
+    '(token)
+    '(description           "Define additional index set as @code (plus all commands to handle it). «name» should be a two-letter word")
+    '(replacement           "@defcodeindex «name»")
+;;; @defcodeindex
+)
+
+(lse-define-fill-in "@defcv"
+    '(token)
+    '(description           "General definition command for variables associated with classes")
+    '(replacement
+        "@defcv «category» «class» «name»"
+        @ text-block
+        "@end defcv"
+     )
+;;; @defcv
+)
+
+(lse-define-fill-in "@deffn"
+    '(token)
+    '(description           "General definition command for functions, interactive commands, and similar entities that may take arguments")
+    '(replacement
+        "@deffn «category» «name» ««argument-name»»···"
+        @ text-block
+        "@end deffn"
+     )
+;;; @deffn
+)
+
+(lse-define-fill-in "@defindex"
+    '(token)
+    '(description           "Define additional index (plus all commands to handle it). «name» should be a two-letter word")
+    '(replacement           "@defindex «name»")
+;;; @defindex
+)
+
+(lse-define-fill-in "@defivar"
+    '(token)
+    '(description           "Definition command for instance variables of a class (equivalent to @defcv {Instance variable})")
+    '(replacement           "@defivar «category» «name»")
+;;; @defivar
+)
+
+(lse-define-fill-in "@defmac"
+    '(token)
+    '(description           "Definition command for macros (equivalent to @deffn Macro)")
+    '(replacement
+        "@defmac «name» ««argument-name»»···"
+        @text-block
+        "@end defmac"
+     )
+;;; @defmac
+)
+
+(lse-define-fill-in "@defmethod"
+    '(token)
+    '(description           "Definition command for methods of a class (equivalent to @defop Method)")
+    '(replacement
+        "@defmethod «class» «name» ««argument-name»»···"
+        @ text-block
+        "@end defmethod"
+     )
+;;; @defmethod
+)
+
+(lse-define-fill-in "@defop"
+    '(token)
+    '(description           "General definition command for entities resembling methods of a class")
+    '(replacement
+        "@defop «category» «class» «name» ««argument-name»»···"
+        @ text-block
+        "@end defop"
+     )
+;;; @defop
+)
+
+(lse-define-fill-in "@defopt"
+    '(token)
+    '(description           "Definition command for user (emacs) options (equivalent to @defvr {User option})")
+    '(replacement
+        "@defopt «name»"
+        @ text-block
+        "@end defopt"
+     )
+;;; @defopt
+)
+
+(lse-define-fill-in "@defspec"
+    '(token)
+    '(description           "Definition command for (lisp) special forms (equivalent to @deffn {Special Form})")
+    '(replacement
+        "@defspec «name» ««argument-name»»···"
+        @ text-block
+        "@end defspec"
+     )
+;;; @defspec
+)
+
+(lse-define-fill-in "@deftp"
+    '(token)
+    '(description           "General definition command for data types")
+    '(replacement
+        "@deftp «category» «name» ««attribute»»···"
+        @ text-block
+        "@end deftp"
+     )
+;;; @deftp
+)
+
+(lse-define-fill-in "@deftypefn"
+    '(token)
+    '(description           "General definition command for typed functions and similar entities")
+    '(replacement
+        "@deftypefn «category» «data-type» «name» ««argument-name»»···"
+        @ text-block
+        "@end deftypefn"
+     )
+;;; @deftypefn
+)
+
+(lse-define-fill-in "@deftypefun"
+    '(token)
+    '(description           "Definition command for typed functions (equivalent to @deftypefn Function)")
+    '(replacement
+        "@deftypefun «data-type» «name» ««argument-name»»···"
+        @ text-block
+        "@end deftypefun"
+     )
+;;; @deftypefun
+)
+
+(lse-define-fill-in "@deftypevar"
+    '(token)
+    '(description           "General definition command for typed variable-like entities")
+    '(replacement
+        "@deftypevar «category» «data-type» «name»"
+        @ text-block
+        "@end deftypevar"
+     )
+;;; @deftypevar
+)
+
+(lse-define-fill-in "@deftypevr"
+    '(token)
+    '(description           "Definition command for typed variables (equivalent to @deftypevar Variable)")
+    '(replacement
+        "@deftypevr «data-type» «name»"
+        @ text-block
+        "@end deftypevr"
+     )
+;;; @deftypevr
+)
+
+(lse-define-fill-in "@defun"
+    '(token)
+    '(description           "Definition command for functions (equivalent to @deffn Function)")
+    '(replacement
+        "@defun «name» ««argument-name»»···"
+        @ text-block
+        "@end defun"
+     )
+;;; @defun
+)
+
+(lse-define-fill-in "@defvar"
+    '(token)
+    '(description           "Definition command for variables (equivalent to @defvr Variable)")
+    '(replacement
+        "@defvar «name»"
+        @ text-block
+        "@end defvar"
+     )
+;;; @defvar
+)
+
+(lse-define-fill-in "@defvr"
+    '(token)
+    '(description           "General definition command for variable-like entities")
+    '(replacement
+        "@defvr «category» «name»"
+        @ text-block
+        "@end defvr"
+     )
+;;; @defvr
+)
+
+(lse-define-fill-in "@dfn"
+    '(token)
+    '(description           "Identify the introductory or defining use of a technical term"
+                            "Use the command only in passages whose purpose is to introduce a term "
+                            "which will be used again or which the reader ought to know. Mere "
+                            "passing mention of a term for the first time does not deserve @dfn."
+     )
+    '(replacement           "@dfn{«text»}")
+;;; @dfn
+)
+
+(lse-define-fill-in "@display"
+    '(token)
+    '(description           "Display illustrative text (indented, not filled, current font)")
+    '(replacement
+        "@display"
+        @ text-block
+        "@end display"
+        ""
+     )
+;;; @display
+)
+
+(lse-define-fill-in "@dmn"
+    '(token)
+    '(description           "Format a dimension: use <number>@dmn{«name»}")
+    '(replacement           "««number»»@dmn{«name»}")
+;;; @dmn
+)
+
+(lse-define-fill-in "@dots"
+    '(token)
+    '(description           "Generate an ellipsis (...)")
+    '(replacement           "@dots{}")
+;;; @dots
+)
+
+(lse-define-fill-in "@emph"
+    '(token)
+    '(description           "Set text with emphasis")
+    '(replacement           "@emph{«text»}")
+;;; @emph
+)
+
+(lse-define-fill-in "@enumerate"
+    '(token)
+    '(description           "Make an enumerated list of paragraphs")
+    '(replacement
+        "@enumerate ««number-or-letter»»"
+        @ @item
+        "««@item»»···"
+        "@end enumerate"
+     )
+;;; @enumerate
+)
+
+(lse-define-fill-in "@equiv"
+    '(token)
+    '(description           "Generate the equivalence symbol")
+    '(replacement           "@equiv{}")
+;;; @equiv
+)
+
+(lse-define-fill-in "@error"
+    '(token)
+    '(description           "Generate the symbol indicating an error message")
+    '(replacement           "@error{}")
+;;; @error
+)
+
+(lse-define-fill-in "@evenfooting"
+    '(token)
+    '(description           "Specify page footings for even-numbered (left-hand) pages")
+    '(replacement           "@evenfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @evenfooting
+)
+
+(lse-define-fill-in "@evenheading"
+    '(token)
+    '(description           "Specify page headings for even-numbered (left-hand) pages")
+    '(replacement           "@evenheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @evenheading
+)
+
+(lse-define-fill-in "@everyfooting"
+    '(token)
+    '(description           "Specify page footings for every page")
+    '(replacement           "@everyfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @everyfooting
+)
+
+(lse-define-fill-in "@everyheading"
+    '(token)
+    '(description           "Specify page headings for every page")
+    '(replacement           "@everyheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @everyheading
+)
+
+(lse-define-fill-in "@example"
+    '(token)
+    '(description           "Illustrate code, commands, and the like (indented, but not filled, in fixed-width font)")
+    '(replacement
+        "@example"
+        @ text-block
+        "@end example"
+        ""       
+     )
+;;; @example
+)
+
+(lse-define-fill-in "@exdent"
+    '(token)
+    '(description           "Remove any indentation a line might have")
+    '(replacement           "@exdent «text»")
+;;; @exdent
+)
+
+(lse-define-fill-in "@expansion"
+    '(token)
+    '(description           "Generate the symbol indicating the result of an expansion (of a macro call)")
+    '(replacement           "@expansion{}")
+;;; @expansion
+)
+
+(lse-define-fill-in "@file"
+    '(token)
+    '(description           "Indicate the name of a file, buffer, or directory, or the name of a node in Info")
+    '(replacement           "@file{«name»}")
+;;; @file
+)
+
+(lse-define-fill-in "@finalout"
+    '(token)
+    '(description           "Prevent TeX from marking overfull hboxes with black rules")
+    '(replacement           "@finalout")
+;;; @finalout
+)
+
+(lse-define-fill-in "@findex"
+    '(token)
+    '(description           "Make an entry in the function index for «text»")
+    '(replacement           "@findex «text»")
+;;; @findex
+)
+
+(lse-define-fill-in "@flushleft"
+    '(token)
+    '(description           "Set text flushed left (no filling)")
+    '(replacement
+        "@flushleft"
+        @ text-block
+        "@end flushleft"
+     )
+;;; @flushleft
+)
+
+(lse-define-fill-in "@flushright"
+    '(token)
+    '(description           "Set text flushed right (no filling)")
+    '(replacement
+        "@flushright"
+        @ text-block
+        "@end flushright"
+     )
+;;; @flushleft
+)
+
+(lse-define-fill-in "@footnote"
+    '(token)
+    '(description           "Create a footnote")
+    '(replacement           "@footnote{«text»}")
+;;; @footnote
+)
+
+(lse-define-fill-in "@footnotestyle"
+    '(token)
+    '(description           "Specify footnotestyle")
+    '(replacement           "@footnotestyle " @ footnotestyle)
+;;; @footnotestyle
+)
+
+(lse-define-fill-in "@format"
+    '(token)
+    '(description           "Similar to @example (not indented, not filled, current font)")
+    '(replacement
+        "@format"
+        @ text-block
+        "@end format"
+        ""
+     )
+;;; @format
+)
+
+(lse-define-fill-in "@ftable"
+    '(token)
+    '(token                 "description")
+    '(description           "Like @table, but enters each of the items into the function index")
+    '(replacement
+        "@ftable «table-item-format»"
+        @ table-item
+        "««table-item»»···"
+        "@end ftable"
+     )
+;;; @ftable
+)
+
+(lse-define-fill-in "@group"
+    '(token)
+    '(description           "Prevent page break for contained text")
+    '(replacement
+        " "
+        "@group"
+        @ text-block
+        "@end group"
+     )
+;;; @group
+)
+
+(lse-define-fill-in "@heading"
+    '(token)
+    '(description           "Print an unnumbered section-like heading in the text, but not in table of contents")
+    '(replacement           "@heading «title»")
+;;; @heading
+)
+
+(lse-define-fill-in "@headings"
+    '(token)
+    '(description           "Turn page headings on or off, or specify single-sided or double-sided headings")
+    '(replacement           "@headings «on/off/single/double»")
+;;; @headings
+)
+
+(lse-define-fill-in "@i"
+    '(token)
+    '(description           "Print «text» in italic font")
+    '(replacement           "@i{«text»}")
+;;; @i
+)
+
+(lse-define-fill-in "@ifclear"
+    '(token)
+    '(description           "Specify conditional text which will appear only if flag «name» is not set")
+    '(replacement
+        "@ifclear «name»"
+        @  text-block
+        "@end ifclear"
+     )
+;;; @ifclear
+)
+
+(lse-define-fill-in "@ifinfo"
+    '(token)
+    '(description           "Specify text that will appear only in the on-line version of the document")
+    '(replacement
+        "@ifinfo"
+        @ text-block
+        "@end ifinfo"
+     )
+;;; @ifinfo
+)
+
+(lse-define-fill-in "@ifset"
+    '(token)
+    '(description           "Specify conditional text which will appear only if flag «name» is set")
+    '(replacement
+        "@ifset «name»"
+        @  text-block
+        "@end ifset"
+     )
+;;; @ifset
+)
+
+(lse-define-fill-in "@iftex"
+    '(token)
+    '(description           "Specify text that will appear only in the printed version of the document")
+    '(replacement
+        "@iftex"
+        @ text-block
+        "@end iftex"
+     )
+;;; @iftex
+)
+
+(lse-define-fill-in "@ignore"
+    '(token)
+    '(description           "«text»··· won't appear in either the printed or the on-line version of the document")
+    '(replacement
+        "@ignore"
+        @ text-block
+        "@end ignore"
+     )
+;;; @ignore
+)
+
+(lse-define-fill-in "@include"
+    '(token)
+    '(description           "Incorporates contents of file «file-name» into the document")
+    '(replacement           "@include «file-name»")
+;;; @include
+)
+
+(lse-define-fill-in "@inforef"
+    '(token)
+    '(description           "Make a cross reference to an Info file for which there is no printed manual")
+    '(replacement           "@inforef{«node-name», ««cross-reference-name»», «file-name»}")
+;;; @inforef
+)
+
+(lse-define-fill-in "@item"
+    '(token)
+    '(description           "Starts next item of (itemized or enumerated) list")
+    '(replacement
+        "@item"
+        @ text-block
+        ""
+     )
+;;; @item
+)
+
+(lse-define-fill-in "@itemize"
+    '(token)
+    '(description           "Make an itemized list of paragraphs")
+    '(replacement
+        "@itemize «itemize-mark»"
+        @ @item
+        "««@item»»···"
+        "@end itemize"
+     )
+;;; @itemize
+)
+
+(lse-define-fill-in "@itemx"
+    '(token)
+    '(description           "Like @item, but does not generate extra vertical space above the item text")
+    '(replacement
+        "@itemx"
+        @ text-block
+     )
+;;; @itemx
+)
+
+(lse-define-fill-in "@kbd"
+    '(token)
+    '(description           "Describes characters of input to be typed by users")
+    '(replacement           "@kbd{«text»}")
+;;; @kbd
+)
+
+(lse-define-fill-in "@key"
+    '(token)
+    '(description           "Refer to the conventional name of a keyboard key")
+    '(replacement           "@key{«key-name»}")
+;;; @key
+)
+
+(lse-define-fill-in "@kindex"
+    '(token)
+    '(description           "Make an entry in the key index for «text»")
+    '(replacement           "@kindex «text»")
+;;; @kindex
+)
+
+(lse-define-fill-in "@lisp"
+    '(token)
+    '(description           "Illustrate Lisp code (indented, but not filled, in fixed-width font)")
+    '(replacement
+        "@lisp"
+        @ text-block
+        "@end lisp"
+        ""
+     )
+;;; @lisp
+)
+
+(lse-define-fill-in "@majorheading"
+    '(token)
+    '(description           "Print a chapter-like heading in the text, but not in the table of contents")
+    '(replacement           "@majorheading «text»")
+;;; @majorheading
+)
+
+(lse-define-fill-in "@menu"
+    '(token)
+    '(description           "Mark the beginning of a menu of nodes in Info (no effect in printed version of the document)")
+    '(replacement
+        "@menu"
+        "««menu-comment-line»»···"
+        "«menu-entry»···"
+        "««menu-comment-line»»···"
+        "@end menu"
+     )
+;;; @menu
+)
+
+(lse-define-fill-in "@minus"
+    '(token)
+    '(description           "Generate a minus sign")
+    '(replacement           "@minus{}")
+;;; @minus
+)
+
+(lse-define-fill-in "@need"
+    '(token)
+    '(description           "Start a new page if fewer than «number» mils (1/000 inch) remain on current page")
+    '(replacement           "@need «number»")
+;;; @need
+)
+
+(lse-define-fill-in "@node"
+    '(token)
+    '(description           "Define the beginning of a new Info-node, and serve as locator for references for TeX")
+    '(replacement
+        "@node «@node-name»"
+     )
+;;; @node
+)
+
+(lse-define-fill-in "@node-name"
+    '(description           "Name of node")
+    '(replacement-vanguard  lse-align-to-next-word)
+;;; @node-name
+)
+
+(lse-define-fill-in "@noindent"
+    '(token)
+    '(description           "Prevent indentation of following paragraph (often needed after @example and friends)")
+    '(replacement           "@noindent")
+;;; @noindent
+)
+
+(lse-define-fill-in "@oddfooting"
+    '(token)
+    '(description           "Specify page footings for odd-numbered (right-hand) pages")
+    '(replacement           "@oddfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @oddfooting
+)
+
+(lse-define-fill-in "@oddheading"
+    '(token)
+    '(description           "Specify page headings for odd-numbered (right-hand) pages")
+    '(replacement           "@oddheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+;;; @oddheading
+)
+
+(lse-define-fill-in "@page"
+    '(token)
+    '(description           "Start a new page in the printed version of the document")
+    '(replacement           lse-newline-and-indent "@page")
+;;; @page
+)
+
+(lse-define-fill-in "@paragraphindent"
+    '(token)
+    '(description           "Indent paragraphs by «number» spaces; delete indentation if 0; don't change indendation if «number» is `asis'")
+    '(replacement           "@paragraphindent «number»")
+;;; @paragraphindent
+)
+
+(lse-define-fill-in "@pindex"
+    '(token)
+    '(description           "Make an entry in the program index for «text»")
+    '(replacement           "@pindex «text»")
+;;; @pindex
+)
+
+(lse-define-fill-in "@point"
+    '(token)
+    '(description           "Generate the symbol * (in emacs used to indicate position of point)")
+    '(replacement           "@point{}")
+;;; @point
+)
+
+(lse-define-fill-in "@print"
+    '(token)
+    '(description           "Generate the symbol indicating printed output")
+    '(replacement           "@print{}")
+;;; @print
+)
+
+(lse-define-fill-in "@printindex"
+    '(token)
+    '(description           "Generate an index in the printed version or a menu of index entries for Info")
+    '(replacement
+        "««index-section»»"
+        "@printindex «texinfo-index-name»"
+        ""
+     )
+;;; @printindex
+)
+
+(lse-define-fill-in "@pxref"
+    '(token)
+    '(description           "Make a cross reference starting with `see' in the printed version (use only inside parentheses)"
+                            "Punctuation is inserted automatically by Texinfo"
+     )
+    '(replacement
+        "@pxref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+     )
+;;; @pxref
+)
+
+(lse-define-fill-in "@quotation"
+    '(token)
+    '(description           "Indicate text that is quoted (filled, indented in roman font)")
+    '(replacement
+        "@quotation"
+        @ text-block
+        "@end quotation"
+        ""
+     )
+;;; @quotation
+)
+
+(lse-define-fill-in "@r"
+    '(token)
+    '(description           "Print «text» in roman font")
+    '(replacement           "@r{«text»}")
+;;; @r
+)
+
+(lse-define-fill-in "@ref"
+    '(token)
+    '(description           "Make a cross reference without any additional text (like `see')"
+                            "Useful as last part of sentence"
+                            ""
+                            "Take care of how the cross-ref will look in the on-line version"
+                            "of the document"
+     )
+    '(replacement
+        "@ref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+     )
+;;; @ref
+)
+
+(lse-define-fill-in "@result"
+    '(token)
+    '(description           "Generate the symbol indicating the result of evaluating an expression")
+    '(replacement           "@result{}")
+;;; @result
+)
+
+(lse-define-fill-in "@samp"
+    '(token)
+    '(description           "Indicate text that is a literal example or `sample' of a sequence of characters in a file, string, pattern, etc.")
+    '(replacement           "@samp{«text»}")
+;;; @samp
+)
+
+(lse-define-fill-in "@sc"
+    '(token)
+    '(description           "Set text in small caps font")
+    '(replacement           "@sc{«text»}")
+;;; @sc
+)
+
+(lse-define-fill-in "@section"
+    '(token)
+    '(description           "Begin a numbered section with title «@node-name» within a chapter (appears in table of contents)")
+    '(replacement           "@section «@node-name»")
+;;; @section
+)
+
+(lse-define-fill-in "@set"
+    '(token)
+    '(description           "Set flag to value ««name»» (default true)")
+    '(replacement           "@set «name» ««name»»")
+;;; @set
+)
+
+(lse-define-fill-in "@setchapternewpage"
+    '(token)
+    '(description           "Define on what page a new chapter should start")
+    '(replacement           "@setchapternewpage «chapter-new-page-style»")
+;;; @setchapternewpage
+)
+
+(lse-define-fill-in "@setfilename"
+    '(token)
+    '(description           "Provide a name for the Info file")
+    '(replacement           "@setfilename «name»")
+;;; @setfilename
+)
+
+(lse-define-fill-in "@settitle"
+    '(token)
+    '(description           "Provide a title for page headers in the printed version of the document")
+    '(replacement           "@settitle    «name»")
+;;; @settitle
+)
+
+(lse-define-fill-in "@smallbook"
+    '(token)
+    '(description           "Causes TeX to produce a manual in 7 * 9.25 inch format (rather than 8.5 * 11 inch)")
+    '(replacement           "@smallbook")
+;;; @smallbook
+)
+
+(lse-define-fill-in "@smallexample"
+    '(token)
+    '(description           "Like @example, but set in smaller font in @smallbook format")
+    '(replacement
+        "@smallexample"
+        @ text-block
+        "@end smallexample"
+        ""
+     )
+;;; @smallexample
+)
+
+(lse-define-fill-in "@smalllisp"
+    '(token)
+    '(description           "Like @lisp, but set in smaller font in @smallbook format")
+    '(replacement
+        "@smalllisp"
+        @ text-block
+        "@end smalllisp"
+        ""
+     )
+;;; @smallexample
+)
+
+(lse-define-fill-in "@sp"
+    '(token)
+    '(description           "Generate «number» blank lines (forces a new paragraph)")
+    '(replacement           "@sp «number»")
+;;; @sp
+)
+
+(lse-define-fill-in "@strong"
+    '(token)
+    '(description           "Set text with strong emphasis")
+    '(replacement           "@strong{«text»}")
+;;; @strong
+)
+
+(lse-define-fill-in "@subheading"
+    '(token)
+    '(description           "Print an unnumbered subsection-like heading in the text, but not in table of contents")
+    '(replacement           "@subheading «@node-name»")
+;;; @subheading
+)
+
+(lse-define-fill-in "@subsection"
+    '(token)
+    '(description           "Begin a numbered subsection within a section (appears in table of contents)")
+    '(replacement           "@subsection «@node-name»")
+;;; @subsection
+)
+
+(lse-define-fill-in "@subsubheading"
+    '(token)
+    '(description           "Print an unnumbered subsubsection-like heading in the text, but not in table of contents")
+    '(replacement           "@subsubheading «@node-name»")
+;;; @subsubheading
+)
+
+(lse-define-fill-in "@subsubsection"
+    '(token)
+    '(description           "Begin a numbered subsubsection within a section (appears in table of contents)")
+    '(replacement           "@subsubsection «@node-name»")
+;;; @subsubsection
+)
+
+(lse-define-fill-in "@subtitle"
+    '(token)
+    '(description           "Sets a sub-title in a normal-sized font flush-right")
+    '(replacement           "@subtitle «name»")
+;;; @subtitle
+)
+
+(lse-define-fill-in "@summarycontents"
+    '(token)
+    '(description           "Print a short table of contents (chapters only)")
+    '(replacement           "@summarycontents")
+;;; @summarycontents
+)
+
+(lse-define-fill-in "@syncodeindex"
+    '(token)
+    '(description           "Combine indices: redirects «from-index» entries to «to-index» (sets all entries of «from-index» like @code)")
+    '(replacement           "@syncodeindex «from-index» «to-index»")
+;;; @syncodeindex
+)
+
+(lse-define-fill-in "@synindex"
+    '(token)
+    '(description           "Combine indices: redirects «from-index» entries to «to-index» (sets all entries of «from-index» in roman font)")
+    '(replacement           "@synindex «from-index» «to-index»")
+;;; @synindex
+)
+
+(lse-define-fill-in "@t"
+    '(token)
+    '(description           "Print «text» in a fixed-width, typewriter-like font")
+    '(replacement           "@t{«text»}")
+;;; @t
+)
+
+(lse-define-fill-in "@table"
+    '(token)
+    '(token                 "description")
+    '(description           "Make a two-column table (corresponds to LaTeX's description environment)")
+    '(replacement
+        "@table «table-item-format»"
+        @ table-item
+        "««table-item»»···"
+        "@end table"
+     )
+;;; @table
+)
+
+(lse-define-fill-in "@tex"
+    '(token)
+    '(description           "Interpret «text»··· as TeX input")
+    '(replacement
+        "@tex"
+        @ text-block
+        "@end tex"
+     )
+;;; @tex
+)
+
+(lse-define-fill-in "@TeX-logo"
+    '(token)
+    '(description           "Generate TeX logo")
+    '(replacement           "@TeX{}")
+;;; @TeX
+)
+
+(lse-define-fill-in "@thischapter"
+    '(token)
+    '(description           "In a heading or footing, stands for the number and name of the current chapter")
+    '(replacement           "@thischapter")
+;;; @thischapter
+)
+
+(lse-define-fill-in "@thischaptername"
+    '(token)
+    '(description           "In a heading or footing, stands for the name of the current chapter")
+    '(replacement           "@thischaptername")
+;;; @thischaptername
+)
+
+(lse-define-fill-in "@thisfile"
+    '(token)
+    '(description           "In a heading or footing, stands for the name of the current @include file")
+    '(replacement           "@thisfile")
+;;; @thisfile
+)
+
+(lse-define-fill-in "@thispage"
+    '(token)
+    '(description           "In a heading or footing, stands for the current page number")
+    '(replacement           "@thispage")
+;;; @thispage
+)
+
+(lse-define-fill-in "@thistitle"
+    '(token)
+    '(description           "In a heading or footing, stands for the name of the document (as specified by @settitle)")
+    '(replacement           "@thistitle")
+;;; @thistitle
+)
+
+(lse-define-fill-in "@tindex"
+    '(token)
+    '(description           "Make an entry in the type index for «text»")
+    '(replacement           "@tindex «text»")
+;;; @tindex
+)
+
+(lse-define-fill-in "@title"
+    '(token)
+    '(description           "Set a title flush-left in a larger than normal font underlined by a black rule")
+    '(replacement           "@title «text»")
+;;; @title
+)
+
+(lse-define-fill-in "@titlefont"
+    '(token)
+    '(description           "In the printed version, print «text» in a larger than normal font")
+    '(replacement           "@titlefont{«text»}")
+;;; @titlefont
+)
+
+(lse-define-fill-in "@titlepage"
+    '(token)
+    '(description           "Indicate the start of a title page")
+    '(replacement
+        "@titlepage"
+        @ @title
+        "««text»»···"
+        "««@subtitle»»···"
+        "««text»»···"
+        "««@author»»···"
+        "««text»»···"
+        "@page"
+        "@vskip 0pt plus 1filll"
+        "Copyright @copyright{} "
+                   & lse-insert-year & " " & @ this-company-name & "."
+        ""
+        "««texinfo-tex-copyright»»"
+        "@end titlepage"
+        ""        
+     )
+;;; @titlepage
+)
+
+(lse-define-fill-in "@today"
+    '(token)
+    '(description           "Insert the current date")
+    '(replacement           "@today")
+;;; @today
+)
+
+(lse-define-fill-in "@top"
+    '(token)
+    '(description           "Identify the top-most @node line with title «text» in a Texinfo file to be formatted by makeinfo")
+    '(replacement
+        "@ifinfo"
+        "@top «text»"
+        @ node
+        "@end ifinfo"
+     )
+;;; @top
+)
+
+(lse-define-fill-in "@unnumbered"
+    '(token)
+    '(description           "Begin a chapter that appears without chapter numbers of any kind, but appears in the table of contents")
+    '(replacement           "@unnumbered «@node-name»")
+;;; @unnumbered
+)
+
+(lse-define-fill-in "@unnumberedsec"
+    '(token)
+    '(description           "Begin a section that appears without section numbers of any kind, but appears in the table of contents")
+    '(replacement           "@unnumberedsec «@node-name»")
+;;; @unnumberedsec
+)
+
+(lse-define-fill-in "@unnumberedsubsec"
+    '(token)
+    '(description           "Begin a subsection that appears without section numbers of any kind, but appears in the table of contents")
+    '(replacement           "@unnumberedsubsec «@node-name»")
+;;; @unnumberedsubsec
+)
+
+(lse-define-fill-in "@unnumberedsubsubsec"
+    '(token)
+    '(description           "Begin a subsubsection that appears without section numbers of any kind, but appears in the table of contents")
+    '(replacement           "@unnumberedsubsubsec «@node-name»")
+;;; @unnumberedsubsubsec
+)
+
+(lse-define-fill-in "@value"
+    '(token)
+    '(description           "Use value of flag «name»")
+    '(replacement           "@value{«name»}")
+;;; @value
+)
+
+(lse-define-fill-in "@var"
+    '(token)
+    '(description           "Indicate a metasyntactic variable (something standing for another piece of text)"
+                            "Don't use @var for the names of particular variables in programming languages"
+                            "(use @code instead)"
+     )
+    '(replacement           "@var{«text»}")
+;;; @var
+)
+
+(lse-define-fill-in "@vindex"
+    '(token)
+    '(description           "Make an entry in the variable index for «text»")
+    '(replacement           "@vindex «text»")
+;;; @vindex
+)
+
+(lse-define-fill-in "@vskip"
+    '(token)
+    '(description           "Insert vertical whitespace in printed version of the document (use only in contexts ignored for Info)")
+    '(replacement           "@vskip «text»")
+;;; @vskip
+)
+
+(lse-define-fill-in "@vtable"
+    '(token)
+    '(token                 "description")
+    '(description           "Like @table, but enters each item into the variable index")
+    '(replacement
+        "@vtable «table-item-format»"
+        @ table-item
+        "««table-item»»···"
+        "@end vtable"
+     )
+;;; @vtable
+)
+
+(lse-define-fill-in "@w"
+    '(token)
+    '(description           "Prohibit line breaks within «text»")
+    '(replacement           "@w{«text»}")
+;;; @w
+)
+
+(lse-define-fill-in "@xref"
+    '(token)
+    '(description           "Generate a cross reference for the beginning of a sentence (provide trailing punctuation!)"
+                            "A period or comma MUST follow the closing brace of an @xref"
+     )
+    '(replacement
+        "@xref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+     )
+;;; @xref
+)
+
+(lse-define-fill-in "appendix"
+    '(token)
+    '(description           "@node + @appendix command")
+    '(replacement
+         @ @node
+         @ @appendix
+         lse-newline-and-indent
+         @ text-block
+     )
+;;; appendix
+)
+
+(lse-define-fill-in "attribute"
+    '(description           "Name of attribute of entity")
+    '(separator             " ")
+;;; attribute
+)
+
+(lse-define-fill-in "center-text"
+    '(description           "Text appearing in middle part of heading or footing line")
+)
+
+(lse-define-fill-in "chapter"
+    '(token)
+    '(description           "@node + @chapter command")
+    '(replacement
+         @ @node
+         @ @chapter
+         lse-newline-and-indent
+         @ text-block
+     )
+;;; chapter
+)
+
+(lse-define-fill-in "chapter-new-page-style"
+    '(menu
+        ("off"     "Start new chapter on then current page, preceded by some vertical whitespace")
+        ("on"      "Start new chapter on new page")
+        ("odd"     "Start new chapter on new, oddnumbered (i.e., right-hand) page")
+     )
+;;; chapter-new-page-style
+)
+
+(lse-define-fill-in "cross-reference-name"
+    '(description           "The cross reference name for the Info reference, if different from the node name")
+)
+
+(lse-define-fill-in "category"
+    '(description           "Category of thing being defined")
+)
+
+(lse-define-fill-in "data-type"
+    '(description           "Type of entity")
+)
+
+(lse-define-fill-in "environment"
+    '(token)
+    '(description           "Expands to `@«env-name» ... @end «env-name»")
+    '(replacement
+        "@«env-name»"
+        @ text-block
+        "@end «env-name»"
+     )
+;;; environment
+)
+
+(lse-define-fill-in "env-name"
+    '(description           "Name of texinfo environment")
+    '(auto-replicate        1)
+;;; env-name
+)
+
+(lse-define-fill-in "from-index"
+    '(description           "Index to redirect to other index")
+    '(replacement           @ texinfo-index-name)
+;;; from-index
+)
+
+(lse-define-fill-in "footnotestyle"
+    '(menu
+        ("end"       "All footnotes for a single node are placed at the end of the node")
+        ("separate"  "All footnotes for a single node are placed in an automatically cosntructed node of their own")
+     )
+;;; footnotestyle
+)
+
+(lse-define-fill-in "index-section"
+    '(token)
+    '(description           "Commands for starting an index section")
+    '(replacement
+        "@node ««@node-name»» Index"
+        "@unnumbered ««@node-name»» Index"
+     )
+;;; index-section
+)
+
+(lse-define-fill-in "itemize-mark"
+    '(description           "Mark used for items")
+    '(max-line-move         3)
+    '(menu
+        ("@bullet"     "o")
+        ("@minus"      "-")
+        ("@point"      "*")
+        ("@result"     "=>")
+        ("@expansion"  "->")
+        ("@copyright"  "Copyright symbol")
+        ("@dots"       "...")
+        ("@print"      "-|")
+        char
+     )
+;;; itemize-mark
+)
+
+(lse-define-fill-in "key-name"
+    '(token)
+    '(description           "Recommended key names")
+    '(sort)
+    '(menu
+        ("SPC"     "Space")
+        ("RET"     "Return")
+        ("LFD"     "Linefeed")
+        ("TAB"     "Tabulator")
+        ("BS"      "Backspace")
+        ("ESC"     "Escape")
+        ("DEL"     "Delete")
+        ("SHT"     "Shift")
+        ("CTL"     "Control")
+        ("META"    "Meta")
+     )
+;;; key-name
+)
+
+(lse-define-fill-in "left-text"
+    '(description           "Text appearing in left part of heading or footing line")
+)
+
+(lse-define-fill-in "menu-comment-line"
+    '(description           "A menu comment line, which appears in the Info file (must not start with `*')")
+)
+
+(lse-define-fill-in "menu-entry"
+    '(token)
+    '(description           "Menu entry with «name» pointing to a node of the Info file")
+    '(menu
+        ("* «name»::             «text»"     "Points to node «name»")
+        ("* «name»: «node-name». «text»"     "Points to node «node-name»")
+     )
+;;; menu-entry
+)
+
+(lse-define-fill-in "next-node"
+    '(description           "Name of next node (navigation in Info)")
+)
+
+(lse-define-fill-in "node-name"
+    '(description           "Name of node in Info file")
+)
+
+(lse-define-fill-in "on/off/single/double"
+    '(menu
+        ("off"     "Turn off printing of page headings")
+        ("on"      "Turn on  printing of page headings appropriately for double-sided printing")
+        ("single"  "Turn on  printing of page headings appropriately for single-sided printing")
+        ("double"  "Turn on  printing of page headings appropriately for double-sided printing")
+     )
+;;; on/off/single/double
+)
+
+(lse-define-fill-in "prev-node"
+    '(description           "Name of previous node (navigation in Info)")
+)
+
+(lse-define-fill-in "printed-manual-title"
+    '(description           "Specify title of printed manual")
+    '(leading               . ",+")
+)
+
+(lse-define-fill-in "right-text"
+    '(description           "Text appearing in right part of heading or footing line")
+)
+
+(lse-define-fill-in "section"
+    '(token)
+    '(description           "@node + @section")
+    '(replacement
+        @ @node
+        @ @section
+        lse-newline-and-indent
+        @ text-block
+     )
+;;; section
+)
+
+(lse-define-fill-in "subsection"
+    '(token)
+    '(description           "@node + @subsection")
+    '(replacement
+        @ @node
+        @ @subsection 
+        lse-newline-and-indent
+        @ text-block
+     )
+;;; subsection
+)
+
+(lse-define-fill-in "subsubsection"
+    '(token)
+    '(description           "@node + @subsubsection")
+    '(replacement
+        @ @node
+        @ @subsubsection
+        lse-newline-and-indent
+        @ text-block
+     )
+;;; subsubsection
+)
+
+(lse-define-fill-in "table-item"
+    '(token)
+    '(replacement
+        "@item «text»"
+        @ text-block
+        ""
+     )
+;;; table-item
+)
+
+(lse-define-fill-in "table-item-format"
+    '(description           "Command used to format the first column (item) of table's entries")
+    '(sort)
+    '(menu
+        "@code"
+        "@kbd"
+        "@key"
+        "@samp"
+        "@var"
+        "@file"
+        "@dfn"
+        "@emph"
+        "@strong"
+        "@sc"
+        "@asis"
+     )
+;;; table-item-format
+)
+
+(lse-define-fill-in "table-item-x"
+    '(replacement           "@itemx «text»")
+;;; table-item-x
+)
+
+(lse-define-fill-in "texinfo-command"
+    '(token)
+    '(sort)
+    '(menu
+        @ texinfo-definition-command
+        @ texinfo-index-command
+        @*
+        @appendix
+        @appendixsection
+        @appendixsubsec
+        @appendixsubsubsec
+        @b
+        @bullet
+        @c
+        @cartouche
+        @center
+        @chapheading
+        @chapter
+        @cite
+        @clear
+        @code
+        @copyright
+        @dfn
+        @display
+        @dmn
+        @dots
+        @emph
+        @enumerate
+        @equiv
+        @error
+        @example
+        @exdent
+        @expansion
+        @file
+        @flushleft
+        @flushright
+        @footnote
+        @format
+        @ftable
+        @group
+        @heading
+        @i
+        @ifclear
+        @ifinfo
+        @ifset
+        @iftex
+        @ignore
+        @include
+        @inforef
+        @item
+        @itemize
+        @itemx
+        @kbd
+        @key
+        @lisp
+        @majorheading
+        @menu
+        @minus
+        @need
+        @node
+        @noindent
+        @page
+        @paragraphindent
+        @point
+        @print
+        @pxref
+        @quotation
+        @r
+        @ref
+        @result
+        @samp
+        @sc
+        @section
+        @set
+        @smallexample
+        @smalllisp
+        @sp
+        @strong
+        @subheading
+        @subsection
+        @subsubheading
+        @subsubsection
+        @subtitle
+        @t
+        @table
+        @tex
+        @TeX-logo
+        @thischapter
+        @thischaptername
+        @thisfile
+        @thispage
+        @thistitle
+        @titlefont
+        @today
+        @unnumbered
+        @unnumberedsec
+        @unnumberedsubsec
+        @unnumberedsubsubsec
+        @value
+        @var
+        @vskip
+        @vtable
+        @w
+        @xref
+     )
+;;; texinfo-command
+)
+
+(lse-define-fill-in "texinfo-definition-command"
+    '(token)
+    '(description           "Commands for describing functions, variables, macros, etc., in uniform format")
+    '(sort)
+    '(menu
+        @defcv
+        @deffn
+        @defivar
+        @defmac
+        @defmethod
+        @defop
+        @defopt
+        @defspec
+        @deftp
+        @deftypefn
+        @deftypefun
+        @deftypevar
+        @deftypevr
+        @defun
+        @defvar
+        @defvr
+     )
+;;; texinfo-definition-command
+)
+
+(lse-define-fill-in "texinfo-file"
+    '(description           "Root file-in of texinfo-language")
+    '(replacement
+        "\\input texinfo"
+        "«texinfo-header»"
+        ""
+        "««@titlepage»»"
+        "««texinfo-info-summary»»"
+        ""
+        "««@top»»"
+        ""
+        "««texinfo-command»»···"
+        ""
+        "««@printindex»»···"
+        "««@summarycontents»»"
+        "««@contents»»"
+        "@bye"
+     )
+;;; texinfo-file
+)
+
+(lse-define-fill-in "texinfo-header"
+    '(description           "Header of texinfo-file")
+    '(replacement
+        "@c %**start of header"
+        @ @setfilename
+        @ @settitle 
+        "««texinfo-header-command»»···"
+        "@c %**end of header"
+     )
+;;; texinfo-header
+)
+
+(lse-define-fill-in "texinfo-header-command"
+    '(token)
+    '(sort)
+    '(menu
+        @setchapternewpage
+        @setfilename
+        @settitle
+        @smallbook
+        @defcodeindex
+        @defindex
+        @syncodeindex
+        @finalout
+        texinfo-heading-spec
+     )
+;;; texinfo-header-command
+)
+
+(lse-define-fill-in "texinfo-heading-command"
+    '(token)
+    '(sort)
+    '(menu
+        @evenfooting
+        @evenheading
+        @everyfooting
+        @everyheading
+        @headings
+        @oddfooting
+        @oddheading
+     )
+;;; texinfo-heading-command
+)
+
+(lse-define-fill-in "texinfo-heading-spec"
+    '(token)
+    '(description           "Define customized page heading and footing")
+    '(replacement
+        "@iftex"
+        "@headings off"
+        "«texinfo-heading-command»···"
+        "@end iftex"
+     )
+;;; texinfo-heading-spec
+)
+
+(lse-define-fill-in "texinfo-index-command"
+    '(token)
+    '(sort)
+    '(menu
+        @cindex
+        @findex
+        @vindex
+        @kindex
+        @pindex
+        @tindex
+     )
+;;; texinfo-index-command
+)
+
+(lse-define-fill-in "texinfo-index-name"
+    '(token)
+    '(description           "Two-letter name for index")
+    '(sort)
+    '(menu
+        ("cp"     "concept   index")
+        ("fn"     "function  index")
+        ("vr"     "variable  index")
+        ("ky"     "key       index")
+        ("pg"     "program   index")
+        ("tp"     "data type index")
+     )
+;;; texinfo-index-name
+)
+
+(lse-define-fill-in "texinfo-info-summary"
+    '(token)
+    '(description           "Summary description and copyright for on-line version of the document")
+    '(replacement
+        "@ifinfo"
+        ""
+        "This file documents ««text»»"
+        ""
+        "Copyright " & lse-insert-year & " " & @ this-company-name & "."
+        ""
+        "Permission is granted to make and distribute verbatim"
+        "copies of this manual provided the copyright notice and"
+        "this permission notice are preserved on all copies."
+        ""
+        "@@ignore "
+        "Permission is granted to process this file through TeX"
+        "and print the results, provided the printed document"
+        "carries a copying permission notice identical to this"
+        "one except for the removal of this paragraph (this"
+        "paragraph not being relevant to the printed manual)."
+        ""
+        "@@end ignore"
+        "Permission is granted to copy and distribute modified"
+        "versions of this manual under the conditions for"
+        "verbatim copying, provided also that the sections"
+        "entitled ``Copying'' and ``GNU General Public License''"
+        "are included exactly as in the original, and provided"
+        "that the entire resulting derived work is distributed"
+        "under the terms of a permission notice identical to this"
+        "one."
+        ""
+        "Permission is granted to copy and distribute"
+        "translations of this manual into another language, "
+        "under the above conditions for modified versions, "
+        "except that this permission notice may be stated in a"
+        "translation approved by " & @ this-company-name & "."
+        "@end ifinfo"
+     )
+;;; texinfo-info-summary
+)
+
+(lse-define-fill-in "texinfo-tex-copyright"
+    '(token)
+    '(replacement
+        ""
+        "Permission is granted to make and distribute verbatim"
+        "copies of this manual provided the copyright notice and"
+        "this permission notice are preserved on all copies."
+        ""
+        "Permission is granted to copy and distribute modified"
+        "versions of this manual under the conditions for"
+        "verbatim copying, provided also that the sections"
+        "entitled ``Copying'' and ``GNU General Public License''"
+        "are included exactly as in the original, and provided"
+        "that the entire resulting derived work is distributed"
+        "under the terms of a permission notice identical to this"
+        "one."
+        ""
+        "Permission is granted to copy and distribute"
+        "translations of this manual into another language, "
+        "under the above conditions for modified versions, "
+        "except that this permission notice may be stated in a"
+        "translation approved by " & @ this-company-name & "."
+     )
+;;; texinfo-tex-copyright
+)
+
+(lse-define-fill-in "text-block"
+    '(replacement   "«text»···")
+;;; text-block
+)
+
+(lse-define-fill-in "title-or-topic"
+    '(description           "Replaces «node-name» in the TeX output (should be a section-name of the printed version)")
+)
+
+(lse-define-fill-in "to-index"
+    '(description           "Index to which other index is redirect")
+    '(replacement           @ texinfo-index-name)
+;;; to-index
+)
+
+(lse-define-fill-in "up-node"
+    '(description           "Name of node which contains this node (navigation in Info)")
+    '(leading               . ",+")
+)
+

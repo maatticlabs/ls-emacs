@@ -1,0 +1,15 @@
+#! /swing/bin/bash
+~/lib/python/make_python_lse_templates.py CTK.CT_TK -p CTK.    -o lse-templates-python-CTK.lse 
+~/lib/python/make_python_lse_templates.py os                   -o lse-templates-python-os.lse 
+~/lib/python/make_python_lse_templates.py os.path              -o lse-templates-python-os-path.lse 
+~/lib/python/make_python_lse_templates.py predicate -noprefix  -o lse-templates-python-predicate.lse 
+~/lib/python/make_python_lse_templates.py re                   -o lse-templates-python-re.lse 
+~/lib/python/make_python_lse_templates.py string               -o lse-templates-python-string.lse 
+~/lib/python/make_python_lse_templates.py sys                  -o lse-templates-python-sys.lse 
+#python ~/lib/python/make_lse_templates.py CTK.CT_TK -p CTK.    > lse-templates-python-CTK.lse 
+#python ~/lib/python/make_lse_templates.py os                   > lse-templates-python-os.lse 
+#python ~/lib/python/make_lse_templates.py os.path              > lse-templates-python-os-path.lse 
+#python ~/lib/python/make_lse_templates.py predicate -noprefix  > lse-templates-python-predicate.lse 
+#python ~/lib/python/make_lse_templates.py re                   > lse-templates-python-re.lse 
+#python ~/lib/python/make_lse_templates.py string               > lse-templates-python-string.lse 
+#python ~/lib/python/make_lse_templates.py sys                  > lse-templates-python-sys.lse 

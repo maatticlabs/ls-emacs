@@ -1,0 +1,43 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-sed
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language sed
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;-- 
+(lse-language:define "sed"
+  '(
+    (lse-language:tab-increment        4)
+    (lse_comment_head_delim            "#")
+    (lse_comment_head_delim_pattern    "^#+ *")
+    (lse_comment_delim_char_set        "#")
+    (lse-language:initial-fill-in      "««sed-command»»···")
+   )
+  '(
+    lse-tpu:toggle-newline-and-indent
+   )
+  '(
+    "lse-templates-regexp"
+    "lse-templates-sed"
+   )
+  137
+   67
+)
+
+;;;
+;;; sed mode
+;;;
+(defun lse-sed-mode ()
+  (interactive)
+  (text-mode)
+  (lse-language:use "sed")
+)
+
+
+

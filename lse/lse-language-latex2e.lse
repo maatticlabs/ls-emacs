@@ -1,0 +1,119 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-language-latex2e
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language latex2e
+;;;;
+;;;; Revision Dates
+;;;;    26-Aug-1998 (CT) Creation
+;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to `c++-mode-hook'
+;;;;     1-Mar-2001 (CT) Don't hook into latex-mode, yet
+;;;;    ««revision-date»»···
+;;;;--
+(lse-language:define "latex2e"
+  '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-group-chars         "-\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««latex2e»»")
+   )
+  '(lse-tpu:toggle-newline-and-indent
+    auto-fill-mode 
+   )
+  '("lse-templates-latex2e"
+    "lse-templates-latex2e-class"
+   )
+;  1373
+;   997
+)
+
+;;; 
+;;; TeX modes 
+;;; 
+(require 'tex-mode)
+;;  1-Mar-2001 don't set hooks as long as latex2e mode doesn't work properly 
+;;(add-hook 'latex-mode-hook 'lse-latex-mode)
+;;(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+;;(add-hook 'LaTeX-mode-hook 'lse-latex-mode)
+
+(fset 'TEX-MODE       'tex-mode)
+(fset 'tex-mode       'latex-mode)
+
+(defun lse-latex-mode ()
+  (lse-language:use "latex2e")
+  (lse-latex-mode:define-keys)
+  (modify-syntax-entry ?ä "w")
+  (modify-syntax-entry ?ö "w")
+  (modify-syntax-entry ?ü "w")
+  (modify-syntax-entry ?Ä "w")
+  (modify-syntax-entry ?Ö "w")
+  (modify-syntax-entry ?Ü "w")
+  (modify-syntax-entry ?ß "w")
+  (set (make-local-variable 'compile-command)
+       (concat "latex "
+               (lse-file-name-sans-extension (buffer-name (current-buffer)))
+       )
+       ; (concat "latex " (buffer-file-name (current-buffer)))
+  )
+)
+
+;;;
+;;; Functions for use by fill-in's
+;;;
+(defun lse-latex-mode:insert-firma-of-kartei ()
+  "Lets user choose a firma from kartei and inserts the name into buffer"
+  (interactive)
+  (let ((name
+             (swing-kartei:entry:complete-name swing-kartei:firma:directory
+                                               swing-kartei:firma:file-name
+                                               t
+             )
+        )
+       )
+    (if (stringp name)
+        (insert name)
+    )
+  )
+; lse-latex-mode:insert-firma-of-kartei
+) 
+
+(defun lse-latex-mode:insert-person-of-kartei ()
+  "Lets user choose a person from kartei and inserts the name into buffer"
+  (interactive)
+  (let ((name
+             (swing-kartei:entry:complete-name swing-kartei:person:directory
+                                               swing-kartei:person:file-name
+                                               t
+             )
+        )
+       )
+    (if (stringp name)
+        (insert name)
+    )
+  )
+; lse-latex-mode:insert-person-of-kartei
+) 

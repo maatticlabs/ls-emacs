@@ -1,0 +1,103 @@
+!
+!
+! Bibliography and Citation
+!
+delete token \bibliography
+define token \bibliography -
+	/description="Used with BiBTeX to create a bibliography" -
+	/language=latex -
+
+"\bibliography{<bib_files>}"
+end define
+
+delete placeholder bib_files
+define placeholder bib_files -
+	/description="First names of the bibliography files, file type .BBL" -
+	/duplication=horizontal -
+	/language=latex -
+	/separator="," - 
+	/type=terminal -
+
+"Enter the name(s) of your bibliography files."
+end define
+
+delete token thebibliography
+define token thebibliography -
+	/description="Produce a bibliography list" -
+	/language=latex -
+	/topic_string = "LATEX Commands Environments thebibliography" 
+
+"\begin{thebibliography}{<widest_label>}"
+"\bibitem<<item_label>>{cite_key}"
+"<<another_bibitem>>..."
+"\end{thebibliography}"
+""
+end define
+
+delete placeholder another_bibitem 
+define placeholder another_bibitem -
+	/language = latex -
+	/duplication=vertical -
+	/descr = "thebibliography \bibitem command" -    
+	/topic_string = "LATEX Commands Environments thebibliography \bibitem" 
+
+"\bibitem<<item_label>>{<cite_key>}"
+end define
+delete token \bibitem
+define token \bibitem -
+	/placeholder = another_bibitem -
+	/language=latex 
+
+delete placeholder widest_label
+define placeholder widest_label -
+	/description="Widest text for \bibitem label" -
+	/language=latex -
+	/topic_string = "LATEX Commands Environments thebibliography" -
+	/type=terminal -
+
+"Enter the widest text string for a \bibitem label."
+end define
+
+delete placeholder cite_key
+define placeholder cite_key -
+	/description="String used to associate \bibitem with \cite" -
+	/language=latex -
+	/topic_string = "LATEX Commands Environments thebibliography" -
+	/type=terminal -
+
+"Enter a string that will be used in the \cite command."
+end define
+
+delete token \cite
+define token \cite -
+	/description="Generate an in-text citation" -
+	/language=latex -
+	/topic_string = "LATEX Commands Environments thebibliography \cite" 
+
+"\cite<<optional>>{<key_list>...}"
+end define
+
+delete token \nocite
+define token \nocite -
+	/description="Produce no text, but write the key list" -
+	/language=latex -
+	/topic_string = "LATEX Commands Environments thebibliography \nocite" 
+
+"\nocite{<key_list>...}"
+end define
+
+delete placeholder key_list
+define placeholder key_list -
+	/description="List of citation keys of \bibitem commands" -
+	/duplication=horizontal -
+	/language=latex -
+	/separator="," - 
+	/topic_string = "LATEX Commands Environments thebibliography \cite" -
+	/type=terminal -
+
+"Enter the key(s) to match \bibitem commands."
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_BIBLIOGRAPHY.LSE
+!	 *1    30-JAN-1986 15:31:05 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_BIBLIOGRAPHY.LSE

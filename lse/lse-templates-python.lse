@@ -1,0 +1,2640 @@
+;-*-unibyte: t;-*-
+
+;;;  3-Jan-1998
+(lse-define-fill-in "python-root"
+    '(description           "Root fill-in for python language.")
+    '(replacement
+        "# -*- coding: iso-8859-1 -*-";  6-Aug-2003
+        "#««header-comment»»"
+        "««py-doc-string»»"
+        ""
+        "««py-import»»"
+        ""
+        "««py-statement»»···"
+        ""
+        "««py-test-def»»···"
+        "««py-script-code»»"
+        "### __END__ " & lse-insert-buffer-name
+     )
+;;; python-root
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-access"
+    '(description
+        "This is an obsolete statement. Don't use it."
+     )
+;;; py-access
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-assignment"
+    '(token)
+    '(description
+        "Python assignment statement."
+        "It can be a simple assignment, like: `x = y'."
+        ""
+        "It can unpack a complex structure, like: "
+        ""
+        "    `(eye, [dorsal, gill], tail) = fish'."
+        ""
+        "And it can be chained, like:"
+        ""
+        "    `person = (name, [iq, sal], job) = (\"jake\", [100,200], \"fence\")'"
+        ""
+        "In python, assignments are _not_ expressions -- they don't produce a"
+        "value and can therefore not be used where an expression is needed."
+     )
+    '(menu
+        "«py-name» = «py-expression»"
+        "(«py-name-e»···) = «py-expression»"
+        "(«py-name-e»···) = «py-assignment»···"
+     )
+;;; py-assignment
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-bases-tuple"
+    '(description           "Possible empty tuple of base classes")
+    '(replacement-leading   "(")
+    '(replacement-trailer   ")")
+    '(replacement           "««py-expression-e»»···")
+;;; py-bases-tuple
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-block"
+    '(token)
+    '(token                 "block")
+    '(description           "A block of python statements homogeneously indented.")
+    '(replacement
+        lse-indent+1
+          "«py-statement»···"
+        lse-indent:<
+     )
+;;; py-block
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-break"
+    '(token)
+    '(token                 "break")
+    '(description
+        "Terminates the nearest enclosing loop, skipping the else-clause if any."
+        "Break may only occur syntactically nested in a for or while loop, but not "
+        "nested in a function or class definition within that loop."
+        ""
+        "If a for loop is terminated by a break, the loop control target keeps its "
+        "current value."
+        ""
+        "When break passes control out of a try statement with a finally clause, that"
+        "finally clause is executed before really leaving the loop."
+     )
+    '(replacement           "break")
+;;; py-break
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-class"
+    '(token)
+    '(token                 "class")
+    '(description
+        "Define a class object."
+        "A class definition is an executable statement."
+     )
+    '(replacement
+        "class «py-class-name» ««py-inherit»» :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««py-class-new»»"
+          "««py-class-init»»"
+          "«py-statement»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+        ""
+     )
+;;; py-class
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-abs"
+    '(token)
+    '(token                 "__abs__")
+    '(description
+        "Implement unary operator `abs` for objects of class."
+     )
+    '(replacement
+        "def __abs__ (self) :"
+        @ py-function-body
+        "# end def __abs__"
+        ""
+     )
+;;; py-class-abs
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-add"
+    '(token)
+    '(token                 "__add__")
+    '(description
+        "Implement binary operator `+' for objects of class."
+     )
+    '(replacement
+        "def __add__ (self, rhs) :"
+        @ py-function-body
+        "# end def __add__"
+        ""
+     )
+;;; py-class-add
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-and"
+    '(token)
+    '(token                 "__and__")
+    '(description
+        "Implement binary operator `&' for objects of class."
+     )
+    '(replacement
+        "def __and__ (self, rhs) :"
+        @ py-function-body
+        "# end def __and__"
+        ""
+     )
+;;; py-class-and
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-call"
+    '(token)
+    '(token                 "__call__")
+    '(description
+        "Provide call-interface for class instance."
+        "This function is called automagically whenever `self' is called "
+        "as a function, either explicitly as `self (...)' or implicitly "
+        "via `map' or `apply' or similar operations."
+        ""
+        "The return value may be of any type."
+     )
+    '(replacement
+        "def __call__ (self, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def __call__"
+        ""
+     )
+;;; py-class-call
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-cmp"
+    '(token)
+    '(token                 "__cmp__")
+    '(description
+        "Provide user-defined comparison operations for instances of class."
+        "Must return an integer, and should define a total order within the "
+        "class in the same manner as python's intrinsic `cmp'."
+        ""
+        "This function is automagically invoked by `<=', `list.sort' and other"
+        "operations that implicitly or explicitly invoke `cmp'."
+     )
+    '(replacement
+        "def __cmp__ (self, rhs) :"
+        @ py-function-body
+        "# end def __cmp__"
+        ""
+     )
+;;; py-class-cmp
+)
+
+;;; 22-Apr-2004
+(lse-define-fill-in "py-class-copy"
+    '(token)
+    '(token                 "__copy__")
+    '(description
+        "The standard copy.copy(thing) automatically invokes "
+        "thing.__copy__() if thing has a __copy__() method."
+     )
+    '(replacement
+        "def __copy__ (self) :"
+        @ py-function-body
+        "copy = __copy__"
+     )
+;;; py-class-copy
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-coerce"
+    '(token)
+    '(token                 "__coerce__")
+    '(description
+        "Called to implement mixed-mode arithmetic. Should either return a "
+        "2-tuple containing `self` and `rhs` converted to a common numeric "
+        "type, or None if conversion is impossible. When the common type "
+        "would be the type of `rhs`, it is sufficient to return None, since "
+        "the interpreter will also ask `rhs` to attempt a coercion."
+     )
+    '(replacement
+        "def __coerce__ (self, rhs) :"
+        @ py-function-body
+        "# end def __coerce__"
+        ""
+     )
+;;; py-class-coerce
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-complex"
+    '(token)
+    '(token                 "__complex__")
+    '(description
+        "Convert object of class to complex value (called by "
+        "built-in `complex`)."
+     )
+    '(replacement
+        "def __complex__ (self) :"
+        @ py-function-body
+        "# end def __complex__"
+        ""
+     )
+;;; py-class-complex
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-contains"
+    '(token)
+    '(token                 "__contains__")
+    '(description
+        "Implement membership test operator `in` for objects of class. "
+        "Should return true if `item` is in `self`, false otherwise."
+     )
+    '(replacement
+        "def __contains__ (self, item) :"
+        @ py-function-body
+        "# end def __contains__"
+        ""
+     )
+;;; py-class-contains
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-del"
+    '(token)
+    '(token                 "__del__")
+    '(description
+        "Finalization of instance on deallocation."
+        "This function is automagically invoked when the last reference "
+        "to `self' is broken. The return value is ignored."
+     )
+    '(replacement
+        "def __del__ (self) :"
+        @ py-function-body
+        "# end def __del__"
+        ""
+     )
+;;; py-class-del
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-delattr"
+    '(token)
+    '(token                 "__delattr__")
+    '(description
+        "Delete an attribute of `self'."
+        "Invoked automagically by `del self.attr'. The return value is "
+        "ignored."
+     )
+    '(replacement
+        "def __delattr__ (self, name) :"
+        @ py-function-body
+        "# end def __delattr__"
+        ""
+     )
+;;; py-class-delattr
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-delitem"
+    '(token)
+    '(token                 "__delitem__")
+    '(description
+        "Invoked automagically by `del self [key]'."
+        ""
+        "For sequence types, the accepted keys should be integers and "
+        "slice objects."
+     )
+    '(replacement
+        "def __delitem__ (self, key) :"
+        @ py-function-body
+        "# end def __delitem__"
+        ""
+     )
+;;; py-class-delitem
+)
+
+;;;  1-Nov-1998
+(lse-define-fill-in "py-class-delslice"
+    '(token)
+    '(token                 "__delslice__")
+    '(description
+        "*** Deprecated since Python 2.0. *** "
+        "Slices should be supported by __delitem__. ***"
+        "Invoked automagically by `del self [i:j]'."
+     )
+    '(replacement
+        "def __delslice__ (self, i, j) :"
+        @ py-function-body
+        "# end def __delslice__"
+        ""
+     )
+;;; py-class-delslice
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-div"
+    '(token)
+    '(token                 "__div__")
+    '(description
+        "Implement binary operator `/' for objects of class."
+     )
+    '(replacement
+        "def __div__ (self, rhs) :"
+        @ py-function-body
+        "# end def __div__"
+        ""
+     )
+;;; py-class-div
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-divmod"
+    '(token)
+    '(token                 "__divmod__")
+    '(description
+        "Implement binary operator `divmod' for objects of class."
+     )
+    '(replacement
+        "def __divmod__ (self, rhs) :"
+        @ py-function-body
+        "# end def __divmod__"
+        ""
+     )
+;;; py-class-divmod
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-equal"
+    '(token)
+    '(token                 "__eq__")
+    '(description
+        "Implement binary operator `==` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __eq__ (self, rhs) :"
+        @ py-function-body
+        "# end def __eq__"
+        ""
+     )
+;;; py-class-equal
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-float"
+    '(token)
+    '(token                 "__float__")
+    '(description
+        "Convert object of class to float value (called by built-in `float`)."
+     )
+    '(replacement
+        "def __float__ (self) :"
+        @ py-function-body
+        "# end def __float__"
+        ""
+     )
+;;; py-class-float
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-getattr"
+    '(token)
+    '(token                 "__getattr__")
+    '(description
+        "Attribute retrieval."
+        "This function is invoked automagically as "
+        "`self.__getattr__ (\"name\")' to evaluate `self.name', but only "
+        "when `self.name' is not defined in the local name space or by "
+        "inheritance."
+        ""
+        "The return value may be of any type."
+     )
+    '(replacement
+        "def __getattr__ (self, name) :"
+        @ py-function-body
+        "# end def __getattr__"
+        ""
+     )
+;;; py-class-getattr
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-getitem"
+    '(token)
+    '(token                 "__getitem__")
+    '(description
+        "Invoked automagically by `self [key]'."
+        ""
+        "For sequence types, the accepted keys should be integers and "
+        "slice objects."
+     )
+    '(replacement
+        "def __getitem__ (self, key) :"
+        @ py-function-body
+        "# end def __getitem__"
+        ""
+     )
+;;; py-class-getitem
+)
+
+;;;  1-Nov-1998
+(lse-define-fill-in "py-class-getslice"
+    '(token)
+    '(token                 "__getslice__")
+    '(description
+        "*** Deprecated since Python 2.0. *** "
+        "Slices should be supported by __getitem__. ***"
+        "Invoked automagically by `self [i:j]'."
+     )
+    '(replacement
+        "def __getslice__ (self, i, j) :"
+        @ py-function-body
+        "# end def __getslice__"
+        ""
+     )
+;;; py-class-getslice
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-greater-equal"
+    '(token)
+    '(token                 "__ge__")
+    '(description
+        "Implement binary operator `>=` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __ge__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ge__"
+        ""
+     )
+;;; py-class-greater-equal
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-greater-than"
+    '(token)
+    '(token                 "__gt__")
+    '(description
+        "Implement binary operator `>` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __gt__ (self, rhs) :"
+        @ py-function-body
+        "# end def __gt__"
+        ""
+     )
+;;; py-class-greater-than
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-hash"
+    '(token)
+    '(token                 "__hash__")
+    '(description
+        "Compute a hash value for `self'."
+        "This function is invoked automagically when `self' is archived in "
+        "a hash-based structure, such as a dictionary. While `self' resides "
+        "in a hashed structure, the hash value must remain constant or the "
+        "resulting behavior my be undefined."
+        ""
+        "Should return an integer, preferably producing a different result "
+        "for each instance."
+     )
+    '(replacement
+        "def __hash__ (self) :"
+        @ py-function-body
+        "# end def __hash__"
+        ""
+     )
+;;; py-class-hash
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-hex"
+    '(token)
+    '(token                 "__hex__")
+    '(description
+         "Implement built-in function `hex` for objects of class."
+         "Should return a string value."
+     )
+    '(replacement
+        "def __hex__ (self) :"
+        @ py-function-body
+        "# end def __hex__"
+        ""
+     )
+;;; py-class-hex
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-iadd"
+    '(token)
+    '(token                 "__iadd__")
+    '(description
+        "Implement augmented arithmetic operation `+=' for objects of class."
+     )
+    '(replacement
+        "def __iadd__ (self, rhs) :"
+        @ py-function-body
+        "# end def __iadd__"
+        ""
+     )
+;;; py-class-iadd
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-iand"
+    '(token)
+    '(token                 "__iand__")
+    '(description
+        "Implement augmented arithmetic operation `&=' for objects of class."
+     )
+    '(replacement
+        "def __iand__ (self, rhs) :"
+        @ py-function-body
+        "# end def __iand__"
+        ""
+     )
+;;; py-class-iand
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-idiv"
+    '(token)
+    '(token                 "__idiv__")
+    '(description
+        "Implement augmented arithmetic operation `/=' for objects of class."
+     )
+    '(replacement
+        "def __idiv__ (self, rhs) :"
+        @ py-function-body
+        "# end def __idiv__"
+        ""
+     )
+;;; py-class-idiv
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-init"
+    '(token)
+    '(token                 "__init__")
+    '(token                 "init")
+    '(token                 "constructor")
+    '(description
+        "Initialize a new instance of enclosing class."
+        "This method is used automagically for calls of «py-class-name» (...)."
+        "The return value is ignored."
+     )
+    '(replacement
+        "def __init__ (self, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def __init__"
+        ""
+     )
+;;; py-class-init
+)
+
+;;;   4-Sep-2001
+(lse-define-fill-in "py-class-ilshift"
+    '(token)
+    '(token                 "__ilshift__")
+    '(description
+        "Implement augmented arithmetic operation `<<=` for objects of class."
+     )
+    '(replacement
+        "def __ilshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ilshift__"
+        ""
+     )
+;;; py-class-ilshift
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-imod"
+    '(token)
+    '(token                 "__imod__")
+    '(description
+        "Implement augmented arithmetic operation `%=' for objects of class."
+     )
+    '(replacement
+        "def __imod__ (self, rhs) :"
+        @ py-function-body
+        "# end def __imod__"
+        ""
+     )
+;;; py-class-imod
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-imul"
+    '(token)
+    '(token                 "__imul__")
+    '(description
+        "Implement augmented arithmetic operation `*=' for objects of class."
+     )
+    '(replacement
+        "def __imul__ (self, rhs) :"
+        @ py-function-body
+        "# end def __imul__"
+        ""
+     )
+;;; py-class-imul
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-int"
+    '(token)
+    '(token                 "__int__")
+    '(description
+        "Convert object of class to integer value (called by built-in `int`)."
+     )
+    '(replacement
+        "def __int__ (self) :"
+        @ py-function-body
+        "# end def __int__"
+        ""
+     )
+;;; py-class-int
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-invert"
+    '(token)
+    '(token                 "__invert__")
+    '(description
+        "Implement unary operator `~` for objects of class."
+     )
+    '(replacement
+        "def __invert__ (self) :"
+        @ py-function-body
+        "# end def __invert__"
+        ""
+     )
+;;; py-class-invert
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-ior"
+    '(token)
+    '(token                 "__ior__")
+    '(description
+        "Implement augmented arithmetic operation `|=' for objects of class."
+     )
+    '(replacement
+        "def __ior__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ior__"
+        ""
+     )
+;;; py-class-ior
+)
+
+;;;   4-Sep-2001
+(lse-define-fill-in "py-class-ipow"
+    '(token)
+    '(token                 "__ipow__")
+    '(description
+        "Implement augmented arithmetic operation `**=` for objects of class."
+     )
+    '(replacement
+        "def __ipow__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ipow__"
+        ""
+     )
+;;; py-class-ipow
+)
+
+;;;   4-Sep-2001
+(lse-define-fill-in "py-class-irshift"
+    '(token)
+    '(token                 "__irshift__")
+    '(description
+        "Implement augmented arithmetic operation `>>=` for objects of class."
+     )
+    '(replacement
+        "def __irshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __irshift__"
+        ""
+     )
+;;; py-class-irshift
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-isub"
+    '(token)
+    '(token                 "__isub__")
+    '(description
+        "Implement augmented arithmetic operation `-=' for objects of class."
+     )
+    '(replacement
+        "def __isub__ (self, rhs) :"
+        @ py-function-body
+        "# end def __isub__"
+        ""
+     )
+;;; py-class-isub
+)
+
+;;; 23-Jul-2004
+(lse-define-fill-in "py-class-iter"
+    '(token)
+    '(token                 "__iter__")
+    '(description
+        "Return an iterator object."
+     )
+    '(replacement
+        "def __iter__ (self) :"
+        @ py-function-body
+        "# end def __iter__"
+        ""
+     )
+;;; py-class-iter
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-ixor"
+    '(token)
+    '(token                 "__ixor__")
+    '(description
+        "Implement augmented arithmetic operation `^=' for objects of class."
+     )
+    '(replacement
+        "def __ixor__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ixor__"
+        ""
+     )
+;;; py-class-ixor
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-len"
+    '(token)
+    '(token                 "__len__")
+    '(description
+        "Return length of instance's structure."
+        "Invoked automagically by `len (self)'."
+        ""
+        "Must return an integer."
+     )
+    '(replacement
+        "def __len__ (self) :"
+        @ py-function-body
+        "# end def __len__"
+        ""
+     )
+;;; py-class-len
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-less-equal"
+    '(token)
+    '(token                 "__le__")
+    '(description
+        "Implement binary operator `<=` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __le__ (self, rhs) :"
+        @ py-function-body
+        "# end def __le__"
+        ""
+     )
+;;; py-class-less-equal
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-less-than"
+    '(token)
+    '(token                 "__lt__")
+    '(description
+        "Implement binary operator `<` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __lt__ (self, rhs) :"
+        @ py-function-body
+        "# end def __lt__"
+        ""
+     )
+;;; py-class-less-than
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-long"
+    '(token)
+    '(token                 "__long__")
+    '(description
+        "Convert object of class to long integer value (called by "
+        "built-in `long`)."
+     )
+    '(replacement
+        "def __long__ (self) :"
+        @ py-function-body
+        "# end def __long__"
+        ""
+     )
+;;; py-class-long
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-lshift"
+    '(token)
+    '(token                 "__lshift__")
+    '(description
+        "Implement binary operator `<<` for objects of class."
+     )
+    '(replacement
+        "def __lshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __lshift__"
+        ""
+     )
+;;; py-class-lshift
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-magic"
+    '(token)
+    '(token                 "magic")
+    '(description
+        "Magic methods that allow a user-defined class to emulate a "
+        "core Python type."
+     )
+    '(sort)
+    '(menu
+        py-class-abs
+        py-class-add
+        py-class-and
+        py-class-call
+        py-class-cmp
+        py-class-coerce
+        py-class-complex
+        py-class-contains
+        py-class-del
+        py-class-delattr
+        py-class-delitem
+        py-class-div
+        py-class-divmod
+        py-class-equal
+        py-class-float
+        py-class-getattr
+        py-class-getitem
+        py-class-greater-equal
+        py-class-greater-than
+        py-class-hash
+        py-class-hex
+        py-class-iadd
+        py-class-iand
+        py-class-idiv
+        py-class-ilshift
+        py-class-imod
+        py-class-imul
+        py-class-init
+        py-class-int
+        py-class-invert
+        py-class-ior
+        py-class-ipow
+        py-class-irshift
+        py-class-isub
+        py-class-ixor
+        py-class-len
+        py-class-less-equal
+        py-class-less-than
+        py-class-long
+        py-class-lshift
+        py-class-mod
+        py-class-mul
+        py-class-neg
+        py-class-new
+        py-class-nonzero
+        py-class-not-equal
+        py-class-oct
+        py-class-or
+        py-class-pos
+        py-class-pow
+        py-class-rand
+        py-class-radd
+        py-class-rdiv
+        py-class-rdivmod
+        py-class-repr
+        py-class-rlshift
+        py-class-rmod
+        py-class-rmul
+        py-class-ror
+        py-class-rpow
+        py-class-rrshift
+        py-class-rshift
+        py-class-rsub
+        py-class-rxor
+        py-class-setattr
+        py-class-setitem
+        py-class-str
+        py-class-sub
+        py-class-xor
+     )
+;;; py-class-magic
+)
+
+;;; 23-Feb-2004
+(lse-define-fill-in "py-class-method"
+    '(token)
+    '(token                 "cmdef")
+    '(token                 "def-class-method")
+    '(description           "Define a class method inside the class itself.")
+    '(replacement
+        "def «py-function-name» (cls, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "«py-function-name» = classmethod («py-function-name»)"
+        ""
+     )
+;;; py-class-method
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-mod"
+    '(token)
+    '(token                 "__mod__")
+    '(description
+        "Implement binary operator `%' for objects of class."
+     )
+    '(replacement
+        "def __mod__ (self, rhs) :"
+        @ py-function-body
+        "# end def __mod__"
+        ""
+     )
+;;; py-class-mod
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-mul"
+    '(token)
+    '(token                 "__mul__")
+    '(description
+        "Implement binary operator `*' for objects of class."
+     )
+    '(replacement
+        "def __mul__ (self, rhs) :"
+        @ py-function-body
+        "# end def __mul__"
+        ""
+     )
+;;; py-class-mul
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-class-name"
+    '(description           "Name of a class.")
+    '(auto-replicate        1)
+;;; py-class-name
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-neg"
+    '(token)
+    '(token                 "__neg__")
+    '(description
+        "Implement unary operator `-` for objects of class."
+     )
+    '(replacement
+        "def __neg__ (self) :"
+        @ py-function-body
+        "# end def __neg__"
+        ""
+     )
+;;; py-class-neg
+)
+
+;;; 10-May-2002
+(lse-define-fill-in "py-class-new"
+    '(token)
+    '(token                 "__new__")
+    '(token                 "new")
+    '(description
+        "Create a new instance of enclosing class."
+        "This method is used automagically for calls of «py-class-name» (...)."
+        "The return value is the new instance to which Python automagically "
+        "applies `__init__`."
+     )
+    '(replacement
+        "def __new__ (cls, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def __new__"
+        ""
+     )
+;;; py-class-new
+)
+
+;;;  2-Mar-1998
+(lse-define-fill-in "py-class-nonzero"
+    '(token)
+    '(token                 "__nonzero__")
+    '(description
+        "Return truth value (should return 0 or 1)."
+        "When this method is not defined, __len__ is called, if defined."
+        "If neither __nonzero__ nor __len__ are defined, all instances "
+        "of the class are considered true"
+     )
+    '(replacement
+        "def __nonzero__ (self) :"
+        @ py-function-body
+        "# end def __nonzero__"
+        ""
+     )
+;;; py-class-non-zero
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-not-equal"
+    '(token)
+    '(token                 "__ne__")
+    '(description
+        "Implement binary operator `!=` for objects of class (called in "
+        "preference to __cmp__). Raise NotImplemented if not defined for "
+        "a given pair of argument types."
+     )
+    '(replacement
+        "def __ne__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ne__"
+        ""
+     )
+;;; py-class-not-equal
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-oct"
+    '(token)
+    '(token                 "__oct__")
+    '(description
+         "Implement built-in function `oct` for objects of class. "
+         "Should return a string value."
+     )
+    '(replacement
+        "def __oct__ (self) :"
+        @ py-function-body
+        "# end def __oct__"
+        ""
+     )
+;;; py-class-oct
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-or"
+    '(token)
+    '(token                 "__or__")
+    '(description
+        "Implement binary operator `|' for objects of class."
+     )
+    '(replacement
+        "def __or__ (self, rhs) :"
+        @ py-function-body
+        "# end def __or__"
+        ""
+     )
+;;; py-class-or
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-pos"
+    '(token)
+    '(token                 "__pos__")
+    '(description
+        "Implement unary operator `+` for objects of class."
+     )
+    '(replacement
+        "def __pos__ (self) :"
+        @ py-function-body
+        "# end def __pos__"
+        ""
+     )
+;;; py-class-pos
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-pow"
+    '(token)
+    '(token                 "__pow__")
+    '(description
+        "Implement binary operator `**` for objects of class."
+     )
+    '(replacement
+        "def __pow__ (self, rhs) :"
+        @ py-function-body
+        "# end def __pow__"
+        ""
+     )
+;;; py-class-pow
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-rand"
+    '(token)
+    '(token                 "__rand__")
+    '(description
+        "Implement binary operator `&' for objects of class."
+     )
+    '(replacement
+        "def __rand__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rand__"
+        ""
+     )
+;;; py-class-rand
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-radd"
+    '(token)
+    '(token                 "__radd__")
+    '(description
+        "Implement binary operator `+' for objects of class."
+     )
+    '(replacement
+        "def __radd__ (self, rhs) :"
+        @ py-function-body
+        "# end def __radd__"
+        ""
+     )
+;;; py-class-radd
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-rdiv"
+    '(token)
+    '(token                 "__rdiv__")
+    '(description
+        "Implement binary operator `/' for objects of class."
+     )
+    '(replacement
+        "def __rdiv__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rdiv__"
+        ""
+     )
+;;; py-class-rdiv
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-rdivmod"
+    '(token)
+    '(token                 "__rdivmod__")
+    '(description
+        "Implement binary operator `divmod' for objects of class."
+     )
+    '(replacement
+        "def __rdivmod__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rdivmod__"
+        ""
+     )
+;;; py-class-rdivmod
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-repr"
+    '(token)
+    '(token                 "__repr__")
+    '(description
+        "Convert instance to readable string representation."
+        "Invoked automagically by `self`, `repr (self)', `\"%s\" self', "
+        "and in a few other cases."
+        ""
+        "Must return a string."
+     )
+    '(replacement
+        "def __repr__ (self) :"
+        @ py-function-body
+        "# end def __repr__"
+        ""
+     )
+;;; py-class-repr
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-rlshift"
+    '(token)
+    '(token                 "__rlshift__")
+    '(description
+        "Implement binary operator `<<` for objects of class."
+     )
+    '(replacement
+        "def __rlshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rlshift__"
+        ""
+     )
+;;; py-class-rlshift
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-rmod"
+    '(token)
+    '(token                 "__rmod__")
+    '(description
+        "Implement binary operator `%' for objects of class."
+     )
+    '(replacement
+        "def __rmod__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rmod__"
+        ""
+     )
+;;; py-class-rmod
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-rmul"
+    '(token)
+    '(token                 "__rmul__")
+    '(description
+        "Implement binary operator `*' for objects of class."
+     )
+    '(replacement
+        "def __rmul__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rmul__"
+        ""
+     )
+;;; py-class-rmul
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-ror"
+    '(token)
+    '(token                 "__ror__")
+    '(description
+        "Implement binary operator `|' for objects of class."
+     )
+    '(replacement
+        "def __ror__ (self, rhs) :"
+        @ py-function-body
+        "# end def __ror__"
+        ""
+     )
+;;; py-class-ror
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-rpow"
+    '(token)
+    '(token                 "__rpow__")
+    '(description
+        "Implement binary operator `**` for objects of class."
+     )
+    '(replacement
+        "def __rpow__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rpow__"
+        ""
+     )
+;;; py-class-rpow
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-rrshift"
+    '(token)
+    '(token                 "__rrshift__")
+    '(description
+        "Implement binary operator `>>` for objects of class."
+     )
+    '(replacement
+        "def __rrshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rrshift__"
+        ""
+     )
+;;; py-class-rrshift
+)
+
+;;;  4-Sep-2001
+(lse-define-fill-in "py-class-rshift"
+    '(token)
+    '(token                 "__rshift__")
+    '(description
+        "Implement binary operator `>>` for objects of class."
+     )
+    '(replacement
+        "def __rshift__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rshift__"
+        ""
+     )
+;;; py-class-rshift
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-rsub"
+    '(token)
+    '(token                 "__rsub__")
+    '(description
+        "Implement binary operator `-' for objects of class."
+     )
+    '(replacement
+        "def __rsub__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rsub__"
+        ""
+     )
+;;; py-class-rsub
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-rxor"
+    '(token)
+    '(token                 "__rxor__")
+    '(description
+        "Implement binary operator `^' for objects of class."
+     )
+    '(replacement
+        "def __rxor__ (self, rhs) :"
+        @ py-function-body
+        "# end def __rxor__"
+        ""
+     )
+;;; py-class-rxor
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-setattr"
+    '(token)
+    '(token                 "__setattr__")
+    '(description
+        "Attribute assignment."
+        "Invoked automagically as `self.__setattr__ (self, \"name\", value)'"
+        "to execute `self.name = value'. The return value is ignored."
+     )
+    '(replacement
+        "def __setattr__ (self, name, value) :"
+        @ py-function-body
+        "# end def __setattr__"
+        ""
+     )
+;;; py-class-setattr
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-setitem"
+    '(token)
+    '(token                 "__setitem__")
+    '(description
+        "Invoked automagically by `self [key] = value'."
+        ""
+        "For sequence types, the accepted keys should be integers and "
+        "slice objects."
+     )
+    '(replacement
+        "def __setitem__ (self, key, value) :"
+        @ py-function-body
+        "# end def __setitem__"
+        ""
+     )
+;;; py-class-setitem
+)
+
+;;;  1-Nov-1998
+(lse-define-fill-in "py-class-setslice"
+    '(token)
+    '(token                 "__setslice__")
+    '(description
+        "*** Deprecated since Python 2.0. *** "
+        "Slices should be supported by __setitem__. ***"
+        "Invoked automagically by `self [i:j] = sequence'."
+     )
+    '(replacement
+        "def __setslice__ (self, i, j, seq) :"
+        @ py-function-body
+        "# end def __setslice__"
+        ""
+     )
+;;; py-class-setslice
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-class-str"
+    '(token)
+    '(token                 "__str__")
+    '(description
+        "Convert instance to printable string representation."
+        "Invoked automagically by `print (self)'."
+        ""
+        "Must return a string."
+     )
+    '(replacement
+        "def __str__ (self) :"
+        @ py-function-body
+        "# end def __str__"
+        ""
+     )
+;;; py-class-str
+)
+
+;;; 28-Dec-1998
+(lse-define-fill-in "py-class-sub"
+    '(token)
+    '(token                 "__sub__")
+    '(description
+        "Implement binary operator `-' for objects of class."
+     )
+    '(replacement
+        "def __sub__ (self, rhs) :"
+        @ py-function-body
+        "# end def __sub__"
+        ""
+     )
+;;; py-class-sub
+)
+
+;;; 18-Oct-1999
+(lse-define-fill-in "py-class-xor"
+    '(token)
+    '(token                 "__xor__")
+    '(description
+        "Implement binary operator `^' for objects of class."
+     )
+    '(replacement
+        "def __xor__ (self, rhs) :"
+        @ py-function-body
+        "# end def __xor__"
+        ""
+     )
+;;; py-class-xor
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-compound-statement"
+    '(token)
+    '(description           "Compound python statement.")
+    '(sort)
+    '(menu
+        py-class
+        py-for
+        py-function
+        py-if
+        py-try
+        py-while
+     )
+;;; py-compound-statement
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-continue"
+    '(token)
+    '(token                 "continue")
+    '(description
+        "Continues with the next cycle of the nearest enclosing loop."
+        "Continue may only occur syntactically nested in a for or while loop, but not "
+        "nested in a function or class definition within that loop."
+     )
+    '(replacement           "continue")
+;;; py-continue
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-delete"
+    '(token)
+    '(token                 "delete")
+    '(description
+        "Delete attributes, entries, items, and slices from objects of appropriate types."
+        "Delete ``undefines'' a local variable or removes a global variable."
+     )
+    '(replacement           "del «py-expression-e»···")
+;;; py-delete
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-dictionary"
+    '(token)
+    '(token                 "dictionary")
+    '(description
+        "Mutable finite sets of objects indexed by arbitrary index sets."
+     )
+    '(replacement-leading   "{")
+    '(replacement-trailer   "}")
+    '(replacement           "««py-dict-entry»»···")
+;;; py-dictionary
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-dict-entry"
+    '(token)
+    '(description           "Dictionary entry.")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           "«py-expression» : «py-expression»")
+;;; py-dict-entry
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-dict-obj"
+    '(description           "Dictionary object.")
+;;; py-dict-obj
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-doc-string"
+    '(description
+        "Documentation string elucidating the meaning of the containing class, function, or module."
+        "A documentation string can be examined via the `__doc__' attribute."
+     )
+    '(replacement-leading   "\"\"\"")
+    '(replacement-trailer   "\"\"\"")
+;;; py-doc-string
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-dotted-name"
+    '(description           "Name of a python object in another name space.")
+    '(replacement           "«py-name-d»···")
+;;; py-dotted-name
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-elif"
+    '(token)
+    '(token                 "elif")
+    '(description           "Else-if clause of if statement.")
+    '(replacement
+        "elif «py-expression» :"
+        @ py-block
+     )
+;;; py-elif
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-else"
+    '(token)
+    '(token                 "else")
+    '(description           "Else clause of if, for, try, or while statement.")
+    '(replacement
+        "else :"
+        @ py-block
+     )
+;;; py-else
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-except"
+    '(token                 "except")
+    '(description
+        "Specify one except clause for a try-statement."
+        "An except clause without «py-except-condition» must be last and matches "
+        "any exception."
+     )
+    '(replacement
+        "except ««py-except-condition»» :"
+        @ py-block
+     )
+;;; py-except
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-except-condition"
+    '(description
+        "Handle all exceptions matched by «py-expression»-list. "
+        "The exception is assigned to the «py-except-target», if present."
+     )
+    '(replacement           "(«py-expression-e»···) ««py-except-target»»")
+;;; py-except-condition
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-except-target"
+    '(description           "Assigned to the actual exception handled.")
+    '(replacement-leading   fixup-whitespace ", ")
+;;; py-except-target
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-exec"
+    '(token)
+    '(token                 "exec")
+    '(description
+        "Exec executes data as part of a python program."
+        "The expression should evaluate to either a string, an open file object, "
+        "or a code object."
+        ""
+        "A string is parsed as a suite of python statements which is then executed, "
+        "unless a syntax error occurs."
+        ""
+        "An open file is parsed until EOF and executed."
+        ""
+        "A code object is simply executed."
+     )
+    '(replacement           "exec «py-expression» ««py-exec-namespace»»")
+;;; py-exec
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-exec-namespace"
+    '(description
+        "Specifies name space in which exec statement executes."
+        "Both expressions must be dictionaries. "
+        ""
+        "The first expression is used as dictionary for the global variables "
+        "(and for the local variables unless the second expression is given)."
+        ""
+        "The second expression, if specified, is used as dictionary for the "
+        "local variables."
+     )
+    '(replacement           "in «py-expression», ««py-expression-e»»")
+;;; py-exec-namespace
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-expression"
+    '(description           "Python expression.")
+;    ««fill-in-expansion»»
+;;; py-expression
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-expression-e"
+    '(description           "Python expression.")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           @ py-expression)
+;;; py-expression-e
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-flow-statement"
+    '(token)
+    '(description           "Simple python statements changing the flow of control.")
+    '(sort)
+    '(menu
+        py-break
+        py-continue
+        py-raise
+        py-return
+     )
+;;; py-flow-statement
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-for"
+    '(token)
+    '(token                 "for")
+    '(description
+        "Iterate over the elements of a sequence (string, tuple, or list)."
+     )
+    '(replacement
+        "for «py-name-e»··· in «py-expression-e»··· :"
+        @ py-block
+        "««py-else»»"
+     )
+;;; py-for
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-function"
+    '(token)
+    '(token                 "function")
+    '(token                 "fdef")
+    '(token                 "def"); 4-Jan-2000
+    '(token                 "def-function")
+    '(description           "Define a user-defined function object.")
+    '(replacement
+        "def «py-function-name» (««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def «py-function-name»"
+        ""
+     )
+;;; py-function
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-function-body"
+    '(replacement
+        lse-indent+1
+          "««py-doc-string»»"
+          "«py-statement»···"
+        lse-indent:<
+     )
+;;; py-function-body
+)
+
+;;; 10-Mar-1998
+(lse-define-fill-in "py-function-end-comment"
+    '(token)
+    '(token                 "enddef")
+    '(description
+       "Comment signifying the end of a python function definition."
+       "Use this for long functions."
+     )
+    '(replacement
+        "# end def " & (lse-insert-replica-or-flat "py-function-name")
+     )
+;;; py-function-end-comment
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-function-name"
+    '(description           "Name of a function.")
+    '(auto-replicate        2)
+;;; py-function-name
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-global"
+    '(token)
+    '(token                 "global")
+    '(description
+        "Declares names as global for the entire current scope."
+        "While using global names is automatic if they are not defined in the local"
+        "scope, assigning to global names would be impossible without `global'."
+        ""
+        "The names declared as global must not be used in the current scope before"
+        "this statement is executed."
+        ""
+     )
+    '(replacement           "global «py-name-e»···")
+;;; py-global
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-if"
+    '(token)
+    '(token                 "if")
+    '(description           "Conditional execution.")
+    '(replacement
+        "if «py-expression» :"
+        @ py-block
+        "««py-elif»»···"
+        "««py-else»»"
+     )
+;;; py-if
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-import"
+    '(token)
+    '(token                 "import")
+    '(description
+        "Import a module or names from a module into the current name space."
+     )
+    '(menu
+        py-import-module
+        py-import-from-module
+        py-import-module-dynamically
+     )
+;;; py-import
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-import-from-module"
+    '(token                 "from")
+    '(description
+        "Import a sequence of names from a module as local names in the current name space."
+        "The module will only by loaded if this wasn't already done before."
+     )
+    '(replacement           "from «py-module-name» import «py-name-e»···")
+;;; py-import-from-module
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-import-module"
+    '(description
+        "Import a module as a name in the current name space."
+        "The module will only by loaded if this wasn't already done before."
+     )
+    '(replacement           "import «py-module-name»")
+;;; py-import-module
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-import-module-dynamically"
+    '(description
+        "Import a module named by a dynamic string."
+     )
+    '(replacement
+        "«py-module-name» = __import__ (\"«py-module-name»\")"
+     )
+;;; py-import-module-dynamically
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-inherit"
+    '(description
+        "Declare ancestor classes of newly defined class."
+        "Each «py-expression» must evaluate to a class object."
+     )
+    '(replacement-leading   "(")
+    '(replacement-trailer   ")")
+    '(replacement           "«py-expression-e»···")
+;;; py-inherit
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-lambda"
+    '(token)
+    '(token                 "lambda")
+    '(description
+        "Define an anonymous function returning an expression."
+        "A lambda from must not contain statements."
+     )
+    '(replacement
+        "lambda ««py-parameter-declaration»» : «py-expression»"
+     )
+;;; py-lambda
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-list"
+    '(token)
+    '(token                 "list")
+    '(description           "Mutable sequence of python objects.")
+    '(replacement-leading   "[")
+    '(replacement-trailer   "]")
+    '(replacement           "««py-expression-e»»···")
+;;; py-list
+)
+
+;;;  14-May-2002
+(lse-define-fill-in "py-meta-call"
+    '(token)
+    '(token                 "__mcall__")
+    '(description
+        "Customize instance creation for instances of the classes "
+        "with this metaclass."
+        "This function is called automagically whenever `cls' is called."
+     )
+    '(replacement
+        "def __call__ (cls, * args, ** kw) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««py-statement»»···"
+          "result = super ("
+              & (lse-insert-replica-or-flat "py-class-name")
+              & ", cls).__call__ (* args, ** kw)"
+          "««py-statement»»···"
+          "return result"
+        lse-indent-1
+        "# end def __call__"
+        ""
+     )
+;;; py-meta-call
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-meta-class"
+    '(token)
+    '(token                 "metaclass")
+    '(token                 "mclass")
+    '(description
+        "Define a metaclass object."
+        "A metaclass definition is an executable statement."
+     )
+    '(replacement
+        "class «py-class-name» ««py-inherit»» :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««py-meta-new»»"
+          "««py-meta-init»»"
+          "««py-meta-call»»"
+          "«py-statement»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+        ""
+     )
+;;; py-meta-class
+)
+
+;;; 14-May-2002
+(lse-define-fill-in "py-meta-init"
+    '(token)
+    '(token                 "__minit__")
+    '(token                 "minit")
+    '(description
+        "Initialize a new class-instance of enclosing metaclass."
+        "This method is used automagically for calls of «py-meta-name» (...) "
+        "and for class definitions found in the source code."
+        "The return value is ignored."
+     )
+    '(replacement
+        "def __init__ (cls, name, bases, dict) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««py-statement»»···"
+          "super ("
+              & (lse-insert-replica-or-flat "py-class-name")
+              & ", cls).__init__ (name, bases, dict)"
+          "««py-statement»»···"
+        lse-indent-1
+        "# end def __init__"
+        ""
+     )
+;;; py-meta-init
+)
+
+;;; 14-May-2002
+(lse-define-fill-in "py-meta-method"
+    '(token)
+    '(token                 "metamethod")
+    '(token                 "mmdef")
+    '(token                 "def-meta-method")
+    '(description           "Define a method of a meta class.")
+    '(replacement
+        "def «py-function-name» (cls, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def «py-function-name»"
+        ""
+     )
+;;; py-meta-method
+)
+
+;;; 14-May-2002
+(lse-define-fill-in "py-meta-new"
+    '(token)
+    '(token                 "__mnew__")
+    '(token                 "mnew")
+    '(description
+        "Create a new class instance of enclosing metaclass."
+        "This method is used automagically for calls of «py-meta-name» (...) "
+        "and for class definitions found in the source code."
+        "The return value is the new instance to which Python automagically "
+        "applies `__init__`."
+     )
+    '(replacement
+        "def __new__ (meta, name, bases, dict) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««py-statement»»···"
+          "result = super ("
+              & (lse-insert-replica-or-flat "py-class-name")
+              & ", meta).__new__ (meta, name, bases, dict)"
+          "««py-statement»»···"
+          "return result"
+        lse-indent-1
+        "# end def __new__"
+        ""
+     )
+;;; py-meta-new
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-method"
+    '(token)
+    '(token                 "method")
+    '(token                 "mdef")
+    '(token                 "def-method")
+    '(description           "Define a method of a class.")
+    '(replacement
+        "def «py-function-name» (self, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def «py-function-name»"
+        ""
+     )
+;;; py-method
+)
+
+;;;  9-Apr-1998
+(lse-define-fill-in "py-kieselack"
+    '(token)
+    '(token                 "kieselack")
+    '(replacement           "print \"kieselack\"")
+;;; py-kieselack
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-module-name"
+    '(description           "Name of a python module.")
+    '(replacement           @ py-dotted-name)
+;;; py-module-name
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-name"
+    '(description
+        "Name of a python object: [a-zA-Z_][a-zA-Z0-9_]*."
+     )
+;;; py-name
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-name-d"
+    '(separator             ".")
+    '(leading               ".")
+    '(replacement           @ py-name)
+;;; py-name-d
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-name-e"
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           @ py-name)
+;;; py-name-e
+)
+
+;;;  8-Apr-1999
+(lse-define-fill-in "py-named-arg"
+    '(token)
+    '(description           "Named argument (of funtion call).")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           "«py-name» = «py-expression»")
+;;; py-named-arg
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-none"
+    '(token)
+    '(token                 "none")
+    '(description           "Stands for a non-existing (void) value.")
+    '(replacement           "None")
+;;; py-none
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-object"
+    '(description           "Specify a python object")
+;;; py-object
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-parameter-declaration"
+    '(description           "Declaration of a parameter for a function.")
+    '(separator             lse-newline (lse-align-to-pattern ",\\|(") ", ")
+    '(leading               ",")
+    '(menu
+        py-parameter-simple
+        py-parameter-compound
+        py-parameter-rest
+     )
+;;; py-parameter-declaration
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-parameter-compound"
+    '(description
+        "Declaration of a compound parameter."
+     )
+    '(leading               ",")
+    '(replacement           "(«py-name-e»···) ««py-parameter-default»»")
+;;; py-parameter-compound
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-parameter-default"
+    '(description
+        "Define default value for a parameter."
+        "If a parameter has a default value, all following parameters must"
+        "also have a default value."
+        ""
+        "If the function is called without a value for this parameter, the"
+        "default value is used instead."
+     )
+    '(replacement           "= «py-expression»")
+;;; py-parameter-default
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-parameter-rest"
+    '(description
+        "Allow variable number of arguments. «py-name» is assigned a tuple."
+        "This must be the last parameter."
+     )
+    '(leading               ",")
+    '(rcompletion-trailer   (lse-kill-future-fill-in "py-parameter-declaration" 1))
+    '(menu
+        py-parameter-rest-var
+        py-parameter-rest-key
+        py-parameter-rest-var&key
+     )
+;;; py-parameter-rest
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-parameter-rest-key"
+    '(description
+        "Accept an unrestricted set of keyword/argument pairs and pass as dictionary."
+        "All keyword pairs not associated with another parameter of the calling"
+        "sequence will show up in the dictionary passed to «py-name»."
+        "This must be the very last argument."
+     )
+    '(replacement           "** «py-name»")
+;;; py-parameter-rest-key
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-parameter-rest-var"
+    '(description
+        "Accept an argument list of arbitrary length and pass as tuple to «py-name»."
+        "This must follow all other parameters except a kexword catch-all argument."
+     )
+    '(replacement           "* «py-name»")
+;;; py-parameter-rest-var
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-parameter-rest-var&key"
+    '(description           "Accept both a rest-arg and a keyword catch-all argument.")
+    '(replacement           @ py-parameter-rest-var & ", " & @ py-parameter-rest-key)
+;;; py-parameter-rest-var&key
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-parameter-simple"
+    '(description           "Declaration of a single simple parameter of a function.")
+    '(leading               ",")
+    '(replacement           "«py-name» ««py-parameter-default»»")
+;;; py-parameter-simple
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-pass"
+    '(token)
+    '(token                 "pass")
+    '(description
+        "Pass is a null operation -- when it is executed, nothing happens."
+        "Pass is useful when a statement is required syntactically, but no code needs"
+        "to be executed."
+     )
+    '(replacement           "pass")
+;;; py-pass
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-print"
+    '(token)
+    '(token                 "print")
+    '(description
+        "Print writes the evaluated expressions to standard output. "
+        "If an object is not a string it is first converted to one by using the rules"
+        "of string conversion. A space is written between the objects. A \\n is written"
+        "at the end, unless the statement ends with a comma."
+        ""
+        "A single print writes a \\n."
+     )
+    '(replacement           "print ««py-expression-e»»···««,»»")
+;;; py-print
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-raise"
+    '(token)
+    '(token                 "raise")
+    '(description           "Raises an exception.")
+    '(sort)
+    '(menu
+        py-raise-class
+        py-raise-instance
+        py-raise-string
+     )
+;;; py-raise
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-raise-class"
+    '(description
+        "Raises an exception identified by a class and an instance of this class."
+        "The first «py-expression» must yield a class, the second an instance of that"
+        "class or of one of its derivatives."
+     )
+    '(replacement           "raise «py-expression», «py-expression», ««py-traceback»»")
+;;; py-raise-class
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-raise-instance"
+    '(description
+        "Raises an exception identified by an instance object."
+     )
+    '(replacement           "raise «py-expression», «py-none», ««py-traceback»»")
+;;; py-raise-instance
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-raise-string"
+    '(description
+        "Raises an exception identified by a string."
+        "The first «py-expression» must yield a string."
+     )
+    '(replacement           "raise «py-expression», «py-expression», ««py-traceback»»")
+;;; py-raise-string
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-return"
+    '(token)
+    '(token                 "return")
+    '(description
+        "Leaves the current function call with the specified return value or None."
+        "Return may only occur syntactically nested in a function definition, but not"
+        "in a class definition nested in a function definition."
+        ""
+        "When return passes control out of a try statement with a finally clause, that"
+        "finally clause is executed before really leaving the function."
+     )
+    '(replacement           "return ««py-expression-e»»")
+;;; py-return
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-script-code"
+    '(token)
+    '(token                 "script")
+    '(description
+        "Code to run when a python file is executed as a shell script."
+        "Script code makes python files more versatile -- one file can be"
+        "used as a module exporting functions and as a script."
+        "This makes sense only at the end of the file."
+     )
+    '(replacement
+        lse-no-indent
+        "if __name__ == \"__main__\" :"
+        @ py-block
+     )
+;;; py-script-code
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-simple-statement"
+    '(token)
+    '(description           "Simple python statement.")
+    '(separator             "; ")
+    '(leading               ";")
+    '(sort)
+    '(menu
+        py-access
+        py-assignment
+        py-delete
+        py-exec
+        py-global
+        py-import
+        py-pass
+        py-print
+        @ py-flow-statement
+     )
+;;; py-simple-statement
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-slicing"
+    '(token)
+    '(token                 "slice")
+    '(description
+        "Select a range of items in a sequence object."
+        "The lower and upper bound expressions, if present, must evaluate to plain "
+        "integers; defaults are zero and the sequence's length, respectively"
+        ""
+        "If either bound is negative, the sequence's length is added to it. "
+        ""
+        "The slicing selects all items with index k such that:"
+        ""
+        "    lower-bound <= k < upper-bound"
+        ""
+        "This may be an empty sequence. The bounds may lie outside the range of valid"
+        "sequences."
+     )
+    '(replacement
+        "«py-name» [««py-expression»» : ««py-expression»»]"
+     )
+;;; py-slicing
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-statement"
+    '(token)
+    '(token                 "statement")
+    '(description           "Simple or compound statement of python language.")
+    '(sort)
+    '(menu
+        py-simple-statement
+        py-compound-statement
+     )
+;;; py-statement
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-string"
+    '(description           "Python string literal.")
+    '(menu
+        quoted-text
+        quoted-text-s
+        py-tdq-string
+        py-tsq-string
+     )
+;;; py-string
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-subscription"
+    '(token)
+    '(token                 "subscript")
+    '(description           "Select an item of a sequence or mapping object.")
+    '(replacement           "«py-name» [«py-expression»]")
+;;; py-subscription
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-super-t"
+    '(token)
+    '(token                 "super-t")
+    '(token                 "tsuper")
+    '(description
+       "Returns an unbound super object for «py-type-obj»."
+       "A super object is a magic object returning the appropriate method in"
+       "the class's MRO (method resolution order)."
+     )
+    '(replacement           "super («py-type-obj»)")
+;;; py-super-t
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-super-to"
+    '(token)
+    '(token                 "super-to")
+    '(token                 "tosuper")
+    '(description
+       "Returns a bound super object. Requires isinstance (obj, type)."
+       "Typically used to call a cooperative superclass method: "
+       "`super (c, self).foo (...)`"
+       "A super object is a magic object returning the appropriate method in"
+       "the class's MRO (method resolution order)."
+     )
+    '(replacement           "super («py-class-name», «py-object»)")
+;;; py-super-to
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "super-tt"
+    '(token)
+    '(token                 "super-tt")
+    '(token                 "ttsuper")
+    '(description
+       "Returns a bound super object. Requires issubclass (type2, type)."
+       "A super object is a magic object returning the appropriate method in"
+       "the class's MRO (method resolution order)."
+     )
+    '(replacement           "super («py-type-obj», «py-type-obj»)")
+;;; super-tt
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-swap"
+    '(token)
+    '(token                 "swap")
+    '(description           "Swap the values of two variables.")
+    '(replacement
+        "(«py-swap-var-1», «py-swap-var-2») = "
+        & "("
+        & (lse-insert-replica-or-flat "py-swap-var-1")
+        & ", "
+        & (lse-insert-replica-or-flat "py-swap-var-2")
+        & ")"
+     )
+;;; py-swap
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-swap-var-1"
+    '(description           "First variable to be swapped")
+;;; py-swap-var-1
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-swap-var-2"
+    '(description           "Second variable to be swapped")
+;;; py-swap-var-2
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-tdq-string"
+    '(token                 "\"\"\"")
+    '(description           "Triple quoted string -- can span multiple lines")
+    '(replacement-leading   "\"\"\"")
+    '(replacement-trailer   "\"\"\"")
+    '(replacement           @ text)
+;;; py-tdq-string
+)
+
+;;;  7-Jan-1998
+(lse-define-fill-in "py-tsq-string"
+    '(token                 "'''")
+    '(description           "Triple quoted string -- can span multiple lines")
+    '(replacement-leading   "'''")
+    '(replacement-trailer   "'''")
+    '(replacement           @ text)
+;;; py-tsq-string
+)
+
+;;;  4-May-2001
+(lse-define-fill-in "py-test-def"
+    '(token)
+    '(token                 "test")
+    '(description           "Definition of test code/driver for the module")
+    '(replacement
+        "### unit-test code ############################################################"
+        ""
+        "if __debug__ :"
+        "    import U_Test"
+        ""
+        "    def _unit_test () :"
+        "        class Test_Case (U_Test.Case) :"
+        "            ### Each test case is implemented by a method "
+        "            ### starting with `check_'"
+        ""
+        "            ««py-method»»···"
+        ""
+        "        # end class Test_Case"
+        ""
+        "        ts = U_Test.make_suite (Test_Case, \"check_\")"
+        "        U_Test.Runner ().run (ts)"
+        "    # end def _unit_test"
+        ""
+        "    def _doc_test () :"
+        "        return U_Test.run_module_doc_tests " &
+                     "(\"««text»»" & lse-insert-buffer-name & "\")"
+        "    # end def _doc_test"
+        ""
+        "    def _test () :"
+        "        _unit_test ()"
+        "        _doc_test  ()"
+        "    # end def _test"
+        ""
+        "    if __name__ == \"__main__\" :"
+        "        _test ()"
+        "# end if __debug__"
+        ""
+        "### end unit-test code ########################################################"
+        ""
+     )
+;;; py-test-def
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-tuple"
+    '(token)
+    '(token                 "tuple")
+    '(description           "Immutable sequence of python objects.")
+    '(replacement-leading   "(")
+    '(replacement-trailer   ")")
+    '(replacement           "««py-expression-e»»···, ")
+;;; py-tuple
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-traceback"
+    '(description           "Traceback object used to re-raise an exception.")
+    '(replacement           "sys.exc_traceback")
+;;; py-traceback
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-try"
+    '(description           "Exception handler.")
+    '(sort)
+    '(menu
+        py-try-exc
+        py-try-fin
+     )
+;;; py-try
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-try-exc"
+    '(token)
+    '(token                 "try")
+    '(description
+        "Specify one or more exception handlers for a group of statements."
+        "When an exception occurs in the try-clause, the matching exception"
+        "handler (except clause) is executed."
+        "When no exception occurs, the else-clause is executed, if any."
+     )
+    '(replacement
+        "try :"
+        @ py-block
+        "«py-except»···"
+        "««py-else»»"
+     )
+;;; py-try-exc
+)
+
+;;;  4-Jan-1998
+(lse-define-fill-in "py-try-fin"
+    '(token)
+    '(token                 "finally")
+    '(description
+        "Specify a cleanup handler. The finally-clause is executed in any case."
+     )
+    '(replacement
+        "try :" ;; 17-Sep-2001 blanks removed
+        @ py-block
+        "finally :"
+        @ py-block
+     )
+;;; py-try-fin
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-type"
+    '(token)
+    '(token                 "type")
+    '(description
+        "Python's type class returns the type of an object or a new type"
+     )
+    '(menu
+        ("type («py-object»)"     "Returns the type of «py-object»")
+        py-type-new
+     )
+;;; py-type
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-type-new"
+    '(token)
+    '(token                 "new-type")
+    '(token                 "type-new")
+    '(description           "Returns a new type")
+    '(replacement
+        "type (\"«py-name»\", «py-bases-tuple», «py-dict-obj»)"
+     )
+;;; py-type-new
+)
+
+;;; 15-May-2002
+(lse-define-fill-in "py-type-obj"
+    '(description           "Specify a pyton type object (class or type).")
+;;; py-type-obj
+)
+
+; ««lse-define-fill-in»»···
+
+;;;  3-Jan-1998
+(lse-define-fill-in "py-while"
+    '(token)
+    '(token                 "while")
+    '(description           "Loop statement.")
+    '(replacement
+        "while «py-expression» :"
+        @ py-block
+        "««py-else»»"
+     )
+;;; py-while
+)
+
+; ««lse-define-fill-in»»···
+
+; ««lse-define-fill-in»»···

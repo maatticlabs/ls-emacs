@@ -1,0 +1,112 @@
+!
+! Set wrap on
+!
+SET MODE FILL
+!
+! GOLD [ will set the screen to 132 characters
+! GOLD ] will set the screen to 80 characters
+!
+DEFINE KEY "["/IF_STATE=GOLD "SET SCREEN WIDTH=132"
+DEFINE KEY "]"/IF_STATE=GOLD "SET SCREEN WIDTH=80"
+!
+! GOLD \ will clear out message buffer
+!
+DEFINE KEY "\"/IF_STATE=GOLD -
+"DO/TPU ""MESSAGE("""" """");MESSAGE("""" """");MESSAGE("""" """")"""
+!
+! GOLD ` will set mark spot
+! GOLD ~ will goto mark spot
+!
+DEFINE KEY "`"/IF_STATE=GOLD "SET MARK SPOT"
+DEFINE KEY "~"/IF_STATE=GOLD "GOTO MARK SPOT"
+!
+! GOLD C will compile the current buffer
+!
+DEFINE KEY C/IF_STATE=GOLD	"COMPILE	$"
+!
+! CTRL D will compile the current buffer for debug
+! GOLD CTRL D will compile and review the current buffer for debug
+!
+DEFINE KEY CTRL_D_KEY	"COMPILE	$ /LIST/DEBUG/NOOPT"
+DEFINE KEY CTRL_D_KEY/IF_STATE=GOLD	"COMPILE/REVIEW	$ /LIST/DEBUG/NOOPT"
+!
+! GOLD B will go to the specified buffer
+!
+DEFINE KEY B/IF_STATE=GOLD "GOTO BUFFER"
+!
+! GOLD E will leave review mode
+!
+DEFINE KEY E/IF_STATE=GOLD "END REVIEW"
+!
+! GOLD F will do a GOTO FILE command
+!
+DEFINE KEY F/IF_STATE=GOLD "GOTO FILE"
+!
+! GOLD H will set a mark and then go to the HELP.KEYS buffer
+!
+DEFINE KEY H/IF_STATE=GOLD "DO ""GOTO BUFFER HELP.KEYS"""
+!
+! GOLD Q will leave the editor with the QUIT command (delete new file)
+!
+DEFINE KEY Q/IF_STATE=GOLD "QUIT"
+!
+! GOLD R will set the specified buffer to READ ONLY status
+! GOLD CTRL R will set the specified buffer to WRITE status
+!
+DEFINE KEY R/IF_STATE=GOLD "SET READ_ONLY"
+DEFINE KEY CTRL_R_KEY/IF_STATE=GOLD "SET NOREAD_ONLY"
+!
+! GOLD S will do a substitute
+!
+DEFINE KEY S/IF_STATE=GOLD "SUBSTITUTE"
+!
+! GOLD X will leave the editor with the EXIT command (save new file)
+!
+DEFINE KEY X/IF_STATE=GOLD "EXIT"
+!
+! Define GOLD BKSP to toggle the last two characters with a TPU procedure
+!
+READ/BUFFER=TRANSPOSE BUILD_ENV:TRANSPOSE.TPU
+DO/BUFFER=TRANSPOSE/TPU
+DELETE BUFFER TRANSPOSE
+!
+! Define GOLD M to goto LSE main buffer.
+!
+READ/BUFFER=GOTOMAIN BUILD_ENV:GOTOMAIN.TPU
+DO/BUFFER=GOTOMAIN/TPU
+DELETE BUFFER GOTOMAIN
+!
+! Define GOLD I to read in a temporary file
+!
+READ/BUFFER=INPUTLF BUILD_ENV:INPUTLF.TPU
+DO/BUFFER=INPUTLF/TPU
+DELETE BUFFER INPUTLF
+!
+! Define GOLD P to find the next occurence of a paragraph
+!
+READ/BUFFER=PAR BUILD_ENV:PAR.TPU
+DO/BUFFER=PAR/TPU
+DELETE BUFFER PAR
+!
+! Define GOLD < and GOLD > to shrink and enlarge windows in 2 window mode
+!
+READ/BUFFER=WINDOWS BUILD_ENV:WINDOWS.TPU
+DO/BUFFER=WINDOWS/TPU
+DELETE BUFFER WINDOWS
+!
+! Define GOLD { and GOLD } to highlight and un-highlight matching brace pairs
+!
+READ/BUFFER=MATCHBRACE BUILD_ENV:MATCHBRACE.TPU
+DO/BUFFER=MATCHBRACE/TPU
+DELETE BUFFER MATCHBRACE
+!
+! Define GOLD K 
+!
+READ/BUFFER=LEARNKEY BUILD_ENV:LEARNKEY.TPU
+DO/BUFFER=LEARNKEY/TPU
+DELETE BUFFER LEARNKEY
+DEFINE KEY K/IF_STATE=GOLD "DO ""CALL JB_LEARN_SEQUENCE"""
+!
+! Read in key defs help file
+!
+READ/BUFFER=HELP.KEYS BUILD_ENV:HELPKEYS.LSE

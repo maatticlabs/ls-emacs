@@ -1,0 +1,550 @@
+;-*-unibyte: t;-*-
+
+;;;  3-May-1995 
+(lse-define-fill-in "change-request-desc"
+    '(token)
+    '(description           "Description of change reqest")
+    '(replacement
+        @ current-date & "  «number»  -  «change-request-title» " 
+        & lse-insert-user-abbr-name
+     )
+;;; change-request-desc
+)
+
+;;;  3-May-1995 
+(lse-define-fill-in "change-request-title"
+    '(rcompletion-trailer   just-one-space & (indent-to 69))
+    '(description           "Enter title of change request")
+;;; change-request-title
+)
+
+;;;  3-May-1995 
+(lse-define-fill-in "copyright-notice"
+    '(token)
+    '(description           "Put copyright notice into buffer")
+    '(replacement
+        ""
+        " ************************************************************************"
+        " *                                                                      *"
+        " *     __  __  __  __   __       Mag. Christian Tanzer                  *"
+        " *    /_  /_/ /   /  / /_        Wien                                   *"
+        " *   /__ / | /__ /__/ ___/       Copyright "
+                                                      & lse-insert-year
+                                                       & ", all rights reserved    *"
+        " *                               Alle Rechte vorbehalten                *"
+        " *                                                                      *"
+        " ************************************************************************"
+     )
+;;; copyright-notice
+)
+
+;;;  3-May-1995 
+(lse-define-fill-in "header-comment-postamble"
+    '(token                 "hc_postamble")
+    '(replacement
+         ""
+         " ****************************************************************************"
+         " *                   ERCOS/OLT Change Request History                       *"
+         " ****************************************************************************"
+         "    Date         CRN    -  Title                                    Author   "
+         "    «change-request-desc»···"
+         " ****************************************************************************"
+         ""
+     )
+;;; header-comment-postamble
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-attribute-to-write"
+    '(description           "Attribute of OLT class to be written to BIN_OFTSREAM")
+    '(leading               "<<")
+;;; OLT-attribute-to-write
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-definition"
+    '(token)
+    '(description           "Definition of a class")
+    '(replacement
+        "#include \"DFR_Object_OLT.h\""
+        ""
+        @ OLT-class-header
+        "««OLT-class-definition-body»»"
+     )
+;;; OLT-class-definition
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-definition-body"
+    '(description           "Body of definition of a class")
+    '(replacement
+        "{"
+        lse-indent+1
+        lse-indent-1
+        "  public:    // type definitions"
+        lse-indent+1
+        "typedef DFR_Object_OLT Ancestor;"
+        ""
+        lse-indent-1
+        "  public:    // constructors, destructors, operators"
+        lse-indent+1
+        @ OLT-class-std-constructor
+        @ OLT-class-bin-ifstream-constructor
+        @ OLT-class-destructor
+        @ OLT-Object_OLT-Properties
+        "««attribute-function-member-clause»»"
+        "««OLT-class-invariant»»"
+        ""
+        "««query-function-member-clause»»"
+        "««modifier-function-member-clause»»"
+        ""
+        @ OLT-Object_OLT-protected-Properties
+        ""
+        "««data-member-definition-clause»»"
+        ""
+        "BOOLEAN representation_invariant () const"
+        "  {"
+        lse-indent+1
+        "««assert»»···"
+        "return TRUE;"
+        lse-indent-1
+        "  };"
+        @ OLT-class-default-constructor
+        "««protected-member-declaration»»···"
+        ""
+        @ OLT-class-private-functions
+        lse-indent-1
+        "}; // " & "class " & (lse-insert-replica-or-flat "class-name")
+     )
+;;; OLT-class-definition-body
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-header"
+    '(description           "Header of class definition")
+    '(replacement
+        "class «class-name» : public DFR_Object_OLT"
+     )
+;;; OLT-class-header
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-std-constructor"
+    '(replacement
+        (lse-insert-replica-or-flat "class-name") & "  "
+            & lse-anchor-indent 
+              "(const Identifier_OLT & ident)"
+            lse-expansion-indent 
+            "  : Ancestor (ident)"
+            "  , ««member_initialization»»···"
+            "  {};"
+            ""
+     )
+;;; OLT-class-std-constructor
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-bin-ifstream-constructor"
+    '(replacement
+        (lse-insert-replica-or-flat "class-name") & "  " &
+            "(BIN_IFSTREAM & s)"
+            "  : Ancestor (s)"
+            "  , ««member_initialization»»···"
+            "  {};"
+            ""
+     )
+;;; OLT-class-bin-ifstream-constructor
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-destructor"
+    '(replacement
+        "virtual" & " ~" & (lse-insert-replica-or-flat "class-name")
+            & " () ««inline-function-body»»;"
+        ""
+     )
+;;; OLT-class-destructor
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-Object_OLT-Properties"
+    '(description           "Properties characteristic for descendents of Object_OLT")
+    '(replacement
+        ""
+        lse-indent-1
+        "  public:    // Object_OLT properties"
+        lse-indent+1
+        @ OLT-class-type-function
+        @ OLT-class-cast-function
+        @ OLT-class-write-function
+        @ OLT-class-predicates
+        @ OLT-class-define-function
+        @ OLT-class-usage-allowed
+        ""
+     )
+;;; OLT-Object_OLT-Properties
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-class-invariant"
+    '(replacement
+        "virtual BOOLEAN invariant () const"
+        "  {"
+        lse-indent+1
+        "if (definition_read ())"
+        "  {"
+        "    ««assert»»···"
+        "  };"
+        "return " & (lse-insert-replica-or-flat "class-name")
+                  & "::representation_invariant () "
+        "    && Ancestor::invariant ();"
+        lse-indent-1
+        "  };"
+     )
+;;; OLT-class-invariant
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-type-function"
+    '(replacement
+        "static  const "
+                & (lse-insert-replica-or-flat "class-name") & " prototype;"
+        "static  const Type_OLT & Type  ()       { return * Type_; };"
+        "virtual const Type_OLT & type  () const { return Type (); };"
+        ""
+     )
+;;; OLT-class-type-function
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-cast-function"
+    '(replacement
+        "static  " & (lse-insert-replica-or-flat "class-name")
+                   & " * cast  (Object_OLT * o)"
+        "  {"
+        "    return (" & (lse-insert-replica-or-flat "class-name")
+                   & " *) Type_OLT::cast (o->type (), Type (), o);"
+        "  };"
+        ""
+        "static  " & (lse-insert-replica-or-flat "class-name")
+                   & " * forced_cast  (Object_OLT * o)"
+        "  {"
+        "    return (" & (lse-insert-replica-or-flat "class-name")
+                   & " *) Type_OLT::forced_cast (o->type (), Type (), o);"
+        "  };"
+        ""
+     )
+;;; OLT-class-cast-function
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-write-function"
+    '(replacement
+        "virtual BIN_OFSTREAM   & write (BIN_OFSTREAM & s) const"
+        "  {"
+        "    Ancestor::write (s);"
+        "    return s << ««OLT-attribute-to-write»»;"
+        "  };" 
+        ""
+     )
+;;; OLT-class-write-function
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-class-predicates"
+    '(replacement
+        "virtual BOOLEAN          is_correct_locally  () const;"
+        "virtual BOOLEAN          is_correct_globally () const;"
+        "virtual BOOLEAN          is_unused           () const;"
+        ""
+        "virtual Operand_OLT      as_operand          () const;"
+        "virtual Operand_OLT      as_operand_format   () const;"
+     )
+;;; OLT-class-predicates
+)
+
+;;; 19-May-1995 
+(lse-define-fill-in "OLT-class-define-function"
+    '(replacement
+        "virtual void define "
+            & lse-anchor-indent & 
+              "(«parameter-declaration»···"
+              ")"
+            lse-expansion-indent 
+        "  {"
+        lse-indent+1
+        "««preconditions»»"
+        lse-indent+1
+        "Ancestor::define («text», «text», «text»);"
+        "««statement»»···"
+        lse-indent-1
+        "««postconditions»»"
+        lse-indent-1
+        "  };"
+        ""
+     )
+;;; OLT-class-define-function
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-class-usage-allowed"
+    '(replacement
+        "virtual BOOLEAN usage_allowed (const Source_Context_OLT & s) const"
+        "  { return «text»; }; "
+     )
+;;; OLT-class-usage-allowed
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-Object_OLT-protected-Properties"
+    '(replacement
+        lse-indent-1
+        "  protected: // Object_OLT properties"
+        lse-indent+1
+        "static Type_OLT * Type_;"
+        ""
+        "virtual void define_from_past  (Object_OLT * past);"
+        "virtual void merge_with_past__ (Object_OLT * past);"
+     )
+;;; OLT-Object_OLT-protected-Properties
+)
+
+;;;  1-Apr-1997 
+(lse-define-fill-in "OLT-class-default-constructor"
+    '(replacement
+        ""
+        lse-indent-1
+        "  protected: // constructor for `prototype'"
+        lse-indent+1
+        (lse-insert-replica-or-flat "class-name") & " () {};"
+        ""
+     )
+;;; OLT-class-default-constructor
+)
+
+;;; 12-Apr-1995 
+(lse-define-fill-in "OLT-class-private-functions"
+    '(replacement
+        lse-indent-1
+        "  private:   // prohibited members (don't ever define those)"
+        lse-indent+1
+        "// no copying and assignment possible"
+        (lse-insert-replica-or-flat "class-name")
+                   & "                    (const "
+                   & (lse-insert-replica-or-flat "class-name")
+                   & " & other);"
+        "const " & (lse-insert-replica-or-flat "class-name")
+                   & " & operator = (const "
+                   & (lse-insert-replica-or-flat "class-name")
+                   & " & rhs);"
+     )
+;;; OLT-class-private-functions
+)
+
+;;; 12-Apr-1995
+(lse-define-fill-in "OLT-Type-initialization"
+    '(token)
+    '(description           "Initialize static Type attribute of OLT object")
+    '(replacement
+          ""
+          @ OLT-new-instance
+          ""
+          "const Type_OLT " & (lse-insert-replica-or-flat "class-name")
+                            &  "::Type ="
+          "      Type_OLT («quoted-text», sizeof ("
+                            & (lse-insert-replica-or-flat "class-name")
+                            &  ")"
+                            & ", new_"
+                            & lse-insert-buffer-name
+                            & lse-tpu:change-case-lower 
+                            & ", new_"
+                            & lse-insert-buffer-name
+                            & lse-tpu:change-case-lower 
+                            & ", ««OLT-ancestors»»"
+                            & ");"
+     )
+;;; OLT-Type-initialization
+)
+
+;;; 17-Apr-1995 
+(lse-define-fill-in "OLT-ancestors"
+    '(description           "List of ancestors between class and Object_OLT (blank separated)")
+    '(leading               ",")
+;;; OLT-ancestors
+)
+
+;;; 12-Apr-1995
+(lse-define-fill-in "OLT-new-instance"
+    '(token)
+    '(description           "Define Function which returns a new instance of an OLT object")
+    '(replacement
+        "DEFINE_POLY_CONSTRUCTOR_OBJ_OLT "
+          &"("
+              & (lse-insert-replica-or-flat "class-name")
+              & ", new_" & lse-insert-buffer-name
+                         & lse-tpu:change-case-lower 
+              & ", BIN_IFSTREAM"
+          & ")"
+        "DEFINE_POLY_CONSTRUCTOR_OBJ_OLT "
+          &"("
+              & (lse-insert-replica-or-flat "class-name")
+              & ", new_" & lse-insert-buffer-name
+                         & lse-tpu:change-case-lower 
+              & ", const Identifier_OLT"
+          & ");"
+     )
+;;; OLT-new-instance
+)
+
+;;; 15-Apr-1995 
+(lse-define-fill-in "OLT-property-class-definition"
+    '(token)
+    '(description           "Definition of a class")
+    '(replacement
+        "#include \"Property_OLT.h\""
+        ""
+        @ OLT-property-class-header
+        "««OLT-property-class-definition-body»»"
+     )
+;;; OLT-property-class-definition
+)
+
+;;; 15-Apr-1995 
+(lse-define-fill-in "OLT-property-class-definition-body"
+    '(description           "Body of definition of a class")
+    '(replacement
+        "{"
+        lse-indent+1
+        lse-indent-1
+        "  public:    // type definitions"
+        lse-indent+1
+        "typedef Property_OLT Ancestor;"
+        lse-indent-1
+        "  public:    // constructors, destructors, operators"
+        lse-indent+1
+        @ OLT-class-std-constructor
+        @ OLT-class-bin-ifstream-constructor
+        @ OLT-class-destructor
+        @ OLT-Object_OLT-Properties
+        lse-indent-1
+        "  public:    // attributes"
+        lse-indent+1
+        "virtual BOOLEAN       exportable () const { return TRUE; };"
+        ""
+        "««attribute-function-member»»···"
+        "««OLT-class-invariant»»"
+        ""
+        "««query-function-member-clause»»"
+        "««modifier-function-member-clause»»"
+        ""
+        @ OLT-Object_OLT-protected-Properties
+        ""
+        "««data-member-definition-clause»»"
+        ""
+        "BOOLEAN representation_invariant () const"
+        "  {"
+        lse-indent+1
+        "««assert»»···"
+        "return TRUE;"
+        lse-indent-1
+        "  };"
+        @ OLT-class-default-constructor
+        "««protected-member-declaration»»···"
+        ""
+        @ OLT-class-private-functions
+        lse-indent-1
+        "}; // " & "class " & (lse-insert-replica-or-flat "class-name")
+     )
+;;; OLT-property-class-definition-body
+)
+
+;;; 15-Apr-1995 
+(lse-define-fill-in "OLT-property-class-header"
+    '(description           "Header of class definition")
+    '(replacement
+        "class «class-name» : public Property_OLT"
+     )
+;;; OLT-property-class-header
+)
+
+;; 12-Apr-1995
+(lse-define-fill-in "Test-Program"
+    '(token)
+    '(description           "Template for test program")
+    '(replacement
+        "#define POSTCONDITION_CHECKING 1"
+        "#define INVARIANT_CHECKING     1"
+        "//#define NO_PRECONDITION_CHECKING 1"
+        ""
+        "#include <iostream.h>"
+        "««#include»»···"
+        ""
+        "void test ()"
+        "{"
+        "  ««statement»»···"
+        "};"
+        ""
+        "int main ()"
+        "{"
+        "  cout << \"Begin of " & lse-insert-buffer-name & "\\007\\n\";"
+        "  test ();"
+        "  cout << \"End   of " & lse-insert-buffer-name & "\\007\\n\";"
+        "  return 1;"
+        "}"
+
+     )
+;;; Test-Program
+)
+
+;;;  3-May-1995
+(lse-define-fill-in "Watcom-Bug-Report"
+    '(token)
+    '(description           "Form for bug report to be sent ot WATCOM")
+    '(replacement
+        ""
+        ""
+        "                     BUG REPORT"
+        "                     =========="
+        ""
+        ""
+        ""
+        ""
+        ""
+        "Product:             WATCOM C/C++"
+        "Version:             10.0"
+        "Patch level:         A"
+        "Special support ID:  3039-S"
+        "Registration number: CGAV138589"
+        "Host OS:             Windows for Workgroup 3.11"
+        "Target OS;           DOS/Windows"
+        "Hardware:            i486/66, 20 MB RAM"
+        ""
+        "Severity of bug:     «watcom-bug-severity»"
+        "Description of bug:  «text»"
+        ""
+        ""
+        ""
+        ""
+        ""
+        "Name:                 " & lse-insert-user-full-name
+        "Company:              Mag. Christian Tanzer, Vienna, Austria"
+        "E-mail address:       «your-e-mail»"
+        "Daytime phone number: +43 (1) 876 62 36"
+        "Fax number:           +43 (1) 877 66 92"
+     )
+;;; Watcom-Bug-Report
+)
+
+;;;  3-May-1995
+(lse-define-fill-in "watcom-bug-severity"
+    '(token)
+    '(description           "Severity of compiler bug")
+    '(max-line-move         2)
+    '(menu
+        "Stopping development with no workarounds possible"
+        "Significant problem, temporary workaround possible"
+        "Definite problem, but not a showstopper"
+        "Just letting Watcom know there's a problem"
+     )
+;;; watcom-bug-severity
+)

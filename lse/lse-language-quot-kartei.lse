@@ -1,0 +1,55 @@
+;-*-unibyte: t;-*-
+
+(lse-language:define "quot-kartei"
+  '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-group-chars         "-\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««Quotation-File»»")
+    (lse-language:expand-initial       t)
+   )
+  '(
+    lse-latex-mode:define-keys
+    lse-tpu:toggle-newline-and-indent
+    auto-fill-mode
+    ;: 29-Sep-1996 ;; lse-lingo:use-english; 30-Mar-1996 
+   )
+  '("lse-templates-kartei"
+    "lse-templates-quot"
+   )
+)
+
+; (lse-language:compile "quot-kartei")
+
+;;; 24-May-1995 
+(defun lse-quot-kartei:insert-source ()
+  (interactive "*")
+  (let* ((bname (lse-file-name-sans-extension (buffer-name (current-buffer))))
+         (end   (string-match "_p" bname))
+       )
+    (if end
+        (lse-tpu:insert (substring bname 0 end))
+      (lse-tpu:insert bname)
+    )
+  )
+; lse-quot-kartei:insert-source
+)
+
+;;; 24-May-1995 
+(defun lse-quot-kartei:insert-page ()
+  (interactive "*")
+  (let* ((bname (lse-file-name-sans-extension (buffer-name (current-buffer))))
+         (start (1+ (string-match "_p" bname)))
+         (end   (string-match "_" bname start))
+       )
+    (if (and start end)
+        (progn
+          (lse-tpu:insert "p\\.")
+          (lse-tpu:insert (substring bname (1+ start) end))
+        )
+    )
+  )
+; lse-quot-kartei:insert-page
+)

@@ -1,0 +1,314 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-latex2e-class
+;;;;
+;;;; Purpose
+;;;;    Define LSE templates for the definition of LaTeX2e classes and
+;;;;    packages
+;;;;
+;;;; Revision Dates
+;;;;    26-Aug-1998 (CT) Creation
+;;;;     5-Sep-1998 (CT) Creation continued
+;;;;    ««revision-date»»···
+;;;;--
+;;;;
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\AtBeginDocument"
+    '(token)
+    '(description           "Execute code before begin of document")
+    '(replacement
+        "\\AtBeginDocument"
+        @ code-block
+     )
+;;; \\AtBeginDocument
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\AtEndDocument"
+    '(token)
+    '(description           "Execute code before end of document")
+    '(replacement
+        "\\AtEndDocument"
+        @ code-block
+     )
+;;; \\AtEndDocument
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\AtEndOfClass"
+    '(token)
+    '(description           "Execute code after processing of class is finished")
+    '(replacement
+        "\\AtEndOfClass%"
+        @ code-block
+     )
+;;; \\AtEndOfClass
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\AtEndOfPackage"
+    '(token)
+    '(description           "Execute code after processing of Package is finished")
+    '(replacement
+        "\\AtEndOfPackage%"
+        @ code-block
+     )
+;;; \\AtEndOfPackage
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "class-name"
+    '(description           "Name of class defined by file")
+    '(auto-replicate        100)
+;;; class-name
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "code"
+    '(description           "LaTeX code")
+    '(separator             "%" lse-newline-and-indent)
+    '(leading               "%")
+    '(trailer               "%\n")
+    '(replacement           lse-anchor-indent)
+;;; code
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "code-block"
+    '(replacement
+        lse-indent+1
+        "{«code»···%"
+        "}"
+        lse-indent-1
+     )
+;;; code-block
+)
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\CurrentOption"
+    '(token)
+    '(description
+        "Expands to the name of the current option (used only inside \\DeclareOption)"
+     )
+    '(replacement           "\\CurrentOption")
+;;; \\CurrentOption
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\DeclareOption"
+    '(token)
+    '(description           "Declares an option of a LaTeX2e class or package")
+    '(replacement
+        "\\DeclareOption{«name»}%"
+        @ code-block
+     )
+;;; \\DeclareOption
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\DeclareOptionDefault"
+    '(token)
+    '(description           "Declares code to be executed for all undeclared options")
+    '(replacement
+        "\\DeclareOption*%"
+        @ code-block
+     )
+;;; \\DeclareOptionDefault
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "latex-class"
+    '(token                 "class")
+    '(token)
+    '(description           "Define a LaTeX2e class")
+    '(replacement
+        "%««header-comment»»"
+        "««\\NeedsTeXFormat»»"
+        @ \\ProvidesClass
+     )
+;;; latex-class
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "latex-package"
+    '(token                 "package")
+    '(token)
+    '(description           "Define a LaTeX2e package")
+    '(replacement
+        "%%%%««header-comment»»"
+        "««\\NeedsTeXFormat»»"
+        @ \\ProvidesPackage
+     )
+;;; latex-package
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\LoadClass"
+    '(token)
+    '(description           "Load another class")
+    '(replacement           "\\LoadClass««options»»{«name»}[««v-date»»]")
+;;; \\LoadClass
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\LoadClassWithOptions"
+    '(token)
+    '(description           "Load another class with the options specified for the current class")
+    '(replacement           "\\LoadClassWithOptions{«name»}[««v-date»»]")
+;;; \\LoadClassWithOptions
+)
+
+;;;  5-Sep-1998 
+(lse-define-fill-in "\\NeedsTeXFormat"
+    '(token)
+    '(description           "Declare which TeX format is needed by this class or package")
+    '(replacement
+        "\\NeedsTeXFormat{LaTeX2e}"
+     )
+;;; \\NeedsTeXFormat
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "options"
+    '(description           "Options for class or package")
+    '(replacement-leading   "[")
+    '(replacement-trailer   "]")
+    '(replacement           @ option & ",««option»»···")
+;;; options
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "option"
+    '(description           "Options for class or package")
+    '(separator             ",")
+    '(leading               ",")
+    '(sort)
+    '(menu
+        "10pt"
+        "11pt"
+        "12pt"
+        "draft"
+        "twoside"
+        "twocolumn"
+        "fleqn"
+        "leqno"
+     )
+;;; options
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\OptionNotUsed"
+    '(token)
+    '(description           "Disallow use of option for derived class (used only inside \\DeclareOption)")
+    '(replacement           "\\OptionNotUsed")
+;;; \\OptionNotUsed
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "package-name"
+    '(description           "Name of package defined by file")
+    '(auto-replicate        100)
+;;; package-name
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\PassOptionsToClass"
+    '(token)
+    '(description           "Pass `«option»···' to class «name»")
+    '(replacement           "\\PassOptionsToClass{«option»···}{«name»}")
+;;; PassOptionsToClass
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\PassOptionsToPackage"
+    '(token)
+    '(description           "Pass `«option»···' to package «name»")
+    '(replacement           "\\PassOptionsToPackage{«option»···}{«name»}")
+;;; PassOptionsToPackage
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\ProcessOptions"
+    '(token)
+    '(description           "Process all options specified for class or package")
+    '(replacement           "\\ProcessOptions\\relax")
+;;; \\ProcessOptions
+)
+
+;;;  5-Sep-1998 
+(lse-define-fill-in "\\ProvidesClass"
+    '(token)
+    '(description           "Identify class")
+    '(replacement
+        "\\ProvidesClass{«class-name»}[«v-date» ««text»»]"
+     )
+;;; \\ProvidesClass
+)
+
+;;; 22-Dec-1998 
+(lse-define-fill-in "\\ProvidesFile"
+    '(token)
+    '(description           "Identify class option file")
+    '(replacement
+        "\\ProvidesFile{«file-name»}[«v-date» ««text»»]"
+     )
+;;; \\ProvidesFile
+)
+
+;;;  5-Sep-1998 
+(lse-define-fill-in "\\ProvidesPackage"
+    '(token)
+    '(description           "Identify package")
+    '(replacement
+        "\\ProvidesPackage{«package-name»}[«v-date» ««text»»]"
+     )
+;;; \\ProvidesPackage
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\RequirePackage"
+    '(token)
+    '(description           "Require a package")
+    '(replacement           "\\RequirePackage««options»»{«name»}[««v-date»»]")
+;;; \\RequirePackage
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "\\RequirePackageWithOptions"
+    '(token)
+    '(description           "Require a package with the options specified for the current class")
+    '(replacement           "\\RequirePackageWithOptions{«name»}[««v-date»»]")
+;;; \\RequirePackageWithOptions
+)
+
+;;; 26-Aug-1998 
+(lse-define-fill-in "v-date"
+    '(description           "Date of class or package")
+    '(leading               "[")
+    '(trailer               "]")
+    '(replacement           lse-insert-yyyy/mm/dd)
+;;; v-date
+)
+
+;

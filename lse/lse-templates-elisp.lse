@@ -1,0 +1,465 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "and"
+    '(token)
+    '(description           "Evaluate embedded forms in order until one forms returns nil or return value of last form")
+    '(replacement           "(and «form»···)")
+)
+
+(lse-define-fill-in "arg"
+    '(description           "Arguments of lisp form (blank separated)")
+    '(separator             " ")
+    '(menu
+        "«name»"
+        "&optional «arg»"
+        "&rest arg"
+     )
+)
+
+(lse-define-fill-in "binding"
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(menu
+        ("(«name» «form»)"     "Initialize «name» with value of «form»")
+        ("«name»"              "Initialize «name» with nil")
+     )
+;;; binding
+)
+
+(lse-define-fill-in "catch"
+    '(token)
+    '(description           "Establish return point «symbol» for the throw function for the embedded forms")
+    '(replacement           "(catch «symbol»" @ form-list & ")")
+;;; catch
+)
+
+(lse-define-fill-in "cleanup-form"
+    '(description           "Executed by unwind-protect in all circumstances (but itself not protected!)")
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(replacement           @ form)
+)
+
+(lse-define-fill-in "cond"
+  '(token)
+  '(token                 "case")
+  '(description           "Choose among an arbitrary number of alternatives in textual order")
+  '(replacement
+      "(cond «cond-clause»···"
+      ")"
+   )
+)
+
+(lse-define-fill-in "cond-clause"
+  '(token)
+  '(replacement
+      "(«form»"
+      " ««form»»···"
+      ")"
+   )
+)
+
+(lse-define-fill-in "condition-case"
+    '(token)
+    '(description           "Establish the error handlers «condition-handler»··· around the execution of «form»")
+    '(replacement
+        "(condition-case «condition-var»"
+          lse-indent+1 lse-indent+1
+          "«form»"
+          lse-indent-1
+          "«condition-handler»···"
+          lse-indent-1
+        ")"
+     )
+;;; condition-case
+)
+
+(lse-define-fill-in "condition-handler"
+    '(token)
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(replacement
+        "(«condition-handler-condition»"
+          @ form-list &
+        ")"
+     )
+;;; condition-handler
+)
+
+(lse-define-fill-in "condition-handler-condition"
+    '(description           "(List of) error condition name(s)")
+    '(menu
+        ("«name»"           "Condition handler handles the single condition «name»")
+        ("(«name»···)"      "Condition handler handles all conditions in list of «name»s")
+     )
+;;; condition-handler-condition
+)
+
+(lse-define-fill-in "condition-var"
+    '(description           "Variable bound to a list (error-symbol   data) in case of error for use by condition-handler")
+    '(menu
+        ("nil"              "Error symbol and associated data are not made available to the condition handler")
+        ("«name»"           "Error symbol and associated data are made available in variable «name» to the condition handler")
+     )
+;;; condition-var
+)
+
+(lse-define-fill-in "def-name"
+    '(description           "Name of defined entity")
+    '(auto-replicate        1)
+;;; def-name
+)
+
+;;; 29-Dec-1997 
+(lse-define-fill-in "defconst"
+    '(token)
+    '(description           "Define a lisp constant")
+    '(replacement
+        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        "(defconst «def-name» «form» ««quoted-text»»)"
+     )
+;;; defconst
+)
+
+(lse-define-fill-in "defmacro"
+    '(token)
+    '(description           "Define a lisp macro")
+    '(replacement
+        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        "(defmacro «def-name» " & @ function-definition &
+          "; «def-name»"
+        ")"
+     )
+)
+
+(lse-define-fill-in "defun"
+    '(token)
+    '(description           "Define a named lisp function")
+    '(replacement
+        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        "(defun «def-name» " &
+           @ function-definition &
+        "; «def-name»"
+        ")"
+     )
+) 
+
+;;; 29-Dec-1997 
+(lse-define-fill-in "defvar"
+    '(token)
+    '(description           "Define a lisp variable")
+    '(replacement
+        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        "(defvar «def-name» «form» ««quoted-text»»)"
+     )
+;;; defvar
+)
+
+(lse-define-fill-in "elisp-module"
+    '(description           "Module of elisp functions")
+    '(replacement
+        ";-*-unibyte: t;-*-" ; 22-Feb-2000 
+        ""
+        ";;;;««header-comment»»"
+        "««provide»»"
+        "««require»»···"
+        ""
+        "««defun»»···"
+     )
+;;; elisp-module
+)
+
+(lse-define-fill-in "else-clause"
+  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+  '(replacement @ "progn")
+)
+
+(lse-define-fill-in "form"
+  '(description           "Any valid Elisp form")
+  '(token)
+  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+  '(menu
+      ("«name»"     "Value of variable «name»")
+      ("(«name»)"   "Value of function, macro or special form «name»")
+      and
+      catch
+      cond
+      condition-case
+      if
+      lambda-expression
+      let
+      let*
+      not
+      progn
+      prog1
+      prog2
+      save-excursion
+      save-match-data
+      save-restriction
+      save-window-excursion
+      throw
+      unwind-protect
+      while
+      with-output-to-temp-buffer
+   )
+)
+
+(lse-define-fill-in "form-list"
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(replacement
+        lse-indent+1
+        "«form»···"
+        lse-indent-1
+     )
+;;; form-list
+)
+
+(lse-define-fill-in "function-definition"
+    '(replacement "(««arg»»···)"
+        lse-environment-indent lse-indent+1                            
+        "««quoted-text»»"
+        "««interactive»»"
+        "«form»···"
+        lse-indent-1
+     )
+;;; function-definition
+)
+
+(lse-define-fill-in "if"
+  '(token)
+  '(replacement
+      "(if «form»"
+        lse-indent+1 lse-indent+1
+        "«then-clause»"
+        lse-indent-1
+        "««else-clause»»"
+        lse-indent-1
+      ")"
+   )
+)
+
+(lse-define-fill-in "interactive"
+  '(token)
+  '(description             "Specifies that lisp function is callable interactively")
+  '(replacement             "(interactive ««interactive-arg-descriptor»»)")
+)
+
+(lse-define-fill-in "interactive-arg"
+    '(description           "Description of a single argumment to an interactive lisp function")
+    '(separator             "")
+    '(replacement           @ interactive-arg-code & "««interactive-arg-prompt»»")
+)
+
+(lse-define-fill-in "interactive-arg-code"
+    '(description           "Specify the type of argument expected by an interactive lisp function")
+    '(menu
+        ("a"        "Function name (existing, completion, prompt)")
+        ("b"        "Name of an existing buffer (existing, completion, default, prompt)")
+        ("B"        "Name of a buffer (need not exist) (completion, prompt)")
+        ("c"        "Character; cursor does not move into the echo area (prompt)")
+        ("C"        "Command name  (existing, completion, prompt)")
+        ("d"        "Position of point as a number (no I/O)")
+        ("D"        "Directory name (existing, completion, default, prompt)")
+        ("e\\\\n"   "First or next mouse event in the key sequence invoking the command")
+        ("f"        "Name of an existing file (existing, completion, default, prompt)")
+        ("F"        "Name of a file (need not exist) (completion, default, prompt)")
+        ("k"        "Key sequence; cursor does not move into the echo area (prompt)")
+        ("m"        "Position of mark as a number (no I/O)")
+        ("n"        "Number read with the minibuffer: prefix argument, if any is NOT used (prompt)")
+        ("N"        "Raw prefix argument, if nil, a number is read as with 'n' (prompt)")
+        ("p"        "Numeric prefix argument (no I/O, default = 1)")
+        ("P"        "Raw prefix argument (no I/O)")
+        ("r"        "Point and mark, as TWO numeric arguments, smallest first (no I/O)")
+        ("s"        "Arbitrary text, read in the minibuffer and returned as string (prompt)")
+        ("S"        "Interned symbol whose name is read in the minibuffer (prompt)")
+        ("v"        "Variable declared as user option (existing, completion, prompt)")
+        ("x"        "Lisp object specified in printed representation (prompt)")
+        ("X"        "Lisp form read as with 'x', but then evaluated  (prompt)")
+     )
+;;; interactive-arg-code
+)
+
+(lse-define-fill-in "interactive-arg-descriptor"
+    '(token)
+    '(description           "Specification of the arguments to an interactive function ('*' means function changes the buffer)")
+    '(replacement-leading   "\"")
+    '(replacement-trailer   "\"")
+    '(replacement           "««*»»««interactive-arg»»···")
+)
+
+(lse-define-fill-in "interactive-arg-prompt"
+    '(description           "Specifies a prompt to be displayed to user for missing arguments")
+    '(replacement-trailer   "\\\\n")
+)
+
+(lse-define-fill-in "lambda-expression"
+    '(token)
+    '(description           "Anonymous lisp function")
+    '(replacement           "(lambda " & @ function-definition & ")")
+)
+
+(lse-define-fill-in "let"
+    '(token)
+    '(description           "Binds variables according to «binding»··· and the evaluate all of the «form»··· in textual order returning the value of the last")
+    '(replacement           "(let («binding»···" "     )" @ form-list & ")")
+)
+
+(lse-define-fill-in "let*"
+    '(token)
+    '(description           "Like let, except that each symbol in «binding»··· is bound as soon as its new value is computed")
+    '(replacement           "(let* («binding»···" "      )" @ form-list & ")")
+)
+
+(lse-define-fill-in "not"
+    '(token)
+    '(description           "negate value of form")
+    '(replacement           "(not «form»)")
+)
+
+(lse-define-fill-in "or"
+    '(token)
+    '(description           "Evaluate embedded forms in order until one forms returns non-nil or return nil")
+    '(replacement           "(or «form»···)")
+)
+
+(lse-define-fill-in "prog1"
+    '(token)
+    '(description           "Evaluates all embedded forms sequentially and returns value from first one")
+    '(replacement           "(prog1" @ form-list & ")")
+)
+
+(lse-define-fill-in "prog2"
+    '(token)
+    '(description           "Evaluates all embedded forms sequentially and returns value from second one")
+    '(replacement           "(prog2" @ form-list & ")")
+)
+
+(lse-define-fill-in "progn"
+    '(token)
+    '(description           "Evaluates all embedded forms sequentially and returns value from last one")
+    '(replacement           "(progn" @ form-list & ")")
+)
+
+(lse-define-fill-in "provide"
+    '(token)
+    '(description           "Needed if elisp-module is required somewhere else")
+    '(replacement           "(provide '" & lse-insert-buffer-name & ")")
+)
+
+(lse-define-fill-in "regexp-alternative"
+    '(description           "Match either preceding or following pattern element (i.e., character or group)")
+    '(token)
+    '(replacement           "\\|")
+)
+
+(lse-define-fill-in "regexp-special-item"
+    '(token)
+    '(separator             "")
+    '(menu
+        ("\\`"              "Match empty string at the beginning of buffer or string")
+        ("\\'"              "Match empty string at the end       of buffer or string")
+        ("\\="              "Match empty string, provided it is at point")
+        ("\\s«syntax-code»" "Match any character whose syntax is «syntax-code»")
+        ("\\S«syntax-code»" "Match any character whose syntax is not «syntax-code»")
+        @ regexp-item-escaped
+     )
+;;; regexp-special-item
+)
+
+(lse-define-fill-in "require"
+    '(token)
+    '(description           "Checks whether «symbol» is present; if not then loads the corresponding module (default for ««file-name»» is «symbol»)")
+    '(replacement           "(require «symbol» ««file-name»»)")
+)
+
+(lse-define-fill-in "save-excursion"
+    '(token)
+    '(description           "Executes «form»··· in sequence, preserving the current buffer and its values of point and mark, but not window-buffer correspondeces")
+    '(replacement           "(save-excursion " @ form-list & ")")
+)
+
+(lse-define-fill-in "save-match-data"
+    '(token)
+    '(description           "Execute «form»··· in sequence, preserving the current match data")
+    '(replacement           "(save-match-data " @ form-list & ")")
+)
+
+(lse-define-fill-in "save-restriction"
+    '(token)
+    '(description           "Executes «form»··· in sequence, preserving the narrowing bounds currently in effect (use inside save-excursion if both are necessary)")
+    '(replacement           "(save-restriction " @form-list ")")
+)
+
+(lse-define-fill-in "save-window-excursion"
+    '(token)
+    '(description           "Executes «form»··· in sequence, preserving window sizes and contents, but not the value of ppoint in the current buffer")
+    '(replacement           "(save-window-excursion " @ form-list ")")
+)
+
+(lse-define-fill-in "symbol"
+    '(replacement-leading   "'")
+    '(replacement           @ name)
+)
+
+(lse-define-fill-in "syntax-code"
+    '(token)
+    '(description           "Codes specifying the syntax classes of characters")
+    '(sort)
+    '(menu
+        ("-"     "Whitespace:  normally space, tab, newline and formfeed, etc.")
+        ("w"     "Word constituent:      normally letters and digits")
+        ("_"     "Symbol constituent:    extra characters used in variable and command names along with word constituents")
+        ("."     "Punctuation: most programming languages don't have any")
+        ("("     "Open  parenthesis: often (, [, {")
+        (")"     "Close parenthesis: often ), ], }")
+        ("\""    "String quote: characters delimiting string constants in a programming language")
+        ("\\"    "Escape: character starting an escape sequence inside a string")
+        ("/"     "Character quote: character quoting the following character (not used by any standard emacs mode)")
+        ("$"     "Paired delimiter: TeX use of `$' for begin/end-math-mode")
+        ("'"     "Expression prefix: characters like ',# in lisp")
+        ("<"     "Comment starter: begin a comment")
+        (">"     "Comment ender:   end   a comment")
+     )
+;;; syntax-code
+)
+
+(lse-define-fill-in "then-clause"
+    '(replacement           @  "progn")
+)
+
+(lse-define-fill-in "throw"
+    '(token)
+    '(description           "Return from the (innermost) return point «symbol» prevously established with catch returning the value of «form»")
+    '(replacement           "throw «symbol» «form»")
+)
+
+(lse-define-fill-in "unwind-protect"
+    '(token)
+    '(description           "Execute «form» with a guarantee that «cleanup-form»··· are executed, if control leaves «form», no matter how that happens")
+    '(replacement
+        "(unwind-protect"
+          lse-indent+1 lse-indent+1
+          "«form»"
+          lse-indent-1
+          "«cleanup-form»···"
+          lse-indent-1
+        ")"
+     )
+;;; unwind-protect
+)
+
+(lse-define-fill-in "while"
+    '(token)
+    '(description           "Evaluate embedded forms as long as first form returns true")
+    '(replacement           "(while «form»" @ form-list & ")")
+)
+
+(lse-define-fill-in "with-output-to-temp-buffer"
+    '(token)
+    '(description           "Execute «form»··· while arranging to insert any output they print into the buffer «name»")
+    '(replacement
+        "(with-output-to-temp-buffer «name»"
+          @ form-list &
+        ")"
+     )
+;;; with-output-to-temp-buffer
+)
+

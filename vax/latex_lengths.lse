@@ -1,0 +1,53 @@
+!
+!
+! Length Commands
+!
+delete token \setlength
+define token \setlength -
+	/language=latex -
+	/descr = "Set an existing length to a specified value" -
+	/topic_string="LATEX Commands Lengths \setlength" -
+
+"\setlength{\<length_name>}{<dimension>}"
+end define
+
+delete token \addtolength
+define token \addtolength -
+	/language=latex -
+	/descr = "Add a specified amount to an existing length command" -
+	/topic_string="LATEX Commands Lengths \addtolength" -
+
+"\addtolength{\<length_name>}{<dimension>}"
+end define
+
+delete token \settowidth
+define token \settowidth -
+	/language=latex -
+	/descr = "Set an existing length command to the width of the specified text" - 
+	/topic_string="LATEX Commands Lengths \settowidth" -
+
+"\settowidth{\<length_name>}{<text>}"
+end define
+
+delete placeholder length_name
+define placeholder length_name -
+	/language=latex -
+	/descr="Length name identifier"-
+	/topic_string="LATEX Commands Lengths" -
+	/type=terminal -
+
+"Enter the name of your length commands"
+end define
+
+delete placeholder dimension
+define placeholder dimension -
+	/language=latex -
+	/descr = "Length entry" -
+	/topic_string=" " -
+	/type=terminal -
+
+"e.g. 1in, 5mm, 15pt"
+end define
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_LENGTHS.LSE
+!	 *1    30-JAN-1986 15:31:46 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_LENGTHS.LSE

@@ -1,0 +1,315 @@
+!
+!
+! Spaces and Boxes
+!
+delete token \hspace
+define token \hspace -
+	/language=latex -
+	/descr = "Insert horizontal space" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \hspace" -
+
+"\hspace<<star>>{<dimension>}"
+end define
+
+delete token \vspace
+define token \vspace -
+	/language=latex -
+	/descr = "Insert vertical space" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \vspace" -
+
+"\vspace<<star>>{<dimension>}"
+end define
+
+delete token \addvspace
+define token \addvspace -
+	/description="Add vertical space between paragraphs" -
+	/language=latex -
+	/topic_string="LATEX Commands Spaces_and_Boxes \addvspace" -
+
+"\addvspace{<dimension>}"
+end define
+
+delete token \smallskip
+define token \smallskip -
+	/language=latex -
+	/descr = "Vertical space of \smallskipamount" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \smallskip" -
+
+"\smallskip"
+end define
+
+delete token \medskip
+define token \medskip -
+	/language=latex -
+	/descr = "Vertical space of \medskipamount" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \medskip" -
+
+"\medskip"
+end define
+
+delete token \bigskip
+define token \bigskip -
+	/language=latex -
+	/descr = "Vertical space of \bigskipamount" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \bigskip" -
+
+"\bigskip"
+end define
+
+delete token \vfill
+define token \vfill -
+	/description="Add infinitely stretchable vertical space" -
+	/language=latex -
+	/topic_string="LATEX Commands Spaces_and_Boxes \vfill" -
+
+"% If this is the beginning of a new page, you must insert an empty \mbox{}"
+"% or use the command \vspace*{\fill}"
+"\vfill"
+end define
+
+delete token \hfill
+define token \hfill -
+	/description="Add infinitely stretchable horizontal space" -
+	/language=latex -
+	/topic_string="LATEX Commands Spaces_and_Boxes \hfill" -
+
+"% If this is the beginning of a new line, you must insert an empty \mbox{}"
+"% or use the command \hspace*{\fill}"
+"\hfill"
+end define
+
+delete token \dotfill
+define token \dotfill -
+	/description="Horizontal fill with dots" -
+	/language=latex -
+	/topic_string = "LATEX Commands Spaces_and_Boxes \dotfill" -
+
+"\dotfill"
+end define
+
+delete token \hrulefill
+define token \hrulefill -
+	/description="Horizontal fill with a line" -
+	/language=latex -
+	/topic_string="LATEX Commands Spaces_and_Boxes \hrulefill" -
+
+"\hrulefill"
+end define
+
+delete token \indent
+define token \indent -
+	/description="Add horizontal space in the amount of mormal indentation" -
+	/language=latex -
+	/topic_string="LATEX Commands Making_Paragraphs \indent" -
+
+"\indent"
+end define
+
+delete token \noindent
+define token \noindent -
+	/description="Suppress paragraph indentation" -
+	/language=latex -
+	/topic_string="LATEX Commands Making_Paragraphs \noindent" -
+
+"\noindent"
+end define
+
+delete token \makebox
+define token \makebox -
+	/language=latex -
+	/descr = "Generate a box as specified containing the text specified"-
+	/topic_string="LATEX Commands Spaces_and_Boxes \makebox" -
+
+"\makebox<<optional_width>><<position>>{<text>}"
+end define
+
+delete token \mbox
+define token \mbox -
+	/language=latex -
+	/descr = "Short form of the \makebox command" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \mbox" -
+
+"\mbox{<text>}"
+end define
+
+delete token \framebox
+define token \framebox -
+	/language=latex -
+	/descr = "Frame a box as specified containing the text specified"-
+	/topic_string="LATEX Commands Spaces_and_Boxes \framebox" -
+
+"\framebox<<optional_width>><<position>>{<text>}"
+end define
+
+delete token \fbox
+define token \fbox -
+	/language=latex -
+	/descr = "Short form of the \framebox command" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \fbox" -
+
+"\fbox{<text>}"
+end define
+
+delete token \newsavebox
+define token \newsavebox -
+	/language=latex -
+	/descr = "Create a new box for future use" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \newsavebox" -
+
+"\newsavebox{\<box_name>}"
+end define
+
+delete token \savebox
+define token \savebox -
+	/language=latex -
+	/descr = "Define the contents of the named box" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \savebox" -
+
+"\savebox{\<box_name>}<<optional_width>>{<text>}"
+end define
+
+delete token \usebox
+define token \usebox -
+	/language=latex -
+	/descr = "'Execute' the saved box" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \usebox" -
+
+"\usebox{\<box_name>}"
+end define
+
+delete placeholder box_name
+define placeholder box_name -
+	/language=latex -
+	/descr="\newsavebox, \savebox, and \usebox box name"-
+	/topic_string="LATEX Commands Spaces_and_Boxes \newsavebox" -
+	/type=terminal -
+
+"Enter the name of box."
+end define
+
+delete token \parbox
+define token \parbox -
+	/language=latex -
+	/descr = "Generate a box in paragraph mode" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \parbox" -
+
+"\parbox<<parbox_pos>>{<width>}{<text>}"
+end define
+
+delete placeholder parbox_pos
+define placeholder parbox_pos -
+	/language=latex -
+	/descr = "Valid \parbox positioning options" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \parbox" -
+
+"[<top|center|bottom>]"
+end define
+
+delete placeholder minipage_pos
+define placeholder minipage_pos -
+	/language=latex -
+	/descr = "Valid minipage positioning options" -
+	/topic_string="LATEX Commands Environments minipage" -
+
+"[<top|center|bottom>]"
+end define
+
+delete placeholder top|center|bottom
+define placeholder top|center|bottom -
+	/language=latex -
+	/descr = "top or center or bottom" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \parbox" -
+	/type=menu -
+
+"t"
+"c"
+"b"
+end define
+
+delete token \rule
+define token \rule -
+	/language=latex -
+	/descr = "Draw a horizontal line" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \rule" -
+
+"\rule<<raise_height>>{<width>}{<height>}"
+end define
+
+delete placeholder raise_height
+define placeholder raise_height -
+	/language=latex -
+	/descr = "Height a \rule will be raisd above the line" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \raisebox" -
+
+"[<dimension>]"
+end define
+
+delete token \raisebox
+define token \raisebox -
+	/language=latex -
+	/descr = "Raise the text as specified" -
+	/topic_string="LATEX Commands Spaces_and_Boxes \raisebox" -
+
+"\raisebox{<dimension>}<<ext_above_height>><<ext_below_height>>{<text>}"
+end define
+
+delete placeholder ext_above_height
+define placeholder ext_above_height -
+	/language=latex -
+	/descr = "The amount the text extends above the bottom of the line"-
+	/topic_string="LATEX Commands Spaces_and_Boxes \raisebox" -
+
+"[<dimension>]"
+end define
+
+delete placeholder ext_below_height
+define placeholder ext_below_height -
+	/language=latex -
+	/descr = "The amount the text extends below the bottom of the line"-
+	/topic_string="LATEX Commands Spaces_and_Boxes \raisebox" -
+
+"[<dimension>]"
+end define
+
+delete placeholder position
+define placeholder position -
+	/language=latex -
+	/descr = "\makebox, framebox, \shortstack optional position argument" -
+	/topic_string=" " -
+
+"[<right|center|left>]"
+end define
+
+delete placeholder optional_width
+define placeholder optional_width -
+	/language=latex -
+	/descr = "\makebox, \framebox, and \savebox optional width argument" -
+	/topic_string=" " -
+
+"[<dimension>]"
+end define
+
+delete placeholder width
+define placeholder width -
+	/description = "\parbox, \rule, \minipage required width parameter" -
+	/language = latex -
+	/topic_string = "" -
+	/type = terminal
+
+"Enter a value, e.g. 10pt, 1in, 3cm, etc."
+end define
+
+delete placeholder height
+define placeholder height -
+	/description = "\rule required height parameter" -
+	/language = latex -
+	/topic_string = "" -
+	/type = terminal
+
+"Enter a value, e.g. 10pt, 1in, 3cm, etc."
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_SPACES_AND_BOXES.LSE
+!	 *2    28-FEB-1986 10:30:51 MCPHERSON "Fix the \rule token"
+!	 *1    30-JAN-1986 15:32:21 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_SPACES_AND_BOXES.LSE

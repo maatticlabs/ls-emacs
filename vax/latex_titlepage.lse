@@ -1,0 +1,51 @@
+!
+!
+! Title page commands
+!
+delete token \title
+define token \title -
+	/language=latex -
+	/descr = "Text used by the \maketitle command" -
+	/topic_string="LATEX Commands Page_Styles \maketitle \title" -
+
+"\title{<paragraph_text>...}"
+end define
+
+delete token \author
+define token \author -
+	/language=latex -
+	/descr = "Author used by the \maketitle command" -
+	/topic_string="LATEX Commands Page_Styles \maketitle \author" -
+
+"\author{<paragraph_text>...}"
+end define
+
+delete token \date
+define token \date -
+	/description="Declare document date, used by \maketitle command" -
+	/language=latex -
+	/topic_string="LATEX Commands Page_Styles \maketitle \date" -
+
+"\date{<text>}"
+end define
+
+delete token \thanks
+define token \thanks -
+	/description="Produce a footnote to the title made by \maketitle" -
+	/language=latex -
+	/topic_string="LATEX Commands Page_Styles \maketitle \thanks" -
+
+"\thanks{<text>}"
+end define
+
+delete token \maketitle
+define token \maketitle -
+	/language=latex -
+	/descr = "Generate a title page" -
+	/topic_string="LATEX Commands Page_Styles \maketitle" -
+
+"\maketitle"
+end define
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_TITLEPAGE.LSE
+!	 *1    30-JAN-1986 15:32:32 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_TITLEPAGE.LSE

@@ -1,0 +1,36 @@
+;-*-unibyte: t;-*-
+
+
+(lse-language:define "buchhaltung-haus"
+    '(
+        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:tab-increment        2)
+        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-group-chars         "-\@_")
+        (lse_comment_head_delim            "%")
+        (lse_comment_head_delim_pattern    "%+ *")
+        (lse_comment_delim_char_set        "%")
+        (lse-language:expand-initial       t)
+     )
+    '(
+     )
+    '(
+        "lse-templates-kontenplan-haus"
+        "lse-templates-buchhaltung"
+        "lse-templates-buchhaltung-ct"
+        "lse-templates-buchhaltung-haus"
+     )
+    137
+     67
+;;; buchhaltung
+)
+
+;;;
+;;; buchhaltung mode
+;;;
+(defun lse-buchhaltung-haus-mode ()
+  (interactive)
+  (lse-language:use "buchhaltung-haus")
+  (local-set-key [tab] 'lse-expand-or-goto-next)
+)
+

@@ -1,0 +1,611 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in ":."
+  '(menu
+      ":"
+      "."
+   )
+)
+
+(lse-define-fill-in "+-"
+  '(menu
+      "-"
+      "+"
+   )
+)
+
+(lse-define-fill-in "."
+    '(description   "Expands into a single period `.'")
+    '(replacement   ".")
+)
+
+;;;  3-Jan-1998
+(lse-define-fill-in ","
+    '(description   "Expands into a single comma `,'")
+    '(replacement   ",")
+)
+
+(lse-define-fill-in "!"
+    '(description   "Expands into a single exclamation mark `!'")
+    '(replacement   "!")
+)
+
+(lse-define-fill-in "^"
+    '(description   "Expands into a single caret `^'")
+    '(replacement   "^")
+)
+
+(lse-define-fill-in "*"
+    '(description   "Expands into a single star `*'")
+    '(replacement   "*")
+)
+
+(lse-define-fill-in "-"
+  '(description     "Expands into a single minus `-'")
+  '(replacement     "-")
+)
+
+(lse-define-fill-in "1|2"
+    '(menu
+        "1"
+        "2"
+     )
+)
+
+(lse-define-fill-in "argument-name"
+    '(description           "Enter name of argument")
+    '(separator             " ")
+;;; argument-name
+)
+
+(lse-define-fill-in "arithmetic-expression"
+  '(replacement   @ "text")
+)
+
+(lse-define-fill-in "char"
+    '(description           "Type a single character")
+)
+
+(lse-define-fill-in "class"
+    '(description           "Enter name of class")
+)
+
+;;;  3-May-1995
+;;; maybe *** site-specific ***
+(lse-define-fill-in "copyright-notice"
+    '(token)
+    '(description           "Put copyright notice into buffer")
+    '(replacement
+        " Copyright (C) " & lse-insert-year
+                          & " "
+                          & @ this-company-name
+                          & " All rights reserved"
+        " "               & @ this-company-address;  9-Nov-1995
+                          & ". "
+                          & @ this-company-e-mail;  2-Mar-1998
+        " ««license»»";  7-Oct-1996
+     )
+;;; copyright-notice
+)
+
+(lse-define-fill-in "current-buffer-name"
+  '(description     "Inserts name of current buffer")
+  '(token           "Buffer-Name")
+  '(auto-replicate  100)
+  '(replacement     lse-insert-buffer-name)
+)
+
+(lse-define-fill-in "current-date"
+   '(description    "This expands to the current date")
+   '(token)
+   '(auto-replicate 100)
+   '(replacement    lse-insert-dd-mmm-yyyy)
+)
+
+(lse-define-fill-in "current-date-dd-mm-yyyy"
+   '(description   "This expands to the current date")
+   '(token)
+   '(auto-replicate 100)
+   '(replacement   lse-insert-dd-mm-yyyy)
+)
+
+(lse-define-fill-in "date"
+    '(description           "Enter a valid date")
+)
+
+(lse-define-fill-in "day"
+  '(description   "Day in numeric format (01--31)")
+)
+
+(lse-define-fill-in "digit"
+  '(description     "Enter a single, valid digit: 0123456789")
+)
+
+(lse-define-fill-in "directory-name"
+    '(description           "Enter name of directory")
+    '(separator             " ")
+)
+
+
+(lse-define-fill-in "file-name"
+  '(separator             " ")
+  '(description           "Name of file")
+)
+
+;;;  9-Nov-1995
+(lse-define-fill-in "GNU-General-Public-License"
+    '(token                 "GPL")
+    '(token)
+    '(description           "Text of GPL for inclusion into source file")
+    '(replacement
+        "****************************************************************************"
+        "««text»»"
+        ""
+        "This program is free software; you can redistribute it and/or modify"
+        "it under the terms of the GNU General Public License as published by"
+        "the Free Software Foundation; either version 2 of the License, or"
+        "(at your option) any later version."
+        ""
+        "This program is distributed in the hope that it will be useful,"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+        "GNU General Public License for more details."
+        ""
+        "You should have received a copy of the GNU General Public License"
+        "along with this program; if not, write to the Free Software"
+        "Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
+        "****************************************************************************"
+     )
+;;; GNU-General-Public-License
+)
+
+;;;  9-Nov-1995
+(lse-define-fill-in "GNU-Library-General-Public-License"
+    '(token                 "LGPL")
+    '(token)
+    '(description           "Text of Library-GPL for inclusion into source file")
+    '(replacement
+        "****************************************************************************"
+        "««text»»"
+        ""
+        "This library is free software; you can redistribute it and/or"
+        "modify it under the terms of the GNU Library General Public"
+        "License as published by the Free Software Foundation; either"
+        "version 2 of the License, or (at your option) any later version."
+        ""
+        "This library is distributed in the hope that it will be useful,"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU"
+        "Library General Public License for more details."
+        ""
+        "You should have received a copy of the GNU Library General Public"
+        "License along with this library; if not, write to the Free"
+        "Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
+        "****************************************************************************"
+     )
+;;; GNU-Library-General-Public-License
+)
+
+(lse-define-fill-in "group"
+  '(description   "Name of group")
+)
+
+;;; maybe *** site-specific ***
+(lse-define-fill-in "header-comment"
+    '(token)
+    '(token                 "comment-header")
+    '(description           "Comment header for source file")
+    '(replacement
+        @ copyright-notice
+        @ header-comment-preamble  ;  3-May-1995
+        "++"
+        " Name"
+        "    "  & lse-insert-buffer-name
+        ""
+        " Purpose"
+        "    «text»···"
+        ""
+        & @ header-comment-language-specific
+        " Revision Dates"
+        "    "  & @ current-date
+                & " ("
+                & @ initialen
+                & ") Creation"
+        "    ««revision-date»»···"
+        "--"
+        @ header-comment-postamble  ;  3-May-1995
+     )
+;;; header-comment
+)
+
+(lse-define-fill-in "header-comment-language-specific"
+;;; to be defined language specific
+)
+
+;;;  3-May-1995
+(lse-define-fill-in "header-comment-postamble"
+;;; to be defined language specific
+)
+
+;;;  3-May-1995
+(lse-define-fill-in "header-comment-preamble"
+;;; to be defined language specific
+)
+
+(lse-define-fill-in "hex-digit"
+  '(description     "Enter a single, valid hexadecimal digit: 0123456789ABCDEF")
+)
+
+(lse-define-fill-in "hour:HH"
+  '(description   "Hour in numeric format (00--24)")
+)
+
+(lse-define-fill-in "identifier"
+   '(description    "Name of entity")
+   '(separator      ", ")
+   '(leading        ",")
+)
+
+(lse-define-fill-in "identifier-a"
+   '(auto-replicate 1)
+   '(description    "Name of entity")
+   '(separator      ", ")
+   '(leading        ",")
+)
+
+;;; maybe *** site-specific ***
+(lse-define-fill-in "initialen"
+  '(description     "Initials of author (e.g., `rms')")
+  '(token)
+  '(replacement     lse-insert-user-initials)
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "letter-uc"
+  '(description     "Enter a single, valid uppercase letter: ABCD...Z")
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "letter-lc"
+  '(description     "Enter a single, valid lowercase letter: abcd...z")
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "letter"
+  '(description     "Enter a single, valid letter: ABCD...Zabcd...z")
+)
+
+;;; 26-Jun-1995
+(lse-define-fill-in "lse-kill:dont-move"
+    '(token)
+    '(description           "Toggle dont-move flag of lse-kill")
+    '(replacement           (setq lse-kill:dont-move (not lse-kill:dont-move)))
+;;; lse-kill:dont-move
+)
+
+;;;  7-Oct-1996
+;;; maybe *** site-specific ***
+(lse-define-fill-in "License"
+    '(token)
+    '(description           "Expands to license")
+    '(sort)
+    '(menu
+        GNU-General-Public-License
+        GNU-Library-General-Public-License
+     )
+;;; License
+)
+
+(lse-define-fill-in "minute:MM"
+  '(description     "Minute in numeric format (00--60)")
+)
+
+(lse-define-fill-in "month:Mmm"
+  '(description   "3-character month name (Jan-Dec)")
+)
+
+(lse-define-fill-in "month:MM"
+  '(description   "Month in numeric format (1--12)")
+)
+
+(lse-define-fill-in "name"
+   '(description   "Name of entity")
+   '(separator     " ")
+)
+
+(lse-define-fill-in "no"
+    '(replacement   "no")
+)
+
+(lse-define-fill-in "number"
+  '(description           "Enter a valid number")
+)
+
+(lse-define-fill-in ".number"
+  '(description           "Enter a valid number")
+  '(leading               ".")
+)
+
+(lse-define-fill-in "number-list"
+  '(description   "List of numbers: elements are either single numbers or ranges, separated by commas")
+  '(replacement   "«number-or-range»···")
+)
+
+(lse-define-fill-in "number-or-letter"
+  '(description   "Enter a valid number or a single letter")
+)
+
+(lse-define-fill-in "number-or-range"
+  '(separator ", ")
+  '(leading   ",")
+  '(menu
+      ("«number»"           "Single number")
+      ("«number»-«number»"  "Number range")
+   )
+)
+
+(lse-define-fill-in "octal-digit"
+  '(description     "Enter a single, valid octal digit: 01234567")
+)
+
+(lse-define-fill-in "owner"
+  '(description   "Name of owner")
+)
+
+(lse-define-fill-in "quoted-text"
+   '(description         "Text quoted by double quotes")
+   '(replacement-leading "\"")
+   '(replacement-trailer "\"")
+   '(replacement         @ "text")
+)
+
+(lse-define-fill-in "quoted-text-s"
+   '(description         "Text quoted by single quotes")
+   '(replacement-leading "'")
+   '(replacement-trailer "'")
+   '(replacement         @ "text")
+)
+
+;;; maybe *** site-specific ***
+(lse-define-fill-in "revision-date"
+   '(description   "Revision date of file")
+   '(token)
+   '(auto-expand) ; 17-Aug-2000
+   '(replacement
+     (line
+       @ "current-date"
+       " ("
+       @ "initialen"
+       ") ««text»»"
+     )
+   )
+)
+
+(lse-define-fill-in "source-file"
+  '(separator             " ")
+  '(description           "Source for file operation")
+)
+
+(lse-define-fill-in "target-file"
+  '(separator             " ")
+  '(description           "Target for file operation")
+)
+
+(lse-define-fill-in "target-directory"
+  '(separator             " ")
+  '(description           "Target directory for file operation")
+)
+
+(lse-define-fill-in "text"
+   '(description   "Enter your text here")
+)
+
+(lse-define-fill-in "text-block"
+    '(replacement
+        lse-indent+1
+        "«text»···"
+        lse-indent-1
+     )
+;;; text-block
+)
+
+(lse-define-fill-in "time"
+    '(description           "Enter valid time")
+)
+
+(lse-define-fill-in "time-unit"
+  '(description   "Unit for time specfication")
+  '(menu
+      "minute"
+      "hour"
+      "day"
+      "week"
+      "month"
+      "year"
+   )
+)
+
+(lse-define-fill-in "user"
+  '(description   "Name of user")
+)
+
+(lse-define-fill-in "week-day"
+  '(description   "Day of week")
+  '(menu
+      "Monday"
+      "Tuesday"
+      "Wednesday"
+      "Thursday"
+      "Friday"
+      "Saturday"
+      "Sunday"
+   )
+)
+
+(lse-define-fill-in "week-day-3"
+  '(description   "Day of week (3 letter abbreviation)")
+  '(menu
+      "Mon"
+      "Tue"
+      "Wed"
+      "Thu"
+      "Fri"
+      "Sat"
+      "Sun"
+   )
+)
+
+(lse-define-fill-in "year:YY"
+  '(description   "Year in numeric format (01--99)")
+)
+
+(lse-define-fill-in "year:YYYY"
+  '(description   "Year in numeric format (e.g., 2001)")
+)
+
+(lse-define-fill-in "your-name"
+  '(description   "Name of author (e.g., `Stallman')")
+  '(token)
+  '(auto-replicate 100)
+  '(replacement    lse-insert-user-name)
+)
+
+(lse-define-fill-in "your-login-name"
+  '(description    "Login name of author (e.g., `rms')")
+  '(token)
+  '(replacement    lse-insert-user-login-name)
+)
+
+(lse-define-fill-in "y/n"
+  '(description   "Yes or No")
+  '(menu
+      "Y"
+      "N"
+   )
+)
+
+;;; 29-Aug-2000
+(lse-define-fill-in "yes/no"
+  '(description   "Yes or No")
+  '(menu
+      "yes"
+      "no"
+   )
+)
+
+(lse-define-simple-token "."  "···")
+; 10-Sep-2002 (lse-define-simple-token ">"  "»"); 30-Mar-1995
+(lse-define-simple-token "<"  '(lse-tpu:enclose-selection "«"   "»"))
+(lse-define-simple-token "<<" '(lse-tpu:enclose-selection "««" "»»"))
+(lse-define-simple-token "|"  '(lse-tpu:enclose-selection "¦"   "¦"))
+
+;;; *** site-specific ***
+(cond ((string-match "swing" (lse-system-name)); 11-Jan-1998
+       ;;  9-Nov-1995
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-address"
+           '(token)
+           '(description           "Company address of LS-Emacs user")
+           '(auto-replicate        100)
+           '(replacement
+             "Glasauergasse 32, A--1130 Wien, Austria"
+            )
+       ;; this-company-address
+       )
+
+       ;;  2-Mar-1998
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-e-mail"
+           '(token)
+           '(description           "E-mail address of company of LS-Emacs user")
+           '(auto-replicate        100)
+           '(replacement           "tanzer@" & lse-insert-system-domain)
+       ;;; this-company-e-mail
+       )
+
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-name"
+           '(description    "Company name of LS-Emacs user")
+           '(token)
+           '(auto-replicate 100)
+           ;;  2-Mar-1998
+           ;; '(replacement    "Swing Informationssysteme GmbH.")
+           '(replacement    "Mag. Christian Tanzer.")
+       )
+
+       ;;  3-May-1995
+       ;; *** site-specific ***
+       (lse-define-fill-in "your-e-mail"
+           '(description           "E-mail address of author")
+           '(max-line-move         1)
+           '(menu
+               your-e-mail-auto
+               "appoyer@vmars.tuwien.ac.at"
+            )
+       ;; your-e-mail
+       )
+
+       ;; 29-Sep-1996
+       ;; *** site-specific ***
+       (lse-define-fill-in "your-e-mail-auto"
+           '(token)
+           '(description           "Expands to `username'@swing.co.at")
+           '(replacement           @ your-name & "@swing.co.at")
+       ;; your-e-mail-auto
+       )
+      ); end   of swing  definitions
+
+      ;; begin of tttech definitions
+      ((string-match "ttt" (lse-system-name))
+       ;;  9-Nov-1995
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-address"
+           '(token)
+           '(description           "Company address of LS-Emacs user")
+           '(auto-replicate        100)
+           '(replacement
+             "Schönbrunnerstraße 7, A--1040 Wien, Austria"
+            )
+       ;; this-company-address
+       )
+
+       ;;  2-Mar-1998
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-e-mail"
+           '(token)
+           '(description           "E-mail address of company of LS-Emacs user")
+           '(auto-replicate        100)
+           '(replacement           "office@" & lse-insert-system-domain)
+       ;;; this-company-e-mail
+       )
+
+       ;; *** site-specific ***
+       (lse-define-fill-in "this-company-name"
+           '(description    "Company name of LS-Emacs user")
+           '(token)
+           '(auto-replicate 100)
+           '(replacement    "TTTech Computertechnik AG."); 17-Aug-2000
+       )
+
+       ;;  3-May-1995
+       ;; *** site-specific ***
+       (lse-define-fill-in "your-e-mail"
+           '(description           "E-mail address of author")
+           '(max-line-move         1)
+           '(replacement           @ your-e-mail-auto)
+       ;; your-e-mail
+       )
+
+       ;; 29-Sep-1996
+       ;; *** site-specific ***
+       (lse-define-fill-in "your-e-mail-auto"
+           '(token)
+           '(description           "Expands to `username'@tttech.com")
+           ;; cannot use lse-user-name (i.e. `@your-name') because that
+           ;; doesn't work for login-names names like gkopetz (lse-user-name
+           ;; returns kopetz in this case)
+           '(replacement           (insert user-login-name) & "@tttech.com")
+       ;; your-e-mail-auto
+       )
+      )
+)

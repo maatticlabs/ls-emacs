@@ -1,0 +1,380 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Ausgaben-Kategorie" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+      Gas/Strom
+      Telefon
+      Miete
+      Bueromaterial
+      Porti_Bankspesen
+      Bindemaschine_Verbrauch
+      Papier
+      Betriebs-Versicherung
+      Wartung_System_Service
+      Wartung_Software_Service
+      Wartung_Media_+_Doku
+      Drucker_Verbrauch
+      Zubehoer
+      Wartung_Kopierer
+      Steuerberater
+      Notar_Anwalt
+      Mehrwertsteuer
+      Koerperschaftsteuer
+      Vermoegenssteuer
+      Gewerbesteuer
+      Kammerumlage
+      Messekataloge
+      Wiener_Zeitung
+      Seminare
+      Vereinsmitgliedschaften
+      Literatur
+      Geraete_+_Werkzeuge
+      Bueroausstattung
+      Seminar-Material
+      Seminar-Spesen
+      Seminar-Mailing
+   )
+)
+
+(lse-define-fill-in "Einnahmen-Kategorie" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+      Seminar_OOA
+      Seminar_OOD
+      Seminar_OOT
+      Seminar_ASV
+      Seminar_SPE
+      Seminar_SRE
+      Inhouse_Seminare
+      Beratung
+      Seminarveranstalter
+      Finanzamt_Vorsteuer
+   )                     
+)
+
+(lse-define-fill-in "Gas/Strom"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Gas/Strom")
+)
+
+(lse-define-fill-in "Telefon"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Telefon")
+)
+
+(lse-define-fill-in "Miete"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Miete")
+)
+
+(lse-define-fill-in "Bueromaterial"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Bueromaterial")
+)
+
+(lse-define-fill-in "Porti_Bankspesen"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Porti, Bankspesen")
+)
+
+(lse-define-fill-in "Bindemaschine_Verbrauch"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Bindemaschine Verbrauch")
+)
+
+(lse-define-fill-in "Papier"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Papier")
+)
+
+(lse-define-fill-in "Betriebs-Versicherung"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Betriebs-Versicherung")
+)
+
+(lse-define-fill-in "Wartung_System_Service"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Wartung System Service")
+)
+
+(lse-define-fill-in "Wartung_Software_Service"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Wartung Software Service")
+)
+
+(lse-define-fill-in "Wartung_Media_+_Doku"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Wartung Media + Doku")
+)
+
+(lse-define-fill-in "Drucker_Verbrauch"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Drucker Verbrauch")
+)
+
+(lse-define-fill-in "Zubehoer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Zubehoer")
+)
+
+(lse-define-fill-in "Wartung_Kopierer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Wartung Kopierer")
+)
+
+(lse-define-fill-in "Steuerberater"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Steuerberater")
+)
+
+(lse-define-fill-in "Notar_Anwalt"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Notar, Anwalt")
+)
+
+(lse-define-fill-in "Mehrwertsteuer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Mehrwertsteuer")
+)
+
+(lse-define-fill-in "Koerperschaftsteuer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Koerperschaftsteuer")
+)
+
+(lse-define-fill-in "Vermoegenssteuer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Vermoegenssteuer")
+)
+
+(lse-define-fill-in "Gewerbesteuer"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Gewerbesteuer")
+)
+
+(lse-define-fill-in "Kammerumlage"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Kammerumlage")
+)
+
+(lse-define-fill-in "Messekataloge"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Messekataloge")
+)
+
+(lse-define-fill-in "Wiener_Zeitung"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Wiener Zeitung")
+)
+
+(lse-define-fill-in "Seminare"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminare")
+)
+
+(lse-define-fill-in "Vereinsmitgliedschaften"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Vereinsmitgliedschaften")
+)
+
+(lse-define-fill-in "Literatur"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Literatur")
+)
+
+(lse-define-fill-in "Geraete_+_Werkzeuge"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Geraete + Werkzeuge")
+)
+
+(lse-define-fill-in "Bueroausstattung"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Bueroausstattung")
+)
+
+(lse-define-fill-in "Seminar-Material"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar-Material")
+)
+
+(lse-define-fill-in "Seminar-Spesen"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar-Spesen")
+)
+
+(lse-define-fill-in "Seminar-Mailing"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar-Mailing")
+)
+
+(lse-define-fill-in "Seminar_OOA"
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar OOA")
+)
+  
+(lse-define-fill-in "Seminar_OOD" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar OOD")
+)
+
+(lse-define-fill-in "Seminar_OOT" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar OOT")
+)
+
+(lse-define-fill-in "Seminar_ASV" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar ASV")
+)
+
+(lse-define-fill-in "Seminar_SPE" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar SPE")
+)
+
+(lse-define-fill-in "Seminar_SRE" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminar SRE")
+)
+
+(lse-define-fill-in "Inhouse_Seminare" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Inhouse Seminare")
+)
+
+(lse-define-fill-in "Seminarveranstalter" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Seminarveranstalter")
+)
+
+(lse-define-fill-in "Finanzamt_Vorsteuer" 
+  '(token)
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(replacement           "Finanzamt Vorsteuer")
+)
+
+

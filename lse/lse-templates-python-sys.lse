@@ -1,0 +1,38 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "sys.exc_info" 
+  '(token)
+  '(replacement           "sys.exc_info ()")
+;;; sys.exc_info
+)
+
+(lse-define-fill-in "sys.exit" 
+  '(token)
+  '(replacement           "sys.exit ()")
+;;; sys.exit
+)
+
+(lse-define-fill-in "sys.getrefcount" 
+  '(token)
+  '(replacement           "sys.getrefcount ()")
+;;; sys.getrefcount
+)
+
+(lse-define-fill-in "sys.setcheckinterval" 
+  '(token)
+  '(replacement           "sys.setcheckinterval ()")
+;;; sys.setcheckinterval
+)
+
+(lse-define-fill-in "sys.setprofile" 
+  '(token)
+  '(replacement           "sys.setprofile ()")
+;;; sys.setprofile
+)
+
+(lse-define-fill-in "sys.settrace" 
+  '(token)
+  '(replacement           "sys.settrace ()")
+;;; sys.settrace
+)
+

@@ -1,0 +1,2276 @@
+;-*-unibyte: t;-*-
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "const-int"
+    '(description           "Integer literal or @as_int expression")
+;;; const-int
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "const-uint"
+    '(description           "Unsigned integer literal or @as_uint expression")
+;;; const-uint
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-abort"
+    '(token                 "@abort")
+    '(token)
+    '(description           "Print error message and terminate immediately")
+    '(replacement
+        "@abort («text»)"
+     )
+;;; olt-abort
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-activate-process"
+    '(token)
+    '(leading               "")
+    '(separator             lse-newline-and-indent)
+    '(replacement           "activateProcess («olt-id»)")
+;;; olt-activate-process
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-activate_task"
+    '(token)
+    '(token                 "activateTask")
+    '(description           "ERCOS OS Call activateTask")
+    '(leading               "")
+    '(replacement           "activateTask («olt-id»)")
+;;; olt-activate_task
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-address"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Address («const-uint»)")
+;;; olt-address
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-address-type"
+    '(token)
+    '(leading               ",")
+    '(replacement           "AddressType (" & @ olt-address-type-value & ")")
+;;; olt-address-type
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-address-type-value"
+    '(menu
+        ("Far"     "default")
+        "Near"
+     )
+;;; olt-address-type-value
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-alias_translation"
+    '(token                 "@Alias_Translation")
+    '(token)
+    '(replacement           "@Alias_Translation («olt-id»)")
+;;; olt-alias_translation
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-all_object_types"
+    '(token                 "@All_Object_Types")
+    '(token)
+    '(replacement           "@All_Object_Types ()")
+;;; olt-all_object_types
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-allow-def-only"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Allow (DefineOnly)")
+;;; olt-allow-def-only
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-assoc_types"
+    '(token                 "@Assoc_Types")
+    '(token)
+    '(replacement           "@Assoc_Types ()")
+;;; olt-assoc_types
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-association"
+    '(token                 "@Association")
+    '(token)
+    '(replacement           "@Association («name»)")
+;;; olt-association
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-delay"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Delay («const-int»)")
+;;; olt-delay
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-allow-direct-access"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Allow (DirectAccess)")
+;;; olt-allow-direct-access
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-allow-multiple-send"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Allow (MultipleSend)")
+;;; olt-allow-multiple-send
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-allow-receive-before-send"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Allow (ReceiveBeforeSend)")
+;;; olt-allow-receive-before-send
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-allow-use-multiply"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Allow (MultipleUses)")
+;;; olt-allow-use-multiply
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_code"
+    '(token                "@as_code")
+    '(token)
+    '(replacement
+        "@as_code («olt-const-value»)"
+     )
+;;; olt-as_code
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_id"
+    '(token                "@as_id")
+    '(token)
+    '(replacement
+        "@as_id («olt-const-text-expr»)"
+     )
+;;; olt-as_id
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_int"
+    '(token                "@as_int")
+    '(token)
+    '(replacement
+        "@as_int («olt-const-value»)"
+     )
+;;; olt-as_int
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_list"
+    '(token                "@as_list")
+    '(token)
+    '(replacement
+        "@as_list («olt-const-value»)"
+     )
+;;; olt-as_list
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_string"
+    '(token                "@as_string")
+    '(token)
+    '(replacement
+        "@as_string («olt-const-value»)"
+     )
+;;; olt-as_string
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_uint"
+    '(token                "@as_uint")
+    '(token)
+    '(replacement
+        "@as_uint («olt-const-value»)"
+     )
+;;; olt-as_uint
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-as_void"
+    '(token                "@as_void")
+    '(token)
+    '(replacement
+        "@as_void («olt-const-value»)"
+     )
+;;; olt-as_void
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-block"
+    '(leading               "")
+    '(replacement
+        lse-indent+1
+        "«olt-statement»"
+        & lse-indent:< ;  4-Jan-1998 ; avoid new line after block
+     )
+;;; olt-block
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-body"
+    '(leading               "")
+    '(replacement
+        "beginBody (" & (lse-insert-replica-or-flat "olt_id") & ")"
+        @ olt-block
+        "endBody   (" & (lse-insert-replica-or-flat "olt_id") & ")"
+     )
+;;; olt-body
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-callable"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Callable (" & @ olt-callable-type & ")")
+;;; olt-callable
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-callable-type"
+    '(menu
+        "Reentrant"
+        "NonReentrant"
+     )
+;;; olt-callable-type
+)
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-cc-stack"
+    '(token)
+    '(token                 "CCStack")
+    '(leading               ",")
+    '(replacement           "CCStack («const-int»)")
+;;; olt-cc-stack
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-cc-type"
+    '(token                 "CType")
+    '(leading               ",")
+    '(replacement           "CType («olt-cc-type-specification»)")
+;;; olt-cc-type
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-cc-type-specification"
+    '(description           "Valid C type specification")
+;;; olt-cc-type-specification
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-chain_task"
+    '(token)
+    '(token                 "chainTask")
+    '(description           "ERCOS OS Call chainTask")
+    '(replacement           "chainTask («olt-id»)")
+;;; olt-chain_task
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-code-specification"
+    '(token)
+    '(leading               ",")
+    '(replacement
+        "Code (" & @ olt-code-specification-value & ")"
+     )
+;;; olt-code-specification
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-code-specification-value"
+    '(menu
+        "ROMconfigurable"
+        ("Optimized"      "default")
+     )
+;;; olt-code-specification-value
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-bool-expr"
+    '(description           "Integer expression interpreted as boolean value"
+                            "0 is interpreted FALSE, all other values as TRUE"
+     )
+;;; olt-const-bool-expr
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-int-expr"
+    '(description           "Expression evaluating to a signed or unsigned integer value"
+                            "All C operators are supported"
+     )
+;;; olt-const-int-expr
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-list-expr"
+    '(description           "Expression evaluating to a list")
+    '(replacement           "@( ««olt-const-value»»··· )")
+;;; olt-const-list-expr
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-const-prio-expr"
+    '(description           "Expression specifying preemptive/cooperative priority")
+    '(replacement           "«olt-const-prio-preemptive», ««olt-const-prio-cooperative»»")
+;;; olt-const-prio-expr
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-const-prio-cooperative"
+    '(replacement           @ const-int)
+;;; olt-const-prio-cooperative
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-const-prio-preemptive"
+    '(replacement           @ const-int)
+;;; olt-const-prio-preemptive
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-const-structure"
+    '(token)
+    '(sort)
+    '(menu
+        olt-list
+        olt-const-text-expr
+     )
+;;; olt-const-structure
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-text-expr"
+    '(description           "Expression evaluating to a text value")
+;;; olt-const-text-expr
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-type"
+    '(description           "Defines type of an OLT constant")
+    '(replacement-leading   "constType (")
+    '(replacement-trailer   ")")
+    '(menu
+        "signed"
+        "unsigned"
+     )
+;;; olt-const-type
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-const-value"
+    '(description           "Expression which evaluates at OLT-Analysis time")
+    '(leading               ",")
+    '(separator             ", ")
+    '(menu
+        olt-const-int-expr
+        olt-const-list-expr
+        olt-const-text-expr
+     )
+;;; olt-const-value
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-contains"
+    '(token                "@contains")
+    '(token)
+    '(replacement
+        "@contains («olt-list», «olt-const-value»)"
+     )
+;;; olt-contains
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-cpu"
+    '(token)
+    '(leading               ",")
+    '(replacement           "CPU («const-int»)")
+;;; olt-cpu
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-db-query"
+    '(token)
+    '(token                 "db-query")
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-alias_translation
+        olt-all_object_types
+        olt-assoc_types
+        olt-association
+        olt-environment
+        olt-exception_vector
+        olt-exists
+        olt-extension
+        olt-files
+        olt-force_synthesis
+        olt-foreign_objects
+        olt-is_foreign
+        olt-is_globally_correct
+        olt-left
+        olt-link
+        olt-link_format
+        olt-message_allocation
+        olt-message_copy
+        olt-object
+        olt-object_format
+        olt-object_types
+        olt-olt_object_types
+        olt-priority_level
+        olt-receiver_copies
+        olt-right
+        olt-sender_copies
+        olt-time_table
+        olt-type
+        olt-undefined_objects
+        olt-unused_objects
+        olt-used_define_only_objects
+        olt-x_level
+     )
+;;; olt-db-query
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-deadline"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Deadline («const-int»)")
+;;; olt-deadline
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-declaration"
+    '(token)
+    '(separator             lse-newline-and-indent)
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-define-Constant
+        olt-define-Dynamics
+        olt-define-Function
+        olt-define-Process
+        olt-define-Subsystem
+     )
+;;; olt-declaration
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-define-constant"
+    '(token                 "constant-definition")
+    '(token                 "defineConstant")
+    '(token)
+    '(description           "Define OLT constant")
+    '(replacement
+        "defineConstant («olt-id», «olt-const-int-expr», «olt-description», «olt-const-type»)"
+     )
+;;; olt-define-constant
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Dynamics"
+    '(token                 "dynamics-definition")
+    '(token                 "defineDynamics")
+    '(token)
+    '(description           "Define dynmics of OLT system")
+    '(replacement
+        "defineDynamics  («olt-description»)"
+        "beginDynamics   ()"
+        "««olt-define-InitTask»»···"
+        "««olt-define-HWTask»»···"
+        "««olt-define-SWTask»»···"
+        "«olt-define-MsgGroup»···"
+        "«olt-define-OpMode»···"
+        "««olt-define-TimeTable»»···"
+        "««olt-define-x_binding»»···"
+        "endDynamics     ()"
+     )
+;;; olt-define-Dynamics
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Exception"
+    '(token                 "exception-definition")
+    '(token                 "defineException")
+    '(token)
+    '(description           "Define OLT Exception")
+    '(replacement
+        "defineException ( «olt-id»"
+        "                , «olt-description»"
+        "                , «olt-exception-level»"
+        "                )"
+     )
+;;; olt-define-Exception
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Function"
+    '(token                 "function-definition")
+    '(token                 "defineFunction")
+    '(token)
+    '(description           "Define OLT Function")
+    '(replacement
+        "defineFunction  ( «olt_id»"
+        "                , «olt-subsystem-arg»"
+        "                , «olt-description»"
+        "                , «olt-callable»"
+        "                , ««olt-address-type»»"
+        "                , ««olt-func-prototype»»"
+        "                , ««olt-registers»»"
+        "                , ««olt-window»»"
+        "                , ««olt-hw-stack»»"
+        "                , ««olt-cc-stack»»"
+        "                , ««olt-allow-def-only»»"
+        ")"
+        lse-indent+1
+        "««olt-use-property»»···"
+        lse-indent-1
+        "beginCode («olt_id»)"
+        @ olt-block
+        "endCode   («olt_id»)"
+     )
+;;; olt-define-Function
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-HWTask"
+    '(token                 "hwtask-definition")
+    '(token                 "defineHWTask")
+    '(token)
+    '(description           "Define OLT HW_Task")
+    '(replacement
+        "defineHWTask    ( «olt_id»"
+        "                , «olt-description»"
+        "                , «olt-priority»"
+        "                , «olt-interrupt»"
+        "                , ««olt-min-period»»"
+        "                , ««olt-allow-def-only»»"
+        "                )"
+        "beginHWTask     ( «olt_id»)"
+        "«olt-activate-process»···"
+        "endHWTask       ( «olt_id»)"
+     )
+;;; olt-define-HWTask
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-InitTask"
+    '(token                 "inittask-definition")
+    '(token                 "defineInitTask")
+    '(token)
+    '(description           "Define OLT Init_Task")
+    '(replacement
+        "defineInitTask  ( «olt_id»"
+        "                , «olt-description»"
+        "                )"
+        "beginInitTask   ( «olt_id»)"
+        "«olt-init-process»···"
+        "endInitTask     ( «olt_id»)"
+     )
+;;; olt-define-InitTask
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Message"
+    '(token                 "message-definition")
+    '(token                 "defineMessage")
+    '(token)
+    '(description           "Define OLT Message")
+    '(replacement
+        "defineMessage   ( «olt-id»"
+        "                , «olt-description»"
+        "                , «olt-cc-type»"
+        "                , «olt-msg-group»"
+        "                , ««olt-msg-length»»"
+        "                , ««olt-allow-multiple-send»»"
+        "                , ««olt-allow-def-only»»"
+        "                )"
+     )
+;;; olt-define-Message
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-MsgGroup"
+    '(token                 "msggroup-definition")
+    '(token                 "defineMsgGroup")
+    '(token)
+    '(description           "Define OLT Msg_Group")
+    '(replacement
+        "defineMsgGroup  ( «olt-id»"
+        "                , «olt-description»"
+        "                , ««olt-address»»"
+        "                )"
+     )
+;;; olt-define-MsgGroup
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-OpMode"
+    '(token                 "opmode-definition")
+    '(token                 "defineOpMode")
+    '(token)
+    '(description           "Define OLT Op_Mode")
+    '(replacement
+        "defineOpMode    ( «olt_id»"
+        "                , «olt-description»"
+        "                )"
+        "beginOpMode     ( «olt_id»)"
+        "««olt-use-init-task»»···"
+        "««olt-use-hw-task»»···"
+        "««olt-successor-op-mode»»···"
+        "««olt-use-time-table»»···"
+        "endOpMode       ( «olt_id»)"
+     )
+;;; olt-define-OpMode
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Process"
+    '(token                 "process-definition")
+    '(token                 "defineProcess")
+    '(token)
+    '(description           "Define OLT Process")
+    '(replacement
+        "defineProcess   ( «olt_id»"
+        "                , «olt-subsystem-arg»"
+        "                , «olt-description»"
+        "                , ««olt-code-specification»»"
+        "                , ««olt-proc-prototype»»"
+        "                , ««olt-registers»»"
+        "                , ««olt-window»»"
+        "                , ««olt-register-class»»"        
+        "                , ««olt-hw-stack»»"
+        "                , ««olt-cc-stack»»"
+        "                , ««olt-cpu»»"
+        "                , ««olt-deadline»»"
+        "                , ««olt-allow-def-only»»"
+        "                )"
+        lse-indent+1
+        "««olt-use-property»»···"
+        lse-indent-1
+        "««olt-process-init»»"
+        "««olt-process-body»»"
+     )
+;;; olt-define-Process
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Resource"
+    '(token                 "resource-definition")
+    '(token                 "defineResource")
+    '(token)
+    '(description           "Define OLT Resource")
+    '(replacement
+        "defineResource  (  «olt-id»"
+        "                , «olt-description»"
+        "                , ««olt-allow-def-only»»"
+        "                , ««olt-protected-data»»···"
+        "                )"
+     )
+;;; olt-define-Resource
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-Subsystem"
+    '(token                 "subsystem-definition")
+    '(token                 "defineSubsystem")
+    '(token)
+    '(description           "Define OLT Subsystem")
+    '(replacement
+        "defineSubsystem ( «olt_id»"
+        "                , «olt-subsystem-arg»"
+        "                , «olt-description»"
+        "                )"
+        lse-indent+1
+        "««olt-renames»»···"
+        lse-indent-1
+        "beginSubsystem («olt_id»)"
+        lse-indent+1
+        "«olt-subsystem-declaration»···"
+        lse-indent-1
+        "endSubsystem   («olt_id»)"
+     )
+;;; olt-define-Subsystem
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-SWTask"
+    '(token                 "swtask-definition")
+    '(token                 "defineSWTask")
+    '(token)
+    '(description           "Define OLT SW_Task")
+    '(replacement
+        "defineSWTask    ( «olt_id»"
+        "                , «olt-description»"
+        "                , «olt-priority»"
+        "                , ««olt-swt-constraint»»"
+        "                , ««olt-allow-def-only»»"
+        "                )"
+        "beginSWTask     ( «olt_id»)"
+        "«olt-activate-process»···"
+        "endSWTask       ( «olt_id»)"
+     )
+;;; olt-define-SWTask
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-TimeTable"
+    '(token                 "timetable-definition")
+    '(token                 "defineTimeTable")
+    '(token)
+    '(description           "Define OLT Time_Table")
+    '(replacement
+        "defineTimeTable ( «olt_id»"
+        "                , «olt-description»"
+        "                )"
+        "beginTimeTable  ( «olt_id»)"
+        "«olt-time-table-entry»···"
+        "endTimeTable    ( «olt_id»)"
+     )
+;;; olt-define-TimeTable
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-define-XRoutine"
+    '(token                 "xroutine-definition")
+    '(token                 "defineXRoutine")
+    '(token)
+    '(description           "Define OLT X-Routine")
+    '(replacement
+        "defineXRoutine  ( «olt_id»"
+        "                , «olt-description»"
+        "                , ««olt-x-model»»"
+        "                , ««olt-x-prototype»»"
+        "                , ««olt-registers»»"
+        "                , ««olt-window»»"
+        "                , ««olt-hw-stack»»"
+        "                , ««olt-cc-stack»»"
+        "                )"
+        "««olt-x-body»»"
+     )
+;;; olt-define-XRoutine
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-define-x_binding"
+    '(token                 "bindXRoutine")
+    '(token)
+    '(replacement           "bindXRoutine («olt-id», ToException («olt-id»···))")
+;;; olt-define-x_binding
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-def-macro-constant"
+    '(token                 "@def")
+    '(token                 "macro-const-definition")
+    '(token)
+    '(description           "Define OLT macro constant")
+    '(replacement           "@def «olt-id» («olt-const-value»)@")
+;;; olt-def-macro-constant
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-def-macro-local-variable"
+    '(token                 "@lset")
+    '(token                 "macro--local-var-definition")
+    '(token)
+    '(description           "Define OLT local macro variable")
+    '(replacement           "@lset «olt-id» («olt-const-value»)@")
+;;; olt-def-macro-local-variable
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-def-macro-proc"
+    '(token                 "@macro")
+    '(token                 "macro-proc-definition")
+    '(token)
+    '(description           "Define OLT macro procedure")
+    '(replacement
+        "@macro «olt-id» (««olt-id»»···)@"
+        @ olt-macro-block
+        "@endmacro@"
+     )
+;;; olt-def-macro-proc
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-def-macro-variable"
+    '(token                 "@set")
+    '(token                 "macro-var-definition")
+    '(token)
+    '(description           "Define OLT macro variable")
+    '(replacement           "@set «olt-id» («olt-const-value»)@")
+;;; olt-def-macro-variable
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-Define_E_Object"
+    '(token                "@Define_E_Object")
+    '(token)
+    '(replacement
+        "@Define_E_Object («olt-id», «olt-id», «const-text-expr», «const-int-expr», «olt-list»)@"
+     )
+;;; olt-Define_E_Object
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-Define_E_Type"
+    '(token                "@Define_E_Type")
+    '(token)
+    '(replacement
+        "@Define_E_Type («olt-id», «olt-id», «const-text-expr», «olt-list»)@"
+     )
+;;; olt-Define_E_Type
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-description"
+    '(token)
+    '(description           "Comment describing the object defined")
+    '(leading               ",")
+    '(replacement           "Desc («text»)")
+;;; olt-description
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-direct_message_address"
+    '(token)
+    '(token                 "directMessageAddress")
+    '(description           "ERCOS OS Call directMessageAddress")
+    '(replacement           "directMessageAddress («olt-id»)")
+;;; olt-direct_message_address
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-disable_interrupt"
+    '(token)
+    '(token                 "disableInterrupts")
+    '(description           "ERCOS OS Call disableInterrupts")
+    '(replacement           "disableInterrupts ()")
+;;; olt-disable_interrupt
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-echo"
+    '(token                "@echo")
+    '(token)
+    '(replacement
+        "@echo («text»)@"
+     )
+;;; olt-echo
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-else"
+    '(token                 "@else")
+    '(token)
+    '(leading               "")
+    '(description           "Else clause of OLT if-statement")
+    '(replacement
+        "@else@"
+        @ olt-macro-block 
+     )
+;;; olt-else
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-elsif"
+    '(token                 "@elsif")
+    '(token)
+    '(leading               "")
+    '(description           "Conditional execution")
+    '(replacement
+        "@elsif («olt-const-bool-expr»)@"
+        @ olt-macro-block
+        "««olt-elsif»»"
+     )
+;;; olt-elsif
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-enable_interrupt"
+    '(token)
+    '(token                 "enableInterrupts")
+    '(description           "ERCOS OS Call enableInterrupts")
+    '(replacement           "enableInterrupts ()")
+;;; olt-enable_interrupt
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-environment"
+    '(token                 "@Environment")
+    '(token)
+    '(replacement           "@Environment ()")
+;;; olt-environment
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-error"
+    '(token                 "@error")
+    '(token)
+    '(description           "Print error message and terminate after all files were read")
+    '(replacement           "@error («text»)@")
+;;; olt-error
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-exception-level"
+    '(token)
+    '(token                 "Level")
+    '(leading               ",")
+    '(replacement           "Level («olt-const-int»)")
+;;; olt-exception-level
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-exception_vector"
+    '(token                 "@Exception_Vector")
+    '(token)
+    '(replacement           "@Exception_Vector ()")
+;;; olt-exception_vector
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-exists"
+    '(token                 "@Exists")
+    '(token)
+    '(replacement           "@Exists («olt-id»)")
+;;; olt-exists
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-expand"
+    '(token                 "@expand")
+    '(token)
+    '(description           "Evaluate text expression and macro-expand its value")
+    '(replacement           "@expand («const-text-expr»)")
+;;; olt-expand
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-exprtype"
+    '(token                "@exprtype")
+    '(token)
+    '(replacement
+        "@exprtype («olt-const-value»)"
+     )
+;;; olt-exprtype
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-extension"
+    '(token                 "@Extension")
+    '(token)
+    '(replacement           "@Extension («name»)")
+;;; olt-extension
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-fatal"
+    '(token                 "@fatal")
+    '(token)
+    '(description           "Print error message and terminate immediately")
+    '(replacement           "@fatal («text»)@")
+;;; olt-fatal
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-file"
+    '(description           "Root production of OLT language")
+    '(replacement
+        "/*"
+        " ««header-comment»»"
+        "*/"
+        ""
+        "««olt-front-definition»»···"
+        "««olt-object-definition»»···"
+     )
+;;; olt-file
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-files"
+    '(token                 "@Files")
+    '(token)
+    '(replacement           "@Files ()")
+;;; olt-files
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-force-echo"
+    '(token                "@force_echo")
+    '(token)
+    '(replacement
+        "@force_echo («text»)@"
+     )
+;;; olt-force_echo
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-force_synthesis"
+    '(token                 "@Force_Synthesis")
+    '(token)
+    '(replacement           "@Force_Synthesis («olt-id»)")
+;;; olt-force_synthesis
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-foreign_objects"
+    '(token                 "@Foreign_Objects")
+    '(token)
+    '(replacement           "@Foreign_Objects ()")
+;;; olt-foreign_objects
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-for-all"
+    '(token                 "@forall")
+    '(token)
+    '(description           "Iteration over list of values")
+    '(replacement
+        "@forall «olt-id» «olt-for-all-list»@"
+        @ olt-macro-block
+        "@endforall@"
+     )
+;;; olt-for-all
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-for-all-list"
+    '(description           "List of values to iterate over")
+    '(menu
+        ("(««olt-const-value»»···)"                       "Literal list")
+        ("(«olt-const-int-expr» .. «olt-const-int-expr»)" "Range of values")
+        ("«olt-id»"                                       "«olt-id» must be the name of a list-variable")
+     )
+;;; olt-for-all-list
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-front-definition"
+    '(token)
+    '(description           "Definition of constants and macros")
+    '(leading               "")
+    '(separator             lse-newline-and-indent)
+    '(menu
+        olt-def-constant
+        olt-def-macro-constant
+        olt-def-macro-variable
+        olt-def-macro-proc
+     )
+;;; olt-front-definition
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-func-prototype"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Prototype (Code)")
+;;; olt-func-prototype
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-get_active_op_mode"
+    '(token)
+    '(token                 "getActiveOpMode")
+    '(description           "ERCOS OS Call getActiveOpMode")
+    '(replacement           "getActiveOpMode ()")
+;;; olt-get_active_op_mode
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-get_resource"
+    '(token)
+    '(token                 "getResource")
+    '(description           "ERCOS OS Call getResource")
+    '(replacement           "getResource («olt-id»···)")
+;;; olt-get_resource
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-get_system_time"
+    '(token)
+    '(token                 "getSystemTime")
+    '(description           "ERCOS OS Call getSystemTime")
+    '(replacement           "getSystemTime ()")
+;;; olt-get_system_time
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-gsubstitute"
+    '(token                "@gsubstitute")
+    '(token)
+    '(replacement
+        "@gsubstitute («olt-const-text-expr», «olt-const-text-expr», «olt-const-text-expr»)"
+     )
+;;; olt-gsubstitute
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-hw-stack"
+    '(token)
+    '(token                 "HWStack")
+    '(leading               ",")
+    '(replacement           "HWStack («const-int»)")
+;;; olt-hw-stack
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-id"
+    '(leading               ",")
+    '(separator             ", ")
+    '(description           "Name of OLT object")
+;;; olt-id
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt_id"
+    '(auto-replicate        2)
+    '(description           "Name of OLT object")
+;;; olt-id
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-if"
+    '(token                 "@if")
+    '(token)
+    '(description           "Conditional execution")
+    '(replacement
+        "@if («olt-const-bool-expr»)@"
+        @ olt-macro-block
+        "««olt-elsif»»"
+        "««olt-else»»"
+        "@endif@"
+     )
+;;; olt-if
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-include-time-table"
+    '(token)
+    '(separator             lse-newline-and-indent)
+    '(replacement           "ttInclude («olt-id»)")
+;;; olt-include-time-table
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-index"
+    '(token                "@index")
+    '(token)
+    '(replacement
+        "@index («olt-list», «olt-const-value»)"
+     )
+;;; olt-index
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-init-process"
+    '(token)
+    '(separator             lse-newline-and-indent)
+    '(replacement           "initializeProcess («olt-id»)")
+;;; olt-init-process
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-interrupt"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Interrupt («olt-id»)")
+;;; olt-interrupt
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-is-defined"
+    '(token                 "@is_defined")
+    '(token)
+    '(description           "Evaluates to TRUE, if name is defined as macro-proc")
+    '(replacement           "@is_defined («olt-id»)")
+;;; olt-is-defined
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-is_foreign"
+    '(token                 "@Is_Foreign")
+    '(token)
+    '(replacement           "@Is_Foreign («name»)")
+;;; olt-is_foreign
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-is_globally_correct"
+    '(token                 "@Is_Globally_Correct")
+    '(token)
+    '(replacement           "@Is_Globally_Correct ()")
+;;; olt-is_globally_correct
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-item"
+    '(token                "@item")
+    '(token)
+    '(replacement
+        "@item («olt-list», «olt-const-int-expr»)"
+     )
+;;; olt-item
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-join"
+    '(token                "@join")
+    '(token)
+    '(replacement
+        "@join («olt-const-text-expr», «olt-list»)"
+     )
+;;; olt-join
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-language"
+    '(token                "@language")
+    '(token)
+    '(replacement
+        "@language ()"
+     )
+;;; olt-language
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-language_type"
+    '(token                "@language_type")
+    '(token)
+    '(replacement
+        "@language_type ()"
+     )
+;;; olt-language_type
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-laxity"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Laxity («const-int»)")
+;;; olt-laxity
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-left"
+    '(token                 "@Left")
+    '(token)
+    '(replacement           "@Left («name», «olt-id»)")
+;;; olt-left
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-length"
+    '(token                "@length")
+    '(token)
+    '(replacement
+        "@length («olt-const-structure»)"
+     )
+;;; olt-length
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-line"
+    '(token                "@line")
+    '(token)
+    '(replacement
+        "@line ()"
+     )
+;;; olt-line
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-link"
+    '(token                 "@Link")
+    '(token)
+    '(replacement           "@Link («name», «olt-id», «olt-id»)")
+;;; olt-link
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-link_format"
+    '(token                 "@Link_Format")
+    '(token)
+    '(replacement           "@Link_Format («name»)")
+;;; olt-link_format
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-list"
+    '(token)
+    '(menu
+        olt-const-list-expr
+        ("«olt-id»"     "Name of list macro value")
+     )
+;;; olt-list
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-macro-block"
+    '(leading               "")
+    '(replacement
+        lse-indent+1
+        "«olt-macro-text»"
+        & lse-indent:< ;  4-Jan-1998 ; avoid new line after block
+     )
+;;; olt-macro-block
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-macro-operator"
+    '(token)
+    '(sort)
+    '(menu
+        olt-as_code
+        olt-as_id
+        olt-as_int
+        olt-as_list
+        olt-as_string
+        olt-as_uint
+        olt-as_void
+        olt-contains
+        olt-exprtype
+        olt-index
+        olt-item
+        olt-join
+        olt-language
+        olt-language_type
+        olt-length
+        olt-line
+        olt-matches
+        olt-oline
+        olt-slice
+        olt-split
+        olt-tolower
+        olt-top
+        olt-toupper
+     )
+;;; olt-macro-operator
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-macro-text"
+    '(token)
+    '(leading               "")
+    '(sort)
+    '(menu
+        @ olt-macro-operator
+        @ olt-macro-statement
+        @ olt-db-query
+        text
+     )
+;;; olt-macro-text
+)
+
+;;;;  1-Mar-1996 
+(lse-define-fill-in "olt-macro-statement"
+    '(token)
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-abort
+        olt-def-macro-constant
+        olt-def-macro-variable
+        olt-def-macro-local-variable
+        olt-Define_E_Object
+        olt-Define_E_Type
+        olt-echo
+        olt-error
+        olt-expand
+        olt-fatal
+        olt-for-all
+        olt-gsubstitute
+        olt-if
+        olt-is-defined
+        olt-noexpand
+        olt-pop
+        olt-pop_oline
+        olt-push
+        olt-push-language
+        olt-push_oline
+        olt-require
+        olt-substitute
+        olt-while
+     )
+;;; olt-macro-statement
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-matches"
+    '(token                 "@matches")
+    '(token)
+    '(description           "TRUE if match between the two arguments is found")
+    '(replacement           "@matches («olt-macro-text», «olt-macro-text»)")
+;;; olt-matches
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-max-nof-active"
+    '(token)
+    '(leading               ",")
+    '(replacement           "MaxNofActive («const-int»)")
+;;; olt-max-nof-active
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-message-access"
+    '(token)
+    '(leading               ",")
+    '(replacement
+        @ olt-message-access-type & "(««olt-message-access-type-1»»)"
+     )
+;;; olt-message-access
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-message-access-type"
+    '(sort)
+    '(menu
+        "Receive"
+        "Send"
+        "SendReceive"
+     )
+;;; olt-message-access-type
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-message-access-type-1"
+    '(sort)
+    '(menu
+        "Explicit"
+        "WithCopy"
+        "Explicit, WithCopy"
+     )
+;;; olt-message-access-type-1
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-message_allocation"
+    '(token                 "@Message_Allocation")
+    '(token)
+    '(replacement           "@Message_Allocation («olt-id»)")
+;;; olt-message_allocation
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-message_copy"
+    '(token                 "@Message_Copy")
+    '(token)
+    '(replacement           "@Message_Copy («olt-id», «olt-id»)")
+;;; olt-message_copy
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-min-period"
+    '(token)
+    '(leading               ",")
+    '(replacement           "MinPeriod («const-int»)")
+;;; olt-min-period
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-msg-group"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Group («olt-id»)")
+;;; olt-msg-group
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-msg-length"
+    '(token)
+    '(token                 "length")
+    '(description           "Length of message. Must be consistent with type.")
+    '(leading               ",")
+    '(replacement           "Length («const-int»)")
+;;; olt-msg-length
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-noexpand"
+    '(token                 "@noexpand")
+    '(token)
+    '(description           "Inhibits macro expansion")
+    '(replacement
+        "@noexpand"
+        @ olt-macro-block
+        "@endnoexpand"
+     )
+;;; olt-noexpand
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-object"
+    '(token                 "@Object")
+    '(token)
+    '(replacement           "@Object («olt-id»)")
+;;; olt-object
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-object_format"
+    '(token                 "@Object_Format")
+    '(token)
+    '(replacement           "@Object_Format («name»)")
+;;; olt-object_format
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-object_types"
+    '(token                 "@Object_Types")
+    '(token)
+    '(replacement           "@Object_Types ()")
+;;; olt-object_types
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-oline"
+    '(token                "@oline")
+    '(token)
+    '(replacement
+        "@oline ()"
+     )
+;;; olt-oline
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-olt_object_types"
+    '(token                 "@Olt_Object_Types")
+    '(token)
+    '(replacement           "@Olt_Object_Types ()")
+;;; olt-olt_object_types
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-os-call"
+    '(token)
+    '(token                 "os-call")
+    '(sort)
+    '(menu
+        olt-activate_task
+        olt-chain_task
+        olt-direct_message_address
+        olt-disable_interrupt
+        olt-enable_interrupt
+        olt-get_active_op_mode
+        olt-get_resource
+        olt-get_system_time
+        olt-raise_exception
+        olt-receive_message
+        olt-release_resource
+        olt-send_message
+        olt-set_next_op_mode
+        olt-start_ercos
+     )
+;;; olt-os-call
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-period"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Period («const-int»)")
+;;; olt-period
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-pop"
+    '(token                "@pop")
+    '(token)
+    '(replacement
+        "@pop («olt-list»)"
+     )
+;;; olt-pop
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-pop_oline"
+    '(token                "@pop_oline")
+    '(token)
+    '(replacement
+        "@pop_oline ()"
+     )
+;;; olt-pop_oline
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-priority"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Priority («olt-const-prio-expr»)")
+;;; olt-priority
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-priority_level"
+    '(token                 "@Priority_Level")
+    '(token)
+    '(replacement           "@Priority_Level («olt-const-int-expr»)")
+;;; olt-priority_level
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-process-body"
+    '(token)
+    '(leading               "")
+    '(replacement           @ olt-body)
+;;; olt-process-body
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-process-init"
+    '(token)
+    '(leading               "")
+    '(replacement
+        "beginInit (" & (lse-insert-replica-or-flat "olt_id") & ")"
+        @ olt-block
+        "endInit   (" & (lse-insert-replica-or-flat "olt_id") & ")"
+     )
+;;; olt-process-init
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-proc-prototype"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Prototype (" & @ olt-proc-prototype-value & ")")
+;;; olt-proc-prototype
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-proc-prototype-value"
+    '(menu
+        "Body"
+        "Init"
+        "Body, Init"
+     )
+;;; olt-proc-prototype-value
+)
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-protected-data"
+    '(token)
+    '(token                 "ProtectedData")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement
+        "ProtectedData («olt-id», «olt-cc-type-specification»)"
+     )
+;;; olt-protected-data
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-push"
+    '(token                "@push")
+    '(token)
+    '(replacement
+        "@push («olt-id», «olt-const-value»)"
+     )
+;;; olt-push
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-push-language"
+    '(token                 "@pushlanguage")
+    '(token)
+    '(description           "Change to other language")
+    '(replacement
+        "@push_language («text»)"
+        @ olt-block
+        "@pop_language"
+     )
+;;; olt-push-language
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-push_oline"
+    '(token                "@push_oline")
+    '(token)
+    '(replacement
+        "@push_oline ()"
+     )
+;;; olt-push_oline
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-raise_exception"
+    '(token)
+    '(token                 "raiseException")
+    '(description           "ERCOS OS Call raiseException")
+    '(replacement           "raiseException («olt-id»)")
+;;; olt-raise_exception
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-receive_message"
+    '(token)
+    '(token                 "receiveMessage")
+    '(description           "ERCOS OS Call receiveMessage")
+    '(replacement           "receiveMessage («olt-id»)")
+;;; olt-receive_message
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-receiver_copies"
+    '(token                 "@Receiver_Copies")
+    '(token)
+    '(replacement           "@Receiver_Copies («olt-id»)")
+;;; olt-receiver_copies
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-register-class"
+    '(token)
+    '(leading               ",")
+    '(replacement           "RegClass (" & @ olt-register-class-value & ")")
+;;; olt-register-class
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-register-class-value"
+    '(menu
+        ("Common"     "default")
+        "Private"
+     )
+;;; olt-register-class-value
+)
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-registers"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Registers («const-int»)")
+;;; olt-registers
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-release_resource"
+    '(token)
+    '(token                 "releaseResource")
+    '(description           "ERCOS OS Call releaseResource")
+    '(replacement           "releaseResource («olt-id»···)")
+;;; olt-release_resource
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-renames"
+    '(token                 "renames")
+    '(token)
+    '(leading               "")
+    '(description           "Define alias")
+    '(separator             lse-newline-and-indent)
+    '(replacement           @ olt-renames-type & («olt-id», AS («olt-id»)))
+;;; olt-renames
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-renames-type"
+    '(sort)
+    '(menu
+        "renamesException"
+        "renamesFunction"
+        "renamesMessage"
+        "renamesResource"
+     )
+;;; olt-renames-type
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-require"
+    '(token                 "@require")
+    '(token)
+    '(description           "Specify file to be analyzed before current file")
+    '(separator             lse-newline-and-indent)
+    '(replacement           "@require («file-name»)")
+;;; olt-require
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-right"
+    '(token                 "@Right")
+    '(token)
+    '(replacement           "@Right («name», «olt-id»)")
+;;; olt-right
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-send_message"
+    '(token)
+    '(token                 "sendMessage")
+    '(description           "ERCOS OS Call sendMessage")
+    '(replacement           "sendMessage («olt-id»)")
+;;; olt-send_message
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-sender_copies"
+    '(token                 "@Sender_Copies")
+    '(token)
+    '(replacement           "@Sender_Copies («olt-id»)")
+;;; olt-sender_copies
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-set_next_op_mode"
+    '(token)
+    '(token                 "setNextOpMode")
+    '(description           "ERCOS OS Call setNextOpMode")
+    '(replacement           "setNextOpMode («olt-id»)")
+;;; olt-set_next_op_mode
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-slice"
+    '(token                "@slice")
+    '(token)
+    '(replacement
+        "@slice («olt-const-structure», «olt-const-int-expr», «olt-const-int-expr»)"
+     )
+;;; olt-slice
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-split"
+    '(token                "@split")
+    '(token)
+    '(replacement
+        "@split («olt-const-text-expr», «olt-const-text-expr»)"
+     )
+;;; olt-split
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-statement"
+    '(token)
+    '(separator             lse-newline-and-indent)
+    '(leading               "")
+    '(sort)
+    '(menu
+        @ olt-macro-statement
+        @ olt-os-call
+        text
+     )
+;;; olt-statement
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-start_ercos"
+    '(token)
+    '(token                 "startERCOS")
+    '(description           "ERCOS OS Call startERCOS")
+    '(replacement           "startERCOS («olt-id»)")
+;;; olt-start_ercos
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-substitute"
+    '(token                "@substitute")
+    '(token)
+    '(replacement
+        "@substitute («olt-const-text-expr», «olt-const-text-expr», «olt-const-text-expr»)"
+     )
+;;; olt-substitute
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-arg"
+    '(token)
+    '(description           "Specifies environment of current definition")
+    '(leading               ",")
+    '(replacement           "Subsystem («olt-id»)")
+;;; olt-subsystem-arg
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-contains"
+    '(sort)
+    '(leading               "")
+    '(menu
+        olt-subsystem-contains-Function
+        olt-subsystem-contains-Process
+        olt-subsystem-contains-Subsystem
+     )
+;;; olt-subsystem-contains
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "olt-subsystem-contains-function"
+    '(token)
+    '(token                 "containsFunction")
+    '(replacement           "containsFunction («olt-id»···)")
+;;; olt-subsystem-contains-function
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "olt-subsystem-contains-process"
+    '(token)
+    '(token                 "containsProcess")
+    '(replacement           "containsProcess («olt-id»···)")
+;;; olt-subsystem-contains-process
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "olt-subsystem-contains-subsystem"
+    '(token)
+    '(token                 "containsSubsystem")
+    '(replacement           "containsSubsystem («olt-id»···)")
+;;; olt-subsystem-contains-subsystem
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-declaration"
+    '(token)
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-subsystem-contains
+        olt-subsystem-defines
+        olt-subsystem-exports
+     )
+;;; olt-subsystem-declarations
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-defines"
+    '(token)
+    '(token                 "defines")
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-define-Exception
+        olt-define-Message
+        olt-define-Resource
+        olt-define-XRoutine
+     )
+;;; olt-subsystem-defines
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-exports"
+    '(token)
+    '(token                 "exports")
+    '(leading               "")
+    '(replacement
+        "exports" & @ olt-subsystem-exports-type & " («olt-id»···)"
+     )
+;;; olt-subsystem-exports
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-subsystem-exports-type"
+    '(sort)
+    '(menu
+        "Exception"
+        "Message"
+        "Resource"
+        "XRoutine"
+        "Subsystem"
+     )
+;;; olt-subsystem-exports-type
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-successor-op-mode"
+    '(token)
+    '(replacement           "successorOpMode («olt-id»···)")
+;;; olt-successor-op-mode
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-swt-constraint"
+    '(leading               ",")
+    '(menu
+        olt-min-period
+        olt-max-nof-active
+     )
+;;; olt-swt-constraint
+)
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-time"
+    '(token)
+    '(token                 "Time")
+    '(leading               ",")
+    '(replacement           "Time («const-int»)")
+;;; olt-time
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-time_table"
+    '(token                 "@Time_Table")
+    '(token)
+    '(replacement           "@Time_Table («olt-id»)")
+;;; olt-time_table
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-time-table-entry"
+    '(token)
+    '(leading               "")
+    '(separator             lse-newline-and-indent)
+    '(menu
+        olt-tt-activate-task
+        olt-include-time-table
+     )
+;;; olt-time-table-entry
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-tolower"
+    '(token                "@tolower")
+    '(token)
+    '(replacement
+        "@tolower («olt-const-text-expr»)"
+     )
+;;; olt-tolower
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-toupper"
+    '(token                "@toupper")
+    '(token)
+    '(replacement
+        "@toupper («olt-const-text-expr»)"
+     )
+;;; olt-toupper
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-top"
+    '(token                "@top")
+    '(token)
+    '(replacement
+        "@top («olt-list»)"
+     )
+;;; olt-top
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-tt-activate-task"
+    '(token)
+    '(leading               "")
+    '(separator             lse-newline-and-indent)
+    '(replacement
+        "ttActivatesTask ( «olt-id»"
+        "                , «olt-period»"
+        "                , «olt-delay»"
+        "                , ««olt-laxity»»"
+        "                )"
+     )
+;;; olt-tt-activate-task
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-type"
+    '(token                 "@Type")
+    '(token)
+    '(replacement           "@Type («olt-id»)")
+;;; olt-type
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-undefined_objects"
+    '(token                 "@Undefined_Objects")
+    '(token)
+    '(replacement           "@Undefined_Objects ()")
+;;; olt-undefined_objects
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-unused_objects"
+    '(token                 "@Unused_Objects")
+    '(token)
+    '(replacement           "@Unused_Objects ()")
+;;; olt-unused_objects
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-used_define_only_objects"
+    '(token                 "@Used_Define_Only_Objects")
+    '(token)
+    '(replacement           "@Used_Define_Only_Objects ()")
+;;; olt-used_define_only_objects
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-call_back"
+    '(token)
+    '(replacement
+        "usesCallBack («olt-id», «olt-use-call_back-by» («olt-id»), ««olt-allow-use-multiply»»)"
+     )
+;;; olt-use-call_back
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-call_back-by"
+    '(menu
+        "ByFunction"
+        "ByProcess"
+     )
+;;; olt-use-call_back-by
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-e_object"
+    '(token)
+    '(replacement           "usesEObject («olt-id», ««olt-allow-use-multiply»»)")
+;;; olt-use-e_object
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-function"
+    '(token)
+    '(replacement           "usesFunction («olt-id», ««olt-allow-use-multiply»»)")
+;;; olt-use-function
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-use-hw-task"
+    '(token)
+    '(replacement           "usesHWTask («olt-id»)")
+;;; olt-use-hw-task
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-use-init-task"
+    '(token)
+    '(replacement           "usesInitTask («olt-id»)")
+;;; olt-use-init-task
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-message"
+    '(token)
+    '(replacement
+        "usesMessage ( «olt-id»"
+        "            , «olt-message-access»"
+        "            , ««olt-msg-group»»"
+        "            , ««olt-allow-use-multiply»»"
+        "            , ««olt-allow-receive-before-send»»"
+        "            , ««olt-allow-direct-access»»"
+        "            )"
+     )
+;;; olt-use-message
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-property"
+    '(token)
+    '(leading               "")
+    '(sort)
+    '(menu
+        olt-use-message
+        olt-use-resource
+        olt-use-function
+        olt-use-sw-task
+        olt-use-call_back
+        olt-use-e_object
+     )
+;;; olt-use-property
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-resource"
+    '(token)
+    '(replacement
+        "usesResource («olt-id», «olt-time», ««olt-allow-use-multiply»»)"
+     )
+;;; olt-use-resource
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-use-sw-task"
+    '(token)
+    '(replacement           "usesSWTask («olt-id», ««olt-allow-use-multiply»»)")
+;;; olt-use-sw-task
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-use-time-table"
+    '(token)
+    '(replacement           "usesTimeTable («olt-id»)")
+;;; olt-use-time-table
+)
+
+;;; 10-Jul-1995 
+(lse-define-fill-in "olt-while"
+    '(token                 "@while")
+    '(token)
+    '(description           "While loop")
+    '(replacement
+        "@while («olt-const-bool-expr»)"
+        @ olt-macro-block
+        "@endwhile"
+     )
+;;; olt-while
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-window"
+    '(token)
+    '(token                 "Window")
+    '(leading               ",")
+    '(replacement           "Window («const-int»)")
+;;; olt-window
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-x-body"
+    '(replacement           @ olt-body)
+;;; olt-x-body
+)
+
+;;;  2-Mar-1996 
+(lse-define-fill-in "olt-x_level"
+    '(token                 "@X_Level")
+    '(token)
+    '(replacement           "@X_Level («olt-const-int-expr»)")
+;;; olt-x_level
+)
+
+;;;  1-Mar-1996
+(lse-define-fill-in "olt-x-model"
+    '(token)
+    '(token                 "XModel")
+    '(leading               ",")
+    '(replacement           "XModel (" & @ olt-x-model-type & ")")
+;;; olt-x-model
+)
+
+;;;  1-Mar-1996
+(lse-define-fill-in "olt-x-model-type"
+    '(menu
+        "Termination"
+        "Resumption"
+     )
+;;; olt-x-model-type
+)
+
+;;;  1-Mar-1996 
+(lse-define-fill-in "olt-x-prototype"
+    '(token)
+    '(leading               ",")
+    '(replacement           "Prototype (Body)")
+;;; olt-x-prototype
+)
+
+;
+

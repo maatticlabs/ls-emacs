@@ -1,0 +1,877 @@
+;-*-unibyte: t;-*-
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Essence-Object-Class"
+    '(token)
+    '(token                  "Essence-Object")
+    '(replacement
+        "_Ancestor_Essence = «name»"
+        ""
+        "class «TOM-Essence-class-name» (_Ancestor_Essence) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "««TOM-Attr-Spec»»"
+          "««TOM-Pred-Spec»»"
+          "««py-class-init»»"
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class «TOM-Essence-class-name»"
+        ""
+        "««TOM-ATS-Type-Spec»»"
+     )
+;;; TOM-Essence-Object-Class
+)
+
+(lse-define-fill-in "TOM-Essence-Link-Class"
+    '(token)
+    '(token                  "Essence-Link")
+    '(replacement
+        "_Ancestor_Essence = «name»"
+        ""
+        "class «TOM-Essence-class-name» (_Ancestor_Essence) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "«TOM-Link-Type»···"
+          "««TOM-Link-Roles»»"
+          "««TOM-Link-Max-Links»»"
+          "««TOM-Attr-Spec»»"
+          "««TOM-Pred-Spec»»"
+          "««py-class-init»»"
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class «TOM-Essence-class-name»"
+        ""
+        "««TOM-ATS-Type-Spec»»"
+     )
+;;; TOM-Essence-Link-Class
+)
+
+(lse-define-fill-in "TOM-Link-Max-Links"
+    '(token)
+    '(replacement
+        "max_links               = TFL.d_dict \\ "
+        "  ( «name» = «number»"
+        "  )"
+     )
+;;; TOM-Link-Max-Links
+)
+
+(lse-define-fill-in "TOM-Link-Roles"
+    '(token)
+    '(replacement
+        "role_names              = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Link-Roles
+)
+
+(lse-define-fill-in "TOM-Link-Type"
+    '(token)
+    '(replacement
+        "«TOM-Link-Type-Role» = «name»"
+     )
+;;; TOM-Link-Type
+)
+
+(lse-define-fill-in "TOM-Link-Type-Role"
+    '(token)
+    '(menu
+        "left_type"
+        "right_type"
+        "middle_type"
+     )
+;;; TOM-Link-Type-Role
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Essence-class-name"
+    '(auto-replicate        1)
+    '(replacement
+        @ py-class-name
+     )
+;;; TOM-Essence-class-name
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute"
+    '(token)
+    '(token                 "Attribute")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description
+        "Define a specific attribute of an essential object/link"
+     )
+    '(replacement
+        "class «py-class-name» («TOM-Attribute-Type») :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««TOM-Attribute-Attribute»»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; TOM-Attribute
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Type"
+    '(description           "Type of attribute")
+    '(menu ;; 13-Mar-2003
+        TOM-Attribute-Type-Derived
+        "A_«TOM-Attribute-Type-1»"
+     )
+;;; TOM-Attribute-Type
+)
+
+;;; 13-Mar-2003
+(lse-define-fill-in "TOM-Attribute-Type-1"
+    '(description           "Concrete type of attribute")
+;;; TOM-Attribute-Type-1
+)
+
+;;; 13-Mar-2003
+(lse-define-fill-in "TOM-Attribute-Type-Derived"
+    '(description           "Derived from _Ancestor attribute of same name")
+    '(replacement
+        "_Ancestor." &
+        (lse-insert-replica-or-flat "py-class-name")
+     )
+;;; TOM-Attribute-Type-Derived
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Attribute"
+    '(token)
+    '(token                 "AAttribute")
+    '(description           "Attribute of a TOM.Attr.Type")
+    '(menu
+        TOM-Attribute-ATS-Mixin
+        TOM-Attribute-Default-Kind
+        TOM-Attribute-Import-Kind
+        @ TOM-Attribute-Attribute-mixin
+     )
+;;; TOM-Attribute-Attribute
+)
+
+;;; 19-Feb-2004
+(lse-define-fill-in "TOM-Attribute-Attribute-mixin"
+    '(menu
+        TOM-Attribute-default
+        TOM-Attribute-store-default
+        TOM-Attribute-explanation
+        TOM-Attribute-group
+        TOM-Attribute-syntax
+        TOM-Attribute-method-computed
+     )
+;;; TOM-Attribute-Attribute-mixin
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-default"
+    '(token)
+    '(token                 "default")
+    '(description           "Default value of a TOM attribute")
+    '(replacement
+        "default            = «text»"
+     )
+;;; TOM-Attribute-default
+)
+
+;;; 10-Mar-2003
+(lse-define-fill-in "TOM-Attribute-store-default"
+    '(token)
+    '(token                 "default")
+    '(description
+        "Store attribute in DB even if it has the default value"
+     )
+    '(replacement
+        "store_default      = 1"
+     )
+;;; TOM-Attribute-store-default
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-explanation"
+    '(token)
+    '(token                 "explanation")
+    '(description           "Further explanation for a TOM attribute")
+    '(replacement
+        "explanation        = \"\"\" "
+        "  «text»"
+        "  \"\"\" "
+     )
+;;; TOM-Attribute-explanation
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-group"
+    '(token)
+    '(token                 "group")
+    '(description           "Sort group of a TOM attribute")
+    '(replacement
+        "group              = «text»"
+     )
+;;; TOM-Attribute-group
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-syntax"
+    '(token)
+    '(token                 "syntax")
+    '(description           "Syntax description for a TOM attribute")
+    '(replacement
+        "syntax             = \\ "
+        @ TOM-multi-line-text-assignment
+     )
+;;; TOM-Attribute-syntax
+)
+
+;;; 19-Feb-2004
+(lse-define-fill-in "TOM-Attribute-ATS-Mixin"
+    '(token)
+    '(token                 "A-Mixin")
+    '(description
+        "Define ats-specific properties of an attribute in a mixin class"
+     )
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class «ats-type-name» :"
+        lse-indent+1
+          "««TOM-Attribute-Kind»»"
+          "««TOM-Attribute-Attribute-mixin»»···"
+        lse-indent-1
+        "# end class «ats-type-name»"
+     )
+;;; TOM-Attribute-ATS-Mixin
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Kind"
+    '(token)
+    '(token                 "AKind")
+    '(description           "Define generic attribute Kind")
+    '(replacement
+        "kind           = " & @ TOM-Attribute-Kind-Spec
+     )
+;;; TOM-Attribute-Kind
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Kind-Spec"
+    '(token)
+    '(description           "Define generic attribute Kind")
+    '(replacement
+        "Attr.«TOM-Attribute-Kind-Type»««TOM-Attribute-Kind-Type-Mod»»"
+     )
+;;; TOM-Attribute-Kind-Spec
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Kind-Type"
+    '(token)
+    '(menu
+        "Required"
+        "Optional"
+        ("Optional_Computed"
+         "Value taken from user or calculated by `computed` if unspecified"
+        ); 17-Mar-2003
+        "Schedule"
+        "Internal"
+        "Cached"
+        ("Auto_Cached"
+         "Value calculated by `computed` of attribute after attribute changes of object."
+        )
+        ("Sync_Cached"
+         "Value calculated by `computed` of attribute when syncing."
+        ); 17-Mar-2003
+        ("Once_Cached"
+         "Value calculated just once -- effectively a constant."
+        )
+        ("Computed"
+         "Value always calculated by `computed` of attribute. Watch out for performance problem."
+        )
+        "Outer"
+     )
+;;; TOM-Attribute-Kind-Type
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Kind-Type-Mod"
+    '(token)
+    '(sort)
+    '(menu
+        ("_Proxy"
+         "Attribute may be changed but normally refers to outer value"
+        )
+        ("_Sticky"
+         "Attribute reset to default value whenever user enters empty value"
+        )
+     )
+;;; TOM-Attribute-Kind-Type-Mod
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Default-Kind"
+    '(token)
+    '(token                 "Default-Kind")
+    '(description
+        "Define default attribute kind (except for imports)"
+     )
+    '(replacement
+        "default_kind       = " & @ TOM-Attribute-Kind-Spec
+     )
+;;; TOM-Attribute-Default-Kind
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-Import-Kind"
+    '(token)
+    '(token                 "Import-Kind")
+    '(description
+        "Define default attribute kind for imports"
+     )
+    '(replacement
+        "import_kind        = " & @ TOM-Attribute-Kind-Spec
+     )
+;;; TOM-Attribute-Import-Kind
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attribute-ATS-Kinds"
+    '(token)
+    '(description
+        "Define dictionary of attribute kinds indexed by ATS name."
+        "Don't use this feature outside of mixins (use ats-mixins instead)."
+     )
+    '(replacement
+        "ats_kinds          = TFL.d_dict \\"
+        "  ( «TOM-Attr-Kind-Dict-Entry»···"
+        "  )"
+     )
+;;; TOM-Attribute-ATS-Kinds
+)
+
+;;;  4-Mar-2003
+(lse-define-fill-in "TOM-Attr-Kind-Dict-Entry"
+    '(separator             lse-newline & lse-environment-indent & ", ")
+    '(leading               ",")
+    '(replacement
+        "«name»= " & @ TOM-Attribute-Kind-Spec
+     )
+;;; TOM-Attr-Kind-Dict-Entry
+)
+
+;;; 18-Mar-2003
+(lse-define-fill-in "TOM-Attribute-method-computed"
+    '(token)
+    '(token                 "computed")
+    '(description           "Method to compute value of attribute")
+    '(replacement
+        "def computed (self, obj) :"
+        @ py-function-body
+        "# end def computed"
+     )
+;;; TOM-Attribute-method-computed
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Attr-Spec"
+    '(token)
+    '(token                 "A-Spec")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _Attributes (_Ancestor_Essence._Attributes) : "
+        lse-indent+1
+          "_Ancestor = _Ancestor_Essence._Attributes"
+          "««TOM-Attribute»»···"
+        lse-indent-1
+        "# end class _Attributes"
+     )
+;;; TOM-Attr-Spec
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-ATS-Type-Spec"
+    '(token)
+    '(replacement
+        "_Essence = " & (lse-insert-replica-or-flat "TOM-Essence-class-name")
+        ""
+        "class _ATS_Types (_Ancestor_Essence._ATS_Types) : "
+        lse-indent+1
+        ""
+        "_Ancestor = _Ancestor_Essence._ATS_Types"
+        ""
+        "««TOM-ATS-Type-template»»"
+        "««TOM-ATS-Type-auto-mixin»»"
+        ""
+        "««TOM-ATS-Type»»···"
+        ""
+        lse-indent-1
+        "# end class _ATS_Types"
+        ""
+     )
+;;; TOM-ATS-Type-Spec
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-ATS-Type-template"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _template (_Ancestor._template) :"
+        lse-indent+1
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class _template"
+        ""
+        "««TOM-ATS-Type-template-I»»"
+     )
+;;; TOM-ATS-Type-template
+)
+
+;;; 19-Mar-2003
+(lse-define-fill-in "TOM-ATS-Type-template-I"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description           "ATS-Type template for import types")
+    '(replacement
+        "class _template_I (_template, _Ancestor._template_I) : "
+        lse-indent+1
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class _template_I"
+     )
+;;; TOM-ATS-Type-template-I
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-ATS-Type-auto-mixin"
+    '(token)
+    '(description
+        "Automatically create descendents of all ats-types defined by the "
+        "ancestor and *not* explicitly defined here, using `_auto_mixin` "
+        "as first base."
+     )
+    '(replacement
+        "_auto_mixin = «TOM-ATS-Type-auto-mixin-base»"
+     )
+;;; TOM-ATS-Type-auto-mixin
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-ATS-Type-auto-mixin-base"
+    '(replacement           "TFL.Meta.Object")
+;;; TOM-ATS-Type-auto-mixin-base
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-ATS-Type"
+    '(token)
+    '(token                 "ATS-Type")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description           "Define a application-type specific entity type")
+    '(replacement
+        "class «ats-type-name» (««_template»», _Ancestor.«ats-type-name») :"
+        lse-indent+1
+          ""
+          "_Ancestor = _Ancestor_Essence._ATS_Types.«ats-type-name»"
+          ""
+          "««py-statement»»···"
+          ""
+        lse-indent-1
+        "# end class «ats-type-name»"
+     )
+;;; TOM-ATS-Type
+)
+
+;;; 19-Mar-2003
+(lse-define-fill-in "_template"
+    '(trailer             ",")
+    '(replacement         "_template")
+;;; _template
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Pred-Spec"
+    '(token)
+    '(token                 "P-Spec")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _Predicates (_Ancestor_Essence._Predicates) : "
+        lse-indent+1
+          "_Ancestor = _Ancestor_Essence._Predicates"
+          "««TOM-Predicate»»···"
+        lse-indent-1
+        "# end class _Predicates"
+     )
+;;; TOM-Pred-Spec
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate"
+    '(token)
+    '(token                 "Predicate")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description
+        "Define a specific predicate of an essential object/link"
+     )
+    '(replacement
+        "class «py-class-name» («TOM-Predicate-Type») :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««TOM-Predicate-Attribute»»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; TOM-Predicate
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-Type"
+    '(menu
+        TOM-Predicate-Type-Derived
+        "Pred.Condition"
+        "Pred.E_Quant"
+        "Pred.N_Quant"
+        "Pred.U_Quant"
+     )
+;;; TOM-Predicate-Type
+)
+
+;;; 19-Mar-2003
+(lse-define-fill-in "TOM-Predicate-Type-Derived"
+    '(replacement
+        "_Ancestor." &
+        (lse-insert-replica-or-flat "py-class-name")
+     )
+;;; TOM-Predicate-Type-Derived
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-Attribute"
+    '(token)
+    '(token                 "PAttribute")
+    '(description           "Attribute of a TOM.Pred.Type")
+    '(menu
+        TOM-Predicate-ATS-Mixin
+        TOM-Predicate-Default-Kind
+        TOM-Predicate-Import-Kind
+        @ TOM-Predicate-Attribute-mixin
+     )
+;;; TOM-Predicate-Attribute
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-Attribute-mixin"
+    '(menu
+        TOM-Predicate-explanation
+        TOM-Predicate-assertion
+        TOM-Predicate-attributes
+        TOM-Predicate-attr-none
+        TOM-Predicate-parameters
+        TOM-Predicate-bvar
+        TOM-Predicate-bvar_attr
+        TOM-Predicate-seq
+        TOM-Predicate-guard
+        TOM-Predicate-guard-attr
+        TOM-Predicate-lower-limit
+        TOM-Predicate-upper-limit
+        TOM-Predicate-extralinks
+        TOM-Predicate-rank
+        TOM-Predicate-severe
+     )
+;;; TOM-Predicate-Attribute-mixin
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-assertion"
+    '(token)
+    '(token                 "assertion")
+    '(description           "Define assertion describing the predicate")
+    '(replacement
+        "assertion          = «quoted-text»"
+     )
+;;; TOM-Predicate-assertion
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-attributes"
+    '(token)
+    '(description
+        "Define attributes checked by this predicate. The predicate is only"
+        "checked if all `attributes` have a non-None value."
+     )
+    '(replacement
+        "attributes         = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-attributes
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-attr-none"
+    '(token)
+    '(description
+        "Define attributes checked by this predicate. The predicate is "
+        "checked even if some `attr-none` have a None value."
+     )
+    '(replacement
+        "attr_none          = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-attr-none
+)
+
+(lse-define-fill-in "TOM-Predicate-bvar"
+    '(token)
+    '(description
+        "Define bounded variables used by this predicate"
+     )
+    '(replacement
+        "bvar               = «quoted-text»"
+     )
+;;; TOM-Predicate-bvar
+)
+
+(lse-define-fill-in "TOM-Predicate-bvar_attr"
+    '(token)
+    '(description
+        "Define bounded variable attributes used by this predicate"
+     )
+    '(replacement
+        "bvar_attr          = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-bvar_attr
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-explanation"
+    '(token)
+    '(replacement
+        @ TOM-Attribute-explanation
+     )
+;;; TOM-Predicate-explanation
+)
+
+;;; 19-Mar-2003
+(lse-define-fill-in "TOM-Predicate-extralinks"
+    '(token)
+    '(description           "Define additional hyperlinks for error widget")
+    '(replacement
+        "_extra_links_s     = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-extralinks
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-guard"
+    '(token)
+    '(description
+        "Define a guard predicate. The predicate will only be checked if the"
+        "guard is true."
+     )
+    '(replacement
+        "guard              = «quoted-text»"
+     )
+;;; TOM-Predicate-guard
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-guard-attr"
+    '(token)
+    '(description
+        "Define a guard predicate. The predicate will only be checked if the"
+        "guard is true."
+     )
+    '(replacement
+        "guard_attr         = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-guard-attr
+)
+
+;;; 11-Mar-2003
+(lse-define-fill-in "TOM-Predicate-lower-limit"
+    '(token)
+    '(description           "Define lower limit for N_Quant")
+    '(replacement
+        "lower_limit        = «text»"
+     )
+;;; TOM-Predicate-lower-limit
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-parameters"
+    '(token)
+    '(description
+        "Define parameters used by the predicate (i.e., external to the "
+        "object/link in question) used for evaluating assertion."
+     )
+    '(replacement
+        "parameters         = («quoted-text», ««quoted-text»»)"
+     )
+;;; TOM-Predicate-parameters
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-rank"
+    '(token)
+    '(description
+        "Define rank of predicate. `rank` defines the sequence in which "
+        "predicates are checked. If any predicate of rank `n` fails, "
+        "predicates of rank `n + 1` and higher won't be checked."
+     )
+    '(replacement
+        "rank               = «text»"
+     )
+;;; TOM-Predicate-rank
+)
+
+(lse-define-fill-in "TOM-Predicate-seq"
+    '(token)
+    '(description
+        "Define the sequence over which should be quantified"
+     )
+    '(replacement
+        "seq                = «quoted-text»"
+     )
+;;; TOM-Predicate-seq
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-severe"
+    '(token)
+    '(description
+         "Define severity of predicate (0 means warning, 1 means error)."
+     )
+    '(replacement
+        "severe             = «text»"
+     )
+;;; TOM-Predicate-severe
+)
+
+;;; 19-Feb-2004
+(lse-define-fill-in "TOM-Predicate-ATS-Mixin"
+    '(token)
+    '(token                 "P-Mixin")
+    '(description
+        "Define ats-specific properties of a predicate in a mixin class"
+     )
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class «ats-type-name» :"
+        lse-indent+1
+          "««TOM-Predicate-Kind»»"
+          "««TOM-Predicate-Attribute-mixin»»···"
+        lse-indent-1
+        "# end class «ats-type-name»"
+     )
+;;; TOM-Predicate-ATS-Mixin
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-Kind"
+    '(token)
+    '(token                 "PKind")
+    '(description           "Define generic Predicate Kind")
+    '(replacement
+        "kind           = Pred.«TOM-Predicate-Kind-Type»"
+     )
+;;; TOM-Predicate-Kind
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-Kind-Type"
+    '(token)
+    '(menu
+        ("Object"     "Predicate kind for object-local invariant.")
+        ("System"     "Predicate kind for system-wide invariant.")
+        ("Schedule"   "Predicate kind for schedule invariant.")
+        ("Local"      "Predicate kind for neighborhood-local invariant.")
+     )
+;;; TOM-Predicate-Kind-Type
+)
+
+;;; 19-Feb-2004
+(lse-define-fill-in "TOM-Predicate-Default-Kind"
+    '(token)
+    '(token                 "P-Default-Kind")
+    '(description
+        "Define default predicate kind (except for imports)"
+     )
+    '(replacement
+        "default_kind       = Pred.«TOM-Predicate-Kind-Type»"
+     )
+;;; TOM-Predicate-Default-Kind
+)
+
+;;; 19-Feb-2004
+(lse-define-fill-in "TOM-Predicate-Import-Kind"
+    '(token)
+    '(token                 "P-Import-Kind")
+    '(description
+        "Define default predicate kind for imports"
+     )
+    '(replacement
+        "import_kind        = Pred.«TOM-Predicate-Kind-Type»"
+     )
+;;; TOM-Predicate-Import-Kind
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-Predicate-ATS-Kinds"
+    '(token)
+    '(description
+        "Define dictionary of predicate kinds indexed by ATS name"
+        "Don't use this feature outside of mixins (use ats-mixins instead)."
+     )
+    '(replacement
+        "ats_kinds          = TFL.d_dict \\"
+        "  ( «TOM-Pred-Kind-Dict-Entry»···"
+        "  )"
+     )
+;;; TOM-Predicate-ATS-Kinds
+)
+
+;;;  4-Mar-2003
+(lse-define-fill-in "TOM-Pred-Kind-Dict-Entry"
+    '(separator             lse-newline & lse-environment-indent & ", ")
+    '(leading               ",")
+    '(replacement
+        "«name»= Pred.«TOM-Predicate-Kind-Type»"
+     )
+;;; TOM-Pred-Kind-Dict-Entry
+)
+
+;;; 11-Mar-2003
+(lse-define-fill-in "TOM-Predicate-upper-limit"
+    '(token)
+    '(description           "Define upper limit for N_Quant")
+    '(replacement
+        "upper_limit        = «text»"
+     )
+;;; TOM-Predicate-upper-limit
+)
+
+;  ««lse-define-fill-in»»···
+
+;;;  7-Feb-2003
+(lse-define-fill-in "TOM-multi-line-text-assignment"
+    '(replacement
+        "  ( «quoted-text»···"
+        "  )"
+     )
+;;; TOM-multi-line-text-assignment
+)
+
+;;;  7-Feb-2003
+(lse-define-fill-in "ats-type-name"
+    '(auto-replicate        3)
+    '(replacement           @ py-class-name)
+;;; ats-type-name
+)

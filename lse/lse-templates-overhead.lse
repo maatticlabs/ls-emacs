@@ -1,0 +1,134 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "gfolie"
+    '(token)
+    '(description           "Folie & Trainermanual for generic folie")
+    '(replacement
+        @ Folie
+        @ Lern-Ziel
+     )
+;;; gfolie
+)
+
+(lse-define-fill-in "Folie" 
+  '(token)
+  '(replacement 
+      "\\begin{folie}{«folien_title»}"
+      "    ««folien_label»»"
+      ""
+      "    ««folien_inhalt»»"
+      ""
+      "\\end{folie}"
+      ""
+   )
+)
+
+(lse-define-fill-in "folien_chapter" 
+  '(token           "\\folienchapter")
+  '(replacement 
+      "\\folienchapter{«text»}««folien_chapter_zeit»»"
+   )
+)
+
+(lse-define-fill-in "folien_chapter_zeit" 
+  '(description   "Uhrzeit, zu welcher das Kapitel beginnt" )
+  '(replacement 
+      "[«text»:«text»]"
+   )
+)
+
+(lse-define-fill-in "folien_inhalt"
+    '(description           "Text der Folie bzw. Inhalt der mit dem Lernziel vermittelt werden soll")
+;;; folien_inhalt
+)
+
+(lse-define-fill-in "folien_label"
+    '(description           "Label für Cross-Referenzen und Trainermanual")
+    '(replacement           "\\label{«Folien-Label»}")
+;;; folien_label
+)
+
+(lse-define-fill-in "folien_section" 
+  '(token           "\\foliensection")
+  '(replacement 
+      "\\foliensection{«text»}"
+   )
+)
+
+(lse-define-fill-in "folien_title" 
+  '(description   "Ueberschrift der Folie")
+)
+
+;;; 12-Apr-1996 
+(lse-define-fill-in "notrainermanual"
+    '(token)
+    '(description           "Mark material to be ignored by trainer manual")
+    '(replacement
+        "\\begin{notrainermanual}"
+        "  «text»···"
+        "\\end{notrainermanual}"
+     )
+;;; notrainermanual
+)
+
+(lse-define-fill-in "Overhead" 
+  '(replacement 
+      "\\documentstyle[1%"
+      "4pt,% 1 = Double-Handouts, 2 = Handouts, 4 = Trainer-Manual, 7 = Projection"
+      "  german,swing,idioms,swing_bib,overhead]{business}"
+      "%\\nofiles"
+      "\\let\\tableofcontents=\\relax"
+      "\\let\\makeindex=\\relax"
+      "%\\def\\insertindex{\\addtocontents{toc}{\\protect\\contentsline{section}{\\protect\\numberline{~}Index}{I--i}}}" 
+      "%\\includeonly%"
+      "  {%"
+      "  %«text»,%"
+      "  %bib,%"
+      "  }"
+      ""
+      "  %DEF+"
+      "    \\inputdefinition{«text»}"
+      "    \\inputtermin{«text»}"
+      "    \\UseSeminarTermin/[«text»]"
+      "  %DEF-"
+      ""
+      "\\begin{document}"
+      ""
+      "  \\tableofcontents"
+      ""
+      "  \\include{bib}"
+      "  \\insertindex"
+      ""
+      "\end{document}"
+   )
+)
+
+(lse-define-fill-in "\\sidebyside"
+    '(token)
+    '(description           "Two column folie")
+    '(replacement
+        "\\sidebyside"
+        "  {"
+        "   «text»"
+        "  }"
+        "  {"
+        "   «text»"
+        "  }"
+     )
+;;; \\sidebyside
+)
+
+;;; 14-Nov-1995
+(lse-define-fill-in "UseFullPage"
+    '(token)
+    '(token                 "\\UseFullPage")
+    '(description           "Use full page for folie")
+    '(replacement
+        "\\begin{UseFullPage}"
+        "  ««text»»"
+        "\\end{UseFullPage}"
+     )
+;;; UseFullPage
+)
+

@@ -1,0 +1,711 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Exception:args" 
+  '(description           "Argument 1 of Exception")
+  '(leading               ",")
+  '(separator             ", ")
+;;; Exception:args
+)
+
+(lse-define-fill-in "Exception(args)" 
+  '(description           "Create a Exception object")
+  '(token                 "string.Exception")
+  '(replacement           "string.Exception (««Exception:args»»···)")
+;;; Exception(args)
+)
+
+(lse-define-fill-in "string.atof" 
+  '(description
+    "atof(s) -> float"
+
+"Return the floating point number represented by the string s."
+   )
+  '(token)
+  '(replacement           "string.atof ()")
+;;; string.atof
+)
+
+(lse-define-fill-in "string.atoi" 
+  '(description
+    "atoi(s [,base]) -> int"
+
+"Return the integer represented by the string s in the given"
+"base, which defaults to 10.  The string s must consist of one"
+"or more digits, possibly preceded by a sign.  If base is 0, it"
+"is chosen from the leading characters of s, 0 for octal, 0x or"
+"0X for hexadecimal.  If base is 16, a preceding 0x or 0X is"
+"accepted."
+   )
+  '(token)
+  '(replacement           "string.atoi ()")
+;;; string.atoi
+)
+
+(lse-define-fill-in "string.atol" 
+  '(description
+    "atol(s [,base]) -> long"
+
+"Return the long integer represented by the string s in the"
+"given base, which defaults to 10.  The string s must consist"
+"of one or more digits, possibly preceded by a sign.  If base"
+"is 0, it is chosen from the leading characters of s, 0 for"
+"octal, 0x or 0X for hexadecimal.  If base is 16, a preceding"
+"0x or 0X is accepted.  A trailing L or l is not accepted,"
+"unless base is 0."
+   )
+  '(token)
+  '(replacement           "string.atol ()")
+;;; string.atol
+)
+
+(lse-define-fill-in "string.capitalize" 
+  '(description
+    "capitalize(s) -> string"
+
+"Return a copy of the string s with only its first character"
+"capitalized."
+   )
+  '(token)
+  '(replacement           "string.capitalize ()")
+;;; string.capitalize
+)
+
+(lse-define-fill-in "string.capwords:s" 
+  '(description
+    "capwords(s, [sep]) -> string"
+
+	"Split the argument into words using split, capitalize each"
+	"word using capitalize, and join the capitalized words using"
+	"join. Note that this replaces runs of whitespace characters by"
+	"a single space."
+
+	""
+   )
+  '(leading               ",")
+;;; string.capwords:s
+)
+
+(lse-define-fill-in "string.capwords:sep" 
+  '(description
+    "capwords(s, [sep]) -> string"
+
+	"Split the argument into words using split, capitalize each"
+	"word using capitalize, and join the capitalized words using"
+	"join. Note that this replaces runs of whitespace characters by"
+	"a single space."
+
+	 "(default = None)"
+   )
+  '(leading               ",")
+;;; string.capwords:sep
+)
+
+(lse-define-fill-in "string.capwords" 
+  '(description
+    "capwords(s, [sep]) -> string"
+
+	"Split the argument into words using split, capitalize each"
+	"word using capitalize, and join the capitalized words using"
+	"join. Note that this replaces runs of whitespace characters by"
+	"a single space."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.capwords («string.capwords:s», ««string.capwords:sep»»)")
+;;; string.capwords
+)
+
+(lse-define-fill-in "string.center:s" 
+  '(description
+    "center(s, width) -> string"
+
+	"Return a center version of s, in a field of the specified"
+	"width. padded with spaces as needed.  The string is never"
+	"truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.center:s
+)
+
+(lse-define-fill-in "string.center:width" 
+  '(description
+    "center(s, width) -> string"
+
+	"Return a center version of s, in a field of the specified"
+	"width. padded with spaces as needed.  The string is never"
+	"truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.center:width
+)
+
+(lse-define-fill-in "string.center" 
+  '(description
+    "center(s, width) -> string"
+
+	"Return a center version of s, in a field of the specified"
+	"width. padded with spaces as needed.  The string is never"
+	"truncated."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.center («string.center:s», «string.center:width»)")
+;;; string.center
+)
+
+(lse-define-fill-in "string.count:s" 
+  '(description
+    "count(s, sub[, start[,end]]) -> int"
+
+	"Return the number of occurrences of substring sub in string"
+	"s[start:end].  Optional arguments start and end are"
+	"interpreted as in slice notation."
+
+	""
+   )
+  '(leading               ",")
+;;; string.count:s
+)
+
+(lse-define-fill-in "string.count:sub" 
+  '(description
+    "count(s, sub[, start[,end]]) -> int"
+
+	"Return the number of occurrences of substring sub in string"
+	"s[start:end].  Optional arguments start and end are"
+	"interpreted as in slice notation."
+
+	""
+   )
+  '(leading               ",")
+;;; string.count:sub
+)
+
+(lse-define-fill-in "string.count:i" 
+  '(description           "Argument 3 of string.count (default = 0)")
+  '(leading               ",")
+;;; string.count:i
+)
+
+(lse-define-fill-in "string.count:last" 
+  '(description           "Argument 4 of string.count (default = None)")
+  '(leading               ",")
+;;; string.count:last
+)
+
+(lse-define-fill-in "string.count" 
+  '(description
+    "count(s, sub[, start[,end]]) -> int"
+
+	"Return the number of occurrences of substring sub in string"
+	"s[start:end].  Optional arguments start and end are"
+	"interpreted as in slice notation."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.count («string.count:s», «string.count:sub», ««string.count:i»», ««string.count:last»»)")
+;;; string.count
+)
+
+(lse-define-fill-in "string.expandtabs:s" 
+  '(description
+    "expandtabs(s [,tabsize]) -> string"
+
+	"Return a copy of the string s with all tab characters replaced"
+	"by the appropriate number of spaces, depending on the current"
+	"column, and the tabsize (default 8)."
+
+	""
+   )
+  '(leading               ",")
+;;; string.expandtabs:s
+)
+
+(lse-define-fill-in "string.expandtabs:tabsize" 
+  '(description
+    "expandtabs(s [,tabsize]) -> string"
+
+	"Return a copy of the string s with all tab characters replaced"
+	"by the appropriate number of spaces, depending on the current"
+	"column, and the tabsize (default 8)."
+
+	 "(default = 8)"
+   )
+  '(leading               ",")
+;;; string.expandtabs:tabsize
+)
+
+(lse-define-fill-in "string.expandtabs" 
+  '(description
+    "expandtabs(s [,tabsize]) -> string"
+
+	"Return a copy of the string s with all tab characters replaced"
+	"by the appropriate number of spaces, depending on the current"
+	"column, and the tabsize (default 8)."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.expandtabs («string.expandtabs:s», ««string.expandtabs:tabsize»»)")
+;;; string.expandtabs
+)
+
+(lse-define-fill-in "string.find" 
+  '(description
+    "find(s, sub [,start [,end]]) -> in"
+
+"Return the lowest index in s where substring sub is found,"
+"such that sub is contained within s[start,end].  Optional"
+"arguments start and end are interpreted as in slice notation."
+
+"Return -1 on failure."
+   )
+  '(token)
+  '(replacement           "string.find ()")
+;;; string.find
+)
+
+(lse-define-fill-in "string.index:s" 
+  '(description
+    "index(s, sub [,start [,end]]) -> int"
+
+	"Return the lowest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(leading               ",")
+;;; string.index:s
+)
+
+(lse-define-fill-in "string.index:sub" 
+  '(description
+    "index(s, sub [,start [,end]]) -> int"
+
+	"Return the lowest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(leading               ",")
+;;; string.index:sub
+)
+
+(lse-define-fill-in "string.index:i" 
+  '(description           "Argument 3 of string.index (default = 0)")
+  '(leading               ",")
+;;; string.index:i
+)
+
+(lse-define-fill-in "string.index:last" 
+  '(description           "Argument 4 of string.index (default = None)")
+  '(leading               ",")
+;;; string.index:last
+)
+
+(lse-define-fill-in "string.index" 
+  '(description
+    "index(s, sub [,start [,end]]) -> int"
+
+	"Return the lowest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.index («string.index:s», «string.index:sub», ««string.index:i»», ««string.index:last»»)")
+;;; string.index
+)
+
+(lse-define-fill-in "string.join" 
+  '(description
+    "join(list [,sep]) -> string"
+"joinfields(list [,sep]) -> string"
+
+"Return a string composed of the words in list, with"
+"intervening occurences of sep.  Sep defaults to a single"
+"space."
+
+"(join and joinfields are synonymous)"
+   )
+  '(token)
+  '(replacement           "string.join ()")
+;;; string.join
+)
+
+(lse-define-fill-in "string.joinfields" 
+  '(description
+    "join(list [,sep]) -> string"
+"joinfields(list [,sep]) -> string"
+
+"Return a string composed of the words in list, with"
+"intervening occurences of sep.  Sep defaults to a single"
+"space."
+
+"(join and joinfields are synonymous)"
+   )
+  '(token)
+  '(replacement           "string.joinfields ()")
+;;; string.joinfields
+)
+
+(lse-define-fill-in "string.ljust:s" 
+  '(description
+    "ljust(s, width) -> string"
+
+	"Return a left-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.ljust:s
+)
+
+(lse-define-fill-in "string.ljust:width" 
+  '(description
+    "ljust(s, width) -> string"
+
+	"Return a left-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.ljust:width
+)
+
+(lse-define-fill-in "string.ljust" 
+  '(description
+    "ljust(s, width) -> string"
+
+	"Return a left-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.ljust («string.ljust:s», «string.ljust:width»)")
+;;; string.ljust
+)
+
+(lse-define-fill-in "string.lower" 
+  '(description
+    "lower(s) -> string"
+
+"Return a copy of the string s converted to lowercase."
+   )
+  '(token)
+  '(replacement           "string.lower ()")
+;;; string.lower
+)
+
+(lse-define-fill-in "string.lstrip" 
+  '(description
+    "lstrip(s) -> string"
+
+"Return a copy of the string s with leading whitespace removed."
+   )
+  '(token)
+  '(replacement           "string.lstrip ()")
+;;; string.lstrip
+)
+
+(lse-define-fill-in "string.maketrans" 
+  '(description
+    "maketrans(frm, to) -> string"
+
+"Return a translation table (a string of 256 bytes long)"
+"suitable for use in string.translate.  The strings frm and to"
+"must be of the same length."
+   )
+  '(token)
+  '(replacement           "string.maketrans ()")
+;;; string.maketrans
+)
+
+(lse-define-fill-in "string.replace" 
+  '(description
+    "replace (str, old, new[, maxsplit]) -> string"
+
+"Return a copy of string str with all occurrences of substring"
+"old replaced by new. If the optional argument maxsplit is"
+"given, only the first maxsplit occurrences are replaced."
+   )
+  '(token)
+  '(replacement           "string.replace ()")
+;;; string.replace
+)
+
+(lse-define-fill-in "string.rfind" 
+  '(description
+    "rfind(s, sub [,start [,end]]) -> int"
+
+"Return the highest index in s where substring sub is found,"
+"such that sub is contained within s[start,end].  Optional"
+"arguments start and end are interpreted as in slice notation."
+
+"Return -1 on failure."
+   )
+  '(token)
+  '(replacement           "string.rfind ()")
+;;; string.rfind
+)
+
+(lse-define-fill-in "string.rindex:s" 
+  '(description
+    "rindex(s, sub [,start [,end]]) -> int"
+
+	"Return the highest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(leading               ",")
+;;; string.rindex:s
+)
+
+(lse-define-fill-in "string.rindex:sub" 
+  '(description
+    "rindex(s, sub [,start [,end]]) -> int"
+
+	"Return the highest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(leading               ",")
+;;; string.rindex:sub
+)
+
+(lse-define-fill-in "string.rindex:i" 
+  '(description           "Argument 3 of string.rindex (default = 0)")
+  '(leading               ",")
+;;; string.rindex:i
+)
+
+(lse-define-fill-in "string.rindex:last" 
+  '(description           "Argument 4 of string.rindex (default = None)")
+  '(leading               ",")
+;;; string.rindex:last
+)
+
+(lse-define-fill-in "string.rindex" 
+  '(description
+    "rindex(s, sub [,start [,end]]) -> int"
+
+	"Return the highest index in s where substring sub is found,"
+	"such that sub is contained within s[start,end].  Optional"
+	"arguments start and end are interpreted as in slice notation."
+
+	"Raise ValueError if not found."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.rindex («string.rindex:s», «string.rindex:sub», ««string.rindex:i»», ««string.rindex:last»»)")
+;;; string.rindex
+)
+
+(lse-define-fill-in "string.rjust:s" 
+  '(description
+    "rjust(s, width) -> string"
+
+	"Return a right-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.rjust:s
+)
+
+(lse-define-fill-in "string.rjust:width" 
+  '(description
+    "rjust(s, width) -> string"
+
+	"Return a right-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.rjust:width
+)
+
+(lse-define-fill-in "string.rjust" 
+  '(description
+    "rjust(s, width) -> string"
+
+	"Return a right-justified version of s, in a field of the"
+	"specified width, padded with spaces as needed.  The string is"
+	"never truncated."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.rjust («string.rjust:s», «string.rjust:width»)")
+;;; string.rjust
+)
+
+(lse-define-fill-in "string.rstrip" 
+  '(description
+    "rstrip(s) -> string"
+
+"Return a copy of the string s with trailing whitespace removed."
+   )
+  '(token)
+  '(replacement           "string.rstrip ()")
+;;; string.rstrip
+)
+
+(lse-define-fill-in "string.split" 
+  '(description
+    "split(str [,sep [,maxsplit]]) -> list of strings"
+"splitfields(str [,sep [,maxsplit]]) -> list of strings"
+
+"Return a list of the words in the string s, using sep as the"
+"delimiter string.  If maxsplit is nonzero, splits into at most"
+"maxsplit words If sep is not specified, any whitespace string"
+"is a separator.  Maxsplit defaults to 0."
+
+"(split and splitfields are synonymous)"
+   )
+  '(token)
+  '(replacement           "string.split ()")
+;;; string.split
+)
+
+(lse-define-fill-in "string.splitfields" 
+  '(description
+    "split(str [,sep [,maxsplit]]) -> list of strings"
+"splitfields(str [,sep [,maxsplit]]) -> list of strings"
+
+"Return a list of the words in the string s, using sep as the"
+"delimiter string.  If maxsplit is nonzero, splits into at most"
+"maxsplit words If sep is not specified, any whitespace string"
+"is a separator.  Maxsplit defaults to 0."
+
+"(split and splitfields are synonymous)"
+   )
+  '(token)
+  '(replacement           "string.splitfields ()")
+;;; string.splitfields
+)
+
+(lse-define-fill-in "string.strip" 
+  '(description
+    "strip(s) -> string"
+
+"Return a copy of the string s with leading and trailing"
+"whitespace removed."
+   )
+  '(token)
+  '(replacement           "string.strip ()")
+;;; string.strip
+)
+
+(lse-define-fill-in "string.swapcase" 
+  '(description
+    "swapcase(s) -> string"
+
+"Return a copy of the string s with upper case characters"
+"converted to lowercase and vice versa."
+   )
+  '(token)
+  '(replacement           "string.swapcase ()")
+;;; string.swapcase
+)
+
+(lse-define-fill-in "string.translate" 
+  '(description
+    "translate(s,table [,deletechars]) -> string"
+
+"Return a copy of the string s, where all characters occurring"
+"in the optional argument deletechars are removed, and the"
+"remaining characters have been mapped through the given"
+"translation table, which must be a string of length 256."
+   )
+  '(token)
+  '(replacement           "string.translate ()")
+;;; string.translate
+)
+
+(lse-define-fill-in "string.upper" 
+  '(description
+    "upper(s) -> string"
+
+"Return a copy of the string s converted to uppercase."
+   )
+  '(token)
+  '(replacement           "string.upper ()")
+;;; string.upper
+)
+
+(lse-define-fill-in "string.zfill:x" 
+  '(description
+    "zfill(x, width) -> string"
+
+	"Pad a numeric string x with zeros on the left, to fill a field"
+	"of the specified width.  The string x is never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.zfill:x
+)
+
+(lse-define-fill-in "string.zfill:width" 
+  '(description
+    "zfill(x, width) -> string"
+
+	"Pad a numeric string x with zeros on the left, to fill a field"
+	"of the specified width.  The string x is never truncated."
+
+	""
+   )
+  '(leading               ",")
+;;; string.zfill:width
+)
+
+(lse-define-fill-in "string.zfill" 
+  '(description
+    "zfill(x, width) -> string"
+
+	"Pad a numeric string x with zeros on the left, to fill a field"
+	"of the specified width.  The string x is never truncated."
+
+	""
+   )
+  '(token)
+  '(replacement           "string.zfill («string.zfill:x», «string.zfill:width»)")
+;;; string.zfill
+)
+

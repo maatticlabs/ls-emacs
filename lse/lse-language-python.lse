@@ -1,0 +1,330 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 1998 Swing Informationssysteme GmbH. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria
+
+;;;; ****************************************************************************
+;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
+;;;;
+;;;; Like GNU Emacs, LS-Emacs is free software; you can redistribute it
+;;;; and/or modify it under the terms of the GNU General Public License as
+;;;; published by the Free Software Foundation; either version 2 of the
+;;;; License, or (at your option) any later version.
+;;;;
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-language-python
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LSE language python
+;;;;
+;;;; Revision Dates
+;;;;     3-Jan-1998 (CT) Creation
+;;;;     2-Mar-1998 (CT) lse-python-mode added
+;;;;    13-Apr-1998 (CT) lse-python:goto-beginning-of-class added
+;;;;     3-Aug-1998 (CT) Added `+' to python-mode's `comment-start' and
+;;;;                     `comment-start-skip'
+;;;;     4-Aug-1998 (CT) Patch `imenu-example--python-class-regexp' and
+;;;;                     `imenu-example--python-method-regexp'
+;;;;     8-Aug-1998 (CT) Patch removed
+;;;;    31-Mar-1999 (CT) `lse-templates-python-lib' added
+;;;;     7-Apr-1999 (CT) `lse-templates-python-re' and friends added
+;;;;    24-Sep-1999 (CT) `lse-python:save-position' and friends added
+;;;;    24-Sep-1999 (CT) `lse-python:goto-begin-of-block' added
+;;;;     6-Jun-2000 (CT) `lse-python:goto-begin-of-block' changed to go to
+;;;;                     `if' when on `else'
+;;;;     8-Sep-2002 (CT) `lse-python:goto-next-statement` and
+;;;;                     `lse-python:goto-prev-statement` added
+;;;;     8-Sep-2002 (CT) `red gold` bindings added
+;;;;    18-Nov-2002 (CT) `red` cursor bindings added
+;;;;    18-Nov-2002 (CT) `lse-python:goto-next-statement-end` and
+;;;;                     `lse-python:goto-prev-statement-end` added
+;;;;    20-Nov-2002 (CT)  s/lse-python-mode/python-mode/ and call saved
+;;;;                      `lse:python-mode:std-python-mode` from there
+;;;;     4-Mar-2003 (CT) `lse-templates-python-TOM` and
+;;;;                     `lse-templates-python-TTA` added
+;;;;    ««revision-date»»···
+;;;;--
+
+(lse-language:define "python"
+    '(
+        (lse-language:initial-fill-in      "««python-root»»")
+        (lse-language:tab-increment        4)
+        (lse_comment_delim_char_set        "#")
+        (lse_comment_head_delim            "#")
+        (lse_comment_head_delim_pattern    "#+ *")
+        (lse-tpu:ident-group-chars         "_")
+     )
+    '(
+        ;; lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-python"
+        "lse-templates-python-TOM"
+        "lse-templates-python-TTA"
+        "lse-templates-python-lib"
+        "lse-templates-python-re"        ;  7-Apr-1999
+        "lse-templates-python-os"        ;  7-Apr-1999
+        "lse-templates-python-os-path"   ;  7-Apr-1999
+        "lse-templates-python-predicate" ;  7-Apr-1999
+        "lse-templates-python-string"    ;  7-Apr-1999
+        "lse-templates-python-sys"       ;  7-Apr-1999
+        ;; 25-May-1999 ;; "lse-templates-python-CTK"       ;  7-Apr-1999
+     )
+    137
+     67
+;;; python
+)
+
+;;;  2-Mar-1998
+;;; Loading python-mode introduces an error in desktop
+(require 'python-mode)
+
+(fset 'lse:python-mode:std-python-mode (symbol-function 'python-mode))
+
+(defun python-mode ()
+  (interactive)
+  (lse:python-mode:std-python-mode)
+  (setq comment-start      "#+ " );  3-Aug-1998
+  (setq comment-start-skip "#+ *");  3-Aug-1998
+  (local-unset-key "\177");  8-Mar-1998
+  ;; revert ``extremely bad form'' of python-mode rebindings of
+  ;; 'newline-and-indent
+  (mapcar #'(lambda (key) (local-unset-key key))
+	  (where-is-internal 'newline-and-indent)
+  );  8-Mar-1998
+
+  ;; move some local key bindings to local C-c keymap
+  ;; (lse-move-keys-to-prefix (current-local-map) [?\C-c] [?:])
+  ;; 9-Apr-1998
+  (local-unset-key [?:]); cannot move to [\C-c] because that's already bound
+
+  (local-set-smk   [red      ?a]     'lse-python:goto-beginning-of-def);   24-Sep-1999
+  (local-set-smk   [red      ?b]     'lse-python:goto-begin-of-block);     24-Sep-1999
+  (local-set-smk   [red      ?c]     'lse-python:goto-beginning-of-class); 13-Apr-1998
+  (local-set-smk   [red      ?e]     'lse-python:goto-end-of-def);         24-Sep-1999
+  (local-set-smk   [red      ?f]     'lse-python:goto-end-of-block);       24-Sep-1999
+  (local-set-smk   [red      ?g]     'lse-python:goto-end-of-class);       13-Apr-1998
+  (local-set-smk   [red      ?r]     'lse-python:goto-prev-statement);      8-Sep-2002
+  (local-set-smk   [red      ?s]     'lse-python:goto-next-statement);      8-Sep-2002
+  (local-set-smk   [red   right]     'lse-python:goto-next-statement);     18-Nov-2002
+  (local-set-smk   [red   ?\C-e]     'lse-python:goto-next-statement-end); 18-Nov-2002
+  (local-set-smk   [red    left]     'lse-python:goto-prev-statement);     18-Nov-2002
+  (local-set-smk   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
+  (local-set-smk   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
+  (local-set-smk   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
+
+  (local-set-smk   [gold red ?a]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?b]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?c]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?e]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?f]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?g]     'lse-python:goto-last-position); 24-Sep-1999
+  (local-set-smk   [gold red ?r]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [gold red ?s]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [gold red left]   'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [gold red ?\C-e]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [gold red right]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [gold red ?\C-a]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [gold red up]     'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [gold red down]   'lse-python:goto-last-position);  18-Nov-2002
+
+  (local-set-smk   [red gold ?a]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?b]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?c]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?e]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?f]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?g]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?r]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold ?s]     'lse-python:goto-last-position);  8-Sep-2002
+  (local-set-smk   [red gold left]   'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [red gold ?\C-e]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [red gold right]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [red gold ?\C-a]  'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [red gold up]     'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-smk   [red gold down]   'lse-python:goto-last-position);  18-Nov-2002
+
+  (setq indent-line-function 'lse-python:indent-line);  9-Mar-1998
+  (lse-language:use "python")
+  (turn-on-font-lock)
+; python-mode
+)
+
+;;;  9-Mar-1998
+(defun lse-python:indent-line ()
+  (interactive "*")
+  (if (or (equal      (char-syntax (following-char)) ?\) )
+          (looking-at "[-+*/,]")
+      )
+       (lse-indent-line)
+    (py-indent-line)
+  )
+; lse-python:indent-line
+)
+
+;;; 24-Sep-1999
+(defvar lse-python:last-position nil)
+(make-variable-buffer-local 'lse-python:last-position)
+
+;;; 24-Sep-1999
+(defun lse-python:save-position ()
+  (or (eq (point-marker) lse-python:last-position)
+      (setq lse-python:last-position (point-marker))
+  )
+; lse-python:save-position
+)
+
+;;; 24-Sep-1999
+(defun lse-python:goto-last-position ()
+  "Move point to last lse-python:last-position"
+  (interactive)
+  (and lse-python:last-position (goto-char lse-python:last-position))
+; lse-python:goto-last-position
+)
+
+;;; 13-Apr-1998
+(defun lse-python:goto-beginning-of-class ()
+  "Move to beginning of python class."
+  (interactive)
+  (lse-python:save-position)
+  (py-beginning-of-def-or-class t)
+; lse-python:goto-beginning-of-class
+)
+
+;;; 13-Apr-1998
+(defun lse-python:goto-end-of-class ()
+  "Move to end of python class."
+  (interactive)
+  (lse-python:save-position)
+  (py-end-of-def-or-class t)
+; lse-python:goto-end-of-class
+)
+
+;;; 24-Sep-1999
+(defun lse-python:goto-beginning-of-def ()
+  "Move to beginning of python function."
+  (interactive)
+  (lse-python:save-position)
+  (py-beginning-of-def-or-class)
+; lse-python:goto-beginning-of-def
+)
+
+;;; 24-Sep-1999
+(defun lse-python:goto-end-of-def ()
+  "Move to end of python function."
+  (interactive)
+  (lse-python:save-position)
+  (py-end-of-def-or-class)
+; lse-python:goto-end-of-def
+)
+
+;;; 24-Sep-1999
+(defun lse-python:goto-begin-of-block ()
+  "Goto begin of current python block"
+  (interactive)
+  (lse-python:save-position)
+  (if (save-excursion                      ;  6-Jun-2000
+        (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
+        (py-statement-opens-block-p)       ;  6-Jun-2000
+      )                                    ;  6-Jun-2000
+      (progn                               ;  6-Jun-2000
+        (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
+        (lse-tpu:end-of-line 0)            ;  6-Jun-2000
+      )                                    ;  6-Jun-2000
+  )                                        ;  6-Jun-2000
+  (py-goto-block-up t)
+; lse-python:goto-begin-of-block
+)
+
+;;; 24-Sep-1999
+(defun lse-python:goto-end-of-block ()
+  "Got end of current python block"
+  (interactive)
+  (lse-python:save-position)
+  (if (py-statement-opens-block-p)
+      t
+    (py-goto-block-up t)
+  )
+  (py-goto-beyond-block)
+  (back-to-indentation)            ;  18-Nov-2002
+; lse-python:goto-end-of-block
+)
+
+;;; 18-Nov-2002
+(defun lse-python@goto-next-statement (num)
+  (py-next-statement (or num 1))
+  (back-to-indentation)
+; lse-python@goto-next-statement
+)
+
+;;;  8-Sep-2002
+(defun lse-python:goto-next-statement (num)
+  "Goto next statement"
+  (interactive "P")
+  (lse-python:save-position)
+  (lse-python@goto-next-statement num)
+; lse-python:goto-next-statement
+)
+
+;;; 18-Nov-2002
+(defun lse-python@goto-end-of-last-statement ()
+  (lse-tpu:end-of-line 0)
+  (while (and (save-excursion
+                (beginning-of-line)
+                (looking-at py-blank-or-comment-re)
+              )
+	      (not (bobp))
+         )
+    (lse-tpu:end-of-line -1)
+  )
+; lse-python@goto-end-of-last-statement
+)
+
+;;; 18-Nov-2002
+(defun lse-python:goto-next-statement-end (num)
+  "Goto end of current statement"
+  (interactive "P")
+  (lse-python:save-position)
+  (if (eolp)
+      (lse-python@goto-next-statement 1)
+  )
+  (lse-python@goto-next-statement num)
+  (lse-python@goto-end-of-last-statement)
+; lse-python:goto-next-statement-end
+)
+
+;;; 18-Nov-2002
+(defun lse-python@goto-prev-statement (num)
+  (py-previous-statement (or num (if (py-continuation-line-p) 0 1)))
+  (back-to-indentation)
+; lse-python@goto-prev-statement
+)
+
+;;;  8-Sep-2002
+(defun lse-python:goto-prev-statement (num)
+  "Goto previous statement"
+  (interactive "P")
+  (lse-python:save-position)
+  (lse-python@goto-prev-statement num)
+; lse-python:goto-prev-statement
+)
+
+;;; 18-Nov-2002
+(defun lse-python:goto-prev-statement-end (num)
+  "Goto end of previous statement"
+  (interactive  "P")
+  (lse-python:goto-prev-statement num)
+  (lse-python@goto-end-of-last-statement)
+; lse-python:goto-prev-statement-end
+)

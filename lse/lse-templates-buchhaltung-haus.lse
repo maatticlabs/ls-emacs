@@ -1,0 +1,12 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "buchhaltung-file"
+    '(replacement
+        "$vst_korrektur   = 0.6349; "; 30-Sep-2001 
+        "$source_currency = \"eur\";";  1-Jan-2002 
+        "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
+                  & "Tools   &  & Beschreibung  "
+        "«buchhaltung»···"
+     )
+;;; buchhaltung-file
+)

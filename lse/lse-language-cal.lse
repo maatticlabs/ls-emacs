@@ -1,0 +1,40 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 2003 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-language-cal
+;;;;
+;;;; Purpose
+;;;;    Define LS-Emacs templates for calendar
+;;;;
+;;;; Revision Dates
+;;;;     9-Apr-2003 (CT) Creation
+;;;;    10-Apr-2003 (CT) `fill-column` and `auto-fill-mode` added
+;;;;    10-Mar-2004 (CT) `fill-column` changed from 60 to 70
+;;;;    ««revision-date»»···
+;;;;--
+(lse-language:define "cal"
+    '(
+        (lse-tpu:ident-group-chars         "-A-Za-z0-9äáàâöóòôüúùûÄÖÜß\@_")
+        (lse-language:tab-increment        2)
+        (lse_comment_head_delim            "#")
+        (lse_comment_head_delim_pattern    "#+ *")
+        (lse_comment_delim_char_set        "#")
+        (fill-column                       70)
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-cal"
+     )
+    137
+     67
+;;; cal
+)
+
+; __END__ lse-language-cal.lse

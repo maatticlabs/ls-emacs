@@ -1,0 +1,47 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-bash
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language bash
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-bash-mode put in here
+;;;;-- 
+(lse-language:define "bash"
+  '(
+    (lse-tpu:ident-group-chars         "_")
+    (lse-language:tab-increment        4)
+    (lse_comment_head_delim            "#")
+    (lse_comment_head_delim_pattern    "^#+ *")
+    (lse_comment_delim_char_set        "#")
+    (lse-language:initial-fill-in      "««bash»»")
+   )
+  '(
+    lse-tpu:toggle-newline-and-indent
+    auto-fill-mode
+   )
+  '(
+    "lse-templates-unix-generic"
+    "lse-templates-unix"
+    "lse-templates-sed"
+    "lse-templates-regexp"
+    "lse-templates-bash"
+   )
+;  1009
+;   383
+)
+
+;;;
+;;; bash mode
+;;;
+(defun lse-bash-mode ()
+  (interactive)
+  (text-mode)
+  (lse-language:use "bash")
+)
+

@@ -1,0 +1,489 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "MatchObject:re" 
+  '(description           "Argument 1 of MatchObject")
+  '(leading               ",")
+;;; MatchObject:re
+)
+
+(lse-define-fill-in "MatchObject:string" 
+  '(description           "Argument 2 of MatchObject")
+  '(leading               ",")
+;;; MatchObject:string
+)
+
+(lse-define-fill-in "MatchObject:pos" 
+  '(description           "Argument 3 of MatchObject")
+  '(leading               ",")
+;;; MatchObject:pos
+)
+
+(lse-define-fill-in "MatchObject:endpos" 
+  '(description           "Argument 4 of MatchObject")
+  '(leading               ",")
+;;; MatchObject:endpos
+)
+
+(lse-define-fill-in "MatchObject:regs" 
+  '(description           "Argument 5 of MatchObject")
+  '(leading               ",")
+;;; MatchObject:regs
+)
+
+(lse-define-fill-in "MatchObject(re,string,pos,endpos,regs)" 
+  '(description           "Create a MatchObject object")
+  '(token                 "re.MatchObject")
+  '(replacement           "re.MatchObject («MatchObject:re», «MatchObject:string», «MatchObject:pos», «MatchObject:endpos», «MatchObject:regs»)")
+;;; MatchObject(re,string,pos,endpos,regs)
+)
+
+(lse-define-fill-in "RegexObject:pattern" 
+  '(description           "Argument 1 of RegexObject")
+  '(leading               ",")
+;;; RegexObject:pattern
+)
+
+(lse-define-fill-in "RegexObject:flags" 
+  '(description           "Argument 2 of RegexObject")
+  '(leading               ",")
+;;; RegexObject:flags
+)
+
+(lse-define-fill-in "RegexObject:code" 
+  '(description           "Argument 3 of RegexObject")
+  '(leading               ",")
+;;; RegexObject:code
+)
+
+(lse-define-fill-in "RegexObject:groupindex" 
+  '(description           "Argument 4 of RegexObject")
+  '(leading               ",")
+;;; RegexObject:groupindex
+)
+
+(lse-define-fill-in "RegexObject(pattern,flags,code,groupindex)" 
+  '(description           "Create a RegexObject object")
+  '(token                 "re.RegexObject")
+  '(replacement           "re.RegexObject («RegexObject:pattern», «RegexObject:flags», «RegexObject:code», «RegexObject:groupindex»)")
+;;; RegexObject(pattern,flags,code,groupindex)
+)
+
+(lse-define-fill-in "re.compile:pattern" 
+  '(description           "Compile a regular expression pattern, returning a RegexObject.")
+  '(leading               ",")
+;;; re.compile:pattern
+)
+
+(lse-define-fill-in "re.compile:flags" 
+  '(description           "Argument 2 of re.compile (default = 0)")
+  '(leading               ",")
+;;; re.compile:flags
+)
+
+(lse-define-fill-in "re.compile" 
+  '(description           "Compile a regular expression pattern, returning a RegexObject.")
+  '(token)
+  '(replacement           "re.compile («re.compile:pattern», ««re.compile:flags»»)")
+;;; re.compile
+)
+
+(lse-define-fill-in "MatchObject.end:g" 
+  '(description           "Return the end of the substring matched by group g (default = 0)")
+  '(leading               ",")
+;;; MatchObject.end:g
+)
+
+(lse-define-fill-in "end(g)" 
+  '(description           "Return the end of the substring matched by group g")
+  '(token)
+  '(token                 "MatchObject.end")
+  '(replacement           "end (««MatchObject.end:g»»)")
+;;; end(g)
+)
+
+(lse-define-fill-in "re.escape:pattern" 
+  '(description           "Escape all non-alphanumeric characters in pattern.")
+  '(leading               ",")
+;;; re.escape:pattern
+)
+
+(lse-define-fill-in "re.escape" 
+  '(description           "Escape all non-alphanumeric characters in pattern.")
+  '(token)
+  '(replacement           "re.escape («re.escape:pattern»)")
+;;; re.escape
+)
+
+(lse-define-fill-in "MatchObject.group:groups" 
+  '(description           "Return one or more groups of the match.")
+  '(leading               ",")
+  '(separator             ", ")
+;;; MatchObject.group:groups
+)
+
+(lse-define-fill-in "group(groups)" 
+  '(description           "Return one or more groups of the match.")
+  '(token)
+  '(token                 "MatchObject.group")
+  '(replacement           "group (««MatchObject.group:groups»»···)")
+;;; group(groups)
+)
+
+(lse-define-fill-in "groups()" 
+  '(description           "Return a tuple containing all subgroups of the match object")
+  '(token)
+  '(token                 "MatchObject.groups")
+  '(replacement           "groups ()")
+;;; groups()
+)
+
+(lse-define-fill-in "re.match:pattern" 
+  '(description           "Argument 1 of re.match")
+  '(leading               ",")
+;;; re.match:pattern
+)
+
+(lse-define-fill-in "re.match:string" 
+  '(description           "Argument 2 of re.match")
+  '(leading               ",")
+;;; re.match:string
+)
+
+(lse-define-fill-in "re.match:flags" 
+  '(description           "Argument 3 of re.match (default = 0)")
+  '(leading               ",")
+;;; re.match:flags
+)
+
+(lse-define-fill-in "re.match" 
+  '(token)
+  '(replacement           "re.match («re.match:pattern», «re.match:string», ««re.match:flags»»)")
+;;; re.match
+)
+
+(lse-define-fill-in "RegexObject.match:string" 
+  '(description
+    "Try to apply the pattern at the start of the string, returning"
+        "a MatchObject instance, or None if no match was found."
+   )
+  '(leading               ",")
+;;; RegexObject.match:string
+)
+
+(lse-define-fill-in "RegexObject.match:pos" 
+  '(description           "Argument 2 of RegexObject.match (default = 0)")
+  '(leading               ",")
+;;; RegexObject.match:pos
+)
+
+(lse-define-fill-in "RegexObject.match:endpos" 
+  '(description           "Argument 3 of RegexObject.match (default = None)")
+  '(leading               ",")
+;;; RegexObject.match:endpos
+)
+
+(lse-define-fill-in "match(string,pos,endpos)" 
+  '(description
+    "Try to apply the pattern at the start of the string, returning"
+        "a MatchObject instance, or None if no match was found."
+   )
+  '(token)
+  '(token                 "RegexObject.match")
+  '(replacement           "match («RegexObject.match:string», ««RegexObject.match:pos»», ««RegexObject.match:endpos»»)")
+;;; match(string,pos,endpos)
+)
+
+(lse-define-fill-in "re.pcre_compile" 
+  '(token)
+  '(replacement           "re.pcre_compile ()")
+;;; re.pcre_compile
+)
+
+(lse-define-fill-in "re.pcre_expand" 
+  '(token)
+  '(replacement           "re.pcre_expand ()")
+;;; re.pcre_expand
+)
+
+(lse-define-fill-in "re.search:pattern" 
+  '(description           "Argument 1 of re.search")
+  '(leading               ",")
+;;; re.search:pattern
+)
+
+(lse-define-fill-in "re.search:string" 
+  '(description           "Argument 2 of re.search")
+  '(leading               ",")
+;;; re.search:string
+)
+
+(lse-define-fill-in "re.search:flags" 
+  '(description           "Argument 3 of re.search (default = 0)")
+  '(leading               ",")
+;;; re.search:flags
+)
+
+(lse-define-fill-in "re.search" 
+  '(token)
+  '(replacement           "re.search («re.search:pattern», «re.search:string», ««re.search:flags»»)")
+;;; re.search
+)
+
+(lse-define-fill-in "RegexObject.search:string" 
+  '(description
+    "Scan through string looking for a match to the pattern, returning"
+        "a MatchObject instance, or None if no match was found."
+   )
+  '(leading               ",")
+;;; RegexObject.search:string
+)
+
+(lse-define-fill-in "RegexObject.search:pos" 
+  '(description           "Argument 2 of RegexObject.search (default = 0)")
+  '(leading               ",")
+;;; RegexObject.search:pos
+)
+
+(lse-define-fill-in "RegexObject.search:endpos" 
+  '(description           "Argument 3 of RegexObject.search (default = None)")
+  '(leading               ",")
+;;; RegexObject.search:endpos
+)
+
+(lse-define-fill-in "search(string,pos,endpos)" 
+  '(description
+    "Scan through string looking for a match to the pattern, returning"
+        "a MatchObject instance, or None if no match was found."
+   )
+  '(token)
+  '(token                 "RegexObject.search")
+  '(replacement           "search («RegexObject.search:string», ««RegexObject.search:pos»», ««RegexObject.search:endpos»»)")
+;;; search(string,pos,endpos)
+)
+
+(lse-define-fill-in "MatchObject.span:g" 
+  '(description
+    "Return a tuple containing the start,end of the substring "
+        "matched by group g (default = 0)"
+   )
+  '(leading               ",")
+;;; MatchObject.span:g
+)
+
+(lse-define-fill-in "span(g)" 
+  '(description
+    "Return a tuple containing the start,end of the substring "
+        "matched by group g"
+   )
+  '(token)
+  '(token                 "MatchObject.span")
+  '(replacement           "span (««MatchObject.span:g»»)")
+;;; span(g)
+)
+
+(lse-define-fill-in "re.split:pattern" 
+  '(description           "Argument 1 of re.split")
+  '(leading               ",")
+;;; re.split:pattern
+)
+
+(lse-define-fill-in "re.split:string" 
+  '(description           "Argument 2 of re.split")
+  '(leading               ",")
+;;; re.split:string
+)
+
+(lse-define-fill-in "re.split:maxsplit" 
+  '(description           "Argument 3 of re.split (default = 0)")
+  '(leading               ",")
+;;; re.split:maxsplit
+)
+
+(lse-define-fill-in "re.split" 
+  '(token)
+  '(replacement           "re.split («re.split:pattern», «re.split:string», ««re.split:maxsplit»»)")
+;;; re.split
+)
+
+(lse-define-fill-in "RegexObject.split:source" 
+  '(description
+    "Split the `source' string by the occurrences of the pattern,"
+        "returning a list containing the resulting substrings."
+   )
+  '(leading               ",")
+;;; RegexObject.split:source
+)
+
+(lse-define-fill-in "RegexObject.split:maxsplit" 
+  '(description           "Argument 2 of RegexObject.split (default = 0)")
+  '(leading               ",")
+;;; RegexObject.split:maxsplit
+)
+
+(lse-define-fill-in "split(source,maxsplit)" 
+  '(description
+    "Split the `source' string by the occurrences of the pattern,"
+        "returning a list containing the resulting substrings."
+   )
+  '(token)
+  '(token                 "RegexObject.split")
+  '(replacement           "split («RegexObject.split:source», ««RegexObject.split:maxsplit»»)")
+;;; split(source,maxsplit)
+)
+
+(lse-define-fill-in "MatchObject.start:g" 
+  '(description           "Return the start of the substring matched by group g (default = 0)")
+  '(leading               ",")
+;;; MatchObject.start:g
+)
+
+(lse-define-fill-in "start(g)" 
+  '(description           "Return the start of the substring matched by group g")
+  '(token)
+  '(token                 "MatchObject.start")
+  '(replacement           "start (««MatchObject.start:g»»)")
+;;; start(g)
+)
+
+(lse-define-fill-in "re.sub:pattern" 
+  '(description           "Argument 1 of re.sub")
+  '(leading               ",")
+;;; re.sub:pattern
+)
+
+(lse-define-fill-in "re.sub:repl" 
+  '(description           "Argument 2 of re.sub")
+  '(leading               ",")
+;;; re.sub:repl
+)
+
+(lse-define-fill-in "re.sub:string" 
+  '(description           "Argument 3 of re.sub")
+  '(leading               ",")
+;;; re.sub:string
+)
+
+(lse-define-fill-in "re.sub:count" 
+  '(description           "Argument 4 of re.sub (default = 0)")
+  '(leading               ",")
+;;; re.sub:count
+)
+
+(lse-define-fill-in "re.sub" 
+  '(token)
+  '(replacement           "re.sub («re.sub:pattern», «re.sub:repl», «re.sub:string», ««re.sub:count»»)")
+;;; re.sub
+)
+
+(lse-define-fill-in "RegexObject.sub:repl" 
+  '(description
+    "Return the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in string by the"
+        "replacement repl"
+   )
+  '(leading               ",")
+;;; RegexObject.sub:repl
+)
+
+(lse-define-fill-in "RegexObject.sub:string" 
+  '(description
+    "Return the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in string by the"
+        "replacement repl"
+   )
+  '(leading               ",")
+;;; RegexObject.sub:string
+)
+
+(lse-define-fill-in "RegexObject.sub:count" 
+  '(description           "Argument 3 of RegexObject.sub (default = 0)")
+  '(leading               ",")
+;;; RegexObject.sub:count
+)
+
+(lse-define-fill-in "sub(repl,string,count)" 
+  '(description
+    "Return the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in string by the"
+        "replacement repl"
+   )
+  '(token)
+  '(token                 "RegexObject.sub")
+  '(replacement           "sub («RegexObject.sub:repl», «RegexObject.sub:string», ««RegexObject.sub:count»»)")
+;;; sub(repl,string,count)
+)
+
+(lse-define-fill-in "re.subn:pattern" 
+  '(description           "Argument 1 of re.subn")
+  '(leading               ",")
+;;; re.subn:pattern
+)
+
+(lse-define-fill-in "re.subn:repl" 
+  '(description           "Argument 2 of re.subn")
+  '(leading               ",")
+;;; re.subn:repl
+)
+
+(lse-define-fill-in "re.subn:string" 
+  '(description           "Argument 3 of re.subn")
+  '(leading               ",")
+;;; re.subn:string
+)
+
+(lse-define-fill-in "re.subn:count" 
+  '(description           "Argument 4 of re.subn (default = 0)")
+  '(leading               ",")
+;;; re.subn:count
+)
+
+(lse-define-fill-in "re.subn" 
+  '(token)
+  '(replacement           "re.subn («re.subn:pattern», «re.subn:repl», «re.subn:string», ««re.subn:count»»)")
+;;; re.subn
+)
+
+(lse-define-fill-in "RegexObject.subn:repl" 
+  '(description
+    "Return a 2-tuple containing (new_string, number)."
+        "new_string is the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in the source"
+        "string by the replacement repl.  number is the number of"
+        "substitutions that were made."
+   )
+  '(leading               ",")
+;;; RegexObject.subn:repl
+)
+
+(lse-define-fill-in "RegexObject.subn:source" 
+  '(description
+    "Return a 2-tuple containing (new_string, number)."
+        "new_string is the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in the source"
+        "string by the replacement repl.  number is the number of"
+        "substitutions that were made."
+   )
+  '(leading               ",")
+;;; RegexObject.subn:source
+)
+
+(lse-define-fill-in "RegexObject.subn:count" 
+  '(description           "Argument 3 of RegexObject.subn (default = 0)")
+  '(leading               ",")
+;;; RegexObject.subn:count
+)
+
+(lse-define-fill-in "subn(repl,source,count)" 
+  '(description
+    "Return a 2-tuple containing (new_string, number)."
+        "new_string is the string obtained by replacing the leftmost"
+        "non-overlapping occurrences of the pattern in the source"
+        "string by the replacement repl.  number is the number of"
+        "substitutions that were made."
+   )
+  '(token)
+  '(token                 "RegexObject.subn")
+  '(replacement           "subn («RegexObject.subn:repl», «RegexObject.subn:source», ««RegexObject.subn:count»»)")
+;;; subn(repl,source,count)
+)
+

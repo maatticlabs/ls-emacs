@@ -1,0 +1,53 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "fahrtenbuch"
+    '(token)
+    '(auto-expand); 17-Sep-2000    
+    '(replacement
+        " «datum» & "
+        & "«Km-Stand» & "
+        & "«Privat-Anteil» & "
+        & "«Beschreibung»  "
+     )
+;;; fahrtenbuch
+)
+
+(lse-define-fill-in "fahrtenbuch-file"
+    '(replacement
+        "% Datum       & km-Stand & Priv-% & Beschreibung "
+        "«fahrtenbuch»···"
+     )
+;;; fahrtenbuch-file
+)
+
+(lse-define-fill-in "Beschreibung"
+  '(description           "Beschreibung: Ziel/Zweck der Fahrt")
+;;; Beschreibung
+)
+
+;;;  1-Apr-1996 
+(lse-define-fill-in "km-Stand"
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(description           "km-Stand bei Abschluß der Fahrt")
+;;; km-Stand
+)
+
+;;;  1-Apr-1996 
+(lse-define-fill-in "Privat-Anteil"
+    '(description           "Privat-Anteil in Prozent")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(menu
+        ("0"       "rein berufliche Fahrt")
+        ("100"     "rein private    Fahrt")
+        number
+     )
+;;; Privat-Anteil
+)
+
+(lse-define-fill-in "datum"
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(description           "Date in format dd.mm.yyyy"
+        "Missing month and year will be taken from last «datum»"
+     )
+;;; Tag
+)

@@ -1,0 +1,24 @@
+lse-menu:fill-in's value is 
+(keymap
+  (show-lse-language      "Show language" "bla bla" (nil) . lse-show-language)
+  (describe-fi            "Describe" "bla bla" ([15] . "(C-o)") . lse-describe-fill-in)
+  (help-fi                "Help" ([4194319] . "  (A-C-o)") . lse-help-fill-in)
+  (separator-fi-replicate "--" (nil))
+  (replicate-menu-fi      "Replicate Menu" ([17] . "  (C-q)") . lse-replicate-menu)
+  (replicate-fi           "Replicate" ([19] . "  (C-s)") . lse-replicate-fill-in)
+  (separator-fi-expand    "--" (nil))
+  (expand-fi              "Expand" ([5] . "  (C-e)") . lse-expand)
+  (unexpand-fi            "Un-Expand" ([4194309] . "  (A-C-e)") . lse-unexpand-fill-in)
+  (reexpand-fi            "Re-Expand" ([-134217723] . "  (M-C-e)") . lse-reexpand-fill-in)
+  (separator-fi-kill      "--" (nil))
+  (unkill-fi              "Un-Kill" ([4194315] . "  (A-C-k)") . lse-unkill-fill-in)
+  (kill-fi                "Kill" ([11] . "  (C-k)") . lse-kill-fill-in)
+  (separator-fi-move      "--" (nil))
+  (next-fi                "Next" ([14] . "  (C-n)") . lse-goto-next-fill-in)
+  (prev-fi                "Previous" ([16] . "  (C-p)") . lse-goto-prev-fill-in)
+  (last-pos-fi            "Last Position" ([4194320] . "(A-C-p)") . lse-goto-last-position)
+  "Fill-In"
+) 
+
+Documentation:
+Menu keymap for fill-in commands of LS-Emacs

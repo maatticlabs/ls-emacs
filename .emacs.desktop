@@ -1,0 +1,709 @@
+;; -*- coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Wed Nov  3 18:44:23 2004
+;; Emacs version 21.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name "/.swing/system/emacs/TAGS")
+(setq tags-table-list '("/.swing/system/emacs/TAGS" "/.swing/system/emacs/TAGS"))
+(setq search-ring '(""))
+(setq regexp-search-ring nil)
+(setq register-alist '((98 . 138) (97 . 20) (49 . 0)))
+
+;; Buffer section:
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-learn-key.el"
+  "lse-learn-key.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-list-util.el"
+  "lse-list-util.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-mark-stack.el"
+  "lse-mark-stack.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-tpu-keys.el"
+  "lse-tpu-keys.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/picture.el"
+  "picture.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  t
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-command.el"
+  "swing-command.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei--entry.el"
+  "swing-kartei--entry.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei--summary.el"
+  "swing-kartei--summary.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei-bib.el"
+  "swing-kartei-bib.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei-firma.el"
+  "swing-kartei-firma.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei-person.el"
+  "swing-kartei-person.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei-quot.el"
+  "swing-kartei-quot.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei-telefon.el"
+  "swing-kartei-telefon.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-kartei.el"
+  "swing-kartei.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-keynames.el"
+  "swing-keynames.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-keys-v18.el"
+  "swing-keys-v18.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-keys-v19.el"
+  "swing-keys-v19.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-keys.el"
+  "swing-keys.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/t1.el"
+  "t1.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/test.el"
+  "test.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/tex2iso-latin1.el"
+  "tex2iso-latin1.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-buffer-list.el"
+  "lse-buffer-list.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-buffer.el"
+  "lse-buffer.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-byte-compile.el"
+  "lse-byte-compile.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-comment.el"
+  "lse-comment.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-face.el"
+  "lse-face.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-file.el"
+  "lse-file.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in--delimiters.el"
+  "lse-fill-in--delimiters.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in-history.el"
+  "lse-fill-in-history.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in-marks.el"
+  "lse-fill-in-marks.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-kill.el"
+  "lse-kill.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-compilation.el"
+  "lse-compilation.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-basics.el"
+  "lse-basics.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-language.el"
+  "lse-language.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-range.el"
+  "lse-range.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-command.el"
+  "lse-command.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-completion.el"
+  "lse-completion.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-frame.el"
+  "lse-frame.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-mode-alist.el"
+  "lse-mode-alist.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-window.el"
+  "lse-window.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  16899
+  '(nil nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/swing-default.el"
+  "swing-default.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  7618
+  '(nil nil)
+  nil
+  nil
+  '((overwrite-mode) (case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-menu.el"
+  "lse-menu.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  3666
+  '(nil nil)
+  nil
+  nil
+  '((overwrite-mode)))
+
+(desktop-create-buffer 205
+  "/.swing/system/X/Xmodmaprc.old_std"
+  "Xmodmaprc.old_std"
+  'text-mode
+  '(lse-tpu:direction-string)
+  2743
+  '(nil nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-keys.el"
+  "lse-keys.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1347
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-keys-v19.el"
+  "lse-keys-v19.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  15099
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-tpu.el"
+  "lse-tpu.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  43873
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-pattern.el"
+  "lse-pattern.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1930
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-deep-fill-in.el"
+  "lse-deep-fill-in.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  4984
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/X/Xmodmaprc"
+  "Xmodmaprc"
+  'text-mode
+  '(lse-tpu:direction-string)
+  1564
+  '(2236 nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in.el"
+  "lse-fill-in.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  4510
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-indent.el"
+  "lse-indent.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  6136
+  '(6216 nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in-info.el"
+  "lse-fill-in-info.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  8452
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-fill-in--search.el"
+  "lse-fill-in--search.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  2678
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-interactive.el"
+  "lse-interactive.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  8341
+  '(16698 nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse/lse-templates-rest.lse"
+  "lse-templates-rest.lse"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1757
+  '(1761 nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse/lse-templates-lse.lse"
+  "lse-templates-lse.lse"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  1029
+  '(nil nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-define.el"
+  "lse-define.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  2119
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-editing.el"
+  "lse-editing.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  18346
+  '(3848 nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-flat-fill-in.el"
+  "lse-flat-fill-in.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  8417
+  '(nil nil)
+  nil
+  nil
+  '((case-fold-search . t)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/ls-emacs.el"
+  "ls-emacs.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  6551
+  '(nil nil)
+  nil
+  nil
+  '((overwrite-mode) (case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/python-mode.el"
+  "python-mode.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  82888
+  '(119306 nil)
+  nil
+  nil
+  '((case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse-tpu-keys-v19.el"
+  "lse-tpu-keys-v19.el"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode nil lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  35679
+  '(nil nil)
+  nil
+  nil
+  '((overwrite-mode) (case-fold-search)))
+
+(desktop-create-buffer 205
+  "/.swing/system/emacs/lse/lse-language-python.lse"
+  "lse-language-python.lse"
+  'emacs-lisp-mode
+  '(lazy-lock-mode eldoc-mode lse-tpu:newline-and-indent-p auto-fill-mode lse-tpu:direction-string)
+  12050
+  '(nil nil)
+  nil
+  nil
+  nil)
+

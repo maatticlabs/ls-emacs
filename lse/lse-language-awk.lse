@@ -1,0 +1,49 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-awk
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language awk
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-awk-mode put in here
+;;;;-- 
+(lse-language:define "awk"
+    '(
+        (lse-tpu:ident-group-chars         "_")
+        (lse-language:tab-increment        4)
+        (lse_comment_head_delim            "#")
+        (lse_comment_head_delim_pattern    "#+ *")
+        (lse_comment_delim_char_set        "#")
+        (lse-language:initial-fill-in      "««awk-script»»")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-unix-generic"
+        "lse-templates-regexp"
+        "lse-templates-awk"
+     )
+;    307
+;    149
+)
+
+;;;
+;;; awk mode
+;;;
+(setq awk-mode-hook 'lse-awk-mode)
+
+(defun lse-awk-mode ()
+  (interactive)
+  (lse-language:use "awk")
+  (local-unset-key  "\t")
+  (local-unset-key  "\177")
+)
+
+

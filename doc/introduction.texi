@@ -1,0 +1,208 @@
+@node    Intro, Examples, Top, Top
+@chapter Introduction to LS-Emacs
+
+@iftex
+LS-Emacs (@dfn{Language Sensitive Emacs}) is an extension to the popular
+GNU Emacs editor. LS-Emacs provides language specific templates and
+on-line help on language features. This document describes how to use
+LS-Emacs for editing, how to design language specific templates, and how
+to use LS-Emacs features inside elisp programs. It does not describe
+general Emacs concepts --- please read the Emacs documentation to learn
+standard Emacs.
+@end iftex
+
+Originally, LS-Emacs was loosely based on ideas embodied in Digital's
+Language Sensitive Editor (DEC LSE). LS-Emacs is based on the idea of
+language specific templates, which supply the syntactical structure of a
+document or program @footnote{Henceforth, I will use the term document
+to refer to any kind of file you may edit, be it a love letter or a
+computer program.} of some language. These templates are defined
+declaratively, i.e., no programming is necessary to define a new
+language or to change an existing one.
+
+LS-Emacs templates provide a fast and efficient way of editing.
+Besides, they offer the following advantages:
+
+@itemize @bullet
+
+@item @strong{Ease of use}
+
+LS-Emacs simplifies the use of complex languages like @TeX{} or
+SGML. Comprehensive templates allow you to use such languages with
+little knowledge.
+
+@item @strong{Cognitive support}
+
+You don't have to remember each and every syntactic detail. LS-Emacs
+knows the details and supplies them automatically. In addition, LS-Emacs
+supplies context sensitive help whenever asked for.
+
+@item @strong{Document consistency}
+
+The use of standardized templates results in structural and
+stylistic consistency of documents written by different authors for
+different projects.
+
+Documentation standards can thus be guaranteed without causing
+bureaucratic nightmares for those writing programs or documentation.
+
+@item @strong{Reduced typing effort}
+
+You are spared the tedious typing of markup, keywords, etc.
+
+@item @strong{Error prevention}
+
+LS-Emacs reduces the probability of syntax errors and omissions.
+
+@end itemize
+
+Yet, LS-Emacs does not force you into using the language specific
+templates. If you know what you're doing you are free to edit your
+document in whatever way you want. Thus, you have the choice where to
+rely on language specific templates and where to use free typing. With
+practice, you will quickly adapt a personal style according to your
+preferences which results in maximum productivity for you.
+
+The language specific functionality of LS-Emacs is provided by
+elisp-libraries and complements the features of standard GNU Emacs. The
+language specific functionality for a specific language is hooked into
+the appropriate major mode of GNU Emacs.
+
+@unnumberedsec Note to DEC LSE Users
+
+Digital's LSE offers a number of features beyond language templates, for
+instance integration with language compilers, integration with DEC
+Source Code Analyzer (SCA) and DEC Code Management System (CMS), and support
+for pseudocode. LS-Emacs does not directly deal with such issues.
+
+@noindent
+Nevertheless, standard Emacs supports many of these features in a
+similar way:
+@itemize @bullet
+
+@item
+Integration with language compilers including diagnostic review (see GNU
+Emacs Manual, chapter ``Compiling and Testing Programs'').
+
+@item
+Tag tables provide similar functionality as DEC SCA: not quite as
+powerful, but much more efficient (see GNU Emacs Manual, chapter
+``Editing Programs'', section ``Tag Tables'').
+
+@item
+Emacs provides integration with both important version management
+systems of the Unix world: @code{RCS} and @code{SCCS}.
+
+@item
+Emacs does not support pseudocode, but its outline mode achieves a
+similar effect. Personally, I never used LSE pseudocode support after
+some initial experimentation.
+
+@end itemize
+
+@noindent
+In addition, Emacs offers a lot of advantages over DEC LSE:
+
+@itemize @bullet
+@item
+Emacs is free. You get the complete source code, you're allowed to use and
+change it, and you don't have to pay outrageous license fees.
+
+@item Emacs is portable. You can get it for many platforms: (any kind of)
+Unix, VMS, PC's, @dots{}
+
+@item
+The documentation of Emacs is better and much more complete than DEC
+LSE's documentation. And there is always the source code to look at, if
+something is not made entirely clear in the documentation.
+
+@item
+Emacs is very easy to program. Without any prior knowledge of Lisp, I
+was able to implement LS-Emacs in surprisingly short time. In my
+experience, it takes a lot longer to learn @code{TPU}
+@footnote{@code{TPU} is the editing programming language provided by DEC LSE.}
+than Emacs Lisp (although my backgrounds would seem to favor the
+@code{TPU} language rather than Lisp). After two weeks of Elisp
+programming, my productivity was substantially higher than after 5 years
+of @code{TPU} programming.
+
+@item
+Emacs is much more extensible than DEC LSE. The whole design of the
+editor strongly favors extensibility. It would hardly be possible to
+implement the features of LS-Emacs with the means of @code{TPU} as it is
+delivered to the Digital customer.
+
+@item Emacs offers many nice features not found in DEC LSE, for
+instance:@footnote{I don't think that the reverse is true.}
+@itemize @point
+@item multiple undo
+@item dynamic abbrevs
+@item incremental search
+@item arbitrary prefix-keys
+@item completion of commands, file names, buffer names, @dots{}
+@item sorting functions
+@item integration of spell checking
+@item integration with mail
+@item powerful file handling commands and lisp functions
+@item calendar and diary
+@end itemize
+
+@item
+I would contend that Emacs contains fewer and less annoying bugs than
+DEC LSE. For years, my company paid high maintenance fees for DEC LSE,
+but most of the bugs were never removed.
+@end itemize
+
+@noindent
+Regarding support for language templates, LS-Emacs clearly
+surpasses DEC LSE:
+
+@itemize @bullet
+@item
+Features more powerful in LS-Emacs than in DEC LSE:
+
+@itemize @point
+@item Auto-replication: LS-Emacs can auto-replicate any number of
+occurrences of a fill-in, LSE auto-substitutes just the next one.
+
+@item Un-expansion: LS-Emacs supports multiple un-expansions, LSE
+un-expands only the last expansion.
+
+@item Automatic indentation: more flexibility and power.
+
+@item Separation of duplicate fill-ins: much more flexibility.
+
+@item Definition of leading and trailing text to be deleted along with a
+fill-in: LS-Emacs allows regular expressions, LSE only strings. 
+
+@item Integration of fill-ins and tokens: superior in LS-Emacs.
+@end itemize
+
+@item Features unknown to DEC LSE:
+
+@itemize @bullet
+@item Replication of fill-ins.
+
+@item Re-expansion of un-expanded fill-ins.
+
+@item Continuation of fill-in replacement.
+
+@item Recovery of last position.
+
+@item Function-fill-ins and non-replaceable fill-ins.
+
+@item Execution of any lisp function during fill-in or token expansion.
+
+@item Fill-In replacement-leading and -trailing.
+
+@item Fill-In completion actions and killing actions.
+
+@item Template reuse: sharing of templates between languages and sharing
+of sub-templates between templates.
+
+@item Availability of all LS-Emacs functions for the Emacs lisp
+programmer. 
+
+@item Automatic loading of languages when needed.
+@end itemize
+@end itemize

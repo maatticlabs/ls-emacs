@@ -1,0 +1,510 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "arithmetic-expression"
+    '(token)
+    '(description           "Numeric expression using common arithmetic operators")
+    '(menu
+        ("«number»"     "Constant value")
+        numeric-assignment
+        numeric-function
+        "- «arithmetic-expression»"
+        "«arithmetic-expression» + «arithmetic-expression»"
+        "«arithmetic-expression» - «arithmetic-expression»"
+        "«arithmetic-expression» * «arithmetic-expression»"
+        "«arithmetic-expression» / «arithmetic-expression»"
+        "«arithmetic-expression» % «arithmetic-expression»"
+        "«arithmetic-expression» ^ «arithmetic-expression»"
+        "(«arithmetic-expression»)"     
+     )
+;;; arithmetic-expression
+)
+
+(lse-define-fill-in "awk-action"
+    '(replacement
+        "{"
+        "  ««awk-statement»»···"
+        "}"
+     )
+;;; awk-action
+)
+
+(lse-define-fill-in "awk-atan2"
+    '(token                 "atan2")
+    '(description           "Returns the arctangent of y/x in radians")
+    '(replacement           "atan2(«arithmetic-expression», «arithmetic-expression»)")
+;;; awk-atan2
+)
+
+(lse-define-fill-in "awk-begin-pattern"
+    '(token                 "begin")
+    '(description           "Applied before the first line of input is read")
+    '(replacement           "BEGIN    " & @ awk-action)
+;;; awk-begin-pattern
+)
+
+(lse-define-fill-in "awk-break"
+    '(token                 "break")
+    '(description           "Exit from innermost loop that encloses the statement")
+    '(replacement           "break")
+;;; awk-break
+)
+
+(lse-define-fill-in "awk-constant"
+    '(description           "Numeric, string, or regular expression constant value")
+    '(menu
+        number
+        quoted-text
+        regexp-constant
+     )
+;;; awk-constant
+)
+
+(lse-define-fill-in "awk-continue"
+    '(token                 "continue")
+    '(description           "Skips over rest of loop body causing the next cycle of the loop to begin immediately")
+    '(replacement           "continue")
+;;; awk-continue
+)
+
+(lse-define-fill-in "awk-cos"
+    '(token)
+    '(description           "Returns cosine of «arithmetic-expression»")
+    '(replacement           "cos(«arithmetic-expression»)")
+;;; awk-cos
+)
+
+(lse-define-fill-in "awk-close"
+    '(token                 "close")
+    '(description           "Close a file or pipe («string-expression» is the same that opened it)")
+    '(replacement           "close(«string-expression»)")
+;;; awk-close
+)
+
+(lse-define-fill-in "awk-delete"
+    '(token                 "delete")
+    '(description           "Delete element «awk-expression» from array «name»")
+    '(replacement           "delete(«name»[«awk-expression»])")
+;;; awk-delete
+)
+
+(lse-define-fill-in "awk-do-while"
+    '(token                 "do-while")
+    '(description           "Loop statement with test at end of loop")
+    '(replacement           
+        "do"
+        & @ awk-action
+        & "while («boolean-expression»)" 
+     )
+;;; awk-do-while
+)
+
+(lse-define-fill-in "awk-else"
+    '(token                 "else")
+    '(description           "Else clause of if statement")
+    '(replacement           "else" & @ awk-action)
+)
+
+(lse-define-fill-in "awk-end-pattern"
+    '(token                 "end")
+    '(description           "Applied after the last line of input is read")
+    '(replacement           "END      " & @ awk-action)
+;;; awk-end-pattern
+)
+
+(lse-define-fill-in "awk-exit"
+    '(token                 "exit")
+    '(description           "Exit from script executing all END-rules, reading no new input")
+    '(replacement           "exit")
+;;; awk-exit
+)
+
+(lse-define-fill-in "awk-exp"
+    '(token)
+    '(description           "Return exponent of «arithmetic-expression»")
+    '(replacement           "exp(«arithmetic-expression»)")
+;;; awk-exp
+)
+
+(lse-define-fill-in "awk-expression"
+    '(separator             ", ")
+    '(leading               ",")
+    '(menu
+        awk-constant
+        arithmetic-expression
+        boolean-expression
+        comparison-expression
+        string-expression
+     )
+;;; awk-expression
+)
+
+(lse-define-fill-in "awk-for"
+    '(token                 "for")
+    '(description           "For loop")
+    '(replacement
+        "for («numeric-assignment»; «boolean-expression»; «numeric-assignment»)"
+        & @ awk-action
+     )
+;;; awk-for
+)
+
+(lse-define-fill-in "awk-foreach"
+    '(token                 "foreach")
+    '(description           "For loop iterating over all indices of an array")
+    '(replacement           "for («name» in «name»)" & @ awk-action)
+;;; awk-foreach
+)
+
+(lse-define-fill-in "awk-getline"
+    '(token                 "getline")
+    '(description           "Read next line of input, assigning the value to «name», if given, or $0")
+    '(menu
+        ("getline ««name»»"                           "Read from standard input and put result into «name» or $0")
+        ("getline ««name»» < «string-expression»"     "Read from file «string-expression»")
+        ("«string-expression» | getline «name»"       "Read from output-pipe of command «string-expression»")
+     )
+;;; awk-getline
+)
+
+(lse-define-fill-in "awk-gsub"
+    '(token                 "gsub")
+    '(description           "Globally substitute «string-expression» for each match of «regexp-constant» in string «name» (returns number of substitutions)")
+    '(replacement           "gsub(«regexp-constant», «string-expression», ««name»»)")
+;;; awk-gsub
+)
+
+(lse-define-fill-in "awk-if"
+    '(token                 "if")
+    '(description           "Conditional statement")
+    '(replacement
+        "if («boolean-expression»)" & @ awk-action
+        ««awk-else»»
+     )
+;;; awk-if
+)
+
+(lse-define-fill-in "awk-index"
+    '(token                 "index")
+    '(description           "Returns position of substring (2. arg) in string (1. arg)")
+    '(replacement           "index(«string-expression», «string-expression»)")
+;;; awk-index
+)
+
+(lse-define-fill-in "awk-int"
+    '(token                 "int")
+    '(description           "Returns integer value of «arithmetic-expression» by truncating any digits following a decimal point")
+    '(replacement           "int(«arithmetic-expression»)")
+;;; awk-int
+)
+
+(lse-define-fill-in "awk-length"
+    '(token                 "length")
+    '(description           "Returns length of string")
+    '(replacement           "length(«string-expression»)")
+;;; awk-length
+)
+
+(lse-define-fill-in "awk-log"
+    '(token                 "log")
+    '(description           "Returns logarithm of «arithmetic-expression»")
+    '(replacement           "log(«arithmetic-expression»)")
+;;; awk-log
+)
+
+(lse-define-fill-in "awk-match"
+    '(token                 "match")
+    '(description           "Returns the position in «string-expression» where «regexp-constant» matches or 0 if no match")
+    '(replacement           "match(«string-expression», «regexp-constant»)")
+;;; awk-match
+)
+
+(lse-define-fill-in "awk-next"
+    '(token                 "next")
+    '(description           "Read next input line and begin executing script at first rule")
+    '(replacement           "next")
+;;; awk-next
+)
+
+(lse-define-fill-in "awk-pattern"
+    '(token)
+    '(menu
+        regexp-constant
+        ("«awk-expression»"                   "Matches if the value of «awk-expression» is non-zero number or non-null string")
+        ("«awk-pattern» && «awk-pattern»"     "Logical and (short-circuit) of two pattern matches")
+        ("«awk-pattern» || «awk-pattern»"     "Logical or  (short-circuit) of two pattern matches")
+        ("! «awk-pattern»"                    "Negate match")
+        ("(«awk-pattern»)"                    "Change order of evaluation")
+        ("«awk-pattern» ? «awk-pattern» : «awk-pattern»"     "If the first pattern matches then the second is tried, otherwise the third")
+     )
+;;; awk-pattern
+)
+
+(lse-define-fill-in "awk-pattern-complex"
+    '(token)
+    '(menu
+        @ awk-pattern
+        ("«awk-pattern», «awk-pattern»"     "Matches all input lines starting with a line matching the first pattern to a line matching the second")
+     )
+;;; awk-pattern-complex
+)
+
+(lse-define-fill-in "awk-pattern+action"
+    '(token                 "pattern+action")
+    '(description           "««awk-action»» (default: print line) will be performed on all input lines matching ««awk-pattern-complex»» (for all lines if none is given)")
+    '(replacement           "««awk-pattern-complex»» " & @ awk-action)
+)
+
+(lse-define-fill-in "awk-print"
+    '(token                 "print")
+    '(description           "Print to standard output or file")
+    '(menu
+        ("print"                                            "Prints current record   to standard output")
+        ("print «awk-expression»··· ««output-redirection»»" "Prints «awk-expression» to standard output or file")
+     )
+;;; awk-print
+)
+
+(lse-define-fill-in "awk-printf"
+    '(token                 "printf")
+    '(description           "Print formatted to standard output or file")
+    '(replacement           "printf «print-format», «awk-expression»···")
+;;; awk-printf
+)
+
+(lse-define-fill-in "awk-rand"
+    '(token                 "rand")
+    '(description           "Returns a random number between 0 and 1 (take care to seed the random number generator via srand)")
+    '(replacement           "rand()")
+;;; awk-rand
+)
+
+(lse-define-fill-in "awk-return"
+    '(token                 "return")
+    '(description           "Return from user-defined function")
+    '(replacement           "return ««awk-expression»»")
+;;; awk-return
+)
+
+(lse-define-fill-in "awk-script"
+    '(description           "Root fill-in for awk language")
+    '(replacement
+        "#««header-comment»»"
+        "««awk-begin-pattern»»"
+        "««awk-pattern+action»»···"
+        "««awk-end-pattern»»"
+     )
+;;; awk-script
+)
+
+(lse-define-fill-in "awk-sin"
+    '(token                 "sin")
+    '(description           "Returns sine of «arithmetic-expression»")
+    '(replacement           "sin(«arithmetic-expression»)")
+;;; awk-sin
+)
+
+(lse-define-fill-in "awk-split"
+    '(token                 "split")
+    '(description           "Parses string into elements of array using third parameter as separator (default FS), returns number of elements")
+    '(replacement           "split(«string-expression», «name», ««regexp-constant»»)")
+;;; awk-split
+)
+
+(lse-define-fill-in "awk-sqrt"
+    '(token                 "sqrt")
+    '(description           "Returns the square root of «arithmetic-expression»")
+    '(replacement           "sqrt(«arithmetic-expression»)")
+;;; awk-sqrt
+)
+
+(lse-define-fill-in "awk-srand"
+    '(token                 "srand")
+    '(description           "Use «arithmetic-expression» to set a new seed for random number generator (default: time of day)")
+    '(replacement           "srand(««arithmetic-expression»»)")
+;;; awk-srand
+)
+
+(lse-define-fill-in "awk-statement"
+    '(token)
+    '(description           "Awk statements for use inside actions")
+    '(sort)
+    '(menu
+        awk-break
+        awk-continue
+        awk-close
+        awk-delete
+        awk-do-while
+        awk-exit
+        awk-for
+        awk-foreach
+        awk-getline
+        awk-gsub
+        awk-if
+        awk-next
+        awk-print
+        awk-printf
+        awk-return
+        awk-split
+        awk-srand
+        awk-sub
+        awk-system
+        awk-while
+     )
+;;; awk-statement
+)
+
+(lse-define-fill-in "awk-sub"
+    '(token                 "sub")
+    '(description           "Substitute first match")
+    '(replacement           "sub(«regexp-constant», «string-expression», ««name»»)")
+;;; awk-sub
+)
+
+(lse-define-fill-in "awk-substr"
+    '(token                 "substr")
+    '(description           "Return a substring of string from begin-position (2. arg) with given length (3. arg)")
+    '(replacement           "substr(«string-expression», «arithmetic-expression», «arithmetic-expression»)")
+;;; awk-substr
+)
+
+(lse-define-fill-in "awk-system"
+    '(token                 "system")
+    '(description           "Execute operating system command (in subprocess) and return its status")
+    '(replacement           "system(«string-expression»)")
+;;; awk-system
+)
+
+(lse-define-fill-in "awk-tolower"
+    '(token                 "tolower")
+    '(description           "Translate all uppercase characters in «string-expression» to lowercase and return result")
+    '(replacement           "tolower(«string-expression»)")
+;;; awk-tolower
+)
+
+(lse-define-fill-in "awk-toupper"
+    '(token                 "toupper")
+    '(description           "Translate all lowercase characters in «string-expression» to uppercase and return result")
+    '(replacement           "toupper(«string-expression»)")
+;;; awk-tolower
+)
+
+(lse-define-fill-in "awk-while"
+    '(token                 "while")
+    '(description           "Loop statement")
+    '(replacement           
+        "while («boolean-expression»)" & @ awk-action
+     )
+;;; awk-while
+)
+
+(lse-define-fill-in "boolean-expression"
+    '(token)
+    '(description           "Combination of comparison expressions")
+    '(menu
+        "(«comparison-expression»)"
+        "! «comparison-expression»"
+        "«comparison-expression» && «comparison-expression»"
+        "«comparison-expression» || «comparison-expression»"
+     )
+;;; boolean-expression
+)
+
+(lse-define-fill-in "comparison-expression"
+    '(token)
+    '(description           "Comparison of strings or numbers")
+    '(menu
+        "«arithmetic-expression» <  «arithmetic-expression»"
+        "«arithmetic-expression» <= «arithmetic-expression»"
+        "«arithmetic-expression» >  «arithmetic-expression»"
+        "«arithmetic-expression» >= «arithmetic-expression»"
+        "«arithmetic-expression» == «arithmetic-expression»"
+        "«arithmetic-expression» != «arithmetic-expression»"
+        "«string-expression» <  «string-expression»"
+        "«string-expression» <= «string-expression»"
+        "«string-expression» >  «string-expression»"
+        "«string-expression» >= «string-expression»"
+        "«string-expression» == «string-expression»"
+        "«string-expression» != «string-expression»"
+        "«string-expression» ~  «string-expression»"
+        "«string-expression» !~ «string-expression»"
+     )
+;;; comparison-expression
+)
+
+(lse-define-fill-in "numeric-assignment"
+    '(token                 "assignment")
+    '(token                 "=")
+    '(description           "Expression that stores a new value into a variable and returns the stored value")
+    '(replacement           "«name» «numeric-assignment-operator» «arithmetic-expression»")
+;;; numeric-assignment
+)
+
+(lse-define-fill-in "numeric-assignment-operator"
+    '(token)
+    '(menu
+        ("="      "Plain assignment of right-hand-side")
+        ("+="     "Add      right-hand-side to   left-hand-side")
+        ("-="     "Subtract right-hand-side from left-hand-side")
+        ("*="     "Multiply left-hand-side  by   right-hand-side")
+        ("/="     "Divide   left-hand-side  by   right-hand-side")
+        ("%="     "Sets     left-hand-side  to   its remainder by right-hand-side")
+        ("^="     "Raises   left-hand-side  to the power right-hand-side")
+     )
+;;; numeric-assignment-operator
+)
+
+(lse-define-fill-in "numeric-function"
+    '(token)
+    '(description           "Function returning a numeric value")
+    '(menu
+        awk-atan2
+        awk-cos
+        awk-exp
+        awk-index
+        awk-int
+        awk-length
+        awk-log
+        awk-match
+        awk-rand
+        awk-sin
+        awk-sqrt
+     )
+;;; numeric-function
+)
+
+(lse-define-fill-in "regexp-constant"
+    '(description           "Constant regular expression")
+    '(replacement           "/" & @ regexp & "/")
+)
+
+(lse-define-fill-in "regexp-non-word-boundary"
+    '(description           "not supported by awk")
+    '(menu)
+)
+
+(lse-define-fill-in "regexp-word-boundary"
+    '(description           "not supported by awk")
+    '(menu)
+)
+
+(lse-define-fill-in "string-expression"
+    '(token)
+    '(description           "String-valued expression")
+    '(menu
+        ("««text»» ««string-expression»»···"    "Concenation of strings")
+        @ string-function
+     )
+;;; string-expression
+)
+
+(lse-define-fill-in "string-function"
+    '(token)
+    '(description           "Functions returning string vlaues")
+    '(menu
+        awk-substr
+        awk-tolower
+        awk-toupper
+     )
+;;; string-function
+)

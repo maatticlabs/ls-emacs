@@ -1,0 +1,56 @@
+!
+! Math Delimiters for \left and \right commands
+!
+delete placeholder delimiters
+define placeholder delimiters -
+	/description="Math formula delimiters, see table 3.10 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"("
+"["
+"\{"
+"\lfloor"
+"\lceil"
+"\langle"
+"/"
+"|"
+")"
+"]"
+"\}"
+"\rfloor"
+"\rceil"
+"\rangle"
+"\backslash"
+"\|"
+"\uparrow"
+"\downarrow"
+"\updownarrow"
+"\Uparrow"
+"\Downarrow"
+"Updownarrow"
+"."
+end define
+delete token delimiters
+define token delimiters -
+	/placeholder=delimiters -
+	/language=latex 
+
+delete token \left
+define token \left -
+	/description="Left delimiter command for math formula" -
+	/language=latex -
+
+"\left<delimiters>"
+end define
+
+delete token \right
+define token \right -
+	/description="Right delimiter command for math formula" -
+	/language=latex -
+
+"\right<delimiters>"
+end define
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_DELIMITERS.LSE
+!	 *1    30-JAN-1986 15:31:18 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_DELIMITERS.LSE

@@ -1,0 +1,534 @@
+@node    Examples, Editing, Intro, Top
+@chapter Example Sessions with LS-Emacs
+
+This chapter demonstrates how to use LS-Emacs with step-by-step
+examples. One of the examples shows how you would write a letter using
+@TeX{}, the other example presents the LS-Emacs language @code{bash} for
+the development of a simple shell script. If you are familiar with DEC
+LSE, you might want to skip this chapter. To avoid too much boredom it
+might be a good idea to start LS-Emacs and try the examples on-line
+while reading.
+
+In this manual, I will assume that LS-Emacs runs under the @dfn{X window
+system}. You can also use LS-Emacs on a plain ascii terminal, but due to
+the lack of an @kbd{@key{ALT}} key, you have to configure LS-Emacs to use
+different key bindings. 
+
+@iftex
+@section Writing a Letter in @value{LaTeX} with LS-Emacs
+
+When you start editing in a new buffer with extension @file{.tex},
+LS-Emacs will automatically put you into @value{LaTeX}-mode. Initially, the
+buffer will look like this:
+
+@lisp
+@cartouche
+««@point@:latex»»
+
+@end cartouche
+@end lisp
+
+The position of the point --- indicated by @point{} --- should be inside the
+fill-in @code{««latex»»}.@footnote{For some reason, LS-Emacs sometimes
+fails to position the point inside the fill-in.  If that happens, just use
+the command @code{lse-goto-next-fill-in} which is bound to @kbd{A-n} in
+LS-Emacs.}  When you expand the fill-in by pressing @kbd{@key{TAB}},
+LS-Emacs will pop up a menu like this in a second window:
+
+@lisp
+@cartouche
+#> article                     Latex article document style
+   letter                      Latex letter document style
+   report                      Latex report document style
+
+@end cartouche
+@end lisp
+
+When you move the point to the second line and press the
+@kbd{@key{RET}}-key, LS-Emacs will expand the fill-in into the following text:
+
+@lisp
+@makebraceother
+@cartouche
+\documentstyle««@point@:optionlist»»{letter}
+  ««pre_letter_cmds»»···
+\begin{document}
+  \begin{letter}{«recipient»}
+    \opening{«paragraph_text»···}
+    
+    ««environments»»···
+    
+    \closing{«paragraph_text»···}
+    ««cc»»
+    ««encl»»
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+Assuming that you do not need any option, you kill the fill-in
+@code{««option-list»»} by pressing @kbd{A-k}.  Next, you will expand the
+fill-in @code{««pre_letter_cmds»»···}. Again, a menu pops up:
+
+@lisp
+@cartouche
+#> \address	             
+   \location	           
+   \signature	           
+   \telephone
+@end cartouche
+@end lisp
+
+This time, you select the first entry, which expands into:
+
+@lisp
+@makebraceother 
+@cartouche
+\documentstyle{letter}
+  \address{«@point@:paragraph_text»···}
+  ««pre_letter_cmds»»···
+\begin{document}
+  \begin{letter}{«recipient»}
+    \opening{«paragraph_text»···}
+    
+    ««environments»»···
+    
+    \closing{«paragraph_text»···}
+    ««cc»»
+    ««encl»»
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+Now, the point is inside the (first occurrence of the) fill-in
+@code{«paragraph_text»···}. Typing the return address of the letter 
+leaves the buffer in a state like this:@footnote{I've stolen the text of
+this example from the @value{LaTeX} book by Leslie Lamport.}
+
+@lisp
+@makebraceother 
+@cartouche
+\documentstyle{letter}
+  \address{1234 Ave.\ of the Armadillos \\
+           Gnu York, G.Y. 56789@point@:
+           ««paragraph_text»»···}
+  ««pre_letter_cmds»»···
+\begin{document}
+  \begin{letter}{«recipient»}
+    \opening{«paragraph_text»···}
+    
+    ««environments»»···
+    
+    \closing{«paragraph_text»···}
+    ««cc»»
+    ««encl»»
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+Next, you press @kbd{A-k} to remove the trailing
+@code{««paragraph_text»»···}; then expand @code{««pre_letter_cmds»»} a
+second time by pressing @kbd{TAB}.  Choose the menu entry
+@code{\signature} and type your signature.  Now, press @kbd{A-k} two
+times --- this kills the next two fill-ins (@code{««paragraph_text»»}
+and @code{««pre_letter_cmds»»}) and leaves the point inside the fill-in
+@code{«recipient»}. Pressing @kbd{@key{TAB}} expands that fill-in and
+positions the point inside the fill-in @code{«addressee»}:
+
+@lisp
+@makebraceother 
+@cartouche
+\documentstyle{letter}
+  \address{1234 Ave.\ of the Armadillos \\
+           Gnu York, G.Y. 56789}
+  \signature{R. (Ma) Dillo \\ Director of Cuisine}
+\begin{document}
+  \begin{letter}{«@point@:addressee»««linebreak»»««address»»}
+    \opening{«paragraph_text»···}
+    
+    ««environments»»···
+    
+    \closing{«paragraph_text»···}
+    ««cc»»
+    ««encl»»
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+When you type @kbd{@key{TAB}} again, LS-Emacs displays the message
+``Enter the name of the addressee'' in the message window. This means
+that there is no further expansion: now you have to type the appropriate
+name. After completing the recipient by typing some text the buffer may
+look like this:
+
+@lisp
+@makebraceother 
+@cartouche
+\documentstyle{letter}
+  \address{1234 Ave.\ of the Armadillos \\
+           Gnu York, G.Y. 56789}
+  \signature{R. (Ma) Dillo \\ Director of Cuisine}
+\begin{document}
+  \begin{letter}{Dr.\ G. Nathaniel Pickering \\
+                 Acme Exterminators \\
+                 33 Swat Street \\
+                 Hometown, Illinois 62301@point@:
+                }
+    \opening{«paragraph_text»···}
+    
+    ««environments»»···
+    
+    \closing{«paragraph_text»···}
+    ««cc»»
+    ««encl»»
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+The position of the point is just behind the zip-code. To go to the next
+fill-in, press @kbd{A-n}. Typing the rest of the letter takes much less
+time than explaining in detail how to do it. When the letter is
+complete, there won't remain any fill-in in the buffer. Using Lamport's
+example, you would see:
+
+@lisp
+@makebraceother 
+@cartouche
+\documentstyle{letter}
+  \address{1234 Ave.\ of the Armadillos \\
+           Gnu York, G.Y. 56789}
+  \signature{R. (Ma) Dillo \\ Director of Cuisine}
+\begin{document}
+  \begin{letter}{Dr.\ G. Nathaniel Pickering \\
+                 Acme Exterminators \\
+                 33 Swat Street \\
+                 Hometown, Illinois 62301
+                }
+    \opening{Dear Nat.}
+    
+    I'm afraid that the armadillo problem is still with us. I did everything
+    \dots\ and I hope you can get rid of the nasty beasts this time.
+    
+    \closing{Best regards,}
+    \cc{Jimmy Carter \\ Richard M. Nixon@point@:}
+  \end{letter}
+\end{document}
+
+@end cartouche
+@end lisp
+
+There wasn't any need for typing markup --- you could concentrate on the
+contents of the letter while letting LS-Emacs do the dirty work. For
+languages like @TeX{} and its friends which use a lot of strange and
+error-prone markup this is a substantial advantage.
+@end iftex
+
+@menu
+* Bash-Script::                 
+@end menu
+
+@node    Bash-Script,  , Examples, Examples
+@section Writing a Bash Shell Script with LS-Emacs
+
+This section shows how to use LS-Emacs to write shell-scripts for the
+bash shell. The example develops a script for compiling LS-Emacs
+languages. The parameters to the shell script specify the languages to
+be compiled. The shell script assembles an Emacs command file and
+starts Emacs. We want to allow wild-cards for the language names.
+
+To start using the templates for bash, issue the command
+@code{lse-bash-mode}.@footnote{You can configure automatic use of the
+bash-templates by adding a suitable entry to @*
+@file{lse-mode-alist.el}.}  If the buffer was previously empty, LS-Emacs
+will insert the fill-in @code{««bash»»} into the buffer:
+
+@lisp
+@cartouche
+««@point@:bash»»
+
+@end cartouche
+@end lisp
+
+Expanding this fill-in by pressing @kbd{@key{TAB}} results in:
+
+@lisp
+@cartouche
+#! /bin/bash
+#««@point@:header-comment»»
+««command»»···
+
+@end cartouche
+@end lisp
+ 
+Normally, you would now expand the header comment, but in the interest
+of brevity (of the resulting buffer) we will postpone that. Instead,
+press @kbd{A-n} to position to the fill-in @code{««command»»···}. Expanding
+that fill-in, you see a small menu:
+
+@lisp
+@cartouche
+#> bash-command	         
+   function-command	     
+   unix-command	         
+   unix-root-command
+   
+@end cartouche
+@end lisp
+
+You could select one of the entries, which would immediately pop up
+another menu. Selecting a command this way is rather time consuming and
+boring. Instead, abort the expansion by typing @kbd{C-g}. We will type
+the next commands without expanding fill-ins.
+
+First, we have to initialize a variable in which we will assemble the
+Emacs command. So we type over the fill-in @code{««command»»···}. This results
+in the buffer:
+
+@lisp
+@cartouche
+#! /bin/bash
+#««header-comment»»
+emacs_cmd=""@point@:
+««command»»···
+
+@end cartouche
+@end lisp
+
+Next, we have to loop over all arguments supplied on the command line.
+We could expand the fill-in, but it is faster to use a token instead.
+Knowing that we need a for-loop, we type @code{for} and press @kbd{A-e}.
+Now, the buffer looks like:
+
+@lisp
+@cartouche
+#! /bin/bash
+#««header-comment»»
+emacs_cmd=""
+for «@point@:name» ««in-word»»
+do
+    «command»···
+done
+««command»»···
+
+@end cartouche
+@end lisp
+
+The point is inside the fill-in @code{«name»}. We type the name @code{arg}
+and kill the fill-in @code{««in-word»»} by pressing @kbd{A-k}, as the
+for-loop will implicitly loop over the argument array. Now, the point is
+inside the fill-in @code{«command»···}. To parse wild-cards we need a
+second for-loop. Again, we are going to use a token. This time, we
+replace the fill-in @code{«name»} by @code{file} and now we have to
+expand the fill-in @code{««in-word»»}.  This results in:
+
+@lisp
+@cartouche
+#! /bin/bash
+#««header-comment»»
+emacs_cmd=""
+for arg
+do
+    for file in «@point@:text»
+    do
+        «command»···
+    done
+    ««command»»···
+done
+««command»»···
+
+@end cartouche
+@end lisp
+
+@need 5000
+The master language files are located in a directory specified by the
+environment variable @code{EMACSLSESRC} and are named
+@file{lse-language-«name».lse}. We type the appropriate string. Inside
+the nested loop we have to extract the language name from the file-name,
+test for the existence of the file and add it to the @code{emacs_cmd}.
+Typing the code --- again using just a few tokens --- the result may
+look like this:
+
+@lisp
+@cartouche
+#! /bin/bash
+#««header-comment»»
+emacs_cmd=""
+for arg
+do
+    for file in $EMACSLSESRC/lse-language-$arg.lse
+    do
+        f=`echo $file | sed 's!^.*/lse-language-!!
+                             s!\.lse!!
+                            '`
+        if [ -s $file ]
+        then
+            emacs_cmd="$emacs_cmd(lse-language:compile \"$f\")  "
+            echo -n "$f "
+        else
+            echo "Lse language $f does not exist"
+            exit 1@point@:
+        fi
+    done
+    ««command»»···
+done
+««command»»···
+
+@end cartouche
+@end lisp
+
+@need 5000
+Now, we have completed the loop for assembling the Emacs command and 
+delete the fill-in remaining in the outer loop by pressing @kbd{A-k}.
+Typing the call of Emacs is a minute matter and leaves the buffer as:
+ 
+@lisp
+@cartouche
+#! /bin/bash
+#««header-comment»»
+emacs_cmd=""
+for arg
+do
+    for file in $EMACSLSESRC/lse-language-$arg.lse
+    do
+        f=`echo $file | sed 's!^.*/lse-language-!!
+                             s!\.lse!!
+                            '`
+        if [ -s $file ]
+        then
+            emacs_cmd="$emacs_cmd(lse-language:compile \"$f\")  "
+            echo -n "$f "
+        else
+            echo "Lse language $f does not exist"
+            exit 1
+        fi
+    done
+done
+
+echo ""
+if [ ":$emacs_cmd:" != "::" ]
+then
+    cmd_file="/tmp/#lse_compile_language#$$"
+    echo "$emacs_cmd" > "$cmd_file"
+    emacs -batch -l ls-emacs -l "$cmd_file"                       
+    rm "$cmd_file"@point@:
+fi
+
+@end cartouche
+@end lisp
+
+@need 5000
+To complete the shell script, we should now add the header comment. By
+pressing @kbd{A-p} we position the point to the fill-in
+@code{««header-comment»»}. This is the last fill-in remaining in the
+buffer and we expand it by pressing @kbd{@key{TAB}}. This yields:
+
+@lisp
+@cartouche
+#! /bin/bash
+# (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+#++
+# Name
+#    test
+#
+# Purpose
+#    «@point@:text»···
+#««header-comment-parameters»»
+# Revision Dates
+#    29-Jun-1994 (CT) Creation
+#    ««revision-date»»···
+#--
+emacs_cmd=""
+for arg
+do
+    for file in $EMACSLSESRC/lse-language-$arg.lse
+    do
+        f=`echo $file | sed 's!^.*/lse-language-!!
+                             s!\.lse!!
+                            '`
+        if [ -s $file ]
+        then
+            emacs_cmd="$emacs_cmd(lse-language:compile \"$f\")  "
+            echo -n "$f "
+        else
+            echo "Lse language $f does not exist"
+            exit 1
+        fi
+    done
+done
+
+echo ""
+if [ ":$emacs_cmd:" != "::" ]
+then
+    cmd_file="/tmp/#lse_compile_language#$$"
+    echo "$emacs_cmd" > "$cmd_file"
+    emacs -batch -l ls-emacs -l "$cmd_file"
+    rm "$cmd_file"
+fi
+
+@end cartouche
+@end lisp
+
+@need 5000
+Now we add a short abstract and a parameter description. That's all.  
+The final result is:
+@lisp
+@cartouche
+#! /bin/bash
+# (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+#++
+# Name
+#    test
+#
+# Purpose
+#    Compile lse language definitions
+#
+# Parameters
+#    $*  [language-name] Name(s) of languages to compile
+#
+# Revision Dates
+#    29-Jun-1994 (CT) Creation
+#--
+emacs_cmd=""
+for arg
+do
+    for file in $EMACSLSESRC/lse-language-$arg.lse
+    do
+        f=`echo $file | sed 's!^.*/lse-language-!!
+                             s!\.lse!!
+                            '`
+        if [ -s $file ]
+        then
+            emacs_cmd="$emacs_cmd(lse-language:compile \"$f\")  "
+            echo -n "$f "
+        else
+            echo "Lse language $f does not exist"
+            exit 1
+        fi
+    done
+done
+
+echo ""
+if [ ":$emacs_cmd:" != "::" ]
+then
+    cmd_file="/tmp/#lse_compile_language#$$"
+    echo "$emacs_cmd" > "$cmd_file"
+    emacs -batch -l ls-emacs -l "$cmd_file"
+    rm "$cmd_file"
+fi
+
+@end cartouche
+@end lisp
+
+Of course, it won't work. But there is just one little error. You have to
+specify the directory where Emacs will find @file{ls-emacs}. And of
+course some environment variables have to be defined correctly. See the
+chapter on installation of LS-Emacs.

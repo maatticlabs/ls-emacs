@@ -1,0 +1,19 @@
+This directory tree holds LS-Emacs, a language sensitive editor implemented
+on top of GNU Emacs. LS-Emacs is an extension to the popular GNU Emacs
+editor. LS-Emacs provides language-specific templates and on-line help on
+language features. You need a running Emacs system --- preferably version 19
+--- to use LS-Emacs. LS-Emacs is distributed under the conditions of the GNU
+General Public License (see file GPL in this directory).
+
+The `doc' subdirectory contains documentation about LS-Emacs. The file
+`lse.texi' is the master file of the texinfo documentation. The file
+`ls-emacs' is a Info file generated from `lse.texi' by texindex, the file
+`lse.ps.gz' is a compressed postscript version of the documentation. 
+Appendix A of that documentation describes how to install LS-Emacs.
+
+The `lse' subdirectory contains the language definition files for a number of
+programming and other languages. The number of supported languages is
+expected to grow over time. At least, LS-Emacs supports: Awk, Bash, Elisp,
+Latex, Lse, Perl, Sed, and Texinfo.
+
+Reports of bugs in LS-Emacs should be sent to tanzer@swing.co.at. 

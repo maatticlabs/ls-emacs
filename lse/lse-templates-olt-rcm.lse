@@ -1,0 +1,468 @@
+;-*-unibyte: t;-*-
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "_NO_"
+    '(replacement           "_NO_")
+;;; _NO_
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Attribute"
+    '(token)
+    '(token                 "attribute")
+    '(replacement
+        "@expand (\"_RCM_"
+        & (lse-insert-replica-or-flat "RCM_Type")
+        & "_«RCM_Attribute_Name»_\" + @as_string (i))"
+     )
+;;; RCM_Attribute
+)
+
+;;;  6-Mar-1996 
+(lse-define-fill-in "RCM_Config_Item"
+    '(token)
+    '(token                 "item")
+    '(replacement
+        "\"@def _RCM_"
+        & (lse-insert-replica-or-flat "RCM_Type")
+        & "_«RCM_Attribute_Name»_\" & @ \"RCM_Config_Tail\""
+     )
+;;; RCM_Config_Item
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Attribute_Name"
+    '(description           "Name of attribute")
+;;; RCM_Attribute_Name
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Config_Tail"
+    '(replacement           "«RCM_Number» (@as_code («quoted-text»))")
+;;; RCM_Config_Tail
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Dynamics_Config"
+    '(token)
+    '(token                 "dynamics-config")
+    '(replacement
+        "@def _RCM_Dynamics_Desc_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_InitTask_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_HWTask_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_SWTask_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_MsgGroup_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_OpMode_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_TimeTable_" & @ "RCM_Config_Tail"
+        "@def _RCM_Dynamics_x_binding_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Dynamics_Config
+)
+
+;;; 12-Mar-1996 
+(lse-define-fill-in "RCM_Exception_Config"
+    '(token)
+    '(token                 "exception-config")
+    '(replacement
+        "@def _RCM_Exception_Desc_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Exception_Level_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Exception_Config
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_calls_back_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Function_calls_back_Function
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_uses_E_Object"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", eobj_«number»)")
+;;; RCM_Function_uses_E_Object
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_calls_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Function_calls_Function
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_uses_Message"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement
+        " @( fct_" & @ RCM_Number_A & ", msg_«number», ««_NO_»»Group"
+        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
+        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive, ««_NO_»»ReceiveBeforeSend"
+        "  )"
+     )
+;;; RCM_Function_uses_Message
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_uses_Resource"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement
+        " @(fct_" & @ RCM_Number_A & ", rsc_«number», «RCM_Function_uses_Resource_Time»)"
+     )
+;;; RCM_Function_uses_Resource
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_uses_Resource_Time"
+    '(description           "Time parameter for use relation")
+;;; RCM_Function_uses_Resource_Time
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Function_uses_SW_Task"
+  '(token)
+  '(leading               ",")
+  '(separator             lse-environment-indent lse-newline-and-indent ", ")
+  '(replacement           " @(fct_" & @ RCM_Number_A & ", stsk_«number»)")
+;;; RCM_Function_uses_SW_Task
+)
+
+;;;  6-Mar-1996 
+(lse-define-fill-in "RCM_Function_Config"
+    '(token)
+    '(token                 "function-config")
+    '(replacement
+        "@def _RCM_Function_Subsystem_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Desc_"                & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Callable_"            & @ "RCM_Config_Tail"
+        "@def _RCM_Function_AddressType_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Prototype_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Registers_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Window_"              & @ "RCM_Config_Tail"
+        "@def _RCM_Function_HWStack_"             & @ "RCM_Config_Tail"
+        "@def _RCM_Function_CCStack_"             & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Allow_"               & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Function_Code_"                & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Function_calls_back_Function_«RCM_Number»"
+        "     (@(««RCM_Function_calls_back_Function»»···))"
+        "@def _RCM_Function_uses_E_Object_«RCM_Number»"
+        "     (@(««RCM_Function_uses_E_Object»»···))"
+        "@def _RCM_Function_calls_Function_«RCM_Number»"
+        "     (@(««RCM_Function_calls_Function»»···))"
+        "@def _RCM_Function_uses_Message_«RCM_Number»"
+        "     (@(««RCM_Function_uses_Message»»···))"
+        "@def _RCM_Function_uses_Resource_«RCM_Number»"
+        "     (@(««RCM_Function_uses_Resource»»···))"
+        "@def _RCM_Function_uses_SW_Task_«RCM_Number»"
+        "     (@(««RCM_Function_uses_SW_Task»»))"
+     )
+;;; RCM_Function_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_HW_Task_Config"
+    '(token)
+    '(token                 "hwtask-config")
+    '(replacement
+        "@def _RCM_HW_Task_Desc_"            & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_Priority_"        & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_Interrupt_"       & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_MinPeriod_"       & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_Allow_"           & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_activateProcess_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_HW_Task_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Init_Task_Config"
+    '(token)
+    '(token                 "initTask-config")
+    '(replacement
+        "@def _RCM_Init_Task_Desc_"              & @ "RCM_Config_Tail"
+        "@def _RCM_Init_Task_initializeProcess_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Init_Task_Config
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Number"
+    '(description           "Enter number of entity to configure"
+                            ""
+                            "For properties defined inside a subsystem, this"
+                            "is a structured number formed as :"
+                            "    «subsystem-number»_«property-number»"
+     )
+    '(auto-replicate        100)
+;;; RCM_Number
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Number_A"
+  '(replacement           (lse-insert-replica-or-flat "RCM_Number"))
+;;; RCM_Number_A
+)
+
+;;; 12-Mar-1996 
+(lse-define-fill-in "RCM_Message_Config"
+    '(token)
+    '(token                 "message-config")
+    '(replacement
+        "@def _RCM_Message_Desc_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Message_CType_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Group_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Length_" & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Allow_"  & @ "RCM_Config_Tail"
+     )
+;;; RCM_Message_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Msg_Group_Config"
+    '(token)
+    '(token                 "msgGroup-config")
+    '(replacement
+        "@def _RCM_Msg_Group_Desc_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Msg_Group_Address_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Msg_Group_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Op_Mode_Config"
+    '(token)
+    '(token                 "opMode-config")
+    '(replacement
+        "@def _RCM_Op_Mode_Desc_" & @ "RCM_Config_Tail"
+        "@def _RCM_Op_Mode_usesInitTask_" & @ "RCM_Config_Tail"
+        "@def _RCM_Op_Mode_usesHWTask_" & @ "RCM_Config_Tail"
+        "@def _RCM_Op_Mode_successorOpMode_" & @ "RCM_Config_Tail"
+        "@def _RCM_Op_Mode_usesTimeTable_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Op_Mode_Config
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_calls_back_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Process_calls_back_Function
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_uses_E_Object"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", eobj_«number»)")
+;;; RCM_Process_uses_E_Object
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_calls_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Process_calls_Function
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_uses_Message"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", msg_«number», ««_NO_»»Group"
+        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
+        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive, ««_NO_»»ReceiveBeforeSend"
+        "  )"
+     )
+;;; RCM_Process_uses_Message
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_uses_Resource"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent lse-newline-and-indent ", ")
+    '(replacement
+        " @(prc_" & @ RCM_Number_A & ", rsc_«number», «RCM_Process_uses_Resource_Time»)"
+     )
+;;; RCM_Process_uses_Resource
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_uses_Resource_Time"
+    '(description           "Time parameter for use relation")
+;;; RCM_Process_uses_Resource_Time
+)
+
+;;; 21-Mar-1996 
+(lse-define-fill-in "RCM_Process_uses_SW_Task"
+  '(token)
+  '(leading               ",")
+  '(separator             lse-environment-indent lse-newline-and-indent ", ")
+  '(replacement           " @(prc_" & @ RCM_Number_A & ", stsk_«number»)")
+;;; RCM_Process_uses_SW_Task
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Process_Config"
+    '(token)
+    '(token                 "process-config")
+    '(replacement
+        "@def _RCM_Process_Subsystem_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Desc_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Code_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Prototype_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Registers_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Window_"       & @ "RCM_Config_Tail"
+        "@def _RCM_Process_RegClass_"     & @ "RCM_Config_Tail"
+        "@def _RCM_Process_HWStack_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Process_CCStack_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Process_CPU_"          & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Deadline_"     & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Allow_"        & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Process_init_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Process_body_"         & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Process_calls_back_Function_«RCM_Number»"
+        "     (@(««RCM_Process_calls_back_Function»»···))"
+        "@def _RCM_Process_uses_E_Object_«RCM_Number»"
+        "     (@(««RCM_Process_uses_E_Object»»···))"
+        "@def _RCM_Process_calls_Function_«RCM_Number»"
+        "     (@(««RCM_Process_calls_Function»»···))"
+        "@def _RCM_Process_uses_Message_«RCM_Number»"
+        "     (@(««RCM_Process_uses_Message»»···))"
+        "@def _RCM_Process_uses_Resource_«RCM_Number»"
+        "     (@(««RCM_Process_uses_Resource»»···))"
+        "@def _RCM_Process_uses_SW_Task_«RCM_Number»"
+        "     (@(««RCM_Process_uses_SW_Task»»))"
+     )
+;;; RCM_Process_Config
+)
+
+;;; 12-Mar-1996 
+(lse-define-fill-in "RCM_Resource_Config"
+    '(token)
+    '(token                 "resource-config")
+    '(replacement
+        "@def _RCM_Resource_Desc_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Resource_Allow_"          & @ "RCM_Config_Tail"
+        "@def _RCM_Resource_Protected_Data_" & @ "RCM_Config_Tail" 
+     )
+;;; RCM_Resource_Config
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Subsystem_Config"
+    '(token)
+    '(token                 "subsystem-config")
+    '(replacement
+        "@def _RCM_Subsystem_Subsystem_"          & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Desc_"               & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Renames_Exception_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Renames_Function_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Renames_Message_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Renames_Resource_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Contains_Function_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Contains_Process_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Contains_Subsystem_" & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Defines_Exception_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Defines_Resource_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Defines_X_Routine_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Exports_Exception_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Exports_Function_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Exports_Message_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Exports_Resource_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_Exports_Subsystem_"  & @ "RCM_Config_Tail"
+        ""
+        "@require (\"msg_cfg«RCM_Number».c\")"
+        "@require (\"xcp_cfg«RCM_Number».c\")"
+     )
+;;; RCM_Subsystem_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_SW_Task_Config"
+    '(token)
+    '(token                 "swtask-config")
+    '(replacement
+        "@def _RCM_SW_Task_Desc_"            & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_Priority_"        & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_MinPeriod_"       & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_MaxNofActive_"    & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_Allow_"           & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_activateProcess_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_SW_Task_Config
+)
+
+;;;  7-Mar-1996 
+(lse-define-fill-in "RCM_Time_Table_Config"
+    '(token)
+    '(token                 "timeTable-config")
+    '(replacement
+        "@def _RCM_Time_Table_Desc_"            & @ "RCM_Config_Tail"
+        "@def _RCM_Time_Table_ttActivatesTask_" & @ "RCM_Config_Tail"
+        "@def _RCM_Time_Table_ttInclude_"       & @ "RCM_Config_Tail"
+     )
+;;; RCM_Time_Table_Config
+)
+
+;;;  5-Mar-1996 
+(lse-define-fill-in "RCM_Type"
+    '(description           "Name of entity type, e.g., Subsystem")
+    '(sort)
+    '(menu
+        "Exception"
+        "Function"
+        "HW_Task"
+        "Init_Task"
+        "Interrupt"
+        "Message"
+        "Op_Mode"
+        "Process"
+        "Resource"
+        "SW_Task"
+        "Subsystem"
+        "Time_Table"
+        "X_Routine"
+     )
+;;; RCM_Type
+)
+
+;;; 12-Mar-1996 
+(lse-define-fill-in "RCM_X_Routine_Config"
+    '(token)
+    '(token                 "xroutine-config")
+    '(replacement
+        "@def _RCM_X_Routine_Desc_"      & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_XModel_"    & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Prototype_" & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Registers_" & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Window_"    & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_HWStack_"   & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_CCStack_"   & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Body_"      & @ "RCM_Config_Tail"
+     )
+;;; RCM_X_Routine_Config
+)
+
+; ««lse-define-fill-in»»···

@@ -1,0 +1,102 @@
+!
+!
+! Table of Contents, List of Figures, List of Tables
+!
+delete token \tableofcontents
+define token \tableofcontents -
+	/language=latex -
+	/descr = "Generate a table of contents" -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"\tableofcontents"
+end define
+
+delete token \addcontentsline
+define token \addcontentsline -
+	/description="Adds an entry to the specified list or table" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents \addcontentsline"
+
+"\addcontentsline{<file>}{<sec_unit>}{<text>}"
+end define
+
+delete placeholder file
+define placeholder file -
+	/description="Auxiliary file type, TOC, LOF, or LOT" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents \addcontentsline" -
+	/type=menu -
+
+"toc"	/placeholder
+"lof"	/placeholder
+"lot"	/placeholder
+end define
+
+delete placeholder toc
+define placeholder toc -
+	/description="Table of Contents file" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"toc"
+end define
+
+delete placeholder lof
+define placeholder lof -
+	/description="List of Figures file" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"lof"
+end define
+
+delete placeholder lot
+define placeholder lot -
+	/description="List of Tables file" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"lot"
+end define
+
+delete placeholder sec_unit
+define placeholder sec_unit -
+	/description="Controls the format of the entry" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents" -
+	/type = terminal
+
+"toc: part, section, etc; lof: figure; lot: table"
+end define
+
+delete token \addtocontents
+define token \addtocontents -
+	/description="Adds text directly to the file that generates toc,lof,lot" -
+	/language=latex -
+	/topic_string="LATEX Commands Table_of_Contents \addtocontents" -
+
+"\addtocontents{<file>}{<text>}"
+end define
+
+delete token \listoffigures
+define token \listoffigures -
+	/language=latex -
+	/descr = "Generate a list of figures" -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"\listoffigures"
+end define
+
+delete token \listoftables
+define token \listoftables -
+	/language=latex -
+	/descr = "Generate a list of tables" -
+	/topic_string="LATEX Commands Table_of_Contents" -
+
+"\listoftables"
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_TOCLOFLOT.LSE
+!	 *2    28-FEB-1986 10:31:54 MCPHERSON "Fix the file placeholder"
+!	 *1    30-JAN-1986 15:32:35 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_TOCLOFLOT.LSE

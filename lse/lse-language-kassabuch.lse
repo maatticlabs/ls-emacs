@@ -1,0 +1,49 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-kassabuch
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language kassabuch
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-kassabuch-mode put in here
+;;;;-- 
+(lse-language:define "kassabuch"
+  '(
+    (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-group-chars         "-\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««kassabuch-file»»")
+    (lse-language:expand-initial       t)
+   )
+  '(
+   )
+  '(
+    "lse-templates-kassabuch"
+    "lse-templates-finanzplanung-1"
+    "lse-templates-finanzplanung-kategorien"
+   )
+;  503
+;   97
+)
+
+;;;
+;;; kassabuch mode
+;;;
+(defun lse-kassabuch-mode ()
+  (interactive)
+  (let (latex-mode-hook LaTeX-mode-hook) ;  don't execute LaTeX mode hooks
+    (LaTeX-mode)
+    (lse-latex-mode:define-keys)
+    (lse-language:use "kassabuch")
+    (local-set-key [tab] 'lse-expand-or-goto-next)
+  )
+)
+

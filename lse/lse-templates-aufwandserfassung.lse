@@ -1,0 +1,103 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "aufwandserfassung-woche"
+  '(replacement
+      "#Tag& Kategorie              & Sub-Kategorie         & Arbeitszeit"
+      "««Aufwand-Montag»»···"
+      "««Aufwand-Dienstag»»···"
+      "««Aufwand-Mittwoch»»···"
+      "««Aufwand-Donnerstag»»···"
+      "««Aufwand-Freitag»»···"
+      "««Aufwand-Samstag»»···"
+      "««Aufwand-Sonntag»»···"
+   )
+;;; aufwandserfassung
+)
+
+(lse-define-fill-in "Aufwand-Montag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Mon & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Dienstag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Tue & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Mittwoch"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Wed & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Donnerstag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Thu & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Freitag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Fri & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Samstag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Sat & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwand-Sonntag"
+  '(auto-expand); 18-Sep-2000 
+  '(replacement     "Sun & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+)
+
+(lse-define-fill-in "Aufwands-Tag"
+  '(description   "Wochentag, an dem Aufwand geleistet wurde")
+  '(token)
+  '(menu  Mon Tue Wed Thu Fri Sat Sun )
+)
+
+(lse-define-fill-in "Arbeitszeit"
+  '(rcompletion-trailer    lse-aufwand:show-total)
+  '(description           "Geleisteter Aufwand in Stunden oder als Zeitraum")
+)
+
+(lse-define-fill-in "Mon"
+  '(token             "Monday")
+  '(token             "Montag")
+  '(replacement     "Mon")
+)
+
+(lse-define-fill-in "Tue"
+  '(token             "Tuesday")
+  '(token             "Dienstag")
+  '(replacement     "Tue")
+)
+
+(lse-define-fill-in "Wed"
+  '(token             "Wednesday")
+  '(token             "Mittwoch")
+  '(replacement     "Wed")
+)
+
+(lse-define-fill-in "Thu"
+  '(token             "Thursday")
+  '(token             "Donnerstag")
+  '(replacement     "Thu")
+)
+
+(lse-define-fill-in "Fri"
+  '(token             "Friday")
+  '(token             "Freitag")
+  '(replacement     "Fri")
+)
+
+(lse-define-fill-in "Sat"
+  '(token             "Saturday")
+  '(token             "Samstag")
+  '(replacement     "Sat")
+)
+
+(lse-define-fill-in "Sun"
+  '(token             "Sunday")
+  '(token             "Sonntag")
+  '(replacement     "Sun")
+)

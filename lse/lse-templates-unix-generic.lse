@@ -1,0 +1,54 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "input-redirection"
+  '(description   "Redirect standard input to file")
+  '(token)
+  '(replacement   "<  «file-name»")
+)
+
+(lse-define-fill-in "output-redirection"
+  '(description   "Redirect output from standard output into file")
+  '(token)
+  '(menu
+      (">  «file-name»"     "Overwrite «file-name» if existing")
+      (">> «file-name»"     "Append to «file-name» if existing")
+   )
+)
+
+(lse-define-fill-in "print-format"
+    '(description           "Format for s?printf")
+    '(replacement-leading   "\"")
+    '(replacement-trailer   "\"")
+    '(replacement           "«print-format-item»···")
+)
+
+(lse-define-fill-in "print-format-item"
+    '(separator             "")
+    '(menu 
+        "%««number»»««.number»»«print-format-code»"
+        ("«text»"           "text printed literally")
+     )
+)
+
+(lse-define-fill-in "print-format-code"
+    '(sort)
+    '(menu
+        ("s"      "string")
+        ("c"      "character")
+        ("d"      "decimal number")
+        ("ld"     "long decimal number")
+        ("u"      "unsigned decimal number")
+        ("lu"     "long unsigned decimal number")
+        ("x"      "hexadecimal number")
+        ("lx"     "long hexadecimal number")
+        ("o"      "octal number")
+        ("lo"     "long octal number")
+        ("e"      "exponential format floating point number")
+        ("f"      "fixed point format floating point number")
+        ("g"      "compact format floating point number")
+     )
+;;; print-format-code
+)
+
+
+

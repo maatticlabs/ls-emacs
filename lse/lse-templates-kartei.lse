@@ -1,0 +1,61 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "entry-head"
+  '(description   "Header of entry")
+  '(replacement
+      "\\entry{«entry-name»}"
+      "\\entrystate{~PPreliminary~}"
+   )
+)
+
+(lse-define-fill-in "entry-name"
+  '(replacement
+      @ "current-buffer-name"
+   )
+)
+
+(lse-define-fill-in "entry-tail"
+  '(description   "Trailer of entry")
+  '(replacement
+      "\\endentry{«entry-name»}"
+      "···············································································"
+   )
+)
+
+(lse-define-fill-in "Kartei-Entry-Command-Menu"
+  '(description   "Command menu for manipulating kartei entries")
+  '(menu
+      swing-kartei:commit-entry
+      swing-kartei:delete-entry
+      swing-kartei:rename-entry
+      swing-kartei:quit-entry
+   )
+)
+
+(lse-define-fill-in "swing-kartei:commit-entry"
+  '(description   "Finish editing of kartei entry and put entry into kartei")
+  '(function
+      swing-kartei:commit-entry
+   )
+)
+
+(lse-define-fill-in "swing-kartei:delete-entry"
+  '(description   "Delete entry from kartei")
+  '(function
+      swing-kartei:delete-entry
+   )
+)
+
+(lse-define-fill-in "swing-kartei:rename-entry"
+  '(description   "Rename entry")
+  '(function
+      swing-kartei:rename-entry
+   )
+)
+
+(lse-define-fill-in "swing-kartei:quit-entry"
+  '(description   "Quit editing of kartei entry without including into kartei")
+  '(function
+      swing-kartei:quit-entry
+   )
+)

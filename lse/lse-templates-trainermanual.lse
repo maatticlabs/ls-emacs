@@ -1,0 +1,194 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Extra_Folien_Refs"
+  '(description   "References to additional folien")
+  '(leading       "[")
+  '(trailer       "]")
+)
+
+(lse-define-fill-in "Folien_Directory"
+  '(description   "Directory where folie resides")
+  '(leading       "[")
+  '(trailer       "]")
+)
+
+(lse-define-fill-in "Folien-Label"
+  '(replacement     @ "Text")
+)
+
+;;; 14-Apr-1996 
+(lse-define-fill-in "\\HandwrittenTerm"
+    '(token)
+    '(description           "Term to be written by hand on empty transparency")
+    '(replacement           "\\HandwrittenTerm{«text»}")
+;;; \\HandwrittenTerm
+)
+
+(lse-define-fill-in "\\inputfolienmanual"
+  '(token)
+  '(replacement
+        "\\inputfolienmanual «text» (««time_weight»») [««extra_folien_refs»»]"
+    )
+)
+
+;;; 20-Feb-1996 
+(lse-define-fill-in "kaffeepause"
+    '(token)
+    '(token                 "\\kaffeepause")
+    '(replacement           "\\kaffeepause[«lern-dauer»]")
+;;; kaffeepause
+)
+
+(lse-define-fill-in "Lern-Dauer"
+  '(description   "Zeit, die fuer den Inhalt vorgesehen ist")
+)
+
+(lse-define-fill-in "Lern-Durchfuehrung"
+  '(token                 "durchfuehrung")
+  '(separator " ")
+  '(description   "Vorgangsweise zur Vermittlung des Inhalts")
+  '(menu
+       ("\\vt/"   '(description   "(Frontal)-Vortrag"))
+       ("\\disk/" '(description   "Diskussion"))
+       ("\\ea/"   '(description   "Einzelarbeit"))
+       ("\\ga/"   '(description   "Gruppenarbeit"))
+       ("\\lehrg/"   '(description   "Lehrgespraech"))
+       ("\\mod/"  '(description   "Moderation"))
+       ("Test"   '(description   "Test"))
+    )
+)
+
+(lse-define-fill-in "Lern-Hilfsmittel"
+  '(token                 "Hilfsmittel")
+  '(separator             " \\\\ ")
+  '(leading               "\\\\")
+  '(description           "Hilfsmittel, mit denen der Lernschritt bearbeitet wird")
+  '(menu
+       ("\\OHF/{«Folien-Label»}"   '(description   "Overhead-Folie"))
+       ("\\lohf/"                  '(description   "Leerfolie"))
+       ("\\fc/"                    '(description   "Flip-Chart"))
+       ("\\stafel/"                '(description   "Schreib-Tafel"))
+       ("\\mb/"                    '(description   "Manualblatt (fuer Lernziele, fuer deren Feinziele es eigene Blaetter gibt)"))
+       ("\\trul/ ««text»»"         '(description   "Trainer-Unterlage"))
+       ("\\teul/ ««text»»"         '(description   "Teilnehmer-Unterlage"))
+       ("\\uul/ ««text»»"          '(description   "Uebungs-Unterlage (muessen wieder abgegeben werden)"))
+       ("\\kp/"                    '(description   "Klebepunkte"))
+       ("\\mk/"                    '(description   "Moderations-Kaertchen"))
+   )
+)
+
+(lse-define-fill-in "Lern-Inhalt"
+  '(token)
+  '(leading               "\\hline")
+  '(replacement
+      "\\inhalt"
+      "   {««Folien_Inhalt»»"
+      "   }"
+      "   {««Lern-Hilfsmittel»»}"
+      "   {««Lern-Durchfuehrung»»}"
+      "   {««Lern-Dauer»»}"
+      "««hline»»"
+    )
+)
+
+(lse-define-fill-in "Lern-Ziel"
+  '(token)
+  '(replacement
+      "\\begin{ziel}««Ziel: »»"
+      "   {«Lern_Ziel_Menu»}"
+      "«Lern-Inhalt»···"
+      "\\end{ziel}"
+      ""
+    )
+)
+
+(lse-define-fill-in "Lern_Ziel_Menu"
+  '(menu
+        "«text» anwenden können"
+        "«text» erklären können"
+        "«text» nennen können"
+        "«text» aufzählen können"
+    )
+)
+
+;;; 20-Feb-1996 
+(lse-define-fill-in "mittagspause"
+    '(token)
+    '(token                 "\\mittagspause")
+    '(replacement           "\\mittagspause[«lern-dauer»]")
+;;; mittagspause
+)
+
+(lse-define-fill-in "ohf"
+  '(token)
+  '(description   "Overhead-Folie")
+  '(replacement
+      "\\OHF/{«Folien-Label»}"
+   )
+)
+
+(lse-define-fill-in "\\ohf/"
+  '(token)
+  '(description   "Overhead-Folie")
+  '(replacement
+       "\\OHF/{«Folien-Label»}"
+    )
+)
+
+(lse-define-fill-in "Time_Weight"
+  '(description   "Multiplier for times in percent, default=100")
+  '(leading       "(")
+  '(trailer       ")")
+  '(replacement
+      "100"
+   )
+)
+
+(lse-define-fill-in "Trainer-Manual"
+  '(description   "Trainer-Manual fuer Seminare")
+  '(replacement
+      "\\documentstyle[1%"
+      "0pt,% 4 = Trainer-Manual, 0 = Draft"
+      "   german,swing,idioms,multicol,trainer_manual]{business}"
+      "\\def\\tableofcontents{}"
+      "\\GenerateTimeTable"
+      "%\\includeonly"
+      "  {%"
+      "  %manual_zeitstruktur,%"
+      "  %manual_einleitung,%"
+      "  %«text»,%"
+      "  }"
+      ""
+      "  \\input{seminar.def}"
+      "  \\inputfolieninfo{master}"
+      ""
+      "  \\def\\dayi{\\DATE.dow/«SeminarDatum»\\ \\DATE.ddmmyy/«SeminarDatum»}"
+      "  \\def\\dayii{{\\DATE.inc/«SeminarDatum»[1]\\dayi}}"
+      "  \\def\\dayiii{{\\DATE.inc/«SeminarDatum»[2]\\dayi}}"
+      ""
+      "\\begin{document}"
+      "  \\pagenumbering{roman}"
+      "    \\tableofcontents"
+      "    \\clearpage"
+      "  \\pagenumbering{arabic}"
+      ""
+      "  \\include{manual_zeitstruktur}"
+      "  \\include{manual_einleitung}"
+      ""
+      "\\end{document}"
+   )
+)
+
+(lse-define-fill-in "Trainermanual"
+  '(token)
+  '(replacement
+      "\\begin{trainermanual}"
+      "  «lern-ziel»···"
+      "\\end{trainermanual}"
+   )
+)
+
+(lse-define-fill-in "Ziel: "
+  '(max-line-move         2)
+  '(replacement           "[Ziel: ]")
+)

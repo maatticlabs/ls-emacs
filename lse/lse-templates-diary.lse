@@ -1,0 +1,36 @@
+
+;;;  9-Mar-2003
+(lse-define-fill-in "diary-entry"
+    '(token)
+    '(token                 "entry")
+    '(description           "One entry of diary")
+    '(auto-expand);  9-Apr-2003
+    '(replacement
+        "«diary-time» «diary-activity»"
+     )
+;;; diary-entry
+)
+
+;;; 10-Mar-2003
+(lse-define-fill-in "diary-activity"
+    '(token)
+    '(token                 "activity")
+    '(description           "Activity descried by a diary entry")
+;;; diary-activity
+)
+
+;;;  9-Mar-2003
+(lse-define-fill-in "diary-time"
+    '(token)
+    '(token                 "time")
+    '(description           "Start or end time of a activity")
+    '(replacement-leading   "<")
+    '(replacement-trailer   ">")
+    '(max-line-move         20)
+    '(replacement           lse-insert-time)
+;;; diary-time
+)
+
+; ««lse-define-fill-in»»···
+
+; __END__ lse-templates-diary.lse

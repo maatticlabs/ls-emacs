@@ -1,0 +1,38 @@
+;-*-unibyte: t;-*-
+
+
+(lse-language:define "buchhaltung"
+    '(
+        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:tab-increment        2)
+        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-group-chars         "-\@_")
+        (lse_comment_head_delim            "%")
+        (lse_comment_head_delim_pattern    "%+ *")
+        (lse_comment_delim_char_set        "%")
+        (lse-language:expand-initial       t)
+     )
+    '(
+     )
+    '(
+        "lse-templates-finanzplanung-kategorien"
+        "lse-templates-kontenplan"
+        "lse-templates-buchhaltung"
+     )
+    137
+     67
+;;; buchhaltung
+)
+
+;;;
+;;; buchhaltung mode
+;;;
+;;; 11-Oct-1996 
+(define-derived-mode lse-buchhaltung-mode text-mode "Buchhaltung"
+  "Major mode for accounting.
+\\{lse-buchhaltung-mode-map}"
+  (lse-language:use "buchhaltung")
+)
+
+;;; 11-Oct-1996 
+(define-key lse-buchhaltung-mode-map [tab] 'lse-expand-or-goto-next)

@@ -1,0 +1,40 @@
+;-*-unibyte: t;-*-
+
+(lse-language:define "ebnf"
+    '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß_")
+      (lse-tpu:ident-group-chars         "-\@")
+      (lse-language:tab-increment        4)
+      (lse_comment_head_delim            "%")
+      (lse_comment_head_delim_pattern    "%+ *")
+      (lse_comment_delim_char_set        "%")
+      (lse-language:initial-fill-in      "««ebnf-production»»···")
+     )
+    '(lse-tpu:toggle-newline-and-indent
+      auto-fill-mode 
+     )
+    '(
+      "lse-templates-ebnf"
+      "lse-templates-ebnf-xbw"; 18-Mar-1997 
+     )
+    137
+     67
+;;; ebnf
+)
+
+;;; 18-Mar-1997
+(defun xbw-ebnf-insert-leader ()
+  (indent-to (+ (current-column) (current-indentation)))
+; xbw-ebnf-insert-leader
+)
+
+;;; 18-Mar-1997
+(defun xbw-ebnf-add-prev-eof-comment ()
+  (if (eq (current-column) (current-indentation))
+      (save-excursion
+        (lse-tpu:previous-end-of-line 1)
+        (skip-chars-backward " \t")
+        (insert "%")
+      )
+  )
+; xbw-ebnf-add-prev-eof-comment
+)

@@ -1,0 +1,40 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-generic
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language generic
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-text-mode put in here
+;;;;--
+(lse-language:define "generic"
+  '((lse-tpu:ident-group-chars         "_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            nil)
+    (lse_comment_head_delim_pattern    nil)
+    (lse_comment_delim_char_set        nil)
+   )
+  '()
+  '()
+)
+
+;;;
+;;; text mode
+;;;
+(setq text-mode-hook '(lse-text-mode))
+
+(defun lse-text-mode ()
+  (interactive);  9-Jul-1997
+  (lse-language:use "generic")
+  (setq indent-line-function 'lse-indent-line)
+  (local-unset-key "\C-n")
+  (local-unset-key "\C-i")
+  (local-unset-key "\M-s")
+  (local-unset-key "\M-S")
+  (local-unset-key "\M-C-i")
+)

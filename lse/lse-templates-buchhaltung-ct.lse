@@ -1,0 +1,42 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "buchhaltung"
+    '(token)
+    '(auto-expand); 17-Aug-2000
+    '(replacement
+        " «Tag». & "
+        & "«Beleg-Zahl» & "
+        & "«MWSt» & "
+        & "«Betrag» & "
+        & "«Brutto/Netto» & "
+        & "«Soll-Konto» & "
+        & "«Haben-Konto» & "
+        & "«+-=» & "
+        & "«Tools» & "
+        & " & "
+        & "«Beschreibung»  "
+        & ""
+     )
+;;; buchhaltung
+)
+
+(lse-define-fill-in "buchhaltung-file"
+    '(replacement
+        "$vst_korrektur   = 1.0;"
+        "$source_currency = \"eur\";";  1-Jan-2002 eur instead of ats
+        "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
+                  & "Tools   &  & Beschreibung  "
+        "«buchhaltung»···"
+     )
+;;; buchhaltung-file
+)
+
+(lse-define-fill-in "Tools"
+  '(description           "Kennungen der Tools, die diese Buchungszeile bearbeiten"
+                          "B         Betriebskostenabrechnung"
+                          "F         Finanzplanung"
+                          "U         Umsatzsteuervoranmeldung"
+   )
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+;;; Tools
+)

@@ -1,0 +1,47 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-reiserechnung
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language reiserechnung
+;;;;
+;;;; Revision Dates
+;;;;     4-Jul-1994 (CT) Creation
+;;;;-- 
+(lse-language:define "reiserechnung"
+  '(
+    (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-group-chars         "-\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««reiserechnung-file»»")
+    (lse-language:expand-initial       t)
+   )
+  '(
+   )
+  '(
+    "lse-templates-reiserechnung"
+   )
+;  503
+;   97
+)
+
+;;;
+;;; reiserechnung mode
+;;;
+(defun lse-reiserechnung-mode ()
+  (interactive)
+  (let (latex-mode-hook LaTeX-mode-hook) ;  don't execute LaTeX mode hooks
+    (LaTeX-mode)
+    (lse-latex-mode:define-keys)
+    (lse-language:use "reiserechnung")
+    (local-set-key [tab] 'lse-expand-or-goto-next)
+  )
+)
+
+

@@ -1,0 +1,1559 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "this-company-name" ; 30-Mar-1995 ;  for ERCOS project
+    '(description    "Name der Firma des emacs-lse Anwenders")
+    '(token)
+    '(auto-replicate 100)
+    '(replacement    "Mag. Christian Tanzer               ")
+)
+
+;;;  9-Nov-1995
+(lse-define-fill-in "this-company-address"
+    '(token)
+    '(description           "Adresse der Firma des emacs-lse Anwenders")
+    '(auto-replicate        100)
+    '(replacement
+      "Glasauergasse 32, A--1130 Wien, Austria"
+     )
+;;; this-company-address
+)
+
+(lse-define-fill-in "ancestor-invariant"
+    '(description           "And invariant of ancestor to that of descendent")
+    '(leading               ""); to force trailing `;' to be put on end of
+                               ; previous line
+    '(replacement-leading   "&& ")
+    '(replacement           "«ancestor_name»::invariant ()")
+;;; ancestor-invariant
+)
+
+(lse-define-fill-in "ancestor-name"
+    '(description           "Name of base class")
+;;; ancestor-name
+)
+
+;;; 18-Apr-1997
+(lse-define-fill-in "ancestor_name"
+    '(description           "Name of base class")
+    '(replacement           "Ancestor")
+;;; ancestor-name
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "assignment-operator-declaration"
+    '(token)
+    '(description           "Declaration of canonical assignment operator")
+    '(replacement
+        "const "
+            & @ class-name-typed
+            & " & operator ="
+            & " (const "
+            & @ class-name-typed
+            & " & rhs) "
+            & "««assignment-operator-body»»;"
+        ""
+     )
+;;; assignment-operator-declaration
+)
+
+;;; 16-Apr-1995
+(lse-define-fill-in "assignment-operator-body"
+  '(description     "Body of assignment operator")
+  '(replacement
+      ""
+      lse-environment-indent
+      "  {"
+      lse-indent+1
+      "if (& rhs != this)"
+      @ block
+      "return * this;"
+      lse-indent-1
+      "  }"
+   )
+;;; assignment-operator-body
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "attribute-function-member-clause"
+    '(token)
+    '(description           "Exported attributes")
+    '(replacement
+        lse-indent-1
+        "  public:    // attributes"
+        lse-indent+1
+        "««attribute-function-member»»···"
+        "««function-member-declaration»»···"
+        ""
+        "«class-invariant»"
+     )
+;;; attribute-function-member-clause
+)
+
+(lse-define-fill-in "attribute-function-member"
+    '(token)
+    '(description     "Declaration of a member function of a class returning an attribute's value")
+    '(replacement
+        @ function-member-name-declaration
+        & "() const { return «function-name»_; };"
+     )
+;;; attribute-function-member
+)
+
+(lse-define-fill-in "base-class"
+  '(token)
+  '(description     "Base class for a derived class")
+  '(separator       ", ")
+  '(leading         . ":\\|,")
+  '(replacement     @ base-class-access & " «ancestor-name»")
+;;; base-class
+)
+
+(lse-define-fill-in "base-class-access"
+  '(description     "Access level of base class")
+  '(menu
+      ("public"     "Public members of base class remain public")
+      ("protected"  "Public members of base class become protected in derived class")
+      ("private"    "Default - inherited members become private in derived class")
+   )
+)
+
+(lse-define-fill-in "Block-Comment"
+  '(description   "Block of comment statements")
+  '(replacement
+      "//+"
+      "// «text»···"
+      "//-"
+  )
+)
+
+(lse-define-fill-in "C++-Data-Type"
+  '(sort)
+  '(menu
+      class-declaration
+  )
+)
+
+(lse-define-fill-in "c++-declaration"
+    '(token)
+    '(menu
+        class-specification
+        class-definition
+        object-declaration
+        function-prototype-declaration
+        typedef
+     )
+;;; c++-declaration
+)
+
+(lse-define-fill-in "c++-member-definition"
+    '(token)
+    '(menu
+        @ function-member-definition
+        data-member-definition
+        static-class-member-initialization
+     )
+;;; c++-member-definition
+)
+
+(lse-define-fill-in "c++-header-file"
+    '(token)
+    '(token         "header-file")
+    '(description   "LSE-Template for C++ header file")
+    '(replacement
+        "//os_fname_map// "         ;  4-Apr-1995
+            & lse-insert-buffer-name & ":h «text»:h" ;  4-Apr-1995
+        "//««header-comment»»"
+        ""
+        "#ifndef _" & lse-insert-buffer-name & "_h"
+        "#define _" & lse-insert-buffer-name & "_h 1"
+        ""
+        @ c++-standard-includes
+        "««#include»»···"
+        ""
+        "««c++-declaration»»···"
+        ""
+        "#endif"
+     )
+;;; c++-header-file
+)
+
+(lse-define-fill-in "c++-keyword"
+  '(description     "Keywords in C++ (in addition to C keywords)")
+  '(menu
+        "asm"
+        "catch"
+        "class"
+        "delete"
+        "friend"
+        "inline"
+        "new"
+        "operator"
+        "private"
+        "protected"
+        "public"
+        "template"
+        "this"
+        "throw"
+        "try"
+        "virtual"
+  )
+)
+
+(lse-define-fill-in "c++-name"
+  '(menu
+      identifier
+      overloaded-operator
+      conversion-function-name
+      destructor-name
+      qualified-name
+   )
+;;; c++-name
+)
+
+(lse-define-fill-in "c++-primary"
+  '(token)
+  '(menu
+      c++-name
+      "this"
+   )
+;;; c++-primary
+)
+
+(lse-define-fill-in "c++-root"
+    '(token)
+    '(description           "Root fill-in for LSE language C++")
+    '(menu
+        c++-header-file
+        c++-source-file
+     )
+;;; c++-root
+)
+
+;;;  6-Mar-1995
+(lse-define-fill-in "c++-standard-includes"
+    '(description           "Include files needed by every class")
+    '(replacement
+        "#include \"PTYPES.h\""
+     )
+;;; c++-standard-includes
+)
+
+(lse-define-fill-in "c++-source-file"
+    '(token)
+    '(token                 "source-file")
+    '(description           "LSE-Template for C++ source-file")
+    '(replacement
+        "//os_fname_map// "            ;  4-Apr-1995
+            & lse-insert-buffer-name & ":cc «text»:cpp" ;  4-Apr-1995
+        "//««header-comment»»"
+        ""
+        "#include \"" & lse-insert-buffer-name & ".h\""
+        "««#include»»···"
+        ""
+        "««c++-declaration»»···"
+        ""
+        "««c++-member-definition»»···"
+     )
+;;; c++-source-file
+)
+
+
+(lse-define-fill-in "class-declaration"
+    '(token)
+    '(description           "Declaration of a class")
+    '(replacement           "class «name-of-class»")
+;;; class-declaration
+)
+
+(lse-define-fill-in "class-definition"
+    '(token)
+    '(description           "Definition of a class")
+    '(replacement
+        @ class-header
+        "««class-definition-body»»"
+     )
+;;; class-definition
+)
+
+(lse-define-fill-in "class-definition-body"
+    '(description           "Body of definition of a class")
+    '(replacement
+        "{"
+        lse-indent+1
+        "««friend-declaration»»···"
+        "««orthodox-canonical-member-declaration»»"
+        "««public-member-declaration»»···"
+        "««protected-member-declaration»»···"
+        "««private-member-declaration»»···"
+        lse-indent-1
+        "}; // " & (lse-insert-replica-or-flat "template-class-spec")
+                 & "class "
+                 & (lse-insert-replica-or-flat "class-name")
+     )
+;;; class-definition-body
+)
+
+;;; 26-Feb-1995 factored out from class-definition and class-specification
+(lse-define-fill-in "class-header"
+    '(description           "Header of class definition")
+    '(replacement
+        "««template-class-spec»»class «class-name» : ««¦base-class¦»»···"
+     )
+;;; class-header
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "class-invariant"
+    '(token)
+    '(token                 "invariant")
+    '(description           "Describes invariant properties of all instances of class")
+    '(replacement
+        "««virtual»» BOOLEAN invariant () const"
+        "  {"
+        lse-indent+1
+        "««assert»»···"
+        "return «class-name-typed»::representation_invariant () "
+        "    ««ancestor-invariant»»···;"
+        lse-indent-1
+        "  };"
+        ""
+     )
+;;; class-invariant
+)
+
+(lse-define-fill-in "class-name"
+    '(description           "Name of a class")
+    '(auto-replicate        2)
+;;; class-name
+)
+
+(lse-define-fill-in "class-name-typed"
+    '(description           "Name of a class inclusive template parameters")
+    '(replacement
+         (lse-insert-replica-or-flat "class-name")
+         & (lse-insert-replica-or-flat-opt "template-actual-arguments")
+     )
+;;; class-name-typed
+)
+
+(lse-define-fill-in "class-specification"
+    '(token)
+    '(token                 "class")
+    '(description           "Formal specification and definition of a class")
+    '(replacement
+        @ class-header
+        "«class-specification-body»"
+     )
+;;; class-specification
+)
+
+(lse-define-fill-in "class-specification-body"
+    '(description           "Body of formal specification and definition of a class")
+    '(rcompletion-action    @ auto-replicate-template-class-spec)
+    '(replacement
+        "{"
+        lse-indent+1
+        "««friend-declaration»»···"
+        @ orthodox-canonical-member-declaration
+        "««attribute-function-member-clause»»"
+        "««query-function-member-clause»»"
+        "««modifier-function-member-clause»»"
+        "««data-member-definition-clause»»"
+        "««protected-member-declaration»»···"
+        @ unchecked-function-member-clause
+        "««private-member-declaration»»"
+        lse-indent-1
+        "}; // " & (lse-insert-replica-or-flat "template-class-spec")
+                 & "class "
+                 & (lse-insert-replica-or-flat "class-name")
+        ""
+     )
+;;; class-specification-body
+)
+
+;;; 14-Jun-1995
+(lse-define-fill-in "comment-block"
+    '(token                 "//")
+    '(replacement
+        "//+"
+        "// ««text»»"
+        "//-"
+     )
+;;; comment-block
+)
+
+(lse-define-fill-in "constructor-declaration"
+  '(token)
+  '(description     "Declaration of a constructor of a class")
+  '(replacement
+      (lse-insert-replica-or-flat "class-name")
+        & "  (««proto-parameter-list»»)««inline-constructor»»;"
+      ""
+   )
+;;; constructor-declaration
+)
+
+(lse-define-fill-in "constructor-definition"
+    '(token)
+    '(description   "Definition of a constructor of a class")
+    '(replacement
+        (lse-insert-replica-or-flat-opt "template-class-spec")
+           & @ class-name-typed                                       & "::"
+           & (lse-insert-replica-or-flat "class-name")                & "  "
+           & " (««parameter-declaration»»···) "
+        "  : ««member_initialization»»···"
+        @ function-block ; 1-Jan-1998 `function-block' instead of `block'
+        & ";"
+        ""
+     )
+;;; constructor-definition
+)
+
+(lse-define-fill-in "conversion-function-name"
+  '(token)
+  '(description           "Name of function performing user-defined type-conversion ")
+  '(replacement           "operator «type-name» ««pointer-or-reference»»")
+;;; conversion-function-name
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "copy-constructor-declaration"
+    '(token)
+    '(description           "Declaration of a copy constructor")
+    '(replacement
+        (lse-insert-replica-or-flat "class-name")
+            & "  (const "
+            & @ class-name-typed
+            & " & other) ««inline-constructor»»;"
+        ""
+     )
+;;; copy-constructor-declaration
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "data-member-definition-clause"
+    '(token)
+    '(description           "Protected clause defining data members of class")
+    '(replacement
+        lse-indent-1
+        "  protected: // stored attributes"
+        lse-indent+1
+        "««data-member-definition»»···"
+        ""
+        "«representation-invariant»"
+     )
+;;; data-member-definition-clause
+)
+
+(lse-define-fill-in "data-type"
+    '(sort)
+    '(menu
+        @ c++-data-type
+        @ c-data-type
+     )
+;;; data-type
+)
+
+(lse-define-fill-in "declare-comparison-operators"
+    '(token)
+    '(token                 "comparison-operators")
+    '(description           "Templates for declaration of all relational operators")
+    '(replacement
+        @ declare-comparison-operator-eq & ";"
+        @ declare-comparison-operator-ne & ";"
+        @ declare-comparison-operator-ge & ";"
+        @ declare-comparison-operator-gt & ";"
+        @ declare-comparison-operator-le & ";"
+        @ declare-comparison-operator-lt & ";"
+     )
+;;; declare-comparison-operators
+)
+
+(lse-define-fill-in "declare-comparison-operator-eq"
+    '(token)
+    '(description           "declare operator testing equality")
+    '(replacement
+        @ declare-comparison-operator-head
+          & "=="
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-eq
+)
+
+(lse-define-fill-in "declare-comparison-operator-ge"
+    '(token)
+    '(description           "declare operator testing for greater-equal")
+    '(replacement
+        @ declare-comparison-operator-head
+          & ">="
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-ge
+)
+
+(lse-define-fill-in "declare-comparison-operator-gt"
+    '(token)
+    '(description           "declare operator testing for greater-than")
+    '(replacement
+        @ declare-comparison-operator-head
+          & "> "
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-gt
+)
+
+(lse-define-fill-in "declare-comparison-operator-le"
+    '(token)
+    '(description           "declare operator testing for less-equal")
+    '(replacement
+        @ declare-comparison-operator-head
+          & "<="
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-le
+)
+
+(lse-define-fill-in "declare-comparison-operator-lt"
+    '(token)
+    '(description           "declare operator testing for less")
+    '(replacement
+        @ declare-comparison-operator-head
+          & "< "
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-lt
+)
+
+(lse-define-fill-in "declare-comparison-operator-ne"
+    '(token)
+    '(description           "declare operator testing inequality")
+    '(replacement
+        @ declare-comparison-operator-head
+          & "!="
+          @ declare-comparison-operator-tail
+     )
+;;; declare-comparison-operator-ne
+)
+
+(lse-define-fill-in "declare-comparison-operator-head"
+    '(replacement           "BOOLEAN operator ")
+;;; declare-comparison-operator-head
+)
+
+(lse-define-fill-in "declare-comparison-operator-tail"
+    '(replacement
+        "    (const "
+            & (lse-insert-replica-or-flat "class-name-typed")
+            & " & lhs, const "
+            & (lse-insert-replica-or-flat "class-name-typed")
+            & " & rhs)"
+     )
+;;; declare-comparison-operator-tail
+)
+
+(lse-define-fill-in "define-comparison-operators"
+    '(token)
+    '(token                 "comparison-operators")
+    '(description           "Templates for definition of all relational operators")
+    '(replacement
+        @ define-comparison-operator-eq
+        @ define-comparison-operator-ne
+        @ define-comparison-operator-ge
+        @ define-comparison-operator-gt
+        @ define-comparison-operator-le
+        @ define-comparison-operator-lt
+     )
+;;; define-comparison-operators
+)
+
+(lse-define-fill-in "define-comparison-operator-body"
+    '(replacement
+        "{"
+        "    return «expression»;"
+        "};"
+        ""
+     )
+;;; define-comparison-operator-body
+)
+
+(lse-define-fill-in "define-comparison-operator-eq"
+    '(token)
+    '(token                 "==")
+    '(description           "define operator testing equality")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-eq @ define-comparison-operator-body
+     )
+;;; define-comparison-operator-eq
+)
+
+(lse-define-fill-in "define-comparison-operator-ge"
+    '(token)
+    '(token                 ">=")
+    '(description           "define operator testing for greater-equal")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-ge @ define-comparison-operator-body
+     )
+;;; define-comparison-operator-ge
+)
+
+(lse-define-fill-in "define-comparison-operator-gt"
+    '(token)
+    '(token                 "> "); avoid name clash with token for `»'
+    '(description           "define operator testing for greater-than")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-gt @ define-comparison-operator-body
+     )
+;;; define-comparison-operator-gt
+)
+
+(lse-define-fill-in "define-comparison-operator-le"
+    '(token)
+    '(token                 "<=")
+    '(description           "define operator testing for less-equal")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-le @ define-comparison-operator-body
+     )
+;;; define-comparison-operator-le
+)
+
+(lse-define-fill-in "define-comparison-operator-lt"
+    '(token)
+    '(token                 "< "); avoid name clash with token for `«»'
+    '(description           "define operator testing for less")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-lt @ define-comparison-operator-body
+     )
+;;; define-comparison-operator-lt
+)
+
+(lse-define-fill-in "define-comparison-operator-ne"
+    '(token)
+    '(token                 "!=")
+    '(description           "Define comparison operator for in-equality")
+    '(replacement
+        "inline " &
+        @ declare-comparison-operator-ne
+        "{"
+        "    return ! (lhs == rhs);"
+        "};"
+        ""
+     )
+;;; define-comparison-operator-ne
+)
+
+(lse-define-fill-in "destructor-declaration"
+  '(token)
+  '(description           "Declaration of destructor")
+  '(replacement
+      "««virtual»»" & " ~" & (lse-insert-replica-or-flat "class-name")
+      & " ()««inline-function-body»»;"
+   )
+;;; destructor-declaration
+)
+
+(lse-define-fill-in "destructor-definition"
+    '(token)
+    '(description   "Definition of a destructor of a class")
+    '(replacement
+        (lse-insert-replica-or-flat-opt "template-class-spec")
+          & @ class-name-typed                                       & "::~"
+          & (lse-insert-replica-or-flat "class-name")                & " () "
+        @ function-block ;   1-Jan-1998 `function-block' instead of `block'
+        & ";"
+        ""
+     )
+;;; destructor-definition
+)
+
+(lse-define-fill-in "destructor-name"
+  '(description           "Name of a destructor function")
+  '(replacement           "~«name-of-class»")
+;;; destructor-name
+)
+
+(lse-define-fill-in "ensure"
+    '(token)
+    '(kill-action           lse-kill:join-sexp-boundary-maybe)
+    '(description           "Specify a single postcondition for a member function")
+    '(menu
+        ensure-unnamed
+        ensure-named
+     )
+;;; ensure
+)
+
+(lse-define-fill-in "ensure-named"
+    '(token)
+    '(token                 "nensure")
+    '(description           "Specify a single postcondition with error description for a member function")
+    '(replacement           "Ensure («int-expression», «quoted-text»);")
+;;; ensure-named
+)
+
+(lse-define-fill-in "ensure-unnamed"
+    '(token)
+    '(token                 "uensure")
+    '(description           "Specify a single postcondition without name for a member function")
+    '(replacement           "ensure («int-expression»);")
+;;; ensure-named
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "export-clause-desc"
+    '(menu
+        "attributes"
+        "state queries"
+        "state modifiers"
+        "type definitions"; 19-Jul-1995
+     )
+;;; export-clause-desc
+)
+
+(lse-define-fill-in "friend-class"
+  '(token)
+  '(description           "Declaration of a class with unrestricted access to the features of current class")
+  '(replacement           "friend class «name-of-class»;")
+;;; friend-class
+)
+
+(lse-define-fill-in "friend-declaration"
+  '(description     "Declaration of class or function with unrestricted access")
+  '(menu
+      friend-class
+      friend-function
+   )
+)
+
+(lse-define-fill-in "friend-function"
+  '(token)
+  '(description     "Declaration of a function with unrestricted access to the features of current class")
+  '(replacement
+      "friend " & @ return-type-declaration
+        & " ««name-of-class»»::«function-name» "
+        & "(««proto-parameter-list»») ««object-type-modifier»»;"
+    )
+;;; friend-function
+)
+
+(lse-define-fill-in "function-member-name-declaration"
+  '(replacement
+    "«function-member-type-declaration» «function-name» "
+   )
+;;; function-member-name-declaration
+)
+
+(lse-define-fill-in "function-member-declaration"
+    '(token)
+    '(token                 "fmd")
+    '(description   "Declaration of a function member of a class")
+    '(menu
+        function-member-specification
+        function-member-prototype-1
+        attribute-function-member
+        pure-virtual-function-declaration
+        constructor-declaration
+        destructor-declaration
+    )
+;;; function-member-declaration
+)
+
+(lse-define-fill-in "function-member-definition"
+    '(token)
+    '(token                 "fmdef")
+    '(description   "Definition of a member function")
+    '(menu
+        proper-function-member-definition
+        constructor-definition
+        destructor-definition
+     )
+;;; function-member-definition
+)
+
+(lse-define-fill-in "function-member-prototype"
+    '(token)
+    '(description     "Declaration of a member function of a class")
+    '(replacement
+        @ function-member-name-declaration
+        & "«function-member-signature» "
+     )
+;;; function-member-prototype
+)
+
+(lse-define-fill-in "function-member-prototype-1"
+    '(token)
+    '(token           "fmp")
+    '(description     "Declaration of prototype of a member function of a class")
+    '(replacement
+        @ function-member-name-declaration
+        & "(««proto-parameter-list»») ««object-type-modifier»»««inline-function-body»»;"
+     )
+;;; function-member-prototype-1
+)
+
+(lse-define-fill-in "function-member-signature"
+    '(replacement   "(««proto-parameter-list»») ««object-type-modifier»»")
+;;; function-member-signature
+)
+
+(lse-define-fill-in "function-member-specification"
+    '(token)
+    '(token                 "fms")
+    '(description           "Formal specification-declaration of a member function of a class ")
+    '(replacement
+        "«function-member-prototype»"
+        @ function-member-specification-body
+     )
+;;; function-member-specification
+)
+
+(lse-define-fill-in "function-member-specification-body"
+    '(token)
+    '(token                 "fsbody")
+    '(description           "Body of formal specification-declaration of a member function of a class ")
+    '(replacement
+        lse-environment-indent
+        "  {««insert-unchecked-function-member-declaration»»"
+        lse-indent+1
+        "««save-old-value»»"
+        "««preconditions»»"
+        lse-indent+1
+        "««result-declaration»» «unchecked-call»"
+        lse-indent-1
+        "««postconditions»»"
+        "««return-result»»"
+        lse-indent-1
+        "  };"
+        ""
+     )
+;;; function-member-specification-declaration
+)
+
+(lse-define-fill-in "function-member-type-declaration"
+    '(replacement   "««static-or-virtual»» «return-type-declaration»")
+;;; function-member-type-declaration
+)
+
+(lse-define-fill-in "function-name"
+  '(description     "Name of a function")
+  '(menu
+        identifier
+        overloaded-operator
+   )
+)
+
+(lse-define-fill-in "function-name-declaration"
+  '(replacement
+      "««static-or-extern»» ««template-function-spec»» "
+          & "«return-type-declaration» «function-name» "
+   )
+;;; function-name-declaration
+)
+
+(lse-define-fill-in "init_arg"
+  '(description     "Argument to pass to base class or member constructor")
+  '(separator       ", ")
+  '(leading         ",")
+)
+
+;;; 21-Apr-1995
+(lse-define-fill-in "init-class-hack-declaration"
+    '(token)
+    '(description
+      "Initialization class (hack for controlling initialization sequence for global and static data)"
+      "See [Str91, p.352--353] and [Mey92d, p.178--182] for details."
+     )
+    '(replacement
+        "class " & (lse-insert-replica-or-flat "class-name")
+                 & "__Init__"
+        "{ public:"
+        "    " & (lse-insert-replica-or-flat "class-name")
+                 & "__Init__  ();"
+        "    ~" & (lse-insert-replica-or-flat "class-name")
+                 & "__Init__ ();"
+        "  protected:"
+        "    static INT count_;"
+        "}; // class " & (lse-insert-replica-or-flat "class-name")
+                       & "__Init__"
+        ""
+        "static " & (lse-insert-replica-or-flat "class-name")
+                  & "__Init__ «¦init-class-hack-object¦»;"
+        ""
+     )
+;;; init-class-hack-declaration
+)
+
+;;; 21-Apr-1995
+(lse-define-fill-in "init-class-hack-definition"
+    '(token)
+    '(description           "Definition of constructor and destructor for initialization class "
+                            "(hack for controlling initialization sequence for global and static data)"
+                            "See [Mey92d, p.178--182] for details."
+     )
+    '(replacement
+        "INT " & (lse-insert-replica-or-flat "class-name") & "__Init__"
+               & "::count_; "
+        ""
+        (lse-insert-replica-or-flat "class-name") & "__Init__::" & ""
+              & (lse-insert-replica-or-flat "class-name") & "__Init__"
+              & "  ()"
+        "{"
+        lse-indent+1
+        "if (count_ ++ == 0)"
+        @ block & ";"
+        lse-indent-1
+        "};"
+        ""
+        (lse-insert-replica-or-flat "class-name") & "__Init__"
+              & "::~" & (lse-insert-replica-or-flat "class-name") & "__Init__"
+              & "  ()"
+        "{"
+        lse-indent+1
+        "if (-- count_ == 0)"
+        @ block & ";"
+        lse-indent-1
+        "};"
+        ""
+     )
+;;; init-class-hack-definition
+)
+
+;;; 23-Apr-1995
+(lse-define-fill-in "init-class-hack-object"
+    '(description           "Name of static object implementing init hack")
+    '(replacement
+        (lse-insert-replica-or-flat "class-name")
+          & "__Init__" & (lse-tpu:change-case-lower)
+     )
+;;; init-class-hack-object
+)
+
+(lse-define-fill-in "init_id"
+  '(description     "The name of a base class or data member to be initialized."
+                    "May not be the name of an inherited data member."
+   )
+)
+
+(lse-define-fill-in "inline"
+  '(token)
+  '(replacement     "inline")
+;;; inline
+)
+
+(lse-define-fill-in "inline-constructor"
+  '(description     "Constructor body is defined inline")
+  '(replacement
+      ""
+      lse-environment-indent
+      "  : ««member_initialization»»···"
+      @ block
+   )
+;;; inline-constructor
+)
+
+(lse-define-fill-in "inline-function-body"
+  '(description     "Function body is defined inline")
+  '(replacement
+      ""
+      lse-environment-indent
+      "  {"
+      lse-indent+1
+      "««statement»»···"
+      "««return»»"
+      lse-indent-1
+      "  }"
+   )
+;;; inline-function-body
+)
+
+;;; 17-Jul-1995
+(lse-define-fill-in "inner_preconditions"
+    '(token)
+    '(description           "Define preconditions tested without testing class invariant")
+    '(replacement           "inner_" & @ preconditions)
+;;; innerpreconditions
+)
+
+;;; 17-Jul-1995
+(lse-define-fill-in "inner_postconditions"
+    '(token)
+    '(description           "Define postconditions tested without testing class invariant")
+    '(replacement           "inner_" & @ postconditions)
+;;; innerpostconditions
+)
+
+(lse-define-fill-in "insert-unchecked-function-member-declaration"
+    '(description           "Inserts declaration of unchecked function member associated to last declaration")
+    '(replacement
+        (lse-expand-future-fill-in "unchecked-function-member-declaration" 1)
+     )
+;;; insert-unchecked-function-member-declaration
+)
+
+;;; 22-May-1997
+(lse-define-fill-in "iterator"
+    '(token)
+    '(description           "for loop using iterator")
+    '(replacement
+        "for ( «name-of-class»::Iterator «iterator-name» («name».iterator ())"
+        "    ; «iterator-name».is_valid ()"
+        "    ; «iterator-name».advance  ()"
+        "    )"
+        @ block
+     )
+;;; iterator
+)
+
+;;; 24-May-1997
+(lse-define-fill-in "iterator-first"
+    '(token                 "ifirst")
+    '(description           "Returns current iterator value")
+    '(replacement
+        (lse-insert-replica-or-flat "iterator-name") & ".first ()"
+     )
+;;; iterator-value
+)
+
+;;; 22-May-1997
+(lse-define-fill-in "iterator-name"
+    '(description           "Bound variable used for iteration")
+    '(auto-replicate        2)
+;;; iterator-name
+)
+
+;;; 24-May-1997
+(lse-define-fill-in "iterator-pair"
+    '(token                 "pair-iterator")
+    '(description           "for loop using pair-iterator")
+    '(replacement
+        "for ( «name-of-class»::Pair_Iterator «iterator-name» («name».pair_iterator ())"
+        "    ; «iterator-name».is_valid ()"
+        "    ; «iterator-name».advance  ()"
+        "    )"
+        @ block
+     )
+;;; iterator-pair
+)
+
+;;; 24-May-1997
+(lse-define-fill-in "iterator-secnd"
+    '(token                 "isecond")
+    '(description           "Returns current iterator value")
+    '(replacement
+        (lse-insert-replica-or-flat "iterator-name") & ".secnd ()"
+     )
+;;; iterator-value
+)
+
+;;; 22-May-1997
+(lse-define-fill-in "iterator-value"
+    '(token                 "ivalue")
+    '(description           "Returns current iterator value")
+    '(replacement
+        (lse-insert-replica-or-flat "iterator-name") & ".value ()"
+     )
+;;; iterator-value
+)
+
+(lse-define-fill-in "keyword"
+    '(token)
+    '(description   "Identifiers reserved for use as language keywords")
+    '(sort)
+    '(menu
+        @ c-keyword
+        @ c++-keyword
+     )
+;;; keyword
+)
+
+(lse-define-fill-in "member_initialization"
+  '(description     "Initialization of base classes and class members")
+  '(separator       lse-environment-indent lse-newline-and-indent ", ")
+  '(leading         . ":\\|,")
+  '(replacement     "«init_id» (««init_arg»»···)")
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "modifier-function-member-clause"
+    '(token)
+    '(description           "Public clause exporting member functions for state modification")
+    '(replacement
+        lse-indent-1
+        "  public:    // state modifiers"
+        lse-indent+1
+        "««function-member-declaration»»···"
+        ""
+     )
+;;; modifier-function-member-clause
+)
+
+(lse-define-fill-in "name-of-class"
+    '(description   "Name of a class")
+    '(trailer       "::"); 15-Feb-1995
+;;; class-name
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "orthodox-canonical-member-declaration"
+    '(token)
+    '(description           "Declaration of member functions of orthodox canonical form (cf. J. Coplien)")
+    '(replacement
+        lse-indent-1
+        "  public:    // constructors, destructors, operators"
+        lse-indent+1
+        (lse-insert-replica-or-flat "class-name")
+            & "  () ««inline-constructor»»;"
+        ""
+        "««constructor-declaration»»···"
+        "««copy-constructor-declaration»»"
+        "««virtual»»" & " ~" & (lse-insert-replica-or-flat "class-name")
+            & " () ««inline-function-body»»;"
+        ""
+        "««assignment-operator-declaration»»"
+     )
+;;; orthodox-canonical-member-declaration
+)
+
+(lse-define-fill-in "overloaded-operator"
+    '(token)
+    '(description           "Name of function overloading an operator")
+    '(replacement           "operator " & @ overloadable-operator)
+;;; overloaded-operator
+)
+
+(lse-define-fill-in "overloadable-operator"
+  '(menu
+        ("()"        "function call operator")
+        ("[]"        "subscript operator")
+        ("->"        "class member access")
+        (","         "sequence operator")
+        @ arithmetic-operator
+        @ assign-operator
+        @ logical-operator
+        @ relational-operator
+        @ shift-operator
+        @ unary-operator
+        @ bitwise-operator
+        ("«data-type»" "type conversion operator")
+  )
+)
+
+(lse-define-fill-in "postconditions"
+    '(token)
+    '(description           "Define postconditions for member function")
+    '(replacement
+        "postconditions"
+        lse-environment-indent
+        "  ("
+        lse-indent+1
+        "«ensure»···"
+        lse-indent-1
+        "  );"
+     )
+;;; postconditions
+)
+
+(lse-define-fill-in "preconditions"
+  '(token)
+  '(description           "Define preconditions for member function")
+  '(replacement
+      "preconditions"
+      lse-environment-indent
+      "  ("
+      lse-indent+1
+      "«require»···"
+      lse-indent-1
+      "  );"
+   )
+;;; preconditions
+)
+
+(lse-define-fill-in "primary"
+  '(menu
+      @ c-primary
+      @ c++-primary
+   )
+;;; primary
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "private-clause"
+    '(token                 "private:")
+    '(description           "Begin declaration of private properties of class")
+    '(replacement
+        lse-indent-1
+        "  private:   // ««private-clause-desc»»"
+        lse-indent+1
+     )
+;;; private-clause
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "private-clause-desc"
+    '(description           "Description of members hidden by private clause")
+    '(leading               "//")
+    '(menu
+        "prohibited members (don't ever define those)"
+        @ export-clause-desc
+     )
+;;; private-clause-desc
+)
+
+(lse-define-fill-in "private-member-declaration"
+  '(description     "Member declarations not visible to derived classes")
+  '(token)
+  '(replacement
+      @ private-clause &
+      "««data-member-definition»»···"
+      "««function-member-declaration»»···"
+      ""
+  )
+)
+
+(lse-define-fill-in "proper-function-member-definition"
+    '(token)
+    '(token                 "fmi")
+    '(description           "Definition of a normal member function of a class")
+    '(replacement
+        (lse-insert-replica-or-flat-opt "template-class-spec")
+          & "«return-type-declaration»"  & " "
+          & @ class-name-typed           & "::"
+          & "«function-name» "
+          & "(««parameter-declaration»»···) ««Object-Type-Modifier»»"
+        @ function-block & ";" ;  5-Apr-1995 `function-block' instead of `block'
+        ""
+     )
+;;; proper-function-member-definition
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "protected-clause"
+    '(token                 "protected:")
+    '(description           "Begin declaration of protected properties of class")
+    '(replacement
+        lse-indent-1
+        "  protected: // ««protected-clause-desc»»"
+        lse-indent+1
+     )
+;;; protected-clause
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "protected-clause-desc"
+    '(description           "Description of members hidden by protected clause")
+    '(leading               "//")
+    '(menu
+        "stored attributes"
+        "unchecked functions (assume valid preconditions)"
+        "constructor(s) for derived classes"
+        "members for use by friend ««name-of-class»»"
+        @ export-clause-desc
+        "««text»»"
+     )
+;;; protected-clause-desc
+)
+
+(lse-define-fill-in "protected-member-declaration"
+  '(description     "Member declarations visible to derived classes")
+  '(replacement
+      @ protected-clause &
+      "««data-member-definition»»···"
+      "««function-member-declaration»»···"
+      ""
+  )
+)
+
+;;; 28-Feb-1995
+(lse-define-fill-in "public-clause"
+    '(token                 "public:")
+    '(description           "Begin declaration of public properties of class")
+    '(replacement
+        lse-indent-1
+        "  public:    // ««public-clause-desc»»"
+        lse-indent+1
+     )
+;;; public-clause
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "public-clause-desc"
+    '(description           "Description of members exported by public clause")
+    '(leading               "//")
+    '(menu
+        "constructors, destructors, operators"
+        @ export-clause-desc
+        "««text»»"
+     )
+;;; public-clause-desc
+)
+
+(lse-define-fill-in "public-member-declaration"
+  '(description     "Member declarations visible client classes")
+  '(replacement
+      @ public-clause &
+      "««function-member-declaration»»···"
+      ""
+  )
+)
+
+(lse-define-fill-in "pure_virtual_function_declaration"
+  '(description   "Declaration of partial function which must be defined by derived classes")
+  '(replacement
+      "virtual " & @ function-name-declaration & "(««proto-parameter-list»») = 0;"
+   )
+)
+
+(lse-define-fill-in "qualified-class-name"
+  '(separator             "::")
+  '(leading               "::")
+  '(replacement           "«name-of-class»")
+;;; qualified-class-name
+)
+
+(lse-define-fill-in "qualified-name"
+  '(token)
+  '(description           "Name qualified by class defining an object")
+  '(replacement           "«qualified-class-name»···::«name»")
+;;; qualified-name
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "query-function-member-clause"
+    '(token)
+    '(description           "Public clause exporting member functions for state query")
+    '(replacement
+        lse-indent-1
+        "  public:    // state queries"
+        lse-indent+1
+        "««function-member-declaration»»···"
+        ""
+     )
+;;; query-function-member-clause
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "representation-invariant"
+    '(token)
+    '(description           "Describes representation invariant of all instances of class")
+    '(replacement
+        "BOOLEAN representation_invariant () const"
+        "  {"
+        lse-indent+1
+        "««assert»»···"
+        "return TRUE;"
+        lse-indent-1
+        "  };"
+        ""
+     )
+;;; representation-invariant
+)
+
+(lse-define-fill-in "require"
+    '(token)
+    '(kill-action           lse-kill:join-sexp-boundary-maybe)
+    '(description           "Specify a single precondition for a member function")
+    '(menu
+        require-unnamed
+        require-named
+     )
+;;; require
+)
+
+(lse-define-fill-in "require-named"
+    '(token)
+    '(token                 "nrequire")
+    '(description           "Specify a single precondition with error-description for a member function")
+    '(replacement           "Require («int-expression», «quoted-text»);")
+;;; require-named
+)
+
+(lse-define-fill-in "require-unnamed"
+    '(token)
+    '(token                 "urequire")
+    '(description           "Specify a single precondition without name for a member function")
+    '(replacement           "require («int-expression»);")
+;;; require-named
+)
+
+(lse-define-fill-in "result-declaration"
+    '(token)
+    '(description           "Declare local variable for result of member function")
+    '(rcompletion-action    (lse-expand-future-fill-in "return-result" 1))
+    '(kill-action           (lse-kill-future-fill-in   "return-result" 1))
+    '(replacement
+        (lse-insert-replica-or-flat "return-type-declaration")
+          & " result ="
+     )
+;;; result-declaration
+)
+
+(lse-define-fill-in "return-result"
+    '(token)
+    '(description           "Return result of member function")
+    '(replacement           "return result;")
+;;; return-result
+)
+
+(lse-define-fill-in "return-type-declaration"
+    '(replacement   "««const»» «data-type» ««pointer-or-reference»»")
+;;; return-type-declaration
+)
+
+(lse-define-fill-in "save-old-value"
+    '(token)
+    '(description           "Save values of time of call for use in postconditions")
+    '(rcompletion-action    (lse-expand-future-fill-in "postconditions" 1))
+    '(replacement
+        "save_old_value («variable-declaration»···);"
+     )
+;;; save-old-value
+)
+
+(lse-define-fill-in "sizeof"
+  '(description     "The size, in bytes, of some object")
+  '(menu
+      "sizeof «expression»"
+      "sizeof («type-name»)"
+  )
+)
+
+(lse-define-fill-in "static-class-member-initialization"
+  '(description     "Initialization of a static class member")
+  '(replacement
+    @ object-type-declaration & " "
+      & @ class-name-typed
+      & "::«identifier» = «initializer»"
+  )
+)
+
+(lse-define-fill-in "static-or-virtual"
+  '(menu
+      virtual
+      static
+  )
+)
+
+(lse-define-fill-in "template"
+    '(replacement   "template")
+;;; template
+)
+
+(lse-define-fill-in "template-actual-argument"
+    '(separator     ", ")
+    '(leading       ",")
+    '(description           "Actual argument for template (type or expression)")
+;;; template-actual-argument
+)
+
+(lse-define-fill-in "template-actual-arguments"
+    '(token); 14-Mar-1995
+    '(replacement-leading   "<")
+    '(replacement-trailer   ">")
+    '(kill-action           (lse-kill-future-fill-in "template-actual-arguments" 1))
+    '(replacement
+        @ template-actual-argument
+        & ", ««template-actual-argument»»···"
+     )
+;;; template-actual-arguments
+)
+
+(lse-define-fill-in "template-class-spec"
+    '(token)
+    '(kill-action
+          (lse-kill-future-fill-in "template-class-spec"                1)
+          (lse-kill-future-fill-in "auto-replicate-template-class-spec" 1)
+          (lse-kill-future-fill-in "template-formal-arguments"          1)
+     )
+    '(replacement           @ template & " «template-formal-arguments» ")
+;;; template-class-spec
+)
+
+(lse-define-fill-in "template-formal-argument"
+    '(separator     ", ")
+    '(leading       ",")
+    '(menu
+        template-type-argument
+        parameter-declaration
+     )
+;;; template-formal-argument
+)
+
+(lse-define-fill-in "template-formal-arguments"
+    '(replacement-leading   "<")
+    '(replacement-trailer   ">")
+    '(kill-action           (lse-kill-future-fill-in "template-formal-arguments" 1))
+    '(replacement
+        @ template-formal-argument
+        & ", ««template-formal-argument»»···"
+     )
+;;; template-formal-arguments
+)
+
+(lse-define-fill-in "template-function-spec"
+    '(token)
+    '(replacement           @ template & " <«template-type-argument»···>")
+;;; template-function-spec
+)
+
+(lse-define-fill-in "template-type-argument"
+    '(description   "Inside the template class/function, «identifier» names a generic type")
+    '(separator     ", ")
+    '(leading       ",")
+    '(replacement   "class «identifier»")
+;;; template-type-argument
+)
+
+(lse-define-fill-in "unchecked-call"
+  '(token)
+  '(description           "Calls the unchecked version of a formally specified member function")
+  '(replacement
+     (lse-insert-replica-or-flat "function-name")
+         & "__ (««actual-argument»»···);"
+   )
+;;; unchecked-call
+)
+
+;;; 20-Jun-1995
+(lse-define-fill-in "unchecked-function-member-clause"
+    '(description           "Declarations of unchecked member functions")
+    '(replacement
+        lse-indent-1
+        "  protected: // unchecked functions (assume valid preconditions)"
+        lse-indent+1
+        "««unchecked-function-member-declaration»»···"
+        ""
+     )
+;;; unchecked-function-member-clause
+)
+
+(lse-define-fill-in "unchecked-function-member-declaration"
+    '(token)
+    '(description           "Declaration of a unchecked function member")
+    '(replacement
+        (lse-insert-replica-or-flat "function-member-type-declaration")
+        & " " &
+        (lse-insert-replica-or-flat "function-name")
+        & "__ " &
+        (lse-insert-replica-or-flat "function-member-signature")
+        & ";"
+     )
+;;; unchecked-function-member-declaration
+)
+
+(lse-define-fill-in "unchecked-function-member-declaration-fill-in"
+    '(token)
+    '(description           "Flat fill-in for unchecked-function-member-declaration")
+    '(replacement           "««unchecked-function-member-declaration»»···")
+;;; unchecked-function-member-declaration-fill-in
+)
+
+(lse-define-fill-in "virtual"
+  '(token)
+  '(replacement     "virtual")
+;;; virtual
+)
+

@@ -1,0 +1,61 @@
+
+;;;  9-Apr-2003
+(lse-define-fill-in "cal-appointment"
+    '(token                 ">")
+    '(token)
+    '(token                 "\n")
+    '(description           "Appointment in calendar")
+    '(replacement
+        "> ««cal-time-range»» ««cal-prio»» < ««text»»"
+     )
+;;; cal-appointment
+)
+
+;;;  9-Apr-2003
+;;; 27-Apr-2003 rcompletion-action removed
+(lse-define-fill-in "cal-time-range"
+    '(token)
+    '(auto-expand)
+    '(kill-action           "            ")
+    '(replacement
+        "«hh»:«mm»-««cal-end-time»»"
+     )
+;;; cal-time-range
+)
+
+;;;  9-Apr-2003
+;;; 27-Apr-2003 kill-action & rcompletion-action corrected
+(lse-define-fill-in "cal-end-time"
+    '(description           "End time of appointment")
+    '(kill-action           (lse-tpu:goto-next-word-head 1) (indent-to 14 1))
+    '(leading               "-")
+    '(auto-expand)
+    '(rcompletion-action    (lse-tpu:goto-next-word-head 1) (indent-to 14 0))
+    '(replacement
+        "«hh»:«mm»"
+     )
+;;; cal-end-time
+)
+
+;;;  9-Apr-2003
+;;; 27-Apr-2003 kill-action & rcompletion-action corrected
+(lse-define-fill-in "cal-prio"
+    '(description           "One letter/digit priority of appointment")
+    '(rcompletion-action    (lse-tpu:goto-next-word-head 1) (indent-to 16 0))
+    '(kill-action           (lse-tpu:goto-next-word-head 1) (indent-to 16 1))
+;;; cal-prio
+)
+
+;;;  9-Apr-2003
+(lse-define-fill-in "hh"
+    '(description           "Hours as two-digit 24/hour value")
+;;; hh
+)
+
+;;;  9-Apr-2003
+(lse-define-fill-in "mm"
+    '(description           "Minutes as two-digit value")
+;;; mm
+)
+
+;;; __END__

@@ -1,0 +1,100 @@
+!
+! Symbols
+!
+delete placeholder symbols
+define placeholder symbols -
+	/description="Symbols: see table 3.2 in the LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\dag"
+"\ddag"
+"\S"
+"\P"
+"\copyright"
+"\pounds"
+"\oe"
+"\OE"
+"\ae"
+"\AE"
+"\aa"
+"\AA"
+"\o"
+"\O"
+"\l"
+"\L"
+"\ss"
+"?`"
+"!`"
+end define
+delete token symbols
+define token symbols -
+	/placeholder=symbols -
+	/language=latex 
+
+delete placeholder accents
+define placeholder accents -
+	/description="Accents: Non-math and math mode" -
+	/language=latex -
+	/type=menu -
+
+"Non_math_accents"	/token
+"Math_accents"		/token
+end define
+delete token accents
+define token accents -
+	/placeholder=accents -
+	/language=latex 
+
+
+delete placeholder Non_math_accents
+define placeholder Non_math_accents -
+	/description="Non-math mode accents, see table 3.1 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\`{<text>}"
+"\'{<text>}"
+"\^{<text>}"
+"\"{<text>}"
+"\~{<text>}"
+"\={<text>}"
+"\.{<text>}"
+"\u{<text>}"
+"\v{<text>}"
+"\H{<text>}"
+"\t{<text>}"
+"\c{<text>}"
+"\d{<text>}"
+"\b{<text>}"
+end define
+delete token Non_math_accents
+define token Non_math_accents -
+	/placeholder=Non_math_accents -
+	/language=latex 
+
+delete placeholder Math_accents
+define placeholder Math_accents -
+	/description="Math mode accents, see table 3.11 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\hat{<text>}"
+"\check{<text>}"
+"\breve{<text>}"
+"\acute{<text>}"
+"\grave{<text>}"
+"\tilde{<text>}"
+"\bar{<text>}"
+"\vec{<text>}"
+"\dot{<text>}"
+"\ddot{<text>}"
+end define
+delete token Math_accents
+define token Math_accents -
+	/placeholder=Math_accents -
+	/language=latex 
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_ACCENTS_AND_SYMBOLS.LSE
+!	 *1    30-JAN-1986 15:30:58 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_ACCENTS_AND_SYMBOLS.LSE

@@ -1,0 +1,116 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-latex
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language latex
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-latex-mode and friends put in here
+;;;;     6-Dec-1994 (CT) lse-latex-mode:insert-person-of-kartei and 
+;;;;                     lse-latex-mode:insert-firma-of-kartei added
+;;;;    23-Feb-1995 (CT) Define compile-command as buffer local variable
+;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to 
+;;;;                     `latex-mode-hook'
+;;;;    ««revision-date»»···
+;;;;-- 
+(lse-language:define "latex"
+  '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-group-chars         "-\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««latex»»")
+   )
+  '(lse-tpu:toggle-newline-and-indent
+    auto-fill-mode 
+   )
+  '("lse-templates-latex"
+    "lse-templates-latex-swing"
+    "lse-templates-latex-business"
+    "lse-templates-letter"
+    "lse-templates-letter-variants"
+    "lse-templates-kartei"
+    "lse-templates-adress-kartei"
+    "lse-templates-firma-kartei"
+    "lse-templates-person-kartei"
+    "lse-templates-bib"
+    "lse-templates-quot"
+    "lse-templates-overhead"
+    "lse-templates-trainermanual"
+    "lse-templates-seminar"
+   )
+;  1373
+;   997
+)
+
+;;; 
+;;; TeX modes 
+;;; 
+(require 'tex-mode)
+(add-hook 'latex-mode-hook 'lse-latex-mode)
+(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+(add-hook 'LaTeX-mode-hook 'lse-latex-mode)
+
+(fset 'TEX-MODE       'tex-mode)
+(fset 'tex-mode       'latex-mode)
+
+(defun lse-latex-mode ()
+  (lse-language:use "latex")
+  (lse-latex-mode:define-keys)
+  (modify-syntax-entry ?ä "w")
+  (modify-syntax-entry ?ö "w")
+  (modify-syntax-entry ?ü "w")
+  (modify-syntax-entry ?Ä "w")
+  (modify-syntax-entry ?Ö "w")
+  (modify-syntax-entry ?Ü "w")
+  (modify-syntax-entry ?ß "w")
+  (set (make-local-variable 'compile-command)
+       (concat "latex "
+               (lse-file-name-sans-extension (buffer-name (current-buffer)))
+       )
+       ; (concat "latex " (buffer-file-name (current-buffer)))
+  )
+)
+
+;;;
+;;; Functions for use by fill-in's
+;;;
+(defun lse-latex-mode:insert-firma-of-kartei ()
+  "Lets user choose a firma from kartei and inserts the name into buffer"
+  (interactive)
+  (let ((name
+             (swing-kartei:entry:complete-name swing-kartei:firma:directory
+                                               swing-kartei:firma:file-name
+                                               t
+             )
+        )
+       )
+    (if (stringp name)
+        (insert name)
+    )
+  )
+; lse-latex-mode:insert-firma-of-kartei
+) 
+
+(defun lse-latex-mode:insert-person-of-kartei ()
+  "Lets user choose a person from kartei and inserts the name into buffer"
+  (interactive)
+  (let ((name
+             (swing-kartei:entry:complete-name swing-kartei:person:directory
+                                               swing-kartei:person:file-name
+                                               t
+             )
+        )
+       )
+    (if (stringp name)
+        (insert name)
+    )
+  )
+; lse-latex-mode:insert-person-of-kartei
+) 

@@ -1,0 +1,125 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Abteilung"
+  '(replacement
+      "Abteilung «text»"
+   )
+)
+
+(lse-define-fill-in "\\DefAbteilung"
+  '(token)
+  '(token                 "\\DefFirmenAbteilung")
+  '(replacement
+      "««\\DefAbteilungName»»"
+      "««\\DefFirmenStrasse»»"
+      "««\\DefFirmenPostfach»»"
+      "««\\DefFirmenOrt»»"
+      "««\\DefFirmenLand»»"
+      "««\\DefFirmenTelefon»»"
+   )
+)
+
+(lse-define-fill-in "\\DefAbteilungAlias"
+  '(token)
+  '(replacement
+      "\\DefAbteilung[«Kartei_Key»]{«Abteilung»}"
+      "««\\DefFirmenAdressAlias»»"
+   )
+)
+
+(lse-define-fill-in "\\DefAbteilungName"
+  
+  '(replacement
+      "\\DefAbteilung[«Kartei_Key»]{«Abteilung»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenAdressAlias"
+  '(token)
+  '(description   "sets address for department of company equal to another deparment's" )
+  '(replacement
+      "\\DefFirmenAdressAlias[«Kartei_Key»]{««Kartei_Alias»»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenIndex"
+  '(token)
+  '(description   "`Quelle: «text»' oder `TN: «seminar/termin»' oder `Interessent: «text»'" )
+  '(replacement
+      "\\DefFirmenIndex{«text»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenLand"
+  '(token)
+  '(replacement
+      "\\DefFirmenLand[««Kartei_Key»»]{«Kartei_Land»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenOrt"
+  '(token)
+  '(replacement
+      "\\DefFirmenOrt[««Kartei_Key»»]{«Kartei_PLZ» «Kartei_Ort»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenPostfach"
+  '(token)
+  '(replacement
+      "\\DefFirmenPostfach[««Kartei_Key»»]{Postfach «Kartei_Nummer»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenPreLetterCommands{\\foreignletter}"
+  '(token)
+  '(description           "For persons or companies situated outside Austria")
+  '(max-line-move         2)
+  '(replacement           "\\DefFirmenPreLetterCommands{\\foreignletter}")
+)
+
+(lse-define-fill-in "\\DefFirmenStrasse"
+  '(token)
+  '(replacement
+      "\\DefFirmenStrasse[««Kartei_Key»»]{«Kartei_Strasse» «Kartei_Nummer»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenTelefon"
+  '(token)
+  '(replacement
+      "\\DefFirmenTelefon[««Kartei_Key»»]{«Kartei_Vorwahl» «Kartei_Wahl»--««Kartei_Durchwahl»»}"
+   )
+)
+
+(lse-define-fill-in "\\DefFirmenTRcmd"
+  '(token)
+  '(description   "Options for telefon register" )
+  '(replacement
+      "\\DefFirmenTRcmd[««kartei_key»»]{«text»}"
+    )
+)
+
+(lse-define-fill-in "Firma_Kartei_Eintrag"
+  '(token)
+  '(replacement
+      @ "entry-head"
+      "\\entryflag{«Kartei_Mail_Flag»}"
+      "\\DefFirmaKurz{«Kartei_Firmenkurztitel»}"
+      "\\DefFirmenName{«Kartei_Handelsregistername»}"
+      "««\\DefFirmenTelefon»»"
+      "««\\DefAbteilung»»"
+      "%"
+      "««\\DefFirmenIndex»»"
+      "««\\DefFirmenPreLetterCommands{\\foreignletter}»»"
+      "\\DefFirmenAnrede{Sehr geehrte Damen und Herren}"
+      "««\\DefFirmenTRcmd»»"
+      @ "entry-tail"
+   )
+)
+
+
+(lse-define-fill-in "Kartei_Handelsregistername"
+  '(description   "voller Firmenwortlaut")
+)
+

@@ -1,0 +1,50 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "buchhaltung"
+    '(token)
+    '(auto-expand); 17-Aug-2000 
+    '(replacement
+        " «Tag». & "
+        & " & "
+        & "«MWSt» & "
+        & "«Betrag» & "
+        & "«Brutto/Netto» & "
+        & "«Soll-Konto» & "
+        & "«Haben-Konto» & "
+        & "«+-=» & "
+        & "«Tools» & "
+        & " & "
+        & "«Beschreibung»  "
+        & ""
+     )
+;;; buchhaltung
+)
+
+(lse-define-fill-in "buchhaltung-file"
+    '(replacement
+        "$vst_korrektur = 1.0;"
+        "% Datum  &    & USt & Betrag        &b/n & Soll  & Haben &+-= & "
+                  & "Tools   &  & Beschreibung  "
+        "«buchhaltung»···"
+     )
+;;; buchhaltung-file
+)
+
+(lse-define-fill-in "Tools"
+  '(description           "Kennungen der Tools, die diese Buchungszeile bearbeiten"
+                          "E         Steuererklärung"
+                          "U         Umsatzsteuervoranmeldung"
+   )
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+;;; Tools
+)
+
+(lse-define-fill-in "Tag"
+    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+                            ; (lse-insert-replica-or-flat "monat") "."
+                            just-one-space
+                            (lse-align-to-pattern "&")
+     )
+    '(description           "Buchungstag")
+;;; Tag
+)

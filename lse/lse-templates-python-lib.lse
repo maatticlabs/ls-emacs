@@ -1,0 +1,114 @@
+;-*-unibyte: t;-*-
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:header_file"
+    '(token)
+    '(token                 "header_file")
+    '(description
+       "Write `begin_header_file' -- `end_header_file' pair to formatted c-stream."
+     )
+    '(replacement
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".begin_header_file («name»)"
+        "«py-statement»···"
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".end_header_file ()"
+     )
+;;; Formatted_C_Stream:header_file
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:name"
+    '(description           "Name of formatted c-stream object")
+    '(auto-replicate        1)
+;;; Formatted_C_Stream:name
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:function"
+    '(token)
+    '(token                 "ostream.function")
+    '(token                 "o_stream.function")
+    '(description
+       "Write function header and tail to formatted c-stream."
+     )
+    '(replacement
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".begin_function («return-type», «name», ««arg»»···)"
+        "«py-statement»···"
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".end_function   ()"
+     )
+;;; Formatted_C_Stream:function
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "return-type"
+    '(description           "Return type of c function")
+;;; return-type
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "arg"
+    '(description           "Definition of a single argument for a c function")
+;;; arg
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:task"
+    '(token)
+    '(token                 "task")
+    '(description
+       "Write task header and tail to formatted c-stream."
+     )
+    '(replacement
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".begin_task     («name»)"
+        "«py-statement»···"
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".end_task       ()"
+     )
+;;; Formatted_C_Stream:task
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:if"
+    '(token)
+    '(token                 "ostream.if")
+    '(token                 "o_stream.if")
+    '(description           "Write an if statement to the formatted c-stream.")
+    '(replacement
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".begin_if       («condition»)"
+        "«py-statement»···"
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".end_if         ()"
+     )
+;;; Formatted_C_Stream:if
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "condition"
+    '(description           "Condition for if- or while-statement")
+;;; condition
+)
+
+;;; 31-Mar-1999 
+(lse-define-fill-in "Formatted_C_Stream:for"
+    '(token)
+    '(token                 "o_stream.for")
+    '(token                 "ostream.for")
+    '(description           "Write a for statement to the formatted c-stream.")
+    '(replacement
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".begin_for      («condition»)"
+        "«py-statement»···"
+        (lse-insert-replica-or-flat "Formatted_C_Stream:name")
+            & ".end_for        ()"
+     )
+;;; Formatted_C_Stream:for
+)
+
+; ««lse-define-fill-in»»···
+
+

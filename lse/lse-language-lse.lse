@@ -1,0 +1,37 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-lse
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language lse
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-lse-mode put in here
+;;;;-- 
+(lse-language:define "lse"
+  '((lse-tpu:ident-group-chars         "-_")
+    (lse-language:tab-increment        4)
+    (lse_comment_head_delim            ";")
+    (lse_comment_head_delim_pattern    ";+ *")
+    (lse_comment_delim_char_set        ";")
+    (lse-language:initial-fill-in      "««lse-define-fill-in»»")
+   )
+  '()
+  '("lse-templates-lse")
+;  199
+;   67
+)
+
+;;;
+;;; lse mode
+;;;
+(defun lse-lse-mode ()
+  (interactive)
+  (emacs-lisp-mode)
+  (lse-language:use "lse")
+)
+

@@ -1,0 +1,38 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1995 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-olt
+;;;;
+;;;; Purpose
+;;;;    Define LS-Emacs language OLT
+;;;;
+;;;; Revision Dates
+;;;;    10-Jul-1995 (CT) Creation
+;;;;--
+(lse-language:define "olt"
+    '(
+        (lse-language:initial-fill-in      "««olt-file»»")
+        (lse-language:tab-increment        4)
+        (lse-tpu:ident-group-chars         "_")
+        (lse_comment_delim_char_set        "/*")
+        (lse_comment_head_delim            "/*")
+        (lse_comment_head_delim_pattern    "/\* *")
+        (lse_comment_tail_delim            "*/")
+        (lse_comment_tail_delim_pattern    " *\*/")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-c"
+        "lse-templates-olt"
+        "lse-templates-olt-rcm"
+        "lse-templates-olt-rcm-new"
+     )
+    137
+     67
+;;; olt
+)

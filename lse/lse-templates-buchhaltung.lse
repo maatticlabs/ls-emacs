@@ -1,0 +1,187 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "+-="
+  '(description           "Richtung des Geldflusses einer Buchungszeile")
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+  '(menu
+      ("+"     "Einnahme")
+      ("-"     "Ausgabe")
+      ("="     "Startwert (z.B. Eröffnungsbilanz)")
+      (" "     "Interne Umbuchung")
+   )
+;;; +-=
+)
+
+(lse-define-fill-in "Beleg-Zahl"
+    '(description           "Zahl der Belege zu Buchungszeile")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(replacement           "1")
+;;; Beleg-Zahl
+)
+
+(lse-define-fill-in "Beschreibung"
+  '(description           "Beschreibung einer Buchungszeile (wird für Kassabuch verwendet)")
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+;;; Beschreibung
+)
+
+(lse-define-fill-in "Betrag" 
+    '(description           "Verbuchter Betrag")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+)
+
+(lse-define-fill-in "buchhaltung"
+    '(token)
+    '(auto-expand); 17-Aug-2000 
+    '(replacement
+        " «Tag». & "
+        & "«Beleg-Zahl» & "
+        & "«MWSt» & "
+        & "«Betrag» & "
+        & "«Brutto/Netto» & "
+        & "«Soll-Konto» & "
+        & "«Haben-Konto» & "
+        & "«+-=» & "
+        & "«Tools» & "
+        & "«Finanzplan-Kategorie» & "
+        & "«Beschreibung» & "
+        & "««person»»"
+     )
+;;; buchhaltung
+)
+
+(lse-define-fill-in "buchhaltung-file"
+    '(replacement
+        "$vst_korrektur = 1.0;"
+        "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
+        & "Tools & Finanzplan-Kategorie           & Beschreibung & Person "
+        "«buchhaltung»···"
+     )
+;;; buchhaltung-file
+)
+
+(lse-define-fill-in "buchhaltung-konto"
+  '(token)
+  '(token                 "bkonto")
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+  '(description           "Hauptkategorien des Kontenplans."
+                          "Die Subkategorien sind über Tokenexpansion zugänglich."
+   )
+  '(sort)
+  '(menu
+      ("0"     "Anlagevermögen")
+      ("1"     "Vorräte und unfertige Aufträge")
+      ("2"     "Sonstiges Umlaufvermögen und aktive Rechnungsabgrenzungsposten")
+      ("3"     "Verbindlichkeiten, Rückstellungen und passive Rechnungsabgrenzungsposten")
+      ("4"     "Materialaufwand, Energieaufwand und Aufwand für die Fremdbearbeitung")
+      ("5"     "Personalaufwand (einschließlich Provisionsaufwand)")
+      ("6"     "Sachaufwand und sonstiger Aufwand")
+      ("7"     "Sachaufwand und sonstiger Aufwand")
+      ("8"     "Erträge")
+      ("9"     "Kapitalkonten, Verrechnungskonten, Abschlußkonten und Evidenzkonten")
+   )
+;;; buchhaltung-konto
+)
+
+(lse-define-fill-in "Brutto/Netto"
+    '(description           "Kennzeichnung ob der Betrag brutto oder netto angeführt wurde")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(menu
+        ("b"     "Betrag ist brutto")
+        ("n"     "Betrag ist netto")
+     )
+;;; Brutto/Netto
+)
+
+(lse-define-fill-in "Finanzplan-Kategorie"
+  '(token)
+  '(description           "Kategorie für Finanzplanung")
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+  '(sort)
+  '(menu
+      @ Ausgaben-Kategorie
+      @ Einnahmen-Kategorie
+   )
+;;; Finanzplan-Kategorie
+)
+
+(lse-define-fill-in "Haben-Konto"
+  '(token)
+  '(description           "")
+  '(rcompletion-trailer   lse-expand-token)
+  '(sort)
+  '(menu                  @ buchhaltung-konto)
+;;; Haben-Konto
+)
+
+(lse-define-fill-in "Monat"
+    '(description           "Monat, in dem Buchung erfolgte")
+    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+                            just-one-space
+                            (lse-align-to-pattern "&")
+     )
+    '(menu
+        "01"
+        "02"
+        "03"
+        "04"
+        "05"
+        "06"
+        "07"
+        "08"
+        "09"
+        "10"
+        "11"
+        "12"
+     )
+;;; Monat
+)
+ 
+(lse-define-fill-in "MWSt" 
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+    '(menu 
+        (""      "Mehrwertsteuerfrei")
+        ("20"    "Normaler   Mehrwertsteuersatz")
+        ("10"    "Ermäßigter Mehrwertsteuersatz")
+        ("9.091" "Mehrwertsteuersatz für Diäten")
+     )
+)
+
+(lse-define-fill-in "Person" 
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+  '(menu 
+      "GK"
+      "RH"
+      "CT"
+   )
+)
+
+(lse-define-fill-in "Soll-Konto"
+  '(token)
+  '(description           "")
+  '(rcompletion-trailer   lse-expand-token)
+  '(sort)
+  '(menu                  @ buchhaltung-konto)
+;;; Soll-Konto
+)
+
+(lse-define-fill-in "Tag"
+    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+                            (lse-insert-replica-or-flat "monat") "."
+                            just-one-space
+                            (lse-align-to-pattern "&")
+     )
+    '(description           "Buchungstag")
+;;; Tag
+)
+
+(lse-define-fill-in "Tools"
+  '(description           "Kennungen der Tools, die diese Buchungszeile bearbeiten"
+                          "F         Finanzplanung"
+                          "U         Umsatzsteuervoranmeldung"
+   )
+  '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
+;;; Tools
+)
+ 

@@ -1,0 +1,27 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Betrag" 
+  '(replacement-leading   "(")
+  '(replacement-trailer   ")")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+)
+
+(lse-define-fill-in "Gesellschafter" 
+  '(replacement-leading   "<")
+  '(replacement-trailer   ">")
+  '(rcompletion-trailer   just-one-space lse-tabulator)
+  '(menu 
+      "GK"
+      "RH"
+      "CT"
+   )
+)
+
+(lse-define-fill-in "MWSt" 
+  '(menu 
+      ""
+      "20"
+      "10"
+   )
+)
+

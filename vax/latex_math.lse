@@ -1,0 +1,809 @@
+!
+!
+! Math
+!
+delete token \frac
+define token \frac -
+	/description="Generate a fraction, math mode ONLY" -
+	/language=latex -
+	/topic_string="LATEX Commands Math_Formulas Math_Miscellany \frac" -
+
+"\frac{<numerator>}{<denominator>}"
+end define
+
+delete placeholder numerator
+define placeholder numerator -
+	/description="Fraction numerator" -
+	/language=latex -
+	/topic_string="LATEX Commands Math_Formulas Math_Miscellany \frac" -
+	/type=terminal -
+
+"Enter the number for the numerator."
+end define
+
+delete placeholder denominator
+define placeholder denominator -
+	/description="Fraction denominator" -
+	/language=latex -
+	/topic_string="LATEX Commands Math_Formulas Math_Miscellany \frac" -
+	/type=terminal -
+
+"Enter the number for the denominator."
+end define
+
+delete token \sqrt
+define token \sqrt -
+	/description="Generate the nth root of the argument, math mode ONLY" -
+	/language=latex -
+	/topic_string="LATEX Commands Math_Formulas Math_Miscellany \sqrt" -
+
+"\sqrt<<nth_root>>{<number>}"
+end define
+
+delete placeholder nth_root
+define placeholder nth_root -
+	/description="Nth root" -
+	/language=latex -
+	/topic_string="LATEX Commands Math_Formulas Math_Miscellany \sqrt" -
+	/type=terminal -
+
+"Enter the root you wish."
+end define
+
+delete token \ldots
+define token \ldots -
+	/description="Horizontal ellipsis, bottom of line" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \ldots" -
+	/language=latex -
+
+"\ldots "
+end define
+
+delete token \cdots
+define token \cdots -
+	/description="Horizontal  ellipsis,  center of line, math mode ONLY" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \cdots" -
+	/language=latex -
+
+"\cdots "
+end define
+
+delete token \vdots
+define token \vdots -
+	/description="Vertical ellipsis, math mode ONLY" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \vdots" -
+	/language=latex -
+
+"\vdots "
+end define
+
+delete token \ddots
+define token \ddots -
+	/description="Diagonal ellipsis, math mode ONLY" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \ddots" -
+	/language=latex -
+
+"\ddots "
+end define
+
+delete token \overline
+define token \overline -
+	/description="Generate formula with line above it, math mode ONLY" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \overline" -
+	/language=latex -
+
+"\overline{<formula>}"
+end define
+
+delete token \underline
+define token \underline -
+	/description="Underline a formula or text" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \underline" -
+	/language=latex -
+
+"\underline{<formula>}"
+end define
+
+delete token \overbrace
+define token \overbrace -
+	/description="Generate formula with brace above it, math mode ONLY" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \overbrace" -
+	/language=latex -
+
+"\overbrace{<formula>}"
+end define
+
+delete token \underbrace
+define token \underbrace -
+	/description="Underbrace a formula or text" -
+	/topic_string = "LATEX Commands Math_Formulas Math_Miscellany \underbrace" -
+	/language=latex -
+
+"\underbrace{<formula>}"
+end define
+
+delete placeholder formula
+define placeholder formula -
+	/description="Math formula" -
+	/language=latex -
+	/type=terminal -
+
+"Enter your formula here."
+end define
+
+!
+!
+! Math 
+!
+delete placeholder math_misc
+define placeholder math_misc -
+	/description="Math mode miscellaneous" -
+	/language=latex -
+	/type=menu -
+
+"Greek_letters"		/placeholder
+"binary_ops"		/placeholder
+"relation_symbols"	/placeholder
+"arrow_symbols"		/placeholder
+"misc_symbols"		/placeholder
+"varsize_symbols"	/placeholder
+"loglike_functions"	/placeholder
+end define
+delete token math_misc
+define token math_misc -
+	/placeholder=math_misc -
+	/language=latex 
+
+delete placeholder Greek_letters
+define placeholder Greek_letters -
+	/description="Greek letter commands, math mode ONLY" -
+	/language=latex -
+	/type=menu -
+
+"\alpha"	/token
+"\beta"		/token
+"\gamma_l"	/token
+"\Gamma_u"	/token
+"\delta_l"	/token
+"\Delta_u"	/token
+"\epsilon"	/token
+"\varepsilon"	/token
+"\zeta"		/token
+"\eta"		/token
+"\theta_l"	/token
+"\Theta_u"	/token
+"\vartheta"	/token
+"\iota"		/token
+"\kappa"	/token
+"\lambda_l"	/token
+"\Lambda_u"	/token
+"\mu"		/token
+"\nu"		/token
+"\xi_l"		/token
+"\Xi_u"		/token
+"\pi_l"		/token
+"\Pi_u"		/token
+"\varpi"	/token
+"\rho"		/token
+"\varrho"	/token
+"\sigma_l"	/token
+"\Sigma_u"	/token
+"\varsigma"	/token
+"\tau"		/token
+"\upsilon_l"	/token
+"\Upsilon_u"	/token
+"\phi_l"	/token
+"\Phi_u"	/token
+"\varphi"	/token
+"\chi"		/token
+"\psi_l"	/token
+"\Psi_u"	/token
+"\omega_l"	/token
+"\Omega_u"	/token
+end define
+delete token greek_letters
+define token greek_letters -
+	/placeholder = greek_letters -
+	/language=latex 
+
+delete token \alpha
+define token \alpha -
+	/description="Greek letter alpha, lowercase" -
+	/language=latex -
+
+"\alpha "
+end define
+
+delete token \beta
+define token \beta -
+	/description="Greek letter beta, lowercase" -
+	/language=latex -
+
+"\beta "
+end define
+
+delete token \gamma_l
+define token \gamma_l -
+	/description="Greek letter gamma, lowercase" -
+	/language=latex -
+
+"\gamma "
+end define
+
+delete token \Gamma_u
+define token \Gamma_u -
+	/description="Greek letter gamma, uppercase" -
+	/language=latex -
+
+"\Gamma "
+end define
+
+delete token \delta_l
+define token \delta_l -
+	/description="Greek letter delta, lowercase" -
+	/language=latex -
+
+"\delta "
+end define
+
+delete token \Delta_u
+define token \Delta_u -
+	/description="Greek letter delta, uppercase" -
+	/language=latex -
+
+"\Delta "
+end define
+
+delete token \epsilon
+define token \epsilon -
+	/description="Greek letter epsilon, lowercase" -
+	/language=latex -
+
+"\epsilon "
+end define
+
+delete token \varepsilon
+define token \varepsilon -
+	/description="Greek letter varepsilon, lowercase" -
+	/language=latex -
+
+"\varepsilon "
+end define
+
+delete token \zeta
+define token \zeta -
+	/description="Greek letter zeta, lowercase" -
+	/language=latex -
+
+"\zeta "
+end define
+
+delete token \eta
+define token \eta -
+	/description="Greek letter eta, lowercase" -
+	/language=latex -
+
+"\eta "
+end define
+
+delete token \theta_l
+define token \theta_l -
+	/description="Greek letter theta, lowercase" -
+	/language=latex -
+
+"\theta "
+end define
+
+delete token \Theta_u
+define token \Theta_u -
+	/description="Greek letter theta, uppercase" -
+	/language=latex -
+
+"\Theta "
+end define
+
+delete token \vartheta
+define token \vartheta -
+	/description="Greek letter vartheta, lowercase" -
+	/language=latex -
+
+"\vartheta "
+end define
+
+delete token \iota
+define token \iota -
+	/description="Greek letter iota, lowercase" -
+	/language=latex -
+
+"\iota "
+end define
+
+delete token \kappa
+define token \kappa -
+	/description="Greek letter kappa, lowercase" -
+	/language=latex -
+
+"\kappa "
+end define
+
+delete token \lambda_l
+define token \lambda_l -
+	/description="Greek letter lambda, lowercase" -
+	/language=latex -
+
+"\lambda "
+end define
+
+delete token \Lambda_u
+define token \Lambda_u -
+	/description="Greek letter lambda, uppercase" -
+	/language=latex -
+
+"\Lambda "
+end define
+
+delete token \mu
+define token \mu -
+	/description="Greek letter mu, lowercase" -
+	/language=latex -
+
+"\mu "
+end define
+
+delete token \nu
+define token \nu -
+	/description="Greek letter nu, lowercase" -
+	/language=latex -
+
+"\nu "
+end define
+
+delete token \xi_l
+define token \xi_l -
+	/description="Greek letter xi, lowercase" -
+	/language=latex -
+
+"\xi "
+end define
+
+delete token \Xi_u
+define token \Xi_u -
+	/description="Greek letter xi, uppercase" -
+	/language=latex -
+
+"\Xi "
+end define
+
+delete token \pi_l
+define token \pi_l -
+	/description="Greek letter pi, lowercase" -
+	/language=latex -
+
+"\pi "
+end define
+
+delete token \Pi_u
+define token \Pi_u -
+	/description="Greek letter pi, uppercase" -
+	/language=latex -
+
+"\Pi "
+end define
+
+delete token \varpi
+define token \varpi -
+	/description="Greek letter varpi, lowercase" -
+	/language=latex -
+
+"\varpi "
+end define
+
+delete token \rho
+define token \rho -
+	/description="Greek letter rho, lowercase" -
+	/language=latex -
+
+"\rho "
+end define
+
+delete token \varrho
+define token \varrho -
+	/description="Greek letter varrho, lowercase" -
+	/language=latex -
+
+"\varrho "
+end define
+
+delete token \sigma_l
+define token \sigma_l -
+	/description="Greek letter sigma, lowercase" -
+	/language=latex -
+
+"\sigma "
+end define
+
+delete token \Sigma_u
+define token \Sigma_u -
+	/description="Greek letter sigma, uppercase" -
+	/language=latex -
+
+"\Sigma "
+end define
+
+delete token \varsigma
+define token \varsigma -
+	/description="Greek letter varsigma, lowercase" -
+	/language=latex -
+
+"\varsigma "
+end define
+
+delete token \tau
+define token \tau -
+	/description="Greek letter tau, lowercase" -
+	/language=latex -
+
+"\tau "
+end define
+
+delete token \upsilon_l
+define token \upsilon_l -
+	/description="Greek letter upsilon, lowercase" -
+	/language=latex -
+
+"\upsilon "
+end define
+
+delete token \Upsilon_u
+define token \Upsilon_u -
+	/description="Greek letter upsilon, uppercase" -
+	/language=latex -
+
+"\Upsilon "
+end define
+
+delete token \phi_l
+define token \phi_l -
+	/description="Greek letter phi, lowercase" -
+	/language=latex -
+
+"\phi "
+end define
+
+delete token \Phi_u
+define token \Phi_u -
+	/description="Greek letter phi, uppercase" -
+	/language=latex -
+
+"\Phi "
+end define
+
+delete token \varphi
+define token \varphi -
+	/description="Greek letter varphi, lowercase" -
+	/language=latex -
+
+"\varphi "
+end define
+
+delete token \chi
+define token \chi -
+	/description="Greek letter chi, lowercase" -
+	/language=latex -
+
+"\chi "
+end define
+
+delete token \psi_l
+define token \psi_l -
+	/description="Greek letter psi, lowercase" -
+	/language=latex -
+
+"\psi "
+end define
+
+delete token \Psi_u
+define token \Psi_u -
+	/description="Greek letter psi, uppercase" -
+	/language=latex -
+
+"\Psi "
+end define
+
+delete token \omega_l
+define token \omega_l -
+	/description="Greek letter omega, lowercase" -
+	/language=latex -
+
+"\omega "
+end define
+
+delete token \Omega_u
+define token \Omega_u -
+	/description="Greek letter omega, uppercase" -
+	/language=latex -
+
+"\Omega "
+end define
+
+!
+!
+! Binary Operation Symbols
+!
+delete placeholder binary_ops
+define placeholder binary_ops -
+	/description="Binary operations symbols, see Table 3.4 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\pm"			
+"\mp"			
+"\times"		
+"\div"			
+"\ast"			
+"\star"			
+"\circ"			
+"\bullet"		
+"\cdot"			
+"\cap"			
+"\cup"			
+"\uplus"		
+"\sqcap"		
+"\sqcup"		
+"\vee"			
+"\wedge"		
+"\setminus"		
+"\wr"			
+"\diamond"		
+"\bigtriangleup"	
+"\bigtriangledown"	
+"\triangleleft"		
+"\triangleright"	
+"\lhd"			
+"\rhd"			
+"\unlhd"		
+"\unrhd"		
+"\oplus"		
+"\ominus"		
+"\otimes"		
+"\oslash"		
+"\odot"			
+"\bigcirc"		
+"\dagger"		
+"\ddagger"		
+"\amalg"		
+end define
+delete token binary_ops
+define token binary_ops -
+	/placeholder = binary_ops -
+	/language = latex
+
+!
+!
+! Relation Symbols
+!
+delete placeholder relation_symbols
+define placeholder relation_symbols -
+	/description="Relation symbols, see Table 3.5 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\leq"
+"\prec"
+"\preceq"
+"\ll"
+"\subset"
+"\subseteq"
+"\sqsubset"
+"\sqsubseteq"
+"\in"
+"\vdash"
+"\geq"
+"\succ"
+"\succeq"
+"\gg"
+"\supset"
+"\supseteq"
+"\sqsupset"
+"\sqsupseteq"
+"\ni"
+"\dashv"
+"\equiv"
+"\sim"
+"\simeq"
+"\asymp"
+"\approx"
+"\cong"
+"\neq"
+"\doteq"
+"\propto"
+"\models"
+"\perp"
+"\mid"
+"\parallel"
+"\bowtie"
+"\Join"
+"\smile"
+"\frown"
+end define
+delete token relation_symbols
+define token relation_symbols -
+	/placeholder=relation_symbols -
+	/language=latex 
+
+!
+!
+!Arrow Symbols
+!
+delete placeholder arrow_symbols
+define placeholder arrow_symbols -
+	/description="Arrow symbols, see Table 3.6 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\leftarrow"
+"\Leftarrow"
+"\rightarrow"
+"\Rightarrow"
+"\leftrightarrow"
+"\Leftrightarrow"
+"\mapsto"
+"\hookleftarrow"
+"\leftharpoonup"
+"\leftharpoondown"
+"\rightleftharpoons"
+"\longleftarrow"
+"\Longleftarrow"
+"\longrightarrow"
+"\Longrightarrow"
+"\longmapsto"
+"\hookrightarrow"
+"\rightharpoonup"
+"\rightharpoondown"
+"\leadsto"
+"\uparrow"
+"\Uparrow"
+"\downarrow"
+"\Downarrow"
+"\updownarrow"
+"\Updownarrow"
+"\nearrow"
+"\searrow"
+"\swarrow"
+"\nwarrow"
+end define
+delete token arrow_symbols
+define token arrow_symbols -
+	/placeholder=arrow_symbols -
+	/language=latex 
+
+!
+!
+! Miscellaneous Symbols
+!
+delete placeholder misc_symbols
+define placeholder misc_symbols -
+	/description="Miscellaneous symbols, see Table 3.7 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\aleph"
+"\hbar"
+"\imath"
+"\jmath"
+"\ell"
+"\wp"
+"\Re"
+"\Im"
+"\mho"
+"\prime"
+"\emptyset"
+"\nabla"
+"\surd"
+"\top"
+"\bot"
+"\|"
+"\angle"
+"\forall"
+"\exists"
+"\neg"
+"\flat"
+"\natural"
+"\sharp"
+"\backslash"
+"\partial"
+"\infty"
+"\Box"
+"\Diamond"
+"\triangle"
+"\clubsuit"
+"\diamondsuit"
+"\heartsuit"
+"\spadesuit"
+end define
+delete token misc_symbols
+define token misc_symbols -
+	/placeholder=misc_symbols -
+	/language=latex 
+
+!
+!
+! Variable-sized Symbols
+!
+delete placeholder varsize_symbols
+define placeholder varsize_symbols -
+	/description="Variable-sized symbols, see Table 3.8 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\sum"
+"\prod"
+"\coprod"
+"\int"
+"\oint"
+"\bigcap"
+"\bigcup"
+"\bigsqcup"
+"\bigvee"
+"\bigwedge"
+"\bigodot"
+"\bigotimes"
+"\bigoplus"
+"\biguplus"
+end define
+delete token varsize_symbols
+define token varsize_symbols -
+	/placeholder=varsize_symbols -
+	/language=latex 
+
+!
+!
+! Log-like Functions
+!
+delete placeholder loglike_functions
+define placeholder loglike_functions -
+	/description="Log-like functions, see Table 3.9 of LaTeX manual" -
+	/language=latex -
+	/type=menu -
+
+"\arccos"
+"\arcsin"
+"\arctan"
+"\arg"
+"\cos"
+"\cosh"
+"\cot"
+"\coth"
+"\csc"
+"\deg"
+"\det"
+"\dim"
+"\exp"
+"\gcd"
+"\hom"
+"\inf"
+"\ker"
+"\lg"
+"\lim"
+"\liminf"
+"\limsup"
+"\ln"
+"\log"
+"\max"
+"\min"
+"\Pr"
+"\sec"
+"\sin"
+"\sinh"
+"\sup"
+"\tan"
+"\tanh"
+end define
+delete token loglike_functions
+define token loglike_functions -
+	/placeholder=loglike_functions -
+	/language=latex 
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_MATH.LSE
+!	 *1    30-JAN-1986 15:31:56 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_MATH.LSE

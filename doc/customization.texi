@@ -1,0 +1,163 @@
+@node     Customization, Limitations&Future, Installation, Top
+@appendix Customization of LS-Emacs
+
+This appendix describes some customizations of LS-Emacs, specifically:
+@itemize @bullet
+@item
+Customization of @file{lse-session.el}.
+
+@item
+Customization of @file{lse-templates-generic.lse}.
+
+@item
+Customization of key bindings.
+
+@item
+Customization of fill-in delimiters.
+
+@item
+Customization of automatic selection of LS-Emacs languages.
+
+@item
+Customization of the command menu.
+@end itemize
+
+@menu
+* Session-Customization::       
+* Generic-Customization::       
+* Key-Customization::           
+* Delimiter-Customization::     
+* Language-Selection-Customization::  
+* Menu-Customization::          
+@end menu
+
+@node    Session-Customization, Generic-Customization, Customization, Customization
+@section Customization of @file{lse-session.el}
+
+@file{lse-session.el} defines functions dealing with the user name and
+the current date. Most of these are site and operating system
+independent. However, there are some site-specific functions, which you
+might want to adapt. These are preceded by the comment
+`@code{*** site-specific ***}'.
+
+@node    Generic-Customization, Key-Customization, Session-Customization, Customization
+@section Customization of @file{lse-templates-generic.lse}
+
+@file{lse-templates-generic.lse} defines templates used by all LS-Emacs
+languages. Some of this templates are site-specific --- these are
+preceded by the comment `@code{*** site-specific ***}'.
+
+You might also want to redefine the style of some fill-ins, for
+instance, the format of the comment-header fill-in.
+
+@node    Key-Customization, Delimiter-Customization, Generic-Customization, Customization
+@section Customization of Key Bindings
+
+The key bindings of LS-Emacs are defined by functions provided by the
+elisp libraries @file{lse-tpu-keys-v19.el} and
+@file{lse-keys-v19.el}. These functions are called by the
+elisp library @file{lse-emacs.el}. You have two possibilities of
+customizing the key bindings: either redefine some of the lisp-functions
+or change the function calls in @file{ls-emacs.el}.
+
+@file{lse-keys-v19.el} defines the keys related to language sensitive
+functions in the lisp function @code{lse-define-std-keys}. If you don't
+like the bindings you should redefine this function in your
+@file{.emacs} file before loading @file{ls-emacs.el}. 
+
+@file{lse-tpu-keys-v19.el} defines the key bindings not directly related
+to the language sensitive functionality of LS-Emacs. You may rebind
+these or even do not use them at all. The following paragraphs will
+describe the functions defined by @file{lse-tpu-keys-v19.el}.
+
+@code{lse-create-std-keymaps} creates the keymaps for the @kbd{GOLD} und
+@kbd{BLUE} prefix keys. You may rebind these keys, but you must not skip
+them!
+
+@code{lse-replace-std-emacs-bindings} rebinds keys bound to standard
+Emacs functions to the equivalent functions of LS-Emacs. You should
+probably keep these rebindings. Otherwise features like buffer chaining
+will not work. 
+
+@code{lse-define-tpu-keys} defines bindings for unprefixed keys. As it
+defines the keypad bindings, you probably wouldn't like to skip it
+completely.
+
+@code{lse-tpu-define-gold-keys} and @code{lse-tpu-define-blue-keys}
+define the bindings for keys prefixed by @kbd{GOLD} and @kbd{BLUE},
+respectively. These do not collide with standard Emacs bindings.
+However, if you are used to DEC editors, you might want to change some
+of the bindings.
+
+LS-Emacs assumes that you're using a terminal compatible to DEC's VT100
+or VT200 series. The elisp library @file{lse-keys-v19.el} defines the
+mapping from the terminal's escape sequences to the symbolic key names.
+Use of a different terminal requires that you adapt those
+mappings.@footnote{The mappings from escape sequences to key names
+should be handled differently. I've implemented a quick and dirty
+solution for that. If you want to change those mappings maybe you design
+a more elegant solution.}
+
+@node    Delimiter-Customization, Language-Selection-Customization, Key-Customization, Customization
+@section Customization of Fill-In Delimiters
+
+The characters used as fill-in delimiters are defined in the elisp
+library @file{lse-fill-in--delimiters.el}. If you are working in an
+environment without support for the ISO-Latin-1 character set, you will
+have to change these definitions.@footnote{Of course, you'll have to
+change all template definition files, too.}
+
+The choice of fill-in delimiters is quite difficult. You have to
+reconcile a number of requirements:
+@itemize @bullet
+@item
+The delimiters should be short, but conspicuous.
+
+@item
+The delimiters have to be compatible with every language you are going
+to use. Compatibility with a language means that the strings used as
+opening and closing delimiters must not have any meaning for the
+language. Otherwise, an expressions meant to be part of a document might
+be interpreted as a fill-in. For instance, the choice of @code{[} and
+@code{]} as delimiters collides with many programming languages ---
+LS-Emacs might interpret an array index as fill-in.
+
+@item
+The delimiters should be unambiguous. Otherwise, it will be very hard to
+change the delimiters later. For instance, @code{<} and @code{>} are a
+bad choice for this reason: a much better choice would be @code{:<} and
+@code{>:}.
+
+@item
+The delimiters should be the same for all languages. Although it is possible to
+define language specific delimiters, this would prohibit the sharing of
+templates between languages. In addition, language specific delimiters
+increase the cognitive load on the user.
+@end itemize
+
+@file{lse-fill-in--delimiters.el} contains a sample definition of 7-bit
+fill-in delimiters as comment.
+
+@node    Language-Selection-Customization, Menu-Customization, Delimiter-Customization, Customization
+@section Customization of Automatic Language Selection
+
+There are two ways to provide automatic language selection. You can
+either tie the language to a major mode of Emacs or you can add a
+language-selecting function to the @code{auto-mode-alist}.
+
+You tie a language to a major mode by adding a hook to the appropriate
+Lisp variable. This is normally done in the language master file. You can
+find examples in the language master files of Awk, Elisp, LaTeX, Perl,
+and others.
+
+For languages without a natural relation to a major mode, add an
+appropriate function to the @code{auto-mode-alist}. The elisp library
+@file{lse-mode-alist.el} defines the standard value of that variable.
+
+@node    Menu-Customization,  , Language-Selection-Customization, Customization
+@section Customization of the Command Menu
+
+The command menu is defined by the elisp library @file{lse-command.el}.
+You can add commands to the command menu by calling the lisp function
+@code{lse-command:add}. The best place for these calls is your
+@code{.emacs} file --- after loading @file{ls-emacs.el}.

@@ -1,0 +1,2059 @@
+@node    Command-Reference, Installation, Programming, Top
+@chapter Reference Manual for Interactive Commands
+
+This chapter explains all interactive commands provided by
+LS-Emacs.@footnote{Alas, it describes an ancient version of LS-Emacs (Summer
+1994). I didn't have enough time to update this chapter yet. Sorry.}
+
+@findex lse-align-and-down
+@deffn Command lse-align-and-down
+This command inserts or removes as many spaces as necessary to align to
+the corresponding position of the same character as the current one on
+the previous line. Afterwards, it moves point one line down.
+
+@kindex blue /
+By default, this command is bound to the key @kbd{blue /}.
+@end deffn
+
+@findex lse-align-and-up
+@deffn Command lse-align-and-up
+This command inserts or removes as many spaces as necessary to align to
+the corresponding position of the same character as the current one on
+the next line. Afterwards, it moves point one line up.
+
+@kindex gold /
+By default, this command is bound to the key @kbd{gold /}.
+@end deffn
+
+@findex lse-align-to-next-word
+@deffn Command lse-align-to-next-word num
+This command inserts as many spaces as necessary to align to the
+position of the corresponding word of the next line, i.e. in forward
+direction. The prefix argument @var{num} specifies how many lines to
+move for finding the alignment position.
+
+@kindex gold SPC
+By default, this command is bound to the key @kbd{gold SPC}.
+@end deffn
+
+@findex lse-align-to-next-word-and-up
+@deffn Command lse-align-to-next-word-and-up num
+This command inserts as many spaces as necessary to align to the
+position of the corresponding word of the next line, i.e. in forward
+direction; after aligning, @code{lse-align-to-next-word-and-up} moves
+point one line up. The prefix argument @var{num} specifies how many
+lines to move for finding the alignment position.
+
+@kindex gold v
+By default, this command is bound to the key @kbd{gold v}.
+@end deffn
+
+@findex lse-align-to-previous-word
+@deffn Command lse-align-to-previous-word num
+This command inserts as many spaces as necessary to align to the
+position of the corresponding word of the previous line, i.e. in reverse
+direction. The prefix argument @var{num} specifies how many lines to
+move for finding the alignment position.
+
+@kindex blue SPC
+By default, this command is bound to the key @kbd{blue SPC}.
+@end deffn
+
+@findex lse-align-to-previous-word-and-down
+@deffn Command lse-align-to-previous-word-and-down num
+This command inserts as many spaces as necessary to align to the
+position of the corresponding word of the previous line, i.e. in reverse
+direction; after aligning, @code{lse-align-to-next-word-and-up} moves
+point one line down. The prefix argument @var{num} specifies how many
+lines to move for finding the alignment position.
+
+@kindex blue v
+By default, this command is bound to the key @kbd{blue v}.
+@end deffn
+
+@findex lse-balance-windows
+@deffn Command lse-balance-windows
+This command resizes all windows so that all have roughly the same height.
+@end deffn
+
+@findex lse-blink-select-mark
+@deffn Command lse-blink-select-mark
+This command positions point for 2 seconds on the other boundary of the
+selection.
+
+@kindex blue gold enter
+By default, this command is bound to the key @kbd{blue gold enter}.
+@end deffn
+
+@findex lse-change-output-file
+@deffn Command lse-change-output-file buf &optional new-name silent
+This command changes the name of the output file associated to buffer
+@var{buf} to the name @var{new-name}. Unless @var{silent} is specified,
+the command will display an informational message in the message window.
+
+@kindex blue o
+By default, this command is bound to the key @kbd{blue o}.
+@end deffn
+
+@findex lse-command:do
+@deffn Command lse-command:do &optional command
+This command pops up a completion menu with the most commonly used
+commands. You can add commands to the menu with the function
+@code{lse-command:add}. 
+ 
+@kindex gold kp7
+By default, this command is bound to the key @kbd{gold kp7}.
+@end deffn
+
+@findex lse-compilation:goto-last-mark
+@deffn Command lse-compilation:goto-last-mark
+This command returns to the position prior to the last execution of
+@code{lse-compilation:next-error}. It comes in handy if there were no
+more errors left, in which case Emacs switches to the compilation
+buffer.
+
+@kindex gold b
+In Emacs compilation buffers, this command is bound to the key @kbd{gold b}.
+@end deffn
+
+@findex lse-compilation:next-error
+@deffn Command lse-compilation:next-error &optional prefix
+This command positions to the next compiler error or grep match. You can
+use it after compiling a buffer with the command @code{lse-compile} (or the
+standard Emacs command @code{compile}) or after searching with the
+command @code{lse-grep} (or its Emacs analogon @code{grep}).
+
+Strange things happen, if you issue this command when the last error or
+grep match was already visited.
+
+@kindex A-f
+By default, this command is bound to the key @kbd{A-f}.
+@end deffn
+
+@findex lse-compile
+@deffn Command lse-compile
+This command compiles the current buffer. The effect depends on the kind
+of buffer.
+@itemize @bullet
+@item
+If the buffer contains LS-Emacs template definitions @code{lse-compile}
+calls @code{lse-language:compile}.
+
+LS-Emacs looks at the extension of the buffer to decide if it contains
+LS-Emacs templates.
+
+@item
+If the buffer uses the major mode Emacs-Lisp @code{lse-compile} calls
+@code{eval-current-buffer} which evaluates the buffer as lisp code.
+
+@item
+For all other kinds of buffers @code{lse-compile} calls @code{compile}
+with the variable @var{compile-command} as parameter.
+@end itemize
+ 
+@kindex blue y
+By default, this command is bound to the key @kbd{blue y}.
+@end deffn
+
+@findex lse-compile-defun
+@deffn Command lse-compile-defun
+This command evaluates the lisp function containing or before point and
+prints the value in the echo area. It is equivalent to executing the
+Emacs commands @code{beginning-of-defun} and @code{eval-defun} in
+sequence (inside a @code{save-excursion} block).
+
+By default, this command is bound to the key @kbd{red y}.
+@end deffn
+
+@findex lse-count-matches
+@deffn Command lse-count-matches
+This command counts the number of matches of a regular expression in the
+entire current buffer.
+
+@kindex blue #
+By default, this command is bound to the key @kbd{blue #}.
+@end deffn
+
+@findex lse-delete-other-windows
+@deffn Command lse-delete-other-windows &optional wdw
+This command deletes all windows but the current window. The optional
+argument @var{wdw} instructs the command to all windows but @var{wdw}.
+
+@kindex blue gold -
+By default, this command is bound to the key @kbd{blue gold -}.
+@end deffn
+
+@findex lse-delete-window
+@deffn Command lse-delete-window &optional wdw
+This command deletes the current window. The optional argument @var{wdw}
+instructs the command to delete another than the current window.
+
+@kindex blue gold =
+By default, this command is bound to the key @kbd{blue gold =}.
+@end deffn
+
+@findex lse-describe-fill-in
+@deffn Command lse-describe-fill-in
+This command displays a description of the current fill-in in the
+message window. Point must be inside a flat fill-in.
+
+@kindex A-o
+By default, this command is bound to the key @kbd{A-o}.
+@end deffn
+ 
+@findex lse-expand
+@deffn Command lse-expand
+If point is inside a flat fill-in, @code{lse-expand} will expand that
+fill-in. Otherwise, this command will look for a token and expands that
+token if it finds one. @code{lse-expand} will look at the words
+preceding point to find a token and always will try to find the longest
+match.
+
+A token-name cannot cross line boundaries, and @code{lse-expand} will
+consider at most 5 words when looking for the token-name.
+
+@kindex A-e
+By default, this command is bound to the key @kbd{A-e}.
+@end deffn
+
+@findex lse-expand-or-goto-next
+@deffn Command lse-expand-or-goto-next
+This command expands the current fill-in, if any, or else it moves point
+to the next flat fill-in.
+@end deffn
+
+@findex lse-expand-or-tabulator
+@deffn Command lse-expand-or-tabulator
+This command expands the current fill-in, if any, or else it calls
+@code{lse-tabulator}.
+
+@kindex TAB
+By default, this command is bound to the key @kbd{TAB}.
+@end deffn
+
+@findex lse-expand-token
+@deffn Command lse-expand-token &optional quiet
+Expands the token preceding point. If @code{lse-expand-token} does not
+find a valid token-name, it will display a warning message, unless the
+optional argument @var{quiet} has a non-nil value. You can use a prefix
+argument for @var{quiet}.
+
+This command is called by @code{lse-expand}.
+@end deffn
+
+@findex lse-fill-range
+@deffn Command lse-fill-range
+This command fills the current selection or the current paragraph, if no
+selection is active.
+
+@kindex gold |
+@kindex blue gold ~
+By default, this command is bound to the keys @kbd{gold |} and @kbd{blue
+gold ~}. 
+@end deffn
+
+@findex lse-flush-replacement
+@deffn Command lse-flush-replacement
+This commands terminates a pending replacement. Sometimes, LS-Emacs
+becomes confused when a replacement is pending. This happens for
+instance, when you delete the range of the pending replacement by normal
+deletion commands. This confusion may result in a hanging of the editor.
+If that happens, use @kbd{C-g} to regain control and use
+@code{lse-flush-replacement} to exorcize any trace of the pending
+replacement. 
+ 
+@kindex blue gold A-r
+By default, this command is bound to the key @kbd{blue gold A-r}.
+@end deffn
+
+@findex lse-goto-buffer
+@deffn Command lse-goto-buffer buf may-create temporary no-mark default
+This command switches to buffer @var{buf}. If @var{may-create} is
+supplied, a new buffer is created, if it does not already
+exist. @var{temporary} and @var{no-mark} have the same meaning as for
+@code{lse-goto-buffer+maybe-create}.
+
+@kindex gold f
+By default, this command is bound to the key @kbd{gold f}.
+@end deffn
+
+@findex lse-goto-buffer+maybe-create
+@deffn Command lse-goto-buffer+maybe-create &optional buf temporary no-mark
+This command switches to the buffer @var{buf}. It that buffer does not
+exist, it will be created. If @var{temporary} is supplied, the new
+buffer won't be considered to be a user buffer. If @var{no-mark} is
+supplied, the command won't change the mark-stacks.
+
+@kindex blue f
+By default, this command is bound to the key @kbd{blue f}.
+@end deffn
+
+@findex lse-goto-buffer-other-window
+@deffn Command lse-goto-buffer-other-window &optional buf may-create temporary no-mark default
+This command switches to buffer @var{buf} in another window. If
+@var{may-create} is supplied, a new buffer is created, if it does not
+already exist. @var{temporary} and @var{no-mark} have the same meaning
+as for @code{lse-goto-buffer+maybe-create}.
+
+@kindex blue gold f
+By default, this command is bound to the key @kbd{blue gold f}.
+@end deffn
+
+@findex lse-goto-home-mark-buffer
+@deffn Command lse-goto-home-mark-buffer
+This command switches to the buffer and position specified by the
+home-mark of the mark-stack of the current buffer. The position before
+the command will be stacked on the appropriate mark-stacks.
+@end deffn
+
+@findex lse-goto-home-mark-global
+@deffn Command lse-goto-home-mark-global
+This command switches to the buffer and position specified by the
+home-mark of the global mark-stack. The position before
+the command will be stacked on the appropriate mark-stacks.
+
+@kindex gold h
+By default, this command is bound to the key @kbd{gold h}.
+@end deffn
+
+@findex lse-goto-home-mark-window
+@deffn Command lse-goto-home-mark-window
+This command switches to the buffer and position specified by the
+home-mark of the mark-stack of the current window. The position before
+the command will be stacked on the appropriate mark-stacks.
+
+@kindex blue h
+By default, this command is bound to the key @kbd{blue h}.
+@end deffn
+
+@findex lse-goto-last-mark-buffer
+@deffn Command lse-goto-last-mark-buffer
+This command switches to the buffer and position specified by the
+last-mark of the mark-stack of the current buffer. The position before
+the command will be stacked on the appropriate mark-stacks.
+
+@kindex blue gold b
+By default, this command is bound to the key @kbd{blue gold b}.
+@end deffn
+
+@findex lse-goto-last-mark-global
+@deffn Command lse-goto-last-mark-global
+This command switches to the buffer and position specified by the
+last-mark of the global mark-stack. The position before
+the command will be stacked on the appropriate mark-stacks.
+
+@kindex gold b
+By default, this command is bound to the key @kbd{gold b}.
+@end deffn
+
+@findex lse-goto-last-mark-window
+@deffn Command lse-goto-last-mark-window
+This command switches to the buffer and position specified by the
+last-mark of the mark-stack of the current window. The position before
+the command will be stacked on the appropriate mark-stacks.
+
+@kindex blue b
+By default, this command is bound to the key @kbd{blue b}.
+@end deffn
+
+@findex lse-goto-last-position
+@deffn Command lse-goto-last-position
+This commands positions point to the position before the last execution
+of either @code{lse-goto-next-fill-in} or @code{lse-goto-prev-fill-in}.
+
+@kindex gold A-n
+By default, this command is bound to the keys @kbd{gold A-n} and
+@kbd{gold A-p}. 
+@end deffn
+
+@findex lse-goto-mark-and-pop-buffer
+@deffn Command lse-goto-mark-and-pop-buffer
+This command removes the top-mark from the mark-stack of the current
+buffer and positions point to that mark. 
+
+@kindex blue gold g
+By default, this command is bound to the key @kbd{blue gold g}.
+@end deffn
+
+@findex lse-goto-mark-and-pop-global
+@deffn Command lse-goto-mark-and-pop-global
+This command removes the top-mark from the global mark-stack 
+and positions point to that mark. 
+
+@kindex gold g
+By default, this command is bound to the key @kbd{gold g}.
+@end deffn
+
+@findex lse-goto-mark-and-pop-window
+@deffn Command lse-goto-mark-and-pop-window
+This command removes the top-mark from the mark-stack of the current
+window and positions point to that mark. 
+
+@kindex blue g
+By default, this command is bound to the key @kbd{blue g}.
+@end deffn
+
+@findex lse-goto-next-buffer
+@deffn Command lse-goto-next-buffer
+This command switches to the next (younger) user buffer. LS-Emacs orders
+the user buffers by age. This command does not change the mark-stacks.
+
+@kindex gold n
+By default, this command is bound to the key @kbd{gold n}.
+@end deffn
+ 
+@findex lse-goto-next-fill-in
+@deffn Command lse-goto-next-fill-in &optional quiet name
+This command moves point to the next flat fill-in in forward direction.
+It displays a warning message if none is found unless @var{quiet} has a
+non-nil value. You can use a prefix argument for @var{quiet}.
+
+If @var{name} is specified --- this can be done only by a call from a
+lisp function --- @code{lse-goto-next-fill-in} will move position to the
+next occurrence of the flat fill-in @var{name}, if any.
+
+@kindex A-n
+By default, this command is bound to the key @kbd{A-n}.
+@end deffn
+
+@findex lse-goto-prev-buffer
+@deffn Command lse-goto-prev-buffer
+This command switches to the previous (older) user buffer. LS-Emacs orders
+the user buffers by age. This command does not change the mark-stacks.
+@end deffn
+ 
+@findex lse-goto-prev-fill-in
+@deffn Command lse-goto-prev-fill-in &optional quiet name
+This command moves point to the previous fill-in in backward direction,
+if any. It displays a warning message if none is found unless
+@var{quiet} has a non-nil value. You can use a prefix argument for
+@var{quiet}.
+
+If @var{name} is specified --- this can be done only by a call from a
+lisp function --- @code{lse-goto-prev-fill-in} will move position to the
+previous occurrence of the flat fill-in @var{name}, if any.
+
+@kindex A-p
+By default, this command is bound to the key @kbd{A-p}.
+@end deffn
+
+@findex lse-grep
+@deffn Command lse-grep grep-args
+This command runs agrep with the arguments grep-args. If used
+interactively, it will prompt for @var{grep-args}. You can visit all
+matches found by grep by executing the command
+@code{lse-compilation:next-error}. 
+
+The default for the command is taken from the variable
+@var{lse-compilation:grep-command}. You can change this variable in your
+@file{.emacs} file if you want to use another version of grep.
+ 
+By default, this command is bound to the key @kbd{blue gold find}.
+@end deffn
+ 
+@findex lse-help-fill-in
+@deffn Command lse-help-fill-in
+This command displays a description of the current fill-in in a popped-up
+window. Point must be inside a flat fill-in.
+
+You can remove the popped-up window by using the key @kbd{BLUE A-f}.
+
+@kindex gold A-o
+By default, this command is bound to the key @kbd{gold A-o}.
+@end deffn
+
+@findex lse-indent-line
+@deffn Command lse-indent-line
+This command indents the current line --- no matter where in the line
+point is located --- corresponding to the indentation of the previous
+line. If point is currently located on any kind of closing parenthesis
+(as defined by the syntax table), @code{lse-indent-line} will indent to
+the indentation level of the corresponding opening parenthesis.
+
+@kindex gold TAB
+By default, this command is bound to the key @kbd{gold TAB}.
+@end deffn
+
+@findex lse-indent-rigidly
+@deffn Command lse-indent-rigidly &optional amount
+This command indents the current selection or the current line rigidly
+by @var{amount} blanks (default 2). 
+
+@kindex gold left
+@kindex gold right
+@kindex blue left
+@kindex blue right
+By default, this command is bound (with different arguments) to the keys
+@kbd{gold left}, @kbd{gold right}, @kbd{blue left}, and @kbd{blue right}.
+@end deffn
+
+@findex lse-insert-buffer
+@deffn Command lse-insert-buffer &optional buffer
+This command inserts the contents of the buffer named @var{buffer} into
+the current buffer. In contrast to the corresponding Emacs command, no
+mark is set.
+
+@kindex blue p
+By default, this command is bound to the key @kbd{blue p}.
+@end deffn
+
+@findex lse-insert-buffer-name
+@deffn Command lse-insert-buffer-name &optional buf
+This command inserts the name of buffer @var{buf} into the current buffer.
+@end deffn
+
+@findex lse-insert-dd-mm-yyyy
+@deffn Command lse-insert-dd-mm-yyyy
+This command inserts the current date formatted as
+@code{dd-mm-yyyy}, e.g., 1.7.1994, into the buffer.
+@end deffn
+
+@findex lse-insert-dd-mm-yyyy+blank
+@deffn Command lse-insert-dd-mm-yyyy+blank
+This command inserts the current date formatted as
+@code{dd-mm-yyyy}, e.g., 1.7.1994, into the buffer. It will add a
+blank unless the next character already is a blank. 
+
+@kindex blue d
+By default, this command is bound to the key @kbd{blue d}.
+@end deffn
+
+@findex lse-insert-dd-mmm-yyyy
+@deffn Command lse-insert-dd-mmm-yyyy
+This command inserts the current date formatted as
+@code{dd-mmm-yyyy}, e.g., 1-Jul-1994, into the buffer.
+@end deffn
+
+@findex lse-insert-dd-mmm-yyyy+blank
+@deffn Command lse-insert-dd-mmm-yyyy+blank
+This command inserts the current date formatted as
+@code{dd-mmm-yyyy}, e.g., 1-Jul-1994, into the buffer. It will add a
+blank unless the next character already is a blank. 
+
+@kindex gold d
+By default, this command is bound to the key @kbd{gold d}.
+@end deffn
+
+@findex lse-insert-file
+@deffn Command lse-insert-file &optional file
+This command inserts the contents of file @var{file} at the current
+position of the current buffer.
+
+@kindex blue gold i
+By default, this command is bound to the key @kbd{blue gold i}.
+@end deffn
+
+@findex lse-insert-time
+@deffn Command lse-insert-time
+This command inserts the current date and time into the current buffer.
+@end deffn
+ 
+@findex lse-insert-time+blank
+@deffn Command lse-insert-time+blank
+This command inserts the current date and time into the current buffer.
+It will add a blank unless the next character already is a blank.
+@end deffn
+
+@findex lse-insert-user-full-name
+@deffn Command lse-insert-user-full-name 
+This command inserts the full name of the user into the current buffer.
+
+@kindex blue z
+By default, this command is bound to the key @kbd{blue z}.
+@end deffn
+
+@findex lse-insert-user-full-name+blank
+@deffn Command lse-insert-user-full-name+blank
+This command inserts the full name of the user into the current buffer.
+It will add a blank unless the next character already is a blank.
+@end deffn
+
+@findex lse-insert-user-initials
+@deffn Command lse-insert-user-initials
+This command inserts the initials of the user into the current buffer. 
+
+@kindex gold z
+By default, this command is bound to the key @kbd{gold z}.
+@end deffn
+
+@findex lse-insert-user-initials-tex
+@deffn Command lse-insert-user-initials-tex
+This command inserts the initials of the user as @TeX{}-command into the
+current buffer.
+
+@kindex gold z
+By default, this command is bound to the key @kbd{gold z}.
+@end deffn
+
+@findex lse-insert-user-initials+blank
+@deffn Command lse-insert-user-initials+blank
+This command inserts the initials of the user into the current buffer. 
+It will add a blank unless the next character already is a blank.
+@end deffn
+
+@findex lse-insert-user-initials-tex+blank
+@deffn Command lse-insert-user-initials-tex+blank
+This command inserts the initials of the user as @TeX{}-command into the
+current buffer. It will add a blank unless the next character already
+is a blank.
+@end deffn
+
+@findex lse-insert-user-name
+@deffn Command lse-insert-user-name
+This command inserts the user name, i.e., your login name, into the
+current buffer.
+
+@kindex blue gold z
+By default, this command is bound to the key @kbd{blue gold z}.
+@end deffn
+
+@findex lse-insert-user-name+blank
+@deffn Command lse-insert-user-name+blank
+This command inserts the user name, i.e., your login name, into the
+current buffer. It will add a blank unless the next character already
+is a blank.
+@end deffn
+
+@findex lse-insert-year
+@deffn Command lse-insert-year
+This command inserts the current year into the current buffer.
+@end deffn
+ 
+@findex lse-kill-all-optional-fill-ins
+@deffn Command lse-kill-all-optional-fill-ins
+This command kills all optional flat fill-ins between point and the end
+of the buffer. Required fill-ins are not affected.
+
+@kindex blue gold A-k
+By default, this command is bound to the key @kbd{blue gold A-k}.
+@end deffn
+
+@findex lse-kill-buffer
+@deffn Command lse-kill-buffer &optional buf
+This command deletes the buffer @var{buf} (default: current buffer).
+Emacs will ask for confirmation if the buffer was changed since the last
+saving to a file.
+
+@kindex blue gold e
+By default, this command is bound to the key @kbd{blue gold e}.
+@end deffn
+ 
+@findex lse-kill-fill-in
+@deffn Command lse-kill-fill-in &optional dont-move
+This command kills the current or the next fill-in in the buffer. If
+that fill-in is required, @code{lse-kill-fill-in} will ask for
+confirmation. If the fill-in is non-replaceable, an error will occur.
+
+Afterwards it will position point to the next fill-in unless
+@var{dont-move} has a non-nil value. You can use a prefix argument for
+@var{dont-move}.
+
+@kindex A-k
+By default, this command is bound to the key @kbd{A-k}.
+@end deffn
+ 
+@findex lse-language:compile
+@deffn Command lse-language:compile &optional name
+This command compiles the LS-Emacs language named @var{name}.
+
+@code{lse-language:compile} will prompt for @var{name}, if none was provided in
+the call. The prompting is done in two stages. First,
+@code{lse-language:compile} offers a completion mode, where you can select any
+of the pre-loaded languages. If you exit the completion mode without
+selection, lse-language:compile will then prompt without completion,
+which allows you to compile a language not yet known to LS-Emacs. 
+@end deffn
+ 
+@findex lse-language:reload
+@deffn Command lse-language:reload &optional name
+This command reloads the LS-Emacs language named @var{name}. You can use
+this command to load a new version of a language without leaving
+LS-Emacs and starting it afresh.
+
+@code{lse-language:reload} uses the same completion mode for @var{name}
+as @code{lse-language:compile}.
+@end deffn
+ 
+@findex lse-language:use
+@deffn Command lse-language:use &optional name
+This commands selects a specific LS-Emacs language for the current buffer.
+Normally LS-Emacs will select the language automatically, but you can
+change the language used whenever you want.
+
+@code{lse-language:use} uses the same completion mode for @var{name}
+as @code{lse-language:compile}.
+@end deffn
+
+@findex lse-learn-key
+@deffn Command lse-learn-key key 
+This command starts the learning of a keyboard macro to be associated to
+the key @var{key}. From now on, all LS-Emacs will record all keystrokes
+you type, whether they are commands or literal text. To end the
+definition, type the key @var{key} once again. While the recording is
+active, @code{Learn-`@var{key}'} will appear in the status line. Any
+error during the recording will immediately terminate the definition.
+
+@kindex blue l
+By default, this command is bound to the key @kbd{blue l}.
+@end deffn
+
+@findex lse-learn-named-key
+@deffn Command lse-learn-named-key key name
+This command starts the learning of a named keyboard macro to be associated to
+the key @var{key}. From now on, all LS-Emacs will record all keystrokes
+you type, whether they are commands or literal text. To end the
+definition, type the key @var{key} once again. While the recording is
+active, @code{Learn-`@var{key}'} will appear in the status line. Any
+error during the recording will immediately terminate the definition.
+
+@kindex blue gold l
+By default, this command is bound to the key @kbd{blue gold l}.
+@end deffn
+
+@findex lse-next-screen
+@deffn Command lse-next-screen &optional arg
+This command scrolls in forward direction, i.e., moves point down by
+@var{arg} scroll-units. One scroll-unit equals twenty percent of the
+current window's height.
+
+@kindex next
+@kindex gold next
+By default, this command is bound with different arguments to the keys
+@kbd{next} and @kbd{gold next}. 
+@end deffn
+
+@findex lse-next-window
+@deffn Command lse-next-window
+This command selects the next window below the current window on the
+screen. If the current window is at the bottom of the screen,
+@code{lse-next-window} will select the top-most window.
+
+@kindex gold down
+By default, this command is bound to the key @kbd{gold down}.
+@end deffn
+
+@findex lse-open-line
+@deffn Command lse-open-line
+This command opens a new line above the current line. If point is inside
+a fill-in, no replacement will be started and point will remain in the
+fill-in.
+
+@kindex gold kp0
+By default, this command is bound to the key @kbd{gold kp0}.
+@end deffn
+
+@findex lse-pop+restore-window-configuration
+@deffn Command lse-pop+restore-window-configuration
+This command restores the window configuration which is on the top of
+LS-Emacs window configuration stack.
+
+@kindex blue gold ^
+By default, this command is bound to the key @kbd{blue gold ^}.
+@end deffn
+
+@findex lse-previous-screen
+@deffn Command lse-previous-screen &optional arg
+This command scrolls in reverse direction, i.e., moves point up by
+@var{arg} scroll-units. One scroll-unit equals twenty percent of the
+current window's height.
+
+@kindex prior
+@kindex gold prior
+By default, this command is bound with different arguments to the keys
+@kbd{prior} and @kbd{gold prior}. 
+@end deffn
+
+@findex lse-previous-window
+@deffn Command lse-previous-window
+This command selects the next window above the current window on the
+screen. If the current window is at the top of the screen,
+@code{lse-previous-window} will select the bottom-most window.
+
+@kindex gold up
+By default, this command is bound to the key @kbd{gold up}.
+@end deffn
+
+@findex lse-push-mark-buffer
+@deffn Command lse-push-mark-buffer
+This command pushes the current position of point onto the mark-stack of
+the current buffer.
+
+@kindex blue gold m
+By default, this command is bound to the key @kbd{blue gold m}.
+@end deffn
+ 
+@findex lse-push-mark-global
+@deffn Command lse-push-mark-global
+This command pushes the current position of point onto the global mark-stack.
+
+@kindex gold m
+By default, this command is bound to the key @kbd{gold m}.
+@end deffn
+ 
+@findex lse-push-mark-window
+@deffn Command lse-push-mark-window
+This command pushes the current position of point onto the mark-stack of
+the current window.
+
+@kindex blue m
+By default, this command is bound to the key @kbd{blue m}.
+@end deffn
+
+@findex lse-push-window-configuration
+@deffn Command lse-push-window-configuration
+This command pushes the current window configuration onto a stack of
+window configurations. You can later restore that configuration by using
+the command @code{lse-pop+restore-window-configuration}.
+
+@kindex blue ^
+By default, this command is bound to the key @kbd{blue ^}.
+@end deffn
+ 
+@findex lse-reexpand-fill-in
+@deffn Command lse-reexpand-fill-in
+This command re-expands the last un-expanded fill-in, if any, i.e., it
+undoes the effect of the last @code{lse-unexpand-fill-in}.
+
+@kindex blue A-e
+By default, this command is bound to the key @kbd{blue A-e}.
+@end deffn
+
+@findex lse-rename-buffer
+@deffn Command lse-rename-buffer buf &optional new-name
+This command renames the buffer @var{buf} to @var{new-name}.
+@end deffn
+ 
+@findex lse-replace-fill-in
+@deffn Command lse-replace-fill-in
+This command either closes the currently active replacement or --- if
+point is inside a flat fill-in --- starts the replacement of that
+fill-in. 
+
+@kindex A-r
+By default, this command is bound to the key @kbd{A-r}.
+@end deffn
+ 
+@findex lse-replicate-fill-in
+@deffn Command lse-replicate-fill-in
+If point is inside a flat fill-in, this command will replace the fill-in
+by the value of the last expansion of the same fill-in. If the fill-in
+was replicated and LS-Emacs is still in replacement mode, this command
+will replace the fill-in by the value of the next to last expansion of
+the same fill-in. By using this command repeatedly, you can try all the
+different previous expansions of the fill-in.
+
+
+@kindex A-s
+@kindex gold A-s
+By default, this command is bound to the keys @kbd{A-s} and @kbd{gold A-s}.
+@end deffn
+ 
+@findex lse-rereplace-fill-in
+@deffn Command lse-rereplace-fill-in
+This command re-replaces the last un-replaced fill-in, if any, i.e., it
+undoes the effect of the last @code{lse-unreplace-fill-in}.
+
+@code{lse-rereplace-fill-in} re-opens the replacement of the fill-in,
+i.e., you can extend the replacement by using this command.
+
+@kindex blue A-r
+By default, this command is bound to the key @kbd{blue A-r}.
+@end deffn
+
+@findex lse-revert-buffer
+@deffn Command lse-revert-buffer
+This command reverts the current buffer to the contents of the
+associated file.
+@end deffn
+ 
+@findex lse-ring-bell
+@deffn Command lse-ring-bell
+This commands rings the terminal's bell.
+
+@kindex blue blue
+By default, this command is bound to the key @kbd{blue blue}.
+@end deffn
+
+@findex lse-scroll-other-window-back
+@deffn Command lse-scroll-other-window-back
+This command scrolls the other window backward by a third of its height,
+i.e., moves point up.
+
+@kindex blue prior
+By default, this command is bound to the key @kbd{blue prior}.
+@end deffn
+
+@findex lse-scroll-other-window-forw
+@deffn Command lse-scroll-other-window-forw
+This command scrolls the other window forward by a third of its height,
+i.e., moves point down.
+
+@kindex blue next
+By default, this command is bound to the key @kbd{blue next}.
+@end deffn
+
+@findex lse-select-angle-range
+@deffn Command lse-select-angle-range
+This command selects the next range which is enclosed in angle brackets
+(@code{< @dots{} >}) and puts point to the end of the selection.
+
+@kindex blue <
+By default, this command is bound to the key @kbd{blue <}.
+@end deffn
+
+@findex lse-select-brace-range
+@deffn Command lse-select-brace-range
+This command selects the next range which is enclosed in braces and puts
+point to the end of the selection.
+
+@kindex blue @{
+By default, this command is bound to the key @kbd{blue @{}.
+@end deffn
+
+@findex lse-select-bracket-range
+@deffn Command lse-select-bracket-range
+This command selects the next range which is enclosed in brackets and puts
+point to the end of the selection.
+
+@kindex blue [
+By default, this command is bound to the key @kbd{blue [}.
+@end deffn
+
+@findex lse-select-current-bs-word
+@deffn Command lse-select-current-bs-word num
+This command selects the current (@var{num}) blank-separated word(s) and
+puts point to the end of the selection. If point is inside a word, that
+word is current; if it is between words, the previous word is considered
+current.
+@end deffn
+
+@findex lse-select-current-word
+@deffn Command lse-select-current-word num
+This command selects the current (@var{num}) word(s) and puts point to
+the end of the selection. If point is inside a word, that word is
+current; if it is between words, the previous word is considered current.
+@end deffn
+
+@findex lse-select-guillemot-range
+@deffn Command lse-select-guillemot-range
+This command selects the next range which is enclosed in guillemots
+(@code{« @dots{} »})and puts point to the end of the selection.
+
+@kindex blue gold <
+By default, this command is bound to the key @kbd{blue gold <}.
+@end deffn
+
+@findex lse-select-paren-range
+@deffn Command lse-select-paren-range
+This command selects the next range which is enclosed in parentheses and puts
+point to the end of the selection.
+
+@kindex blue (
+By default, this command is bound to the key @kbd{blue (}.
+@end deffn
+
+@findex lse-set-buffer-nowrite
+@deffn Command lse-set-buffer-nowrite buf
+This command disables writing of the buffer @var{buf}.
+As Emacs won't let you change a buffer which is set to no-write, this
+command removes the association between the buffer and its output file.
+In addition, it inhibits auto-saving.
+
+@kindex blue A-w
+By default, this command is bound to the key @kbd{blue A-w}.
+@end deffn
+
+@findex lse-set-buffer-write
+@deffn Command lse-set-buffer-write buf
+This command enables writing of the buffer @var{buf}. In addition, it
+enables auto-saving.
+
+@kindex blue gold A-w
+By default, this command is bound to the key @kbd{blue gold A-w}.
+@end deffn
+
+@findex lse-set-home-mark-buffer
+@deffn Command lse-set-home-mark-buffer &optional to-mark
+This command sets the home-mark of the current buffer's mark-stack to
+@var{to-mark} or to the current position of point.
+@end deffn
+
+@findex lse-set-home-mark-global
+@deffn Command lse-set-home-mark-global &optional to-mark
+This command sets the home-mark of the global mark-stack to
+@var{to-mark} or to the current position of point.
+@end deffn
+
+@findex lse-set-home-mark-window
+@deffn Command lse-set-home-mark-window &optional to-mark
+This command sets the home-mark of the current window's mark-stack to
+@var{to-mark} or to the current position of point.
+
+@kindex blue gold h
+By default, this command is bound to the key @kbd{blue gold h}.
+@end deffn
+
+@findex lse-set-last-mark-buffer
+@deffn Command lse-set-last-mark-buffer &optional to-mark
+This command sets the last-mark of the current buffer's mark-stack to
+@var{to-mark} or to the current position of point.
+@end deffn
+
+@findex lse-set-last-mark-global
+@deffn Command lse-set-last-mark-global &optional to-mark
+This command sets the last-mark of the global mark-stack to
+@var{to-mark} or to the current position of point.
+@end deffn
+
+@findex lse-set-last-mark-window
+@deffn Command lse-set-last-mark-window &optional to-mark
+This command sets the last-mark of the current window's mark-stack to
+@var{to-mark} or to the current position of point.
+@end deffn
+
+@findex lse-set-tab-increment
+@deffn Command lse-set-tab-increment inc
+This command sets the value of tab increment to @var{inc}. The tab
+increment controls the depth of indentation per indentation level.
+@end deffn
+
+@findex lse-shell-command
+@deffn Command lse-shell-command command &optional flag
+This command executes the unix command @var{command} in an shell. If you
+specify the prefix argument flag, LS-Emacs will insert the output from
+the shell into the current buffer.
+
+@kindex blue x
+By default, this command is bound to the key @kbd{blue x}.
+@end deffn
+
+@findex lse-shift-select-mark
+@deffn Command lse-shift-select-mark by
+This command shifts the position of the selection mark by @var{by}
+characters to the right.
+@end deffn
+
+@findex lse-show-position
+@deffn Command lse-show-position
+This command displays the current position in the message window:
+current line number, total line number, current column, current line
+length, position of point and buffer size in bytes.
+
+@kindex blue kp7
+By default, this command is bound to the key @kbd{blue kp7}.
+@end deffn
+
+@findex lse-split-line
+@deffn Command lse-split-line
+This command splits the current line. It handles comments properly,
+i.e., if point is inside a comment, @code{lse-split-line} will insert a
+comment terminator at the end of the current line, insert a new-line and
+insert a comment starter in the new line.
+
+@kindex blue RET
+By default, this command is bound to the key @kbd{blue RET}.
+@end deffn
+
+@findex lse-split-window
+@deffn Command lse-split-window &optional wdw horizontally
+This command splits the current window into two and balances the sizes
+of all windows so that they are roughly equal. It leaves point in the
+lower or right window. The optional argument @var{wdw} instructs the
+command to split another than the current window. If a value for
+@var{horizontally} is given, @code{lse-split-window} will split the
+current window horizontally instead of vertically.
+
+@kindex gold =
+@kindex blue =
+By default, this command is bound to the keys @kbd{gold =} and @kbd{blue =}.
+@end deffn
+
+@findex lse-split-window-horizontally
+@deffn Command lse-split-window-horizontally &optional wdw
+This command splits the current window horizontally. It leaves point in
+the lower or right window. The optional argument @var{wdw} instructs the
+command to split another than the current window.
+@end deffn
+
+@findex lse-tabulator
+@deffn Command lse-tabulator
+If point currently is at the beginning of a line, this command indents
+the line corresponding to the next non-blank line in forward direction;
+otherwise it calls @code{lse-align-to-previous-word}.
+@end deffn
+
+@findex lse-toggle-mark-buffer
+@deffn Command lse-toggle-mark-buffer
+This command interchanges the current position and the position of the
+top-mark of the mark-stack of the current buffer.
+
+@kindex blue gold t
+By default, this command is bound to the key @kbd{blue gold t}.
+@end deffn
+
+@findex lse-toggle-mark-global
+@deffn Command lse-toggle-mark-global
+This command interchanges the current position and the position of the
+top-mark of the global mark-stack.
+
+@kindex gold t
+By default, this command is bound to the key @kbd{gold t}.
+@end deffn
+
+@findex lse-toggle-mark-window
+@deffn Command lse-toggle-mark-window
+This command interchanges the current position and the position of the
+top-mark of the mark-stack of the current window.
+
+@kindex blue t
+By default, this command is bound to the key @kbd{blue t}.
+@end deffn
+
+@findex lse-tpu:add-at-bol
+@deffn Command lse-tpu:add-at-bol text
+This command adds @var{text} to the beginning of each line in the
+selected region or in the entire buffer, if no selection is active.
+@end deffn
+
+@findex lse-tpu:add-at-eol
+@deffn Command lse-tpu:add-at-eol text
+This command adds @var{text} to the end of each line in the
+selected region or in the entire buffer, if no selection is active.
+@end deffn
+
+@findex lse-tpu:advance-direction
+@deffn Command lse-tpu:advance-direction
+Set direction to forward. This influences the behavior of many LS-Emacs
+commands.
+
+@kindex kp4
+By default, this command is bound to the key @kbd{kp4}.
+@end deffn
+
+@findex lse-tpu:backup-direction
+@deffn Command lse-tpu:backup-direction
+Set direction to reverse or backward. This influences the behavior of many LS-Emacs
+commands.
+
+@kindex kp5
+By default, this command is bound to the key @kbd{kp5}.
+@end deffn
+
+@findex lse-tpu:backward-char
+@deffn Command lse-tpu:backward-char num
+This command moves @var{num} characters in the reverse direction
+(forward, if @var{num} is negative).
+@end deffn
+
+@findex lse-tpu:backward-line
+@deffn Command lse-tpu:backward-line num
+This command moves to the beginning of the next line in reverse
+direction. The prefix argument @var{num} specifies
+how many lines to move.
+@end deffn
+
+@findex lse-tpu:capitalize-strongly
+@deffn Command lse-tpu:capitalize-strongly
+This command capitalizes the selection or search-match, if any, or else
+the current word. Strongly means that this command first converts all
+characters to lower case before capitalizing the initial letters of the
+words in the range.
+
+@kindex blue c
+By default, this command is bound to the key @kbd{blue c}.
+@end deffn
+
+@findex lse-tpu:capitalize-weakly
+@deffn Command lse-tpu:capitalize-weakly
+This command capitalizes the selection or search-match, if any, or else
+the current word. Weakly means that this command does not convert any
+characters to lower case before capitalizing the initial letters of the
+words in the range.
+
+@kindex gold c
+By default, this command is bound to the key @kbd{gold c}.
+@end deffn
+
+@findex lse-tpu:change-case
+@deffn Command lse-tpu:change-case &optional num
+This command inverts the case of the selected region, if any, or of the
+character under the cursor. Using a prefix argument @var{num} you can
+specify how many characters to change.
+
+@kindex gold kp1
+By default, this command is bound to the key @kbd{gold kp1}.
+@end deffn
+
+@findex lse-tpu:change-case-lower
+@deffn Command lse-tpu:change-case-lower
+This command changes all characters in the selection or search-range, if
+any, or else of the current word to lower-case.
+
+@kindex gold l
+By default, this command is bound to the key @kbd{gold l}.
+@end deffn
+
+@findex lse-tpu:change-case-upper
+@deffn Command lse-tpu:change-case-upper
+This command changes all characters in the selection or search-range, if
+any, or else of the current word to upper-case.
+
+@kindex gold u
+By default, this command is bound to the key @kbd{gold u}.
+@end deffn
+
+@findex lse-tpu:char
+@deffn Command lse-tpu:char num
+This command moves @var{num} characters in the current direction.
+@end deffn
+
+@findex lse-tpu:copy-append-region
+@deffn Command lse-tpu:copy-append-region
+This command appends the selected region to the paste-buffer without
+deleting it.
+
+@kindex blue kp9
+By default, this command is bound to the key @kbd{blue kp9}.
+@end deffn
+
+@findex lse-tpu:copy-region
+@deffn Command lse-tpu:copy-region
+Copy the selected region to the paste-buffer without deleting it. The
+previous contents of the paste-buffer is lost.
+
+@kindex kp9
+By default, this command is bound to the key @kbd{kp9}.
+@end deffn
+
+@findex lse-tpu:current-end-of-line
+@deffn Command lse-tpu:current-end-of-line
+This command moves point to the end of the current line. It will not go
+to another line.
+@end deffn
+
+@findex lse-tpu:cut-append-region
+@deffn Command lse-tpu:cut-append-region
+This command deletes the selected region and appends it to the
+paste-buffer.
+
+@kindex kp9
+By default, this command is bound to the key @kbd{kp9}.
+@end deffn
+
+@findex lse-tpu:cut-region
+@deffn Command lse-tpu:cut-region
+Delete the selected region and put it into the paste-buffer. The
+previous contents of the paste-buffer is lost.
+
+@kindex kp6
+By default, this command is bound to the key @kbd{kp6}.
+@end deffn
+
+@findex lse-tpu:delete-head-of-line
+@deffn Command lse-tpu:delete-head-of-line num &optional append
+This command deletes the beginnings of the next @var{num} lines and
+stores them for the command @code{lse-tpu:undelete-line}. Unless you use
+the optional argument @var{append}, the old value of the
+line-deletion-history is lost.
+
+@kindex A-u
+By default, this command is bound to the key @kbd{A-u}.
+@end deffn
+
+@findex lse-tpu:delete-head-of-line-append
+@deffn Command lse-tpu:delete-head-of-line-append num 
+This command deletes the beginnings of the next @var{num} lines and
+appends them to the line-deletion-history for later use by the command
+@code{lse-tpu:undelete-line}. 
+@end deffn
+
+@findex lse-tpu:delete-next-char
+@deffn Command lse-tpu:delete-next-char num &optional append
+This command deletes the next @var{num} characters and stores them for
+the command @code{lse-tpu:undelete-char}. Unless you use the optional
+argument @var{append}, the old value of the character-deletion-history
+is lost.
+
+@kindex kp,
+By default, this command is bound to the key @kbd{kp,}.
+@end deffn
+
+@findex lse-tpu:delete-next-char-append
+@deffn Command lse-tpu:delete-next-char-append num 
+This command deletes the next @var{num} characters and appends them to
+the character-deletion-history for use by the command
+@code{lse-tpu:undelete-char}.
+
+@kindex gold kp,
+By default, this command is bound to the key @kbd{gold kp,}.
+@end deffn
+
+@findex lse-tpu:delete-next-line
+@deffn Command lse-tpu:delete-next-line num &optional append
+This command deletes the next @var{num} lines and stores them for the
+command @code{lse-tpu:undelete-line}. Unless you use the optional
+argument @var{append}, the old value of the line-deletion-history is
+lost.
+
+@kindex pf4
+By default, this command is bound to the key @kbd{pf4}.
+@end deffn
+
+@findex lse-tpu:delete-next-line-append
+@deffn Command lse-tpu:delete-next-line-append num
+This command deletes the next @var{num} lines and appends them to the
+line-deletion-history for later use by the
+command @code{lse-tpu:undelete-line}. 
+
+@kindex blue gold pf4
+By default, this command is bound to the key @kbd{blue gold pf4}.
+@end deffn
+
+@findex lse-tpu:delete-next-word
+@deffn Command lse-tpu:delete-next-word num &optional append
+This command deletes the next @var{num} words and stores them for the
+command @code{lse-tpu:undelete-word}. Unless you use the optional
+argument @var{append}, the old value of the word-deletion-history is
+lost.
+
+@kindex kp-
+By default, this command is bound to the key @kbd{kp-}.
+@end deffn
+
+@findex lse-tpu:delete-next-word-append
+@deffn Command lse-tpu:delete-next-word-append num 
+This command deletes the next word and appends it to the
+word-deletion-history for later use by the command
+@code{lse-tpu:undelete-word}.  
+
+@kindex blue kp-
+By default, this command is bound to the key @kbd{blue kp-}.
+@end deffn
+
+@findex lse-tpu:delete-prev-char
+@deffn Command lse-tpu:delete-prev-char num &optional append
+This command deletes the previous @var{num} characters and stores them for
+the command @code{lse-tpu:undelete-char}. Unless you use the optional
+argument @var{append}, the old value of the character-deletion-history
+is lost.
+
+@kindex DEL
+By default, this command is bound to the key @kbd{DEL}.
+@end deffn
+
+@findex lse-tpu:delete-prev-char-append
+@deffn Command lse-tpu:delete-prev-char-append num 
+This command deletes the previous @var{num} characters and appends them
+to the character-deletion-history for later use by the command
+@code{lse-tpu:undelete-char}.
+
+@kindex blue DEL
+By default, this command is bound to the key @kbd{blue DEL}.
+@end deffn
+
+@findex lse-tpu:delete-prev-word
+@deffn Command lse-tpu:delete-prev-word num &optional append
+This command deletes the previous word and stores it for the command
+@code{lse-tpu:undelete-word}.  Unless you use the optional argument
+@var{append}, the old value of the word-deletion-history is lost.
+
+@kindex LFD
+By default, this command is bound to the key @kbd{LFD}.
+@end deffn
+
+@findex lse-tpu:delete-prev-word-append
+@deffn Command lse-tpu:delete-prev-word-append num 
+This command deletes the previous word and appends it to the
+word-deletion-history for later use by the command
+@code{lse-tpu:undelete-word}.  
+
+@kindex blue LFD
+By default, this command is bound to the key @kbd{blue LFD}.
+@end deffn
+
+@findex lse-tpu:delete-tail-of-line
+@deffn Command lse-tpu:delete-tail-of-line num &optional append
+This command deletes the ends of the next @var{num} lines and
+stores them for the command @code{lse-tpu:undelete-line}. Unless you use
+the optional argument @var{append}, the old value of the
+line-deletion-history is lost.
+
+@kindex gold kp2
+By default, this command is bound to the key @kbd{gold kp2}.
+@end deffn
+
+@findex lse-tpu:delete-tail-of-line-append
+@deffn Command lse-tpu:delete-tail-of-line-append num 
+This command deletes the ends of the next @var{num} lines and appends
+them to the line-deletion-history for later use by the command
+@code{lse-tpu:undelete-line}.
+@end deffn
+
+@findex lse-tpu:duplicate-previous-bs-word
+@deffn Command lse-tpu:duplicate-previous-bs-word num
+This command duplicates the previous @var{num} blank-separated words. 
+
+@kindex blue remove
+By default, this command is bound to the key @kbd{blue remove}.
+@end deffn
+
+@findex lse-tpu:duplicate-previous-char
+@deffn Command lse-tpu:duplicate-previous-char num
+This command duplicates the previous char @var{num} times.
+
+@kindex blue kp,
+By default, this command is bound to the key @kbd{blue kp,}.
+@end deffn
+
+@findex lse-tpu:duplicate-previous-line
+@deffn Command lse-tpu:duplicate-previous-line num
+This command inserts a duplicate of the previous line into the current
+line. If point is at the beginning of the current line
+lse-tpu:duplicate-previous-line will duplicate the entire previous line,
+otherwise it will duplicate the end of the previous line.
+
+By specifying the prefix argument @var{num} you can instruct the command
+to duplicate an earlier line in the buffer.
+
+@kindex blue pf4
+By default, this command is bound to the key @kbd{blue pf4}.
+@end deffn
+
+@findex lse-tpu:duplicate-previous-word
+@deffn Command lse-tpu:duplicate-previous-word num
+This command duplicates the previous @var{num} words.
+
+@kindex blue kp-
+By default, this command is bound to the key @kbd{blue kp-}.
+@end deffn
+
+@findex lse-tpu:duplicate-word-in-previous-line
+@deffn Command lse-tpu:duplicate-word-in-previous-line num
+This command duplicates the word of the previous line starting in the
+current column.
+
+By specifying the prefix argument @var{num} you can instruct the command
+to duplicate a word from an earlier line in the buffer.
+
+@kindex blue gold blue kp-
+By default, this command is bound to the key @kbd{blue gold blue kp-}.
+@end deffn
+
+@findex lse-tpu:end-of-line
+@deffn Command lse-tpu:end-of-line num
+This command moves to the end of the next line in the current direction.
+The prefix argument @var{num} specifies how many lines to move.
+
+@kindex kp3
+By default, this command is bound to the key @kbd{kp3}.
+@end deffn
+
+@findex lse-tpu:exchange-point-and-mark
+@deffn Command lse-tpu:exchange-point-and-mark
+This command interchanges the position of point and the other boundary
+of the selection.
+
+@kindex blue kp.
+By default, this command is bound to the key @kbd{blue kp.}.
+@end deffn
+
+@findex lse-tpu:exit
+@deffn Command lse-tpu:exit
+This command saves the current buffer to its associated file, if
+necessary, asks about all other buffers, and terminates LS-Emacs.
+@end deffn
+
+@findex lse-tpu:forward-char
+@deffn Command lse-tpu:forward-char num
+This command moves @var{num} characters in the forward direction
+(reverse, if @var{num} is negative).
+@end deffn
+
+@findex lse-tpu:forward-line
+@deffn Command lse-tpu:forward-line num
+This command moves to the beginning of the next line in forward
+direction. The prefix argument @var{num} specifies
+how many lines to move.
+@end deffn
+
+@findex lse-tpu:goto-bs-word-tail
+@deffn Command lse-tpu:goto-bs-word-tail num &optional limit
+This command moves to the end of the next blank-separated word in
+the current direction. By using a numeric prefix @var{num} you can specify
+how many words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+
+@kindex kp2
+By default, this command is bound to the key @kbd{kp2}.
+@end deffn
+
+@findex lse-tpu:goto-next-bs-word-head
+@deffn Command lse-tpu:goto-next-bs-word-head num &optional limit
+This command moves to the beginning of the next blank-separated word in
+forward direction. By using a numeric prefix @var{num} you can specify
+how many words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-next-bs-word-tail
+@deffn Command lse-tpu:goto-next-bs-word-tail num &optional limit
+This command moves to the end of the next blank-separated word in
+forward direction. By using a numeric prefix @var{num} you can specify
+how many words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-next-word-head
+@deffn Command lse-tpu:goto-next-word-head num &optional limit
+This command moves to the beginning of the next word in forward
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-next-word-tail
+@deffn Command lse-tpu:goto-next-word-tail num &optional limit
+This command moves to the end of the next word in forward
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-prev-bs-word-head
+@deffn Command lse-tpu:goto-prev-bs-word-head num &optional limit
+This command moves to the beginning of the previous blank-separated word
+in reverse direction. By using a numeric prefix @var{num} you can
+specify how many words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+
+@kindex remove
+By default, this command is bound to the key @kbd{remove}.
+@end deffn
+
+@findex lse-tpu:goto-prev-bs-word-tail
+@deffn Command lse-tpu:goto-prev-bs-word-tail num &optional limit
+This command moves to the end of the previous blank-separated word
+in reverse direction. By using a numeric prefix @var{num} you can
+specify how many words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-prev-word-head
+@deffn Command lse-tpu:goto-prev-word-head num &optional limit
+This command moves to the beginning of the previous word in reverse
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-prev-word-tail
+@deffn Command lse-tpu:goto-prev-word-tail num &optional limit
+This command moves to the end of the previous word in reverse
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:goto-word-head
+@deffn Command lse-tpu:goto-word-head num &optional limit
+This command moves to the beginning of the next word in the current
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+
+@kindex kp1
+By default, this command is bound to the key @kbd{kp1}.
+@end deffn
+
+@findex lse-tpu:goto-word-tail
+@deffn Command lse-tpu:goto-word-tail num &optional limit
+This command moves to the end of the next word in the current
+direction. By using a numeric prefix @var{num} you can specify how many
+words to move.
+
+The optional argument @var{limit} restricts how far the command will move.
+@end deffn
+
+@findex lse-tpu:insert-formfeed
+@deffn Command lse-tpu:insert-formfeed
+This command inserts a form-feed character into the current buffer.
+
+@kindex A-l
+By default, this command is bound to the key @kbd{A-l}.
+@end deffn
+
+@findex lse-tpu:invert-case
+@deffn Command lse-tpu:invert-case
+This command inverts the case of all characters in the selected region
+or the search-range or the current word.
+
+@kindex blue kp1
+By default, this command is bound to the key @kbd{blue kp1}.
+@end deffn
+
+@findex lse-tpu:line
+@deffn Command lse-tpu:line num
+This command moves to the beginning of the next line in the current
+direction. The prefix argument @var{num} specifies
+how many lines to move.
+
+@kindex kp0
+By default, this command is bound to the key @kbd{kp0}.
+@end deffn
+
+@findex lse-tpu:move-to-beginning
+@deffn Command lse-tpu:move-to-beginning
+This command moves point to the beginning of the buffer. In contrast to
+the analogous function of standard Emacs, this command does not set the
+mark.
+
+@kindex gold kp5
+By default, this command is bound to the key @kbd{gold kp5}.
+@end deffn
+
+@findex lse-tpu:move-to-end
+@deffn Command lse-tpu:move-to-end
+This command moves point to the end of the buffer. In contrast to
+the analogous function of standard Emacs, this command does not set the
+mark.
+
+@kindex gold kp4
+By default, this command is bound to the key @kbd{gold kp4}.
+@end deffn
+
+@findex lse-tpu:next-beginning-of-line
+@deffn Command lse-tpu:next-beginning-of-line num
+This command moves to the beginning of the current line; if already at
+beginning, move to the beginning of the previous line, i.e., in reverse
+direction. The prefix argument @var{num} [A[B[B[specifies how many lines to
+move (a negative argument or zero moves in forward direction).
+
+@kindex A-h
+By default, this command is bound to the key @kbd{A-h}.
+@end deffn
+
+@findex lse-tpu:next-end-of-line
+@deffn Command lse-tpu:next-end-of-line num
+This command moves to the end of the current line; if already at end,
+move to the end of the next line. The prefix argument @var{num} specifies
+how many lines to move (a negative argument or zero moves in reverse
+direction).
+@end deffn
+
+@findex lse-tpu:next-line
+@deffn Command lse-tpu:next-line num
+This command moves point down by @var{num} lines (default: 1 line). 
+
+@kindex down
+By default, this command is bound to the key @kbd{down}.
+@end deffn
+
+@findex lse-tpu:next-paragraph
+@deffn Command lse-tpu:next-paragraph num
+This command moves to the beginning of the next paragraph in forward
+direction. The prefix argument @var{num} specifies how many paragraphs
+to move.
+@end deffn
+
+@findex lse-tpu:page
+@deffn Command lse-tpu:page num
+This command moves to the next page in the current direction. 
+The prefix argument @var{num} specifies how many pages
+to move.
+
+@kindex kp7
+By default, this command is bound to the key @kbd{kp7}.
+@end deffn
+
+@findex lse-tpu:pan-left
+@deffn Command lse-tpu:pan-left num
+This command scrolls the current window horizontally to the left. You
+can specify a numeric prefix @var{num} to scroll that times as much. The
+user option @code{lse-tpu:pan-columns} specifies how many columns are scrolled.
+
+@kindex gold <
+By default, this command is bound to the key @kbd{gold <}.
+@end deffn
+
+@findex lse-tpu:pan-right
+@deffn Command lse-tpu:pan-right num
+This command scrolls the current window horizontally to the right. You
+can specify a numeric prefix @var{num} to scroll that times as much. The
+user option @code{lse-tpu:pan-columns} specifies how many columns are scrolled.
+
+@kindex gold >
+By default, this command is bound to the key @kbd{gold >}.
+@end deffn
+
+@findex lse-tpu:paragraph
+@deffn Command lse-tpu:paragraph num
+This command moves to the next paragraph in current direction. The
+prefix argument @var{num} specifies how many paragraphs to move.
+@end deffn
+
+@findex lse-tpu:paste-region
+@deffn Command lse-tpu:paste-region num
+This command inserts the contents of the paste-buffer @var{num} times into the
+current buffer. The contents of the paste-buffer is not changed.
+
+@kindex gold kp6
+By default, this command is bound to the key @kbd{gold kp6}.
+@end deffn
+
+@findex lse-tpu:previous-end-of-line
+@deffn Command lse-tpu:previous-end-of-line num
+This command moves to the end of the previous line; if already at end,
+move to the end of the next line. The prefix argument @var{num} specifies
+how many lines to move (a negative argument or zero moves in forward
+direction).
+@end deffn
+
+@findex lse-tpu:previous-line
+@deffn Command lse-tpu:previous-line num
+This command moves point up by @var{num} lines (default: 1 line). 
+
+@kindex up
+By default, this command is bound to the key @kbd{up}.
+@end deffn
+
+@findex lse-tpu:previous-paragraph
+@deffn Command lse-tpu:previous-paragraph num
+This command moves to the beginning of the previous paragraph in reverse
+direction. The prefix argument @var{num} specifies how many paragraphs
+to move.
+@end deffn
+
+@findex lse-tpu:quit
+@deffn Command lse-tpu:quit
+This command terminates LS-Emacs. If any buffer would need saving,
+@code{lse-tpu:quit} asks for confirmation. It will not save any buffer.
+@end deffn
+
+@findex lse-tpu:quoted-insert
+@deffn Command lse-tpu:quoted-insert num
+This command inserts the character with decimal ASCII code @var{num}
+into the buffer. If used interactively, it will prompt for @var{num} ---
+press the key you want to insert.
+
+@kindex A-v
+By default, this command is bound to the key @kbd{A-v}.
+@end deffn
+
+@findex lse-tpu:replace
+@deffn Command lse-tpu:replace from to &option head-limit tail-limit
+This command will look at all occurrences of @var{from} by @var{to} in the
+range between @var{head-limit} and @var{to-limit} (default is to replace
+in the whole buffer) and ask you if you want to replace each one of them.
+
+@kindex gold kp8
+By default, this command is bound to the key @kbd{gold kp8}.
+@end deffn
+
+@findex lse-tpu:replace-all
+@deffn Command lse-tpu:replace-all from to &option head-limit tail-limit
+This command replaces all occurrences of @var{from} by @var{to} in the
+range between @var{head-limit} and @var{to-limit} (default is to replace
+in the whole buffer). The command will prompt for @var{from} and
+@var{to}.
+
+@kindex gold enter
+By default, this command is bound to the key @kbd{gold enter}.
+@end deffn
+
+@findex lse-tpu:scroll-window
+@deffn Command lse-tpu:scroll-window num
+This command scrolls the current window to the next section in the
+current direction. The prefix argument @var{num} specifies a repeat
+count.
+
+@kindex kp8
+By default, this command is bound to the key @kbd{kp8}.
+@end deffn
+
+@findex lse-tpu:scroll-window-down
+@deffn Command lse-tpu:scroll-window-down num
+This command scrolls the current window down to the next section, i.e.,
+in reverse direction. The prefix argument @var{num} specifies a repeat
+count.
+@end deffn
+
+@findex lse-tpu:scroll-window-up
+@deffn Command lse-tpu:scroll-window-up num
+This command scrolls the current window up to the next section, i.e.,
+in forward direction. The prefix argument @var{num} specifies a repeat
+count
+@end deffn
+
+@findex lse-tpu:search
+@deffn Command lse-tpu:search
+This command searches for a string or regular expression in the current
+direction. It prompts for the search-string.
+
+@kindex gold pf3
+By default, this command is bound to the key @kbd{gold pf3}.
+@end deffn
+
+@findex lse-tpu:search-again
+@deffn Command lse-tpu:search-again
+This command searches for the next occurrence of a string or regular
+expression in the current direction. It uses the same search-string as
+the last search command.
+
+@kindex pf3
+By default, this command is bound to the key @kbd{pf3}.
+@end deffn
+
+@findex lse-tpu:search-forward
+@deffn Command lse-tpu:search-forward
+This command searches for a string or regular expression in the forward
+direction. It prompts for the search-string.
+@end deffn
+
+@findex lse-tpu:search-reverse
+@deffn Command lse-tpu:search-reverse
+This command searches for a string or regular expression in the reverse
+direction. It prompts for the search-string.
+@end deffn
+
+@findex lse-tpu:select
+@deffn Command lse-tpu:select &optional quiet
+This command starts a selection. The current position of point becomes
+one of the boundaries of the selection. By moving the cursor, you can
+change the outer boundary.
+
+@kindex kp.
+By default, this command is bound to the keys @kbd{kp.} and
+@kbd{select}. 
+@end deffn
+
+@findex lse-tpu:show-match-markers
+@deffn Command lse-tpu:show-match-markers
+This command shows the value of the match markers in the message window.
+@end deffn
+
+@findex lse-tpu:special-insert
+@deffn Command lse-tpu:special-insert num
+Insert a character according to its decimal ASCII value @var{num}.
+Interactively, you specify @var{num} as prefix argument.
+
+@kindex gold kp3
+By default, this command is bound to the key @kbd{gold kp3}.
+@end deffn
+
+@findex lse-tpu:spell-check
+@deffn Command lse-tpu:spell-check
+Checks the spelling of the selected region, or of the entire buffer if
+no selection is active.
+@end deffn
+
+@findex lse-tpu:toggle-newline-and-indent
+@deffn Command lse-tpu:toggle-newline-and-indent
+This command toggles the binding of the @kbd{@key{ret}} between `newline
+and indent' and `simple newline'.
+
+@kindex blue gold RET
+By default, this command is bound to the key @kbd{blue gold RET}.
+@end deffn
+
+@findex lse-tpu:toggle-overwrite-mode
+@deffn Command lse-tpu:toggle-overwrite-mode
+This command toggles between overwrite and insert mode.
+
+@kindex A-a
+By default, this command is bound to the key @kbd{A-a}.
+@end deffn
+
+@findex lse-tpu:toggle-regexp
+@deffn Command lse-tpu:toggle-regexp
+This command toggles between string search and regular expression search
+mode. This mode applies to all LS-Emacs functions dealing with searching
+and replacing.
+@end deffn
+
+@findex lse-tpu:toggle-search-direction
+@deffn Command lse-tpu:toggle-search-direction
+This command inverts the search direction.
+@kindex blue kp4
+By default, this command is bound to the key @kbd{blue kp4}.
+
+@end deffn
+
+@findex lse-tpu:trim-line-end
+@deffn Command lse-tpu:trim-line-end
+This command removes white space from the end of the current line.
+
+@kindex blue TAB kp3
+By default, this command is bound to the key @kbd{blue TAB kp3}.
+@end deffn
+
+@findex lse-tpu:trim-line-ends
+@deffn Command lse-tpu:trim-line-ends
+This command removes white space from the end of all lines in the
+buffer. 
+
+@kindex blue ~
+By default, this command is bound to the key @kbd{blue ~}.
+@end deffn
+
+@findex lse-tpu:show-version
+@deffn Command lse-tpu:show-version
+This command displays the version of LS-Emacs you're currently using.
+@end deffn
+
+@findex lse-tpu:toggle-rectangle
+@deffn Command lse-tpu:toggle-rectangle
+This command toggles rectangular mode for cutting and pasting of
+selections.
+
+@kindex gold r
+By default, this command is bound to the key @kbd{gold r}.
+@end deffn
+
+@findex lse-tpu:undelete-char
+@deffn Command lse-tpu:undelete-char num
+This command undeletes the contents of the character-deletion-history
+@var{num} times.
+
+@kindex gold kp,
+By default, this command is bound to the key @kbd{gold kp,}.
+@end deffn
+
+@findex lse-tpu:undelete-line
+@deffn Command lse-tpu:undelete-line num
+This command undeletes the contents of the line-deletion-history
+@var{num} times.
+
+@kindex gold pf4
+By default, this command is bound to the key @kbd{gold pf4}.
+@end deffn
+
+@findex lse-tpu:undelete-word
+@deffn Command lse-tpu:undelete-word num
+This command undeletes the contents of the word-deletion-history
+@var{num} times.
+
+@kindex gold kp-
+By default, this command is bound to the key @kbd{gold kp-}.
+@end deffn
+
+@findex lse-tpu:unselect
+@deffn Command lse-tpu:unselect &optional quiet
+This command cancels an active selection.
+
+@kindex gold kp.
+By default, this command is bound to the keys @kbd{gold kp.} and
+@kbd{gold select}. 
+@end deffn
+ 
+@findex lse-unexpand-fill-in
+@deffn Command lse-unexpand-fill-in
+This command un-expands the last expansion of a fill-in. You can
+un-expand any number of expansions. You may later re-expand the
+un-expansion by using the command @code{lse-reexpand-fill-in}.
+
+@kindex gold A-e
+By default, this command is bound to the key @kbd{gold A-e}.
+@end deffn
+ 
+@findex lse-unkill-fill-in
+@deffn Command lse-unkill-fill-in
+This command un-kills the last fill-in that was killed. You cannot
+un-kill more than one fill-in.
+
+@kindex gold A-k
+By default, this command is bound to the key @kbd{gold A-k}.
+@end deffn
+ 
+@findex lse-unreplace-fill-in
+@deffn Command lse-unreplace-fill-in
+This command un-replaces the last replacement of a fill-in. You may
+un-replace any number of replacements.
+
+@kindex gold A-r
+By default, this command is bound to the key @kbd{gold A-r}.
+@end deffn
+
+@findex lse-untabify-buffer
+@deffn Command lse-untabify-buffer
+This command replaces all tabulator characters in the current buffer by
+the appropriate number of spaces.
+@end deffn
+
+@findex lse-untabify-line
+@deffn Command lse-untabify-line
+This command replaces all tabulator characters in the current line by
+the appropriate number of spaces.
+@end deffn
+
+@findex lse-visit-alternate-file
+@deffn Command lse-visit-alternate-file &optional file
+This command replaces the contents of the current buffer by the file
+@var{file}.
+
+@kindex C-x C-v
+By default, this command is bound to the key @kbd{C-x C-v}.
+@end deffn
+
+@findex lse-visit-file
+@deffn Command lse-visit-file &optional must-not-exist file
+This command reads the file @var{file} into a new buffer and switches to
+that buffer. If the prefx argument @var{must-not-exist} is specified, a
+new file is created if it does not already exit.
+
+When you specify a prefix argument, you can use the shell-wildcard
+`@code{*}' as part of the file name. LS-Emacs will read all files
+matching the wildcarded name. Alternatively, you can enclose in
+back-quotes any shell command which writes a list of file names to
+standard output. For instance, you can visit all files containing a
+regular expression by using the shell command @code{grep}.
+
+@kindex gold i
+By default, this command is bound to the key @kbd{gold i}.
+@end deffn
+
+@findex lse-visit-file-other-window
+@deffn Command lse-visit-file-other-window &optional must-not-exist file
+This command reads the file @var{file} into a new buffer and switches to
+that buffer in another window. If @var{must-not-exist} is specified, a
+new file is created if it does not already exit.
+
+@kindex blue gold i
+By default, this command is bound to the key @kbd{blue gold i}.
+@end deffn
+
+@findex lse-window:restore-temp-hidden
+@deffn Command lse-window:restore-temp-hidden
+This command removes a window temporarily thrown up by Emacs, e.g., a
+help window, and restores the buffer which was shown previously in that place.
+
+@kindex blue A-f
+By default, this command is bound to the key @kbd{blue A-f}.
+@end deffn
+
+@findex lse-write-current-buffer
+@deffn Command lse-write-current-buffer
+This command writes the buffer to its associated file, no matter
+if it was changed or not.
+
+@kindex blue w
+By default, this command is bound to the key @kbd{blue w}.
+@end deffn
+
+@findex lse-write-buffer
+@deffn Command lse-write-buffer buf
+This command writes buffer @var{buf} to its associated file, no matter
+if it was changed or not.
+
+@kindex gold w
+By default, this command is bound to the key @kbd{gold w}.
+@end deffn 

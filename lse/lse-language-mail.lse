@@ -1,0 +1,262 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1995 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-mail
+;;;;
+;;;; Purpose
+;;;;    Define lse-templates for Emacs mail-mode
+;;;;
+;;;; Revision Dates
+;;;;    25-May-1995 (CT) Creation
+;;;;    19-Mar-1996 (CT) Indent `BCC:' correctly
+;;;;                     Expand `Reply-to:' for swing-user
+;;;;    18-Apr-1996 (CT) `fill-column' set to 70
+;;;;     3-Nov-1997 (CT) `lse-mail:send-hook' added
+;;;;     4-Nov-1997 (CT) Kill all remaining optional fill-ins and complain
+;;;;                     about any required ones in `lse-mail:send-hook'
+;;;;    12-Jan-1998 (CT) Use `(lse-system-domain)' instead of literal
+;;;;                     `swing.co.at'
+;;;;     8-Feb-1998 (CT) Avoid duplicate `Reply-to' field
+;;;;     3-Jan-2000 (CT) Iconify `server-window' if it is a frame
+;;;;     7-Feb-2000 (CT) `lse-mail:mh-setup-hook': deiconify `server-window'
+;;;;                     if is a frame (using `make-frame-visible')
+;;;;    27-Jan-2002 (CT) Use `lse-user-e-mail-address` instead of
+;;;;                     `user-login-name` for `DCC` field
+;;;;    28-Jun-2000 (CT) `lse-mail:send-hook': add Mime, Content-type, and
+;;;;                     Content-transfer-encoding mail headers
+;;;;    25-Nov-2002 (CT) `lse-mail-setup-hook` and `lse-mail:mh-setup-hook`
+;;;;                     changed to search forward and to save search string
+;;;;     6-Dec-2002 (CT) `lse-mail-mode` changed to call
+;;;;                     `lse-key-template-tab-l`
+;;;;     6-Dec-2002 (CT) `lse-mail:mh-setup-hook` changed to use
+;;;;                     `lse-mail-mode` instead of redundant code
+;;;;    ««revision-date»»···
+;;;;--
+(lse-language:define "mail"
+    '(
+        (lse-language:tab-increment        4)
+        (lse-tpu:ident-chars               "A-Za-z0-9äöüßÄÖÜ")
+        (lse_comment_delim_char_set        ">")
+        (lse_comment_head_delim            ">")
+        (lse_comment_head_delim_pattern    "> *")
+        (fill-column                       70)
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-mail"
+     )
+    137
+     67
+;;; mail
+)
+
+;;;+
+;;; lse-mail-mode
+;;;-
+(defun lse-mail-mode ()
+  (lse-language:use "mail")
+  (lse-key-template-tab-l)
+; lse-mail-mode
+)
+
+(defun lse-mail-setup-hook ()
+  (let ((lse-tpu:searching-forward t)
+        (sls                       lse-tpu:search-last-string)
+       ); 25-Nov-2002
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search-internal "^CC:" t)
+        (lse-tpu:delete-next-line 1)
+    )
+    (lse-tpu:move-to-beginning)
+    (save-excursion
+      (if (looking-at "^To: *$")
+          (progn
+            (lse-tpu:forward-char 3)
+            (lse-tpu:insert "          «text»")
+          )
+        (lse-tpu:forward-char 3)
+        (lse-tpu:insert "         ")
+      )
+      (lse-tpu:move-to-beginning)
+      (if (lse-tpu:search-internal "^Subject: *$" t)
+          (progn
+            (lse-tpu:forward-char 8)
+            (lse-tpu:insert "     «text»")
+          )
+        (if (lse-tpu:search-internal "^Subject: *.+$" t)
+            (progn
+              (lse-tpu:forward-char 8)
+              (lse-tpu:insert "    ")
+            )
+        )
+      )
+      (lse-tpu:move-to-beginning)
+      (if (lse-tpu:search-internal "^BCC: *.+$" t)
+          (progn
+            (lse-tpu:forward-char 4)
+            (lse-tpu:insert "        ")
+          )
+      )
+      (if (lse-tpu:search-internal "^--text follows this line--" t)
+          (progn
+            (lse-tpu:insert "««mail-cc»»\n"
+              "««mail-bcc»»\n"
+              "««mail-from»»\n"
+              "Reply-to:    " (lse-user-e-mail-address) "\n"; 11-Jan-1999
+            )
+            (lse-tpu:line 1)
+            (lse-tpu:insert "\n«text»")
+          )
+      )
+      (lse-tpu:unselect)
+    )
+    (lse-goto-next-fill-in)
+    (setq lse-tpu:search-last-string sls); 25-Nov-2002
+  )
+; lse-mail-setup-hook
+)
+
+;;;  3-Nov-1997
+(defun lse-mail:send-hook ()
+  (lse-tpu:move-to-beginning)
+  (lse-tpu:replace-all "^DCC: " "BCC: ")
+  (lse-kill-all-optional-fill-ins)
+  (lse-tpu:move-to-beginning)
+  (lse-mail:insert-if-missing "Mime-version" "Mime-version: 1.0")
+  (lse-mail:insert-if-missing "Content-type"
+    "Content-type: text/plain; charset=iso-8859-1"
+  )
+  (lse-mail:insert-if-missing "Content-transfer-encoding"
+    "Content-transfer-encoding: 8bit"
+  )
+  (if (lse-goto-next-fill-in t)
+      (error (concat "Fill in «"
+                     (lse-fill-in:name lse_current_fill-in)
+                     "» before sending the mail"
+             )
+      )
+  )
+; lse-mail:send-hook
+)
+
+(add-hook 'mail-mode-hook  'lse-mail-mode)
+(add-hook 'mail-send-hook  'lse-mail:send-hook)
+(add-hook 'mail-setup-hook 'lse-mail-setup-hook)
+
+;;; 13-Feb-1998
+(defun lse-mail:insert-if-missing (tag &rest text)
+  (if (save-excursion
+        (lse-tpu:move-to-beginning)
+        (lse-tpu:search-internal tag t)
+      );  8-Feb-1998 ; avoid duplicate field
+      t
+    (apply 'lse-tpu:insert text)
+    (lse-tpu:insert "\n")
+  )
+; lse-mail:insert-if-missing
+)
+
+;;; 28-Dec-1997
+(defun lse-mail:mh-setup-hook ()
+  (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
+      (let (lse-tpu:quiet-replace
+            (lse-tpu:searching-forward t);                          25-Nov-2002
+            (sls                       lse-tpu:search-last-string); 25-Nov-2002
+           )
+        (lse-mail-mode)
+        (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
+        (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
+        (lse-tpu:move-to-beginning)
+        (lse-tpu:insert "\n"); insert extra blank line
+        (save-excursion
+          (lse-tpu:move-to-beginning)
+          (if (lse-tpu:search-internal  "^To: *$" t)
+              (progn
+                (lse-tpu:forward-char 3)
+                (lse-tpu:insert "          «text»")
+              )
+            (if (lse-tpu:search-internal "^To: *.+$" t)
+                (progn
+                  (lse-tpu:forward-char 3)
+                  (lse-tpu:insert "         ")
+                )
+            )
+          )
+          (lse-tpu:move-to-beginning)
+          (if (lse-tpu:search-internal "^Subject: *$" t)
+              (progn
+                (lse-tpu:forward-char 8)
+                (lse-tpu:insert "     «text»")
+              )
+            (if (lse-tpu:search-internal "^Subject: *.+$" t)
+                (progn
+                  (lse-tpu:forward-char 8)
+                  (lse-tpu:insert "    ")
+                )
+            )
+          )
+          (lse-tpu:move-to-beginning)
+          (if (lse-tpu:search-internal "^CC:[ \t]*$" t)
+              (lse-tpu:delete-next-line 1)
+          )
+          (lse-tpu:move-to-beginning)
+          (if (lse-tpu:search-internal "^--------$" t)
+              (progn
+                (lse-mail:insert-if-missing "^From: "
+                  "From:        " (lse-user-e-mail-address)
+                )
+                (lse-mail:insert-if-missing "^Reply-To: "
+                  "Reply-to:    " (lse-user-e-mail-address)
+                )
+                (lse-mail:insert-if-missing "^DCC: "
+                  "DCC:         " (lse-user-e-mail-address)
+                )
+                (lse-tpu:insert "««mail-cc»»\n" "««mail-bcc»»\n")
+                (lse-tpu:line 1)
+                (lse-tpu:insert "\n«text»\n")
+              )
+          )
+          (lse-tpu:unselect)
+        )
+        (lse-tpu:move-to-beginning)
+        (lse-tpu:delete-next-char 1); remove extra blank line inserted
+        (lse-goto-next-fill-in)
+        (setq lse-tpu:search-last-string sls); 25-Nov-2002
+      )
+  )
+  (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000
+; lse-mail:mh-setup-hook
+)
+
+;;;
+(defun lse-mail:mh-exit ()
+  (interactive "*")
+  (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
+      (let ((cb (current-buffer)))
+        (lse-tpu:move-to-beginning)
+        (lse-kill-all-optional-fill-ins)
+        (lse-tpu:move-to-beginning)
+        (if (lse-goto-next-fill-in t)
+            (error (concat "Fill in «"
+                           (lse-fill-in:name lse_current_fill-in)
+                           "» before sending the mail"
+                   )
+            )
+        )
+        (if (buffer-modified-p cb) (save-buffer nil))
+        (call-interactively 'server-edit)
+        (kill-buffer cb)
+      )
+    (if (buffer-modified-p cb) (save-buffer nil))
+    (call-interactively 'server-edit);  8-Feb-1998
+  )
+  (if (framep server-window) (iconify-frame server-window));  3-Jan-2000
+; lse-mail:mh-exit
+)
+
+(add-hook 'server-switch-hook 'lse-mail:mh-setup-hook)

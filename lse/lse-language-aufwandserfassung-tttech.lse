@@ -1,0 +1,32 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved
+;;;;++
+;;;; Name
+;;;;    lse-language-aufwandserfassung
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language aufwandserfassung-tttech
+;;;;
+;;;; Revision Dates
+;;;;    30-Mar-1998 (CT) Creation
+;;;;-- 
+(lse-language:define "aufwandserfassung-tttech"
+  '(
+    (lse-tpu:ident-group-chars         "-A-Za-z0-9äáàâöóòôüúùûÄÖÜß\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««aufwandserfassung-woche»»")
+    (lse-language:expand-initial       t)
+   )
+  '(lse-latex-mode:define-keys
+   )
+  '(
+    "lse-templates-aufwandserfassung"
+    "lse-templates-aufwand-cat-plan-tttech"
+   )
+;  397
+;  149
+)

@@ -1,0 +1,470 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "cartesian:s1" 
+  '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")
+  '(leading               ",")
+;;; cartesian:s1
+)
+
+(lse-define-fill-in "cartesian:s2" 
+  '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")
+  '(leading               ",")
+;;; cartesian:s2
+)
+
+(lse-define-fill-in "cartesian:combiner" 
+  '(description           "Argument 3 of cartesian (default = <function paired at 82160a0>)")
+  '(leading               ",")
+;;; cartesian:combiner
+)
+
+(lse-define-fill-in "cartesian" 
+  '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")
+  '(token)
+  '(replacement           "cartesian («cartesian:s1», «cartesian:s2», ««cartesian:combiner»»)")
+;;; cartesian
+)
+
+(lse-define-fill-in "cartesian_n:s1" 
+  '(description           "Argument 1 of cartesian_n")
+  '(leading               ",")
+;;; cartesian_n:s1
+)
+
+(lse-define-fill-in "cartesian_n:s2" 
+  '(description           "Argument 2 of cartesian_n")
+  '(leading               ",")
+;;; cartesian_n:s2
+)
+
+(lse-define-fill-in "cartesian_n:si" 
+  '(description           "Argument 3 of cartesian_n")
+  '(leading               ",")
+  '(separator             ", ")
+;;; cartesian_n:si
+)
+
+(lse-define-fill-in "cartesian_n" 
+  '(description           "Returns the cartesian product of all the sequences given.")
+  '(token)
+  '(replacement           "cartesian_n («cartesian_n:s1», «cartesian_n:s2», ««cartesian_n:si»»···)")
+;;; cartesian_n
+)
+
+(lse-define-fill-in "common_head:list" 
+  '(description           "Return common head of all strings in `list'.")
+  '(leading               ",")
+;;; common_head:list
+)
+
+(lse-define-fill-in "common_head" 
+  '(description           "Return common head of all strings in `list'.")
+  '(token)
+  '(replacement           "common_head («common_head:list»)")
+;;; common_head
+)
+
+(lse-define-fill-in "exists_q:seq" 
+  '(description
+    "Returns true if some elements in `seq' satisfy `condition'."
+       
+       "Compute existential quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; exists_q:seq
+)
+
+(lse-define-fill-in "exists_q:bvar" 
+  '(description
+    "Returns true if some elements in `seq' satisfy `condition'."
+       
+       "Compute existential quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; exists_q:bvar
+)
+
+(lse-define-fill-in "exists_q:condition" 
+  '(description
+    "Returns true if some elements in `seq' satisfy `condition'."
+       
+       "Compute existential quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; exists_q:condition
+)
+
+(lse-define-fill-in "exists_q" 
+  '(description
+    "Returns true if some elements in `seq' satisfy `condition'."
+       
+       "Compute existential quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(token)
+  '(replacement           "exists_q («exists_q:seq», «exists_q:bvar», «exists_q:condition»)")
+;;; exists_q
+)
+
+(lse-define-fill-in "flattened:lists" 
+  '(description           "Returns a list containing all the elements in `lists'.")
+  '(leading               ",")
+  '(separator             ", ")
+;;; flattened:lists
+)
+
+(lse-define-fill-in "flattened" 
+  '(description           "Returns a list containing all the elements in `lists'.")
+  '(token)
+  '(replacement           "flattened (««flattened:lists»»···)")
+;;; flattened
+)
+
+(lse-define-fill-in "forall_q:seq" 
+  '(description
+    "Returns true if all elements in `seq' satisfy `condition'."
+    
+       "Compute universal quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; forall_q:seq
+)
+
+(lse-define-fill-in "forall_q:bvar" 
+  '(description
+    "Returns true if all elements in `seq' satisfy `condition'."
+    
+       "Compute universal quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; forall_q:bvar
+)
+
+(lse-define-fill-in "forall_q:condition" 
+  '(description
+    "Returns true if all elements in `seq' satisfy `condition'."
+    
+       "Compute universal quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; forall_q:condition
+)
+
+(lse-define-fill-in "forall_q" 
+  '(description
+    "Returns true if all elements in `seq' satisfy `condition'."
+    
+       "Compute universal quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(token)
+  '(replacement           "forall_q («forall_q:seq», «forall_q:bvar», «forall_q:condition»)")
+;;; forall_q
+)
+
+(lse-define-fill-in "intersection:l" 
+  '(description           "Compute intersection of lists `l' and `r'.")
+  '(leading               ",")
+;;; intersection:l
+)
+
+(lse-define-fill-in "intersection:r" 
+  '(description           "Compute intersection of lists `l' and `r'.")
+  '(leading               ",")
+;;; intersection:r
+)
+
+(lse-define-fill-in "intersection" 
+  '(description           "Compute intersection of lists `l' and `r'.")
+  '(token)
+  '(replacement           "intersection («intersection:l», «intersection:r»)")
+;;; intersection
+)
+
+(lse-define-fill-in "matches:list" 
+  '(description
+    "Returns all elements of `list' starting with `txt'."
+
+       "If you pass an empty string for `prefix', `matches' returns all"
+       "elements containing `txt'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(leading               ",")
+;;; matches:list
+)
+
+(lse-define-fill-in "matches:txt" 
+  '(description
+    "Returns all elements of `list' starting with `txt'."
+
+       "If you pass an empty string for `prefix', `matches' returns all"
+       "elements containing `txt'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(leading               ",")
+;;; matches:txt
+)
+
+(lse-define-fill-in "matches:prefix" 
+  '(description
+    "Returns all elements of `list' starting with `txt'."
+
+       "If you pass an empty string for `prefix', `matches' returns all"
+       "elements containing `txt'."
+
+       "`list' must contain strings."
+     "(default = ^)"
+   )
+  '(leading               ",")
+;;; matches:prefix
+)
+
+(lse-define-fill-in "matches" 
+  '(description
+    "Returns all elements of `list' starting with `txt'."
+
+       "If you pass an empty string for `prefix', `matches' returns all"
+       "elements containing `txt'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(token)
+  '(replacement           "matches («matches:list», «matches:txt», ««matches:prefix»»)")
+;;; matches
+)
+
+(lse-define-fill-in "number_q:seq" 
+  '(description
+    "The result is the number of elements in `seq' satisfying `condition'."
+       
+       "Computes number quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; number_q:seq
+)
+
+(lse-define-fill-in "number_q:bvar" 
+  '(description
+    "The result is the number of elements in `seq' satisfying `condition'."
+       
+       "Computes number quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; number_q:bvar
+)
+
+(lse-define-fill-in "number_q:condition" 
+  '(description
+    "The result is the number of elements in `seq' satisfying `condition'."
+       
+       "Computes number quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(leading               ",")
+;;; number_q:condition
+)
+
+(lse-define-fill-in "number_q" 
+  '(description
+    "The result is the number of elements in `seq' satisfying `condition'."
+       
+       "Computes number quantification of `condition' with bounded variable"
+       "`bvar' over `seq'."
+    ""
+   )
+  '(token)
+  '(replacement           "number_q («number_q:seq», «number_q:bvar», «number_q:condition»)")
+;;; number_q
+)
+
+(lse-define-fill-in "paired:s1" 
+  '(description           "Returns a list of pairs `((s1 [0], s2 [0]), ... (s1 [n-1], s2 [n-1]))'.")
+  '(leading               ",")
+;;; paired:s1
+)
+
+(lse-define-fill-in "paired:s2" 
+  '(description           "Returns a list of pairs `((s1 [0], s2 [0]), ... (s1 [n-1], s2 [n-1]))'.")
+  '(leading               ",")
+;;; paired:s2
+)
+
+(lse-define-fill-in "paired" 
+  '(description           "Returns a list of pairs `((s1 [0], s2 [0]), ... (s1 [n-1], s2 [n-1]))'.")
+  '(token)
+  '(replacement           "paired («paired:s1», «paired:s2»)")
+;;; paired
+)
+
+(lse-define-fill-in "pairwise:seq" 
+  '(description           "Returns a list of pairs `(seq [0:1], seq [1:2], ..., seq [n-1:n])'.")
+  '(leading               ",")
+;;; pairwise:seq
+)
+
+(lse-define-fill-in "pairwise" 
+  '(description           "Returns a list of pairs `(seq [0:1], seq [1:2], ..., seq [n-1:n])'.")
+  '(token)
+  '(replacement           "pairwise («pairwise:seq»)")
+;;; pairwise
+)
+
+(lse-define-fill-in "re_matches:list" 
+  '(description
+    "Returns all elements of `list' matching the regular expression `pat'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(leading               ",")
+;;; re_matches:list
+)
+
+(lse-define-fill-in "re_matches:pat" 
+  '(description
+    "Returns all elements of `list' matching the regular expression `pat'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(leading               ",")
+;;; re_matches:pat
+)
+
+(lse-define-fill-in "re_matches" 
+  '(description
+    "Returns all elements of `list' matching the regular expression `pat'."
+
+       "`list' must contain strings."
+    ""
+   )
+  '(token)
+  '(replacement           "re_matches («re_matches:list», «re_matches:pat»)")
+;;; re_matches
+)
+
+(lse-define-fill-in "reversed:seq" 
+  '(description           "Returns a reversed copy of `seq'.")
+  '(leading               ",")
+;;; reversed:seq
+)
+
+(lse-define-fill-in "reversed" 
+  '(description           "Returns a reversed copy of `seq'.")
+  '(token)
+  '(replacement           "reversed («reversed:seq»)")
+;;; reversed
+)
+
+(lse-define-fill-in "sorted:seq" 
+  '(description           "Returns a sorted copy of `seq'.")
+  '(leading               ",")
+;;; sorted:seq
+)
+
+(lse-define-fill-in "sorted:pred" 
+  '(description           "Argument 2 of sorted (default = <built-in function cmp>)")
+  '(leading               ",")
+;;; sorted:pred
+)
+
+(lse-define-fill-in "sorted" 
+  '(description           "Returns a sorted copy of `seq'.")
+  '(token)
+  '(replacement           "sorted («sorted:seq», ««sorted:pred»»)")
+;;; sorted
+)
+
+(lse-define-fill-in "split_by_key:seq" 
+  '(description
+    "Returns a list of lists each containing the elements of `seq' with a"
+       "single key as determined by `key_cmp'."
+
+       "The result is sorted by `key_cmp'."
+    ""
+   )
+  '(leading               ",")
+;;; split_by_key:seq
+)
+
+(lse-define-fill-in "split_by_key:key_cmp" 
+  '(description
+    "Returns a list of lists each containing the elements of `seq' with a"
+       "single key as determined by `key_cmp'."
+
+       "The result is sorted by `key_cmp'."
+    ""
+   )
+  '(leading               ",")
+;;; split_by_key:key_cmp
+)
+
+(lse-define-fill-in "split_by_key" 
+  '(description
+    "Returns a list of lists each containing the elements of `seq' with a"
+       "single key as determined by `key_cmp'."
+
+       "The result is sorted by `key_cmp'."
+    ""
+   )
+  '(token)
+  '(replacement           "split_by_key («split_by_key:seq», «split_by_key:key_cmp»)")
+;;; split_by_key
+)
+
+(lse-define-fill-in "tupled:seqs" 
+  '(description           "Returns a list of tuples of corresponding elements of each of `seqs'.")
+  '(leading               ",")
+  '(separator             ", ")
+;;; tupled:seqs
+)
+
+(lse-define-fill-in "tupled" 
+  '(description           "Returns a list of tuples of corresponding elements of each of `seqs'.")
+  '(token)
+  '(replacement           "tupled (««tupled:seqs»»···)")
+;;; tupled
+)
+
+(lse-define-fill-in "xored_string:source" 
+  '(description           "Argument 1 of xored_string")
+  '(leading               ",")
+;;; xored_string:source
+)
+
+(lse-define-fill-in "xored_string:salt" 
+  '(description           "Argument 2 of xored_string (default = ß)")
+  '(leading               ",")
+;;; xored_string:salt
+)
+
+(lse-define-fill-in "xored_string" 
+  '(token)
+  '(replacement           "xored_string («xored_string:source», ««xored_string:salt»»)")
+;;; xored_string
+)
+

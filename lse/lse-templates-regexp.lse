@@ -1,0 +1,224 @@
+;-*-unibyte: t;-*-
+
+;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;++
+;;; Name
+;;;    lse-templates-regexp
+;;;
+;;; Purpose
+;;;    Define fill-ins for unix-style regular expressions
+;;;
+;;; Meta-characters for different unix programs
+;;;
+;;;                   GNU   GNU    GNU        GNU
+;;;    Symbol | sed   awk   grep  egrep perl emacs | Action
+;;;    -------+------------------------------------+---------------------------
+;;;           |  +     +     +     +     +     +   | Match any character
+;;;       *   |  +     +     +     +     +     +   | Match zero or more items
+;;;       +   |        +     \     +     +     +   | Match one  or more items
+;;;       ?   |        +     \     +     +     +   | Match zero or one  items
+;;;       ^   |  +     +     +     +     +     +   | Match beginning of line
+;;;       $   |  +     +     +     +     +     +   | Match end       of line
+;;;       \   |  +     +     +     +     +     +   | Escape character
+;;;       |   |        +     \     +     +     \   | Match either alternative
+;;;      [ ]  |  +     +     +     +     +     +   | Match one char from a set
+;;;      ( )  |  \     +     \     +     +     \   | Group items
+;;;      { }  |  \           \           +         | Match range of occurences
+;;;      \1   |  +     +     +     +     +     +   | Match repeat of group 1
+;;;      \<   |              \     \           +   | Match beginning   of word
+;;;      \>   |              \     \           +   | Match end         of word
+;;;      \b   |              +     +     +     +   | Match word-boundaries
+;;;      \B   |              +     +     +     +   | Match non-word-boundaries
+;;;      \w   |              +     +     +     +   | Match alphanumeric chars
+;;;      \W   |              +     +     +     +   | Match non-alphanumeric 
+;;;      \s   |                          +         | Match whitespace
+;;;      \S   |                          +         | Match non-whitespace
+;;;      \d   |                          +         | Match numeric
+;;;      \D   |                          +         | Match non-numeric
+;;;      \n   |  +     +                 +     +   | Match new-line
+;;;      \t   |  +     +                 +     +   | Match horizontal tab
+;;;
+;;; Revision Dates
+;;;    21-May-1994 (CT) Creation
+;;;--
+(lse-define-fill-in "regexp"
+    '(description           "Regular expression")
+    '(token)
+    '(replacement           "««regexp-bol»»«regexp-item»···««regexp-eol»»")
+)
+
+(lse-define-fill-in "regexp-0-or-more"
+    '(description           "Matches zero or more times the preceding pattern element (i.e., character or group)")
+    '(token)
+    '(replacement           "*")
+)
+
+(lse-define-fill-in "regexp-1-or-more"
+    '(description           "Matches one  or more times the preceding pattern element (i.e., character or group)")
+    '(token)
+    '(replacement           "+")
+)
+
+(lse-define-fill-in "regexp-0-or-1"
+    '(description           "Matches zero or one  times the preceding pattern element (i.e., character or group)")
+    '(token)
+    '(replacement           "?")
+)
+
+(lse-define-fill-in "regexp-alphanumeric"
+    '(description           "Matches any letter or digit")
+    '(token)
+    '(replacement           "[0-9a-zA-Z]")
+)
+
+(lse-define-fill-in "regexp-alternative"
+    '(description           "Match either preceding or following pattern element (i.e., character or group)")
+    '(token)
+    '(replacement           "|")
+)
+
+(lse-define-fill-in "regexp-any-char"
+    '(description           "Matches any character except new-line")
+    '(token)
+    '(replacement           ".")
+)
+
+(lse-define-fill-in "regexp-bol"
+    '(description           "Match beginning of line or string (must be first regexp-item)")
+    '(replacement           "^")
+)
+
+(lse-define-fill-in "regexp-char-set"
+    '(description           "Matches any of the class of characters enclosed inside the brackets")
+    '(token)
+    '(replacement           "[««^»»«text»]")
+)
+
+(lse-define-fill-in "regexp-eol"
+    '(description           "Match end of line or string (must be last regexp-item)")
+    '(replacement           "$")
+)
+
+(lse-define-fill-in "regexp-group"
+    '(description           "Groups a series of pattern elements into a single element")
+    '(token)
+    '(replacement           "\\(«regexp-item»···\\)")
+)
+
+(lse-define-fill-in "regexp-item"
+    '(description           "One item of a regular expression")
+    '(separator             "")
+    '(menu
+        regexp-any-char
+        regexp-0-or-more
+        regexp-1-or-more
+        regexp-0-or-1
+        regexp-alternative
+        regexp-char-set
+        regexp-group
+        @ regexp-range
+        regexp-repeat
+        @ regexp-word-begin
+        @ regexp-word-end
+        @ regexp-word-boundary
+        @ regexp-non-word-boundary
+        regexp-alphanumeric
+        regexp-non-alphanumeric
+        regexp-numeric
+        regexp-non-numeric
+        regexp-whitespace
+        regexp-non-whitespace
+        @ regexp-special-item
+        ("«text»"     "Literal text to match (beware of special characters!)")
+     )
+;;; regexp-item
+)
+
+(lse-define-fill-in "regexp-item-escaped"
+    '(separator             "")
+    '(sort)
+    '(menu
+        ("\\n"         "Matches newline")
+        ("\\r"         "Matches carriage return")
+        ("\\t"         "Matches tab")
+        ("\\f"         "Matches formfeed")
+     )
+;;; regexp-item-escaped
+)
+
+(lse-define-fill-in "regexp-non-alphanumeric"
+    '(description           "Matches any character but letter or digit")
+    '(token)
+    '(replacement           "[^0-9a-zA-Z]")
+)
+
+(lse-define-fill-in "regexp-non-numeric"
+    '(description           "Matches anything but digit")
+    '(token)
+    '(replacement           "[^0-9]")
+)
+
+(lse-define-fill-in "regexp-non-whitespace"
+    '(description           "Matches anything but whitespace character")
+    '(token)
+    '(replacement           "[^ 	]")
+)
+
+(lse-define-fill-in "regexp-non-word-boundary"
+    '(description           "Match non-word-boundary")
+    '(menu
+         ("\\B"    "Match non-word boundary")
+     )
+)
+
+(lse-define-fill-in "regexp-numeric"
+    '(description           "Matches any digit")
+    '(token)
+    '(replacement           "[0-9]")
+)
+
+(lse-define-fill-in "regexp-range"
+    '(description           "Match a range of instances of preceding pattern element")
+    '(token)
+    '(menu
+        ("\\{«number»\\}"          "Match the preceeding pattern element exactly  «number» times")
+        ("\\{«number»,\\}"         "Match the preceeding pattern element at least «number» times")
+        ("\\{«number»,«number»\\}" "Match the preceeding pattern element at least «number»-1, at most «number»-2 times")
+     )
+;;; regexp-range
+)
+
+(lse-define-fill-in "regexp-repeat"
+    '(description           "Match repeat of previously matched group")
+    '(token)
+    '(replacement           "\\«number»")
+)
+
+(lse-define-fill-in "regexp-special-item"
+    '(description           "To be defined language-specific")
+    '(menu)
+)
+
+(lse-define-fill-in "regexp-whitespace"
+    '(description           "Matches any whitespace character")
+    '(token)
+    '(replacement           "[ 	]")
+)
+
+(lse-define-fill-in "regexp-word-begin"
+    '(description           "To be defined language-specific")
+    '(menu)
+)
+
+(lse-define-fill-in "regexp-word-end"
+    '(description           "To be defined language-specific")
+    '(menu)
+)
+
+(lse-define-fill-in "regexp-word-boundary"
+    '(description           "Match word-boundary")
+    '(menu
+        ("\\b"    "Match word-boundary")
+     )
+)
+

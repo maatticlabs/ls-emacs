@@ -1,0 +1,82 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 2000 Mag. Christian Tanzer. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-gnats-pr
+;;;;
+;;;; Purpose
+;;;;    Define lse-templates for gnats problem report
+;;;;
+;;;; Revision Dates
+;;;;    29-Aug-2000 (CT) Creation
+;;;;    30-Aug-2000 (CT) Keybinding for `tab' defined 
+;;;;     8-Sep-2000 (CT) Set `fill-column' to 60
+;;;;    ««revision-date»»···
+;;;;-- 
+(lse-language:define "gnats-pr"
+    '(
+        (lse-language:initial-fill-in      "««gnats-pr»»")
+        (lse-language:tab-increment        4)
+        (lse-tpu:ident-chars               "A-Za-z0-9äöüßÄÖÜ")
+        (lse_comment_delim_char_set        ">")
+        (lse_comment_head_delim            ">")
+        (lse_comment_head_delim_pattern    "> *")
+        (fill-column                       70)
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        lse-gnats-pr:def-local-map
+     )
+    '(
+        "lse-templates-gnats-pr"
+     )
+    137
+     67
+;;; gnats-pr
+)
+
+;;;+
+;;; lse-gnats-pr-mode
+;;;-
+(defun lse-gnats-mode ()
+  (lse-language:use "gnats-pr")
+  (lse-gnats-pr:def-local-map)
+; lse-gnats-pr-mode
+)
+
+;;; 31-Aug-2000 
+(defun lse-gnats-pr:def-local-map ()
+  (let ((map (make-sparse-keymap)))
+    (define-key map [tab] 'lse-expand-or-goto-next)
+    (use-local-map map)
+  )
+  (set-fill-column 60)
+; lse-gnats-pr:def-local-map
+)
+
+;;;  3-Nov-1997 
+(defun lse-gnats-pr:send ()
+  (lse@kill_current_fill-in)
+  (lse-tpu:move-to-beginning)
+  (lse-kill-all-optional-fill-ins)
+  (lse-tpu:move-to-beginning)
+  (lse-mail:insert-if-missing "Mime-version" "Mime-version: 1.0")
+  (lse-mail:insert-if-missing "Content-type"
+    "Content-type: text/plain; charset=iso-8859-1"
+  )
+  (lse-mail:insert-if-missing "Content-transfer-encoding"
+    "Content-transfer-encoding: 8bit"
+  )
+  (if (lse-goto-next-fill-in t)
+      (error (concat "Fill in «"
+                     (lse-fill-in:name lse_current_fill-in)
+                     "» before sending the mail"
+             )
+      )
+  )
+  (require 'sendmail)
+  (sendmail-send-it)
+; lse-gnats-pr:send
+)
+

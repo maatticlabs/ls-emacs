@@ -1,0 +1,84 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-c
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LSE language c
+;;;;
+;;;; Revision Dates
+;;;;    13-Sep-1994 (CT) Creation
+;;;;    18-Sep-1994 (CT) c-mode redefined
+;;;;    14-Jun-1996 (CT) `load-library c-mode' added (to be compatible with
+;;;;                     Emacs 19.30)
+;;;;    24-Jul-2000 (CT) Regexes for comment_*_delim* corrected (quote \'s)
+;;;;    24-Jul-2000 (CT) Consider `^**' as start of comment, too
+;;;;    23-Jan-2002 (CT) `c-mode` renamed to `lse-c-mode`
+;;;;    ««revision-date»»···
+;;;;--
+(lse-language:define "c"
+    '(
+        (lse-language:initial-fill-in      "««c-root»»")
+        (lse-language:tab-increment        4)
+        (lse_comment_delim_char_set        "/*")
+        (lse_comment_head_delim            "/\\*\\|^ *\\*\\*")
+        (lse_comment_head_delim_pattern
+          "/\\*\\(\\+\\|-\\|\\*\\)* *\\|^ *\\*\\*+ *"
+        )
+        (lse_comment_tail_delim            "\\*/")
+        (lse_comment_tail_delim_pattern    " *\\*+/")
+        (lse-tpu:ident-group-chars         "_")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-c"
+     )
+    137
+     67
+;;; cc
+)
+
+;;;+
+;;; Redefinition of c-mode
+;;; 
+;;; The function itself is redefined instead of using c-mode-hook because it
+;;; sets too many hooks.
+;;;-
+;(load-library "c-mode")
+
+(defun lse-c-mode ()
+  "Major mode for editing C code.
+Turning on C mode calls the value of the variable c-mode-hook with no args,
+if that value is non-nil.
+"
+  (interactive)
+  (kill-all-local-variables)
+  (setq major-mode 'c-mode)
+  (setq mode-name "C")
+  (set-syntax-table c-mode-syntax-table)
+  (make-local-variable 'paragraph-start)
+  (setq paragraph-start (concat "^$\\|" page-delimiter))
+  (make-local-variable 'paragraph-separate)
+  (setq paragraph-separate paragraph-start)
+  (make-local-variable 'paragraph-ignore-fill-prefix)
+  (setq paragraph-ignore-fill-prefix t)
+  (make-local-variable 'require-final-newline)
+  (setq require-final-newline t)
+  (make-local-variable 'comment-start)
+  (setq comment-start "/* ")
+  (make-local-variable 'comment-end)
+  (setq comment-end " */")
+  (make-local-variable 'comment-column)
+  (setq comment-column 32)
+  (make-local-variable 'comment-start-skip)
+  (setq comment-start-skip "/\\*+ *")
+  (make-local-variable 'parse-sexp-ignore-comments)
+  (setq parse-sexp-ignore-comments t)
+  (run-hooks 'c-mode-hook)
+  (lse-language:use "c")
+)

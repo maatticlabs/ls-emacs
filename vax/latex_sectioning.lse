@@ -1,0 +1,137 @@
+!
+!
+! Sectioning Commands
+!
+delete placeholder sections /language = latex
+define placeholder sections /language = latex -
+	/topic_string = "LATEX Commands Sectioning" -
+	/type = menu - 
+	/descr = "Valid sectioning commands" 
+	
+"\part"				/token
+"\chapter"			/token
+"\section"			/token
+"\subsection"			/token
+"\subsubsection"		/token
+"\paragraph"			/token
+"\subparagraph"			/token
+"\subsubparagraph"		/token
+"\subsubsubparagraph"		/token
+"\appendix"			/token
+end define
+delete token sections /language = latex
+define token sections /language = latex -
+	/placeholder = sections -
+	/language = latex
+
+delete token \part
+define token \part -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\part<<star>><<optional>>{<text>}"
+end define
+
+delete token \chapter
+define token \chapter -
+	/language=latex -
+	/descr = "LaTeX sectioning command, report style ONLY"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\chapter<<star>><<optional>>{<text>}"
+end define
+
+delete token \section
+define token \section -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\section<<star>><<optional>>{<text>}"
+end define
+
+delete token \subsection
+define token \subsection -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\subsection<<star>><<optional>>{<text>}"
+end define
+
+delete token \subsubsection
+define token \subsubsection -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\subsubsection<<star>><<optional>>{<text>}"
+end define
+
+delete token \paragraph
+define token \paragraph -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\paragraph<<star>><<optional>>{<text>}"
+end define
+
+delete token \subparagraph
+define token \subparagraph -
+	/language=latex -
+	/descr = "LaTeX sectioning command"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\subparagraph<<star>><<optional>>{<text>}"
+end define
+
+delete token \subsubparagraph
+define token \subsubparagraph -
+	/language=latex -
+	/descr = "LaTeX sectioning command, milstd & bookform styles ONLY"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\subsubparagraph<<star>><<optional>>{<text>}"
+end define
+
+delete token \subsubsubparagraph
+define token \subsubsubparagraph -
+	/language=latex -
+	/descr = "LaTeX sectioning command, milstd & bookform styles ONLY"-
+	/topic_string="LATEX Commands Sectioning" -
+
+"\subsubsubparagraph<<star>><<optional>>{<text>}"
+end define
+
+delete token \appendix
+define token \appendix -
+	/description="Change the way sectional units are numbered" -
+	/language=latex -
+	/topic_string="LATEX Commands Sectioning \appendix" -
+
+"\appendix"
+end define
+
+delete token \markboth
+define token \markboth -
+	/language=latex -
+	/descr = "Define the headings for the headings and myheadings page style"-
+	/topic_string="LATEX Commands Page_styles \pagestyle \mark" -
+
+"\markboth{<text>}{<text>}"
+end define
+
+delete token \markright
+define token \markright -
+	/language=latex -
+	/descr = "Define the headings for the headings and myheadings page style"-
+	/topic_string="LATEX Commands Page_styles \pagestyle \mark" -
+
+"\markright{<text>}"
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_SECTIONING.LSE
+!	 *1    30-JAN-1986 15:32:14 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_SECTIONING.LSE

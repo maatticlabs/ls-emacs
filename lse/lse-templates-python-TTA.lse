@@ -1,0 +1,211 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 2001 TTTech Computertechnik AG. All rights reserved
+;;;; Schönbrunnerstraße 7, A--1040 Wien, Austria. office@tttech.com
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-python-TTA
+;;;;
+;;;; Purpose
+;;;;    Templates for the TTA (TOM) object model (for python)
+;;;;
+;;;; Revision Dates
+;;;;     4-Sep-2001 (MG) Creation
+;;;;    ««revision-date»»···
+;;;;--
+;;;;
+
+;;;  4-Sep-2001 
+(lse-define-fill-in "tta-entity-type"
+  '(token)
+  '(token                 "entity-type")
+  '(token                 "etype")
+  '(description           "Definition of an Entity Type class")
+  '(replacement
+      "class «tta-entity-type-name» (TOM.Entity_Type)"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "Ancestor = __Ancestor = TOM.Entity_Type"
+          ""
+        lse-indent-1
+        "# end class «py-class-name»"
+        ""
+   )
+;;; tta-entity-type
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-template"
+    '(token                 "_e_type_template")
+    '(description           "Define the entity-type template")
+    '(replacement
+        "_e_type_template            = TOM.««text»» ()"
+        ""
+     )
+;;; tta-et-template
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-universe"
+    '(token                 "_e_type_universe")
+    '(description           "Define a template for the entity-type `universe`")
+    '(replacement
+        "_e_type_universe            = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_universe"
+        "  )"
+        ""
+     )
+;;; tta-et-universe
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-cluster"
+    '(token                 "_e_type_cluster")
+    '(description           "Define a template for the entity-type `solitaire`")
+    '(replacement
+        "_e_type_cluster             = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_cluster"
+        "  )"
+        ""
+     )
+;;; tta-et-cluster
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-solitare"
+    '(token                 "_e_type_solitaire")
+    '(description           "Define a template for the entity-type `solitaire`")
+    '(replacement
+        "_e_type_solitaire           = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_solitaire"
+        "  )"
+        ""
+     )
+;;; tta-et-solitare
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-solitare-universe"
+    '(token                 "_e_type_solitaire__universe")
+    '(description           "Define a template for the entity-type `solitaire-universe`")
+    '(replacement
+        "_e_type_solitaire__universe = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_solitaire__universe"
+        "  )"
+        ""
+     )
+;;; tta-et-solitare-universe
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-node"
+    '(token                 "_e_type_node")
+    '(description           "Define a template for the entity-type `node`")
+    '(replacement
+        "_e_type_node                = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_node"
+        "  )"
+        ""
+     )
+;;; tta-et-node
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-node-universe"
+    '(token                 "_e_type_node__universe")
+    '(description           "Define a template for the entity-type `node-universe`")
+    '(replacement
+        "_e_type_node__universe      = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_node__universe"
+        "  )"
+        ""
+     )
+;;; tta-et-node-universe
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-et-node-cluster"
+    '(token                 "_e_type_node__cluster")
+    '(description           "Define a template for the entity-type `node-cluster`")
+    '(replacement
+        "_e_type_node__cluster       = TOM.««text»» \\"
+        "  ( _e_type_template, Ancestor._e_type_node__cluster"
+        "  )"
+        ""
+     )
+;;; tta-et-node-cluster
+)
+
+;;; 13-Sep-2001 
+(lse-define-fill-in "tta-etype-level-dict"
+    '(token                 "etype_level")
+    '(description           "Define the entity level dictionary")
+    '(replacement
+        "etype_level                 = D_Dict \\"
+        "  ( cluster                 = _e_type_cluster"
+        "  , node                    = _e_type_node"
+        "  , node__universe          = _e_type_node__universe"
+        "  , node__cluster           = _e_type_node__cluster"
+        "  , solitaire               = _e_type_solitaire"
+        "  , solitaire__universe     = _e_type_solitaire__universe"
+        "  , universe                = _e_type_universe"
+        "  )"
+     )
+;;; tta-etype-level-dict
+)
+
+;;; 18-Sep-2001 
+(lse-define-fill-in "tta-attr-spec"
+    '(token                 "_attr_spec")
+    '(description           "Definiton of the attribute specification of an "
+                            "TTA object")
+    '(replacement
+        "_attr_spec                  = TOM.Attr_Spec \\"
+        "  ( Ancestor._attr_spec"
+        "  , «text»"
+        "  )"
+        ""
+     )
+;;; tta-attr-spec
+)
+
+;;; 18-Sep-2001 
+(lse-define-fill-in "tta-invariant-spec"
+    '(token                 "_invariant_spec")
+    '(description           "Definiton of the invariant specification of an "
+                            "TTA object")
+    '(replacement
+        "_invariant_spec             = TOM.Invariant_Spec \\"
+        "  ( Ancestor._invariant_spec"
+        "  , «tta-invariant-type»···"
+        "  )"
+        ""
+     )
+;;; tta-invariant-spec
+)
+
+;;; 18-Sep-2001 
+(lse-define-fill-in "tta-invariant-type"
+    '(description           "Placeholder for an tta-invarinat")
+;;; tta-invariant-type
+)
+
+;;; 18-Sep-2001 
+(lse-define-fill-in "tta-invariant"
+    '(token                 "TTA_Invariant")
+    '(description           "A simple invarinat")
+    '(replacement
+        "TTA_Invariant"
+        "  ( «tta-invariant-attributes»"
+        "  , «tta-invariant-condition»"
+        "  , ««tta-invariant-parameter»»"
+        "  , kind        = "
+        "  , description = "
+        "  )"
+        ««fill-in-item»»···
+     )
+;;; tta-invariant
+)
+

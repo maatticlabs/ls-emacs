@@ -1,0 +1,31 @@
+;-*-unibyte: t;-*-
+
+(lse-language:define "fahrtenbuch"
+    '(
+        (lse-language:initial-fill-in      "«fahrtenbuch-file»")
+        (lse-language:tab-increment        2)
+        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-group-chars         "-\@_")
+        (lse_comment_head_delim            "%")
+        (lse_comment_head_delim_pattern    "%+ *")
+        (lse_comment_delim_char_set        "%")
+        (lse-language:expand-initial       t)
+     )
+    '(
+     )
+    '(
+        "lse-templates-fahrtenbuch"
+     )
+    137
+     67
+;;; fahrtenbuch
+)
+
+;;;
+;;; fahrtenbuch mode
+;;;
+(defun lse-fahrtenbuch-mode ()
+  (interactive)
+  (lse-language:use "fahrtenbuch")
+  (local-set-key [tab] 'lse-expand-or-goto-next)
+)

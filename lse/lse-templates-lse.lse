@@ -1,0 +1,446 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "fill-in-auto-replicate"
+    '(token                 "auto-replicate")
+    '(description           "Defines how many occurences of the fill-in will be replicated automatically")
+    '(replacement           "'(auto-replicate        «number»)")
+;;; fill-in-auto-replicate
+)
+
+;;; 26-Jan-2001
+(lse-define-fill-in "fill-in-auto-expand"
+    '(token                 "auto-expand")
+    '(description
+        "Automatically expand the fill-in if user types into it."
+     )
+    '(replacement           "'(auto-expand)")
+;;; fill-in-auto-expand
+)
+
+(lse-define-fill-in "fill-in-description"
+   '(token                  "description")
+   '(description            "Description of meaning of fill-in"
+                            "First list-element is displayed in menus and by command "
+                            "lse-describe-fill-in (\"C-o\"). The rest of the list is displayed"
+                            "by the command lse-help-fill-in (\"GOLD C-o\")."
+    )
+   '(auto-expand)
+   '(replacement            "'(description           «quoted-text»)")
+)
+
+(lse-define-fill-in "fill-in-expansion"
+  '(description             "Expansion of the fill-in.")
+  '(menu
+       fill-in-replacement
+       fill-in-replacement-1-line
+       fill-in-menu
+       fill-in-function
+       fill-in-terminal
+   )
+)
+
+(lse-define-fill-in "fill-in-function"
+  '(description
+    "On expansion the elements of the list are executed."
+   )
+  '(replacement
+      "'(function"
+      "    ««fill-in-function-item»»···"
+      " )"
+   )
+)
+
+(lse-define-fill-in "fill-in-function-item"
+  '(description   "One function entry of the fill-in.")
+  '(replacement @ "name")
+)
+
+;;; 11-Sep-2002
+(lse-define-fill-in "fill-in-hang-indent"
+    '(description
+      "Specify hanging indentation for the replacement of this fill-in"
+     )
+    '(replacement
+        "'(hang-indent «number»)";  4-Oct-2002
+      )
+;;; fill-in-hang-indent
+)
+
+(lse-define-fill-in "fill-in-item"
+  '(description   "Part of the expansion of the fill-in.")
+  '(menu
+      ("««quoted-text»»"               "Put «quoted-text» into expansion literally")
+      ("@ «name»"                      "Auto-expand fill-in «name»")
+      ("& "                            "Do not separate surrounding items (implicit `line')")
+      replica-or-flat
+      ("lse-tabulator"                 "Indent to next indent position or by tab-increment")
+      ("lse-indent+1"                  "Start new line and increase indentation by 1 level")
+      ("lse-indent-1"                  "Start new line and decrease indentation by 1 level")
+      ("lse-indent:>"                  "Increase indentation by 1 level"); 7-Jan-1998
+      ("lse-indent:<"                  "Decrease indentation by 1 level"); 7-Jan-1998
+      ("lse-no-indent"                 "Disable indentation")
+      ("lse-hang-indent"               "Use hanging indentation set to current column"); 11-Sep-2002
+      ("lse-nohang-indent"             "Cancel hanging indentation"); 11-Sep-2002
+      ("lse-anchor-indent"             "Anchor indentation to current column"); 12-Apr-1995
+      ("lse-expansion-indent"          "Indent to position of fill-in")
+      ("lse-environment-indent"        "Use indentation of fill-in line")
+      ("lse-outer-environment-indent"  "Use indentation of environment surrounding fill-in line")
+      ("delete-horizontal-space"       "Remove any whitespace around current position")
+      ("delete-indentation"            "Remove indentation from current line")
+      ("fixup-whitespace"              "Remove whitespace around current position")
+      ("just-one-space"                "Remove whitespace but for on space")
+      ("delete-blank-lines"            "Delete blank lines around current position")
+      ("lse-newline-and-indent"        "Start new line and indent to current indentation")
+      ("lse-newline"                   "Start new line without indentation")
+      ("(«text»)"                      "Execute «text» as emacs code")
+   )
+)
+
+(lse-define-fill-in "fill-in-kill-action"
+  '(description
+    "Specifies fill-in to be executed after the killing of the fill-in. "
+    "Point is at the position where the replacement was finished."
+   )
+  '(token         "kill-action")
+  '(token         "kaction")
+  '(replacement   "'(kill-action    ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-leading"
+  '(description
+     "Specifies leading text killed along with the fill-in. "
+     "If you use dotted pair notation the «quoted-text» will be interpreted"
+     "as regular expression. If you use normal list notation, it will be "
+     "interpreted literally."
+   )
+  '(token                   "leading")
+  '(replacement             "'(leading               «quoted-text»)")
+)
+
+(lse-define-fill-in "fill-in-max-line-move"
+    '(token                 "max-line-move")
+    '(description           "Defines how many lines emacs-lse will consider when going to the next fill-in after completion of expansion (default 1)"
+                            "Don't use too large values or the user will likely be confused!"
+     )
+    '(replacement           "'(max-line-move         «number»)")
+;;; fill-in-max-line-move
+)
+
+(lse-define-fill-in "fill-in-menu"
+  '(description
+    "On expansion the menu is displayed and the entry choosen by the user expanded."
+   )
+  '(replacement
+      "««sort»»"
+      "'(menu"
+      "    ««fill-in-menu-item»»···"
+      " )"
+   )
+)
+
+(lse-define-fill-in "fill-in-menu-item"
+  '(description   "One menu entry of the fill-in.")
+  '(menu
+      "(«quoted-text»     «quoted-text»)"
+      name
+      quoted-text
+      ("@ «name»"         "Include entries from menu «name» here")
+   )
+)
+
+(lse-define-fill-in "fill-in-name"
+   '(description           "Name of fill-in")
+   '(auto-replicate        1)
+)
+
+(lse-define-fill-in "fill-in-no-history"
+    '(token                 "no-history")
+    '(description           "Don't register expansion of fill-in in expansion history (maybe a simple token would be better than a fill-in)")
+    '(replacement           "'(no-history)")
+;;; fill-in-no-history
+)
+
+(lse-define-fill-in "fill-in-option"
+  '(description   "Option for definition of fill-in")
+  '(token)
+  '(token         "option")
+  '(sort)
+  '(menu
+      fill-in-auto-expand ; 26-Jan-2001
+      fill-in-auto-replicate
+      fill-in-description
+      fill-in-hang-indent
+      fill-in-kill-action
+      fill-in-leading
+      fill-in-max-line-move
+      fill-in-no-history
+      fill-in-properties
+      fill-in-rcompletion-action
+      fill-in-rcompletion-leading
+      fill-in-rcompletion-trailer
+      fill-in-replacement-leading
+      fill-in-replacement-trailer
+      fill-in-replacement-vanguard
+      fill-in-separator
+      fill-in-token
+      fill-in-trailer
+   )
+)
+
+;;;  4-Oct-2002
+(lse-define-fill-in "fill-in-properties"
+    '(token                 "properties")
+    '(description
+        "Specify properties used by the fill-in's expansion"
+     )
+    '(replacement           "'(properties «text»)")
+;;; fill-in-properties
+)
+
+(lse-define-fill-in "fill-in-rcompletion-action"
+  '(description
+    "Specifies fill-in to be executed after the completion of the "
+    "replacement of fill-in. "
+    "Point is at the position where the replacement was finished."
+   )
+  '(token         "rcompletion-action")
+  '(token         "rcaction")
+  '(replacement   "'(rcompletion-action    ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-rcompletion-leading"
+  '(description
+    "Specifies fill-in to be executed after the completion in front of the "
+    "replacement of fill-in."
+   )
+  '(token         "rcompletion-leading")
+  '(token         "rcleading")
+  '(replacement   "'(rcompletion-leading   ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-rcompletion-trailer"
+  '(description
+    "Specifies fill-in to be executed after the completion in back of the "
+    "replacement of fill-in."
+   )
+  '(token         "rcompletion-trailer")
+  '(token         "rctrailer")
+  '(replacement   "'(rcompletion-trailer   ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-replacement"
+  '(description
+    "On expansion the fill-in will be replaced by the value of this list"
+   )
+  '(token         "replacement")
+  '(replacement
+      "'(replacement"
+      lse-indent+1
+      @ fill-in-item
+      "««fill-in-item»»···"
+      lse-indent-1
+      " )"
+   )
+)
+
+(lse-define-fill-in "fill-in-replacement-1-line"
+  '(description   "On expansion the fill-in will be replaced by the value of this list")
+  '(token         "replacement-1")
+  '(replacement   "'(replacement           " & @ fill-in-item & ")")
+)
+
+(lse-define-fill-in "fill-in-replacement-leading"
+  '(description
+    "Specifies text to be inserted in front of the replacement of fill-in."
+   )
+  '(token         "replacement-leading")
+  '(token         "rleading")
+  '(replacement   "'(replacement-leading   ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-replacement-trailer"
+  '(description
+    "Specifies text to be inserted at back of the replacement of fill-in."
+   )
+  '(token         "replacement-trailer")
+  '(token         "rtrailer")
+  '(replacement   "'(replacement-trailer   ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-replacement-vanguard"
+  '(description
+    "Specifies actions to be done before starting the replacement. "
+    "Use this for indentation that should not be part of the replacement."
+   )
+  '(token         "replacement-vanguard")
+  '(token         "rvanguard")
+  '(replacement   "'(replacement-vanguard  ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-separator"
+  '(description
+    "Specifies the pattern which separates the fill-in and its duplication."
+   )
+  '(token         "separator")
+  '(replacement   "'(separator             ««fill-in-item»»)")
+)
+
+(lse-define-fill-in "fill-in-terminal"
+  '(description   "On expansion the description of the fill-in is displayed.")
+  '(replacement   "")
+)
+
+(lse-define-fill-in "fill-in-token"
+  '(token)
+  '(token         "token")
+  '(auto-expand)
+  '(replacement   "'(token                 ««token-name»»)")
+)
+
+(lse-define-fill-in "fill-in-trailer"
+  '(description
+    "Specifies trailer text killed along with the fill-in. "
+     "If you use dotted pair notation the «quoted-text» will be interpreted"
+     "as regular expression. If you use normal list notation, it will be "
+     "interpreted literally."
+   )
+  '(token         "trailer")
+  '(replacement   "'(trailer             «quoted-text»)")
+)
+
+(lse-define-fill-in "lse-define-fill-in"
+  '(token)
+  '(token                 "fill-in")
+  '(rcompletion-leading   (if (not (bobp)) (forward-char -1)) delete-blank-lines lse-newline-and-indent)
+  '(rcompletion-trailer    delete-blank-lines lse-newline)
+  '(replacement
+      ";;; " & lse-insert-dd-mmm-yyyy+blank       ; 12-Apr-1995
+      "(lse-define-fill-in \"«fill-in-name»\""
+      lse-indent+1
+      "««fill-in-token»»···"
+      "««fill-in-description»»"
+      "««fill-in-option»»···"
+      "««fill-in-expansion»»"
+      lse-indent-1
+      ";;; ««fill-in-name»»"
+      ")"
+    )
+)
+
+(lse-define-fill-in "lse-define-fill-in-token"
+    '(token)
+    '(token                 "ftoken")
+    '(description           "Define a token associated to a fill-in. Expansion of the token is expansion of fill-in.")
+    '(replacement
+        "(lse-define-fill-in-token «token-name» \"«fill-in-name»\")"
+     )
+;;; lse-define-fill-in-token
+)
+
+(lse-define-fill-in "lse-define-language"
+  '(description   "Define a new language")
+  '(token)
+  '(token         "language")
+  '(replacement
+      "(lse-language:define \"«lse-language-name»\""
+      lse-indent+1
+      "'("
+      lse-indent+1
+      "««lse-language-property»»···"
+      lse-indent-1
+      " )"
+      "'("
+      lse-indent+1
+      "««lse-language-hook»»···"
+      lse-indent-1
+      " )"
+      "'("
+      lse-indent+1
+      "««lse-language-template-file»»···"
+      "\"lse-templates-«lse-language-name»\""
+      lse-indent-1
+      " )"
+      "137"                        ; size of fill-in table (should be prime)
+      " 67"                        ; size of token   table (should be prime)
+      lse-indent-1
+      ";;; ««lse-language-name»»"
+      ")"
+   )
+)
+
+(lse-define-fill-in "lse-define-simple-token"
+    '(token)
+    '(token                 "stoken")
+    '(token                 "simple-token")
+    '(description           "Expands to text or lisp-code directly (no expansion history, no expansion environment)")
+    '(replacement
+         "(lse-define-simple-token «token-name» «simple-token-value»)"
+     )
+;;; lse-define-simple-token
+)
+
+(lse-define-fill-in "lse-language-hook"
+  '(description   "Elisp function without parameters to call before using the language")
+)
+
+(lse-define-fill-in "lse-language-name"
+   '(description           "Name of language defined")
+   '(leading               "\.")
+   '(auto-replicate        2)
+)
+
+(lse-define-fill-in "lse-language-property"
+    '(token)
+    '(token                 "language-property")
+    '(description           "Defines value of a property of a LS-Emacs language")
+    '(sort)
+    '(menu
+        ("(lse-language:expand-initial       t)"             "If true, LS-Emacs will automatically expand the initial fill-in")
+        ("(lse-language:initial-fill-in      «quoted-text»)" "Fill-in inserted into new buffer")
+        ("(lse-language:tab-increment        «number»)"      "Amount of indentation per indentation-level default 2")
+        ("(lse-tpu:ident-chars               «quoted-text»)" "Set of primary   characters occurring in words (default `A-Za-z0-9')")
+        ("(lse-tpu:ident-group-chars         «quoted-text»)" "Set of secondary characters occurring in words (default `-_*@+')")
+        ("(lse_comment_delim_char_set        «quoted-text»)" "Set of characters used for introducing a comment")
+        ("(lse_comment_head_delim            «quoted-text»)" "String which starts a comment")
+        ("(lse_comment_head_delim_pattern    «quoted-text»)" "Pattern matching all strings which start a comment")
+        ("(lse_comment_tail_delim            «quoted-text»)" "String which terminates a comment (default: none)")
+        ("(lse_comment_tail_delim_pattern    «quoted-text»)" "Pattern matching all strings which terminate a comment")
+        ("(«name» «text»)"                                   "Set variable «name» to value «text»")
+     )
+;;; lse-language-property
+)
+
+(lse-define-fill-in "lse-language-template-file"
+  '(description           "List of files containing definitions of language templates")
+  '(replacement-leading   "\"")
+  '(replacement-trailer   "\"")
+  '(replacement           "lse-templates-«name»")
+)
+
+(lse-define-fill-in "replica-or-flat"
+    '(description           "Insert a replica of fill-in «name» into expansion, if present, otherwise insert the fill-in in flat form")
+    '(replacement           "(lse-insert-replica-or-flat \"«name»\")")
+;;; replica-or-flat
+)
+
+(lse-define-fill-in "simple-token-value"
+    '(menu
+        ("«quoted-text»"     "Expand into «quoted-text»")
+        ("'(«text»)"         "Execute «text» as lisp code")
+     )
+;;; simple-token-value
+)
+
+(lse-define-fill-in "sort"
+    '(description   "Sort menu entries")
+    '(token         "sort")
+    '(max-line-move 3)
+    '(replacement   "'(sort)")
+)
+
+(lse-define-fill-in "token-name"
+   '(description           "Name of token defined for fill-in (default = name of fill-in)")
+   '(leading               "\.")
+   '(replacement-leading   "\"")
+   '(replacement-trailer   "\"")
+)

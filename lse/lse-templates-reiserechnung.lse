@@ -1,0 +1,93 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "reiserechnung-file"
+    '(token)
+    '(description           "Root fill-in for LS-Emacs language reiserechnung")
+    '(replacement
+        "\\documentstyle[12pt,german,swing,reiserechnung]{business}"
+        ""
+        lse-indent+1
+        "\\RRname{«RRname»}"
+        "\\RRdatum{«RRdatum»}"
+        "\\RRabfahrt{«RRabfahrt»}"
+        "\\RRrueckkehr{«RRrueckkehr»}"
+        "\\RRziel{«RRziel»}"
+        "\\RRzweck{«RRzweck»}"
+        lse-indent-1
+        ""
+        "\\begin{document}"
+        ""
+        lse-indent+1
+        "\\begin{Reiserechnung}"
+        lse-indent+1
+        "«RRposten»···"
+        lse-indent-1
+        "\\end{Reiserechnung}"
+        lse-indent-1
+        ""
+        "\\end{document}"
+     )
+;;; reiserechnung
+)
+
+(lse-define-fill-in "RRabfahrt"
+    '(description           "Tag und Uhrzeit des Reisebeginns")
+    '(replacement           "«date» um «time»")
+;;; RRabfahrt
+)
+
+(lse-define-fill-in "RRdatum"
+    '(description           "Datum, wann die Reiserechnung ausgestellt wird")
+;;; RRdatum
+)
+
+(lse-define-fill-in "RRkassa"
+    '(description           "Bar bezahlter Betrag eines Postens einer Reiserechnung")
+    '(replacement-leading   "(")
+    '(replacement-trailer   ")")
+;;; RRkassa
+)
+
+(lse-define-fill-in "RRkonto"
+    '(description           "Über Konto bezahlter Betrag eines Postens einer Reiserechnung")
+    '(replacement-leading   "(")
+    '(replacement-trailer   ")")
+;;; RRkonto
+)
+
+(lse-define-fill-in "RRname"
+    '(description           "Name des Reisenden")
+;;; RRname
+)
+
+(lse-define-fill-in "RRposten"
+    '(token)
+    '(token                 "posten")
+    '(description           "Einzelposten der Reiserechnung")
+    '(replacement           "«RRposten-Text» ««RRkassa»» ««RRkonto»»")
+;;; RRposten
+)
+
+(lse-define-fill-in "RRposten-Text"
+    '(description           "Beschreibung des Postens")
+    '(replacement-leading   "[")
+    '(replacement-trailer   "]")
+;;; RRposten-Text
+)
+
+(lse-define-fill-in "RRrueckkehr"
+    '(description           "Tag und Uhrzeit des Reiseendes")
+    '(replacement           "«date» um «time»")
+;;; RRrueckkehr
+)
+
+(lse-define-fill-in "RRziel"
+    '(description           "Ziel der Reise")
+;;; RRziel
+)
+
+(lse-define-fill-in "RRzweck"
+    '(description           "Zweck der Reise")
+;;; RRzweck
+)
+

@@ -1,0 +1,126 @@
+@node     Installation, Customization, Command-Reference, Top
+@appendix Installation of LS-Emacs
+
+This appendix describes how to install LS-Emacs.
+
+@menu
+* Software-Requirements::       
+* Installing-Files::            
+* Language-Installation::       
+* Activating-LS-Emacs::         
+@end menu
+
+@node    Software-Requirements, Installing-Files, Installation, Installation
+@section Software required
+
+To install LS-Emacs, you need a running Emacs system, version
+19.28 or higher (see below). If you want to use wildcards as arguments to
+@code{lse-visit-file}, you also need Perl. The shell scripts
+accompanying LS-Emacs are written for the bash shell. To process the
+documentation you need a working @code{texinfo} system and for printing
+it the proper @code{DVI}-driver.
+
+@menu
+* Emacs-Version::               
+@end menu
+
+@node       Emacs-Version,  , Software-Requirements, Software-Requirements
+@subsection Emacs Version
+
+I started the development of LS-Emacs on Emacs version 18.58. However,
+somewhere in between, I changed to Emacs version 19.22.
+
+LS-Emacs uses a number of features of Emacs version 19, e.g., text
+properties and some of the new hook functions. If you're still using
+Emacs version 18.58, the wish to use of LS-Emacs might be a good reason
+to move to Emacs 19.xx.
+
+In the meanwhile, I migrated LS-Emacs to Emacs version 20.2. LS-Emacs
+should still work with Emacs versions more recent than 19.28, but I'm
+not able to guarantee compatibility to versions older than the next to
+the last version of Emacs.
+
+@node    Installing-Files, Language-Installation, Software-Requirements, Installation
+@section Installing the LS-Emacs Files
+
+First, you have to decide where to put the files. LS-Emacs expects to
+find different species of files in different directories:
+
+@itemize @bullet
+@item
+Emacs lisp source files (all files with extension @file{.el}). You might
+put these in the directory where all other elisp sources reside on your
+system. Or you could choose a separate directory. In this case you have
+to define the Emacs load path accordingly, e.g., by adding the directory
+to the value of the environment variable @code{EMACSLOADPATH}.
+
+@item
+LS-Emacs template source files (all files with extension
+@file{.lse}). You should put these in a subdirectory of their own. You
+have to define the environment variable @code{EMACSLSESRC} to point to
+that directory.
+
+The standard distribution of LS-Emacs contains at least the languages
+Awk, Bash, @code{C++}, Elisp, Generic, Latex, Lse, Perl, Sed, and Texinfo.
+
+@item
+Compiled LS-Emacs template files (extension @file{.lsc}). You could
+either put these in the same directory as the template source files or
+you may choose to put them in a separate directory (as these files are
+derived they don't need to be backuped). You have to define the
+environment variable @code{EMACSLSEDIR} to point to the directory. Users
+who may add or change LS-Emacs languages need write access to that
+directory.
+
+@item
+Documentation files (extensions @file{.texi} and @file{.ps}). You can
+put these files anywhere you want. LS-Emacs does not need to know where
+they reside.
+
+@item
+Shell scripts and other auxiliary files (all other files). Again, you
+have to choose a directory for these files and define an environment
+variable: @code{EMACSLSESCRIPTS}.
+
+The standard distribution of LS-Emacs provides the scripts
+@file{expand_wildcard}, @file{ls-emacs-ini}, and
+@file{lse_compile_language}. 
+@end itemize
+
+You then have to modify the shell script @file{ls-emacs-ini} to define
+the environment variables according to the directory structure you
+selected. Two different versions of @file{ls-emacs-ini} are supplied:
+one for users of @code{bash}, the other for users of @code{csh}. As
+@file{lse_compile_language} uses @file{ls-emacs-ini.bash}, you have to
+modify that script even if you use the @code{csh}.
+
+You may want to perform some customizations (@pxref{Customization}),
+although that is not strictly necessary at this time. The most important
+customization would probably be that of @file{lse-session.el} and
+@file{lse-templates-generic.lse}, which define some site-dependent lisp
+functions and fill-ins.
+
+@node    Language-Installation, Activating-LS-Emacs, Installing-Files, Installation
+@section Language-Installation
+
+To install the LS-Emacs languages provided with LS-Emacs, use the shell
+script @code{lse_compile_language}, when all files are in their proper
+places. The easiest way to do this is to use the command
+
+@lisp
+lse_compile_language '*'
+@end lisp
+
+@noindent
+which will compile all languages available.
+
+@node    Activating-LS-Emacs,  , Language-Installation, Installation
+@section Activating LS-Emacs
+
+To use LS-Emacs, add the line
+
+@lisp
+(require 'ls-emacs)
+@end lisp
+
+at the beginning of your @file{.emacs} initialization file.

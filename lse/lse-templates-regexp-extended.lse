@@ -1,0 +1,29 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "regexp-alphanumeric"
+    '(description           "Matches any letter or digit")
+    '(token)
+    '(replacement           "\\w")
+)
+
+(lse-define-fill-in "regexp-non-alphanumeric"
+    '(description           "Matches any character but letter or digit")
+    '(token)
+    '(replacement           "\\W")
+)
+
+(lse-define-fill-in "regexp-word-begin"
+    '(description           "Match beginning of word")
+    '(menu
+         ("\\<"             "Match beginning of word")
+     )
+)
+
+(lse-define-fill-in "regexp-word-end"
+    '(description           "Match end of word")
+    '(menu
+         ("\\>"             "Match end of word")
+     )
+)
+
+

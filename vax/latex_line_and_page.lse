@@ -1,0 +1,112 @@
+!
+!
+! Line and Page Breaking Commands
+!
+
+delete token \\
+define token \\ -
+	/description="Start a new line" -
+	/language=latex -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \\" -
+
+"\\<<star>> <<length>>"
+end define
+
+delete token \linebreak
+define token \linebreak -
+	/language=latex -
+	/descr = "Break the current line" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \linebreak" -
+
+"\linebreak<<priority>>"
+end define
+
+delete token \nolinebreak
+define token \nolinebreak -
+	/language=latex -
+	/descr = "Do not break the current line" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \nolinebreak" -
+
+"\nolinebreak<<priority>>"
+end define
+
+delete placeholder priority
+define placeholder priority -
+	/language=latex -
+	/descr = "\[no]linebreak and \[no]pagebreak priority"-
+	/topic_string="LATEX Commands Line_and_Page_Breaking" -
+
+"[<0|1|2|3|4>]"
+end define
+
+delete placeholder 0|1|2|3|4
+define placeholder 0|1|2|3|4 -
+	/language=latex -
+	/descr = "0 or 1 or 2 or 3 or 4"-
+	/topic_string="" -
+	/type=menu -
+
+"0"
+"1"
+"2"
+"3"
+"4"
+end define
+
+delete token \newline
+define token \newline -
+	/language=latex -
+	/descr = "Break the current line here" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \newline" -
+
+"\newline"
+end define
+
+delete token \pagebreak
+define token \pagebreak -
+	/language=latex -
+	/descr = "Break the current page" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \pagebreak" -
+
+"\pagebreak<<priority>>"
+end define
+
+delete token \nopagebreak
+define token \nopagebreak -
+	/language=latex -
+	/descr = "Do not break the current page" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \nopagebreak" -
+
+"\nopagebreak<<priority>>"
+end define
+
+delete token \newpage
+define token \newpage -
+	/description="Start a new page" -
+	/language=latex -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \newpage" -
+
+"\newpage"
+end define
+
+delete token \clearpage
+define token \clearpage -
+	/language=latex -
+	/descr = "Break the current page here and output any floats" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \clearpage" -
+
+"\clearpage"
+end define
+
+delete token \cleardoublepage
+define token \cleardoublepage -
+	/language=latex -
+	/descr = "Break the current page here and output any floats" -
+	/topic_string="LATEX Commands Line_and_Page_Breaking \cleardoublepage" -
+
+"\cleardoublepage"
+end define
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_LINE_AND_PAGE.LSE
+!	 *1    30-JAN-1986 15:31:50 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_LINE_AND_PAGE.LSE

@@ -1,0 +1,35 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-aufwandserfassung
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language aufwandserfassung
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation
+;;;;    14-Jun-1994 (CT) lse-aufwandserfassung-mode and friends put in here
+;;;;    28-Dec-1994 (CT) Factored out lse-templates-aufwand-cat-plan-swing
+;;;;-- 
+(lse-language:define "aufwandserfassung"
+  '(
+    (lse-tpu:ident-group-chars         "-A-Za-z0-9äáàâöóòôüúùûÄÖÜß\@_")
+    (lse-language:tab-increment        2)
+    (lse_comment_head_delim            "%")
+    (lse_comment_head_delim_pattern    "%+ *")
+    (lse_comment_delim_char_set        "%")
+    (lse-language:initial-fill-in      "««aufwandserfassung-woche»»")
+    (lse-language:expand-initial       t)
+   )
+  '(lse-latex-mode:define-keys
+   )
+  '(
+    "lse-templates-aufwandserfassung"
+    "lse-templates-aufwand-cat-plan-swing"
+   )
+;  397
+;  149
+)
+

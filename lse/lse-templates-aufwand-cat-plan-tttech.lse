@@ -1,0 +1,1362 @@
+;-*-unibyte: t;-*-
+(lse-define-fill-in "SW-Tools"
+   '(description "Sub-Kategorien: TTPplan-R2 TTP/A-Master TTPbuild-R2 TTPos-R2 TTPload-R3 TTPview-R4 TTPplan-R3 TTPbuild-R3 TTPos-R3 TTPload-R4 TTPview-R5 TTPview-R6 TTPverify TTPmatlink-R1 Eval-Cluster-SW TTPtools Regression-Test TTPA-PIC HW-Drivers HW-Tests")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SW-Tools " & (lse-align-to-pattern "&") & "& «SW-Tools-Kategorie»")
+)
+(lse-define-fill-in "SW-Tools-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTPplan-R2 TTP/A-Master TTPbuild-R2 TTPos-R2 TTPload-R3 TTPview-R4 TTPplan-R3 TTPbuild-R3 TTPos-R3 TTPload-R4 TTPview-R5 TTPview-R6 TTPverify TTPmatlink-R1 Eval-Cluster-SW TTPtools Regression-Test TTPA-PIC HW-Drivers HW-Tests 
+    )
+)
+(lse-define-fill-in "TTPplan-R2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPplan-R2 ")
+)
+(lse-define-fill-in "TTP/A-Master"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTP/A-Master ")
+)
+(lse-define-fill-in "TTPbuild-R2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPbuild-R2 ")
+)
+(lse-define-fill-in "TTPos-R2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPos-R2 ")
+)
+(lse-define-fill-in "TTPload-R3"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPload-R3 ")
+)
+(lse-define-fill-in "TTPview-R4"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPview-R4 ")
+)
+(lse-define-fill-in "TTPplan-R3"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPplan-R3 ")
+)
+(lse-define-fill-in "TTPbuild-R3"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPbuild-R3 ")
+)
+(lse-define-fill-in "TTPos-R3"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPos-R3 ")
+)
+(lse-define-fill-in "TTPload-R4"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPload-R4 ")
+)
+(lse-define-fill-in "TTPview-R5"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPview-R5 ")
+)
+(lse-define-fill-in "TTPview-R6"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPview-R6 ")
+)
+(lse-define-fill-in "TTPverify"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPverify ")
+)
+(lse-define-fill-in "TTPmatlink-R1"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPmatlink-R1 ")
+)
+(lse-define-fill-in "Eval-Cluster-SW"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Eval-Cluster-SW ")
+)
+(lse-define-fill-in "TTPtools"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPtools ")
+)
+(lse-define-fill-in "Regression-Test"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Regression-Test ")
+)
+(lse-define-fill-in "TTPA-PIC"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPA-PIC ")
+)
+(lse-define-fill-in "HW-Drivers"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "HW-Drivers ")
+)
+(lse-define-fill-in "HW-Tests"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "HW-Tests ")
+)
+(lse-define-fill-in "HW-Dvpt"
+   '(description "Sub-Kategorien: TTPpowernode-C2 TTPpowerlink-C1 TTPmonitornode-C2 C2Hub C2-Powerlink C2X-Board C2S-AMS-Test-Bord C2S-NEC-Test-Bord Eval-Cluster-HW C2-TTP-CAN-Gateway Standard-Product-Delivery HW-Customer-Support")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "HW-Dvpt " & (lse-align-to-pattern "&") & "& «HW-Dvpt-Kategorie»")
+)
+(lse-define-fill-in "HW-Dvpt-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTPpowernode-C2 TTPpowerlink-C1 TTPmonitornode-C2 C2Hub C2-Powerlink C2X-Board C2S-AMS-Test-Bord C2S-NEC-Test-Bord Eval-Cluster-HW C2-TTP-CAN-Gateway Standard-Product-Delivery HW-Customer-Support 
+    )
+)
+(lse-define-fill-in "TTPpowernode-C2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPpowernode-C2 ")
+)
+(lse-define-fill-in "TTPpowerlink-C1"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPpowerlink-C1 ")
+)
+(lse-define-fill-in "TTPmonitornode-C2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPmonitornode-C2 ")
+)
+(lse-define-fill-in "C2Hub"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2Hub ")
+)
+(lse-define-fill-in "C2-Powerlink"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2-Powerlink ")
+)
+(lse-define-fill-in "C2X-Board"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2X-Board ")
+)
+(lse-define-fill-in "C2S-AMS-Test-Bord"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2S-AMS-Test-Bord ")
+)
+(lse-define-fill-in "C2S-NEC-Test-Bord"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2S-NEC-Test-Bord ")
+)
+(lse-define-fill-in "Eval-Cluster-HW"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Eval-Cluster-HW ")
+)
+(lse-define-fill-in "C2-TTP-CAN-Gateway"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2-TTP-CAN-Gateway ")
+)
+(lse-define-fill-in "Standard-Product-Delivery"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Standard-Product-Delivery ")
+)
+(lse-define-fill-in "HW-Customer-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "HW-Customer-Support ")
+)
+(lse-define-fill-in "By-wire-Box"
+   '(description "Sub-Kategorien: By-Wire-Box-V1 By-Wire-Box-V2 By-Wire-Box-Optical By-Wire-Box-Piezo")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "By-wire-Box " & (lse-align-to-pattern "&") & "& «By-wire-Box-Kategorie»")
+)
+(lse-define-fill-in "By-wire-Box-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       By-Wire-Box-V1 By-Wire-Box-V2 By-Wire-Box-Optical By-Wire-Box-Piezo 
+    )
+)
+(lse-define-fill-in "By-Wire-Box-V1"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "By-Wire-Box-V1 ")
+)
+(lse-define-fill-in "By-Wire-Box-V2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "By-Wire-Box-V2 ")
+)
+(lse-define-fill-in "By-Wire-Box-Optical"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "By-Wire-Box-Optical ")
+)
+(lse-define-fill-in "By-Wire-Box-Piezo"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "By-Wire-Box-Piezo ")
+)
+(lse-define-fill-in "Chip-Development"
+   '(description "Sub-Kategorien: C2-Model C2S-NEC-Tina C2S-AMS-Tania C2X-Model C2S-Model C2-AMS")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Chip-Development " & (lse-align-to-pattern "&") & "& «Chip-Development-Kategorie»")
+)
+(lse-define-fill-in "Chip-Development-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       C2-Model C2S-NEC-Tina C2S-AMS-Tania C2X-Model C2S-Model C2-AMS 
+    )
+)
+(lse-define-fill-in "C2-Model"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2-Model ")
+)
+(lse-define-fill-in "C2S-NEC-Tina"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2S-NEC-Tina ")
+)
+(lse-define-fill-in "C2S-AMS-Tania"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2S-AMS-Tania ")
+)
+(lse-define-fill-in "C2X-Model"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2X-Model ")
+)
+(lse-define-fill-in "C2S-Model"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2S-Model ")
+)
+(lse-define-fill-in "C2-AMS"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "C2-AMS ")
+)
+(lse-define-fill-in "Training_Support"
+   '(description "Sub-Kategorien: TTP-Basisseminar Quickstart TTPtools-Workshop Base-Training-New-Empl TTTech-SW-Design-Guidelines TTPC-Specification TTPtools-Customer-Support Support-Contracts")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Training_Support " & (lse-align-to-pattern "&") & "& «Training_Support-Kategorie»")
+)
+(lse-define-fill-in "Training_Support-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTP-Basisseminar Quickstart TTPtools-Workshop Base-Training-New-Empl TTTech-SW-Design-Guidelines TTPC-Specification TTPtools-Customer-Support Support-Contracts 
+    )
+)
+(lse-define-fill-in "TTP-Basisseminar"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTP-Basisseminar ")
+)
+(lse-define-fill-in "Quickstart"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Quickstart ")
+)
+(lse-define-fill-in "TTPtools-Workshop"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPtools-Workshop ")
+)
+(lse-define-fill-in "Base-Training-New-Empl"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Base-Training-New-Empl ")
+)
+(lse-define-fill-in "TTTech-SW-Design-Guidelines"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-SW-Design-Guidelines ")
+)
+(lse-define-fill-in "TTPC-Specification"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPC-Specification ")
+)
+(lse-define-fill-in "TTPtools-Customer-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPtools-Customer-Support ")
+)
+(lse-define-fill-in "Support-Contracts"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Support-Contracts ")
+)
+(lse-define-fill-in "TTControl-Box"
+   '(description "Sub-Kategorien: TTcontrol-IO-Unit-V1 TTcontrol-IO-Unit-V2 TTcontrol-Visual")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Box " & (lse-align-to-pattern "&") & "& «TTControl-Box-Kategorie»")
+)
+(lse-define-fill-in "TTControl-Box-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTcontrol-IO-Unit-V1 TTcontrol-IO-Unit-V2 TTcontrol-Visual 
+    )
+)
+(lse-define-fill-in "TTcontrol-IO-Unit-V1"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTcontrol-IO-Unit-V1 ")
+)
+(lse-define-fill-in "TTcontrol-IO-Unit-V2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTcontrol-IO-Unit-V2 ")
+)
+(lse-define-fill-in "TTcontrol-Visual"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTcontrol-Visual ")
+)
+(lse-define-fill-in "Audi-Projects"
+   '(description "Sub-Kategorien: Audi-Architecture Audi-Standard-Platform Audi-Sensor-Array Audi-Shows")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi-Projects " & (lse-align-to-pattern "&") & "& «Audi-Projects-Kategorie»")
+)
+(lse-define-fill-in "Audi-Projects-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Audi-Architecture Audi-Standard-Platform Audi-Sensor-Array Audi-Shows 
+    )
+)
+(lse-define-fill-in "Audi-Architecture"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi-Architecture ")
+)
+(lse-define-fill-in "Audi-Standard-Platform"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi-Standard-Platform ")
+)
+(lse-define-fill-in "Audi-Sensor-Array"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi-Sensor-Array ")
+)
+(lse-define-fill-in "Audi-Shows"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi-Shows ")
+)
+(lse-define-fill-in "Active-Chassis"
+   '(description "Sub-Kategorien: Active-Chassis")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Active-Chassis " & (lse-align-to-pattern "&") & "& «Active-Chassis-Kategorie»")
+)
+(lse-define-fill-in "Active-Chassis-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Active-Chassis 
+    )
+)
+(lse-define-fill-in "Active-Chassis"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Active-Chassis ")
+)
+(lse-define-fill-in "Honeywell"
+   '(description "Sub-Kategorien: Hon-APEX Hon-MAC-Support Hon-C2-Certification Hon-C2X-Certification Hon-C2X-Meta-Test Hon-TTPos-Certification Hon-TTPverify-Certification")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Honeywell " & (lse-align-to-pattern "&") & "& «Honeywell-Kategorie»")
+)
+(lse-define-fill-in "Honeywell-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Hon-APEX Hon-MAC-Support Hon-C2-Certification Hon-C2X-Certification Hon-C2X-Meta-Test Hon-TTPos-Certification Hon-TTPverify-Certification 
+    )
+)
+(lse-define-fill-in "Hon-APEX"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-APEX ")
+)
+(lse-define-fill-in "Hon-MAC-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-MAC-Support ")
+)
+(lse-define-fill-in "Hon-C2-Certification"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-C2-Certification ")
+)
+(lse-define-fill-in "Hon-C2X-Certification"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-C2X-Certification ")
+)
+(lse-define-fill-in "Hon-C2X-Meta-Test"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-C2X-Meta-Test ")
+)
+(lse-define-fill-in "Hon-TTPos-Certification"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-TTPos-Certification ")
+)
+(lse-define-fill-in "Hon-TTPverify-Certification"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Hon-TTPverify-Certification ")
+)
+(lse-define-fill-in "Customer-Projects"
+   '(description "Sub-Kategorien: SKF-Longbow TTCar DESDEMONA SKF-Longbow-2 SKF-Marlene VW-D1-ADR VW-Brake-By-Wire VW-Steer-By-Wire PSA-Axones Nord-Micro-Length-Test UTC-Eval TTPherd TTPlan-TTCan TMI-Calibration")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Customer-Projects " & (lse-align-to-pattern "&") & "& «Customer-Projects-Kategorie»")
+)
+(lse-define-fill-in "Customer-Projects-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       SKF-Longbow TTCar DESDEMONA SKF-Longbow-2 SKF-Marlene VW-D1-ADR VW-Brake-By-Wire VW-Steer-By-Wire PSA-Axones Nord-Micro-Length-Test UTC-Eval TTPherd TTPlan-TTCan TMI-Calibration 
+    )
+)
+(lse-define-fill-in "SKF-Longbow"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SKF-Longbow ")
+)
+(lse-define-fill-in "TTCar"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTCar ")
+)
+(lse-define-fill-in "DESDEMONA"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "DESDEMONA ")
+)
+(lse-define-fill-in "SKF-Longbow-2"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SKF-Longbow-2 ")
+)
+(lse-define-fill-in "SKF-Marlene"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SKF-Marlene ")
+)
+(lse-define-fill-in "VW-D1-ADR"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "VW-D1-ADR ")
+)
+(lse-define-fill-in "VW-Brake-By-Wire"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "VW-Brake-By-Wire ")
+)
+(lse-define-fill-in "VW-Steer-By-Wire"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "VW-Steer-By-Wire ")
+)
+(lse-define-fill-in "PSA-Axones"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "PSA-Axones ")
+)
+(lse-define-fill-in "Nord-Micro-Length-Test"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Nord-Micro-Length-Test ")
+)
+(lse-define-fill-in "UTC-Eval"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "UTC-Eval ")
+)
+(lse-define-fill-in "TTPherd"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPherd ")
+)
+(lse-define-fill-in "TTPlan-TTCan"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTPlan-TTCan ")
+)
+(lse-define-fill-in "TMI-Calibration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TMI-Calibration ")
+)
+(lse-define-fill-in "Sales-Projects"
+   '(description "Sub-Kategorien: Audi Robert-Bosch Volkswagen Japan-Customers-Automotive Denso Daimler-Chrysler Toyota Visteon TRW Delphi-Automotive-Systems Ford-Jaguar-Volvo-Land-Rover SKF Renault Brembo-SKF GM-Opel-Saab Siemens-AT BMW Other-Customers-Automotive PSA FIAT Other-Customers-Aerospace Boeing Honeywell-Tucson Honeywell-Phoenix Honeywell-Kansas Nord-Micro Ohter-Customers-Industrial Alcatel Other-Customers-Semiconductor Austria-Micro-Systems-AG TURN-Sales Conti")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Sales-Projects " & (lse-align-to-pattern "&") & "& «Sales-Projects-Kategorie»")
+)
+(lse-define-fill-in "Sales-Projects-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Audi Robert-Bosch Volkswagen Japan-Customers-Automotive Denso Daimler-Chrysler Toyota Visteon TRW Delphi-Automotive-Systems Ford-Jaguar-Volvo-Land-Rover SKF Renault Brembo-SKF GM-Opel-Saab Siemens-AT BMW Other-Customers-Automotive PSA FIAT Other-Customers-Aerospace Boeing Honeywell-Tucson Honeywell-Phoenix Honeywell-Kansas Nord-Micro Ohter-Customers-Industrial Alcatel Other-Customers-Semiconductor Austria-Micro-Systems-AG TURN-Sales Conti 
+    )
+)
+(lse-define-fill-in "Audi"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Audi ")
+)
+(lse-define-fill-in "Robert-Bosch"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Robert-Bosch ")
+)
+(lse-define-fill-in "Volkswagen"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Volkswagen ")
+)
+(lse-define-fill-in "Japan-Customers-Automotive"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Japan-Customers-Automotive ")
+)
+(lse-define-fill-in "Denso"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Denso ")
+)
+(lse-define-fill-in "Daimler-Chrysler"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Daimler-Chrysler ")
+)
+(lse-define-fill-in "Toyota"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Toyota ")
+)
+(lse-define-fill-in "Visteon"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Visteon ")
+)
+(lse-define-fill-in "TRW"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TRW ")
+)
+(lse-define-fill-in "Delphi-Automotive-Systems"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Delphi-Automotive-Systems ")
+)
+(lse-define-fill-in "Ford-Jaguar-Volvo-Land-Rover"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Ford-Jaguar-Volvo-Land-Rover ")
+)
+(lse-define-fill-in "SKF"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SKF ")
+)
+(lse-define-fill-in "Renault"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Renault ")
+)
+(lse-define-fill-in "Brembo-SKF"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Brembo-SKF ")
+)
+(lse-define-fill-in "GM-Opel-Saab"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "GM-Opel-Saab ")
+)
+(lse-define-fill-in "Siemens-AT"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Siemens-AT ")
+)
+(lse-define-fill-in "BMW"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "BMW ")
+)
+(lse-define-fill-in "Other-Customers-Automotive"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Other-Customers-Automotive ")
+)
+(lse-define-fill-in "PSA"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "PSA ")
+)
+(lse-define-fill-in "FIAT"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "FIAT ")
+)
+(lse-define-fill-in "Other-Customers-Aerospace"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Other-Customers-Aerospace ")
+)
+(lse-define-fill-in "Boeing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Boeing ")
+)
+(lse-define-fill-in "Honeywell-Tucson"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Honeywell-Tucson ")
+)
+(lse-define-fill-in "Honeywell-Phoenix"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Honeywell-Phoenix ")
+)
+(lse-define-fill-in "Honeywell-Kansas"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Honeywell-Kansas ")
+)
+(lse-define-fill-in "Nord-Micro"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Nord-Micro ")
+)
+(lse-define-fill-in "Ohter-Customers-Industrial"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Ohter-Customers-Industrial ")
+)
+(lse-define-fill-in "Alcatel"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Alcatel ")
+)
+(lse-define-fill-in "Other-Customers-Semiconductor"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Other-Customers-Semiconductor ")
+)
+(lse-define-fill-in "Austria-Micro-Systems-AG"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Austria-Micro-Systems-AG ")
+)
+(lse-define-fill-in "TURN-Sales"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TURN-Sales ")
+)
+(lse-define-fill-in "Conti"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Conti ")
+)
+(lse-define-fill-in "Marketing"
+   '(description "Sub-Kategorien: CRM+Addresses Press+Communication Events Product-Marketing Company-Information Case-Studies+Market-Brochures Customers+Partners Corporate-Identity Give-Aways TURN-Marketing Web Price-List Analysis+Market-Research")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Marketing " & (lse-align-to-pattern "&") & "& «Marketing-Kategorie»")
+)
+(lse-define-fill-in "Marketing-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       CRM+Addresses Press+Communication Events Product-Marketing Company-Information Case-Studies+Market-Brochures Customers+Partners Corporate-Identity Give-Aways TURN-Marketing Web Price-List Analysis+Market-Research 
+    )
+)
+(lse-define-fill-in "CRM+Addresses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "CRM+Addresses ")
+)
+(lse-define-fill-in "Press+Communication"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Press+Communication ")
+)
+(lse-define-fill-in "Events"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Events ")
+)
+(lse-define-fill-in "Product-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Product-Marketing ")
+)
+(lse-define-fill-in "Company-Information"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Company-Information ")
+)
+(lse-define-fill-in "Case-Studies+Market-Brochures"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Case-Studies+Market-Brochures ")
+)
+(lse-define-fill-in "Customers+Partners"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Customers+Partners ")
+)
+(lse-define-fill-in "Corporate-Identity"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Corporate-Identity ")
+)
+(lse-define-fill-in "Give-Aways"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Give-Aways ")
+)
+(lse-define-fill-in "TURN-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TURN-Marketing ")
+)
+(lse-define-fill-in "Web"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Web ")
+)
+(lse-define-fill-in "Price-List"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Price-List ")
+)
+(lse-define-fill-in "Analysis+Market-Research"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Analysis+Market-Research ")
+)
+(lse-define-fill-in "Finance_Legal"
+   '(description "Sub-Kategorien: Accounting Staff-Other-Cost Personnel-Administration Supervisory-board Stock-Options-Program Trainees Human-Resources-Development Reporting-TTTech Controlling USA-h1b-Inc Consolidation Liquidity-Banking Budget-Planning Taxes Reports Costing-Structure Contracts Company IPR WWFF-TTP-DE-iii WWFF-Milleniums-Car WWFF-IQ-Mitarbeiter FFF-TTPC-C2-Sequel-Proposal (Folgeantrag) FFF-TTPC-C2-Controller FFF-TTP-DE-iii FAST Oberbay-Regionalfoerderung EU-Next-TTA EU-SETTA EU-FIT EU-TTPforum EU-Tecnothon EU-Telelogic DARPA-NEST ERP-Fonds")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Finance_Legal " & (lse-align-to-pattern "&") & "& «Finance_Legal-Kategorie»")
+)
+(lse-define-fill-in "Finance_Legal-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Accounting Staff-Other-Cost Personnel-Administration Supervisory-board Stock-Options-Program Trainees Human-Resources-Development Reporting-TTTech Controlling USA-h1b-Inc Consolidation Liquidity-Banking Budget-Planning Taxes Reports Costing-Structure Contracts Company IPR WWFF-TTP-DE-iii WWFF-Milleniums-Car WWFF-IQ-Mitarbeiter FFF-TTPC-C2-Sequel-Proposal (Folgeantrag) FFF-TTPC-C2-Controller FFF-TTP-DE-iii FAST Oberbay-Regionalfoerderung EU-Next-TTA EU-SETTA EU-FIT EU-TTPforum EU-Tecnothon EU-Telelogic DARPA-NEST ERP-Fonds 
+    )
+)
+(lse-define-fill-in "Accounting"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Accounting ")
+)
+(lse-define-fill-in "Staff-Other-Cost"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Staff-Other-Cost ")
+)
+(lse-define-fill-in "Personnel-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Personnel-Administration ")
+)
+(lse-define-fill-in "Supervisory-board"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Supervisory-board ")
+)
+(lse-define-fill-in "Stock-Options-Program"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Stock-Options-Program ")
+)
+(lse-define-fill-in "Trainees"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Trainees ")
+)
+(lse-define-fill-in "Human-Resources-Development"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Human-Resources-Development ")
+)
+(lse-define-fill-in "Reporting-TTTech"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Reporting-TTTech ")
+)
+(lse-define-fill-in "Controlling"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Controlling ")
+)
+(lse-define-fill-in "USA-h1b-Inc"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "USA-h1b-Inc ")
+)
+(lse-define-fill-in "Consolidation"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Consolidation ")
+)
+(lse-define-fill-in "Liquidity-Banking"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Liquidity-Banking ")
+)
+(lse-define-fill-in "Budget-Planning"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Budget-Planning ")
+)
+(lse-define-fill-in "Taxes"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Taxes ")
+)
+(lse-define-fill-in "Reports"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Reports ")
+)
+(lse-define-fill-in "Costing-Structure"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Costing-Structure ")
+)
+(lse-define-fill-in "Contracts"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Contracts ")
+)
+(lse-define-fill-in "Company"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Company ")
+)
+(lse-define-fill-in "IPR"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "IPR ")
+)
+(lse-define-fill-in "WWFF-TTP-DE-iii"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "WWFF-TTP-DE-iii ")
+)
+(lse-define-fill-in "WWFF-Milleniums-Car"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "WWFF-Milleniums-Car ")
+)
+(lse-define-fill-in "WWFF-IQ-Mitarbeiter"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "WWFF-IQ-Mitarbeiter ")
+)
+(lse-define-fill-in "FFF-TTPC-C2-Sequel-Proposal (Folgeantrag)"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "FFF-TTPC-C2-Sequel-Proposal (Folgeantrag) ")
+)
+(lse-define-fill-in "FFF-TTPC-C2-Controller"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "FFF-TTPC-C2-Controller ")
+)
+(lse-define-fill-in "FFF-TTP-DE-iii"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "FFF-TTP-DE-iii ")
+)
+(lse-define-fill-in "FAST"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "FAST ")
+)
+(lse-define-fill-in "Oberbay-Regionalfoerderung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Oberbay-Regionalfoerderung ")
+)
+(lse-define-fill-in "EU-Next-TTA"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-Next-TTA ")
+)
+(lse-define-fill-in "EU-SETTA"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-SETTA ")
+)
+(lse-define-fill-in "EU-FIT"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-FIT ")
+)
+(lse-define-fill-in "EU-TTPforum"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-TTPforum ")
+)
+(lse-define-fill-in "EU-Tecnothon"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-Tecnothon ")
+)
+(lse-define-fill-in "EU-Telelogic"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "EU-Telelogic ")
+)
+(lse-define-fill-in "DARPA-NEST"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "DARPA-NEST ")
+)
+(lse-define-fill-in "ERP-Fonds"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "ERP-Fonds ")
+)
+(lse-define-fill-in "Operations"
+   '(description "Sub-Kategorien: SysAdmin Organisation-Handbook Process-Documentation License-Management Integration-TU Selection-ERP-System Time-Registration Project-Management Project-Handbook-R_D CE-Labelling Procurement Shipment Facility-Management Office-Management Quality Tools")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Operations " & (lse-align-to-pattern "&") & "& «Operations-Kategorie»")
+)
+(lse-define-fill-in "Operations-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       SysAdmin Organisation-Handbook Process-Documentation License-Management Integration-TU Selection-ERP-System Time-Registration Project-Management Project-Handbook-R_D CE-Labelling Procurement Shipment Facility-Management Office-Management Quality Tools 
+    )
+)
+(lse-define-fill-in "SysAdmin"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "SysAdmin ")
+)
+(lse-define-fill-in "Organisation-Handbook"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Organisation-Handbook ")
+)
+(lse-define-fill-in "Process-Documentation"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Process-Documentation ")
+)
+(lse-define-fill-in "License-Management"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "License-Management ")
+)
+(lse-define-fill-in "Integration-TU"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Integration-TU ")
+)
+(lse-define-fill-in "Selection-ERP-System"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Selection-ERP-System ")
+)
+(lse-define-fill-in "Time-Registration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Time-Registration ")
+)
+(lse-define-fill-in "Project-Management"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Project-Management ")
+)
+(lse-define-fill-in "Project-Handbook-R_D"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Project-Handbook-R_D ")
+)
+(lse-define-fill-in "CE-Labelling"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "CE-Labelling ")
+)
+(lse-define-fill-in "Procurement"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Procurement ")
+)
+(lse-define-fill-in "Shipment"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Shipment ")
+)
+(lse-define-fill-in "Facility-Management"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Facility-Management ")
+)
+(lse-define-fill-in "Office-Management"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Office-Management ")
+)
+(lse-define-fill-in "Quality"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Quality ")
+)
+(lse-define-fill-in "Tools"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Tools ")
+)
+(lse-define-fill-in "Overhead"
+   '(description "Sub-Kategorien: Jour-Fix TTTech-Day Travel Team-Meetings Coordination-Meetings Internal-Organisation Urlaub Sonderurlaub Training-Einschulung Krankenstand Arztbesuch Zeitausgleich Feiertage")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Overhead " & (lse-align-to-pattern "&") & "& «Overhead-Kategorie»")
+)
+(lse-define-fill-in "Overhead-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Jour-Fix TTTech-Day Travel Team-Meetings Coordination-Meetings Internal-Organisation Urlaub Sonderurlaub Training-Einschulung Krankenstand Arztbesuch Zeitausgleich Feiertage 
+    )
+)
+(lse-define-fill-in "Jour-Fix"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Jour-Fix ")
+)
+(lse-define-fill-in "TTTech-Day"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-Day ")
+)
+(lse-define-fill-in "Travel"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Travel ")
+)
+(lse-define-fill-in "Team-Meetings"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Team-Meetings ")
+)
+(lse-define-fill-in "Coordination-Meetings"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Coordination-Meetings ")
+)
+(lse-define-fill-in "Internal-Organisation"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Internal-Organisation ")
+)
+(lse-define-fill-in "Urlaub"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Urlaub ")
+)
+(lse-define-fill-in "Sonderurlaub"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Sonderurlaub ")
+)
+(lse-define-fill-in "Training-Einschulung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Training-Einschulung ")
+)
+(lse-define-fill-in "Krankenstand"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Krankenstand ")
+)
+(lse-define-fill-in "Arztbesuch"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Arztbesuch ")
+)
+(lse-define-fill-in "Zeitausgleich"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Zeitausgleich ")
+)
+(lse-define-fill-in "Feiertage"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Feiertage ")
+)
+(lse-define-fill-in "TTChip"
+   '(description "Sub-Kategorien: TTChip-Finance_Legal TTChip-Operations TTChip-Administration TTChip-Marketing TTChip-Support TTChip-Training")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip " & (lse-align-to-pattern "&") & "& «TTChip-Kategorie»")
+)
+(lse-define-fill-in "TTChip-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTChip-Finance_Legal TTChip-Operations TTChip-Administration TTChip-Marketing TTChip-Support TTChip-Training 
+    )
+)
+(lse-define-fill-in "TTChip-Finance_Legal"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Finance_Legal ")
+)
+(lse-define-fill-in "TTChip-Operations"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Operations ")
+)
+(lse-define-fill-in "TTChip-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Administration ")
+)
+(lse-define-fill-in "TTChip-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Marketing ")
+)
+(lse-define-fill-in "TTChip-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Support ")
+)
+(lse-define-fill-in "TTChip-Training"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTChip-Training ")
+)
+(lse-define-fill-in "TTControl"
+   '(description "Sub-Kategorien: TTControl-Finance_Legal TTControl-Operations TTControl-Administration TTControl-Marketing TTControl-Support TTControl-Training")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl " & (lse-align-to-pattern "&") & "& «TTControl-Kategorie»")
+)
+(lse-define-fill-in "TTControl-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTControl-Finance_Legal TTControl-Operations TTControl-Administration TTControl-Marketing TTControl-Support TTControl-Training 
+    )
+)
+(lse-define-fill-in "TTControl-Finance_Legal"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Finance_Legal ")
+)
+(lse-define-fill-in "TTControl-Operations"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Operations ")
+)
+(lse-define-fill-in "TTControl-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Administration ")
+)
+(lse-define-fill-in "TTControl-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Marketing ")
+)
+(lse-define-fill-in "TTControl-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Support ")
+)
+(lse-define-fill-in "TTControl-Training"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTControl-Training ")
+)
+(lse-define-fill-in "TTTech-NA"
+   '(description "Sub-Kategorien: TTTech-NA-Finance_Legal TTTech-NA-Operations TTTech-NA-Administration TTTech-NA-Marketing TTTech-NA-Support TTTech-NA-Training")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA " & (lse-align-to-pattern "&") & "& «TTTech-NA-Kategorie»")
+)
+(lse-define-fill-in "TTTech-NA-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTTech-NA-Finance_Legal TTTech-NA-Operations TTTech-NA-Administration TTTech-NA-Marketing TTTech-NA-Support TTTech-NA-Training 
+    )
+)
+(lse-define-fill-in "TTTech-NA-Finance_Legal"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Finance_Legal ")
+)
+(lse-define-fill-in "TTTech-NA-Operations"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Operations ")
+)
+(lse-define-fill-in "TTTech-NA-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Administration ")
+)
+(lse-define-fill-in "TTTech-NA-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Marketing ")
+)
+(lse-define-fill-in "TTTech-NA-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Support ")
+)
+(lse-define-fill-in "TTTech-NA-Training"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-NA-Training ")
+)
+(lse-define-fill-in "TTTech-D"
+   '(description "Sub-Kategorien: TTTech-D-Finance_Legal TTTech-D-Operations TTTech-D-Administration TTTech-D-Marketing TTTech-D-Support TTTech-D-Training")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D " & (lse-align-to-pattern "&") & "& «TTTech-D-Kategorie»")
+)
+(lse-define-fill-in "TTTech-D-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTTech-D-Finance_Legal TTTech-D-Operations TTTech-D-Administration TTTech-D-Marketing TTTech-D-Support TTTech-D-Training 
+    )
+)
+(lse-define-fill-in "TTTech-D-Finance_Legal"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Finance_Legal ")
+)
+(lse-define-fill-in "TTTech-D-Operations"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Operations ")
+)
+(lse-define-fill-in "TTTech-D-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Administration ")
+)
+(lse-define-fill-in "TTTech-D-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Marketing ")
+)
+(lse-define-fill-in "TTTech-D-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Support ")
+)
+(lse-define-fill-in "TTTech-D-Training"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-D-Training ")
+)
+(lse-define-fill-in "TTAGroup"
+   '(description "Sub-Kategorien: Marketing-PR Administration")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTAGroup " & (lse-align-to-pattern "&") & "& «TTAGroup-Kategorie»")
+)
+(lse-define-fill-in "TTAGroup-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Marketing-PR Administration 
+    )
+)
+(lse-define-fill-in "Marketing-PR"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Marketing-PR ")
+)
+(lse-define-fill-in "Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Administration ")
+)
+(lse-define-fill-in "TTTech-J"
+   '(description "Sub-Kategorien: TTTech-J-Finance_Legal TTTech-J-Operations TTTech-J-Administration TTTech-J-Marketing TTTech-J-Support TTTech-J-Training")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J " & (lse-align-to-pattern "&") & "& «TTTech-J-Kategorie»")
+)
+(lse-define-fill-in "TTTech-J-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       TTTech-J-Finance_Legal TTTech-J-Operations TTTech-J-Administration TTTech-J-Marketing TTTech-J-Support TTTech-J-Training 
+    )
+)
+(lse-define-fill-in "TTTech-J-Finance_Legal"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Finance_Legal ")
+)
+(lse-define-fill-in "TTTech-J-Operations"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Operations ")
+)
+(lse-define-fill-in "TTTech-J-Administration"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Administration ")
+)
+(lse-define-fill-in "TTTech-J-Marketing"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Marketing ")
+)
+(lse-define-fill-in "TTTech-J-Support"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Support ")
+)
+(lse-define-fill-in "TTTech-J-Training"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "TTTech-J-Training ")
+)
+(lse-define-fill-in "Aufwands-Kategorie"
+   '(token)
+   '(description "Geleistete Tätigkeit")
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu 
+       SW-Tools HW-Dvpt By-wire-Box Chip-Development Training_Support TTControl-Box Audi-Projects Active-Chassis Honeywell Customer-Projects Sales-Projects Marketing Finance_Legal Operations Overhead TTChip TTControl TTTech-NA TTTech-D TTAGroup TTTech-J
+    )
+)

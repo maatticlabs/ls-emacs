@@ -1,0 +1,222 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Analyse"
+   '(description "Sub-Kategorien: Objekt-Modell Spezifikation Besprechung «text» Qualitätssicherung Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Analyse " & (lse-align-to-pattern "&") & "& «Analyse-Kategorie»")
+)
+(lse-define-fill-in "Analyse-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Objekt-Modell Spezifikation Besprechung «text» Qualitätssicherung Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Objekt-Modell"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Objekt-Modell ")
+)
+(lse-define-fill-in "Spezifikation"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Spezifikation ")
+)
+(lse-define-fill-in "Besprechung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Besprechung «text»")
+)
+(lse-define-fill-in "Qualitätssicherung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Qualitätssicherung ")
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Design"
+   '(description "Sub-Kategorien: Basisklassen Qualitätssicherung Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Design " & (lse-align-to-pattern "&") & "& «Design-Kategorie»")
+)
+(lse-define-fill-in "Design-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Basisklassen Qualitätssicherung Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Basisklassen"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Basisklassen ")
+)
+(lse-define-fill-in "Qualitätssicherung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Qualitätssicherung ")
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Implementation"
+   '(description "Sub-Kategorien: Qualitätssicherung Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Implementation " & (lse-align-to-pattern "&") & "& «Implementation-Kategorie»")
+)
+(lse-define-fill-in "Implementation-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Qualitätssicherung Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Qualitätssicherung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Qualitätssicherung ")
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Kunden_Abnahme"
+   '(description "Sub-Kategorien: Installation Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Kunden_Abnahme " & (lse-align-to-pattern "&") & "& «Kunden_Abnahme-Kategorie»")
+)
+(lse-define-fill-in "Kunden_Abnahme-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Installation Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Installation"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Installation ")
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Organisation_Intern"
+   '(description "Sub-Kategorien: Aufwandserfassung Beschaffung Buchhaltung Weiterbildung Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Organisation_Intern " & (lse-align-to-pattern "&") & "& «Organisation_Intern-Kategorie»")
+)
+(lse-define-fill-in "Organisation_Intern-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Aufwandserfassung Beschaffung Buchhaltung Weiterbildung Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Aufwandserfassung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Aufwandserfassung ")
+)
+(lse-define-fill-in "Beschaffung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Beschaffung ")
+)
+(lse-define-fill-in "Buchhaltung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Buchhaltung ")
+)
+(lse-define-fill-in "Weiterbildung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Weiterbildung ")
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Projekt_Management"
+   '(description "Sub-Kategorien: Diverses Rechnungen Verträge")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Projekt_Management " & (lse-align-to-pattern "&") & "& «Projekt_Management-Kategorie»")
+)
+(lse-define-fill-in "Projekt_Management-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Diverses Rechnungen Verträge "«text»" 
+    )
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Rechnungen"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Rechnungen ")
+)
+(lse-define-fill-in "Verträge"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Verträge ")
+)
+(lse-define-fill-in "Test"
+   '(description "Sub-Kategorien: Diverses")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Test " & (lse-align-to-pattern "&") & "& «Test-Kategorie»")
+)
+(lse-define-fill-in "Test-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Diverses "«text»" 
+    )
+)
+(lse-define-fill-in "Diverses"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverses ")
+)
+(lse-define-fill-in "Wartung"
+   '(description "Sub-Kategorien: Qualitätssicherung Diverse")
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Wartung " & (lse-align-to-pattern "&") & "& «Wartung-Kategorie»")
+)
+(lse-define-fill-in "Wartung-Kategorie"
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu  
+       Qualitätssicherung Diverse "«text»" 
+    )
+)
+(lse-define-fill-in "Qualitätssicherung"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Qualitätssicherung ")
+)
+(lse-define-fill-in "Diverse"
+   '(token)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(replacement "Diverse ")
+)
+(lse-define-fill-in "Aufwands-Kategorie"
+   '(token)
+   '(description "Geleistete Tätigkeit")
+   '(sort)
+   '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
+   '(menu 
+       Analyse Design Implementation Kunden_Abnahme Organisation_Intern Projekt_Management Test Wartung
+    )
+)

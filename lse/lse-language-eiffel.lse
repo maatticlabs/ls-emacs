@@ -1,0 +1,30 @@
+;-*-unibyte: t;-*-
+
+(lse-language:define "eiffel"
+    '(
+        (lse-tpu:ident-chars               "a-zA-Z$0-9")
+        (lse-tpu:ident-group-chars         "_")
+        (lse-language:initial-fill-in      "««class»»")
+        (lse-language:tab-increment        4)
+        (lse_comment_head_delim            "--")
+        (lse_comment_head_delim_pattern    "--\** *")
+        (lse_comment_delim_char_set        "-*")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-eiffel"
+     )
+    137
+     67
+;;; eiffel
+)
+
+;;; 11-Mar-1997
+(defun lse-eiffel-mode ()
+  (interactive)
+  (lse-language:use "eiffel")
+; lse-eiffel-mode
+)

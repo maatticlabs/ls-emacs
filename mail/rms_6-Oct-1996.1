@@ -1,0 +1,19 @@
+> I think this was a deliberate change.  It enables you to find out
+> what text was inserted.
+>
+> Is it impossible to do the job you want to do
+> with the way these hooks work now?
+
+The problem was the missing documentation of the change. I implemented a
+work-around once I figured out the reason why my code didn't work
+anymore.
+
+The problem is, I'm not particularly fond of sprinkling my code with
+if-statements checking for version incompatibilities. 
+
+BTW, there seems to be another change in version 19.30 concerning
+find-file-hook. I use find-file-hook to update some buffer-local
+variables. Starting with 19.30 my code didn't work. I found a hack
+around this, too, but that one is rather annoying: the function called
+by find-file-hook sets a temporary post-command-hook to do its
+work. At least, this hack works for 19.28 as well.

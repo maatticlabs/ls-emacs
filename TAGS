@@ -1,0 +1,1886 @@
+
+ls-emacs.el,695
+(defconst lse-version lse-version65,2869
+(defconst lse-version-date lse-version-date66,2941
+(defconst lse-emacs19-p lse-emacs19-p68,3019
+(defconst lse-emacs20-p lse-emacs20-p72,3155
+(defconst lse-emacs20.3-p lse-emacs20.3-p76,3296
+(defconst lse-emacsX-p lse-emacsX-p80,3443
+(defconst                    lse@active@in@buffer lse@active@in@buffer99,4119
+(defvar                      lse_current_fill-in lse_current_fill-in108,4418
+(defvar                      lse_dead_fill-in lse_dead_fill-in110,4526
+(defvar                      lse_last_position lse_last_position117,4734
+(defun lse-initialize lse-initialize120,4835
+(defun lse-terminal-setup lse-terminal-setup149,5989
+
+lse-basics.el,161
+(defvar lse@emacs-insert@replaced lse@emacs-insert@replaced47,1989
+(defun lse-initialization lse-initialization94,3484
+(defmacro lse-safe lse-safe123,4167
+
+lse-buffer-list.el,2860
+(defvar   lse_buffer_list:buffer lse_buffer_list:buffer58,2616
+(defvar   lse_buffer_list:cb lse_buffer_list:cb59,2661
+(defvar   lse_buffer_list:buffer-keymap lse_buffer_list:buffer-keymap60,2706
+(defconst lse_buffer_list:toggle-field-cmdslse_buffer_list:toggle-field-cmds61,2751
+(defconst lse_buffer_list:buffer-left-margin lse_buffer_list:buffer-left-margin72,3325
+(defconst lse_buffer_list:buffer-top-line lse_buffer_list:buffer-top-line73,3375
+(defvar   lse_buffer_list:name-length lse_buffer_list:name-length74,3425
+(defvar   lse_buffer_list:name-length-max lse_buffer_list:name-length-max75,3475
+(defconst lse_buffer_list:name-terminator lse_buffer_list:name-terminator76,3525
+(defvar lse_buffer_list:overlay lse_buffer_list:overlay78,3576
+(defun lse_buffer_list:define-keys lse_buffer_list:define-keys80,3628
+(defun lse_buffer_list:goto-buffer lse_buffer_list:goto-buffer111,5257
+(defun lse_buffer_list:selected-buffer lse_buffer_list:selected-buffer134,6051
+(defun lse_buffer_list:selected-field lse_buffer_list:selected-field148,6399
+(defun lse-buffer-list-delete-buffer lse-buffer-list-delete-buffer168,6888
+(defun lse-buffer-list-mouse-goto-buffer lse-buffer-list-mouse-goto-buffer178,7152
+(defun lse-buffer-list-goto-buffer lse-buffer-list-goto-buffer184,7322
+(defun lse-buffer-list-toggle-field lse-buffer-list-toggle-field194,7561
+(defun lse-buffer-list-toggle-write lse-buffer-list-toggle-write219,8211
+(defun lse-buffer-list-toggle-save lse-buffer-list-toggle-save230,8512
+(defun lse-buffer-list-toggle-vc lse-buffer-list-toggle-vc241,8767
+(defun lse-buffer-list-write-buffer lse-buffer-list-write-buffer255,9059
+(defun lse-buffer-list-update lse-buffer-list-update265,9263
+(defun lse-reverse-video-current-line lse-reverse-video-current-line276,9502
+(defun lse-buffer-list-goto-begin lse-buffer-list-goto-begin290,9875
+(defun lse-buffer-list-goto-end lse-buffer-list-goto-end296,10006
+(defun lse-buffer-list-sort-lines lse-buffer-list-sort-lines304,10179
+(defun lse-buffer-list-sort lse-buffer-list-sort313,10483
+(defun lse-buffer-list-goto-line-begin lse-buffer-list-goto-line-begin323,10785
+(defun lse_buffer_list:snap-cursor lse_buffer_list:snap-cursor330,10962
+(defun lse_buffer_list:key-handler lse_buffer_list:key-handler343,11288
+(defun lse_buffer_list:format-bufferlse_buffer_list:format-buffer381,12413
+(defun lse_buffer_list:show lse_buffer_list:show406,13335
+(defun lse_buffer_list:initialize lse_buffer_list:initialize435,14189
+(defun lse_buffer_list:show-all lse_buffer_list:show-all452,14811
+(defun lse_buffer_list:show-user lse_buffer_list:show-user483,15590
+(defun lse-show-buffers lse-show-buffers557,17699
+(defun lse-show-all-buffers lse-show-all-buffers565,17929
+(defun lse-buffer-list:post-command-hook lse-buffer-list:post-command-hook574,18158
+
+lse-buffer.el,2652
+(defvar buf buf55,2498
+(defun lse-buffer:alist lse-buffer:alist57,2573
+(defvar buffer-history buffer-history66,2744
+(defun lse-buffer:read-lse-completion lse-buffer:read-lse-completion68,2773
+(defun lse-buffer:read-name lse-buffer:read-name72,2902
+(defvar lse-buffer:main lse-buffer:main96,3509
+(defvar lse-buffer:new lse-buffer:new97,3587
+(defvar lse-buffer:new_n lse-buffer:new_n98,3667
+(defvar lse-buffer:file-name lse-buffer:file-name100,3748
+(defvar lse-buffer:next lse-buffer:next101,3814
+(defvar lse-buffer:prev lse-buffer:prev102,3875
+(defvar lse-buffer:n lse-buffer:n103,3936
+(defun lse-buffer:next lse-buffer:next113,4461
+(defun lse-buffer:prev lse-buffer:prev126,4697
+(defun lse-buffer:main lse-buffer:main139,4933
+(defun lse-buffer:is-lse-buffer lse-buffer:is-lse-buffer147,5128
+(defun lse-buffer:< lse-buffer:<152,5269
+(defun lse-buffer:rebuild-chain lse-buffer:rebuild-chain164,5499
+(defun lse-buffer:initialize-main lse-buffer:initialize-main202,6632
+(defun lse-buffer:initialize lse-buffer:initialize212,7036
+(defun lse-buffer:initialize-hack-19.30+ lse-buffer:initialize-hack-19.30+230,7741
+(defun lse-buffer:remove-from-chain lse-buffer:remove-from-chain270,9057
+(defun lse-revert-buffer lse-revert-buffer295,9807
+(defun lse-kill-buffer lse-kill-buffer323,10520
+(defun lse-insert-buffer lse-insert-buffer350,11242
+(defun lse-write-buffer lse-write-buffer357,11394
+(defun lse-write-current-buffer lse-write-current-buffer367,11605
+(defun lse-save-some-buffers lse-save-some-buffers374,11755
+(defun lse-set-buffer-nowrite lse-set-buffer-nowrite386,12088
+(defun lse-set-buffer-write lse-set-buffer-write396,12316
+(defun lse-rename-buffer lse-rename-buffer406,12572
+(defun lse-goto-next-buffer lse-goto-next-buffer419,12862
+(defun lse-goto-prev-buffer lse-goto-prev-buffer425,12991
+(defun lse-goto-buffer+maybe-create lse-goto-buffer+maybe-create431,13131
+(defun lse@goto@buffer lse@goto@buffer437,13353
+(defun lse-goto-buffer-other-windowlse-goto-buffer-other-window483,14812
+(defun lse-goto-buffer lse-goto-buffer493,15085
+(defvar lse-buffer-mark@stack lse-buffer-mark@stack506,15372
+(defun lse-goto-last-mark-buffer lse-goto-last-mark-buffer512,15511
+(defun lse-goto-home-mark-buffer lse-goto-home-mark-buffer518,15638
+(defun lse-set-last-mark-buffer lse-set-last-mark-buffer524,15765
+(defun lse-set-home-mark-buffer lse-set-home-mark-buffer533,15999
+(defun lse-push-mark-buffer lse-push-mark-buffer546,16417
+(defun lse-goto-mark-and-pop-buffer lse-goto-mark-and-pop-buffer552,16545
+(defun lse-toggle-mark-buffer lse-toggle-mark-buffer558,16705
+
+lse-byte-compile.el,0
+
+lse-command.el,356
+(defvar lse_command:completion_buffer lse_command:completion_buffer42,1706
+(defvar lse_command:initialized lse_command:initialized43,1749
+(defvar lse_command:last lse_command:last44,1792
+(defvar lse_command:cmd_list lse_command:cmd_list46,1836
+(defun lse-command:add lse-command:add48,1880
+(defun lse-command:add-new lse-command:add-new58,2137
+
+lse-comment.el,893
+(defvar                      lse_comment_head_delim lse_comment_head_delim38,1417
+(defvar                      lse_comment_tail_delim lse_comment_tail_delim39,1474
+(defvar                      lse_comment_head_delim_pattern lse_comment_head_delim_pattern40,1531
+(defvar                      lse_comment_tail_delim_pattern lse_comment_tail_delim_pattern41,1599
+(defvar                      lse_comment_delim_char_set lse_comment_delim_char_set42,1664
+(defun lse_comment:leading_comment_head_position lse_comment:leading_comment_head_position49,2046
+(defun lse_comment:setup_expansion_leading lse_comment:setup_expansion_leading67,2592
+(defun lse_comment:trailer_comment_tail_position lse_comment:trailer_comment_tail_position87,3183
+(defun lse_comment:setup_expansion_trailer lse_comment:setup_expansion_trailer99,3475
+(defun lse-comment:insidep lse-comment:insidep121,4089
+
+lse-compilation.el,633
+(defun lse-compilation-mode-hook lse-compilation-mode-hook63,2651
+(defvar lse-language:c:compile-switch lse-language:c:compile-switch81,3413
+(defvar lse-compilation:last@mark lse-compilation:last@mark83,3471
+(defun lse-compilation:next-error lse-compilation:next-error85,3528
+(defun lse-compilation:goto-last-mark lse-compilation:goto-last-mark103,3989
+(defun lse-compile-defun lse-compile-defun112,4238
+(defun lse-compile lse-compile122,4411
+(defvar lse-compilation:grep-command lse-compilation:grep-command142,4937
+(defun lse-grep lse-grep146,5035
+(defun lse-set-compile-command lse-set-compile-command168,5671
+
+lse-completion.el,3323
+(defvar lse_completion_buffer lse_completion_buffer50,2150
+(defvar lse_completion_keymap lse_completion_keymap51,2193
+(defvar                      lse_completion:end_pos lse_completion:end_pos53,2247
+(defvar                      lse_completion:sorted lse_completion:sorted56,2365
+(defvar                      lse_completion:current lse_completion:current57,2429
+(defvar                      lse_completion:so_far lse_completion:so_far58,2493
+(defvar                      lse_completion:starter lse_completion:starter59,2557
+(defvar                      lse_completion:last lse_completion:last60,2621
+(defvar                      lse_completion:list lse_completion:list61,2685
+(defvar                      lse_completion:last_key lse_completion:last_key62,2749
+(defvar                      lse_completion:saved_wdw_conf lse_completion:saved_wdw_conf63,2813
+(defvar                      lse_completion:helped lse_completion:helped64,2877
+(defvar                      lse_completion:case-fold lse_completion:case-fold65,2955
+(defconst                    lse_completion:left_margin lse_completion:left_margin66,3033
+(defvar                      lse_completion:overlay lse_completion:overlay67,3095
+(defun lse_completion:widen lse_completion:widen69,3174
+(defun lse-completion:narrow lse-completion:narrow74,3272
+(defun lse_completion:current_item lse_completion:current_item87,3557
+(defun lse_completion:goto_match lse_completion:goto_match103,4002
+(defun lse_completion:goto_last_match lse_completion:goto_last_match117,4317
+(defun lse_completion:highlight lse_completion:highlight153,5216
+(defun lse_completion:abort lse_completion:abort164,5556
+(defun lse_completion:exit lse_completion:exit170,5676
+(defun lse_completion:mouse_exit lse_completion:mouse_exit177,5838
+(defun lse_completion:try lse_completion:try184,5986
+(defun lse_completion:complete lse_completion:complete205,6608
+(defun lse_completion:delete_prev_char lse_completion:delete_prev_char238,7690
+(defun lse_completion:delete_last_completion lse_completion:delete_last_completion246,7932
+(defun lse_completion:delete_so_far lse_completion:delete_so_far255,8186
+(defun lse_completion:select_next lse_completion:select_next261,8328
+(defun lse_completion:select_prev lse_completion:select_prev267,8471
+(defun lse_completion:self_insert lse_completion:self_insert273,8615
+(defun lse_completion:sort lse_completion:sort279,8762
+(defun lse_completion:entry_desc lse_completion:entry_desc289,8948
+(defun lse_completion:help lse_completion:help325,9812
+(defun lse_completion:define_keys lse_completion:define_keys361,10745
+(defun lse_completion:goto_buffer_window lse_completion:goto_buffer_window420,13997
+(defun lse_completion:initialize_buffer lse_completion:initialize_buffer425,14121
+(defun lse_completion:buffer lse_completion:buffer443,14637
+(defun lse_completion:show_entry lse_completion:show_entry459,15147
+(defun lse_completion:show_obarray lse_completion:show_obarray478,15746
+(defun lse_completion:< lse_completion:<499,16290
+(defun lse_completion:show_alist lse_completion:show_alist503,16352
+(defun lse_completion:show lse_completion:show527,17011
+(defun lse_completion:key_handler lse_completion:key_handler548,17606
+(defun lse-complete lse-complete582,18708
+
+lse-deep-fill-in.el,129
+(defun lse_toggle_fill-in_expansion lse_toggle_fill-in_expansion51,2084
+(defun lse_unfill_fill-in lse_unfill_fill-in105,4451
+
+lse-define.el,1105
+(defvar lse_token_table lse_token_table48,2053
+(defvar lse_fill-in_table lse_fill-in_table49,2100
+(defun lse_fill-in:definition lse_fill-in:definition56,2324
+(defun lse-define:message lse-define:message60,2414
+(defun lse-define:typed-option lse-define:typed-option68,2594
+(defun lse-define:integer-option lse-define:integer-option80,2847
+(defun lse-define:string-option lse-define:string-option85,2960
+(defun lse@define-fill-in-option lse@define-fill-in-option90,3072
+(defun lse@define-fill-in-function lse@define-fill-in-function159,5565
+(defun lse@define-fill-in-menu lse@define-fill-in-menu191,6376
+(defun lse@define@fill-in-replacement lse@define@fill-in-replacement248,8099
+(defun lse@define-fill-in-replacement lse@define-fill-in-replacement331,11136
+(defun lse@define-fill-in-properties lse@define-fill-in-properties341,11449
+(defun lse@define-fill-in lse@define-fill-in381,12771
+(defun lse-define-fill-in lse-define-fill-in406,13367
+(defun lse-define-fill-in-token lse-define-fill-in-token411,13513
+(defun lse-define-simple-token lse-define-simple-token439,14233
+
+lse-editing.el,4399
+(defun lse-insert+blank-maybe lse-insert+blank-maybe84,3484
+(defun lse-insert-comma lse-insert-comma97,3794
+(defun lse-insert-semicolon lse-insert-semicolon103,3890
+(defun lse-insert-braces lse-insert-braces112,4156
+(defun lse-remove-braces lse-remove-braces119,4322
+(defun lse-insert-brackets lse-insert-brackets126,4486
+(defun lse-remove-brackets lse-remove-brackets133,4658
+(defun lse-insert-parentheses lse-insert-parentheses140,4832
+(defun lse-remove-parentheses lse-remove-parentheses147,5013
+(defun lse-insert-dquotes lse-insert-dquotes154,5192
+(defun lse-remove-dquotes lse-remove-dquotes161,5364
+(defun lse-insert-squotes lse-insert-squotes168,5539
+(defun lse-remove-squotes lse-remove-squotes175,5709
+(defun lse-insert-bquotes lse-insert-bquotes183,5899
+(defun lse-remove-bquotes lse-remove-bquotes190,6066
+(defun lse-insert-backquote-quote lse-insert-backquote-quote198,6253
+(defun lse-remove-backquote-quote lse-remove-backquote-quote206,6465
+(defun lse-insert-double-backquote-quote lse-insert-double-backquote-quote214,6680
+(defun lse-remove-double-backquote-quote lse-remove-double-backquote-quote222,6915
+(defun lse-remove-guillemots lse-remove-guillemots230,7152
+(defun lse-insert-bars lse-insert-bars238,7317
+(defun lse-remove-bars lse-remove-bars246,7489
+(defun lse-line-number lse-line-number254,7649
+(defun lse-lines-in-buffer lse-lines-in-buffer266,7870
+(defun lse-current-line-length lse-current-line-length274,8037
+(defun lse-show-position lse-show-position282,8166
+(defun lse-show-length lse-show-length294,8533
+(defun lse-count-matches lse-count-matches313,9107
+(defun lse-untabify-buffer lse-untabify-buffer323,9316
+(defun lse-untabify-line lse-untabify-line333,9624
+(defun lse-find-word-alignment lse-find-word-alignment342,9886
+(defun lse-align-to-word lse-align-to-word351,10100
+(defun lse-align-to-next-word lse-align-to-next-word371,10617
+(defun lse-align-to-next-word-and-up lse-align-to-next-word-and-up379,10827
+(defun lse-align-to-previous-word lse-align-to-previous-word388,11028
+(defun lse-align-to-previous-word-and-down lse-align-to-previous-word-and-down396,11249
+(defconst lse@align-search-limit lse@align-search-limit406,11548
+(defun lse-align-and-down lse-align-and-down408,11587
+(defun lse-align-and-up lse-align-and-up414,11694
+(defun lse-align lse-align420,11797
+(defun lse-shift-select-mark lse-shift-select-mark487,13813
+(defun lse-blink-select-mark lse-blink-select-mark496,14059
+(defun lse@select-brace-range lse@select-brace-range511,14380
+(defun lse-select-brace-range lse-select-brace-range530,14817
+(defun lse-select-paren-range lse-select-paren-range535,14900
+(defun lse-select-bracket-range lse-select-bracket-range540,14983
+(defun lse-select-angle-range lse-select-angle-range545,15070
+(defun lse-select-guillemot-range lse-select-guillemot-range550,15153
+(defun lse-select-current-word lse-select-current-word555,15240
+(defun lse-select-current-bs-word lse-select-current-bs-word564,15476
+(defun lse-select-current-line lse-select-current-line572,15680
+(defun lse-fill-range lse-fill-range581,15903
+(defun lse-indent-rigidly lse-indent-rigidly603,16547
+(defun lse-previous-indentation lse-previous-indentation620,17008
+(defun lse-indent-line lse-indent-line644,17662
+(defun lse-open-line lse-open-line658,18020
+(defun lse-tab-increment lse-tab-increment668,18192
+(defun lse-next-indentation lse-next-indentation676,18330
+(defun lse-tabulator lse-tabulator701,18940
+(defun lse-find-pattern-alignment lse-find-pattern-alignment714,19190
+(defun lse-align-to-pattern lse-align-to-pattern755,20302
+(defun lse-current-indentation lse-current-indentation792,21425
+(defun lse-indent-line-by-word lse-indent-line-by-word805,21699
+(defun lse-deindent-line-by-word lse-deindent-line-by-word823,22254
+(defun lse-clean-empty-range lse-clean-empty-range870,23777
+(defun lse-clean-empty-braces lse-clean-empty-braces895,24412
+(defun lse-clean-empty-brackets lse-clean-empty-brackets903,24591
+(defun lse-clean-empty-parens lse-clean-empty-parens911,24776
+(defun lse-join-sexp-boundary-maybe lse-join-sexp-boundary-maybe919,24960
+(defun lse-number-to-register lse-number-to-register1021,28628
+(defun lse-insert-register lse-insert-register1029,28884
+(defun lse-increment-register lse-increment-register1037,29113
+
+lse-face.el,0
+
+lse-file.el,721
+(defun lse-read-file-name lse-read-file-name40,1542
+(defun lse-find-file-noselect lse-find-file-noselect48,1808
+(defun lse@visit@file lse@visit@file94,3233
+(defun lse-visit-file lse-visit-file138,4494
+(defun lse-visit-file-other-window lse-visit-file-other-window144,4668
+(defun lse-visit-alternate-file lse-visit-alternate-file157,5007
+(defun lse-insert-file lse-insert-file186,5814
+(defun lse-change-output-file-current lse-change-output-file-current203,6233
+(defun lse-change-output-file lse-change-output-file210,6411
+(defun lse-file:expand-wildcard lse-file:expand-wildcard236,7182
+(defun lse-make-directory lse-make-directory270,8174
+(defun lse-toggle-read-only lse-toggle-read-only282,8511
+
+lse-fill-in--delimiters.el,1546
+(defconst lse_fill-in-not_head_start_chars lse_fill-in-not_head_start_chars40,1637
+(defconst lse_fill-in_head_delim_chars lse_fill-in_head_delim_chars42,1689
+(defconst lse_fill-in_tail_delim_chars lse_fill-in_tail_delim_chars43,1740
+(defconst lse_fill-in_name_delim_chars lse_fill-in_name_delim_chars44,1792
+(defconst lse_fill-in_delim_chars lse_fill-in_delim_chars45,1844
+(defconst lse_req_fill-in_head_delim lse_req_fill-in_head_delim47,1898
+(defconst lse_opt_fill-in_head_delim lse_opt_fill-in_head_delim48,1950
+(defconst lse_req_fill-in_tail_delim lse_req_fill-in_tail_delim49,2001
+(defconst lse_opt_fill-in_tail_delim lse_opt_fill-in_tail_delim50,2051
+(defconst lse_no_replacement_fill-in_marker lse_no_replacement_fill-in_marker52,2103
+(defconst lse_list_fill-in_trailer lse_list_fill-in_trailer53,2153
+(defconst lse_req_fill-in_head_delim_pattern lse_req_fill-in_head_delim_pattern56,2280
+(defconst lse_req_fill-in_tail_delim_pattern lse_req_fill-in_tail_delim_pattern57,2332
+(defconst lse_opt_fill-in_head_delim_pattern lse_opt_fill-in_head_delim_pattern58,2384
+(defconst lse_opt_fill-in_tail_delim_pattern lse_opt_fill-in_tail_delim_pattern59,2437
+(defconst lse_list_fill-in_trailer_pattern lse_list_fill-in_trailer_pattern60,2490
+(defun lse_fill-in_not_in_name_chars lse_fill-in_not_in_name_chars103,4468
+(defun lse_fill-in_name_pattern lse_fill-in_name_pattern110,4652
+(defun lse_opt_fill-in_pattern lse_opt_fill-in_pattern118,4910
+(defun lse_req_fill-in_pattern lse_req_fill-in_pattern131,5243
+
+lse-fill-in--search.el,1154
+(defvar                      lse_last_position lse_last_position50,2285
+(defun lse-skip-whitespace+empty-comments-forward lse-skip-whitespace+empty-comments-forward53,2386
+(defun lse-skip-whitespace+empty-comments-backward lse-skip-whitespace+empty-comments-backward57,2530
+(defun lse_looking_at_fill-in lse_looking_at_fill-in62,2678
+(defun lse_current_fill-in_is_optional lse_current_fill-in_is_optional70,2959
+(defun lse_current_fill-in_repeats lse_current_fill-in_repeats84,3284
+(defmacro lse_search_fill-in:backward_once lse_search_fill-in:backward_once88,3370
+(defun lse_search_fill-in:backward lse_search_fill-in:backward94,3583
+(defmacro lse_search_fill-in:forward_once lse_search_fill-in:forward_once104,3823
+(defun lse_search_fill-in:forward lse_search_fill-in:forward110,4035
+(defun lse@check_fill-in lse@check_fill-in120,4279
+(defun lse@goto_fill-in lse@goto_fill-in152,5621
+(defun lse_goto_fill-in lse_goto_fill-in179,6456
+(defun lse_inside_fill-in lse_inside_fill-in202,7209
+(defun lse-goto-@-fill-in lse-goto-@-fill-in285,10502
+(defun lse_goto_first_fill-in_of_range lse_goto_first_fill-in_of_range294,10832
+
+lse-fill-in-history.el,1821
+(defvar                      lse_fill-in_history/expansion lse_fill-in_history/expansion47,1881
+(defvar                      lse_fill-in_history/unexpansion lse_fill-in_history/unexpansion48,1947
+(defmacro lse_fill-in_history:add_expansion lse_fill-in_history:add_expansion52,2136
+(defmacro lse_fill-in_history:add_unexpansion lse_fill-in_history:add_unexpansion60,2338
+(defmacro lse_fill-in_history:last_expansion lse_fill-in_history:last_expansion64,2493
+(defun lse-fill-in-history:last_expansion lse-fill-in-history:last_expansion73,2672
+(defmacro lse_fill-in_history:last_unexpansion lse_fill-in_history:last_unexpansion89,3086
+(defmacro lse_fill-in_history:purge_last_expansionlse_fill-in_history:purge_last_expansion94,3200
+(defmacro lse_fill-in_history:change_last_expansion lse_fill-in_history:change_last_expansion140,4899
+(defmacro lse_fill-in_history:remove_last_expansion lse_fill-in_history:remove_last_expansion144,5031
+(defun lse-fill-in-history:change_last_expansion lse-fill-in-history:change_last_expansion148,5168
+(defun lse-fill-in-history:remove_last_expansion lse-fill-in-history:remove_last_expansion153,5359
+(defmacro lse_fill-in_history:remove_last_unexpansion lse_fill-in_history:remove_last_unexpansion158,5528
+(defmacro lse_fill-in_history:purge_unexpansionlse_fill-in_history:purge_unexpansion165,5691
+(defun lse_fill-in_history:purge_collapsed lse_fill-in_history:purge_collapsed212,7520
+(defun lse_fill-in_history:> lse_fill-in_history:>241,8509
+(defun lse_fill-in_history:assq lse_fill-in_history:assq247,8647
+(defun lse_fill-in_history:instances lse_fill-in_history:instances271,9470
+(defun lse_fill-in_history@show_title lse_fill-in_history@show_title291,10086
+(defun lse_fill-in_history:show_expansion lse_fill-in_history:show_expansion300,10363
+
+lse-fill-in-info.el,1973
+(defconst                    lse-fill-in:id_last lse-fill-in:id_last79,3907
+(defun lse-fill-in:new lse-fill-in:new82,4040
+(defun lse-fill-in:symbol lse-fill-in:symbol94,4366
+(defun lse-fill-in:name lse-fill-in:name98,4431
+(defun lse-fill-in:state lse-fill-in:state102,4522
+(defun lse-fill-in:fill-type lse-fill-in:fill-type106,4614
+(defun lse-fill-in:range lse-fill-in:range110,4710
+(defun lse-fill-in:inner-range lse-fill-in:inner-range114,4802
+(defun lse-fill-in:complement lse-fill-in:complement118,4900
+(defun lse-fill-in:duplicate lse-fill-in:duplicate122,4997
+(defun lse-fill-in:enclosure lse-fill-in:enclosure128,5146
+(defun lse-fill-in:ancestor lse-fill-in:ancestor132,5242
+(defun lse-fill-in:descendants lse-fill-in:descendants136,5337
+(defun lse-fill-in:id lse-fill-in:id141,5452
+(defun lse-fill-in:parent-id lse-fill-in:parent-id147,5576
+(defun lse-fill-in:change-symbol lse-fill-in:change-symbol152,5691
+(defun lse-fill-in:change-name lse-fill-in:change-name156,5784
+(defun lse-fill-in:change-state lse-fill-in:change-state160,5881
+(defun lse-fill-in:change-fill-type lse-fill-in:change-fill-type164,5979
+(defun lse-fill-in:change-range lse-fill-in:change-range168,6081
+(defun lse-fill-in:change-inner-range lse-fill-in:change-inner-range172,6179
+(defun lse-fill-in:change-complement lse-fill-in:change-complement176,6283
+(defun lse-fill-in:change-duplicate lse-fill-in:change-duplicate180,6386
+(defun lse-fill-in:change-enclosure lse-fill-in:change-enclosure186,6555
+(defun lse-fill-in:change-ancestor lse-fill-in:change-ancestor190,6657
+(defun lse-fill-in:change-descendants lse-fill-in:change-descendants194,6758
+(defun lse-fill-in:set-id lse-fill-in:set-id199,6879
+(defun lse-fill-in:set-parent-id lse-fill-in:set-parent-id209,7107
+(defun lse-fill-in:other-state lse-fill-in:other-state214,7229
+(defun lse-fill-in:equal lse-fill-in:equal222,7434
+(defun lse-fill-in:show lse-fill-in:show230,7739
+
+lse-fill-in-marks.el,873
+(defvar                      lse-fill-in-marks:head lse-fill-in-marks:head37,1399
+(defvar                      lse-fill-in-marks:tail lse-fill-in-marks:tail41,1527
+(defun lse-fill-in-marks:insert-mark lse-fill-in-marks:insert-mark45,1655
+(defun lse-fill-in-marks:insert-head lse-fill-in-marks:insert-head70,2378
+(defun lse-fill-in-marks:insert-tail lse-fill-in-marks:insert-tail76,2531
+(defun lse-fill-in-marks:goto-next lse-fill-in-marks:goto-next82,2684
+(defun lse-fill-in-marks:goto-prev lse-fill-in-marks:goto-prev104,3239
+(defun lse-fill-in-marks:goto-next-head lse-fill-in-marks:goto-next-head128,3882
+(defun lse-fill-in-marks:goto-next-tail lse-fill-in-marks:goto-next-tail136,4098
+(defun lse-fill-in-marks:goto-prev-head lse-fill-in-marks:goto-prev-head144,4314
+(defun lse-fill-in-marks:goto-prev-tail lse-fill-in-marks:goto-prev-tail152,4530
+
+lse-fill-in.el,504
+(defun lse-fill-in:expand-separator lse-fill-in:expand-separator49,2139
+(defun lse_duplicate_current_fill-in lse_duplicate_current_fill-in62,2459
+(defun lse_duplicate_current_fill-in_maybe lse_duplicate_current_fill-in_maybe81,3083
+(defun lse_convert_current_fill-in_to_duplicate lse_convert_current_fill-in_to_duplicate87,3255
+(defun lse-fill-in:add-text-properties lse-fill-in:add-text-properties112,4151
+(defun lse-fill-in:remove-text-properties lse-fill-in:remove-text-properties124,4507
+
+lse-flat-fill-in.el,6203
+(defmacro with_lse_fill_environment_at with_lse_fill_environment_at147,8349
+(defun lse_show_fill-in_description lse_show_fill-in_description170,9144
+(defun lse_show_fill-in_help lse_show_fill-in_help177,9305
+(defun lse-fill-in:option_fill-in lse-fill-in:option_fill-in200,9880
+(defun lse-fill-in:rcompletion-action lse-fill-in:rcompletion-action208,10070
+(defun lse-fill-in:rcompletion-leading lse-fill-in:rcompletion-leading212,10174
+(defun lse-fill-in:rcompletion-trailer lse-fill-in:rcompletion-trailer216,10280
+(defun lse-fill-in:replacement-leading lse-fill-in:replacement-leading220,10386
+(defun lse-fill-in:replacement-trailer lse-fill-in:replacement-trailer224,10492
+(defun lse-fill-in:replacement-vanguard lse-fill-in:replacement-vanguard229,10614
+(defun lse-fill-in:kill-action lse-fill-in:kill-action234,10738
+(defun lse-flat-fill-in:clean-current lse-flat-fill-in:clean-current239,10830
+(defvar                      lse-flat-fill-in:open-replacement lse-flat-fill-in:open-replacement254,11291
+(defvar                      lse-flat-fill-in:open-replacement-bobp lse-flat-fill-in:open-replacement-bobp258,11440
+(defvar                      lse-flat-fill-in:replacement-overlay lse-flat-fill-in:replacement-overlay262,11599
+(defun lse-flat-fill-in:open-replacement-highlight lse-flat-fill-in:open-replacement-highlight266,11754
+(defun lse-flat-fill-in:close-replacement-highlight lse-flat-fill-in:close-replacement-highlight284,12455
+(defvar lse-flat-fill-in:flat-propertieslse-flat-fill-in:flat-properties298,12864
+(defun lse-flat-fill-in:open-replacement lse-flat-fill-in:open-replacement302,12959
+(defun lse-flat-fill-in:close-replacementlse-flat-fill-in:close-replacement375,16039
+(defun lse-flat:join-sexp-boundary-maybe lse-flat:join-sexp-boundary-maybe430,18350
+(defun lse-flat-fill-in:expand-replacementlse-flat-fill-in:expand-replacement470,20116
+(defun lse-flat-fill-in:expand-inner-replacementlse-flat-fill-in:expand-inner-replacement502,21116
+(defun lse-flat-fill-in:expand-menulse-flat-fill-in:expand-menu528,22010
+(defun lse-flat-fill-in:expand lse-flat-fill-in:expand552,22799
+(defvar lse@expansion@separator lse@expansion@separator582,23688
+(defvar lse-flat-fill-in:no-vanguard lse-flat-fill-in:no-vanguard583,23735
+(defvar lse-flat-fill-in:auto-replicating lse-flat-fill-in:auto-replicating584,23795
+(defun lse-flat-fill-in:interpret-replacement lse-flat-fill-in:interpret-replacement594,24187
+(defun lse-flat-fill-in:interpret-replacement_in_env lse-flat-fill-in:interpret-replacement_in_env634,25557
+(defun lse-auto-expand-menu-fill-in lse-auto-expand-menu-fill-in644,25827
+(defun lse-expand-fill-in-tokenlse-expand-fill-in-token665,26344
+(defun lse-auto-expand-fill-in lse-auto-expand-fill-in706,27901
+(defun lse_expand_menu:entry_list lse_expand_menu:entry_list726,28496
+(defun lse_expand_menu lse_expand_menu771,29834
+(defun lse_replace_token_by_expansionlse_replace_token_by_expansion804,30893
+(defun lse_expand_token:make_entries lse_expand_token:make_entries859,32856
+(defun lse_expand_token:try lse_expand_token:try868,33106
+(defvar                      lse_replaced_fill-in lse_replaced_fill-in908,34439
+(defvar                      lse-fill-in:currently-replaced)lse-fill-in:currently-replaced914,34651
+(defun lse@shut_fill-in_replacement lse@shut_fill-in_replacement929,35051
+(defun lse_shut_fill-in_replacement lse_shut_fill-in_replacement990,37352
+(defun lse_shut_fill-in_replacement/if_outside lse_shut_fill-in_replacement/if_outside996,37505
+(defun lse_open_fill-in_replacement lse_open_fill-in_replacement1007,37761
+(defvar lse-flat-fill-in:expansion-in-progress lse-flat-fill-in:expansion-in-progress1024,38262
+(defmacro lse_start_replacement_if_in_fill-in lse_start_replacement_if_in_fill-in1025,38314
+(defun lse-replacement@allowed lse-replacement@allowed1049,39032
+(defun lse-auto-replicate-future-fill-in lse-auto-replicate-future-fill-in1062,39392
+(defun lse-flat-fill-in:auto-replicate lse-flat-fill-in:auto-replicate1100,40853
+(defun lse_replicate_fill_in_menu_entries lse_replicate_fill_in_menu_entries1133,42095
+(defun lse_replicate_fill_in_menu lse_replicate_fill_in_menu1150,42471
+(defun lse_replicate_fill_in lse_replicate_fill_in1187,43676
+(defun lse_replicate_fill_in_by_older lse_replicate_fill_in_by_older1212,44455
+(defun lse-insert-replica lse-insert-replica1263,46282
+(defun lse-insert-replica-or-flat lse-insert-replica-or-flat1300,47524
+(defun lse-insert-replica-or-flat-opt lse-insert-replica-or-flat-opt1314,47890
+(defun lse-expand-future-fill-in lse-expand-future-fill-in1322,48115
+(defun lse-flat-fill-in:open-line lse-flat-fill-in:open-line1343,48584
+(defun lse-flat-fill-in:remove-leading-whitespace lse-flat-fill-in:remove-leading-whitespace1368,49283
+(defun lse-flat-fill-in:remove-trailing-whitespace lse-flat-fill-in:remove-trailing-whitespace1388,49845
+(defun lse-flat-fill-in:remove-next-blank-line lse-flat-fill-in:remove-next-blank-line1408,50404
+(defun lse-flat-fill-in:remove-prev-blank-line lse-flat-fill-in:remove-prev-blank-line1425,50804
+(defun lse-flat-fill-in:align-to-word lse-flat-fill-in:align-to-word1441,51188
+(defun lse-flat-fill-in:align-to-next-word lse-flat-fill-in:align-to-next-word1459,51766
+(defun lse-flat-fill-in:align-to-previous-word lse-flat-fill-in:align-to-previous-word1467,52010
+(defun lse-flat-fill-in:replace-and-delegate-key lse-flat-fill-in:replace-and-delegate-key1474,52193
+(defun lse-flat-fill-in:replace-and-mouse-yank lse-flat-fill-in:replace-and-mouse-yank1494,52962
+(defun lse-flat-fill-in:define-key lse-flat-fill-in:define-key1515,53771
+(defun lse-flat-fill-in:define-keys lse-flat-fill-in:define-keys1523,53983
+(defun lse-flat-fill-in:category lse-flat-fill-in:category1566,55103
+(defvar                      lse-fill-in:current-overlay lse-fill-in:current-overlay1588,55573
+(defun lse-flat-fill-in:highlight-current lse-flat-fill-in:highlight-current1592,55710
+(defun lse-flat-fill-in:unhighlight-current lse-flat-fill-in:unhighlight-current1630,57251
+(defun lse-flat-fill-in:highlight-all lse-flat-fill-in:highlight-all1641,57522
+
+lse-frame.el,905
+(defun lse-set-frame-title lse-set-frame-title54,2236
+(defun lse-set-hosted-frame-title lse-set-hosted-frame-title68,2538
+(defun lse-set-shorthosted-frame-title lse-set-shorthosted-frame-title79,2791
+(defun lse-frame:n lse-frame:n96,3182
+(defun lse-frame:make lse-frame:make102,3262
+(defun lse-frame:make-small lse-frame:make-small114,3702
+(defun lse-frame:parameter lse-frame:parameter126,4035
+(defvar lse-frame:wbc-wd lse-frame:wbc-wd133,4211
+(defvar lse-frame:wbc-ht lse-frame:wbc-ht134,4280
+(defvar lse-frame:save-pos-table-w lse-frame:save-pos-table-w137,4422
+(defvar lse-frame:save-wd-table lse-frame:save-wd-table138,4462
+(defun lse-frame:set-width lse-frame:set-width142,4560
+(defvar lse-frame:save-pos-table-h lse-frame:save-pos-table-h205,6650
+(defvar lse-frame:save-ht-table lse-frame:save-ht-table206,6690
+(defun lse-frame:set-height lse-frame:set-height209,6747
+
+lse-indent.el,2184
+(defvar                     lse-language:tab-increment lse-language:tab-increment47,1943
+(defvar                      lse@current-expansion-indent lse@current-expansion-indent52,2175
+(defvar                      lse@original-expansion-indent lse@original-expansion-indent53,2243
+(defvar                      lse@environment-expansion-indent lse@environment-expansion-indent54,2311
+(defvar                      lse@expansion-line-leading lse@expansion-line-leading55,2379
+(defvar                      lse@expansion-line-leading-indent lse@expansion-line-leading-indent56,2447
+(defvar                      lse@expansion-line-trailer lse@expansion-line-trailer57,2515
+(defvar                      lse@expansion-line-trailer-indent lse@expansion-line-trailer-indent58,2583
+(defun lse-indent:remove-leading-indentation lse-indent:remove-leading-indentation67,3076
+(defun lse-indent:> lse-indent:>80,3604
+(defun lse-indent:< lse-indent:<89,3864
+(defun lse-indent lse-indent98,4124
+(defun lse-indent:goto-indent-pos lse-indent:goto-indent-pos125,4910
+(defun lse-reindent lse-reindent136,5199
+(defun lse-no-indent lse-no-indent152,5658
+(defun lse-anchor-indent lse-anchor-indent157,5767
+(defun lse-expansion-indent lse-expansion-indent167,6004
+(defun lse-environment-indent lse-environment-indent172,6123
+(defun lse-outer-environment-indent lse-outer-environment-indent177,6247
+(defun lse-indent+1 lse-indent+1184,6427
+(defun lse-indent-1 lse-indent-1188,6470
+(defun lse-newline lse-newline192,6516
+(defun lse-newline-and-indent lse-newline-and-indent219,7330
+(defun lse-newline-and-indent+1 lse-newline-and-indent+1225,7465
+(defun lse-newline-and-indent-1 lse-newline-and-indent-1229,7559
+(defun lse-indent:add-end-of-defun-comment lse-indent:add-end-of-defun-comment234,7685
+(defun lse-indent:format-defun-gnu lse-indent:format-defun-gnu269,8658
+(defun lse-indent:format-defun-ct lse-indent:format-defun-ct321,10137
+(defun lse-indent:format-defuns lse-indent:format-defuns353,10973
+(defun lse-indent:format-defuns-gnu lse-indent:format-defuns-gnu364,11199
+(defun lse-indent:format-defuns-ct lse-indent:format-defuns-ct372,11432
+
+lse-interactive.el,2825
+(defun lse-version lse-version120,5111
+(defun lse-expand-token lse-expand-token132,5360
+(defun lse-expand lse-expand165,6594
+(defun lse-replace-fill-in lse-replace-fill-in222,8582
+(defun lse-flush-replacement lse-flush-replacement235,8910
+(defun lse-replicate-fill-in lse-replicate-fill-in249,9341
+(defun lse-replicate-fill-in-by-older lse-replicate-fill-in-by-older259,9622
+(defun lse-replicate-menu lse-replicate-menu267,9822
+(defun lse-replicate-fill-ins-line lse-replicate-fill-ins-line275,10005
+(defun lse-describe-fill-in lse-describe-fill-in288,10374
+(defun lse-help-fill-in lse-help-fill-in306,10795
+(defun lse-unexpand-fill-in lse-unexpand-fill-in325,11217
+(defun lse-reexpand-fill-in lse-reexpand-fill-in334,11474
+(defun lse-unreplace-fill-in lse-unreplace-fill-in360,12276
+(defun lse-rereplace-fill-in lse-rereplace-fill-in370,12552
+(defun lse-kill-all-optional-fill-ins lse-kill-all-optional-fill-ins388,13074
+(defun lse-kill-all-optional-fill-ins-line lse-kill-all-optional-fill-ins-line402,13501
+(defvar lse-kill:tail-delim-patternlse-kill:tail-delim-pattern409,13724
+(defvar lse-kill:dont-move lse-kill:dont-move414,13833
+(defun lse-kill-fill-in lse-kill-fill-in416,13866
+(defun lse-kill-fill-in-join-sexp lse-kill-fill-in-join-sexp444,14716
+(defun lse-kill-current-fill-in lse-kill-current-fill-in452,14934
+(defun lse-unkill-fill-in lse-unkill-fill-in464,15265
+(defun lse-command:do lse-command:do474,15461
+(defun lse-goto-next-fill-in lse-goto-next-fill-in511,16583
+(defun lse-goto-prev-fill-in lse-goto-prev-fill-in520,16793
+(defun lse-goto-last-position lse-goto-last-position547,17421
+(defun lse-goto-@-expansion lse-goto-@-expansion554,17613
+(defun lse-goto-next-expansion lse-goto-next-expansion572,18043
+(defun lse-goto-prev-expansion lse-goto-prev-expansion580,18255
+(defun lse-goto-parent-expansion-head lse-goto-parent-expansion-head588,18475
+(defun lse-split-line lse-split-line620,19249
+(defun lse-split-line-i lse-split-line-i647,20196
+(defvar lse-split-line:old-key lse-split-line:old-key655,20371
+(defun lse-toggle-lse-split-line lse-toggle-lse-split-line658,20424
+(defun lse-set-tab-increment lse-set-tab-increment675,21012
+(defun lse-set-tab-increment-i lse-set-tab-increment-i688,21328
+(defun lse-expand-or-tabulator lse-expand-or-tabulator700,21647
+(defun lse-expand-or-goto-next lse-expand-or-goto-next710,21855
+(defvar lse_language:last lse_language:last723,22123
+(defun lse-language:read-name lse-language:read-name724,22168
+(defun lse-language:compile lse-language:compile748,22939
+(defun lse-language:use lse-language:use794,24589
+(defun lse-language:reload lse-language:reload813,25256
+(defun lse-language:check lse-language:check831,25867
+(defun lse-show-language lse-show-language857,26732
+
+lse-keys-v19.el,618
+(defun lse-keys-v19:define-fkp-key lse-keys-v19:define-fkp-key76,3839
+(defun lse-keys-v19:define-X-keypad-fkp lse-keys-v19:define-X-keypad-fkp83,4001
+(defun lse-keys-v19:define-vt100-keypad-fkp lse-keys-v19:define-vt100-keypad-fkp93,4328
+(defun lse-keys-v19:define-vt200-mini-keypad-fkp lse-keys-v19:define-vt200-mini-keypad-fkp117,5412
+(defmacro lse-key-cmd lse-key-cmd188,8476
+(defun lse-define-std-keys lse-define-std-keys192,8556
+(defun lse-key-name lse-key-name337,16246
+(defun lse-insert-key-name lse-insert-key-name343,16368
+(defun lse-insert-key-definition lse-insert-key-definition350,16535
+
+lse-keys.el,0
+
+lse-kill.el,1650
+(defun lse_kill:adjust_fill-in_leading lse_kill:adjust_fill-in_leading58,2609
+(defun lse_kill:adjust_fill-in_trailer lse_kill:adjust_fill-in_trailer88,3496
+(defun lse_leading_head_position_sans_delim lse_leading_head_position_sans_delim118,4524
+(defun lse_leading_head_position_with_delim lse_leading_head_position_with_delim134,4927
+(defun lse_leading_head_position lse_leading_head_position164,5982
+(defun lse_trailer_tail_position_sans_delim lse_trailer_tail_position_sans_delim172,6210
+(defun lse_trailer_tail_position_with_delim lse_trailer_tail_position_with_delim192,6698
+(defun lse_trailer_tail_position lse_trailer_tail_position215,7419
+(defun lse_kill:leading_blank_line_range lse_kill:leading_blank_line_range223,7647
+(defun lse_kill:trailing_blank_line_range lse_kill:trailing_blank_line_range241,8081
+(defun lse_kill:fill-in-leading lse_kill:fill-in-leading259,8472
+(defun lse_kill:fill-in-trailer lse_kill:fill-in-trailer267,8703
+(defun lse_kill:range+contents lse_kill:range+contents275,8937
+(defun lse-kill:enclosure lse-kill:enclosure283,9117
+(defun lse@kill_current_fill-in lse@kill_current_fill-in350,11883
+(defun lse_kill_current_fill-in lse_kill_current_fill-in394,13695
+(defun lse-kill:insert-enclosure lse-kill:insert-enclosure411,14172
+(defun lse_kill_current_fill-in_if_optional lse_kill_current_fill-in_if_optional427,14518
+(defun lse-kill-future-fill-in lse-kill-future-fill-in435,14748
+(defun lse@unkill_fill_in lse@unkill_fill_in456,15353
+(defun lse_unkill_fill_in lse_unkill_fill_in482,16485
+(defun lse-kill:join-sexp-boundary-maybe lse-kill:join-sexp-boundary-maybe498,16919
+
+lse-language.el,1720
+(defvar lse-language:master_prefix lse-language:master_prefix44,1774
+(defvar lse-language:source_ext lse-language:source_ext45,1826
+(defvar lse-language:compil_ext lse-language:compil_ext46,1869
+(defun lse-compile@break-line lse-compile@break-line48,1913
+(defun lse-compile@write-one-fill-in lse-compile@write-one-fill-in82,2762
+(defun lse-compile@write-one-token lse-compile@write-one-token98,3454
+(defun lse-define-compiled-fill-in lse-define-compiled-fill-in116,4116
+(defun lse-define-compiled-token lse-define-compiled-token123,4264
+(defun lse-define-compiled-simple-token lse-define-compiled-simple-token131,4444
+(defvar                      lse-language:table lse-language:table139,4611
+(defvar                      lse-language:@compiling lse-language:@compiling142,4732
+(defvar                      lse-language:fill-in-refs lse-language:fill-in-refs143,4795
+(defvar                      lse-language:fill-in-defs lse-language:fill-in-defs144,4871
+(defvar                      lse-language:initial-fill-in lse-language:initial-fill-in145,4947
+(defvar                      lse-language:expand-initial lse-language:expand-initial148,5083
+(defvar                      lse-language:name lse-language:name151,5219
+(defun lse-language:define lse-language:define158,5514
+(defun lse-language:set-property lse-language:set-property183,6309
+(defun lse-language:use-loaded lse-language:use-loaded187,6377
+(defun lse-language:load@internal lse-language:load@internal215,7266
+(defun lse-language:load-from-source lse-language:load-from-source233,7808
+(defun lse-language:load-compiled lse-language:load-compiled270,8903
+(defun lse-language:pre-load lse-language:pre-load284,9187
+
+lse-learn-key.el,379
+(defvar lse@key-currently-learned lse@key-currently-learned36,1351
+(defvar lse@key-currently-learned@name lse@key-currently-learned@name37,1395
+(defvar lse@key-currently-learned@info lse@key-currently-learned@info38,1439
+(defun lse-learn-key lse-learn-key40,1484
+(defun lse-learn-named-key lse-learn-named-key46,1617
+(defun lse@end-learn-key lse@end-learn-key71,2484
+
+lse-lingo.el,989
+(defvar lse-lingo:master_prefix lse-lingo:master_prefix49,1844
+(defvar lse-lingo:extension lse-lingo:extension50,1890
+(defvar                      lse_lingo:language_table lse_lingo:language_table52,1931
+(defvar                      lse_lingo:token_table lse_lingo:token_table53,2011
+(defvar                      lse-lingo:language lse-lingo:language55,2143
+(defvar                      lse-lingo:default-language lse-lingo:default-language57,2256
+(defun lse-lingo@write-one-token lse-lingo@write-one-token60,2343
+(defun lse-lingo@expand lse-lingo@expand72,2694
+(defun lse-lingo:define-token lse-lingo:define-token79,2841
+(defun lse-lingo:language lse-lingo:language89,3028
+(defun lse-lingo:load lse-lingo:load104,3386
+(defun lse-lingo@write-language lse-lingo@write-language127,3979
+(defun lse-lingo:buffer-init lse-lingo:buffer-init144,4505
+(defun lse-lingo:use-german lse-lingo:use-german150,4626
+(defun lse-lingo:use-english lse-lingo:use-english156,4727
+
+lse-list-util.el,181
+(defmacro lse-add-to-list lse-add-to-list37,1386
+(defmacro lse-remove-car-from-list lse-remove-car-from-list41,1495
+(defmacro lse-remove-from-list lse-remove-from-list45,1588
+
+lse-mark-stack.el,1762
+(defun lse-new-mark-stack lse-new-mark-stack51,2093
+(defun lse-delete-mark-stack lse-delete-mark-stack57,2303
+(defvar lse@mark@stack lse@mark@stack63,2466
+(defun lse@implicit@mark lse@implicit@mark72,2719
+(defun lse@set@implicit@mark lse@set@implicit@mark78,2825
+(defun lse@top@mark lse@top@mark84,2959
+(defun lse@pop@mark lse@pop@mark90,3051
+(defun lse@push@mark lse@push@mark96,3167
+(defun lse@mark@stack@depth lse@mark@stack@depth103,3352
+(defun lse@last@mark lse@last@mark107,3429
+(defun lse@home@mark lse@home@mark111,3483
+(defun lse@set@last@mark lse@set@last@mark120,3650
+(defun lse@set@home@mark lse@set@home@mark124,3760
+(defun lse-goto-mark lse-goto-mark131,3954
+(defun lse-goto-position lse-goto-position140,4232
+(defun lse-home-mark lse-home-mark164,4850
+(defun lse-goto-last-mark lse-goto-last-mark169,4925
+(defun lse-goto-home-mark lse-goto-home-mark173,5024
+(defun lse-set-last-mark lse-set-last-mark177,5123
+(defun lse-set-home-mark lse-set-home-mark181,5216
+(defun lse-push-mark lse-push-mark185,5309
+(defun lse-goto-mark-and-pop lse-goto-mark-and-pop189,5368
+(defun lse-toggle-mark lse-toggle-mark195,5527
+(defvar lse-global-mark@stack lse-global-mark@stack206,5796
+(defun lse-goto-last-mark-global lse-goto-last-mark-global211,5944
+(defun lse-goto-home-mark-global lse-goto-home-mark-global217,6071
+(defun lse-set-last-mark-global lse-set-last-mark-global223,6191
+(defun lse-set-home-mark-global lse-set-home-mark-global231,6430
+(defun lse-push-mark-global lse-push-mark-global243,6795
+(defun lse-goto-mark-and-pop-global lse-goto-mark-and-pop-global249,6923
+(defun lse-toggle-mark-global lse-toggle-mark-global255,7083
+(defun lse-set-last-mark-all lse-set-last-mark-all261,7253
+
+lse-menu.el,2275
+(defvar lse-menu:fill-in lse-menu:fill-in53,1901
+(define-key global-map global-map60,2116
+(define-key lse-menu:fill-in lse-menu:fill-in62,2194
+(define-key lse-menu:fill-in lse-menu:fill-in67,2380
+(define-key lse-menu:fill-in lse-menu:fill-in72,2566
+(define-key lse-menu:fill-in lse-menu:fill-in77,2752
+(define-key lse-menu:fill-in lse-menu:fill-in82,2938
+(define-key lse-menu:fill-in lse-menu:fill-in87,3106
+(define-key lse-menu:fill-in lse-menu:fill-in92,3270
+(define-key lse-menu:fill-in lse-menu:fill-in97,3441
+(define-key lse-menu:fill-in lse-menu:fill-in101,3515
+(define-key lse-menu:fill-in lse-menu:fill-in106,3679
+(define-key lse-menu:fill-in lse-menu:fill-in111,3832
+(define-key lse-menu:fill-in lse-menu:fill-in116,3981
+(define-key lse-menu:fill-in lse-menu:fill-in120,4053
+(define-key lse-menu:fill-in lse-menu:fill-in125,4192
+(define-key lse-menu:fill-in lse-menu:fill-in130,4340
+(define-key lse-menu:fill-in lse-menu:fill-in134,4412
+(define-key lse-menu:fill-in lse-menu:fill-in139,4569
+(define-key lse-menu:fill-in lse-menu:fill-in144,4725
+(define-key lse-menu:fill-in lse-menu:fill-in149,4859
+(define-key lse-menu:fill-in lse-menu:fill-in153,4933
+(define-key lse-menu:fill-in lse-menu:fill-in158,5095
+(define-key lse-menu:fill-in lse-menu:fill-in163,5261
+(define-key lse-menu:fill-in lse-menu:fill-in167,5338
+(define-key lse-menu:fill-in lse-menu:fill-in172,5480
+(define-key lse-menu:fill-in lse-menu:fill-in177,5648
+(define-key lse-menu:fill-in lse-menu:fill-in181,5720
+(define-key lse-flat-fill-in:keymap lse-flat-fill-in:keymap186,5882
+(defvar menu-bar-lse-help-menu menu-bar-lse-help-menu189,5982
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu191,6042
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu195,6147
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu199,6280
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu203,6402
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu207,6509
+(define-key menu-bar-lse-help-menu menu-bar-lse-help-menu211,6616
+(define-key menu-bar-help-menu menu-bar-help-menu215,6732
+(define-key menu-bar-edit-menu menu-bar-edit-menu219,6820
+(defun lse-menu:add-menubar-index lse-menu:add-menubar-index224,6915
+
+lse-mode-alist.el,986
+(defvar                      lse-tex-mode:keys@defined lse-tex-mode:keys@defined123,6370
+(defun lse-insert-comma-tex lse-insert-comma-tex126,6487
+(defun lse-latex-mode:define-keys lse-latex-mode:define-keys135,6651
+(defvar lse-aufwand:summary-buffer lse-aufwand:summary-buffer157,7314
+(defun lse-aufwand:show-total lse-aufwand:show-total159,7371
+(define-derived-mode lse-aufwandserfassung-mode lse-aufwandserfassung-mode171,7706
+(define-key lse-aufwandserfassung-mode-map lse-aufwandserfassung-mode-map177,7907
+(define-key lse-aufwandserfassung-mode-map lse-aufwandserfassung-mode-map180,8083
+(define-derived-mode lse-aufwandserfassung-project-modelse-aufwandserfassung-project-mode183,8177
+(define-derived-mode lse-kartei-mode lse-kartei-mode191,8451
+(define-key lse-kartei-mode-map lse-kartei-mode-map197,8603
+(defun lse-bib-kartei:check-isbn lse-bib-kartei:check-isbn202,8742
+(defun lse-check-isbn lse-check-isbn216,9118
+(defun olt-mode olt-mode281,11238
+
+lse-pattern.el,282
+(defconst lse-pattern:args-of-defun lse-pattern:args-of-defun6,213
+(defconst lse-pattern:head-of-defun lse-pattern:head-of-defun24,1090
+(defconst lse-pattern:body-of-defun lse-pattern:body-of-defun33,1371
+(defconst lse-pattern:tail-of-defun lse-pattern:tail-of-defun42,1662
+
+lse-range.el,1075
+(defmacro positivep positivep53,2099
+(defun lse-range:new lse-range:new57,2142
+(defun lse-range:new-list lse-range:new-list64,2264
+(defun lse-range@new lse-range@new76,2536
+(defun lse-range:copy lse-range:copy82,2664
+(defun lse-range:is-collapsed lse-range:is-collapsed88,2797
+(defun lse-range:is-empty lse-range:is-empty92,2894
+(defun lse-range:head lse-range:head96,2996
+(defun lse-range:tail lse-range:tail102,3101
+(defun lse-range:tail-pos lse-range:tail-pos106,3162
+(defun lse-range:contents lse-range:contents117,3391
+(defun lse-range:contents-np lse-range:contents-np127,3586
+(defun lse-range:length lse-range:length136,3781
+(defun lse-range:inside lse-range:inside143,3928
+(defun lse-range:clean lse-range:clean156,4284
+(defun lse-range:clean-np lse-range:clean-np167,4528
+(defun lse-range:replace-contents lse-range:replace-contents177,4761
+(defun lse-range:change-head lse-range:change-head191,5161
+(defun lse-range:change-tail lse-range:change-tail201,5405
+(defun lse-range:change-tail-pos lse-range:change-tail-pos209,5591
+
+lse-session.el,2536
+(defun lse-date-day lse-date-day54,2337
+(defun lse-date-hour lse-date-hour58,2404
+(defun lse-date-minute lse-date-minute62,2473
+(defun lse-date-month lse-date-month66,2544
+(defun lse-date-time lse-date-time70,2612
+(defun lse-date-year lse-date-year74,2681
+(defun lse-month-mm lse-month-mm78,2750
+(defun lse-dd-mmm-yyyy lse-dd-mmm-yyyy94,3205
+(defun lse-insert-dd-mmm-yyyy lse-insert-dd-mmm-yyyy101,3327
+(defun lse-insert-dd-mmm-yyyy+blank lse-insert-dd-mmm-yyyy+blank106,3436
+(defun lse-dd-mm-yyyy lse-dd-mm-yyyy111,3559
+(defun lse-insert-dd-mm-yyyy lse-insert-dd-mm-yyyy118,3709
+(defun lse-insert-dd-mm-yyyy+blank lse-insert-dd-mm-yyyy+blank123,3816
+(defun lse-yyyy/mm/dd lse-yyyy/mm/dd129,3954
+(defun lse-insert-yyyy/mm/dd lse-insert-yyyy/mm/dd137,4144
+(defun lse-insert-yyyy/mm/dd+blank lse-insert-yyyy/mm/dd+blank143,4268
+(defun lse-insert-time lse-insert-time148,4389
+(defun lse-insert-time+blank lse-insert-time+blank153,4473
+(defun lse-insert-year lse-insert-year158,4571
+(defun lse-user-name lse-user-name163,4656
+(defun lse-user-initials-tex lse-user-initials-tex167,4716
+(defun lse-system-name lse-system-name172,4808
+(defun lse-system-domain lse-system-domain182,4982
+(defun lse-insert-system-domain lse-insert-system-domain192,5163
+(defun lse-user-e-mail-address lse-user-e-mail-address201,5460
+(defun lse-insert-user-e-mail-address lse-insert-user-e-mail-address212,5789
+(defun lse-insert-user-name lse-insert-user-name218,5989
+(defun lse-insert-user-login-name lse-insert-user-login-name224,6095
+(defun lse-insert-user-full-name lse-insert-user-full-name231,6284
+(defun lse-insert-user-abbr-name lse-insert-user-abbr-name236,6383
+(defun lse-insert-user-initials lse-insert-user-initials241,6496
+(defun lse-insert-user-initials-tex lse-insert-user-initials-tex246,6593
+(defun lse-insert-user-name+blank lse-insert-user-name+blank251,6698
+(defun lse-insert-user--name+blank lse-insert-user--name+blank256,6801
+(defun lse-insert-user-initials+blank lse-insert-user-initials+blank261,6910
+(defun lse-insert-user-initials-tex+blank lse-insert-user-initials-tex+blank266,7021
+(defun lse-insert-buffer-name lse-insert-buffer-name271,7140
+(defun lse-file-name-sans-extension lse-file-name-sans-extension278,7309
+(defun lse-file-name-extension lse-file-name-extension290,7621
+(defun lse-shell-command lse-shell-command303,7955
+(defvar lse-session:system-name lse-session:system-name318,8333
+(defun lse-user-initials-r lse-user-initials-r434,13375
+
+lse-tpu-keys-v19.el,1444
+(defun lse-create-map lse-create-map108,5807
+(defun lse-create-sparse-map lse-create-sparse-map120,6180
+(defun lse-create-lse-keymaps lse-create-lse-keymaps125,6402
+(defun lse-define-alpha-key lse-define-alpha-key139,6907
+(defun gset-alpha-key gset-alpha-key156,7509
+(defun lse-tpu-keys:shifted lse-tpu-keys:shifted161,7631
+(defun set-smk set-smk189,8524
+(defun local-set-smk local-set-smk212,9173
+(defun global-set-smk global-set-smk218,9340
+(defun global-mak-smk global-mak-smk225,9527
+(defun lse-toggle-key-with-gold lse-toggle-key-with-gold247,10127
+(defun lse-move-key-to-prefix lse-move-key-to-prefix263,10646
+(defun lse-move-keys-to-prefix lse-move-keys-to-prefix282,11258
+(defun lse-iterate-keys-bound-to-function lse-iterate-keys-bound-to-function289,11498
+(defun lse-replace-binding-for-all-keys lse-replace-binding-for-all-keys309,12099
+(defun lse-copy-key-def lse-copy-key-def317,12334
+(defun lse-copy-key-in-minibuffer-maps lse-copy-key-in-minibuffer-maps325,12501
+(defun lse-define-key-in-minibuffer-maps lse-define-key-in-minibuffer-maps334,12902
+(defun lse-define-key-in-all-maps lse-define-key-in-all-maps343,13307
+(defun lse-define-tpu-keys lse-define-tpu-keys349,13501
+(defun lse-replace-std-emacs-bindings lse-replace-std-emacs-bindings511,23451
+(defun lse-define-tpu-gold-keys lse-define-tpu-gold-keys541,25072
+(defun lse-define-tpu-blue-keys lse-define-tpu-blue-keys658,31667
+
+lse-tpu-keys.el,591
+(defun lse-tpu-keys:where-is-1 lse-tpu-keys:where-is-147,1665
+(defun lse-tpu-keys:where-is lse-tpu-keys:where-is65,2184
+(defun lse-tpu-keys:show-sexp-keys lse-tpu-keys:show-sexp-keys89,2882
+(defun lse-tpu-keys:show-list-keys lse-tpu-keys:show-list-keys102,3296
+(defun lse-tpu-keys:show-list-sexp-keys lse-tpu-keys:show-list-sexp-keys112,3572
+(defun lse-tpu-keys:show-fill-in-keys lse-tpu-keys:show-fill-in-keys126,4070
+(defun lse-tpu-keys:show-keys-matching lse-tpu-keys:show-keys-matching147,4879
+(defun lse-tpu-keys:matching-commands lse-tpu-keys:matching-commands155,5168
+
+lse-tpu.el,14677
+(defun move-to-column-force move-to-column-force82,4056
+(defconst lse-tpu:version lse-tpu:version104,4756
+(defvar lse-tpu:edt-mode lse-tpu:edt-mode106,4816
+(defconst lse-tpu:emacs19-p lse-tpu:emacs19-p109,4887
+(defconst lse-tpu:have-ispell lse-tpu:have-ispell115,5016
+(defvar lse-tpu:percent-scroll lse-tpu:percent-scroll118,5117
+(defvar lse-tpu:pan-columns lse-tpu:pan-columns121,5228
+(defvar lse-tpu:last-replaced-text lse-tpu:last-replaced-text125,5333
+(defvar lse-tpu:match-beginning-mark lse-tpu:match-beginning-mark129,5434
+(defvar lse-tpu:match-end-mark lse-tpu:match-end-mark130,5486
+(defvar lse-tpu:searching-forward lse-tpu:searching-forward131,5538
+(defvar lse-tpu:search-last-string lse-tpu:search-last-string133,5638
+(defvar lse-tpu:regexp-p lse-tpu:regexp-p136,5737
+(defvar lse-tpu:rectangular-p lse-tpu:rectangular-p138,5832
+(defvar lse-tpu:advance lse-tpu:advance140,5923
+(defvar lse-tpu:reverse lse-tpu:reverse142,6011
+(defvar lse-tpu:rectangle-string lse-tpu:rectangle-string144,6102
+(defvar lse-tpu:direction-string lse-tpu:direction-string146,6191
+(defvar lse-tpu:add-at-bol-hist lse-tpu:add-at-bol-hist149,6285
+(defvar lse-tpu:add-at-eol-hist lse-tpu:add-at-eol-hist151,6376
+(defvar lse-tpu:regexp-prompt-hist lse-tpu:regexp-prompt-hist153,6467
+(defvar lse-tpu:newline-and-indent-p lse-tpu:newline-and-indent-p156,6564
+(defvar lse-tpu:newline-and-indent-string lse-tpu:newline-and-indent-string158,6661
+(defvar lse-tpu:mark-flag lse-tpu:mark-flag161,6759
+(defvar lse-tpu:saved-delete-func lse-tpu:saved-delete-func163,6791
+(defvar                      lse-tpu:match-overlay lse-tpu:match-overlay194,7851
+(defvar                      lse-tpu:match-overlay-bg lse-tpu:match-overlay-bg196,7989
+(defun lse-tpu:set-match-highlight lse-tpu:set-match-highlight200,8153
+(defun lse-tpu:unset-match-highlight lse-tpu:unset-match-highlight217,8809
+(defun lse-tpu:set-match lse-tpu:set-match231,9244
+(defun lse-tpu:unset-match lse-tpu:unset-match242,9727
+(defun lse-tpu:match-beginning lse-tpu:match-beginning250,9982
+(defun lse-tpu:match-end lse-tpu:match-end256,10154
+(defun lse-tpu:check-match lse-tpu:check-match262,10297
+(defun lse-tpu:show-match-markers lse-tpu:show-match-markers296,11422
+(defun lse-tpu:caar lse-tpu:caar316,11969
+(defun lse-tpu:cadr lse-tpu:cadr319,12021
+(defun lse-tpu:mark lse-tpu:mark323,12074
+(defun lse-tpu:set-mark lse-tpu:set-mark336,12365
+(defun lse-tpu:string-prompt lse-tpu:string-prompt345,12630
+(defvar lse-tpu:last-answer lse-tpu:last-answer354,12857
+(defun lse-tpu:y-or-n-p lse-tpu:y-or-n-p356,12935
+(defun lse-tpu:invert-case-region lse-tpu:invert-case-region386,13890
+(defun lse-tpu:change-case lse-tpu:change-case399,14192
+(defun lse-tpu:version lse-tpu:version429,15212
+(defun lse-tpu:toggle-newline-and-indent lse-tpu:toggle-newline-and-indent439,15424
+(defun lse-tpu:spell-check lse-tpu:spell-check466,16516
+(defun lse-tpu:toggle-overwrite-mode lse-tpu:toggle-overwrite-mode491,17174
+(defun lse-tpu:special-insert lse-tpu:special-insert507,17613
+(defun lse-tpu:quoted-insert lse-tpu:quoted-insert521,17981
+(defun lse-tpu:exit lse-tpu:exit532,18267
+(defun lse-tpu:quit lse-tpu:quit542,18515
+(defun lse-tpu:insert-formfeed lse-tpu:insert-formfeed581,19575
+(defun lse-ring-bell lse-ring-bell592,19739
+(defun lse-message lse-message599,19835
+(defvar lse-tpu:original-mode-line lse-tpu:original-mode-line605,19936
+(defvar lse-tpu:original-mm-alist lse-tpu:original-mm-alist606,19989
+(defun lse-tpu:set-mode-line lse-tpu:set-mode-line608,20043
+(defvar lse-tpu:delete-sel-mode-flag lse-tpu:delete-sel-mode-flag702,23515
+(defun lse-tpu:update-mode-line lse-tpu:update-mode-line704,23557
+(defun lse-tpu:insert lse-tpu:insert717,24030
+(defconst lse-tpu:direction-forward lse-tpu:direction-forward729,24266
+(defconst lse-tpu:direction-backward lse-tpu:direction-backward730,24307
+(defun lse-tpu:direction lse-tpu:direction732,24349
+(defun lse-tpu:line-head-pos lse-tpu:line-head-pos752,24786
+(defun lse-tpu:line-tail-pos lse-tpu:line-tail-pos756,24889
+(defun lse-tpu:line-tail-pos-sans-bs lse-tpu:line-tail-pos-sans-bs760,24986
+(defun lse-tpu:trim-line-end lse-tpu:trim-line-end769,25166
+(defun lse-tpu:pan-right lse-tpu:pan-right781,25402
+(defun lse-tpu:pan-left lse-tpu:pan-left788,25571
+(defun lse-tpu:mark-active-hook lse-tpu:mark-active-hook800,25794
+(defun lse-tpu:set-mark-if-shift lse-tpu:set-mark-if-shift807,25961
+(defun lse-tpu:shift-mark-hook lse-tpu:shift-mark-hook815,26142
+(defun lse-tpu:select lse-tpu:select829,26548
+(defun lse-tpu:unselect lse-tpu:unselect846,27040
+(defun lse-tpu:exchange-point-and-mark lse-tpu:exchange-point-and-mark858,27398
+(defun lse-tpu:position-of-select-mark lse-tpu:position-of-select-mark865,27591
+(defun lse-tpu:selection-head-pos lse-tpu:selection-head-pos869,27653
+(defun lse-tpu:selection-tail-pos lse-tpu:selection-tail-pos879,27833
+(defun lse-tpu:selected-range lse-tpu:selected-range889,28013
+(defun lse-tpu:selection lse-tpu:selection896,28191
+(defun lse-tpu:enclose-range lse-tpu:enclose-range904,28382
+(defun lse-tpu:enclose-selection lse-tpu:enclose-selection913,28628
+(defun lse-tpu:nearby@start lse-tpu:nearby@start931,29127
+(defun lse-tpu:de-enclose-range lse-tpu:de-enclose-range962,29872
+(defun lse-tpu:de-enclose-selection lse-tpu:de-enclose-selection986,30656
+(defconst lse-tpu:word-whitespace-chars lse-tpu:word-whitespace-chars1001,31078
+(defconst lse-tpu:blank-sep-word-charslse-tpu:blank-sep-word-chars1010,31414
+(defvar                      lse-tpu:ident-chars lse-tpu:ident-chars1019,31619
+(defvar                      lse-tpu:ident-group-chars lse-tpu:ident-group-chars1020,31687
+(defvar                      lse-tpu:word-chars lse-tpu:word-chars1024,31858
+(defun lse-tpu:set-word-char-for-idents lse-tpu:set-word-char-for-idents1026,31912
+(defun lse-tpu:punctuation-chars lse-tpu:punctuation-chars1037,32178
+(defmacro lse-tpu:char-in-string lse-tpu:char-in-string1047,32394
+(defmacro lse-tpu:remove-char-from-string lse-tpu:remove-char-from-string1055,32536
+(defun lse-tpu:current-word-range lse-tpu:current-word-range1067,32857
+(defun lse-tpu:change@case lse-tpu:change@case1097,33629
+(defun lse-tpu:capitalize-region@weakly lse-tpu:capitalize-region@weakly1115,34132
+(defun lse-tpu:capitalize-strongly lse-tpu:capitalize-strongly1129,34495
+(defun lse-tpu:capitalize-weakly lse-tpu:capitalize-weakly1136,34695
+(defun lse-tpu:change-case-upper lse-tpu:change-case-upper1143,34943
+(defun lse-tpu:change-case-lower lse-tpu:change-case-lower1150,35143
+(defun lse-tpu:invert-case lse-tpu:invert-case1157,35345
+(defun lse-tpu:curr-word-head-pos lse-tpu:curr-word-head-pos1165,35536
+(defun lse-tpu:next-word-head-pos lse-tpu:next-word-head-pos1187,36155
+(defun lse-tpu:next-word-tail-pos lse-tpu:next-word-tail-pos1208,36742
+(defun lse-tpu:prev-word-head-pos lse-tpu:prev-word-head-pos1234,37434
+(defun lse-tpu:prev-word-tail-pos lse-tpu:prev-word-tail-pos1257,38075
+(defun lse-tpu:goto-next-word-head lse-tpu:goto-next-word-head1280,38714
+(defun lse-tpu:goto-next-word-tail lse-tpu:goto-next-word-tail1286,38880
+(defun lse-tpu:goto-prev-word-head lse-tpu:goto-prev-word-head1292,39040
+(defun lse-tpu:goto-prev-word-tail lse-tpu:goto-prev-word-tail1298,39210
+(defun lse-tpu:goto-word-head lse-tpu:goto-word-head1304,39372
+(defun lse-tpu:goto-word-tail lse-tpu:goto-word-tail1314,39697
+(defun lse-tpu:goto-next-bs-word-head lse-tpu:goto-next-bs-word-head1324,40016
+(defun lse-tpu:goto-prev-bs-word-head lse-tpu:goto-prev-bs-word-head1332,40276
+(defun lse-tpu:goto-next-bs-word-tail lse-tpu:goto-next-bs-word-tail1340,40540
+(defun lse-tpu:goto-prev-bs-word-tail lse-tpu:goto-prev-bs-word-tail1348,40800
+(defun lse-tpu:goto-bs-word-tail lse-tpu:goto-bs-word-tail1356,41064
+(defun lse-tpu:undelete lse-tpu:undelete1367,41397
+(defun lse-tpu:delete lse-tpu:delete1382,41703
+(defvar lse-tpu:char-deletion lse-tpu:char-deletion1394,41969
+(defvar lse-tpu:char-deletion-dir lse-tpu:char-deletion-dir1395,42007
+(defun lse-tpu:delete-char lse-tpu:delete-char1397,42069
+(defun lse-tpu:delete-next-char lse-tpu:delete-next-char1414,42607
+(defun lse-tpu:delete-prev-char lse-tpu:delete-prev-char1428,43029
+(defun lse-tpu:delete-next-char-append lse-tpu:delete-next-char-append1450,43686
+(defun lse-tpu:delete-prev-char-append lse-tpu:delete-prev-char-append1455,43790
+(defun lse-tpu:undelete-char lse-tpu:undelete-char1460,43894
+(defvar lse-tpu:word-deletion lse-tpu:word-deletion1465,44028
+(defvar lse-tpu:word-deletion-dir lse-tpu:word-deletion-dir1466,44066
+(defun lse-tpu:delete-word lse-tpu:delete-word1468,44128
+(defun lse-tpu:delete-next-word lse-tpu:delete-next-word1490,44802
+(defun lse-tpu:delete-prev-word lse-tpu:delete-prev-word1500,45061
+(defun lse-tpu:delete-next-word-append lse-tpu:delete-next-word-append1510,45321
+(defun lse-tpu:delete-prev-word-append lse-tpu:delete-prev-word-append1515,45425
+(defun lse-tpu:undelete-word lse-tpu:undelete-word1520,45529
+(defvar lse-tpu:line-deletion lse-tpu:line-deletion1525,45663
+(defvar lse-tpu:line-deletion-dir lse-tpu:line-deletion-dir1526,45701
+(defun lse-tpu:delete-line lse-tpu:delete-line1528,45763
+(defun lse-tpu:delete-next-line lse-tpu:delete-next-line1550,46437
+(defun lse-tpu:delete-head-of-line lse-tpu:delete-head-of-line1562,46729
+(defun lse-tpu:delete-tail-of-line lse-tpu:delete-tail-of-line1572,47017
+(defun lse-tpu:delete-next-line-append lse-tpu:delete-next-line-append1582,47298
+(defun lse-tpu:delete-head-of-line-append lse-tpu:delete-head-of-line-append1587,47402
+(defun lse-tpu:delete-tail-of-line-append lse-tpu:delete-tail-of-line-append1592,47514
+(defun lse-tpu:undelete-line lse-tpu:undelete-line1597,47624
+(defun lse-tpu:toggle-rectangle lse-tpu:toggle-rectangle1605,47792
+(defun lse-tpu:arrange-rectangle lse-tpu:arrange-rectangle1619,48230
+(defvar lse-tpu:pasted-region lse-tpu:pasted-region1650,49593
+(defvar lse-tpu:pasted-region-dir lse-tpu:pasted-region-dir1651,49631
+(defun lse-tpu:copy@range lse-tpu:copy@range1653,49693
+(defun lse-tpu:copy-selection lse-tpu:copy-selection1673,50347
+(defun lse-tpu:copy-match lse-tpu:copy-match1683,50607
+(defun lse-tpu:cut/copy-rectangle lse-tpu:cut/copy-rectangle1704,51107
+(defun lse-tpu:copy-append-region lse-tpu:copy-append-region1715,51437
+(defun lse-tpu:cut-append-region lse-tpu:cut-append-region1735,52029
+(defun lse-tpu:copy-region lse-tpu:copy-region1742,52243
+(defun lse-tpu:copy-current-line lse-tpu:copy-current-line1772,53264
+(defun lse-tpu:copy-current-defun lse-tpu:copy-current-defun1783,53593
+(defun lse-tpu:cut-region lse-tpu:cut-region1801,54057
+(defun lse-tpu:paste-region lse-tpu:paste-region1815,54437
+(defun lse-tpu:duplicate-previous-line lse-tpu:duplicate-previous-line1845,55285
+(defun lse-tpu:duplicate-word-in-previous-line lse-tpu:duplicate-word-in-previous-line1868,55902
+(defun lse-tpu:duplicate-previous-word lse-tpu:duplicate-previous-word1886,56337
+(defun lse-tpu:duplicate-previous-bs-word lse-tpu:duplicate-previous-bs-word1893,56555
+(defun lse-tpu:duplicate-previous-char lse-tpu:duplicate-previous-char1901,56769
+(defun lse-tpu:toggle-regexp lse-tpu:toggle-regexp1911,56973
+(defun lse-tpu:regexp-prompt lse-tpu:regexp-prompt1924,57345
+(defun lse-tpu:search lse-tpu:search1935,57695
+(defun lse-tpu:search-forward lse-tpu:search-forward1944,57908
+(defun lse-tpu:search-reverse lse-tpu:search-reverse1954,58173
+(defun lse-tpu:search-again lse-tpu:search-again1964,58440
+(defun lse-tpu:set-search lse-tpu:set-search1983,59261
+(defun lse-tpu:search-internal lse-tpu:search-internal2013,60337
+(defun lse-tpu:adjust-search lse-tpu:adjust-search2064,62076
+(defun lse-tpu:toggle-search-direction lse-tpu:toggle-search-direction2075,62459
+(defun lse-tpu:replace-one lse-tpu:replace-one2089,62863
+(defun lse-tpu:replace-rest lse-tpu:replace-rest2101,63160
+(defun lse-tpu:replace@all lse-tpu:replace@all2116,63528
+(defun lse-tpu:replace-all lse-tpu:replace-all2137,64141
+(defun lse-tpu:replace lse-tpu:replace2158,64881
+(defvar lse-tpu:quit-search lse-tpu:quit-search2179,65572
+(defun lse-tpu:replace-internal lse-tpu:replace-internal2181,65620
+(defun lse-tpu:replace-loop lse-tpu:replace-loop2227,67014
+(defun lse-tpu:add-at-bol lse-tpu:add-at-bol2278,68760
+(defun lse-tpu:add-at-eol lse-tpu:add-at-eol2308,69656
+(defun lse-tpu:remove-from-bol lse-tpu:remove-from-bol2338,70505
+(defun lse-tpu:remove-from-eol lse-tpu:remove-from-eol2372,71594
+(defun lse-tpu:trim-line-ends lse-tpu:trim-line-ends2408,72768
+(defun lse-tpu:char lse-tpu:char2419,73006
+(defun lse-tpu:forward-char lse-tpu:forward-char2427,73253
+(defun lse-tpu:backward-char lse-tpu:backward-char2437,73470
+(defun lse-tpu:next-line-internal lse-tpu:next-line-internal2450,73720
+(defun lse-tpu:next-line lse-tpu:next-line2461,73969
+(defun lse-tpu:previous-line lse-tpu:previous-line2469,74154
+(defun lse-tpu:next-beginning-of-line lse-tpu:next-beginning-of-line2477,74359
+(defun lse-tpu:end-of-line lse-tpu:end-of-line2486,74662
+(defun lse-tpu:next-end-of-line lse-tpu:next-end-of-line2497,74944
+(defun lse-tpu:previous-end-of-line lse-tpu:previous-end-of-line2506,75200
+(defun lse-tpu:current-end-of-line lse-tpu:current-end-of-line2514,75402
+(defun lse-tpu:line lse-tpu:line2524,75649
+(defun lse-tpu:forward-line lse-tpu:forward-line2532,75903
+(defun lse-tpu:backward-line lse-tpu:backward-line2543,76141
+(defun lse-tpu:paragraph lse-tpu:paragraph2554,76371
+(defun lse-tpu:next-paragraph lse-tpu:next-paragraph2565,76648
+(defun lse-tpu:previous-paragraph lse-tpu:previous-paragraph2584,77132
+(defun lse-tpu:page lse-tpu:page2609,77829
+(defun lse-tpu:current-line lse-tpu:current-line2621,78132
+(defun lse-tpu:scroll-window lse-tpu:scroll-window2627,78378
+(defun lse-tpu:scroll-window-down lse-tpu:scroll-window-down2638,78677
+(defun lse-tpu:scroll-window-up lse-tpu:scroll-window-up2652,79103
+(defun lse-tpu:move-to-beginning lse-tpu:move-to-beginning2666,79532
+(defun lse-tpu:move-to-end lse-tpu:move-to-end2673,79710
+(defun lse-tpu:advance-direction lse-tpu:advance-direction2684,79909
+(defun lse-tpu:backup-direction lse-tpu:backup-direction2695,80204
+(defun lse-tpu:next-history-element lse-tpu:next-history-element2709,80555
+(defun lse-tpu:previous-history-element lse-tpu:previous-history-element2717,80777
+(defun lse-tpu:arrow-history lse-tpu:arrow-history2725,81015
+(defun lse-tpu:edt-on lse-tpu:edt-on2756,82359
+
+lse-window.el,3456
+(defvar lse-window:temp-hidden lse-window:temp-hidden83,3674
+(defvar lse-window:wb-assoc lse-window:wb-assoc84,3710
+(defun lse-window:one-wb lse-window:one-wb86,3747
+(defun lse-window:make-wb-list lse-window:make-wb-list91,3866
+(defun lse-window:temp-buffer-show-function lse-window:temp-buffer-show-function97,4005
+(defun lse-window:save-temp-hidden lse-window:save-temp-hidden112,4459
+(defun lse-window@restore-temp-hidden lse-window@restore-temp-hidden124,4696
+(defun lse-window:restore-temp-hidden lse-window:restore-temp-hidden137,5033
+(defvar lse-max-scroll-amount lse-max-scroll-amount150,5470
+(defun lse-scroll-vertically lse-scroll-vertically152,5505
+(defmacro lse-scroll-unit lse-scroll-unit159,5730
+(defun lse-next-screen lse-next-screen163,5815
+(defsubst lse-next-screen-2 lse-next-screen-2170,5979
+(defun lse-previous-screen lse-previous-screen172,6046
+(defsubst lse-previous-screen-2 lse-previous-screen-2179,6223
+(defvar lse@window@number lse@window@number181,6298
+(defvar lse@window@length lse@window@length182,6326
+(defun lse-next-window-all-frames lse-next-window-all-frames185,6372
+(defun lse-previous-window-all-frames lse-previous-window-all-frames203,6839
+(defun lse-next-window lse-next-window220,7289
+(defun lse-previous-window lse-previous-window226,7372
+(defun lse-scroll-window-forw lse-scroll-window-forw232,7463
+(defun lse-scroll-window-back lse-scroll-window-back244,7693
+(defun lse-scroll-to-top lse-scroll-to-top257,7939
+(defun lse-scroll-other-window-forw lse-scroll-other-window-forw264,8063
+(defun lse-scroll-other-window-back lse-scroll-other-window-back270,8198
+(defun lse-split-window lse-split-window276,8337
+(defun lse-split-window-horizontally lse-split-window-horizontally285,8603
+(defun lse-delete-window lse-delete-window291,8734
+(defun lse-delete-other-windows lse-delete-other-windows299,8921
+(defun lse-set-selective-display lse-set-selective-display310,9175
+(defun lse-unset-selective-display lse-unset-selective-display318,9447
+(defun lse@find@window@number lse@find@window@number325,9616
+(defun lse@find@window@length lse@find@window@length330,9728
+(defun lse@balance@window lse@balance@window335,9857
+(defun lse-show-windows lse-show-windows364,10717
+(defun lse-show-window lse-show-window379,11084
+(defvar lse@window@list lse@window@list408,11871
+(defun lse@delete@window@list lse@delete@window@list413,12002
+(defun lse-window-mark@stack lse-window-mark@stack424,12244
+(defun lse@initialize@window@mark@stack lse@initialize@window@mark@stack438,12561
+(defun lse@remove@window@mark@stack lse@remove@window@mark@stack452,12942
+(defun lse-goto-last-mark-window lse-goto-last-mark-window466,13275
+(defun lse-goto-home-mark-window lse-goto-home-mark-window473,13432
+(defun lse-set-last-mark-window lse-set-last-mark-window480,13589
+(defun lse-set-home-mark-window lse-set-home-mark-window489,13857
+(defun lse-push-mark-window lse-push-mark-window503,14331
+(defun lse-goto-mark-and-pop-window lse-goto-mark-and-pop-window510,14484
+(defun lse-toggle-mark-window lse-toggle-mark-window517,14677
+(defvar lse@window@configuration@list lse@window@configuration@list527,14919
+(defun lse-push-window-configuration lse-push-window-configuration531,15023
+(defun lse-pop+restore-window-configuration lse-pop+restore-window-configuration542,15318
+(defun lse-window:display-buffer lse-window:display-buffer557,15739
+
+picture.el,3149
+(defun move-to-column-force move-to-column-force34,1218
+(defun picture-beginning-of-line picture-beginning-of-line55,1884
+(defun picture-end-of-line picture-end-of-line65,2293
+(defun picture-forward-column picture-forward-column76,2774
+(defun picture-backward-column picture-backward-column88,3222
+(defun picture-move-down picture-move-down94,3409
+(defconst picture-vertical-step picture-vertical-step102,3647
+(defconst picture-horizontal-step picture-horizontal-step105,3751
+(defun picture-move-up picture-move-up108,3859
+(defun picture-movement-right picture-movement-right114,4033
+(defun picture-movement-left picture-movement-left119,4174
+(defun picture-movement-up picture-movement-up124,4314
+(defun picture-movement-down picture-movement-down129,4450
+(defun picture-movement-nw picture-movement-nw134,4589
+(defun picture-movement-ne picture-movement-ne139,4735
+(defun picture-movement-sw picture-movement-sw144,4881
+(defun picture-movement-se picture-movement-se149,5028
+(defun picture-set-motion picture-set-motion154,5175
+(defun picture-move picture-move166,5603
+(defun picture-motion picture-motion171,5803
+(defun picture-motion-reverse picture-motion-reverse180,6227
+(defun picture-self-insert picture-self-insert191,6622
+(defun picture-clear-column picture-clear-column205,7175
+(defun picture-backward-clear-column picture-backward-clear-column216,7524
+(defun picture-clear-line picture-clear-line221,7685
+(defun picture-newline picture-newline236,8247
+(defun picture-open-line picture-open-line250,8708
+(defun picture-duplicate-line picture-duplicate-line260,9012
+(defun picture-replace-match picture-replace-match272,9345
+(defvar picture-tab-chars picture-tab-chars296,10087
+(defun picture-set-tab-stops picture-set-tab-stops321,11324
+(defun picture-tab-search picture-tab-search351,12549
+(defun picture-tab picture-tab378,13466
+(defconst picture-killed-rectangle picture-killed-rectangle394,13987
+(defun picture-clear-rectangle picture-clear-rectangle398,14167
+(defun picture-clear-rectangle-to-register picture-clear-rectangle-to-register406,14613
+(defun picture-snarf-rectangle picture-snarf-rectangle413,15023
+(defun picture-yank-rectangle picture-yank-rectangle423,15388
+(defun picture-yank-at-click picture-yank-at-click434,15927
+(defun picture-yank-rectangle-from-register picture-yank-rectangle-from-register444,16348
+(defun picture-insert-rectangle picture-insert-rectangle456,16966
+(defconst picture-mode-map picture-mode-map474,17543
+(defun picture-substitute picture-substitute476,17576
+(defvar picture-mode-hook picture-mode-hook523,20336
+(defvar picture-mode-old-local-map)picture-mode-old-local-map527,20487
+(defvar picture-mode-old-mode-name)picture-mode-old-mode-name528,20523
+(defvar picture-mode-old-major-mode)picture-mode-old-major-mode529,20559
+(defvar picture-mode-old-truncate-lines)picture-mode-old-truncate-lines530,20596
+(defun picture-mode picture-mode533,20653
+(defalias 'edit-picture edit-picture620,25133
+(defun picture-mode-exit picture-mode-exit622,25173
+(defun picture-clean picture-clean637,25816
+
+python-mode.el,7820
+(defconst py-version py-version11,276
+(defgroup python python136,4940
+(defcustom py-python-command py-python-command140,5057
+(defcustom py-jpython-command py-jpython-command145,5183
+(defcustom py-python-command-args py-python-command-args150,5316
+(defcustom py-jpython-command-args py-jpython-command-args155,5473
+(defcustom py-indent-offset py-indent-offset160,5632
+(defcustom py-smart-indentation py-smart-indentation167,5863
+(defcustom py-align-multiline-strings-p py-align-multiline-strings-p189,6892
+(defcustom py-block-comment-prefix py-block-comment-prefix198,7299
+(defcustom py-honor-comment-indentation py-honor-comment-indentation207,7672
+(defcustom py-scroll-process-buffer py-scroll-process-buffer230,8639
+(defcustom py-temp-directorypy-temp-directory272,10718
+(defcustom py-beep-if-tab-change py-beep-if-tab-change292,11373
+(defcustom py-jump-on-exception py-jump-on-exception306,11866
+(defcustom py-ask-about-save py-ask-about-save314,12173
+(defcustom py-backspace-function py-backspace-function320,12374
+(defcustom py-delete-function py-delete-function325,12548
+(defvar py-master-file py-master-file331,12717
+(defconst py-emacs-featurespy-emacs-features351,13384
+(defvar python-font-lock-keywordspython-font-lock-keywords365,13874
+(defvar imenu-example--python-show-method-args-p imenu-example--python-show-method-args-p397,14914
+(defvar py-file-queue py-file-queue404,15202
+(defconst py-stringlit-repy-stringlit-re412,15390
+(defconst py-continued-repy-continued-re435,16277
+(defconst py-blank-or-comment-re py-blank-or-comment-re441,16424
+(defconst py-outdent-repy-outdent-re444,16533
+(defconst py-block-closing-keywords-repy-block-closing-keywords-re455,16771
+(defconst py-no-outdent-repy-no-outdent-re459,16910
+(defconst py-defun-start-repy-defun-start-re478,17422
+(defconst py-class-start-re py-class-start-re484,17721
+(defconst py-traceback-line-repy-traceback-line-re487,17821
+(defmacro py-safe py-safe494,17922
+(defsubst py-keep-region-active py-keep-region-active500,18079
+(defsubst py-point py-point508,18422
+(defsubst py-highlight-line py-highlight-line537,19403
+(defun py-in-literal py-in-literal550,19762
+(defun py-fast-in-literal py-fast-in-literal565,20284
+(defvar python-mode-abbrev-table python-mode-abbrev-table577,20603
+(define-abbrev-table 'python-mode-abbrev-table python-mode-abbrev-table579,20691
+(defvar python-mode-hook python-mode-hook581,20744
+(defvar py-mode-map py-mode-map589,21046
+(defvar py-mode-output-map py-mode-output-map657,24444
+(defvar py-mode-syntax-table py-mode-syntax-table672,25032
+(defvar py-menu py-menu718,27273
+(defvar imenu-example--python-class-regexpimenu-example--python-class-regexp756,28674
+(defvar imenu-example--python-method-regexpimenu-example--python-method-regexp769,29077
+(defvar imenu-example--python-method-no-arg-parens imenu-example--python-method-no-arg-parens784,29782
+(defvar imenu-example--python-method-arg-parens imenu-example--python-method-arg-parens793,30089
+(defvar imenu-example--generic-python-expressionimenu-example--generic-python-expression804,30534
+(defvar imenu-example--python-generic-regexp imenu-example--python-generic-regexp820,31174
+(defvar imenu-example--python-generic-parens imenu-example--python-generic-parens821,31224
+(defun imenu-example--create-python-index imenu-example--create-python-index824,31276
+(defun imenu-example--create-python-index-engine imenu-example--create-python-index-engine838,31890
+(defun python-mode python-mode951,35947
+(defun py-outdent-p py-outdent-p1044,39449
+(defun py-electric-colon py-electric-colon1058,39848
+(defun py-execute-file py-execute-file1097,41216
+(defun py-process-filter py-process-filter1117,41992
+(defun py-postprocess-output-buffer py-postprocess-output-buffer1181,44320
+(defvar py-serial-number py-serial-number1204,45016
+(defvar py-exception-buffer py-exception-buffer1205,45044
+(defconst py-output-buffer py-output-buffer1206,45077
+(defvar py-which-shell py-which-shell1210,45215
+(defvar py-which-args py-which-args1211,45257
+(defvar py-which-bufname py-which-bufname1212,45304
+(defun py-toggle-shells py-toggle-shells1217,45476
+(defun py-shell py-shell1251,46470
+(defun py-clear-queue py-clear-queue1299,48772
+(defun py-execute-region py-execute-region1308,49028
+(defun py-execute-buffer py-execute-buffer1372,51583
+(defun py-execute-import-or-reload py-execute-import-or-reload1390,52318
+(defun py-execute-def-or-class py-execute-def-or-class1438,54112
+(defun py-execute-string py-execute-string1451,54502
+(defun py-jump-to-exception py-jump-to-exception1466,54973
+(defun py-mouseto-exception py-mouseto-exception1487,55741
+(defun py-goto-exception py-goto-exception1503,56207
+(defun py-find-next-exception py-find-next-exception1516,56577
+(defun py-down-exception py-down-exception1531,57143
+(defun py-up-exception py-up-exception1542,57603
+(defun py-electric-backspace py-electric-backspace1555,58071
+(defun py-electric-delete py-electric-delete1604,60032
+(defun py-indent-line py-indent-line1630,61034
+(defun py-newline-and-indent py-newline-and-indent1651,61788
+(defun py-compute-indentation py-compute-indentation1666,62401
+(defun py-guess-indent-offset py-guess-indent-offset1836,69053
+(defun py-comment-indent-function py-comment-indent-function1893,71367
+(defun py-shift-region py-shift-region1910,71958
+(defun py-shift-region-left py-shift-region-left1916,72181
+(defun py-shift-region-right py-shift-region-right1945,73279
+(defun py-indent-region py-indent-region1964,74016
+(defun py-comment-region py-comment-region2040,77186
+(defun py-previous-statement py-previous-statement2048,77445
+(defun py-next-statement py-next-statement2067,78182
+(defun py-goto-block-up py-goto-block-up2085,78873
+(defun py-beginning-of-def-or-class py-beginning-of-def-or-class2126,80302
+(defalias 'beginning-of-python-def-or-class beginning-of-python-def-or-class2176,82111
+(defun py-end-of-def-or-class py-end-of-def-or-class2178,82187
+(defalias 'end-of-python-def-or-class end-of-python-def-or-class2235,84380
+(defun py-mark-block py-mark-block2239,84479
+(defun py-mark-def-or-class py-mark-def-or-class2358,89322
+(defun py-forward-into-nomenclature py-forward-into-nomenclature2432,92502
+(defun py-backward-into-nomenclature py-backward-into-nomenclature2451,93069
+(defun py-dump-help-string py-dump-help-string2469,93679
+(defun py-describe-mode py-describe-mode2511,95113
+(defvar py-parse-state-repy-parse-state-re2765,105578
+(defun py-parse-state py-parse-state2772,105768
+(defun py-nesting-level py-nesting-level2808,107186
+(defun py-backslash-continuation-line-p py-backslash-continuation-line-p2815,107423
+(defun py-continuation-line-p py-continuation-line-p2827,107877
+(defun py-goto-initial-line py-goto-initial-line2845,108559
+(defun py-goto-beyond-final-line py-goto-beyond-final-line2861,109220
+(defun py-statement-opens-block-p py-statement-opens-block-p2884,110026
+(defun py-statement-closes-block-p py-statement-closes-block-p2911,110894
+(defun py-goto-beyond-block py-goto-beyond-block2925,111492
+(defun py-goto-statement-at-or-above py-goto-statement-at-or-above2933,111775
+(defun py-goto-statement-below py-goto-statement-below2947,112300
+(defun py-go-up-tree-to-keyword py-go-up-tree-to-keyword2966,112986
+(defun py-suck-up-leading-text py-suck-up-leading-text2988,113703
+(defun py-suck-up-first-keyword py-suck-up-first-keyword2997,113995
+(defun py-current-defun py-current-defun3003,114184
+(defconst py-help-address py-help-address3016,114592
+(defun py-version py-version3019,114694
+(defun py-submit-bug-report py-submit-bug-report3029,114954
+(defun py-kill-emacs-hook py-kill-emacs-hook3063,116060
+
+swing-command.el,0
+
+swing-default.el,232
+(defun vc-lock-from-permissions vc-lock-from-permissions190,7922
+(defun swing-terminal-setup swing-terminal-setup218,9513
+(defconst ps-print-color-p ps-print-color-p346,13469
+(defconst ps-lpr-command ps-lpr-command347,13509
+
+swing-kartei--entry.el,1736
+(defun swing-kartei:entry:head-pattern swing-kartei:entry:head-pattern29,900
+(defun swing-kartei:entry:pattern swing-kartei:entry:pattern41,1262
+(defconst swing-kartei:entry:head-patternswing-kartei:entry:head-pattern49,1480
+(defconst swing-kartei:entry:body-pattern swing-kartei:entry:body-pattern53,1566
+(defconst swing-kartei:entry:tail-pattern swing-kartei:entry:tail-pattern63,1967
+(defconst swing-kartei:entry:patternswing-kartei:entry:pattern71,2215
+(defun swing-kartei:entry:find swing-kartei:entry:find78,2419
+(defun swing-kartei:entry:value swing-kartei:entry:value90,2729
+(defvar                      swing-kartei:entry:kartei-name swing-kartei:entry:kartei-name101,3020
+(defvar                      swing-kartei:entry:kartei-dir swing-kartei:entry:kartei-dir102,3092
+(defvar                      swing-kartei:entry:kartei-file-dir swing-kartei:entry:kartei-file-dir103,3164
+(defvar                      swing-kartei:entry:initial-val swing-kartei:entry:initial-val104,3236
+(defvar                      swing-kartei:entry:make-entry-summary swing-kartei:entry:make-entry-summary105,3308
+(defvar                      swing-kartei:entry:commit-entry-hook swing-kartei:entry:commit-entry-hook106,3380
+(defvar                      swing-kartei:entry:case-fold-search swing-kartei:entry:case-fold-search107,3452
+(defun swing-kartei:entry:complete-name swing-kartei:entry:complete-name116,3973
+(defun swing-kartei:entry:read-name swing-kartei:entry:read-name143,4746
+(defun swing-kartei:entry:create+goto-bufferswing-kartei:entry:create+goto-buffer157,5148
+(defun swing-kartei:entry:delete swing-kartei:entry:delete194,6559
+(defun swing-kartei:entry:insert swing-kartei:entry:insert211,7041
+
+swing-kartei--summary.el,500
+(defun swing-kartei:summary:entry-name-pattern swing-kartei:summary:entry-name-pattern21,594
+(defun swing-kartei:summary:entry-line-pattern swing-kartei:summary:entry-line-pattern30,762
+(defun swing-kartei:summary:find-entry swing-kartei:summary:find-entry36,908
+(defun swing-kartei:summary:entry-value swing-kartei:summary:entry-value48,1260
+(defun swing-kartei:summary:successor swing-kartei:summary:successor56,1524
+(defun swing-kartei:summary:deleteswing-kartei:summary:delete84,2254
+
+swing-kartei-bib.el,929
+(defconst swing-kartei:bib:directory swing-kartei:bib:directory23,733
+(defconst swing-kartei:bib:file-name swing-kartei:bib:file-name24,799
+(defconst swing-kartei:bib:file-directory swing-kartei:bib:file-directory25,848
+(defconst swing-kartei:bib:language swing-kartei:bib:language26,905
+(defvar   swing-kartei:bib-history swing-kartei:bib-history28,962
+(defun swing-kartei:bib:make-entry-summary swing-kartei:bib:make-entry-summary30,1010
+(defun swing-kartei:bib:make-summary swing-kartei:bib:make-summary40,1520
+(defun swing-kartei:bib:change swing-kartei:bib:change51,1807
+(defun swing-kartei:bib:add swing-kartei:bib:add66,2159
+(defun swing-kartei:bib:split swing-kartei:bib:split81,2499
+(defun swing-kartei:bib:sort swing-kartei:bib:sort92,2755
+(defun swing-kartei:bib:change-directory swing-kartei:bib:change-directory99,2990
+(defun swing-kartei:bib:check-isbn swing-kartei:bib:check-isbn114,3366
+
+swing-kartei-firma.el,903
+(defconst swing-kartei:firma:directory swing-kartei:firma:directory21,603
+(defconst swing-kartei:firma:file-name swing-kartei:firma:file-name22,672
+(defconst swing-kartei:firma:file-directory swing-kartei:firma:file-directory23,726
+(defconst swing-kartei:firma:language swing-kartei:firma:language24,790
+(defvar   swing-kartei:firma-history swing-kartei:firma-history26,852
+(defun swing-kartei:firma:make-entry-summary swing-kartei:firma:make-entry-summary28,903
+(defun swing-kartei:firma:make-summary swing-kartei:firma:make-summary38,1403
+(defun swing-kartei:firma:change swing-kartei:firma:change49,1692
+(defun swing-kartei:firma:add swing-kartei:firma:add62,2030
+(defun swing-kartei:firma:split swing-kartei:firma:split75,2356
+(defun swing-kartei:firma:sort swing-kartei:firma:sort86,2624
+(defun swing-kartei:firma:change-directory swing-kartei:firma:change-directory93,2869
+
+swing-kartei-person.el,927
+(defconst swing-kartei:person:directory swing-kartei:person:directory21,608
+(defconst swing-kartei:person:file-name swing-kartei:person:file-name22,677
+(defconst swing-kartei:person:file-directory swing-kartei:person:file-directory23,732
+(defconst swing-kartei:person:language swing-kartei:person:language24,796
+(defvar   swing-kartei:person-history swing-kartei:person-history26,859
+(defun swing-kartei:person:make-entry-summary swing-kartei:person:make-entry-summary28,910
+(defun swing-kartei:person:make-summary swing-kartei:person:make-summary40,1541
+(defun swing-kartei:person:change swing-kartei:person:change51,1833
+(defun swing-kartei:person:add swing-kartei:person:add64,2179
+(defun swing-kartei:person:split swing-kartei:person:split77,2513
+(defun swing-kartei:person:sort swing-kartei:person:sort88,2787
+(defun swing-kartei:person:change-directory swing-kartei:person:change-directory97,3062
+
+swing-kartei-quot.el,1043
+(defconst swing-kartei:quot:directory swing-kartei:quot:directory22,666
+(defconst swing-kartei:quot:file-name swing-kartei:quot:file-name23,733
+(defconst swing-kartei:quot:file-directory swing-kartei:quot:file-directory24,790
+(defconst swing-kartei:quot:language swing-kartei:quot:language25,849
+(defvar   swing-kartei:quotations-history swing-kartei:quotations-history27,908
+(defun swing-kartei:quot:make-entry-summary swing-kartei:quot:make-entry-summary29,957
+(defun swing-kartei:quot:make-summary swing-kartei:quot:make-summary38,1420
+(defvar swing-kartei:quot:check-spelling swing-kartei:quot:check-spelling49,1704
+(defun swing-kartei:quot:ispell swing-kartei:quot:ispell52,1779
+(defun swing-kartei:quot:change swing-kartei:quot:change75,2396
+(defun swing-kartei:quot:add swing-kartei:quot:add93,2870
+(defun swing-kartei:quot:split swing-kartei:quot:split108,3235
+(defun swing-kartei:quot:sort swing-kartei:quot:sort119,3497
+(defun swing-kartei:quot:change-directory swing-kartei:quot:change-directory126,3737
+
+swing-kartei-telefon.el,703
+(defvar swing-kartei:phone:directory swing-kartei:phone:directory8,253
+(defvar swing-kartei:phone:file-name swing-kartei:phone:file-name9,309
+(defun swing-kartei:phone:extract-entry swing-kartei:phone:extract-entry11,356
+(defun swing-kartei:phone:extractswing-kartei:phone:extract45,1350
+(defun swing-kartei:phone:person-leading swing-kartei:phone:person-leading80,2492
+(defun swing-kartei:phone:extract-person swing-kartei:phone:extract-person97,3069
+(defun swing-kartei:phone:firma-leading swing-kartei:phone:firma-leading114,3652
+(defun swing-kartei:phone:extract-firma swing-kartei:phone:extract-firma142,4312
+(defun swing-kartei:phone:generate swing-kartei:phone:generate158,4893
+
+swing-kartei.el,1606
+(defun swing-kartei:sort swing-kartei:sort39,1303
+(defun swing-kartei:make-entry-summary swing-kartei:make-entry-summary61,1965
+(defun swing-kartei:make-summary swing-kartei:make-summary73,2342
+(defun swing-kartei:split swing-kartei:split114,3720
+(defun swing-kartei:map-entries swing-kartei:map-entries152,5042
+(defun swing-kartei:show-entry swing-kartei:show-entry164,5278
+(defun swing-kartei:field-value swing-kartei:field-value170,5466
+(defun swing-kartei:copy-field swing-kartei:copy-field180,5727
+(defconst swing-kartei:pattern:arg-of-macro swing-kartei:pattern:arg-of-macro195,6124
+(defun swing-kartei:field+option-values swing-kartei:field+option-values203,6467
+(defun swing-kartei:copy-field+tail-option swing-kartei:copy-field+tail-option222,7018
+(defun swing-kartei:get-file-buffer swing-kartei:get-file-buffer253,7881
+(defun swing-kartei:addswing-kartei:add293,9205
+(defun swing-kartei:changeswing-kartei:change334,10574
+(defun swing-kartei:assert-consistency swing-kartei:assert-consistency371,11815
+(defun swing-kartei:commit-entry swing-kartei:commit-entry387,12311
+(defun swing-kartei:commit-entry@summaryswing-kartei:commit-entry@summary470,15611
+(defun swing-kartei:delete-entry swing-kartei:delete-entry498,16501
+(defun swing-kartei:rename-entry swing-kartei:rename-entry547,18357
+(defun swing-kartei:quit-entry swing-kartei:quit-entry606,20617
+(defun swing-kartei:save_buffers swing-kartei:save_buffers633,21431
+(defun swing-kartei:log swing-kartei:log643,21645
+(defun swing-kartei:remove-tex-markup swing-kartei:remove-tex-markup656,21906
+
+swing-keynames.el,1758
+(defconst GOLD GOLD8,243
+(defconst BLUE BLUE9,273
+(defconst RED RED10,303
+(defconst GREEN GREEN11,332
+(defconst GRAY GRAY12,363
+(defconst PINK PINK13,393
+(defconst BLUE-TAB BLUE-TAB14,423
+(defvar               swing-key-nam@table swing-key-nam@table18,574
+(defvar               swing-key-nam@table@sorted swing-key-nam@table@sorted19,628
+(defvar               swing-key-seq@table swing-key-seq@table20,682
+(define-abbrev-table 'swing-key-seq@table swing-key-seq@table21,736
+(defun swing-register-key-name+seq swing-register-key-name+seq23,791
+(defun swing-sort-key-nam@table swing-sort-key-nam@table49,1485
+(defun swing@key@name swing@key@name71,2213
+(defun lse-key-name lse-key-name102,3210
+(defun swing-define-key-name+seq swing-define-key-name+seq167,5308
+(defun swing-key-seq swing-key-seq257,9696
+(defun swing-create-map swing-create-map289,10742
+(defun swing-create-sparse-map swing-create-sparse-map297,11119
+(defconst swing-describe-key-if-undefined swing-describe-key-if-undefined308,11710
+(defvar swing@prefixed@keymaps swing@prefixed@keymaps311,11805
+(defun swing@insert@key@description swing@insert@key@description313,11842
+(defun swing@describe@key swing@describe@key321,12063
+(defun swing@describe@full@keymap swing@describe@full@keymap390,14560
+(defun swing@describe@sparse@keymap swing@describe@sparse@keymap405,14949
+(defun swing@describe@prefixed@-@keymap swing@describe@prefixed@-@keymap421,15424
+(defun swing@describe@prefixed@keymap swing@describe@prefixed@keymap429,15689
+(defun swing@describe@keymap swing@describe@keymap444,16042
+(defun swing-describe-full-keymap swing-describe-full-keymap455,16429
+(defun swing-describe-sparse-keymap swing-describe-sparse-keymap459,16554
+
+swing-keys-v18.el,1060
+(defun swing-create-swing-keymaps swing-create-swing-keymaps37,1440
+(defmacro swing-key-cmd swing-key-cmd62,2480
+(defun swing-define-alpha-key swing-define-alpha-key67,2593
+(defun gset-alpha-key gset-alpha-key93,3471
+(defun swing-toggle-key-with-gold swing-toggle-key-with-gold98,3582
+(defun swing-iterate-keys-bound-to-function swing-iterate-keys-bound-to-function112,4075
+(defun swing-replace-binding-for-all-keys swing-replace-binding-for-all-keys132,4685
+(defun swing-define-key-in-minibuffer-maps swing-define-key-in-minibuffer-maps139,4910
+(defun swing-define-key-in-all-maps swing-define-key-in-all-maps168,6039
+(defun swing-redefine-std-emacs-keys swing-redefine-std-emacs-keys174,6242
+(defun swing-replace-std-emacs-bindings swing-replace-std-emacs-bindings242,10085
+(defun swing-define-gold-keys swing-define-gold-keys269,11427
+(defun swing-define-blue-keys swing-define-blue-keys355,16112
+(defun swing-define-red-keys swing-define-red-keys468,22921
+(defun swing-define-blue-tab-keys swing-define-blue-tab-keys493,24275
+
+swing-keys-v19.el,269
+(defun swing-redefine-std-emacs-keys swing-redefine-std-emacs-keys61,2827
+(defun swing-define-gold-keys swing-define-gold-keys74,3310
+(defun swing-define-red-keys swing-define-red-keys82,3585
+(defun swing-define-blue-tab-keys swing-define-blue-tab-keys114,5469
+
+swing-keys.el,70
+(defun swing-describe-key-briefly swing-describe-key-briefly52,1861
+
+t1.el,94
+(defun set-property set-property1,0
+(defun test-insert-property test-insert-property6,140
+
+test.el,96
+(defun set-property set-property1,0
+(defun test-insert--property test-insert--property6,140
+
+tex2iso-latin1.el,48
+(defun tex-2-iso-latin1 tex-2-iso-latin15,150
+
+lse/lse-language-aufwandserfassung-project.lse,251
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-aufwandserfassung6,104
+;;;; Purpose8,148
+;;;;    Define characteristics of LS-Emacs language aufwandserfassung-project9,161
+;;;; Revision Dates11,244
+;;;;    28-Dec-1994 (CT) Creation12,264
+
+lse/lse-language-aufwandserfassung-tttech.lse,41
+;-*-unibyte: t;1,0
+;;;; Copyright 3,20
+
+lse/lse-language-aufwandserfassung.lse,408
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-aufwandserfassung6,104
+;;;; Purpose8,148
+;;;;    Define characteristics of LS-Emacs language aufwandserfassung9,161
+;;;; Revision Dates11,236
+;;;;    14-Jun-1994 (CT) Creation12,256
+;;;;    14-Jun-1994 (CT) lse-aufwandserfassung-mode and friends put in here13,290
+;;;;    28-Dec-1994 (CT) Factored out lse-templates-aufwand-cat-plan-swing14,366
+
+lse/lse-language-awk.lse,251
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-awk6,104
+;;;; Purpose8,134
+;;;;    Define characteristics of LS-Emacs language awk9,147
+;;;; Revision Dates11,208
+;;;;    14-Jun-1994 (CT) lse-awk-mode put in here13,275
+;;; awk mode38,890
+
+lse/lse-language-bash.lse,255
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-bash6,104
+;;;; Purpose8,135
+;;;;    Define characteristics of LS-Emacs language bash9,148
+;;;; Revision Dates11,210
+;;;;    14-Jun-1994 (CT) lse-bash-mode put in here13,277
+;;; bash mode40,881
+
+lse/lse-language-bib-kartei.lse,58
+;-*-unibyte: t;1,0
+    lse-latex-mode:define-keys14,453
+
+lse/lse-language-buchhaltung-ct.lse,71
+;-*-unibyte: t;1,0
+;;; buchhaltung23,656
+;;; buchhaltung mode27,679
+
+lse/lse-language-buchhaltung-ef.lse,71
+;-*-unibyte: t;1,0
+;;; buchhaltung23,656
+;;; buchhaltung mode27,679
+
+lse/lse-language-buchhaltung-haus.lse,71
+;-*-unibyte: t;1,0
+;;; buchhaltung25,702
+;;; buchhaltung mode29,725
+
+lse/lse-language-buchhaltung.lse,116
+;-*-unibyte: t;1,0
+;;; buchhaltung24,661
+;;; buchhaltung mode28,684
+(define-key lse-buchhaltung-mode-map 38,907
+
+lse/lse-language-c.lse,435
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-c6,104
+;;;; Purpose8,132
+;;;;    Define characteristics of LSE language c9,145
+;;;; Revision Dates11,199
+;;;;    13-Sep-1994 (CT) Creation12,219
+;;;;    18-Sep-1994 (CT) c-mode redefined13,253
+;;;;                     Emacs 19.30)15,371
+;;; cc37,1004
+;;; Redefinition of c-mode41,1020
+;;; The function itself is redefined instead of using c-mode-hook because it43,1052
+
+lse/lse-language-cc.lse,4088
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-cc6,104
+;;;; Purpose8,133
+;;;; Revision Dates11,207
+;;;;    13-Sep-1994 (CT) Creation12,227
+;;;;    18-Sep-1994 (CT) c++-mode redefined13,261
+;;;;    20-Feb-1995 (CT) compile-command set to buffer-local value14,305
+;;;;    23-Feb-1995 (CT) compile-command changed from `make -k'15,372
+;;;;    25-Feb-1995 (CT) Qualifiers `-g' and `-lm' added to compile-command16,445
+;;;;     1-Mar-1995 (CT) lse-language:c:compile-switch added17,521
+;;;;    13-Mar-1995 (CT) lse-language:c:compile-switch moved out from18,582
+;;;;                     by the user)20,728
+;;;;    12-Apr-1995 (CT) lse-templates-cc-ercos added22,833
+;;;;    12-Apr-1995 (CT) lse-templates-cc-ercos added22,833
+;;;;    16-Oct-1995 (CT) lse-cc:set-compile-command factored out and made23,887
+;;;;                     sensitive to main programs24,961
+;;;;     3-Apr-1998 (CT) Change indentation27,1118
+;;;;     6-May-1998 (CT) Removed 28,1198
+;;;;     6-May-1998 (CT) Removed [?/] and 28,1198
+;;;;     6-May-1998 (CT) Removed [?/] and [?*] from local key map28,1198
+;;;;     8-Dec-1998 (CT) Commented out lse-templates-cc-ercos29,1264
+;;;;    29-Dec-1998 (CT) Removed 30,1326
+;;;;    29-Dec-1998 (CT) Removed [?<], [?>] and 30,1326
+;;;;    29-Dec-1998 (CT) Removed [?<], [?>] and [?#] from local key map30,1326
+;;;;    29-Dec-1998 (CT) Set `indent-line-function'31,1398
+;;;;    30-Dec-1998 (CT) `lse-cc:goto-class-head' and33,1532
+;;;;                     `lse-cc:goto-class-tail'34,1586
+;;;;    30-Dec-1998 (CT) Set `comment-line-break-35,1642
+;;;;                     `indent-new-comment-line' 36,1704
+;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-ind37,1756
+;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index'37,1756
+;;;;    ««revision-date»38,1835
+  ;;; Redefinition of c++-mode94,3534
+  ;;; The function itself is redefined instead of using c++-mode-hook because96,3572
+    (lse-tpu:move-to-beginning)116,4320
+; lse-cc:at-class-head-p144,5204
+; lse-cc:goto-class-head154,5404
+; lse-cc:goto-class-tail171,5764
+; lse-cc:goto-next-class-section183,6108
+; lse-cc:goto-prev-class-section193,6350
+  (lse-move-keys-to-prefix c++-mode-map 210,7012
+; lse-cc:customize213,7141
+; lse-cc:lineup-comment219,7234
+;;; Hack c-guess-basic-syntax to give better results for for-loops223,7277
+;;;         - the 2. and following lines of multi-line statements225,7381
+;;;         - elements of a for-list 226,7447
+;;;         - stuff after ',' (outside argument lists)227,7485
+        ;; get the buffer position of the most nested opening brace,254,8704
+        ;; if there is one,255,8773
+                ;; if cdr 266,9210
+                  ;; otherwise,270,9447
+              ;; ignore the bufpos if its been narrowed out by the272,9545
+        ;; cache char before and after indent point,284,10013
+        ;; cache char before and after indent point, and move point to284,10013
+          (c-add-syntax 'string (c-point 'bopl)301,10637
+           ;; CASE 5A: we are looking at a defun,318,11363
+           ;; CASE 5A: we are looking at a defun, class,318,11363
+           ;; CASE 5A: we are looking at a defun, class, or318,11363
+           ;; CASE 5G: we are looking at the brace which closes the564,23109
+                 ;; here we essentially use the hack that is used in584,23922
+                 ;; look. 586,24060
+                 ;; look.  The assumption is made that argdecls are586,24060
+                 ;; indented at least one space and that function587,24128
+           ;; CASE 5I: we are at the topmost level,618,25717
+           ;; CASE 5I: we are at the topmost level, make sure we skip618,25717
+            ;; real beginning-of-line could be narrowed out due to632,26331
+           ;; CASE 5J: we are at an ObjC or Java method definition646,26934
+           ))				; end CASE 659,27505
+         ;; CASE 6: line is an expression,660,27535
+         ;; CASE 6: line is an expression, not a statement.  Most660,27535
+         ;; likely we are either in a function prototype or a function661,27601
+
+lse/lse-language-ebnf.lse,68
+;-*-unibyte: t;1,0
+;;; ebnf21,597
+; xbw-ebnf-insert-leader27,715
+
+lse/lse-language-eiffel.lse,38
+;-*-unibyte: t;1,0
+;;; eiffel22,563
+
+lse/lse-language-elisp.lse,407
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-elisp6,104
+;;;; Purpose8,136
+;;;;    Define characteristics of LS-Emacs language elisp9,149
+;;;; Revision Dates11,212
+;;;;    14-Jun-1994 (CT) lse-elisp-mode put in here13,279
+;;;;                     `emacs-lisp-mode-hook' 15,394
+;;;;    ««revision-date»»···16,443
+;;;;    ««revision-date»16,443
+    eldoc-mode;28,855
+;;; elisp mode41,1077
+
+lse/lse-language-fahrtenbuch.lse,71
+;-*-unibyte: t;1,0
+;;; fahrtenbuch21,576
+;;; fahrtenbuch mode25,599
+
+lse/lse-language-finanzplanung.lse,291
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-finanzplanung6,104
+;;;; Purpose8,144
+;;;;    Define characteristics of LS-Emacs language finanzplanung9,157
+;;;; Revision Dates11,228
+;;;;    14-Jun-1994 (CT) lse-finanzplanung-mode put in here13,295
+;;; finanzplanung mode38,965
+
+lse/lse-language-firma-kartei.lse,20
+;-*-unibyte: t;1,0
+
+lse/lse-language-generic.lse,261
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-generic6,104
+;;;; Purpose8,138
+;;;;    Define characteristics of LS-Emacs language generic9,151
+;;;; Revision Dates11,216
+;;;;    14-Jun-1994 (CT) lse-text-mode put in here13,283
+;;; text mode27,616
+
+lse/lse-language-kassabuch.lse,275
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-kassabuch6,104
+;;;; Purpose8,140
+;;;;    Define characteristics of LS-Emacs language kassabuch9,153
+;;;; Revision Dates11,220
+;;;;    14-Jun-1994 (CT) lse-kassabuch-mode put in here13,287
+;;; kassabuch mode38,941
+
+lse/lse-language-latex-std.lse,219
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-latex6,104
+;;;; Purpose8,136
+;;;;    Define characteristics of LS-Emacs language latex9,149
+;;;; Revision Dates11,212
+;;;;    28-Jun-1994 (CT) Creation12,232
+
+lse/lse-language-latex.lse,634
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-latex6,104
+;;;; Purpose8,136
+;;;;    Define characteristics of LS-Emacs language latex9,149
+;;;; Revision Dates11,212
+;;;;    14-Jun-1994 (CT) lse-latex-mode and friends put in here13,279
+;;;;     6-Dec-1994 (CT) lse-latex-mode:insert-person-of-kartei and 14,343
+;;;;                     lse-latex-mode:insert-firma-of-kartei added15,412
+;;;;    23-Feb-1995 (CT) Define compile-command as buffer local variable16,481
+;;;;                     `latex-mode-hook'18,618
+;;;;    ««revision-date»»···19,661
+;;;;    ««revision-date»19,661
+;;; TeX modes 53,1592
+;;;83,2427
+
+lse/lse-language-latex2e.lse,41
+;-*-unibyte: t;1,0
+;;;; Copyright 3,20
+
+lse/lse-language-lse.lse,251
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-lse6,104
+;;;; Purpose8,134
+;;;;    Define characteristics of LS-Emacs language lse9,147
+;;;; Revision Dates11,208
+;;;;    14-Jun-1994 (CT) lse-lse-mode put in here13,275
+;;; lse mode30,704
+
+lse/lse-language-mail.lse,786
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-mail6,104
+;;;; Purpose8,135
+;;;;    Define lse-templates for Emacs mail-mode9,148
+;;;; Revision Dates11,202
+;;;;    25-May-1995 (CT) Creation12,222
+;;;;     3-Nov-1997 (CT) `lse-mail:sen16,413
+;;;;     4-Nov-1997 (CT) Kill all remaining o17,466
+;;;;     4-Nov-1997 (CT) Kill all remaining optional fill-ins and complain17,466
+;;;;    12-Jan-1998 (CT) Use `(lse-system-domain)' instead of literal19,614
+;;;;     8-Feb-1998 (CT) Avoid duplica21,724
+;;;;     3-Jan-2000 (CT) Iconify `server-window' if22,782
+;;;;    ««revision-date»»···23,848
+;;;;    ««revision-date»23,848
+;;; mail43,1367
+;;; lse-mail-mode47,1384
+; lse-mail-setup-hook103,2817
+; lse-mail:insert-if-missing136,3673
+; lse-mail:mh-setup-hook203,6000
+
+lse/lse-language-olt.lse,196
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-olt6,104
+;;;; Purpose8,134
+;;;;    Define LS-Emacs language OLT9,147
+;;;; Revision Dates11,189
+;;;;    10-Jul-1995 (CT) Creation12,209
+
+lse/lse-language-perl.lse,394
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-perl6,104
+;;;; Purpose8,135
+;;;;    Define characteristics of LS-Emacs language perl9,148
+;;;; Revision Dates11,210
+;;;;    14-Jun-1994 (CT) lse-perl-mode moved in here13,277
+;;;;     8-Jul-1996 (CT) lse-perl-mode:keymap used to get rid of stupid14,330
+;;;;-- 16,437
+;;; Perl mode42,1073
+(defvar lse-perl-mode:keymap nil)45,1128
+
+lse/lse-language-person-kartei.lse,20
+;-*-unibyte: t;1,0
+
+lse/lse-language-python.lse,41
+;-*-unibyte: t;1,0
+;;;; Copyright 3,20
+
+lse/lse-language-quot-kartei.lse,138
+;-*-unibyte: t;1,0
+    auto-fill-mode16,529
+    ;: 29-Sep-1996 ;; lse-lingo:use-english;17,548
+; lse-quot-kartei:insert-source37,1019
+
+lse/lse-language-reiserechnung.lse,265
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-reiserechnung6,104
+;;;; Purpose8,144
+;;;;    Define characteristics of LS-Emacs language reiserechnung9,157
+;;;; Revision Dates11,228
+;;;;     4-Jul-1994 (CT) Creation12,248
+;;; reiserechnung mode35,811
+
+lse/lse-language-sed.lse,194
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-sed6,104
+;;;; Purpose8,134
+;;;;    Define characteristics of LS-Emacs language sed9,147
+;;;; Revision Dates11,208
+;;; sed mode34,687
+
+lse/lse-language-texinfo.lse,281
+;-*-unibyte: t;1,0
+;;;; Name5,94
+;;;;    lse-language-texinfo6,104
+;;;; Purpose8,138
+;;;;    Define characteristics of LS-Emacs language Texinfo9,151
+;;;; Revision Dates11,216
+;;;;    14-Jun-1994 (CT) Definition of lse-texinfo-mode put in here13,283
+;;; Texinfo mode37,909

@@ -1,0 +1,37 @@
+;-*-unibyte: t;-*-
+
+(lse-language:define "buchhaltung-ct"
+    '(
+        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:tab-increment        2)
+        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-group-chars         "-\@_")
+        (lse_comment_head_delim            "%")
+        (lse_comment_head_delim_pattern    "%+ *")
+        (lse_comment_delim_char_set        "%")
+        (lse-language:expand-initial       t)
+     )
+    '(
+     )
+    '(
+        "lse-templates-kontenplan-ct"
+        "lse-templates-buchhaltung"
+        "lse-templates-buchhaltung-ct"
+     )
+    137
+     67
+;;; buchhaltung
+)
+
+;;;
+;;; buchhaltung mode
+;;;
+(define-derived-mode lse-buchhaltung-ct-mode lse-buchhaltung-mode
+                     "CT-Buchhaltung"
+  "Major mode for accounting.
+\\{lse-buchhaltung-mode-map}"
+  (if (lse_inside_fill-in)
+      (erase-buffer)
+  )
+  (lse-language:use "buchhaltung-ct")
+)

@@ -1,0 +1,284 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Compilation_Unit" 
+  '(description   "Specification of compilation unit" )
+  '(replacement 
+      "\\begin{CompilationUnit}%"
+      "  {«Compilation_Unit_Name»}%"
+      "  {«Compilation_Unit_Type»}"
+      ""                 
+      "  «Unit_Abstract»"                  
+      "  "
+      "  «Imports»"
+      ""
+      "  «Exports»"        
+      ""                             
+      "  ««Return_Value»»"     
+      "  "
+      "  ««Restrictions»»"
+      ""                 
+      "  ««Class_Axioms»»"                 
+      ""                 
+      "  ««Class_Invariants»»"
+      ""
+      "\\end{CompilationUnit}"
+    )                              
+)             
+
+(lse-define-fill-in "Compilation_Unit_Name" 
+  '(description   "Name of compilation unit")
+)
+
+(lse-define-fill-in "Compilation_Unit_Type" 
+  '(description   "Type of compilation unit")
+)
+
+(lse-define-fill-in "Unit_Abstract" 
+  '(description   "Abstract for program unit" )
+  '(replacement 
+      "  \\begin{UnitAbstract}"
+      "    «text»"
+      "  \\end{UnitAbstract}"             
+   )
+)
+
+(lse-define-fill-in "Imports" 
+  '(description   "List of compilation units imported into compilation unit" )
+  '(replacement 
+      "  \\begin{Imports}"
+      "  «Import_From_Unit»···"
+      "  \\end{Imports}"                  
+   )
+)
+
+(lse-define-fill-in "Import_From_Unit" 
+  '(description   "Name of unit from which items are imported" )
+  '(replacement 
+      "\\unit {«Compilation_Unit_Name»} ««text»»"
+      "      ««Entities_Imported»»"        
+   )
+)
+
+(lse-define-fill-in "Entities_Imported" 
+  '(description   "List of entities imported from a compilation unit" )
+  '(replacement 
+      "\\begin{imported}"
+      "«entity_imported»···"
+      "\\end{imported}"
+    )                              
+)
+
+(lse-define-fill-in "Entity_Imported" 
+  '(description   "Name and of an imported entity and type of access" )
+  '(replacement 
+      "\\entity {«Name_Of_Entity»} {«Access_to_Entity»}"
+      "      ««Optional_Description»»"
+   )
+)
+
+(lse-define-fill-in "Name_Of_Entity" 
+  '(description   "Name of entity")
+)                         
+
+(lse-define-fill-in "Access_To_Entity" 
+  '(description   "Type of access to imported entity" )
+  '(menu 
+        ("Type" '(description   "Imported entity is a type"))
+        ("Call" '(description   "Imported entity is a function with parameters or a procedure "))
+        ("Read" '(description   "Imported entity is constant, variable or parameterless function"))
+    )  
+)
+
+(lse-define-fill-in "Optional_Description" 
+  '(replacement 
+      "[««text»»]"
+   )
+)                               
+
+(lse-define-fill-in "Exports" 
+  '(description   "List of entitites exported by compilation unit" )
+  '(replacement 
+      "\\begin{Exports}"
+      "««Exported_Data_Types»»"
+      ""                           
+      "««Exported_Attributes»»"
+      ""
+      "««Exported_Package»»···"
+      ""          
+      "««Exported_Subprogram»»···"            
+      "\\end{Exports}"
+    )        
+)
+
+(lse-define-fill-in "Exported_Data_Types" 
+  '(description   "Data types exported by compilation unit" )
+  '(replacement 
+      "\\begin{Exportedtypes}"
+      "«Type_Exported»···"
+      "\\end{Exportedtypes}"              
+   )
+)                
+
+(lse-define-fill-in "Type_Exported" 
+  '(description   "Name and description of a type exported by compilation unit" )
+  '(replacement 
+      "\\datatype {«Name»} ««text»»"
+    )           
+)                         
+
+(lse-define-fill-in "Exported_Attributes" 
+  '(description   "List of constants, variables, parameterless functions exported" )
+  '(replacement 
+      "\\begin{Exportedattributes}"         
+      "«Attribute_Exported»···"
+      "\\end{Exportedattributes}"
+   )
+)
+
+(lse-define-fill-in "Attribute_Exported" 
+  '(description   "Name, type and description of an exported attribute" )
+  '(replacement 
+      "\\attribute {«Name»} {«Data_Type»}"
+      "         ««Optional_Description»»"
+   )                 
+)
+
+(lse-define-fill-in "Data_Type" 
+  '(description   "Name of a data type")
+)     
+
+(lse-define-fill-in "Exported_Package" 
+  '(description   "Description of ADA-package, PASCAL-module or EIFFEL-class exported" )
+  '(replacement 
+      "\\begin{ExportedPackage}{«name»}"
+      ""
+      "  «Unit_Abstract»"
+      ""
+      "  «Exports»"
+      ""
+      "  ««Restrictions»»"
+      ""
+      "  ««Class_Axioms»»"
+      ""
+      "  ««Class_Invariants»»"
+      ""
+      "\\end{ExportedPackage}"
+   )
+)
+
+(lse-define-fill-in "EXPORTED_SUBPROGRAM" 
+  '(description   "Description of exported function or procedure" )
+  '(replacement 
+        "\\begin{ExportedSubprogram}{«Name»}{«Subprogram_Type»}"
+        ""
+        "  «Unit_Abstract»"
+        ""
+        "  ««Return_Value»»"
+        ""
+        "  «Arguments»"
+        ""
+        "  «Pre_Conditions»"
+        ""
+        "  «Post_Conditions»"
+        "\\end{ExportedSubprogram}"
+   )
+)
+
+(lse-define-fill-in "Arguments" 
+  '(description   "List of arguments" )
+  '(replacement 
+      "\\begin{Arguments}"
+      "«argument_description»···"
+      "\\end{Arguments}"
+   )
+)
+
+(lse-define-fill-in "Argument_Description" 
+  '(description   "Name, Type and description of argument of a subprogram" )
+  '(replacement 
+      "\\argument {«Name»} {«Data_Type»} {«Access_Type»}%" 
+      "        ««Optional_Description»»"
+   )
+) 
+
+(lse-define-fill-in "Access_Type" 
+  '(description   "Access_type for argument" )
+  '(menu 
+        ("Read"   '(description   "Argument is read by the subprogram"))
+        ("Modify" '(description   "Argument is read and modified by subprogram"))
+        ("Write"  '(description   "Argument is written by subprogram"))
+   )
+)
+
+(lse-define-fill-in "Return_Value" 
+  '(description   "Description of return value" )
+  '(replacement 
+      "\\returnvalue {«Data_Type»} ««Optional_Description»»"
+   )
+)
+
+(lse-define-fill-in "Pre_Conditions" 
+  '(description   "Preconditions of a subprogram" )
+  '(replacement 
+      "\\begin{preconditions}"
+      "«Assertion»···"
+      "\\end{preconditions}"
+   )
+) 
+
+(lse-define-fill-in "Post_Conditions" 
+  '(description   "Postconditions of a subprogram" )
+  '(replacement 
+      "\\begin{postconditions}"
+      "«Assertion»···  "
+      "\\end{postconditions}"
+   )
+) 
+
+(lse-define-fill-in "Assertion" 
+  '(description   "Assertion which must be true at a given point of program execution" )
+  '(replacement 
+      "\\assertion «text»"
+   )
+) 
+
+(lse-define-fill-in "Restrictions" 
+  '(description   "Restrictions applying to a compilation unit" )
+  '(replacement 
+      "\\begin{restrictions}"
+      "«another_item»···"
+      "\\end{restrictions}"
+   )
+)
+
+(lse-define-fill-in "Class_Axioms" 
+  '(description   "Axioms describing the behaviour of the class" )
+  '(replacement 
+      "\\begin{classaxioms}"
+      "«axiom»···"
+      "\\end{classaxioms}"
+   )
+)
+
+(lse-define-fill-in "Axiom" 
+  '(description   "Axiom applying to a class" )
+  '(replacement 
+      "\\axiom «text»"
+    )   
+)       
+
+(lse-define-fill-in "Class_Invariants" 
+  '(description   "Invariants of the class: conditions valid at stable ANY time" )
+  '(replacement 
+      "\\begin{classinvariants}"         
+      "«invariant»···"    
+      "\\end{classinvariants}"
+   )
+)
+
+(lse-define-fill-in "Invariant" 
+  '(description   "Invariant applying to a class")
+  '(replacement 
+      "\invariant «text»"
+    )   
+)       

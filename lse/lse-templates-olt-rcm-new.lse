@@ -1,0 +1,1408 @@
+;-*-unibyte: t;-*-
+
+;;; 21-Mar-1996
+(lse-define-fill-in "_NO_"
+    '(replacement           "_NO_")
+;;; _NO_
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "value"
+   '(description   "Enter your value here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "description"
+   '(description   "Enter your description here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "id"
+   '(description   "Enter your id here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "check"
+   '(description   "Enter your checks here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "time"
+   '(description   "Enter your time here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "integer"
+   '(description   "Enter your integer value here")
+)
+
+;;; 15-Jan-1998 
+(lse-define-fill-in "delay"
+   '(description   "Enter your delay value here")
+)
+
+;;; 15-Jan-1998 
+(lse-define-fill-in "period"
+   '(description   "Enter your period value here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "uinteger"
+   '(description   "Enter your unsigned integer value here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "membership-bit-number"
+   '(description   "Enter your membership bit number here")
+)
+
+;;; 17-Dec-1997
+(lse-define-fill-in "replica-number"
+   '(description   "Enter your replica number value here")
+)
+
+;;; 15-Jan-1999 
+(lse-define-fill-in "slot-phase"
+   '(description   "Enter the slot phase")
+)
+
+;;; 15-Jan-1999 
+(lse-define-fill-in "cni-base"
+   '(description   "Enter the CNI Base")
+)
+
+;;; 15-Jan-1999 
+(lse-define-fill-in "cni-message-base-offset"
+   '(description   "Enter the CNI Message Base Offset")
+)
+
+;;; 18-Dec-1997
+(lse-define-fill-in "offset"
+   '(description   "Enter your offset here")
+)
+
+;;; 27-Jan-1998
+(lse-define-fill-in "h_state_item"
+   '(description   "Enter the id of the H-State item here")
+)
+
+;;; 27-Jan-1998
+(lse-define-fill-in "ctype"
+   '(description   "Enter your C-type here")
+)
+
+;;; 28-Jan-1998
+(lse-define-fill-in "deadline"
+   '(description   "Enter your Deadline here")
+)
+
+;;;  5-Mar-1996
+(lse-define-fill-in "RCM_Attribute"
+    '(token)
+    '(token                 "attribute")
+    '(replacement
+        "@expand (\"_RCM_"
+        & (lse-insert-replica-or-flat "RCM_Type")
+        & "_«RCM_Attribute_Name»_\" + @as_string (i))"
+     )
+;;; RCM_Attribute
+)
+
+;;;  6-Mar-1996
+(lse-define-fill-in "RCM_Config_Item"
+    '(token)
+    '(token                 "item")
+    '(replacement
+        "\"@def _RCM_"
+        & (lse-insert-replica-or-flat "RCM_Type")
+        & "_«RCM_Attribute_Name»_\" & @ \"RCM_Config_Tail\""
+     )
+;;; RCM_Config_Item
+)
+
+;;;  5-Mar-1996
+(lse-define-fill-in "RCM_Attribute_Name"
+    '(description           "Name of attribute")
+;;; RCM_Attribute_Name
+)
+
+;;; 27-Sep-1996
+(lse-define-fill-in "RCM_Config_Tail_H"
+    '(replacement           "«RCM_Number»" & (indent-to 50) & "(@as_code (")
+;;; RCM_Config_Tail_H
+)
+
+(lse-define-fill-in "RCM_Config_Tail_T"
+    '(replacement           "«quoted-text»))@")
+;;; RCM_Config_Tail_T
+)
+
+;;;  5-Mar-1996
+;;; 20-Jun-1996 Added postfix `@'
+;;; 27-Sep-1996 Factored `RCM_Config_Tail_H' and `RCM_Config_Tail_T'
+(lse-define-fill-in "RCM_Config_Tail"
+    '(replacement           @ "RCM_Config_Tail_H" & @ "RCM_Config_Tail_T")
+;;; RCM_Config_Tail
+)
+
+;;;  1-Aug-1996
+;;; 27-Sep-1996 Changed `RCM_Desc' to `RCM_Config_Tail_Desc'
+(lse-define-fill-in "RCM_Config_Tail_Desc"
+    '(replacement           @ "RCM_Config_Tail_H" & "\"Desc («text»)\"))@")
+;;; RCM_Config_Tail_Desc
+)
+
+;;; 30-Sep-1996
+(lse-define-fill-in "RCM_Config_Tail_Subsystem"
+    '(replacement           @ "RCM_Config_Tail_H" & "\"Subsystem («id»)\"))@")
+;;; RCM_Config_Tail_Subsystem
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Exception_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "xcp_«number»")
+;;; RCM_Exception_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Dynamics_x_binding"
+    '(token)
+    '(leading               ",")
+;    '(separator             lse-environment-indent lse-newline-and-indent "  ,")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(xrt_«number», ««RCM_Exception_List»»···)")
+;;; RCM_Dynamics_x_binding
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Dynamics_double_Execution"
+    '(token)
+    '(leading               ",")
+;  '(separator             lse-environment-indent lse-newline-and-indent "  ,")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_«number», ««_NO_»»ReferenceCheck)")
+;;; RCM_Dynamics_double_Execution
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Validity_Check"
+    '(token)
+    '(leading               ",")
+;;;???    '(separator             lse-environment-indent ", ")
+    '(replacement           "«check»")
+;;; RCM_Validity_Check
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Dynamics_check_Validity"
+    '(token)
+    '(leading               ",")
+;  '(separator             lse-environment-indent lse-newline-and-indent "  ,")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_«number», ««RCM_Validity_Check»»···)")
+;;; RCM_Dynamics_double_Execution
+)
+
+;;;  7-Mar-1996
+;;;  2-Aug-1996 HA replace `«RCM_Number»' by `i' for all ranges
+;;; 28-Oct-1996 HA delete all macro procedures; they are invoked directly now
+;;; 15-Dec-1997 Added `*doubleExecution_' and `*checkValidity_'
+(lse-define-fill-in "RCM_Dynamics_Config"
+    '(token)
+    '(token                 "dynamics-config")
+    '(replacement
+        "@def _RCM_Dynamics_Desc_"             & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Dynamics_x_binding_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Dynamics_x_binding»»···)"
+        "     )@"
+        ""
+        "@def _RCM_Dynamics_doubleExecution_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Dynamics_double_Execution»»···)"
+        "     )@"
+        "@def _RCM_Dynamics_checkValidity_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Dynamics_check_Validity»»···)"
+        "     )@"
+     )
+;;; RCM_Dynamics_Config
+)
+
+;;; 12-Mar-1996
+;;;  2-Dec-1996 Added `_RCM_Exception_Vector_'
+(lse-define-fill-in "RCM_Exception_Config"
+    '(token)
+    '(token                 "exception-config")
+    '(replacement
+        "@def _RCM_Exception_Desc_"   & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Exception_Level_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Exception_Vector_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Exception_Config
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Function_calls_back_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Function_calls_back_Function
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 14-Jan-1998 added link_attribute and etype
+(lse-define-fill-in "RCM_Function_uses_E_Object"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( fct_" & @ RCM_Number_A & ", eobj_«number»"
+        "  , @(««link_attribute»»···), etyp_«number»"
+        "  )"
+     )
+;;; RCM_Function_uses_E_Object
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Function_calls_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Function_calls_Function
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 28-May-1997 added Use_Count, Explicit_Receive_Count, Explicit_Send_Count
+;;; 30-May-1997 corrected order of Explicit_Receive_Count and Explicit_Send_Count
+;;;  5-Aug-1997 removed `Group' (third) parameter
+(lse-define-fill-in "RCM_Function_uses_Message"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( fct_" & @ RCM_Number_A & ", msg_«number»"
+        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
+        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive"
+        "  , ««_NO_»»ReceiveBeforeSend, ««_NO_»»Alias"
+        "  , ««_NO_»»Use_Count, ««_NO_»»Explicit_Receive_Count, ««_NO_»»Explicit_Send_Count"
+        "  )"
+     )
+;;; RCM_Function_uses_Message
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 16-Dec-1997 replaced `«RCM_Function_uses_Resource_Time»' by `«time»'
+(lse-define-fill-in "RCM_Function_uses_Resource"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @(fct_" & @ RCM_Number_A & ", rsc_«number», «time»)"
+     )
+;;; RCM_Function_uses_Resource
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Function_uses_SP_Task"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", ptsk_«number»)")
+;;; RCM_Function_uses_SP_Task
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Function_uses_SW_Task"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", stsk_«number»)")
+;;; RCM_Function_uses_SW_Task
+)
+
+;;;  6-Mar-1996
+;;; 20-Jun-1996 Added `Return_Type' and `Parameter_List'
+;;; 20-Sep-1996 Expand mandatory parameters with keywords
+;;; 26-Sep-1996 changed separator
+;;;  7-May-1997 Added `_RCM_Function_Code_'
+;;;  7-May-1997 Replaced first `_RCM_Function_Code_' by
+;;;             `_RCM_Function_Code_Layout_'
+(lse-define-fill-in "RCM_Function_Config"
+    '(token)
+    '(token                 "function-config")
+    '(replacement
+        "@def _RCM_Function_Subsystem_"           & @ "RCM_Config_Tail_Subsystem"
+        "@def _RCM_Function_Desc_"                & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Function_Callable_"            & @ "RCM_Config_Tail_H" & "\"Callable («text»)\"))@"
+        "@def _RCM_Function_AddressType_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Prototype_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Code_Layout_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Registers_"           & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Window_"              & @ "RCM_Config_Tail"
+        "@def _RCM_Function_HWStack_"             & @ "RCM_Config_Tail"
+        "@def _RCM_Function_CCStack_"             & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Allow_"               & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Function_Return_Type_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Parameter_List_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Function_Code_"                & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Function_calls_back_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_calls_back_Function»»···)"
+        "     )@"
+        "@def _RCM_Function_uses_E_Object_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_uses_E_Object»»···)"
+        "     )@"
+        "@def _RCM_Function_calls_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_calls_Function»»···)"
+        "     )@"
+        "@def _RCM_Function_uses_Message_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_uses_Message»»···)"
+        "     )@"
+        "@def _RCM_Function_uses_Resource_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_uses_Resource»»···)"
+        "     )@"
+        "@def _RCM_Function_uses_SP_Task_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_uses_SP_Task»»···)"
+        "     )@"
+        "@def _RCM_Function_uses_SW_Task_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Function_uses_SW_Task»»···)"
+        "     )@"
+     )
+;;; RCM_Function_Config
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+;;; 16-Dec-1997 Added deadline
+(lse-define-fill-in "RCM_HW_Task_activateProcess"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_«number», htsk_" & @ RCM_Number_A & ", ««_NO_»»Deadline)")
+;;; RCM_HW_Task_activateProcess
+)
+
+;;;  7-Mar-1996
+;;; 20-Jun-1996 Introduced `RCM_HW_Task_activateProcess'
+;;; 20-Sep-1996 Expand mandatory parameters with keywords
+;;; 26-Sep-1996 changed separator
+;;;  2-Oct-1996 Added `_RCM_HW_Task_Prototype_'
+(lse-define-fill-in "RCM_HW_Task_Config"
+    '(token)
+    '(token                 "hwtask-config")
+    '(replacement
+        "@def _RCM_HW_Task_Desc_"            & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_HW_Task_Priority_"        & @ "RCM_Config_Tail_H" & "\"Priority («text»)\"))@"
+        "@def _RCM_HW_Task_Interrupt_"       & @ "RCM_Config_Tail_H" & "\"Interrupt («text»)\"))@"
+        "@def _RCM_HW_Task_MinPeriod_"       & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_Prototype_"       & @ "RCM_Config_Tail"
+        "@def _RCM_HW_Task_Allow_"           & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_HW_Task_activateProcess_«RCM_Number»"
+        "     ("
+        "     @(««RCM_HW_Task_activateProcess»»···)"
+        "     )@"
+     )
+;;; RCM_HW_Task_Config
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Init_Task_initializeProcess"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_«number», itsk_" & @ RCM_Number_A & ")")
+;;; RCM_Init_Task_initializeProcess
+)
+
+;;;  7-Mar-1996
+;;; 27-Aug-1996 Changed `RCM_Init_Task_initializeProcess' to expand to a list
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Init_Task_Config"
+    '(token)
+    '(token                 "initTask-config")
+    '(replacement
+        "@def _RCM_Init_Task_Desc_"              & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Init_Task_initializeProcess_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Init_Task_initializeProcess»»···)"
+        "     )@"
+     )
+;;; RCM_Init_Task_Config
+)
+
+;;;  5-Mar-1996
+(lse-define-fill-in "RCM_Number"
+    '(description           "Enter number of entity to configure"
+                            ""
+                            "For properties defined inside a subsystem, this"
+                            "is a structured number formed as :"
+                            "    «subsystem-number»_«property-number»"
+     )
+    '(auto-replicate        100)
+;;; RCM_Number
+)
+
+;;; 21-Mar-1996
+(lse-define-fill-in "RCM_Number_A"
+  '(replacement           (lse-insert-replica-or-flat "RCM_Number"))
+;;; RCM_Number_A
+)
+
+;;; 12-Mar-1996
+;;; 20-Sep-1996 Expand mandatory parameters with keywords
+;;; 23-Jul-1997 Added `_RCM_Message_Access_'
+;;;  5-Aug-1997 Remove `_RCM_Message_Group_'
+;;; 15-Dec-1997 Added `_RCM_Message_Invariant_'
+;;; 16-Dec-1997 Added `_RCM_Message_ReplicaDeterministic_'
+(lse-define-fill-in "RCM_Message_Config"
+    '(token)
+    '(token                 "message-config")
+    '(replacement
+        "@def _RCM_Message_Desc_"                 & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Message_CType_"                & @ "RCM_Config_Tail_H" & "\"CType («text»)\"))@"
+        "@def _RCM_Message_Access_"               & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Init_"                 & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Invariant_"            & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Length_"               & @ "RCM_Config_Tail"
+        "@def _RCM_Message_Allow_"                & @ "RCM_Config_Tail"
+        "@def _RCM_Message_ReplicaDeterministic_" & @ "RCM_Config_Tail"
+     )
+;;; RCM_Message_Config
+)
+
+;;;  5-Aug-1997 Creation
+(lse-define-fill-in "RCM_Msg_Group_Wildcard"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " «quoted-text»")
+;;; RCM_Msg_Group_containsMessage
+)
+
+;;;  5-Aug-1997 Creation
+(lse-define-fill-in "RCM_Msg_Group_containshStateOf"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_«number», mgrp_" & @ RCM_Number_A & ")")
+;;; RCM_Msg_Group_containshStateOf
+)
+
+;;;  5-Aug-1997 Creation
+(lse-define-fill-in "RCM_Msg_Group_containsMessage"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(msg_«number», mgrp_" & @ RCM_Number_A & ")")
+;;; RCM_Msg_Group_containsMessage
+)
+
+;;;  7-Mar-1996
+;;; 20-Jun-1996 Added `Prototype'
+;;;  5-Aug-1997 Added `_RCM_Msg_Group_contains*'
+;;; 16-Dec-1997 Removed `*RDA*'
+(lse-define-fill-in "RCM_Msg_Group_Config"
+    '(token)
+    '(token                 "msgGroup-config")
+    '(replacement
+        "@def _RCM_Msg_Group_Desc_"                 & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Msg_Group_Address_"              & @ "RCM_Config_Tail"
+        "@def _RCM_Msg_Group_Prototype_"            & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Msg_Group_Message_Wildcard_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Msg_Group_Wildcard»»···)"
+        "     )@"
+        "@def _RCM_Msg_Group_H_State_Wildcard_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Msg_Group_Wildcard»»···)"
+        "     )@"
+        "@def _RCM_Msg_Group_containshStateOf_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Msg_Group_containshStateOf»»···)"
+        "     )@"
+        "@def _RCM_Msg_Group_containsMessage_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Msg_Group_containsMessage»»···)"
+        "     )@"
+     )
+;;; RCM_Msg_Group_Config
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Op_Mode_usesInitTask"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(itsk_«number», omod_" & @ RCM_Number_A & ")")
+;;; RCM_Op_Mode_usesInitTask
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Op_Mode_usesHWTask"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(htsk_«number», omod_" & @ RCM_Number_A & ")")
+;;; RCM_Op_Mode_usesHWTask
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Op_Mode_usesTimeTable"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(ttab_«number», omod_" & @ RCM_Number_A & ")")
+;;; RCM_Op_Mode_usesTimeTable
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_Op_Mode_maps_to_Bus_Mode"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(omod_" & @ RCM_Number_A & ", bmod_«number»)")
+;;; RCM_Op_Mode_maps_to_Bus_Mode
+)
+
+;;;  7-Mar-1996
+;;; 20-Jun-1996 Introduced `RCM_Op_Mode_usesInitTask', `RCM_Op_Mode_usesHWTask'
+;;;             and `RCM_Op_Mode_usesTimeTable'
+;;; 26-Sep-1996 changed separator
+;;; 16-Dec-1997 Added `RCM_Op_Mode_maps_to_Bus_Mode'
+(lse-define-fill-in "RCM_Op_Mode_Config"
+    '(token)
+    '(token                 "opMode-config")
+    '(replacement
+        "@def _RCM_Op_Mode_Desc_"             & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Op_Mode_successorOpMode_"  & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Op_Mode_usesInitTask_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Op_Mode_usesInitTask»»)"
+        "     )@"
+        "@def _RCM_Op_Mode_usesHWTask_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Op_Mode_usesHWTask»»···)"
+        "     )@"
+        "@def _RCM_Op_Mode_usesTimeTable_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Op_Mode_usesTimeTable»»)"
+        "     )@"
+        ""
+        "@def _RCM_Op_Mode_maps_to_Bus_Mode_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Op_Mode_maps_to_Bus_Mode»»)"
+        "     )@"
+     )
+;;; RCM_Op_Mode_Config
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Process_h_State_Item"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", «h_state_item»"
+        "  , «description», «ctype», ««_NO_»»Init, ««_NO_»»Length"
+        "  )"
+     )
+;;; RCM_Process_h_State_Item
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Process_Reference_I_Vector_Item"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", irvi_«number», «value» )"
+     )
+;;; RCM_Process_Reference_I_Vector_Item
+)
+
+;;; 15-Dec-1997
+(lse-define-fill-in "RCM_Process_Reference_O_Vector_Item"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", orvi_«number», «value» )"
+     )
+;;; RCM_Process_Reference_O_Vector_Item
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Process_calls_back_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Process_calls_back_Function
+)
+
+;;; 12-Jan-1998 
+(lse-define-fill-in "link_attribute"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "«value»")
+;;; link_attribute
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 12-Jan-1998 added link_attribute and etype
+(lse-define-fill-in "RCM_Process_uses_E_Object"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", eobj_«number»"
+        "  , @(««link_attribute»»···), etyp_«number»"
+        "  )"
+     )
+;;; RCM_Process_uses_E_Object
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Process_calls_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+;;; RCM_Process_calls_Function
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 28-May-1997 added Use_Count, Explicit_Receive_Count, Explicit_Send_Count
+;;; 30-May-1997 corrected order of Explicit_Receive_Count and Explicit_Send_Count
+;;;  5-Aug-1997 removed `Group' (third) parameter
+(lse-define-fill-in "RCM_Process_uses_Message"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( prc_" & @ RCM_Number_A & ", msg_«number»"
+        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
+        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive"
+        "  , ««_NO_»»ReceiveBeforeSend, ««_NO_»»Alias"
+        "  , ««_NO_»»Use_Count, ««_NO_»»Explicit_Receive_Count, ««_NO_»»Explicit_Send_Count"
+        "  )"
+     )
+;;; RCM_Process_uses_Message
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+;;; 16-Dec-1997 replaced `«RCM_Function_uses_Resource_Time»' by `«time»'
+(lse-define-fill-in "RCM_Process_uses_Resource"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @(prc_" & @ RCM_Number_A & ", rsc_«number», «time»)"
+     )
+;;; RCM_Process_uses_Resource
+)
+
+;;; 28-Aug-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Process_uses_SP_Task"
+  '(token)
+  '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+  '(replacement           " @(prc_" & @ RCM_Number_A & ", ptsk_«number»)")
+;;; RCM_Process_uses_SP_Task
+)
+
+;;; 21-Mar-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Process_uses_SW_Task"
+  '(token)
+  '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+  '(replacement           " @(prc_" & @ RCM_Number_A & ", stsk_«number»)")
+;;; RCM_Process_uses_SW_Task
+)
+
+;;;  7-Mar-1996
+;;; 15-Dec-1997 Added `*_decl_stmnt_', `*_precondition', `*_postcondition',
+;;;             `*_h_State_Item_', `*_Reference_*_Vector_Item_'
+(lse-define-fill-in "RCM_Process_Config"
+    '(token)
+    '(token                 "process-config")
+    '(replacement
+        "@def _RCM_Process_Subsystem_"    & @ "RCM_Config_Tail_Subsystem"
+        "@def _RCM_Process_Desc_"         & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Process_Code_"         & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Prototype_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Registers_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Window_"       & @ "RCM_Config_Tail"
+        "@def _RCM_Process_RegClass_"     & @ "RCM_Config_Tail"
+        "@def _RCM_Process_HWStack_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Process_CCStack_"      & @ "RCM_Config_Tail"
+        "@def _RCM_Process_CPU_"          & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Deadline_"     & @ "RCM_Config_Tail"
+        "@def _RCM_Process_Allow_"        & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Process_init_decl_stmnt_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_init_precondition_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Process_init_"               & @ "RCM_Config_Tail"
+        "@def _RCM_Process_init_postcondition_" & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Process_body_decl_stmnt_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Process_body_precondition_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Process_body_"               & @ "RCM_Config_Tail"
+        "@def _RCM_Process_body_postcondition_" & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Process_h_State_Item_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_h_State_Item»»···)"
+        "     )@"
+        "@def _RCM_Process_Reference_I_Vector_Item_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_Reference_I_Vector_Item»»···)"
+        "     )@"
+        "@def _RCM_Process_Reference_O_Vector_Item_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_Reference_O_Vector_Item»»···)"
+        "     )@"
+        ""
+        "@def _RCM_Process_calls_back_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_calls_back_Function»»···)"
+        "     )@"
+        "@def _RCM_Process_uses_E_Object_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_uses_E_Object»»···)"
+        "     )@"
+        "@def _RCM_Process_calls_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_calls_Function»»···)"
+        "     )@"
+        "@def _RCM_Process_uses_Message_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_uses_Message»»···)"
+        "     )@"
+        "@def _RCM_Process_uses_Resource_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_uses_Resource»»···)"
+        "     )@"
+        "@def _RCM_Process_uses_SP_Task_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_uses_SP_Task»»···)"
+        "     )@"
+        "@def _RCM_Process_uses_SW_Task_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Process_uses_SW_Task»»···)"
+        "     )@"
+     )
+;;; RCM_Process_Config
+)
+
+;;; 12-Mar-1996
+;;; 30-Sep-1996 Changed order of `Allow' and `Protected_Data'
+;;; 15-Dec-1997 Added `_RCM_Resource_Invariant_'
+(lse-define-fill-in "RCM_Resource_Config"
+    '(token)
+    '(token                 "resource-config")
+    '(replacement
+        "@def _RCM_Resource_Desc_"           & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Resource_Protected_Data_" & @ "RCM_Config_Tail"
+        "@def _RCM_Resource_Allow_"          & @ "RCM_Config_Tail"
+        "@def _RCM_Resource_Invariant_"      & @ "RCM_Config_Tail"
+     )
+;;; RCM_Resource_Config
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Function_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "fct_«number»")
+;;; RCM_Function_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_contains_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Function_List»»···)")
+;;; RCM_Subsystem_contains_Function
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Process_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "prc_«number»")
+;;; RCM_Process_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_contains_Process"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Process_List»»···)")
+;;; RCM_Subsystem_contains_Process
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Subsystem_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "sub_«number»")
+;;; RCM_Subsystem_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_contains_Subsystem"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Subsystem_List»»···)")
+;;; RCM_Subsystem_contains_Subsystem
+)
+
+;;; 12-Jan-1998 
+(lse-define-fill-in "RCM_Subsystem_exports_E_Object"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", eobj_«number»)")
+;;; RCM_Subsystem_exports_E_Object
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_exports_Exception"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Exception_List»»···)")
+;;; RCM_Subsystem_exports_Exception
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_exports_Function"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Function_List»»···)")
+;;; RCM_Subsystem_exports_Function
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Message_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "msg_«number»")
+;;; RCM_Message_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_exports_Message"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Message_List»»···)")
+;;; RCM_Subsystem_exports_Message
+)
+
+;;; 20-Jun-1996
+(lse-define-fill-in "RCM_Resource_List"
+    '(token)
+    '(leading               ",")
+    '(separator             lse-environment-indent ", ")
+    '(replacement           "rsc_«number»")
+;;; RCM_Resource_List
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_exports_Resource"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Resource_List»»···)")
+;;; RCM_Subsystem_exports_Resource
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Subsystem_exports_Subsystem"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(sub_" & @ RCM_Number_A & ", ««RCM_Subsystem_List»»···)")
+;;; RCM_Subsystem_exports_Subsystem
+)
+
+;;;  5-Mar-1996
+;;; 20-Jun-1996 Removed `_RCM_Subsystem_Defines_*' and `@require (*)'
+;;;             Introduced `RCM_Subsystem_{contains,exports}_*'
+;;; 26-Sep-1996 Changed separator
+;;; 30-Sep-1996 Added empty lines to `replacement'
+;;; 21-Jan-1998 Added `_RCM_Subsystem_Allow_'
+(lse-define-fill-in "RCM_Subsystem_Config"
+    '(token)
+    '(token                 "subsystem-config")
+    '(replacement
+        "@def _RCM_Subsystem_Subsystem_"          & @ "RCM_Config_Tail_Subsystem"
+        "@def _RCM_Subsystem_Desc_"               & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Subsystem_Allow_"              & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Subsystem_renames_Exception_"  & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_renames_Function_"   & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_renames_Message_"    & @ "RCM_Config_Tail"
+        "@def _RCM_Subsystem_renames_Resource_"   & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Subsystem_contains_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_contains_Function»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_contains_Process_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_contains_Process»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_contains_Subsystem_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_contains_Subsystem»»···)"
+        "     )@"
+        ""
+        "@def _RCM_Subsystem_exports_E_Object_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_E_Object»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_exports_Exception_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_Exception»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_exports_Function_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_Function»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_exports_Message_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_Message»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_exports_Resource_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_Resource»»···)"
+        "     )@"
+        "@def _RCM_Subsystem_exports_Subsystem_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Subsystem_exports_Subsystem»»···)"
+        "     )@"
+     )
+;;; RCM_Subsystem_Config
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+;;; 16-Dec-1997 Added deadline
+(lse-define-fill-in "RCM_SW_Task_activateProcess"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(prc_«number», stsk_" & @ RCM_Number_A & ", ««_NO_»»Deadline)")
+;;; RCM_SW_Task_activateProcess
+)
+
+;;; 28-Aug-1996
+(lse-define-fill-in "RCM_SP_Task_Config"
+    '(token)
+    '(token                 "sptask-config")
+    '(replacement
+        "@def _RCM_SP_Task_Desc_"            & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_SP_Task_Priority_"        & @ "RCM_Config_Tail"
+        "@def _RCM_SP_Task_MinPeriod_"       & @ "RCM_Config_Tail"
+        "@def _RCM_SP_Task_MaxNofActive_"    & @ "RCM_Config_Tail"
+        "@def _RCM_SP_Task_Allow_"           & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_SP_Task_Process_«RCM_Number»"
+        "     ("
+        "     @( @(prc_«number», ptsk_" & @ RCM_Number_A & ", «deadline») )"
+        "     )@"
+     )
+;;; RCM_SP_Task_Config
+)
+
+;;;  7-Mar-1996
+;;; 20-Jun-1996 Introduced `RCM_SW_Task_activateProcess'
+;;; 20-Sep-1996 Expand mandatory parameters with keywords
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_SW_Task_Config"
+    '(token)
+    '(token                 "swtask-config")
+    '(replacement
+        "@def _RCM_SW_Task_Desc_"            & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_SW_Task_Priority_"        & @ "RCM_Config_Tail_H" & "\"Priority («text»)\"))@"
+        "@def _RCM_SW_Task_MinPeriod_"       & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_MaxNofActive_"    & @ "RCM_Config_Tail"
+        "@def _RCM_SW_Task_Allow_"           & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_SW_Task_activateProcess_«RCM_Number»"
+        "     ("
+        "     @(««RCM_SW_Task_activateProcess»»···)"
+        "     )@"
+     )
+;;; RCM_SW_Task_Config
+)
+
+;;; 20-Jun-1996
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Time_Table_ttActivatesTask"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement " @( ttab_" & @ RCM_Number_A & ", stsk_«number»"
+                  " , «period», «delay», ««_NO_»»Laxity"
+                  " )"
+     )
+;;; RCM_Time_Table_ttActivatesTask
+)
+
+;;; 26-Nov-1996
+(lse-define-fill-in "RCM_Time_Table_ttActivatesTasks"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -3) lse-newline-and-indent ",  ")
+    '(replacement " @(««RCM_Time_Table_ttActivatesTask»»···"
+                  " )"
+     )
+;;; RCM_Time_Table_ttActivatesTasks
+)
+
+;;;  7-Mar-1996
+;;; 20-Jun-1996 Introduced `RCM_Time_Table_ttActivatesTask'
+;;; 26-Sep-1996 changed separator
+(lse-define-fill-in "RCM_Time_Table_Config"
+    '(token)
+    '(token                 "timeTable-config")
+    '(replacement
+        "@def _RCM_Time_Table_Desc_"            & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_Time_Table_Prototype_"       & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_Time_Table_ttActivatesTask_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Time_Table_ttActivatesTasks»»···)"
+        "     )@"
+        "@def _RCM_Time_Table_ttInclude_"       & @ "RCM_Config_Tail"
+     )
+;;; RCM_Time_Table_Config
+)
+
+;;;  5-Mar-1996
+(lse-define-fill-in "RCM_Type"
+    '(description           "Name of entity type, e.g., Subsystem")
+    '(sort)
+    '(menu
+        "TTP_Bus"
+        "Bus_Mode"
+        "Dynamics"
+        "Exception"
+        "Function"
+        "G_Message"
+        "HW_Task"
+        "Init_Task"
+        "Interrupt"
+        "Message"
+        "N_Frame"
+        "Op_Mode"
+        "Process"
+        "P_Node"
+        "Resource"
+        "SP_Task"
+        "SW_Task"
+        "Subsystem"
+        "Time_Table"
+        "X_Routine"
+     )
+;;; RCM_Type
+)
+
+;;; 12-Mar-1996
+(lse-define-fill-in "RCM_X_Routine_Config"
+    '(token)
+    '(token                 "xroutine-config")
+    '(replacement
+        "@def _RCM_X_Routine_Desc_"      & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_X_Routine_XModel_"    & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Prototype_" & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Registers_" & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_Window_"    & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_HWStack_"   & @ "RCM_Config_Tail"
+        "@def _RCM_X_Routine_CCStack_"   & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_X_Routine_Body_"      & @ "RCM_Config_Tail"
+     )
+;;; RCM_X_Routine_Config
+)
+
+;;; 29-Nov-1996
+(lse-define-fill-in "RCM_Value_Type_Pair"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @(«value», «type»)"
+     )
+;;; RCM_Value_Type_Pair
+)
+
+;;; 29-Nov-1996
+(lse-define-fill-in "RCM_E_Type_Config"
+    '(token)
+    '(token                 "etype-config")
+    '(replacement
+        "@def _RCM_E_Type_Ancestor_"             & @ "RCM_Config_Tail"
+        "@def _RCM_E_Type_Desc_"                 & @ "RCM_Config_Tail_Desc"
+        ""
+        "@def _RCM_E_Type_ObjectAttributes_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Value_Type_Pair»»···)"
+        "     )@"
+        "@def _RCM_E_Type_LinkAttributes_«RCM_Number»"
+        "     ("
+        "     @(««RCM_Value_Type_Pair»»···)"
+        "     )@"
+     )
+;;; RCM_E_Type_Config
+)
+
+;;; 12-Jan-1998
+(lse-define-fill-in "value_list"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           "«value»")
+;;; value_list
+)
+
+;;; 12-Jan-1998
+(lse-define-fill-in "RCM_E_Object_Config"
+    '(token)
+    '(token                 "eobject-config")
+    '(replacement
+        "@def _RCM_E_Object_EType_"                & @ "RCM_Config_Tail_H" & "\"EType («id»)\"))@"
+        "@def _RCM_E_Object_Desc_"                 & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_E_Object_Allow_"                & @ "RCM_Config_Tail"
+        "@def _RCM_E_Object_ObjectAttributes_«RCM_Number»"
+        "     ("
+        "     @(««value_list»»···)"
+        "     )@"
+     )
+;;; RCM_E_Object_Config
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_Distribution_Config"
+    '(token)
+    '(token                 "distribution-config")
+    '(replacement
+        "@def _RCM_Distribution_Desc_" & @ "RCM_Config_Tail_Desc"
+     )
+;;; RCM_Distribution_Config
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_TTP_Bus_provideBusMode"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( ttpb_" & @ RCM_Number_A & ", bmod_«number», «description»)"
+     )
+;;; RCM_Function_uses_Message
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_TTP_Bus_Config"
+    '(token)
+    '(token                 "ttpbus-config")
+    '(replacement
+        "@def _RCM_TTP_Bus_Desc_"                 & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_TTP_Bus_ClusterCyclePeriod_"   & @ "RCM_Config_Tail_H" & "\"ClusterCyclePeriod («integer»)\"))@"
+        "@def _RCM_TTP_Bus_MaxNFrameLength_"      & @ "RCM_Config_Tail_H" & "\"MaxNFrameLength («integer»)\"))@"
+        "@def _RCM_TTP_Bus_MaxNodeNumber_"        & @ "RCM_Config_Tail_H" & "\"MaxNodeNumber («integer»)\"))@"
+        "@def _RCM_TTP_Bus_MembershipVectorSize_" & @ "RCM_Config_Tail_H" & "\"MembershipVectorSize («integer»)\"))@"
+        "@def _RCM_TTP_Bus_MinNodeNumber_"        & @ "RCM_Config_Tail_H" & "\"MinNodeNumber («integer»)\"))@"
+        "@def _RCM_TTP_Bus_NumberOfChannels_"     & @ "RCM_Config_Tail_H" & "\"NumberOfChannels («integer»)\"))@"
+        "@def _RCM_TTP_Bus_TDMARoundPeriod_"      & @ "RCM_Config_Tail_H" & "\"TDMARoundPeriod («integer»)\"))@"
+        ""
+        "@def _RCM_TTP_Bus_provideBusMode_«RCM_Number»"
+        "     ("
+        "     @(««RCM_TTP_Bus_provideBusMode»»···)"
+        "     )@"
+     )
+;;; RCM_TTP_Bus_Config
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_G_Message_h_states_Process"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement           " @( gmsg_" & @ RCM_Number_A & ", prc_«number»)")
+;;; RCM_G_Message_h_states_Process
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_G_Message_Config"
+    '(token)
+    '(token                 "gmessage-config")
+    '(replacement
+        "@def _RCM_G_Message_Desc_"           & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_G_Message_Access_"         & @ "RCM_Config_Tail_H" & "\"Access («text»)\"))@"
+        "@def _RCM_G_Message_CheckSumLength_" & @ "RCM_Config_Tail_H" & "\"CheckSumLength («integer»)\"))@"
+        "@def _RCM_G_Message_CType_"          & @ "RCM_Config_Tail_H" & "\"CType («text»)\"))@"
+        "@def _RCM_G_Message_Init_"           & @ "RCM_Config_Tail_H" & "\"Init (\\\"«integer»\\\")\"))@"
+        "@def _RCM_G_Message_Length_"         & @ "RCM_Config_Tail_H" & "\"Length («integer»)\"))@"
+        "@def _RCM_G_Message_Subsystem_"      & @ "RCM_Config_Tail_H" & "\"Subsystem («id»)\"))@"
+        "@def _RCM_G_Message_RDagreement_"    & @ "RCM_Config_Tail"
+        "@def _RCM_G_Message_SenderStatus_"   & @ "RCM_Config_Tail"
+        ""
+        "@def _RCM_G_Message_h_states_Process_«RCM_Number»"
+        "     ("
+        "     @(««RCM_G_Message_h_states_Process»»···)"
+        "     )@"
+     )
+;;; RCM_G_Message_Config
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_N_Frame_G_Message_in_N_Frame"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( gmsg_«number», nfrm_" & @ RCM_Number_A & ", «offset», _NO_Length, -1, 0)"
+     )
+;;; RCM_N_Frame_G_Message_in_N_Frame
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_N_Frame_Config"
+    '(token)
+    '(token                 "nframe-config")
+    '(replacement
+        "@def _RCM_N_Frame_Desc_"           & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_N_Frame_Bus_"            & @ "RCM_Config_Tail_H" & "\"Bus («id»)\"))@"
+        "@def _RCM_N_Frame_Channel_"        & @ "RCM_Config_Tail_H" & "\"Channel («integer»)\"))@"
+        "@def _RCM_N_Frame_CNIOffset_"      & @ "RCM_Config_Tail_H" & "\"CNIOffset («uinteger»)\"))@"
+        "@def _RCM_N_Frame_Length_"         & @ "RCM_Config_Tail_H" & "\"Length («integer»)\"))@"
+        "@def _RCM_N_Frame_SoSphase_"       & @ "RCM_Config_Tail_H" & "\"SoSphase («integer»)\"))@"
+        "@def _RCM_N_Frame_FDVphase_"       & @ "RCM_Config_Tail_H" & "\"FDVphase («integer»)\"))@"
+        ""
+        "@def _RCM_N_Frame_carriesGMessage_«RCM_Number»"
+        "     ("
+        "     @(««RCM_N_Frame_G_Message_in_N_Frame»»···)"
+        "     )@"
+     )
+;;; RCM_N_Frame_Config
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_P_Node_uses_TTP_Bus"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( pnod_" & @ RCM_Number_A & ", ttpb_«number»"
+        "  , «membership-bit-number», «slot-phase», «cni-base», «cni-message-base-offset»"
+        "  )"
+     )
+;;; RCM_P_Node_uses_TTP_Bus
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_P_Node_runs_Subsystem_in_Bus_Mode"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( pnod_" & @ RCM_Number_A & ", sub_«number», bmod_«number», «replica-number»)"
+     )
+;;; RCM_P_Node_runs_Subsystem_in_Bus_Mode
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_P_Node_sends_N_Frame_in_Bus_Mode"
+    '(token)
+    '(leading               ",")
+    '(separator             (lse-anchor-indent -2) lse-newline-and-indent ", ")
+    '(replacement
+        " @( pnod_" & @ RCM_Number_A & ", nfrm_«number», bmod_«number»)"
+     )
+;;; RCM_P_Node_sends_N_Frame_in_Bus_Mode
+)
+
+;;; 16-Dec-1997
+(lse-define-fill-in "RCM_P_Node_Config"
+    '(token)
+    '(token                 "pnode-config")
+    '(replacement
+        "@def _RCM_P_Node_Desc_"           & @ "RCM_Config_Tail_Desc"
+        "@def _RCM_P_Node_SynchronizedWith_" & @ "RCM_Config_Tail_H" & "\"SynchronizedWith («id»)\"))@"
+        ""
+        "@def _RCM_P_Node_usesBus_«RCM_Number»"
+        "     ("
+        "     @(««RCM_P_Node_uses_TTP_Bus»»···)"
+        "     )@"
+        ""
+        "@def _RCM_P_Node_runsSubsystem_«RCM_Number»"
+        "     ("
+        "     @(««RCM_P_Node_runs_Subsystem_in_Bus_Mode»»···)"
+        "     )@"
+        "@def _RCM_P_Node_sendsNFrame_«RCM_Number»"
+        "     ("
+        "     @(««RCM_P_Node_sends_N_Frame_in_Bus_Mode»»···)"
+        "     )@"
+     )
+;;; RCM_P_Node_Config
+)
+
+; ««lse-define-fill-in»»···

@@ -1,0 +1,142 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "\\DefExtraInfo"
+  '(token)
+  '(replacement
+      "\\DefExtraInfo[««Kartei_Key»»]{«text»}"
+   )
+)
+
+(lse-define-fill-in "\\DefPreLetterCommands{\\foreignletter}"
+  '(max-line-move         2)
+  '(description   "For persons or companies situated outside Austria" )
+  '(menu
+      "\\DefPreLetterCommands{\\foreignletter}"
+      "\\DefPreLetterCommands{\\foreignletter\\englishletter}"
+      "\\DefPreLetterCommands{\\englishletter}"
+   )
+)
+
+(lse-define-fill-in "\\DefVerteilerKategorie"
+  '(token)
+  '(replacement
+      "\\DefVerteilerKategorie{«Verteiler-Kategorie»}"
+   )
+)
+
+(lse-define-fill-in "Kartei_Abteilung"
+  '(description .
+        "Key for abteilung in firmen file"
+   )
+  '(leading       "[")
+  '(trailer       "]")
+)
+
+(lse-define-fill-in "Kartei_Alias"
+  '(description   "Key of alias to use for address of division")
+)
+
+(lse-define-fill-in "Kartei_Durchwahl"
+  '(description   "Durchwahl" )
+  '(leading       "--")
+  '(replacement
+        "0"
+   )
+)
+
+(lse-define-fill-in "Kartei_Firmenkurztitel"
+  '(description   "Firmenname in Kurzform")
+)
+
+(lse-define-fill-in "Kartei-Key"
+  '(description   "Key identifying kartei element")
+)
+
+(lse-define-fill-in "Kartei_Key"
+  '(leading       "[")
+  '(trailer       "]")
+  '(description   "Key identifying kartei element")
+)
+
+(lse-define-fill-in "Kartei_Kommentar"
+  '(description   "Kommentar oder Bemerkungen zu Person")
+)
+
+(lse-define-fill-in "Kartei_Land"
+  '(description   "Land" )
+  '(menu
+        "\\oesterreich/"
+        "\\deutschland/"
+        "\\schweiz/"
+        "\\frankreich/"
+        "\\uk/"
+        "\\usa/"
+        "\\niederlande/"
+        "\\daenemark/"
+        "\\belgien/"
+   )
+)
+
+(lse-define-fill-in "Kartei_Mail_Flag"
+  '(max-line-move         2)
+  '(menu
+      "nomail"
+      "mail=[««kartei-key»»]"
+   )
+)
+
+(lse-define-fill-in "Kartei_Nummer"
+  '(description   "Hausnummer/Eingang/Stock/Tuere oder Postfachnummer")
+)
+
+(lse-define-fill-in "Kartei_Ort"
+  '(description   "Ort")
+)
+
+(lse-define-fill-in "Kartei_Plz"
+  '(description   "Postleitzahl" )
+  '(menu
+        "A--«text»"       
+        "D--«text»"       
+        "CH--«text»"      
+        "F--«text»"       
+        "«text»--«text»"
+        "«text»"      
+   )
+)
+
+(lse-define-fill-in "Kartei_Strasse"
+  '(description   "Strasse")
+)
+
+(lse-define-fill-in "Kartei_Vorwahl"
+  '(description   "Vorwahl" )
+  '(menu
+        "\\viennaphonecode/"
+        "\\austriaphonecode/ («text»)"
+        "\\germanphonecode/ («text»)"   
+        "\\swissphonecode/ («text»)"    
+        "\\francephonecode/"   
+        "\\englandphonecode/ («text»)"
+        "\\usphonecode/ («text»)"
+        "\\denmarkphonecode/"
+        "\\belgiumphonecode/ («text»)"
+        "\\italyphonecode/ («text»)"
+        "\\japanphonecode/ («text»)"
+        "\\irelandphonecode/ («text»)"
+        "««text»» («text»)"
+   )
+)
+
+(lse-define-fill-in "Kartei_Wahl"
+  '(description   "Telefonnummer")
+)
+
+(lse-define-fill-in "Verteiler-Kategorie"
+  '(menu
+        "Seminar" 
+        "OO"      
+        "Eiffel"  
+   )
+)
+

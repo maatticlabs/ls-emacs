@@ -1,0 +1,708 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "Exception:args" 
+  '(description           "Argument 1 of Exception")
+  '(leading               ",")
+  '(separator             ", ")
+;;; Exception:args
+)
+
+(lse-define-fill-in "Exception(args)" 
+  '(description           "Create a Exception object")
+  '(token                 "os.Exception")
+  '(replacement           "os.Exception (««Exception:args»»···)")
+;;; Exception(args)
+)
+
+(lse-define-fill-in "os.chdir" 
+  '(description
+    "chdir(path) -> None"
+"Change the current working directory to the specified path."
+   )
+  '(token)
+  '(replacement           "os.chdir ()")
+;;; os.chdir
+)
+
+(lse-define-fill-in "os.chmod" 
+  '(description
+    "chmod(path, mode) -> None"
+"Change the access permissions of a file."
+   )
+  '(token)
+  '(replacement           "os.chmod ()")
+;;; os.chmod
+)
+
+(lse-define-fill-in "os.chown" 
+  '(description
+    "chown(path, uid, gid) -> None"
+"Change the owner and group id of path to the numeric uid and gid."
+   )
+  '(token)
+  '(replacement           "os.chown ()")
+;;; os.chown
+)
+
+(lse-define-fill-in "os.close" 
+  '(description
+    "close(fd) -> None"
+"Close a file descriptor (for low level IO)."
+   )
+  '(token)
+  '(replacement           "os.close ()")
+;;; os.close
+)
+
+(lse-define-fill-in "os.dup" 
+  '(description
+    "dup(fd) -> fd2"
+"Return a duplicate of a file descriptor."
+   )
+  '(token)
+  '(replacement           "os.dup ()")
+;;; os.dup
+)
+
+(lse-define-fill-in "os.dup2" 
+  '(description
+    "dup2(fd, fd2) -> None"
+"Duplicate file descriptor."
+   )
+  '(token)
+  '(replacement           "os.dup2 ()")
+;;; os.dup2
+)
+
+(lse-define-fill-in "os.execl:file" 
+  '(description           "Argument 1 of os.execl")
+  '(leading               ",")
+;;; os.execl:file
+)
+
+(lse-define-fill-in "os.execl:args" 
+  '(description           "Argument 2 of os.execl")
+  '(leading               ",")
+  '(separator             ", ")
+;;; os.execl:args
+)
+
+(lse-define-fill-in "os.execl" 
+  '(token)
+  '(replacement           "os.execl («os.execl:file», ««os.execl:args»»···)")
+;;; os.execl
+)
+
+(lse-define-fill-in "os.execle:file" 
+  '(description           "Argument 1 of os.execle")
+  '(leading               ",")
+;;; os.execle:file
+)
+
+(lse-define-fill-in "os.execle:args" 
+  '(description           "Argument 2 of os.execle")
+  '(leading               ",")
+  '(separator             ", ")
+;;; os.execle:args
+)
+
+(lse-define-fill-in "os.execle" 
+  '(token)
+  '(replacement           "os.execle («os.execle:file», ««os.execle:args»»···)")
+;;; os.execle
+)
+
+(lse-define-fill-in "os.execlp:file" 
+  '(description           "Argument 1 of os.execlp")
+  '(leading               ",")
+;;; os.execlp:file
+)
+
+(lse-define-fill-in "os.execlp:args" 
+  '(description           "Argument 2 of os.execlp")
+  '(leading               ",")
+  '(separator             ", ")
+;;; os.execlp:args
+)
+
+(lse-define-fill-in "os.execlp" 
+  '(token)
+  '(replacement           "os.execlp («os.execlp:file», ««os.execlp:args»»···)")
+;;; os.execlp
+)
+
+(lse-define-fill-in "os.execlpe:file" 
+  '(description           "Argument 1 of os.execlpe")
+  '(leading               ",")
+;;; os.execlpe:file
+)
+
+(lse-define-fill-in "os.execlpe:args" 
+  '(description           "Argument 2 of os.execlpe")
+  '(leading               ",")
+  '(separator             ", ")
+;;; os.execlpe:args
+)
+
+(lse-define-fill-in "os.execlpe" 
+  '(token)
+  '(replacement           "os.execlpe («os.execlpe:file», ««os.execlpe:args»»···)")
+;;; os.execlpe
+)
+
+(lse-define-fill-in "os.execv" 
+  '(description
+    "execv(path, args)"
+"Execute an executable path with arguments, replacing current process."
+
+	"path: path of executable file"
+	"args: tuple or list of strings"
+   )
+  '(token)
+  '(replacement           "os.execv ()")
+;;; os.execv
+)
+
+(lse-define-fill-in "os.execve" 
+  '(description
+    "execve(path, args, env)"
+"Execute a path with arguments and environment, replacing current process."
+
+	"path: path of executable file"
+	"args: tuple or list of arguments"
+	"env: dictonary of strings mapping to strings"
+   )
+  '(token)
+  '(replacement           "os.execve ()")
+;;; os.execve
+)
+
+(lse-define-fill-in "os.execvp:file" 
+  '(description           "Argument 1 of os.execvp")
+  '(leading               ",")
+;;; os.execvp:file
+)
+
+(lse-define-fill-in "os.execvp:args" 
+  '(description           "Argument 2 of os.execvp")
+  '(leading               ",")
+;;; os.execvp:args
+)
+
+(lse-define-fill-in "os.execvp" 
+  '(token)
+  '(replacement           "os.execvp («os.execvp:file», «os.execvp:args»)")
+;;; os.execvp
+)
+
+(lse-define-fill-in "os.execvpe:file" 
+  '(description           "Argument 1 of os.execvpe")
+  '(leading               ",")
+;;; os.execvpe:file
+)
+
+(lse-define-fill-in "os.execvpe:args" 
+  '(description           "Argument 2 of os.execvpe")
+  '(leading               ",")
+;;; os.execvpe:args
+)
+
+(lse-define-fill-in "os.execvpe:env" 
+  '(description           "Argument 3 of os.execvpe")
+  '(leading               ",")
+;;; os.execvpe:env
+)
+
+(lse-define-fill-in "os.execvpe" 
+  '(token)
+  '(replacement           "os.execvpe («os.execvpe:file», «os.execvpe:args», «os.execvpe:env»)")
+;;; os.execvpe
+)
+
+(lse-define-fill-in "os.fdopen" 
+  '(description
+    "fdopen(fd, [, mode='r' [, bufsize]]) -> file_object"
+"Return an open file object connected to a file descriptor."
+   )
+  '(token)
+  '(replacement           "os.fdopen ()")
+;;; os.fdopen
+)
+
+(lse-define-fill-in "os.fork" 
+  '(description
+    "fork() -> pid"
+"Fork a child process."
+
+"Return 0 to child process and PID of child to parent process."
+   )
+  '(token)
+  '(replacement           "os.fork ()")
+;;; os.fork
+)
+
+(lse-define-fill-in "os.fstat" 
+  '(description
+    "fstat(fd) -> (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime)"
+"Like stat(), but for an open file descriptor."
+   )
+  '(token)
+  '(replacement           "os.fstat ()")
+;;; os.fstat
+)
+
+(lse-define-fill-in "os.ftruncate" 
+  '(description
+    "ftruncate(fd, length) -> None"
+"Truncate a file to a specified length."
+   )
+  '(token)
+  '(replacement           "os.ftruncate ()")
+;;; os.ftruncate
+)
+
+(lse-define-fill-in "os.getcwd" 
+  '(description
+    "getcwd() -> path"
+"Return a string representing the current working directory."
+   )
+  '(token)
+  '(replacement           "os.getcwd ()")
+;;; os.getcwd
+)
+
+(lse-define-fill-in "os.getegid" 
+  '(description
+    "getegid() -> egid"
+"Return the current process's effective group id."
+   )
+  '(token)
+  '(replacement           "os.getegid ()")
+;;; os.getegid
+)
+
+(lse-define-fill-in "os.geteuid" 
+  '(description
+    "geteuid() -> euid"
+"Return the current process's effective user id."
+   )
+  '(token)
+  '(replacement           "os.geteuid ()")
+;;; os.geteuid
+)
+
+(lse-define-fill-in "os.getgid" 
+  '(description
+    "getgid() -> gid"
+"Return the current process's group id."
+   )
+  '(token)
+  '(replacement           "os.getgid ()")
+;;; os.getgid
+)
+
+(lse-define-fill-in "os.getpgrp" 
+  '(description
+    "getpgrp() -> pgrp"
+"Return the current process group id."
+   )
+  '(token)
+  '(replacement           "os.getpgrp ()")
+;;; os.getpgrp
+)
+
+(lse-define-fill-in "os.getpid" 
+  '(description
+    "getpid() -> pid"
+"Return the current process id"
+   )
+  '(token)
+  '(replacement           "os.getpid ()")
+;;; os.getpid
+)
+
+(lse-define-fill-in "os.getppid" 
+  '(description
+    "getppid() -> ppid"
+"Return the parent's process id."
+   )
+  '(token)
+  '(replacement           "os.getppid ()")
+;;; os.getppid
+)
+
+(lse-define-fill-in "os.getuid" 
+  '(description
+    "getuid() -> uid"
+"Return the current process's user id."
+   )
+  '(token)
+  '(replacement           "os.getuid ()")
+;;; os.getuid
+)
+
+(lse-define-fill-in "os.kill" 
+  '(description
+    "kill(pid, sig) -> None"
+"Kill a process with a signal."
+   )
+  '(token)
+  '(replacement           "os.kill ()")
+;;; os.kill
+)
+
+(lse-define-fill-in "os.link" 
+  '(description
+    "link(src, dst) -> None"
+"Create a hard link to a file."
+   )
+  '(token)
+  '(replacement           "os.link ()")
+;;; os.link
+)
+
+(lse-define-fill-in "os.listdir" 
+  '(description
+    "listdir(path) -> list_of_strings"
+"Return a list containing the names of the entries in the directory."
+
+	"path: path of directory to list"
+
+"The list is in arbitrary order.  It does not include the special"
+"entries '.' and '..' even if they are present in the directory."
+   )
+  '(token)
+  '(replacement           "os.listdir ()")
+;;; os.listdir
+)
+
+(lse-define-fill-in "os.lseek" 
+  '(description
+    "lseek(fd, pos, how) -> newpos"
+"Set the current position of a file descriptor."
+   )
+  '(token)
+  '(replacement           "os.lseek ()")
+;;; os.lseek
+)
+
+(lse-define-fill-in "os.lstat" 
+  '(description
+    "lstat(path) -> (mode,ino,dev,nlink,uid,gid,size,atime,mtime,ctime)"
+"Like stat(path), but do not follow symbolic links."
+   )
+  '(token)
+  '(replacement           "os.lstat ()")
+;;; os.lstat
+)
+
+(lse-define-fill-in "os.mkdir" 
+  '(description
+    "mkdir(path [, mode=0777]) -> None"
+"Create a directory."
+   )
+  '(token)
+  '(replacement           "os.mkdir ()")
+;;; os.mkdir
+)
+
+(lse-define-fill-in "os.mkfifo" 
+  '(description
+    "mkfifo(file, [, mode=0666]) -> None"
+"Create a FIFO (a POSIX named pipe)."
+   )
+  '(token)
+  '(replacement           "os.mkfifo ()")
+;;; os.mkfifo
+)
+
+(lse-define-fill-in "os.nice" 
+  '(description
+    "nice(inc) -> new_priority"
+"Decrease the priority of process and return new priority."
+   )
+  '(token)
+  '(replacement           "os.nice ()")
+;;; os.nice
+)
+
+(lse-define-fill-in "os.open" 
+  '(description
+    "open(filename, flag [, mode=0777]) -> fd"
+"Open a file (for low level IO)."
+   )
+  '(token)
+  '(replacement           "os.open ()")
+;;; os.open
+)
+
+(lse-define-fill-in "os.pipe" 
+  '(description
+    "pipe() -> (read_end, write_end)"
+"Create a pipe."
+   )
+  '(token)
+  '(replacement           "os.pipe ()")
+;;; os.pipe
+)
+
+(lse-define-fill-in "os.popen" 
+  '(description
+    "popen(command [, mode='r' [, bufsize]]) -> pipe"
+"Open a pipe to/from a command returning a file object."
+   )
+  '(token)
+  '(replacement           "os.popen ()")
+;;; os.popen
+)
+
+(lse-define-fill-in "os.putenv" 
+  '(description
+    "putenv(key, value) -> None"
+"Change or add an environment variable."
+   )
+  '(token)
+  '(replacement           "os.putenv ()")
+;;; os.putenv
+)
+
+(lse-define-fill-in "os.read" 
+  '(description
+    "read(fd, buffersize) -> string"
+"Read a file descriptor."
+   )
+  '(token)
+  '(replacement           "os.read ()")
+;;; os.read
+)
+
+(lse-define-fill-in "os.readlink" 
+  '(description
+    "readlink(path) -> path"
+"Return a string representing the path to which the symbolic link points."
+   )
+  '(token)
+  '(replacement           "os.readlink ()")
+;;; os.readlink
+)
+
+(lse-define-fill-in "os.remove" 
+  '(description
+    "remove(path) -> None"
+"Remove a file (same as unlink(path))."
+   )
+  '(token)
+  '(replacement           "os.remove ()")
+;;; os.remove
+)
+
+(lse-define-fill-in "os.rename" 
+  '(description
+    "rename(old, new) -> None"
+"Rename a file or directory."
+   )
+  '(token)
+  '(replacement           "os.rename ()")
+;;; os.rename
+)
+
+(lse-define-fill-in "os.rmdir" 
+  '(description
+    "rmdir(path) -> None"
+"Remove a directory."
+   )
+  '(token)
+  '(replacement           "os.rmdir ()")
+;;; os.rmdir
+)
+
+(lse-define-fill-in "os.setgid" 
+  '(description
+    "setgid(gid) -> None"
+"Set the current process's group id."
+   )
+  '(token)
+  '(replacement           "os.setgid ()")
+;;; os.setgid
+)
+
+(lse-define-fill-in "os.setpgid" 
+  '(description
+    "setpgid(pid, pgrp) -> None"
+"Call the system call setpgid()."
+   )
+  '(token)
+  '(replacement           "os.setpgid ()")
+;;; os.setpgid
+)
+
+(lse-define-fill-in "os.setpgrp" 
+  '(description
+    "setpgrp() -> None"
+"Make this process a session leader."
+   )
+  '(token)
+  '(replacement           "os.setpgrp ()")
+;;; os.setpgrp
+)
+
+(lse-define-fill-in "os.setsid" 
+  '(description
+    "setsid() -> None"
+"Call the system call setsid()."
+   )
+  '(token)
+  '(replacement           "os.setsid ()")
+;;; os.setsid
+)
+
+(lse-define-fill-in "os.setuid" 
+  '(description
+    "setuid(uid) -> None"
+"Set the current process's user id."
+   )
+  '(token)
+  '(replacement           "os.setuid ()")
+;;; os.setuid
+)
+
+(lse-define-fill-in "os.stat" 
+  '(description
+    "stat(path) -> (mode,ino,dev,nlink,uid,gid,size,atime,mtime,ctime)"
+"Perform a stat system call on the given path."
+   )
+  '(token)
+  '(replacement           "os.stat ()")
+;;; os.stat
+)
+
+(lse-define-fill-in "os.strerror" 
+  '(description
+    "strerror(code) -> string"
+"Translate an error code to a message string."
+   )
+  '(token)
+  '(replacement           "os.strerror ()")
+;;; os.strerror
+)
+
+(lse-define-fill-in "os.symlink" 
+  '(description
+    "symlink(src, dst) -> None"
+"Create a symbolic link."
+   )
+  '(token)
+  '(replacement           "os.symlink ()")
+;;; os.symlink
+)
+
+(lse-define-fill-in "os.system" 
+  '(description
+    "system(command) -> exit_status"
+"Execute the command (a string) in a subshell."
+   )
+  '(token)
+  '(replacement           "os.system ()")
+;;; os.system
+)
+
+(lse-define-fill-in "os.tcgetpgrp" 
+  '(description
+    "tcgetpgrp(fd) -> pgid"
+"Return the process group associated with the terminal given by a fd."
+   )
+  '(token)
+  '(replacement           "os.tcgetpgrp ()")
+;;; os.tcgetpgrp
+)
+
+(lse-define-fill-in "os.tcsetpgrp" 
+  '(description
+    "tcsetpgrp(fd, pgid) -> None"
+"Set the process group associated with the terminal given by a fd."
+   )
+  '(token)
+  '(replacement           "os.tcsetpgrp ()")
+;;; os.tcsetpgrp
+)
+
+(lse-define-fill-in "os.times" 
+  '(description
+    "times() -> (utime, stime, cutime, cstime, elapsed_time)"
+"Return a tuple of floating point numbers indicating process times."
+   )
+  '(token)
+  '(replacement           "os.times ()")
+;;; os.times
+)
+
+(lse-define-fill-in "os.umask" 
+  '(description
+    "umask(new_mask) -> old_mask"
+"Set the current numeric umask and return the previous umask."
+   )
+  '(token)
+  '(replacement           "os.umask ()")
+;;; os.umask
+)
+
+(lse-define-fill-in "os.uname" 
+  '(description
+    "uname() -> (sysname, nodename, release, version, machine)"
+"Return a tuple identifying the current operating system."
+   )
+  '(token)
+  '(replacement           "os.uname ()")
+;;; os.uname
+)
+
+(lse-define-fill-in "os.unlink" 
+  '(description
+    "unlink(path) -> None"
+"Remove a file (same as remove(path))."
+   )
+  '(token)
+  '(replacement           "os.unlink ()")
+;;; os.unlink
+)
+
+(lse-define-fill-in "os.utime" 
+  '(description
+    "utime(path, (atime, utime)) -> None"
+"Set the access and modified time of the file to the given values."
+   )
+  '(token)
+  '(replacement           "os.utime ()")
+;;; os.utime
+)
+
+(lse-define-fill-in "os.wait" 
+  '(description
+    "wait() -> (pid, status)"
+"Wait for completion of a child process."
+   )
+  '(token)
+  '(replacement           "os.wait ()")
+;;; os.wait
+)
+
+(lse-define-fill-in "os.waitpid" 
+  '(description
+    "waitpid(pid, options) -> (pid, status)"
+"Wait for completion of a give child process."
+   )
+  '(token)
+  '(replacement           "os.waitpid ()")
+;;; os.waitpid
+)
+
+(lse-define-fill-in "os.write" 
+  '(description
+    "write(fd, string) -> byteswritten"
+"Write a string to a file descriptor."
+   )
+  '(token)
+  '(replacement           "os.write ()")
+;;; os.write
+)
+

@@ -1,0 +1,561 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "Class"
+  '(token)
+  '(description . "Declaration of Eiffel class"           )
+  '(replacement
+        "««DEFERRED»» CLASS «Class_Name» [««Formal_Generic»»···]"
+        lse-indent+1
+        "-- ««class_comment»»···"
+        "««Exports»»"
+        "««Parents»»"
+        "««Features»»"
+        lse-indent-1
+        "««Class_Invariant»»"
+        "END; -- CLASS «Class_Name»"
+   )
+)
+
+(lse-define-fill-in "DEFERRED"
+  '(token)
+  '(replacement
+        "DEFERRED"
+   )
+)
+
+(lse-define-fill-in "Class_Name"
+  '(description . "Name of the class")
+  '(auto-replicate        1)
+)
+
+(lse-define-fill-in "Class_Comment"
+  '(description . "Text of comment")
+)
+
+(lse-define-fill-in "LINE_COMMENT"
+  '(description . "Text of comment")
+)
+
+(lse-define-fill-in "Formal_Generic"
+  '(leading       . "\\[\\|," )
+  '(separator       ", ")
+  '(trailer         "]" )
+  '(replacement
+      "«Identifier»"
+   )
+)
+
+(lse-define-fill-in "Exports"
+  '(token)
+  '(description . "Export clause of Eiffel class")
+  '(replacement
+      "EXPORT    «Exported_Feature»···"
+   )
+)
+
+(lse-define-fill-in "Exported_Feature"
+  '(separator       ", " )
+  '(leading         ", " )
+  '(replacement
+      "«Feature_Name» [««Export_Restriction»»···]"
+   )
+)
+
+(lse-define-fill-in "Feature_Name"
+  '(description           "Name of feature of class")
+)
+
+(lse-define-fill-in "Export_Restriction"
+  '(leading       "[" )
+  '(separator     ", " )
+  '(trailer       "]" )
+  '(replacement   "«Identifier»")
+)
+
+(lse-define-fill-in "Class_List"
+  '(leading       "[" )
+  '(separator     ", " )
+  '(trailer       "]" )
+  '(replacement   "«Identifier»")
+)
+
+(lse-define-fill-in "Parents"
+  '(token         "INHERIT")
+  '(description . "Inheritance clause for Eiffel class" )
+  '(replacement "INHERIT   «Parent»···;")
+)
+
+(lse-define-fill-in "Parent"
+  '(separator     "; " )
+  '(leading     . ";" )
+  '(replacement
+      "«Class_Type»"
+      lse-indent+1
+      "««Rename_Clause»»"      
+      "««Redefine_Clause»»"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Class_Type"
+  '(replacement "«Class_Name» [««Actual_Generic»»···]")
+)
+
+(lse-define-fill-in "Actual_Generic"
+  '(leading     . ",\\|\\[" )
+  '(separator     ", " )
+  '(trailer     . "\\]" )
+  '(replacement "«Type»")
+)
+
+(lse-define-fill-in "Type"
+  '(menu
+        Class_Type
+        Formal_Generic
+        Association
+        ("Boolean"    "Predefined type")
+        ("Character"  "Predefined type")
+        ("Integer"    "Predefined type")
+        ("Real"       "Predefined type")
+   )
+)
+
+(lse-define-fill-in "Association"
+  '(token           "LIKE")
+  '(description "LIKE «Anchor»")
+  '(replacement "LIKE «Anchor»")
+)
+
+(lse-define-fill-in "Anchor"
+  '(menu
+        ("Current" "Same type as current instance")
+        Feature_Name
+  )
+)
+
+(lse-define-fill-in "Rename_Clause"
+  '(token)
+  '(replacement     "RENAME    «Rename_Pair»···")
+)
+
+(lse-define-fill-in "Rename_Pair"
+  '(separator       ", " )
+  '(leading         "," )
+  '(replacement     "«Feature_Name» AS «Feature_Name»")
+)
+
+(lse-define-fill-in "Redefine_Clause"
+  '(token)
+  '(replacement     "REDEFINE  «Feature_Name»···")
+)
+
+(lse-define-fill-in "Features"
+  '(replacement
+      "FEATURE"
+      lse-indent+1
+      "«Feature_Declaration»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Feature_Declaration"
+  '(menu
+        Attribute_Declaration
+        Routine_Declaration
+   )
+)
+
+(lse-define-fill-in "Attribute_Declaration"
+  '(replacement "«Feature_Name»: «Type» ««Feature_Value_Mark»»;")
+)
+
+(lse-define-fill-in "Routine_Declaration"
+  '(token)
+  '(replacement
+      "«Routine_Name» «Formal_Arguments»: ««Type_Mark»» IS"
+      "  -- ««Routine_Comment»»"  
+      "«Precondition»"
+      "«Externals»"
+      "«Local_Variables»"
+      "«Body»"
+      "«Postcondition»"
+      "«Rescue»"
+      "END; -- «Routine_Name»"
+   )
+)
+
+(lse-define-fill-in "Routine_Name"
+  '(description . "Name of the Routine")
+)
+
+(lse-define-fill-in "Formal_Arguments"
+  '(replacement     "( «Formal_Argument»···)")
+)
+
+(lse-define-fill-in "Formal_Argument"
+  '(leading     . "(|;" )
+  '(separator     "; ")
+  '(trailer     . ")" )
+  '(replacement "«Identifier»: «Type»")
+)
+
+(lse-define-fill-in "Type_Mark"
+  '(leading     ":" )
+  '(replacement "«Type»")
+)
+
+(lse-define-fill-in "Feature_Value_Mark"
+  '(replacement "IS «Constant»")
+)
+
+(lse-define-fill-in "Constant"
+  '(menu
+        Boolean_Constant
+        Character_Constant
+        String_Constant
+        Integer_Constant
+        Real_Constant
+   )
+)
+
+(lse-define-fill-in "Boolean_Constant"
+  '(menu
+        "TRUE"
+        "FALSE"
+   )
+)
+
+(lse-define-fill-in "Character_Constant"
+  '(replacement     "'«Character»'")
+)
+
+(lse-define-fill-in "Integer_Constant"
+  '(description . "Sequence of digits optionally preceeded by a sign (+ or -)")
+)
+
+(lse-define-fill-in "Real_Constant"
+  '(description . "Real constant optionally preceeded by a sign (+ or -)")
+)
+
+(lse-define-fill-in "String_Constant"
+  '(replacement     "«String»")
+)
+
+(lse-define-fill-in "Character"
+  '(description . "Single character")
+)
+
+(lse-define-fill-in "String"
+  '(description . "Sequence of characters")
+)
+
+(lse-define-fill-in "Precondition"
+  '(token)
+  '(token "REQUIRE")
+  '(replacement
+      "REQUIRE"
+      lse-indent+1
+      "«Assertion_Clause»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Postcondition"
+  '(token)
+  '(token "ENSURE")
+  '(replacement
+      "ENSURE"
+      lse-indent+1
+      "«Assertion_Clause»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Assertion_Clause"
+  '(trailer     . ";" )
+  '(replacement "««Assertion_Label»»: «Assertion»;")
+)
+
+(lse-define-fill-in "Assertion_Label"
+  '(trailer     . ":" )
+  '(description . "Name of exception which will be raised on violation of assertion")
+)
+
+(lse-define-fill-in "Assertion"
+  '(menu
+        "-- «line_comment»···"
+        Boolean_Expression
+   )
+)
+
+(lse-define-fill-in "Boolean_Expression"
+  '(description           "Expression with boolean value")
+  '(replacement           @ expression)
+)
+
+(lse-define-fill-in "Externals"
+  '(token)
+  '(replacement
+      "EXTERNAL"
+      lse-indent+1
+      "«External_Declaration»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "External_Declaration"
+  '(trailer     . ";" )
+  '(replacement
+     "«Feature_Name» «Formal_Arguments»: ««Type_Mark»» «External_Name» «Language»;"
+   )
+)
+
+(lse-define-fill-in "External_Name"
+  '(replacement "NAME «quoted-text»")
+)
+
+(lse-define-fill-in "Language"
+  '(replacement "LANGUAGE «quoted-text»")
+)
+
+(lse-define-fill-in "Local_Variables"
+  '(token)
+  '(replacement
+      "LOCAL"
+      lse-indent+1
+      "«Entity_Declaration»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Entity_Declaration"
+  '(trailer     . ";" )
+  '(replacement "«Identifier»: «Type»;")
+)
+
+(lse-define-fill-in "Body"
+  '(description . "Eiffel Routine body" )
+  '(menu
+      Normal_Body
+      Once_Body
+      "DEFERRED"
+   )
+)
+
+(lse-define-fill-in "Normal_Body"
+  '(replacement
+      "DO  -- «Routine_Name»"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Once_Body"
+  '(replacement
+      "ONCE -- «Routine_Name»"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "Instruction"
+  '(menu
+        IF_Statement
+        LOOP_Statement
+        CHECK_Statement
+        Call_Statement
+        Assignment
+        DEBUG_Statement
+        "RETRY;"
+   )
+)
+
+(lse-define-fill-in "Call_Statement"
+  '(replacement "««Qualifier»».«Feature_Name» («Actual_Arguments»···);")
+)
+
+(lse-define-fill-in "Actual_Arguments"
+  '(leading       "(\\|," )
+  '(separator     ", " )
+  '(trailer       ")" )
+  '(replacement   "«Expression»")
+)
+
+(lse-define-fill-in "Qualifier"
+  '(trailer     . "." )
+  '(menu
+        "Current"
+        Expression
+   )
+)
+
+(lse-define-fill-in "Assignment"
+  '(replacement  "«Entity» := «Expression»;")
+)
+(lse-define-fill-in "Entity"
+  '(menu
+        "Result"
+        Identifier
+   )
+)
+
+(lse-define-fill-in "Expression"
+  '(leading       "." )
+  '(replacement   "«Unqualified_Expression».««Expression»»")
+)
+
+(lse-define-fill-in "Unqualified_Expression"
+  '(menu
+        "Current"
+        "Result"
+        "OLD «Expression»"
+        "NOCHANGE"
+        ("«Feature_Name» (««Actual_Arguments»»···)" "Unqualified call")
+        Operator_Expression
+        Constant
+        Identifier
+   )
+)
+
+(lse-define-fill-in "Operator_Expression"
+  '(description . "Any valid Eiffel expression consisting of operators and operands")
+)
+
+(lse-define-fill-in "IF_Statement"
+  '(token)
+  '(replacement
+      "IF «Boolean_Expression» THEN"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+      "««ELSIF_Part»»···"
+      "««ELSE_Part»»"
+      "END; -- IF"
+   )
+)
+
+(lse-define-fill-in "ELSIF_Part"
+  '(token)
+  '(replacement
+      "ELSIF «Boolean_Expression» THEN"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+  )
+)
+
+(lse-define-fill-in "ELSE_Part"
+  '(token)
+  '(replacement
+      "ELSE"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+   )
+)
+
+(lse-define-fill-in "LOOP_Statement"
+  '(token)
+  '(replacement
+      "FROM «Instruction»···"
+      lse-indent+1
+      "««Loop_Invariant»»"
+      "««Loop_Variant»»"
+      lse-indent-1
+      "UNTIL «Boolean_Expression»"
+      "LOOP"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+      "END; -- LOOP"
+   )
+)
+
+(lse-define-fill-in "Loop_Invariant"
+  '(description           "condition to be true after each iteration")
+  '(replacement           @ class_invariant)
+)
+
+(lse-define-fill-in "Loop_Variant"
+  '(token           "VARIANT")
+  '(replacement     "VARIANT «Integer_Expression»")
+)
+
+(lse-define-fill-in "Integer_Expression"
+  '(description           "Expression with result of type integer")
+  '(replacement           @ expression)
+)
+
+(lse-define-fill-in "Check_Statement"
+  '(token)
+  '(replacement
+      "CHECK"
+      lse-indent+1
+      "«Assertion_Clause»···"
+      lse-indent-1
+      "END; -- CHECK"
+  )
+)
+
+(lse-define-fill-in "Debug_Statement"
+  '(token)
+  '(replacement
+      "DEBUG"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+      "END; -- DEBUG"
+  )
+)
+
+(lse-define-fill-in "RESCUE"
+  '(token)
+  '(replacement
+      "RESCUE"
+      lse-indent+1
+      "«Instruction»···"
+      lse-indent-1
+  )
+)
+
+(lse-define-fill-in "Class_Invariant"
+  '(token           "invariant")
+  '(replacement
+      "INVARIANT"
+      lse-indent+1
+      "«Assertion_Clause»···"
+      lse-indent-1
+  )
+)
+
+(lse-define-fill-in "Identifier"
+  '(description . "Eiffel identifier")
+)
+
+(lse-define-fill-in "Routine_Comment"
+  '(description           "comment for a routine")
+)
+
+(lse-define-fill-in "Result"
+  '(token)
+  '(replacement "Result")
+)
+
+(lse-define-fill-in "Current"
+  '(token)
+  '(replacement           "Current")
+)
+
+(lse-define-fill-in "Old"
+  '(token)
+  '(replacement "OLD")
+)
+
+(lse-define-fill-in "Nochange"
+  '(token)
+  '(replacement           "NOCHANGE")
+)
+

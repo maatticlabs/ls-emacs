@@ -1,0 +1,25 @@
+     GOLD-C	compile				
+     CTRL-D	compile/debug			
+GOLD-CTRL-D	compile/review/debug            
+     GOLD-[	screen=132 char.                
+     GOLD-]	screen=80 char.                 
+     GOLD-\	clear message window   		
+     GOLD-`	set mark spot
+     GOLD-~	goto mark spot
+     GOLD-B  	goto buffer
+     GOLD-E	end review
+     GOLD-F	goto file
+     GOLD-H	view this help file
+     GOLD-I 	read file into temp buffer
+     GOLD-M     goto main buffer
+     GOLD-P     find next occurence of paragraph (<CR>, <CR>)
+     GOLD-Q	quit the editor
+     GOLD-R	current buffer=read-only
+GOLD-CTRL-R     curr. buff=write status
+     GOLD-S     substitute
+     GOLD-X	exit the editor
+     GOLD-BKSP	toggle last two char. 
+     GOLD-<	shrink current window, 2 window mode
+     GOLD->	enlarge current window, 2 window mode
+     GOLD-{	find and highlight matching brace pair
+     GOLD-}	un-highlight matching brace pair

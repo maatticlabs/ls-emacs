@@ -1,0 +1,1543 @@
+@node    Editing, Templates, Examples, Top
+@chapter Editing with LS-Emacs
+
+This chapter describes the important concepts of LS-Emacs and the
+interactive commands provided by LS-Emacs. The primary commands of
+LS-Emacs are bound to keys.
+@c If you are accustomed to Digital editors
+@c like @code{EDT}, @code{TPU}, or @code{LSE}, you will love these
+@c bindings. Yet, some of the keys bound by LS-Emacs are used differently
+@c by standard Emacs. If you prefer the standard Emacs bindings, you can
+@c easily customize the bindings by using the command
+@c @code{global-set-key}.
+@c @cindex Key, bindings
+@c @cindex Bindings, keys
+
+@kindex GOLD
+@kindex BLUE
+@cindex Prefix, GOLD
+@cindex Prefix, BLUE
+In addition to unprefixed keys, LS-Emacs uses two prefix keys.
+The @key{GOLD} prefix is bound to the upper-left key
+of the application keypad (labeled @code{PF1} on Digital terminals,
+@code{NUMLOCK} on PC's). The @key{BLUE} prefix is bound to the right
+neighbor of the @key{GOLD} key (labeled @code{PF2} on Digital terminals,
+@code{/} on PC's). You can rebind @key{GOLD} and @key{BLUE} by using
+@code{global-set-key}, too.
+
+For many keys, the combination @kbd{GOLD <key>} will undo the effects of
+@kbd{<key>}; while @kbd{BLUE <key>} will undo the effect of
+@kbd{GOLD <key>}.
+
+You can use the most important language specific functions of LS-Emacs
+via the Emacs menu bar.
+
+@menu
+* Concepts::                    
+* Language::                    
+* Fill-In::                     
+* Token::                       
+* LSE-Completion::              
+* Other-Features::              
+@end menu
+
+@node    Concepts, Language, Editing, Editing
+@section Concepts of LS-Emacs
+
+@cindex Concepts, editing
+@cindex Editing, concepts
+The fundamental concepts of LS-Emacs are @dfn{language}, @dfn{fill-in},
+and @dfn{token}. A @strong{language} can be a programming language, a
+markup language of a text processing system like @TeX{}, or any other
+formal or not-so-formal language for which LS-Emacs provides templates.
+It is easy, if a bit boring, to define a LS-Emacs language. It is even
+easier to change an existing one.@footnote{Of course, it's not quite as
+easy to fine-tune a language for maximum effectiveness and ease of use,
+but that's got nothing to do with LS-Emacs itself.}
+
+A @strong{fill-in} is inserted into the buffer by LS-Emacs as you expand
+another fill-in or a token. You recognize a fill-in by the special
+delimiters surrounding it. A fill-in indicates that some work remains 
+to be done to complete the document. When you start editing a new
+document, LS-Emacs will normally provide the root fill-in of the
+corresponding language. As you expand the root fill-in, LS-Emacs will
+insert more and more other fill-ins into the buffer.
+
+A @strong{token} is in some respects similar to an @code{abbrev} as
+supported by standard Emacs. A token is characterized by a name and an
+expansion. When you type (part of) the name of a token into a buffer and
+issue the command @code{lse-expand} (@kbd{A-e}), LS-Emacs will expand
+the token according to its type. Tokens allow fast and direct access to
+language specific templates.
+
+@node    Language, Fill-In, Concepts, Editing
+@section Using Languages
+
+@cindex Language, using
+@cindex Using, languages
+ 
+The language specifies which fill-ins and tokens are defined, and
+controls many aspects of the behavior of LS-Emacs including the amount
+of indentation used and the definition of word boundaries. The language
+definition may control any of the variables used by standard Emacs or
+LS-Emacs.
+
+The choice of language is buffer-specific and closely related to the
+concept of major modes of standard Emacs. Many languages are chosen
+automatically by hooks related to a major mode. For instance, the
+language @code{texinfo} is chosen whenever the major mode
+@code{Texinfo} is activated. Any file with extension @file{.texi} will
+thus automatically be edited with language @code{texinfo}.
+
+@cindex Language, changing
+@cindex Changing, language
+You can change the language used for editing the current buffer at any
+time by using the command @code{lse-language:use}. Changing the language
+with @code{lse-language:use} does not change the major mode, although
+changing the major mode may change the current language.
+
+@node    Fill-In, Token, Language, Editing
+@section Working with Fill-Ins
+
+@cindex Fill-In, using
+@cindex Using, fill-in
+@cindex Fill-In, delimiters
+@cindex Delimiters, fill-in
+Fill-ins are automatically inserted into the buffer by LS-Emacs.
+Fill-ins help you by supplying the appropriate syntactical structure for a
+specific context. You (and LS-Emacs) recognize a fill-in by the special
+delimiters surrounding it. By default, guillemets
+@ifinfo
+(@code{«}, @code{»})
+@end ifinfo
+are used as basic fill-in delimiters. (If your version of Emacs does not
+support 8-bit character sets like ISO-Latin-1, you will probably use
+modified angle brackets (@code{:<}, @code{>:}) instead.
+@iftex
+In this manual, `«' and `»' are used to represent basic fill-in delimiters.) 
+@end iftex
+@ifinfo
+)
+@end ifinfo
+For different forms of fill-ins the basic delimiters are extended by
+additional characters (@pxref{Fill-In-Forms}).
+
+There are three important aspects of fill-ins:
+
+@table @strong
+@item state
+Describes the temporal development of a fill-in. State transitions are
+caused by the user by issuing the appropriate commands.
+
+@item form
+Describes the spatial properties of a fill-in. The form of a fill-in is
+determined by the context in which it is used.
+
+@item type
+Describes the invariant expansion properties of a fill-in. The type is
+defined by the designer of the fill-in.
+@end table
+
+@menu
+* Fill-In-States::              
+* Fill-In-Forms::               
+* Fill-In-Navigation::          
+* Fill-In-Help::                
+* Fill-In-Replacement::         
+* Fill-In-Expansion::           
+* Fill-In-Replication::         
+* Fill-In-Killing::             
+@end menu
+
+@node       Fill-In-States, Fill-In-Forms, Fill-In, Fill-In
+@subsection States of Fill-Ins
+
+@cindex Fill-In, states
+@cindex States, fill-in
+While you edit a document, its fill-ins will change their state in
+response to the commands you issue. Each fill-in starts its life in the
+@dfn{flat} state.@footnote{It is possible that a fill-in is expanded
+automatically in a specific context and never appears as a flat fill-in
+in the buffer, but there is no way for the user of the language to
+detect this. Only the template designer knows what is going on then.}
+
+@cindex Flat, state of Fill-In
+@cindex Deep, state of Fill-In
+@cindex Dead, state of Fill-In
+LS-Emacs displays a flat fill-in by inserting the name of the fill-in
+inside the appropriate delimiters into the buffer
+(@pxref{Fill-In-Forms}). Depending on your decision a flat fill-in may
+change its state to either the @dfn{deep} or the @dfn{dead} state. When
+you expand or replace the fill-in, its state will change to the
+@dfn{deep} state (@pxref{Fill-In-Replacement}, and
+@ref{Fill-In-Expansion}). When you kill a fill-in, its state changes to
+the @dfn{dead} state (@pxref{Fill-In-Killing}).
+
+You can compare the states of fill-ins to the aggregate states of
+materials. The flat state of a fill-in corresponds to the liquid state
+of a material. Expansion of the flat fill-in corresponds to the freezing of
+the liquid --- whereas the liquid can take many shapes, may evaporate or
+crystallize, the shape of the solid --- just like the contents of the
+deep fill-in --- is fixed.
+
+You can toggle between the flat and the deep state and between the flat
+and the dead state. Yet, there are no direct state transitions between the
+deep and the dead state.
+
+@node       Fill-In-Forms, Fill-In-Navigation, Fill-In-States, Fill-In
+@subsection Forms of Fill-Ins
+
+@cindex Fill-In, forms
+@cindex Forms, fill-in
+Fill-Ins are used in different forms. The form determines the behavior
+of a fill-in and the operations you can apply to it. The form of a
+fill-in is context-dependent. One and the same fill-in will occur in
+different forms when used in different contexts.
+
+@table @code
+@item «gnu»
+@cindex Required, fill-in
+@cindex Fill-In, Required
+This is a required fill-in. You cannot remove a required fill-in with the
+command @code{lse-kill-fill-in}.
+
+@item ««gnat»»
+@cindex Optional, fill-in
+@cindex Fill-In, Optional
+This is an optional fill-in. You may remove any optional fill-in from
+the buffer by the command @code{lse-kill-fill-in}.
+
+@item «gnu-list»···
+@cindex List-Fill-In
+@cindex Fill-In, list
+This is a (required) list-fill-in. When you expand or replace the
+list-fill-in, LS-Emacs automatically duplicates it (using an optional
+list-fill-in as duplicate).
+
+@item «¦armadillo¦»
+@cindex Fill-In, non-replaceable
+@cindex Non-replaceable, fill-in
+This is a non-replaceable fill-in. That means, you can expand the
+fill-in, but you cannot replace it.  This form is rarely used, but very
+effective.
+@end table
+
+@node       Fill-In-Navigation, Fill-In-Help, Fill-In-Forms, Fill-In
+@subsection Navigating between Fill-Ins
+
+@cindex Moving, to fill-in
+@cindex Fill-In, moving to
+@findex lse-goto-next-fill-in
+@findex lse-goto-prev-fill-in
+@kindex A-n
+@kindex A-p
+You are not forced to work on the fill-ins in the sequence in which they
+are inserted into the buffer by LS-Emacs (although that is the normal
+procedure). Use the command @code{lse-goto-next-fill-in} (@kbd{A-n}) to
+position the point to the next fill-in (the point moves forward). Use the
+command @code{lse-goto-prev-fill-in} (@kbd{A-p}) to position the point to
+the previous fill-in (the point moves backward).
+
+@findex lse-goto-last-position
+@kindex gold A-n
+The command @code{lse-goto-last-position} (@kbd{gold A-n}) moves the point
+to the position where the last @code{lse-goto-next-fill-in} or
+@code{lse-goto-prev-fill-in} was issued.@footnote{The last occurrence of
+such a command could have occurred implicitly. LS-Emacs uses the command
+@code{lse-goto-next-fill-in} when it expands or kills fill-ins.} Of
+course, you can also move the point to a fill-in by standard Emacs
+commands like @code{forward-char}.
+
+@cindex Fill-In, inside
+@cindex Inside, fill-in
+The point is considered to be inside a fill-in if it is between the
+fill-in delimiters or just at the first character of the trailing
+delimiter. If you move the point by standard Emacs commands, LS-Emacs may
+not always detect immediately that the point is inside a fill-in. In some
+situations you have to give an explicit LS-Emacs command for that.
+
+@cindex Fill-In, markers
+@cindex Fill-In, moving to
+@findex lse-fill-in-marks:goto-next-head
+@findex lse-fill-in-marks:goto-prev-head
+@findex lse-fill-in-marks:goto-next-tail
+@findex lse-fill-in-marks:goto-prev-tail
+LS-Emacs keeps a list of markers for the positions of all fill-ins
+expanded or replaced in a buffer. For each fill-in, LS-Emacs keeps two
+markers: one (called the head) points to the first character of the
+fill-in's expansion or replacement, the other (called the tail) points
+to the last character of the deep fill-in. Use the commands
+@code{lse-fill-in-marks:goto-next-head} (@kbd{M-n}) and
+@code{lse-fill-in-marks:goto-next-tail} (@kbd{M-s-n}) to go to the head
+or tail of the next fill-in (the point moves forward), respectively. Use
+the commands @code{lse-fill-in-marks:goto-prev-head} (@kbd{M-p}) and
+@code{lse-fill-in-marks:goto-prev-tail} (@kbd{M-s-p}) to move the head
+or tail of the next fill-in in the backward direction.
+
+@cindex Fill-In, text properties
+@cindex Fill-In, moving to
+@findex lse-fill-in-marks:goto-next-head
+@findex lse-fill-in-marks:goto-prev-head
+@findex lse-fill-in-marks:goto-next-tail
+@findex lse-fill-in-marks:goto-prev-tail
+The expansion or replacement of a fill-in is also marked by text
+properties. The commands @code{lse-goto-next-expansion} (@kbd{s-n}) and
+@code{lse-goto-prev-expansion} (@kbd{s-p}) move the point to the next or
+previous character of the buffer where the value of this text property
+changes, respectively. The command @code{lse-goto-parent-expansion-head}
+moves point to the first character of the fill-in which expansion
+contained the current fill-in.
+
+@node       Fill-In-Help, Fill-In-Replacement, Fill-In-Navigation, Fill-In
+@subsection Getting Help on Fill-Ins
+
+@cindex Fill-In, help
+@cindex Help, fill-in
+@findex lse-help-fill-in
+@findex lse-describe-fill-in
+@kindex A-o
+@kindex gold A-o
+With the point inside a fill-in you may request help about the meaning
+of the fill-in. Use the command @code{lse-describe-fill-in} (@kbd{A-o})
+to call up a short description which appears in the message window. Use
+the command @code{lse-help-fill-in} (@kbd{gold A-o}) to call up a help
+window for the fill-in. The command
+@code{lse-window:restore-temp-hidden} (@kbd{blue A-f}) removes the help 
+window and restores the previously viewed buffer.
+
+@node       Fill-In-Replacement, Fill-In-Expansion, Fill-In-Help, Fill-In
+@subsection Replacing Fill-Ins
+
+@cindex Fill-In, replacing
+@cindex Replacing, fill-in
+@findex lse-replace-fill-in
+@kindex A-r
+Replacement of a fill-in means that the fill-in is replaced by the text
+you enter. You can start replacement by issuing the command
+@code{lse-replace-fill-in} (@kbd{A-r}). Or, when LS-Emacs knows you are
+inside a fill-in, you can replace the fill-in by just typing
+text. In either case, LS-Emacs will automatically remove the flat fill-in
+from the buffer and insert your text in its place.
+
+@cindex Fill-In, terminating replacement
+@cindex Terminating replacement
+@cindex Replacement, terminating
+You terminate the replacement by issuing any LS-Emacs command dealing
+with fill-ins, e.g., by issuing @code{lse-goto-next-fill-in} or by
+repeating @code{lse-replace-fill-in}. The text between the position
+where the replacement started and the position where you terminate the
+replacement is considered the deep-state contents of the fill-in.
+
+While the replacement is in progress, LS-Emacs displays the name of the
+replaced fill-in enclosed in angle brackets in the window's status line.
+When using the X window system, LS-Emacs highlights the region of the
+deep fill-in in a different color.
+
+@cindex Fill-In, un-replacing
+@cindex Un-replacing, fill-in
+@findex lse-unreplace-fill-in
+@kindex gold A-r
+The deep-state contents of a fill-in is removed by the command
+@code{lse-unreplace-fill-in} (@kbd{gold A-r})@footnote{You can also use
+@code{lse-unexpand-fill-in} to remove the deep-state contents.}, which
+restores the flat state of the fill-in.  The deep-state contents is also used
+by the command @code{lse-replicate-fill-in}
+(@pxref{Fill-In-Replication}).
+
+@cindex Fill-In, re-replacing
+@cindex Re-replacing, fill-in
+@findex lse-rereplace-fill-in
+@kindex blue A-r
+@cindex Continuing replacement
+@cindex Replacement, continuing
+If the replacement of a fill-in was terminated too early, you can use
+@code{lse-unreplace-fill-in} immediately followed by
+@code{lse-rereplace-fill-in} (@kbd{blue A-r}). Then you can extend
+the replacement by typing additional text.
+
+@cindex Replacement, leading
+@cindex Leading, replacement
+@cindex Replacement, trailing
+@cindex Trailing, replacement
+When replacement begins, LS-Emacs may insert leading and trailing text
+defined for the fill-in --- typical examples are quotes or brackets
+surrounding the replacement. Leading and trailing text are specified by the
+definition of the fill-in.
+
+@cindex Replacement, completion action
+@cindex Completion action, Replacement
+@cindex auto-replicate
+When replacement is terminated, LS-Emacs may perform some completion
+actions associated to the fill-in. For instance, LS-Emacs
+may insert blanks to align a field properly. If the fill-in is defined
+to @dfn{auto-replicate}, LS-Emacs will replace the following occurrences of
+the fill-in by the replacement value (how many is specified by the
+definition of the fill-in).
+
+@node       Fill-In-Expansion, Fill-In-Replication, Fill-In-Replacement, Fill-In
+@subsection Expanding Fill-Ins
+
+@cindex Expansion, fill-in
+@cindex Fill-In, expansion
+@findex lse-expand, fill-in
+@kindex A-e, fill-in
+You use the command @code{lse-expand} (@kbd{A-e}) to initiate the
+expansion of a fill-in. The point has to be inside a flat fill-in when
+you issue this command.  Expansion of a fill-in means that LS-Emacs
+interprets the definition of the fill-in and acts accordingly. The type
+of the expanded fill-in determines what LS-Emacs will do:
+
+@cindex Fill-In, type
+@cindex Type, fill-in
+@itemize @bullet
+
+@cindex Replacement-Fill-In
+@item When expanding a @dfn{replacement-fill-in}, LS-Emacs removes the flat
+fill-in from the buffer and inserts the predefined replacement as
+deep-state contents.
+
+@cindex Menu-Fill-In
+@cindex Fill-In, menu
+@item When expanding a @dfn{menu-fill-in}, LS-Emacs displays a menu of
+alternatives and expands the alternative you select (which could be a
+literal replacement text or any type of fill-in).
+
+@cindex Function-Fill-In
+@item For a @dfn{function-fill-in} LS-Emacs executes the lisp-code defined as
+expansion. In this case, the flat (state of the) fill-in is @b{not} removed.
+Normally, function-fill-ins are defined as non-replaceable.
+
+@cindex Terminal Fill-In
+@cindex Fill-In, terminal
+@item For a @dfn{terminal fill-in} LS-Emacs displays a help line in the
+message window. In this case, the flat (state of the) fill-in is @b{not}
+removed. To remove the flat state of a terminal fill-in from the buffer
+you have to use either of the commands @code{lse-replace-fill-in} or
+@code{lse-kill-fill-in}.
+@end itemize
+
+@cindex Fill-In, un-expansion
+@cindex Un-expansion, fill-in
+@findex lse-unexpand-fill-in
+@kindex gold A-e
+@cindex Fill-In, re-expansion
+@cindex Re-expansion, fill-in
+@findex lse-reexpand-fill-in
+@kindex blue A-e
+You can undo an expansion with the command @code{lse-unexpand-fill-in}
+(@kbd{gold A-e}) which replaces the deep-state contents of the fill-in
+by its flat state. The command @code{lse-unexpand-fill-in} always
+un-expands the most recently expanded fill-in. If you use it
+repetitively, LS-Emacs will un-expand earlier and earlier expansions.
+With the command @code{lse-reexpand-fill-in} (@kbd{blue A-e}) you can
+undo the un-expansions.
+
+The un-expansion/re-expansion mechanism works best if you use it soon
+after the expansion concerned. Due to implementation constraints,
+problems can occur when you delete text from the boundaries of the
+range of the fill-in by normal Emacs commands. In addition, you 
+should not use the standard Emacs' @code{undo} command for dealing with
+fill-ins. Doing so destroys LS-Emacs' information about the
+fill-ins concerned.
+
+@menu
+* Replacement-Expansion::       
+* Menu-Expansion::              
+@end menu
+
+@node          Replacement-Expansion, Menu-Expansion, Fill-In-Expansion, Fill-In-Expansion
+@subsubsection Expanding Replacement-Fill-Ins
+
+@cindex Replacement-Fill-In, expansion
+@cindex Expansion, Replacement-Fill-In
+A replacement-fill-in is characterized by a predefined replacement text
+and/or lisp-code. On expansion, LS-Emacs inserts the replacement text
+into the buffer and executes any lisp-code associated with the
+replacement. This is very similar to normal replacement: in that case
+you supply the replacement text, now it is supplied by LS-Emacs
+automatically. As for manual replacement, LS-Emacs may insert leading
+and trailing text and perform completion actions and automatic
+replication according to the definition of the fill-in.
+
+@cindex Indentation, fill-in
+LS-Emacs controls the indentation of the replacement according to the
+definition of the expanded fill-in. Normally, you do not have to --- and
+should not --- worry about indentation when expanding fill-ins (or
+tokens).@footnote{If the language specific templates are defined
+properly. If the indentation of a fill-in does not satisfy you, you
+should try to tune the template definition.}
+
+@node          Menu-Expansion,  , Replacement-Expansion, Fill-In-Expansion
+@subsubsection Expanding Menu-Fill-Ins
+
+A menu-fill-in is characterized by a number of alternatives. Each
+alternative can be either a literal replacement text or another fill-in
+to be expanded.
+
+@cindex Menu-Fill-In, expansion
+@cindex Menu-Fill-In, selection
+@cindex Selection, Menu-Fill-In
+@cindex Fill-In, menu, expansion
+@cindex Fill-In, menu, selection
+On expansion of a menu-fill-in, LS-Emacs displays the menu in another
+window. You can select a menu-entry by using the cursor or mouse keys or
+by typing the name of the entry. When you enter the name by typing,
+LS-Emacs does completion for you. The currently selected menu-entry is
+marked by an arrow and additionally shown in the status line of the
+menu-window. When using the X window system, LS-Emacs highlights the
+current selection in a different color.
+
+To choose the selected entry, just hit @key{RET} or @key{TAB} or
+@kbd{A-e}. LS-Emacs then expands the chosen menu-entry. If the chosen
+menu-entry is itself a menu-fill-in, another menu will be displayed.
+To cancel the expansion while the menu window is shown, use @kbd{C-g}.
+
+For more information on LS-Emacs completion, see
+@ref{LSE-Completion, Using LS-Emacs Completion, Using LS-Emacs Completion}.
+
+@node       Fill-In-Replication, Fill-In-Killing, Fill-In-Expansion, Fill-In
+@subsection Replicating Fill-Ins
+
+@cindex Fill-In, replication
+@cindex Replication, fill-in
+@findex lse-replicate-fill-in
+@findex lse-replicate-fill-in-by-older
+@kindex A-s
+Replication of a fill-in means that LS-Emacs uses the replacement of a
+previous occurrence of the same fill-in. You can request replication by
+the command @code{lse-replicate-fill-in} (@kbd{A-s}). If you want to
+replicate an earlier occurrence of the fill-in just continue to use
+(@kbd{A-s}). Each repetition of @code{lse-replicate-fill-in} will
+replicate earlier and earlier occurrences of the fill-in.
+
+@node       Fill-In-Killing,  , Fill-In-Replication, Fill-In
+@subsection Killing Fill-Ins
+
+@cindex Fill-In, killing
+@cindex Killing, fill-in
+@cindex Fill-In, removing
+@cindex Removing, fill-in
+@cindex Fill-In, deleting
+@cindex Deleting, fill-in
+@findex lse-kill-fill-in
+@kindex A-k
+You can remove an optional fill-in with the command
+@code{lse-kill-fill-in} (@kbd{A-k}). If you try to kill a required
+fill-in, LS-Emacs will ask for confirmation --- if you answer with
+@code{y}, LS-Emacs will kill it. You cannot kill a non-replaceable
+fill-in.
+
+@cindex Fill-In, un-killing
+@cindex Un-killing, fill-in
+@findex lse-unkill-fill-in
+@kindex gold A-k
+If you were too eager in killing a fill-in, you can restore it by using
+the command @code{lse-unkill-fill-in} (@kbd{gold A-k}). Unlike
+un-expansion, you cannot un-kill more than once.
+
+@cindex Fill-In, killing all
+@cindex Killing all, fill-ins
+@findex lse-kill-all-optional-fill-ins
+@kindex blue gold A-k
+You can remove all optional fill-ins between the point and the end of the
+buffer by the command @code{lse-kill-all-optional-fill-ins} (@kbd{blue
+gold A-k}).
+
+You should always use @code{lse-kill-fill-in} to remove a fill-in from
+the buffer rather than using standard Emacs commands for killing.
+Otherwise, information about the fill-in history will most probably be
+lost!@footnote{Any volunteers to enhance the implementation?}
+
+@node    Token, LSE-Completion, Fill-In, Editing
+@section Working with Tokens
+
+@cindex Fill-In, shortcomings
+@cindex Shortcomings, fill-in
+Fill-ins provide the basic structure of a document. By expanding
+fill-ins you can save a lot of typing effort and you are able to use
+languages with little knowledge of the language details. Yet, fill-ins
+alone are insufficient:
+
+@itemize @bullet
+@item
+You are restricted to expanding fill-ins already in the buffer. If you
+want to extend or modify an existing document, there won't be any
+fill-in in the buffer.
+
+@item
+Expanding a fill-in can lead you through many menu-levels until you
+finally arrive at terminal fill-ins. This may be fine if you are
+inexperienced with the language, but it is rather inefficient and boring
+for an experienced user.
+@end itemize
+
+@cindex Token, using
+@cindex Using, token
+@cindex Token, abbreviation
+@cindex Abbreviation, token
+@cindex Token, completion
+@cindex Completion, token
+Tokens deal with these shortcomings of fill-ins. You can type a token
+anywhere in a buffer, no matter if there are flat fill-ins around or
+not. You don't have to type the complete name of the token --- any
+unique abbreviation will do. If you type an ambiguous token name,
+LS-Emacs will pop up a completion window showing all alternatives which
+match the ambiguous name. You can then select one of the alternatives
+(@pxref{LSE-Completion, Using LS-Emacs Completion, Using LS-Emacs
+Completion}).
+
+@cindex Token, expansion
+@cindex Expansion, token
+@findex lse-expand-token, token
+@kindex A-e, token
+You initiate token expansion by the command @code{lse-expand-token}
+(@kbd{A-e}) with the point at the end of the token name. LS-Emacs will
+always try to expand the longest match for a token name (the maximum
+length of a token name is 5 words on the same line). Un-expansion and
+re-expansion of tokens work exactly as for fill-ins.
+
+Most tokens are related to fill-ins --- although the names quite often
+are different. If you expand such a token, LS-Emacs will act as if the
+corresponding fill-in had been expanded. Other tokens expand into text
+directly or cause some lisp-function to be executed.
+
+@node    LSE-Completion, Other-Features, Token, Editing
+@section Using LS-Emacs Completion
+
+@cindex Completion, mode
+@cindex Menu, completion
+LS-Emacs uses a special completion mode whenever you have the choice
+between a number of alternatives. This completion mode was inspired by
+the completion mechanism offered by standard Emacs. In LS-Emacs
+completion mode, LS-Emacs pops up a window displaying the menu of
+alternatives. For each entry LS-Emacs displays the name of the
+alternative and, if available, a help text which explains the meaning of
+the entry. To obtain more help on an entry, press one of the keys
+@kbd{f1}, @kbd{gold ?}, or @kbd{help}.
+
+In LS-Emacs completion mode, you can either type the name of the
+alternative or select it by moving the point to it. You can mix both
+ways of selecting an alternative. For details on the working of the
+completion mechanism see the following subsections. 
+
+LS-Emacs displays the current match in the left field of the status line
+of the completion window. As more than one entry may fit the current
+match, the right field of the status line shows the menu entry which
+would be selected if you used a key to exit the completion. The current
+line of the menu is marked by an overlay cursor (and displayed in a
+different color on a X window display).
+
+@node       Typing, Moving-Point, LSE-Completion, LSE-Completion
+@subsection Typing the name of an alternative
+
+When you type the name of an alternative, LS-Emacs will automatically
+extend the current match as much as possible. That means, typing one
+character could be enough to specify the selection completely if only
+one alternative starts with the character you typed. LS-Emacs will
+narrow the menu to those entries which match the string already
+completed.@footnote{This will work only if the menu is sorted.}
+
+You can delete part of the current match by using the keys
+@kbd{@key{DEL}}, @kbd{@key{LFD}}, and @kbd{A-u}: @kbd{@key{DEL}} deletes
+one character, @kbd{@key{LFD}} deletes the part of the match caused
+by the last character you typed, and @kbd{A-u} deletes the entire
+match.
+
+@node       Moving-Point, Key-bindings, Typing, LSE-Completion
+@subsection Moving the point to select an alternative
+
+You can use @kbd{[up]} and @kbd{[down]} to move to the next or previous
+alternative, @kbd{[prior]} and @kbd{[next]} to move the point up or down by
+about half of the window height, and @kbd{[gold kp5]} and @kbd{[gold
+kp4]} to move to the first or last menu entry, respectively.
+
+Moving the point clears the current match.
+
+You can use @kbd{[find]} and @kbd{[gold pf3]} to search for a line
+containing a string; use @kbd{[pf3]} to search for the next occurrence
+of the string.
+
+@node       Key-bindings, Example, Moving-Point, LSE-Completion
+@subsection Key bindings of LS-Emacs completion mode
+
+@table @kbd
+@item A-e
+Exit completion mode and use current selection as completion.
+
+@item C-g
+Abort completion: no value is used as completion.
+
+@item @key{tab}
+Exit completion mode with current selection.
+
+@item A-j
+Delete the part of the current match which was caused by the last character
+typed (can be done repeatedly).
+
+@item A-k
+Abort completion.
+
+@item @key{return}
+Exit completion with current selection.
+
+@item A-u
+Delete the current match entirely.
+
+@item [del]
+Delete last character of current match.
+
+@item [down]
+Select next menu entry (one line down).
+
+@item [find]
+Search for line containing a string.
+
+@item [gold ??]
+Display help for menu entry. This command pops up a second window with
+help information. 
+
+@item [gold ?s]
+Sort the menu entries.
+
+@item [gold kp4]
+Select last menu entry.
+
+@item [gold kp5]
+Select first menu entry.
+
+@item [gold pf3]
+Search for line containing a string.
+
+@item [help]
+Display help for menu entry. This command pops up a second window with
+help information. 
+
+@item [left]
+Scroll window to the left.
+
+@item [next]
+Move the point by about half the height of the window down.
+
+@item [pf3]
+Search for next occurrence of last search string (does not work if you
+are still in the line found last).
+
+@item [prior]
+Move the point by about half the height of the window up.
+
+@item [right]
+Scroll window to the right.
+
+@item [up]
+Select previous menu entry (one line up).
+@end table
+
+@node       Example,  , Key-bindings, LSE-Completion
+@subsection Example of completion
+
+Suppose the current language defines three tokens starting with the
+character `s': `section', `subsection', and `subsubsection'. If you try
+to expand the token `s', LS-Emacs pops up a window with these three
+words.
+
+Initially, the current match consists of the string `s'. If you typed
+`e' in response, the current match expands to `section' and the
+completion window is restricted to one line. Typing @kbd{A-j} cuts the
+current match back to `s'.
+
+Typing `u' narrows the completion window to two lines displaying the
+choices `subsection' and `subsubsection'. The current match is now
+`subs'. 
+
+@node    Other-Features,  , LSE-Completion, Editing
+@section Other Editing Features
+
+@cindex EDT-Features
+@cindex Digital editors, emulation
+@cindex Emulation, Digital editors
+This section describes other features of LS-Emacs which are not directly
+concerned with language sensitivity. Many of these features emulate the
+behavior of Digital editors like @code{EDT}, @code{EVE}, and @code{LSE};
+others were implemented in @code{TPU} by the author and ported to Emacs
+as part of the implementation of LS-Emacs.
+
+If you are familiar with the style of the above-mentioned editors, you
+won't need much explanations --- just enjoy these features. If you are
+used to standard Emacs, perhaps you will find some nice features to use
+--- you can combine those you like with the features of standard Emacs
+familiar to you.
+
+The implementation of some of the features described in this section was
+taken from the elisp-library @file{tpu-edt.el}, version 3.2, by Rob Riepel.
+
+@menu
+* Key-Bindings::                
+* Editing-Direction::           
+* Words::                       
+* Selection::                   
+* Deletion::                    
+* Mark-Stacks::                 
+* Command-Menu::                
+* Buffer-Ring::                 
+@end menu
+
+@node       Key-Bindings, Editing-Direction, Other-Features, Other-Features
+@subsection Key bindings
+
+@cindex EDT, key-bindings
+@cindex Key-bindings, EDT
+LS-Emacs relies heavily on a set of keys found on Digital terminals
+like the @code{VT-200} to the right of the main keyboard, specifically
+the so-called application keypad and the mini-keypad. You find a rather
+similar keyboard layout on the standard PC keyboard --- the keypad lacks
+one key, and the keys are named differently. Most contemporary keyboards
+can emulate a VT-style keyboard.
+
+@cindex Keypad
+@cindex Mini-keypad
+@cindex Keynames
+The following diagram shows the layout and the keynames as used in
+Digital's editors:
+
+@example
+@group
+ _______________________    _______________________________
+| E1    | E2    | E3    |  | PF1   | PF2   | PF3   | PF4   |
+| find  | insert| remove|  | gold  | blue  |       |       |
+|-------+-------+-------|  |-------+-------+-------+-------|
+| E4    | E5    | E6    |  | KP7   | KP8   | KP9   | KP-   |
+| select| prior | next  |  |       |       |       |       |
+ -------+-------+-------   |-------+-------+-------+-------|
+        | Up    |          | KP4   | KP5   | KP6   | KP,   |
+        |       |          |       |       |       |       |
+ -------+-------+-------   |-------+-------+-------+-------|
+| Left  | Down  | Right |  | KP1   | KP2   | KP3   | Enter |
+|       |       |       |  |       |       |       |       |
+ -------+-------+-------   |-------+-------+-------|       |
+                           | KP0           | KP.   |       |
+                           |               |       |       |
+                            ---------------+-------+------- 
+@end group
+@end example
+
+The application keypad can be in either of two modes: in numeric mode
+the keys generate digits, in application mode they generate escape
+sequences which are mapped to editor commands. By default, LS-Emacs uses
+application mode. The keys of keypad and mini-keypad are bound to the
+most commonly used editor commands. Using them you can move through the
+buffer; delete and undelete characters, words, and lines; search and
+substitute; select and manipulate a region; and more. LS-Emacs binds the
+keys a bit differently than the standard key-bindings of Digital
+editors.@footnote{Those bindings were originally designed for the
+@code{VT-100} terminal, which lacks a mini-keypad. When the
+@code{VT-200} terminal was introduced, that lead to redundant
+key-bindings. And, some original bindings were to functions I've never
+used.}
+
+Of special importance is the key labeled @kbd{PF1}, called the 
+@dfn{gold-key}. It is used as prefix key to bind a second function to
+each of the keypad keys. In addition, LS-Emacs uses a second prefix-key,
+the @dfn{blue-key} which is bound to @kbd{PF2}.@footnote{@code{EDT} and
+friends don't use a @i{blue-key}; instead they bind the help-command to
+the @kbd{PF2} key.}
+
+@cindex Keypad, bindings
+@cindex Mini-keypad, bindings
+@cindex Key-bindings, keypad
+@cindex Key-bindings, mini-keypad
+The following diagram shows the keypad-bindings of LS-Emacs. The commands
+bound to the keypad keys will be explained in the following sections.
+The first line in each key specifies the command bound to the unprefixed
+key, the second line the binding of the key prefixed by the gold-key,
+the third line the binding of the key prefixed by the blue-key:
+@example
+@group
+ _____________________________     _______________________________________
+|TagFndNxt|   BOL   |   BOW   |   |  gold   |  blue   | FindNext| Del Line|
+|TagSearch|         |SelectWrd|   | UnivArg | UnivArg |  Find   |UndelLine|
+| FindTag |         | DuplBSW |   | bluegold|Ring Bell| Isearch |Dupl Line|
+|---------+---------+---------|   |---------+---------+---------+---------|
+| Select  |PrvScreen|NxtScreen|   |  Page   |  Sect   | Append  | Del Word|
+|  Reset  |PrvScreen|NxtScreen|   |   Do    | Replace | ReplAll |UndelWord|
+|MarkSectW|ScrllOthF|ScrllOthB|   | ShowPos | TagRepl | CopyApp |Dupl Word|
+ ---------+---------+---------    |---------+---------+---------+---------|
+          | Move up |             | Forward | Reverse | Remove  | Del Char|
+          |PrvWindow|             | Bottom  |   Top   | Insert  |UndelChar|
+          |PrvWindow|             |TogglSDir|TogglSDir| Copy    |Dupl Char|
+ ---------+---------+---------    |---------+---------+---------+---------|
+|Move Left|Move Dowt|MoveRight|   |  Word   |   EOW   |  EOL    |         |
+|ShiftLeft|NxtWindow|ShiftRght|   |ChangCase| Del EOL | SpecIns |  Char   |
+|ShiftLeft|NxtWindow|ShiftRght|   |InvrtCase|         |         |         |
+ ---------+---------+---------    |---------+---------+---------|         |
+                                  |      Line         | Select  | ReplAll |
+                                  |    Open Line      |  Reset  |         |
+                                  |    Goto Line      | ExchMark|         |
+                                   -------------------+---------+--------- 
+@end group
+@end example
+The following table provides a short explanation of the bindings of the
+keypad keys:
+
+@table @kbd
+@kindex find
+@item find
+Bound to @code{tags-loop-continue} (see GNU Emacs Manual, chapter
+`Editing Programs', section `Tag Tables').
+
+@kindex gold find
+@item gold find
+@code{tags-search}.
+
+@kindex blue find
+@item blue find
+@code{find-tag}.
+
+@kindex insert
+@item insert
+@code{lse-tpu:next-beginning-of-line}.
+
+@kindex remove
+@item remove
+@code{lse-tpu:goto-prev-bs-word-head}.
+
+@kindex gold remove
+@item gold remove
+@code{lse-select-current-word}.
+
+@kindex blue remove
+@item blue remove
+@code{lse-tpu:duplicate-previous-bs-word}.
+
+@kindex select
+@item select
+@code{lse-tpu:select}.
+
+@kindex gold select
+@item gold select
+@code{lse-tpu:unselect}.
+
+@kindex blue select
+@item blue select
+@code{mark-section-wisely} (see GNU Emacs Manual).
+
+@kindex blue gold select
+@item blue gold select
+@code{lse-select-current-bs-word}.
+
+@kindex prior
+@item prior
+@code{(lse-previous-screen 2)}.
+
+@kindex gold prior
+@item gold prior
+@code{lse-previous-screen}.
+
+@kindex blue prior
+@item blue prior
+@code{lse-scroll-other-window-forw}.
+
+@kindex next
+@item next
+@code{(lse-next-screen 2)}.
+
+@kindex gold next
+@item gold next
+@code{lse-next-screen}.
+
+@kindex blue next
+@item blue next
+@code{lse-scroll-other-window-back}
+
+@kindex up
+@item up
+@code{lse-tpu:previous-line}.
+
+@kindex gold up
+@item gold up
+@code{lse-previous-window}.
+
+@kindex blue up
+@item blue up
+@code{lse-previous-window}.
+
+@kindex blue gold up
+@item blue gold up
+@code{enlarge-window}.
+
+@kindex down
+@item down
+@code{lse-tpu:next-line}.
+
+@kindex gold down
+@item gold down
+@code{lse-next-window}.
+
+@kindex blue down
+@item blue down
+@code{lse-next-window}.
+
+@kindex blue gold down
+@item blue gold down
+@code{shrink-window}.
+
+@kindex left
+@item left
+@code{lse-tpu:backward-char}.
+
+@kindex gold left
+@item gold left
+@code{(lse-indent-rigidly (- (lse-tab-increment)))}.
+
+@kindex blue left
+@item blue left
+@code{(lse-indent-rigidly (* -3 (lse-tab-increment)))}.
+
+@kindex blue gold left
+@item blue gold left
+@code{lse-tpu:pan-left}.
+
+@kindex right
+@item right
+@code{lse-tpu:forward-char}.
+
+@kindex gold right
+@item gold right
+@code{(lse-indent-rigidly (lse-tab-increment))}.
+
+@kindex blue right
+@item blue right
+@code{(lse-indent-rigidly (* 3 (lse-tab-increment)))}.
+
+@kindex blue gold right
+@item blue gold right
+@code{lse-tpu:pan-right}
+
+@kindex pf1
+@item pf1
+Gold prefix key.
+
+@kindex gold pf1
+@item gold pf1
+@code{universal-argument} (see GNU Emacs Manual).
+
+@kindex blue pf1
+@item blue pf1
+Blue-gold prefix key.
+
+@kindex pf2
+@item pf2
+Blue prefix key.
+
+@kindex gold pf2
+@item gold pf2
+@code{universal-argument}.
+
+@kindex blue pf2
+@item blue pf2
+@code{lse-ring-bell}.
+
+@kindex pf3
+@item pf3
+@code{lse-tpu:search-again}.
+
+@kindex gold pf3
+@item gold pf3
+@code{lse-tpu:search}.
+
+@kindex blue pf3
+@item blue pf3
+@code{isearch-forward} (see GNU Emacs Manual).
+
+@kindex pf4
+@item pf4
+@code{lse-tpu:delete-next-line}.
+
+@kindex gold pf4
+@item gold pf4
+@code{lse-tpu:undelete-line}.
+
+@kindex blue pf4
+@item blue pf4
+@code{lse-tpu:duplicate-previous-line}.
+
+@kindex blue gold pf4
+@item blue gold pf4
+@code{lse-tpu:delete-next-line-append}.
+
+@kindex blue gold blue pf4
+@item blue gold blue pf4
+@code{lse-tpu:duplicate-word-in-previous-line}.
+
+@kindex kp0
+@item kp0
+@code{lse-tpu:line}.
+
+@kindex gold kp0
+@item gold kp0
+@code{lse-open-line}.
+
+@kindex blue kp0
+@item blue kp0
+@code{goto-line}.
+
+@kindex kp1
+@item kp1
+@code{lse-tpu:goto-word-head}.
+
+@kindex gold kp1
+@item gold kp1
+@code{lse-tpu:change-case}.
+
+@kindex blue kp1
+@item blue kp1
+@code{lse-tpu:invert-case}.
+
+@kindex kp2
+@item kp2
+@code{lse-tpu:goto-bs-word-tail}.
+
+@kindex gold kp2
+@item gold kp2
+@code{lse-tpu:delete-tail-of-line}.
+
+@kindex kp3
+@item kp3
+@code{lse-tpu:end-of-line}.
+
+@kindex gold kp3
+@item gold kp3
+@code{lse-tpu:special-insert}.
+
+@kindex kp4
+@item kp4
+@code{lse-tpu:advance-direction}.
+
+@kindex gold kp4
+@item gold kp4
+@code{lse-tpu:move-to-end}.
+
+@kindex blue kp4
+@item blue kp4
+@code{lse-tpu:toggle-search-direction}.
+
+@kindex kp5
+@item kp5
+@code{lse-tpu:backup-direction}.
+
+@kindex gold kp5
+@item gold kp5
+@code{lse-tpu:move-to-beginning}.
+
+@kindex blue kp5
+@item blue kp5
+@code{lse-tpu:toggle-search-direction}.
+
+@kindex kp6
+@item kp6
+@code{lse-tpu:cut-region}.
+
+@kindex gold kp6
+@item gold kp6
+@code{lse-tpu:paste-region}.
+
+@kindex blue kp6
+@item blue kp6
+@code{lse-tpu:copy-region}.
+
+@kindex kp7
+@item kp7
+@code{lse-tpu:page}.
+
+@kindex gold kp7
+@item gold kp7
+@code{lse-command:do}.
+
+@kindex blue kp7
+@item blue kp7
+@code{lse-show-position}.
+
+@kindex blue gold kp7
+@item blue gold kp7
+@code{line-to-top-of-window}.
+
+@kindex kp8
+@item kp8
+@code{lse-tpu:scroll-window}.
+
+@kindex gold kp8
+@item gold kp8
+@code{lse-tpu:replace}.
+
+@kindex blue kp8
+@item blue kp8
+@code{tags-query-replace}.
+
+@kindex blue gold kp8
+@item blue gold kp8
+@code{lse-tpu:replace-all}.
+
+@kindex kp9
+@item kp9
+@code{lse-tpu:cut-append-region}.
+
+@kindex gold kp9
+@item gold kp9
+@code{lse-tpu:replace-all}.
+
+@kindex blue kp9
+@item blue kp9
+@code{lse-tpu:copy-append-region}.
+
+@kindex kp-
+@item kp-
+@code{lse-tpu:delete-next-word}.
+
+@kindex gold kp-
+@item gold kp-
+@code{lse-tpu:undelete-word}.
+
+@kindex blue kp-
+@item blue kp-
+@code{lse-tpu:duplicate-previous-word}.
+
+@kindex blue gold kp-
+@item blue gold kp-
+@code{lse-tpu:delete-next-word-append}.
+
+@kindex kp,
+@item kp,
+@code{lse-tpu:delete-next-char}.
+
+@kindex gold kp,
+@item gold kp,
+@code{lse-tpu:undelete-char}.
+
+@kindex blue kp,
+@item blue kp,
+@code{lse-tpu:duplicate-previous-char}.
+
+@kindex blue gold kp, 
+@item blue gold kp, 
+@code{lse-tpu:delete-next-char-append}.
+
+@kindex kp.
+@item kp.
+@code{lse-tpu:select}.
+
+@kindex gold kp.
+@item gold kp.
+@code{lse-tpu:unselect}.
+
+@kindex blue kp.
+@item blue kp.
+@code{lse-tpu:exchange-point-and-mark}.
+
+@kindex blue gold kp.
+@item blue gold kp.
+@code{lse-blink-select-mark}.
+
+@kindex enter
+@item enter
+@code{lse-tpu:forward-char}.
+
+@kindex gold enter
+@item gold enter
+@code{lse-tpu:replace-all}.
+
+@end table
+
+@cindex Control keys, bindings
+@cindex Key-bindings, control keys
+In addition to the keypad, Digital editors use a number of control keys
+bound to common editing functions. The use of these keys conflicts with
+the standard Emacs conventions. Therefore LS-Emacs binds these keys to
+the corresponding @kbd{ALT <key>} combinations.
+ 
+The following table provides a short explanation of the bindings of the
+alt-keys:
+
+@table @kbd
+@kindex A-a
+@item A-a
+@code{lse-tpu:toggle-overwrite-mode}.
+
+@kindex A-b
+@item A-b
+@code{repeat-complex-command}.
+
+@kindex A-d
+@item A-d
+@code{dabbrev-expand}.
+
+@kindex A-h
+@item A-h
+@code{lse-tpu:next-beginning-of-line}.
+
+@kindex A-j
+@item A-j
+@code{lse-tpu:delete-prev-word}.
+
+@kindex A-l
+@item A-l
+@code{lse-tpu:insert-formfeed}.
+
+@kindex A-u
+@item A-u
+@code{lse-tpu:delete-head-of-line}.
+
+@kindex A-v
+@item A-v
+@code{lse-tpu:quoted-insert}.
+
+@kindex A-w
+@item A-w
+@code{redraw-display}.
+
+@kindex DEL
+@item DEL
+@code{lse-tpu:delete-prev-char}.
+@end table
+
+@node       Editing-Direction, Words, Key-Bindings, Other-Features
+@subsection Editing-Direction
+
+@cindex Direction, editing
+@cindex Editing, direction
+@cindex Forward
+@cindex Backward
+@cindex Reverse
+LS-Emacs allows you to use two directions of editing. The default
+direction is @dfn{forward}, which means that the point moves to the right or
+down in the buffer. The other direction is @dfn{backward} or
+@dfn{reverse}, which means that the point moves to the left or up in the
+buffer.  Many commands of LS-Emacs take the current direction into
+account and behave accordingly, e.g., @code{lse-tpu:char},
+@code{lse-tpu:end-of-line}, @code{lse-tpu:goto-word-head},
+@code{lse-tpu:line}, @code{lse-tpu:search}.
+
+LS-Emacs displays the --- buffer-local --- direction in the status line:
+`@code{vvv}' signifies forward-direction, `@code{^^^}' signifies
+backward-direction. You can change the current direction with the
+commands @code{lse-tpu:advance-direction} ([@kbd{KP4}]) and
+@code{lse-tpu:backup-direction} ([@kbd{KP5}]).
+
+@node       Words, Selection, Editing-Direction, Other-Features
+@subsection Words
+
+@cindex Words, editing commands
+@cindex EDT, words
+LS-Emacs handles words differently than standard Emacs. First, commands
+dealing with the current word look from the point backwards, i.e., the
+begin of the current word is before the point, not behind the point as
+in standard Emacs.  Second, the syntax of a word is not defined via the
+syntax-table, but by sets of characters. This allows the simultaneous
+support of more than one word syntax. Finally, there are commands for
+moving either to the begin or the end of a word --- they move the point
+according to the current direction.
+
+@cindex Words, constituents
+@cindex Words, delimiters
+@cindex Delimiters, words
+@cindex Words, syntax
+@cindex Syntax, words
+There are two different modes how LS-Emacs determines the begin and the
+end of a word. In the @emph{normal mode}, LS-Emacs distinguishes three
+categories of characters:
+
+@table @emph
+@item word-components
+This category defines the characters which may occur inside a word. You
+can define the word-components by setting the buffer-local variables
+@code{lse-tpu:ident-chars} and @code{lse-tpu:ident-group-chars} (the
+syntax corresponds to that of character sets in regular expressions ---
+without the enclosing brackets). The union of these two variables
+defines the characters considered as word-components. Normally,
+@code{lse-tpu:ident-chars} has the value `@code{A-Za-z0-9}', for use
+with European languages it will additionally contain umlaut-characters
+and other diacriticals.
+
+Each LS-Emacs language defines this category according to the
+characteristics of the language.
+
+@item punctuation
+This category defines characters delimiting words. In contrast to
+white-space characters, LS-Emacs will not skip over multiple occurrences
+of punctuation characters when searching for the boundary of a word.
+
+@item white-space
+This category defines characters delimiting words. In contrast to punctuation
+characters, LS-Emacs will skip over multiple occurrences of white-space
+characters when searching for the boundary of a word. 
+@end table
+
+In the @emph{other mode}, LS-Emacs will consider only white-space
+characters as word delimiters, i.e., it will consider all punctuation
+characters to be part of the category word-components.
+
+@node       Selection, Deletion, Words, Other-Features
+@subsection Selection
+
+@cindex Selection
+@cindex Region
+@cindex Mark, region
+@cindex Mark, selection
+LS-Emacs provides commands for selecting a block of text in the buffer
+and for manipulating such a selection. This mechanism is similar to the
+mark/region mechanism of standard Emacs, but it provides more varied 
+commands for the manipulation of the selection.@footnote{The current
+implementation uses the @dfn{mark} provided by standard Emacs. This may
+change in the future.}
+
+You start a selection by the command @code{lse-tpu:select}
+([@kbd{KP.}]). The value of the point at that time becomes one boundary
+of the selection --- the start-position. Moving the cursor lets you
+change the other boundary of the selection --- the end-position. You can
+interchange start- and end-position of the selection with the command
+@code{lse-tpu:exchange-point-and-mark} ([@kbd{blue KP.}]). You can
+cancel the selection with the command @code{lse-tpu:unselect}
+([@kbd{gold KP.}]).
+
+@c LS-Emacs displays the string @code{SELECT} in the status line while a
+@c selection is active.
+When using the X window system, LS-Emacs highlights the
+selection in a different color.
+
+While a selection is active, several commands apply to the selection.
+Some of these are only valid for an active selection:
+@cindex Selection, active
+@cindex Active selection
+
+@itemize @bullet
+@item @code{lse-blink-select-mark}
+@item @code{lse-tpu:cut-region}
+@item @code{lse-tpu:copy-region}
+@item @code{lse-tpu:cut-append-region}
+@item @code{lse-tpu:copy-append-region}
+@item @code{lse-tpu:unselect}
+@end itemize
+
+Others manipulate the active selection, if any, or else they manipulate
+a simple unit of text like a line or a word:
+@itemize @bullet
+@item @code{lse-fill-range}
+@item @code{lse-indent-rigidly}
+@item @code{lse-insert-braces}
+@item @code{lse-insert-brackets}
+@item @code{lse-insert-dquotes}
+@item @code{lse-insert-parentheses}
+@item @code{lse-insert-squotes}
+@item @code{lse-remove-braces}
+@item @code{lse-remove-brackets}
+@item @code{lse-remove-dquotes}
+@item @code{lse-remove-parentheses}
+@item @code{lse-remove-squotes}
+@item @code{lse-tpu:capitalize-strongly}
+@item @code{lse-tpu:capitalize-weakly}
+@item @code{lse-tpu:change-case-lower}
+@item @code{lse-tpu:change-case-upper}
+@item @code{lse-tpu:change-case}
+@item @code{lse-tpu:spell-check}
+@item @code{lse-untabify-buffer}
+@end itemize
+ 
+Several commands select some range of the buffer:
+@cindex Selecting a range
+@cindex Range, selecting
+@itemize @bullet
+@item @code{lse-select-angle-range}
+@item @code{lse-select-brace-range}
+@item @code{lse-select-bracket-range}
+@item @code{lse-select-current-bs-word}
+@item @code{lse-select-current-word}
+@item @code{lse-select-guillemot-range}
+@item @code{lse-select-paren-range}
+@end itemize
+
+@node       Deletion, Mark-Stacks, Selection, Other-Features
+@subsection Deletion
+
+@cindex Deletion, EDT-style
+@cindex EDT, deletion
+LS-Emacs provides commands for deletion and un-deletion of four
+different kinds of entities: characters, words, lines, and selected
+ranges. Each of these entities has its own deletion-history. Contrary to
+the kill/yank mechanism of standard Emacs, LS-Emacs maintains just the
+last deletion of each of these different kinds and these are independent
+from each other.
+
+When you un-delete an entity, LS-Emacs chooses the position of the point
+according to the direction of the deletion --- if you deleted in reverse
+direction, LS-Emacs will leave the point at the end of the un-deletion; if
+you deleted in forward direction, LS-Emacs will leave the point at the
+beginning of the un-deletion.
+
+The commands for deletion normally replace the last value of the
+deletion-history by the newly deleted text; yet, LS-Emacs provides other
+commands which append the new deletion to the existing deletion-history.
+The commands for un-deletion don't change the deletion-history --- you
+can un-delete the same text as often as you want.
+
+@node       Mark-Stacks, Command-Menu, Deletion, Other-Features
+@subsection Mark-Stacks
+
+@cindex Mark, stacks
+@cindex Buffer, mark
+@cindex Window, mark
+LS-Emacs provides a number of mark-stacks:
+
+@itemize @bullet
+@item
+The global mark-stack is not bound to any specific buffer or window.
+
+@item
+A buffer mark-stack is bound to a specific buffer --- each buffer has
+its own mark-stack.
+
+@item
+A window mark-stack is bound to specific window --- each window (except
+mini-buffer windows) has its own mark-stack.
+@end itemize
+
+You can push the current position of the point (buffer inclusively) onto a
+mark-stack with the command @code{lse-push-mark-«stack-name»}, where
+«stack-name» is either @code{global}, or @code{window}, or
+@code{buffer}. You can return to the top-most mark of a mark-stack with
+the commands @code{lse-goto-mark-and-pop-«stack-name»} and
+@code{lse-toggle-mark-«stack-name»}. 
+
+Besides the marks stacked explicitly by
+@code{lse-push-mark-«stack-name»}, LS-Emacs maintains two additional
+marks per mark-stack: the home-mark points to the home-buffer of a
+window mark-stack or to the first file-buffer created during the editing
+session; the last-mark points to the position before the execution of
+the last @code{lse-goto-buffer} command. You can set the home-mark of a
+window mark-stack with the command @code{lse-set-home-mark-window}.
+
+@node       Command-Menu, Buffer-Ring, Mark-Stacks, Other-Features
+@subsection Command-Menu
+
+@cindex Command, menu
+@cindex Menu, interactive commands
+@cindex Interactive commands, menu
+LS-Emacs provides a completion menu for the most commonly used commands.
+You can use this feature with the command @code{lse-command:do}
+(@kbd{gold kp7}). For more information on LS-Emacs completion, see
+@ref{LSE-Completion, Using LS-Emacs Completion, Using LS-Emacs
+Completion}.
+
+You can add any interactive command to that menu with the function
+@code{lse-command:add}. This function may not be used interactively, so
+you may want to use it in your @file{.emacs} initialization file.
+
+@node       Buffer-Ring,  , Command-Menu, Other-Features
+@subsection Buffer-Ring
+
+@cindex Buffer-ring
+LS-Emacs remembers the order of creation of all buffers created on
+demand by the user. These buffers build a ring. LS-Emacs provides
+commands to navigate in this buffer-ring. From a given buffer, you can
+switch to the next older and the next younger buffer by using the commands
+@code{lse-goto-prev-buffer} and @code{lse-goto-next-buffer}, respectively.
+
+The first buffer is considered the home buffer. With the command
+@code{lse-goto-home-mark-global} you can switch to that buffer at any time.

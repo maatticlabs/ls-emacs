@@ -1,0 +1,1560 @@
+!
+!
+! Current Styles
+!
+delete placeholder Latex /language = latex
+define placeholder Latex /language = latex -
+	/type = menu -
+	/topic_string = "LATEX" -
+	/description = "LaTeX grammar" 
+
+"article"		/placeholder
+"report"		/placeholder
+"memo"			/placeholder
+"letter"		/placeholder
+"slides"		/placeholder
+"milstd"		/placeholder
+"bookform"		/placeholder
+end define
+!
+!
+! Style: article	Author: L. Lamport
+!
+delete placeholder article /language = latex
+define placeholder article /language = latex -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/descr = "Latex article document style" 
+
+"\documentstyle<<optionlist>>{article}"
+"<<pagestyle>>"
+"<<pre_commands>>..."
+"\begin{document}"
+""
+"<<commands>>..."
+""
+"\end{document}"
+end define
+delete token article
+define token article -
+	/placeholder=article -
+	/language=latex 
+!
+!
+! Style: report		Author: L. Lamport
+!
+delete placeholder report /language = latex
+define placeholder report /language = latex -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/descr = "Latex report document style" 
+
+"\documentstyle<<optionlist>>{report}"
+"<<pagestyle>>"
+"<<pre_commands>>..."
+"\begin{document}"
+""
+"<<commands>>..."
+""
+"\end{document}"
+end define
+delete token report
+define token report -
+	/placeholder=report -
+	/language=latex 
+!
+!
+! Style: memo		Author: K. McPherson, J. Boes
+!
+delete placeholder memo /language = latex
+define placeholder memo /language = latex -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/descr = "Latex memo document style" 
+
+"\documentstyle<<optionlist>>{memo}"
+"<<pre_commands>>..."
+"<<To_list_two_columns>>"
+"<<From_list_two_columns>>"
+"<<Copies_list_one_column>>"
+"\begin{document}"
+"\memohdr To:<<namelist>>..."
+"From:<<namelist>>..."
+"Copies:<<namelist>>..."
+"Subject:{<<subject>>}"
+""
+"<<commands>>..."
+""
+"<memo_signature>"
+""
+"\end{document}"
+end define
+delete token memo
+define token memo -
+	/placeholder=memo -
+	/language=latex 
+!
+!
+! memo style specific commands
+!
+delete placeholder To_list_two_columns /language = latex 
+define placeholder To_list_two_columns /language = latex -
+	/descr = "Convert memo 'To' list to two columns" -
+	/language=latex -
+	/topic_string = "LATEX Commands memos" 
+
+"\let\To=\doublecolumn"
+end define
+delete token To_list_two_columns
+define token To_list_two_columns -
+	/placeholder=To_list_two_columns -
+	/language=latex 
+
+delete placeholder From_list_two_columns /language = latex 
+define placeholder From_list_two_columns /language = latex -
+	/descr = "Convert memo 'From' list to two columns" -
+	/language=latex -
+	/topic_string = "LATEX Commands memos" 
+
+"\let\From=\doublecolumn"
+end define
+delete token From_list_two_columns
+define token From_list_two_columns -
+	/placeholder=From_list_two_columns -
+	/language=latex 
+
+delete placeholder Copies_list_one_column /language = latex 
+define placeholder Copies_list_one_column /language = latex -
+	/descr = "Convert memo 'Copies' list to one column" -
+	/topic_string = "LATEX Commands memos" 
+
+"\let\Copies=\singlecolumn"
+end define
+delete token Copies_list_one_column
+define token Copies_list_one_column -
+	/placeholder=Copies_list_one_column -
+	/language=latex 
+
+delete placeholder memo_signature
+define placeholder memo_signature -
+	/description="memo signature options" -
+	/language=latex -
+	/topic_string="LATEX Commands memos" -
+	/type=menu 
+
+"one_signature"		/token
+"two_signatures"	/token
+end define
+delete token memo_signature
+define token memo_signature -
+	/placeholder=memo_signature -
+	/language=latex 
+
+delete token one_signature
+define token one_signature -
+	/description="Single signature for memo" -
+	/language=latex -
+	/topic_string="LATEX Commands memos" -
+
+"\memosign \hrule \vskip 5pt "
+"\\{<name>}"
+"<<deptlist>>..."
+end define
+
+delete token two_signatures
+define token two_signatures -
+	/description="Double signature for memo" -
+	/language=latex -
+	/topic_string="LATEX Commands memos" -
+
+"\twosign \hrule \vskip 5pt "
+"\\{<name>}"
+"<<deptlist>>..."
+""
+"\hrule \vskip 5pt"
+"\\{<name>}"
+"<<deptlist>>..."
+end define
+
+delete placeholder namelist /language = latex
+define placeholder namelist -
+	/language = latex -
+	/descr = "memo list of names" -
+	/topic_string = "LATEX Commands memos" 
+
+"\\{<name>}"
+end define
+
+delete placeholder name /language = latex
+define placeholder name /language = latex -
+	/type=terminal -
+	/descr = "memo individual name within the name list"-
+	/topic_string = "LATEX Commands memos" 
+
+"Enter a name please."
+end define
+
+delete placeholder subject /language = latex
+define placeholder subject /language = latex -
+	/type = terminal -
+	/descr = "Subject of an memo" -
+	/topic_string = "LATEX Commands memos" 
+
+"Enter the subject of this memo."
+end define
+
+delete placeholder deptlist /language = latex
+define placeholder deptlist /language = latex -
+	/descr = "memo author's department or section" -
+	/topic_string = "LATEX Commands memos" 
+
+"\\{<department>}"
+end define
+
+delete placeholder department /language = latex
+define placeholder department /language = latex -
+	/type = terminal -
+	/descr = "Department name or portion thereof" -
+	/topic_string = "LATEX Commands memos" 
+
+"Enter your department name please."
+end define
+
+!
+!
+! Style: letter		Author: L. Lamport
+!
+delete placeholder letter /language = latex
+define placeholder letter /language = latex -
+	/topic_string = "LATEX Commands Document_Styles" -
+	/descr = "Latex letter document style" 
+
+"\documentstyle<<optionlist>>{letter}"
+"<<pre_letter_cmds>>..."
+"\begin{document}"
+"\begin{letter}{<recipient>}"
+"\opening{<paragraph_text>...}"
+""
+"<<environments>>..."
+""
+"\closing{<paragraph_text>...}"
+"<<cc>>"
+"<<encl>>"
+"\end{letter}"
+"\end{document}"
+end define
+delete token letter
+define token letter -
+	/placeholder=letter -
+	/language=latex 
+
+!
+!
+! letter style specific commands
+!
+delete placeholder pre_letter_cmds /language = latex
+define placeholder pre_letter_cmds /language = latex -
+	/topic_string = "LATEX Commands Letters Declarations" -
+	/type = menu -
+	/descr = "Letter style commands" 
+
+"\address{<paragraph_text>...}"
+"\signature{<paragraph_text>...}"
+"\location{<text>}"
+"\telephone{<number>}"
+end define
+
+delete token \address
+define token \address -
+	/description="Return address. If null, business letter is made." -
+	/language=latex -
+	/topic_string="LATEX Commands Letter Declarations \address" -
+
+"\address{<paragraph_text>...}"
+end define
+
+delete token \signature
+define token \signature -
+	/description="Letter signature" -
+	/language=latex -
+	/topic_string="LATEX Commands Letter Declarations \signature" -
+
+"\signature{<paragraph_text>...}"
+end define
+
+delete token \location
+define token \location -
+	/description="letter location (e.g. M/S 121)" -
+	/language=latex -
+	/topic_string="LATEX Commands Letter Declarations \location" -
+
+"\location{<text>}"
+end define
+
+delete token \telephone
+define token \telephone -
+	/description="letter telephone, only used if \address is null" -
+	/language=latex -
+	/topic_string="LATEX Commands Letter Declarations \telephone" -
+
+"\telephone{<number>}"
+end define
+
+delete token \opening
+define token \opening -
+	/description="Letter opening, e.g. 'Dear Sir:'" -
+	/language=latex -
+	/topic_string="LATEX Commands Letters \opening" -
+
+"\opening{<text>}"
+end define
+
+delete token \closing
+define token \closing -
+	/description="Letter closing, e.g. 'Sincerely,'" -
+	/language=latex -
+	/topic_string="LATEX Commands Letters \closing" -
+
+"\closing{<text>}"
+end define
+
+delete placeholder cc /language = latex
+define placeholder cc /language = latex -
+	/topic_string = "LATEX Commands Letters" -
+	/language = latex -
+	/descr = "Letter copies" 
+
+"\cc{<text>}"
+end define
+
+delete token \cc
+define token \cc -
+	/description="Letter copies" -
+	/language=latex -
+	/topic_string="LATEX Commands Letters" -
+
+"\cc{<text>}"
+end define
+
+delete placeholder encl /language = latex
+define placeholder encl /language = latex -
+	/topic_string = "LATEX Commands Letters" -
+	/language = latex -
+	/descr = "Letter enclosures" 
+
+"\encl{<text>}"
+end define
+
+delete token \encl
+define token \encl -
+	/description="Letter enclosures" -
+	/language=latex -
+	/topic_string="LATEX Commands Letters" -
+
+"\encl{<text>}"
+end define
+
+delete placeholder recipient /language = latex
+define placeholder recipient /language = latex -
+	/topic_string = "LATEX Commands Letters" -
+	/descr = "Name and address of letter recipient" 
+
+"<addressee><<linebreak>><<address>>..."
+end define
+
+delete placeholder addressee /language = latex
+define placeholder addressee /language = latex -
+	/topic_string = "LATEX Commands Letters" -
+	/descr = "Name of the letter recipient" -
+	/type = terminal 
+
+"Enter the name of the addressee."
+end define
+
+delete placeholder address /language = latex
+define placeholder address /language = latex -
+	/topic_string = "LATEX Commands Letters" -
+	/descr = "Letter recipient address" 
+
+"<text><<linebreak>>"
+end define
+
+!
+!
+! Style: slides (SliTeX)	Author: L. Lamport
+!
+delete placeholder slides /language = latex
+define placeholder slides /language = latex -
+	/topic_string = "SLITEX" -
+	/type = menu -
+	/description = "Slitex" 
+
+"root_file"		/placeholder
+"slide_file"		/placeholder
+end define
+delete token slides
+define token slides -
+	/placeholder=slides -
+	/language=latex 
+
+!
+!
+! SliTeX specific commands
+!
+delete placeholder root_file /language = latex
+define placeholder root_file /language = latex -
+	/topic_string = "SliTeX root_file" -
+	/descr = "Slitex root file" 
+
+"\documentstyle{slides}"
+"%"
+"% If you only have one slide file, and you would like SliTeX to prompt"
+"% you for the name of the file when you run SliTeX, then expand the"
+"% next placeholder. Otherwise enter the name of your slide file as"
+"% the argument to the \colorslides or \blackandwhite command."
+"%"
+"<<prompted_slide_file>>"
+"%"
+"\begin{document}"
+"<<colors>>"
+"<<onlyslides>>"
+"<color_or_bw>..."
+"\end{document}"
+end define
+delete token root_file
+define token root_file -
+	/placeholder=root_file -
+	/language=latex 
+
+delete placeholder prompted_slide_file
+define placeholder prompted_slide_file -
+	/description="\typein command for variable slide file input" -
+	/language=latex -
+	/topic_string=" " -
+
+"\typein[\slidefile]{Enter the name of your slide file.}"
+end define
+
+delete placeholder colors
+define placeholder colors -
+	/description="SliTeX colors definition" -
+	/language=latex -
+	/topic_string="SliTeX Root_file" -
+
+"\colors{<slide_colors>...}"
+end define
+
+delete token \colors
+define token \colors -
+	/description = "SliTeX colors definition" -
+	/language=latex -
+	/topic_string = "SliTeX Root_file"
+
+"\colors{<slide_colors>...}"
+end define
+
+delete placeholder onlyslides
+define placeholder onlyslides -
+	/description="SliTeX command to produce a subset of your slides" -
+	/language=latex -
+	/topic_string="SLITEX Making_Some_Slides" -
+
+"\onlyslides{<slide_number>...}"
+end define
+
+delete token \onlyslides
+define token \onlyslides -
+	/description="SliTeX command to produce a subset of your slides" -
+	/language=latex -
+	/topic_string="SLITEX Making_Some_slides" -
+
+"\onlyslides{<slide_number>...}"
+end define
+
+delete token \onlynotes
+define token \onlynotes -
+	/description="SliTeX command to produce a subset of your notes" -
+	/language=latex -
+	/topic_string="SLITEX Making_Some_Slides" -
+
+"\onlynotes{<slide_number>...}"
+end define
+
+delete placeholder color_or_bw
+define placeholder color_or_bw -
+	/description="Select color slides or black and white slides" -
+	/language=latex -
+	/topic_string="Slitex Root_file" -
+	/type=menu -
+
+"\colorslides"		/token
+"\blackandwhite"	/token
+end define
+
+delete token \colorslides
+define token \colorslides -
+	/description="\colorslides command" -
+	/language=latex -
+	/topic_string="SliTeX Root_file" -
+
+"\colorslides{<slidefile>}"
+end define
+
+delete token \blackandwhite
+define token \blackandwhite -
+	/description="SliTeX \blackandwhite command" -
+	/language=latex -
+	/topic_string="SliTeX Root_file" -
+
+"\blackandwhite{<slidefile>}"
+end define
+
+delete token \invisible
+define token \invisible -
+	/description="Produce 'invisible' text, SLITEX ONLY" -
+	/language=latex -
+	/topic_string="SLITEX Slide_file Slides" -
+
+"\invisible"
+end define
+
+delete placeholder slidefile /language = latex
+define placeholder slidefile /language = latex -
+	/topic_string = "SliTex Root_file" -
+	/type = terminal -
+	/descr = "The name of your Slitex slide file"
+
+"Enter the name of your slide file."
+end define
+
+delete placeholder slide_file /language = latex
+define placeholder slide_file /language = latex -
+	/topic_string = "SliTeX slide_file " -
+	/language = latex -
+	/descr = "Slitex slides template" 
+
+"<<pagestyle>>"
+"%"
+"\begin{slide}{<<slide_colors>>...}"
+"<<slide_title>>"
+" "
+"<<environments>>..."
+"<<slide_fill>>"
+"\end{slide}"
+""
+"<<another_slide>>"
+end define
+delete token slide_file
+define token slide_file -
+	/placeholder=slide_file -
+	/language=latex 
+
+delete placeholder another_slide /language = latex
+define placeholder another_slide /language = latex -
+	/topic_string = "SliTeX slide_file " -
+	/language = latex -
+	/descr = "More slitex slide templates" 
+
+"\begin{slide}{<<slide_colors>>...}"
+"<<slide_title>>"
+" "
+"<<environments>>..."
+"<<slide_fill>>"
+"\end{slide}"
+""
+"<<another_slide>>"
+end define
+
+delete placeholder slide_colors
+define placeholder slide_colors -
+	/description="SliTeX layer colors" -
+	/duplication=horizontal -
+	/language=latex -
+	/separator="," - 
+	/topic_string="SliTeX Slide_file Slides" -
+	/type=terminal -
+
+"Enter the colors for this slide."
+end define
+
+delete placeholder slide_title /language = latex
+define placeholder slide_title /language = latex -
+	/topic_string = "SliTeX slide_file slides" -
+	/type = menu -
+	/descr = "Slide title options" 
+
+"Underlined"	/placeholder
+"User_defined"	/placeholder
+end define
+
+delete placeholder slide_fill /language = latex
+define placeholder slide_fill /language = latex -
+	/topic_string = "SliTeX slide_file slides" -
+	/descr = "Push the text of the slide to the top of the page" 
+
+"\vfill"
+end define
+
+delete placeholder Underlined 
+define placeholder Underlined -
+	/language = latex -
+	/topic_string = "Slitex slide_file slides" -
+	/descr = "Underlined slide title line" 
+
+"\begin{flushleft}"
+"\parbox[b]{\textwidth}{\centering{\Large"
+"<text>}"
+"\\ [-.75\baselineskip]"
+"\rule{\textwidth}{.03in}}"
+"\end{flushleft}"
+end define
+delete token Underlined
+define token Underlined -
+	/placeholder=Underlined -
+	/language=latex 
+
+delete placeholder User_defined /language = latex
+define placeholder User_defined /language = latex -
+	/topic_string = "Slitex slide_file slides" -
+	/descr = "User defined slide title" -
+	/type = terminal 
+
+"Enter the SliTeX commands to generate your slide title here."
+end define
+
+delete placeholder slide_number
+define placeholder slide_number -
+	/duplication=horizontal -
+	/language=latex -
+	/descr = "Slide number(s) entry for the \onlyslides command"-
+	/separator="," - 
+	/topic_string="SLITEX Making_Some_Slides" -
+	/type=terminal -
+
+"e.g. '1,3-5,12'"
+end define
+
+!
+!
+! Style: milstd		Author: K. McPherson 
+!
+delete placeholder milstd
+define placeholder milstd -
+	/description="MIL-STD-490 document style" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"\documentstyle<<optionlist>>{milstd}"
+"<document_type>"
+end define
+delete token milstd
+define token milstd -
+	/placeholder=milstd -
+	/language=latex 
+
+!
+!
+! milstd style specific commands
+!
+delete placeholder document_type
+define placeholder document_type -
+	/description="MIL-STD-490 specification type" -
+	/language=latex -
+	/topic_string="" -
+	/type=menu -
+
+"A"		/placeholder
+"B2"		/placeholder
+"B5"		/placeholder
+"C5"		/placeholder
+end define
+
+delete placeholder A
+define placeholder A -
+	/description="System Specification" -
+	/language=latex -
+	/topic_string=" " -
+
+"\A"
+"\documentnumber{<mil-std-number>}"
+"\documentdate{<mil-date>}"
+"\title{System Specification\\"
+"<paragraph_text>...}"
+""
+"\begin{document}"
+""
+"\begin{titlepage}"
+"\maketitle"
+"\end{titlepage}"
+""
+"\pagenumbering{roman}"
+""
+"\tableofcontents"
+"\newpage"
+"\listoffigures"
+"\listoftables"
+""
+"\cleardoublepage"
+"\pagenumbering{arabic}"
+""
+"\section{SCOPE}"
+""
+"\section{APPLICABLE DOCUMENTS}"
+""
+"\subsection{Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\subsection{Non-Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\section{REQUIREMENTS}"
+""
+"\subsection{System definition.}"
+""
+"\subsubsection{General description.}"
+""
+"\subsubsection{Missions.}"
+""
+"\subsubsection{Threat.}"
+""
+"\subsubsection{System diagrams.}"
+""
+"\subsubsection{Interface definition.}"
+""
+"\subsubsection{Government furnished property list.}"
+""
+"\subsubsection{Operational and organizational concepts.}"
+""
+"\subsection{Characteristics.}"
+""
+"\subsubsection{Performance characteristics.}"
+""
+"\subsubsection{Physical characteristics.}"
+""
+"\subsubsection{Reliability.}"
+""
+"\subsubsection{Maintainability.}"
+""
+"\subsubsection{Availability.}"
+""
+"\subsubsection{System effectiveness models.}"
+""
+"\subsubsection{Environmental conditions.}"
+""
+"\subsubsection{Nuclear control requirements.}"
+""
+"\subsubsection{Transportability.}"
+""
+"\subsection{Design and construction.}"
+""
+"\subsubsection{Materials, processes, and parts.}"
+""
+"\subsubsection{Electromagnetic radiation.}"
+""
+"\subsubsection{Nameplates and product marking.}"
+""
+"\subsubsection{Workmanship.}"
+""
+"\subsubsection{Interchangeability.}"
+""
+"\subsubsection{Safety.}"
+""
+"\subsubsection{Human performance/human engineering.}"
+""
+"\subsection{Documentation.}"
+""
+"\subsection{Logistics.}"
+""
+"\subsubsection{Maintenance.}"
+""
+"\subsubsection{Supply.}"
+""
+"\subsubsection{Facilities and facility equipment.}"
+""
+"\subsection{Personnel and training.}"
+""
+"\subsubsection{Personnel.}"
+""
+"\subsubsection{Training.}"
+""
+"\subsection{Functional area characteristics.}"
+""
+"\subsection{Precedence.}"
+""
+"\section{QUALITY ASSURANCE PROVISIONS}"
+""
+"\subsection{General.}"
+""
+"\subsubsection{Responsibility for tests.}"
+""
+"\subsubsection{Special tests and examinations.}"
+""
+"\subsection{Quality conformance inspections.}"
+""
+"\section{PREPARATION FOR DELIVERY}"
+""
+"\section{NOTES}"
+""
+"\appendix"
+"%"
+"% \section will now generate appendices starting with section 10, 20, etc."
+"%"
+"\section{<text>} % Section 10, Appendix I"
+""
+"\section{<text>} % Section 20, Appendix II"
+""
+"\end{document}"
+end define
+
+delete placeholder B2
+define placeholder B2 -
+	/description="Critical Item Development Specification" -
+	/language=latex -
+	/topic_string=" " -
+
+"\Btwo"
+"\documentnumber{<mil-std-number>}"
+"\documentdate{<mil-date>}"
+"\title{Critical Item Development Specification\\"
+"<paragraph_text>...}"
+""
+"\begin{document}"
+""
+"\begin{titlepage}"
+"\maketitle"
+"\end{titlepage}"
+""
+"\pagenumbering{roman}"
+"\tableofcontents"
+"\newpage"
+"\listoffigures"
+"\listoftables"
+""
+"\cleardoublepage"
+"\pagenumbering{arabic}"
+""
+"\section{SCOPE}"
+""
+"\section{APPLICABLE DOCUMENTS}"
+""
+"\subsection{Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\subsection{Non-Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\section{REQUIREMENTS}"
+""
+"\subsection{Item definition.}"
+""
+"\subsection{Characteristics.}"
+""
+"\subsubsection{Performance.}"
+""
+"\subsubsection{Physical characteristics.}"
+""
+"\subsubsection{Reliability.}"
+""
+"\subsubsection{Maintainability.}"
+""
+"\subsubsection{Environmental conditions.}"
+""
+"\subsubsection{Transportability.}"
+""
+"\subsection{Design and construction.}"
+""
+"\subsubsection{Materials, processes, and parts.}"
+""
+"\subsubsection{Electromagnetic radiation.}"
+""
+"\subsubsection{Nameplates and product marking.}"
+""
+"\subsubsection{Workmanship.}"
+""
+"\subsubsection{Interchangeability.}"
+""
+"\subsubsection{Safety.}"
+""
+"\subsubsection{Human performance/human engineering.}"
+""
+"\subsection{Documentation.}"
+""
+"\subsection{Logistics.}"
+""
+"\subsubsection{Maintenance.}"
+""
+"\subsubsection{Supply.}"
+""
+"\subsection{Precedence.}"
+""
+"\section{QUALITY ASSURANCE PROVISIONS}"
+""
+"\subsection{General.}"
+""
+"\subsubsection{Responsibility for test.}"
+""
+"\subsubsection{Special tests and examinations.}"
+""
+"\subsection{Quality conformance inspections.}"
+""
+"\section{PREPARATION FOR DELIVERY}"
+""
+"\section{NOTES}"
+""
+"\appendix"
+"%"
+"% \section will now generate appendices starting with section 10, 20, etc."
+"%"
+"\section{<text>} % Section 10, Appendix I"
+""
+"\section{<text>} % Section 20, Appendix II"
+""
+"\end{document}"
+end define
+
+delete placeholder B5
+define placeholder B5 -
+	/description="Computer Program Development Specification" -
+	/language=latex -
+	/topic_string=" " -
+
+"\Bfive"
+"\documentnumber{<mil-std-number>}"
+"\documentdate{<mil-date>}"
+"\title{Computer Program Development Specification\\"
+"<paragraph_text>...}"
+""
+"\begin{document}"
+""
+"\begin{titlepage}"
+"\maketitle"
+"\end{titlepage}"
+""
+"\pagenumbering{roman}"
+"\tableofcontents"
+"\newpage"
+"\listoffigures"
+"\listoftables"
+""
+"\cleardoublepage"
+"\pagenumbering{arabic}"
+""
+"\section{SCOPE}"
+""
+"\subsection{Identification.}"
+""
+"\subsection{Functional summary.}"
+""
+"\section{APPLICABLE DOCUMENTS}"
+""
+"\subsection{Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\subsection{Non-Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\section{REQUIREMENTS}"
+""
+"\subsection{Program definition.}"
+""
+"\subsection{Detailed functional requirements.}"
+""
+"\subsubsection{Inputs.}"
+""
+"\subsubsection{Processing.}"
+""
+"\subsubsection{Outputs.}"
+""
+"\subsubsection{Special requirements.}"
+""
+"\subsection{Adaptation.}"
+""
+"\subsubsection{General environment.}"
+""
+"\subsubsection{System parameters.}"
+""
+"\subsubsection{System capacities.}"
+""
+"\section{QUALITY ASSURANCE PROVISIONS}"
+""
+"\subsection{Introduction.}"
+""
+"\subsection{Test requirements.}"
+""
+"\subsection{Acceptance test requirements.}"
+""
+"\section{PREPARATION FOR DELIVERY}"
+""
+"\section{NOTES}"
+""
+"\appendix"
+"%"
+"% \section will now generate appendices starting with section 10, 20, etc."
+"%"
+"\section{<text>} % Section 10, Appendix I"
+""
+"\section{<text>} % Section 20, Appendix II"
+""
+"\end{document}"
+end define
+
+delete placeholder C5
+define placeholder C5 -
+	/description="Computer Program Product Specification" -
+	/language=latex -
+	/topic_string=" " -
+
+"\Cfive"
+"\documentnumber{<mil-std-number>}"
+"\documentdate{<mil-date>}"
+"\title{Computer Program Product Specification\\"
+"<paragraph_text>...}"
+""
+"\begin{document}"
+""
+"\begin{titlepage}"
+"\maketitle"
+"\end{titlepage}"
+""
+"\pagenumbering{roman}"
+"\tableofcontents"
+"\newpage"
+"\listoffigures"
+"\listoftables"
+""
+"\cleardoublepage"
+"\pagenumbering{arabic}"
+""
+"\section{SCOPE}"
+""
+"\section{APPLICABLE DOCUMENTS}"
+""
+"\subsection{Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\subsection{Non-Government documents.} \mbox{}"
+""
+"\noindent {\bf SPECIFICATIONS:}"
+""
+"{\bf Federal}"
+""
+"%"
+"% The placeholder <<paragraph_text>> should be expanded and replaced by the"
+"% document title."
+"%"
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf STANDARDS:}"
+""
+"{\bf Federal}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Military}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"{\bf Other Government Activity}"
+""
+"\begin{documentlist}"
+"\item[<<paragraph_text>>...] <text>"
+"<<item_arg>>..."
+"\end{documentlist}"
+""
+"\noindent {\bf DRAWINGS:}"
+""
+"\noindent {\bf OTHER PUBLICATIONS:}"
+""
+"\section{REQUIREMENTS}"
+""
+"\subsection{Functional allocation description.}"
+""
+"\subsection{Functional description.}"
+""
+"\subsection{Storage allocation.}"
+""
+"\subsection{Computer program functional flow diagram.}"
+""
+"\subsubsection{Program interrupts.}"
+""
+"\subsubsection{Logic of subprogram.}"
+""
+"\subsubsection{Special control features.}"
+""
+"\section{QUALITY ASSURANCE PROVISIONS}"
+""
+"\section{PREPARATION FOR DELIVERY}"
+""
+"\section{NOTES}"
+""
+"\appendix"
+"%"
+"% \section will now generate appendices starting with section 10, 20, etc."
+"%"
+"\section{<text>} % Section 10, Appendix I"
+""
+"\section{<text>} % Section 20, Appendix II"
+""
+"\end{document}"
+end define
+
+delete placeholder mil-std-number
+define placeholder mil-std-number -
+	/description="MIL-STD document number" -
+	/language=latex -
+	/topic_string=" " -
+	/type=terminal -
+
+"e.g. 1049-001, the CB or CC will be filled in"
+end define
+
+delete placeholder mil-date
+define placeholder mil-date -
+	/language = latex -
+	/descr="Military date" -
+	/topic_string=""-
+	/type=terminal -
+	
+"Day Month Year, e.g. 23 July 1985"
+end define
+
+!
+!
+! Style: bookform	Author: K. McPherson 
+!
+delete placeholder bookform
+define placeholder bookform -
+	/description="bookform document style" -
+	/language=latex -
+	/topic_string="LATEX Commands Document_Styles" -
+
+"\documentstyle<<optionlist>>{bookform}"
+"\documentnumber{<text>}"
+"\documentdate{<text>}"
+"\title{<paragraph_text>..."
+"\docnumber \\         % DO NOT DELETE \docnumber or"
+"\docdate \\           % \docdate."
+"Contract XXXXXX \\    % The contract or PO number must be filled in."
+"Data Item No. XXX  \\ % The data item number must be filled in."
+"}"
+""
+"\begin{document}"
+""
+"\begin{titlepage}"
+"\maketitle"
+"\end{titlepage}"
+""
+"\cleardoublepage"
+"%"
+"% Page 1 reserved for revision history page"
+"%"
+"\setcounter{page}{2}"
+"\tableofcontents"
+"\newpage"
+""
+"% Since all bookform documents don't necessarily follow the same"
+"% section structure, the author must layout the document as desired."
+""
+"\end{document}"
+end define
+delete token bookform
+define token bookform -
+	/placeholder=bookform -
+	/language=latex 
+
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_STYLES.LSE
+!	 *3    28-FEB-1986 10:31:02 MCPHERSON "Add A spec"
+!	 *2    18-FEB-1986 13:12:48 MCPHERSON "Change item_text to text"
+!	 *1    30-JAN-1986 15:32:26 MCPHERSON "Initial version for new LaTeX environment"
+!	 DEC/CMS REPLACEMENT HISTORY, Element LATEX_STYLES.LSE

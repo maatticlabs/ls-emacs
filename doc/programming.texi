@@ -1,0 +1,23 @@
+@node    Programming, Command-Reference, Templates, Top
+@chapter Programming with LS-Emacs
+
+This chapter is planned to explain how to use LS-Emacs lisp functions
+for programming in Emacs lisp. Until it is written@footnote{Any
+volunteers?}, you have to explore the elisp source code to do
+that.@footnote{Did you ever play Adventure?}
+
+The lisp source of LS-Emacs comprises a number of Emacs libraries. The
+names of these all start with @file{lse-}, except for the root file
+which is named @file{ls-emacs.el}. The best starting point for
+exploration is probably @file{lse-interactive.el} which defines most of
+the interactive, language-sensitive commands provided by LS-Emacs. Other
+files of interest are:
+
+@itemize @bullet
+@item @file{lse-flat-fill-in.el} 
+@item @file{lse-define.el}
+@item @file{lse-indent.el}
+@item @file{lse-language.el}
+@item @file{lse-tpu.el}
+@item @file{lse-editing.el}
+@end itemize

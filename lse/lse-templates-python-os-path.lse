@@ -1,0 +1,347 @@
+;-*-unibyte: t;-*-
+
+(lse-define-fill-in "os.path.basename:p" 
+  '(description           "Argument 1 of os.path.basename")
+  '(leading               ",")
+;;; os.path.basename:p
+)
+
+(lse-define-fill-in "os.path.basename" 
+  '(description           "Returns the final component of a pathname")
+  '(token)
+  '(replacement           "os.path.basename («os.path.basename:p»)")
+;;; os.path.basename
+)
+
+(lse-define-fill-in "os.path.commonprefix:m" 
+  '(description           "Argument 1 of os.path.commonprefix")
+  '(leading               ",")
+;;; os.path.commonprefix:m
+)
+
+(lse-define-fill-in "os.path.commonprefix" 
+  '(description           "Given a list of pathnames, returns the longest common leading component")
+  '(token)
+  '(replacement           "os.path.commonprefix («os.path.commonprefix:m»)")
+;;; os.path.commonprefix
+)
+
+(lse-define-fill-in "os.path.dirname:p" 
+  '(description           "Argument 1 of os.path.dirname")
+  '(leading               ",")
+;;; os.path.dirname:p
+)
+
+(lse-define-fill-in "os.path.dirname" 
+  '(description           "Returns the directory component of a pathname")
+  '(token)
+  '(replacement           "os.path.dirname («os.path.dirname:p»)")
+;;; os.path.dirname
+)
+
+(lse-define-fill-in "os.path.exists:path" 
+  '(description           "Test whether a path exists.  Returns false for broken symbolic links")
+  '(leading               ",")
+;;; os.path.exists:path
+)
+
+(lse-define-fill-in "os.path.exists" 
+  '(description           "Test whether a path exists.  Returns false for broken symbolic links")
+  '(token)
+  '(replacement           "os.path.exists («os.path.exists:path»)")
+;;; os.path.exists
+)
+
+(lse-define-fill-in "os.path.expanduser:path" 
+  '(description           "Argument 1 of os.path.expanduser")
+  '(leading               ",")
+;;; os.path.expanduser:path
+)
+
+(lse-define-fill-in "os.path.expanduser" 
+  '(description
+    "Expand ~ and ~user constructions.  If user or $HOME is unknown, "
+"do nothing"
+   )
+  '(token)
+  '(replacement           "os.path.expanduser («os.path.expanduser:path»)")
+;;; os.path.expanduser
+)
+
+(lse-define-fill-in "os.path.expandvars:path" 
+  '(description           "Argument 1 of os.path.expandvars")
+  '(leading               ",")
+;;; os.path.expandvars:path
+)
+
+(lse-define-fill-in "os.path.expandvars" 
+  '(description
+    "Expand shell variables of form $var and ${var}.  Unknown variables"
+"are left unchanged"
+   )
+  '(token)
+  '(replacement           "os.path.expandvars («os.path.expandvars:path»)")
+;;; os.path.expandvars
+)
+
+(lse-define-fill-in "os.path.isabs:s" 
+  '(description           "Argument 1 of os.path.isabs")
+  '(leading               ",")
+;;; os.path.isabs:s
+)
+
+(lse-define-fill-in "os.path.isabs" 
+  '(description           "Test whether a path is absolute")
+  '(token)
+  '(replacement           "os.path.isabs («os.path.isabs:s»)")
+;;; os.path.isabs
+)
+
+(lse-define-fill-in "os.path.isdir:path" 
+  '(description           "Test whether a path is a directory")
+  '(leading               ",")
+;;; os.path.isdir:path
+)
+
+(lse-define-fill-in "os.path.isdir" 
+  '(description           "Test whether a path is a directory")
+  '(token)
+  '(replacement           "os.path.isdir («os.path.isdir:path»)")
+;;; os.path.isdir
+)
+
+(lse-define-fill-in "os.path.isfile:path" 
+  '(description           "Test whether a path is a regular file")
+  '(leading               ",")
+;;; os.path.isfile:path
+)
+
+(lse-define-fill-in "os.path.isfile" 
+  '(description           "Test whether a path is a regular file")
+  '(token)
+  '(replacement           "os.path.isfile («os.path.isfile:path»)")
+;;; os.path.isfile
+)
+
+(lse-define-fill-in "os.path.islink:path" 
+  '(description           "Test whether a path is a symbolic link")
+  '(leading               ",")
+;;; os.path.islink:path
+)
+
+(lse-define-fill-in "os.path.islink" 
+  '(description           "Test whether a path is a symbolic link")
+  '(token)
+  '(replacement           "os.path.islink («os.path.islink:path»)")
+;;; os.path.islink
+)
+
+(lse-define-fill-in "os.path.ismount:path" 
+  '(description           "Test whether a path is a mount point")
+  '(leading               ",")
+;;; os.path.ismount:path
+)
+
+(lse-define-fill-in "os.path.ismount" 
+  '(description           "Test whether a path is a mount point")
+  '(token)
+  '(replacement           "os.path.ismount («os.path.ismount:path»)")
+;;; os.path.ismount
+)
+
+(lse-define-fill-in "os.path.join:a" 
+  '(description           "Argument 1 of os.path.join")
+  '(leading               ",")
+;;; os.path.join:a
+)
+
+(lse-define-fill-in "os.path.join:p" 
+  '(description           "Argument 2 of os.path.join")
+  '(leading               ",")
+  '(separator             ", ")
+;;; os.path.join:p
+)
+
+(lse-define-fill-in "os.path.join" 
+  '(description           "Join two or more pathname components, inserting '/' as needed")
+  '(token)
+  '(replacement           "os.path.join («os.path.join:a», ««os.path.join:p»»···)")
+;;; os.path.join
+)
+
+(lse-define-fill-in "os.path.normcase:s" 
+  '(description           "Argument 1 of os.path.normcase")
+  '(leading               ",")
+;;; os.path.normcase:s
+)
+
+(lse-define-fill-in "os.path.normcase" 
+  '(description           "Normalize case of pathname.  Has no effect under Posix")
+  '(token)
+  '(replacement           "os.path.normcase («os.path.normcase:s»)")
+;;; os.path.normcase
+)
+
+(lse-define-fill-in "os.path.normpath:path" 
+  '(description           "Normalize path, eliminating double slashes, etc.")
+  '(leading               ",")
+;;; os.path.normpath:path
+)
+
+(lse-define-fill-in "os.path.normpath" 
+  '(description           "Normalize path, eliminating double slashes, etc.")
+  '(token)
+  '(replacement           "os.path.normpath («os.path.normpath:path»)")
+;;; os.path.normpath
+)
+
+(lse-define-fill-in "os.path.samefile:f1" 
+  '(description           "Argument 1 of os.path.samefile")
+  '(leading               ",")
+;;; os.path.samefile:f1
+)
+
+(lse-define-fill-in "os.path.samefile:f2" 
+  '(description           "Argument 2 of os.path.samefile")
+  '(leading               ",")
+;;; os.path.samefile:f2
+)
+
+(lse-define-fill-in "os.path.samefile" 
+  '(description           "Test whether two pathnames reference the same actual file")
+  '(token)
+  '(replacement           "os.path.samefile («os.path.samefile:f1», «os.path.samefile:f2»)")
+;;; os.path.samefile
+)
+
+(lse-define-fill-in "os.path.sameopenfile:fp1" 
+  '(description           "Argument 1 of os.path.sameopenfile")
+  '(leading               ",")
+;;; os.path.sameopenfile:fp1
+)
+
+(lse-define-fill-in "os.path.sameopenfile:fp2" 
+  '(description           "Argument 2 of os.path.sameopenfile")
+  '(leading               ",")
+;;; os.path.sameopenfile:fp2
+)
+
+(lse-define-fill-in "os.path.sameopenfile" 
+  '(description           "Test whether two open file objects reference the same file")
+  '(token)
+  '(replacement           "os.path.sameopenfile («os.path.sameopenfile:fp1», «os.path.sameopenfile:fp2»)")
+;;; os.path.sameopenfile
+)
+
+(lse-define-fill-in "os.path.samestat:s1" 
+  '(description           "Argument 1 of os.path.samestat")
+  '(leading               ",")
+;;; os.path.samestat:s1
+)
+
+(lse-define-fill-in "os.path.samestat:s2" 
+  '(description           "Argument 2 of os.path.samestat")
+  '(leading               ",")
+;;; os.path.samestat:s2
+)
+
+(lse-define-fill-in "os.path.samestat" 
+  '(description           "Test whether two stat buffers reference the same file")
+  '(token)
+  '(replacement           "os.path.samestat («os.path.samestat:s1», «os.path.samestat:s2»)")
+;;; os.path.samestat
+)
+
+(lse-define-fill-in "os.path.split:p" 
+  '(description           "Argument 1 of os.path.split")
+  '(leading               ",")
+;;; os.path.split:p
+)
+
+(lse-define-fill-in "os.path.split" 
+  '(description
+    "Split a pathname.  Returns tuple `(head, tail)' where `tail' is "
+"everything after the final slash.  Either part may be empty"
+   )
+  '(token)
+  '(replacement           "os.path.split («os.path.split:p»)")
+;;; os.path.split
+)
+
+(lse-define-fill-in "os.path.splitdrive:p" 
+  '(description           "Argument 1 of os.path.splitdrive")
+  '(leading               ",")
+;;; os.path.splitdrive:p
+)
+
+(lse-define-fill-in "os.path.splitdrive" 
+  '(description
+    "Split a pathname into drive and path. On Posix, drive is always "
+"empty"
+   )
+  '(token)
+  '(replacement           "os.path.splitdrive («os.path.splitdrive:p»)")
+;;; os.path.splitdrive
+)
+
+(lse-define-fill-in "os.path.splitext:p" 
+  '(description           "Argument 1 of os.path.splitext")
+  '(leading               ",")
+;;; os.path.splitext:p
+)
+
+(lse-define-fill-in "os.path.splitext" 
+  '(description
+    "Split the extension from a pathname.  Extension is everything from the"
+"last dot to the end.  Returns `(root, ext)', either part may be empty"
+   )
+  '(token)
+  '(replacement           "os.path.splitext («os.path.splitext:p»)")
+;;; os.path.splitext
+)
+
+(lse-define-fill-in "os.path.walk:top" 
+  '(description
+    "walk(top,func,args) calls func(arg, d, files) for each directory `d' "
+"in the tree  rooted at `top' (including `top' itself).  `files' is a list"
+"of all the files and subdirs in directory `d'."
+""
+   )
+  '(leading               ",")
+;;; os.path.walk:top
+)
+
+(lse-define-fill-in "os.path.walk:func" 
+  '(description
+    "walk(top,func,args) calls func(arg, d, files) for each directory `d' "
+"in the tree  rooted at `top' (including `top' itself).  `files' is a list"
+"of all the files and subdirs in directory `d'."
+""
+   )
+  '(leading               ",")
+;;; os.path.walk:func
+)
+
+(lse-define-fill-in "os.path.walk:arg" 
+  '(description
+    "walk(top,func,args) calls func(arg, d, files) for each directory `d' "
+"in the tree  rooted at `top' (including `top' itself).  `files' is a list"
+"of all the files and subdirs in directory `d'."
+""
+   )
+  '(leading               ",")
+;;; os.path.walk:arg
+)
+
+(lse-define-fill-in "os.path.walk" 
+  '(description
+    "walk(top,func,args) calls func(arg, d, files) for each directory `d' "
+"in the tree  rooted at `top' (including `top' itself).  `files' is a list"
+"of all the files and subdirs in directory `d'."
+""
+   )
+  '(token)
+  '(replacement           "os.path.walk («os.path.walk:top», «os.path.walk:func», «os.path.walk:arg»)")
+;;; os.path.walk
+)
+

@@ -1,0 +1,84 @@
+;-*-unibyte: t;-*-
+
+;;;; Copyright (C) 2002 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.cluster
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-language-rest
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language ReST (reStructuredText)
+;;;;
+;;;; Revision Dates
+;;;;    10-Sep-2002 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+;;;;
+(lse-language:define "rest"
+  '((lse-tpu:ident-group-chars       "-_")
+    (lse-tpu:ident-chars             "A-Za-z0-9äöüßÄÖÜçÇàáèéóòùúíìÀÁÈÉÓÒÙÚÍÌ")
+    (lse-language:tab-increment      4)
+    (lse_comment_head_delim          ".. #")
+    (lse_comment_head_delim_pattern  "\.\. # *")
+    (lse_comment_delim_char_set      ".#")
+    (fill-column                     70)
+    (lse-language:initial-fill-in      "««rest-file»»")
+    )
+  '(
+    lse-tpu:toggle-newline-and-indent
+    auto-fill-mode
+   )
+  '(
+    "lse-templates-rest"
+   )
+    137
+     67
+;;; rest
+)
+
+;;; 10-Sep-2002
+(defun lse-rest-mode ()
+  (interactive)
+  (lse-language:use "ReST")
+  (setq indent-line-function 'lse-indent-line)
+  (local-unset-key "\C-n")
+  (local-unset-key "\C-i")
+  (local-unset-key "\M-s")
+  (local-unset-key "\M-S")
+  (local-unset-key "\M-C-i")
+; lse-rest-mode
+)
+
+;;; 10-Sep-2002
+(defun lse-rest:overline (&optional arg)
+  (save-excursion
+    (let*  ((n (1- (lse-current-line-length)))
+            (i (current-indentation))
+            (l (- n i))
+           )
+      (lse-split-line)
+      (beginning-of-line)
+      (lse-tpu:backward-char 1)
+      (insert-char (or arg ?=) l)
+    )
+  )
+; lse-rest:overline
+)
+
+;;; 10-Sep-2002
+(defun lse-rest:underline (&optional arg)
+  (save-excursion
+    (let*  ((n (1- (lse-current-line-length)))
+            (i (current-indentation))
+            (l (- n i))
+           )
+      (end-of-line)
+      (lse-split-line)
+      (insert-char (or arg ?=) l)
+    )
+  )
+; lse-rest:underline
+)
+
+;;; End of lse-language-rest.el

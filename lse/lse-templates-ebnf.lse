@@ -1,0 +1,190 @@
+;-*-unibyte: t;-*-
+
+
+(lse-define-fill-in "ebnf-c-brace"
+    '(token)
+    '(token                 "cbrace")
+    '(description           "ClosingBrace `}' as terminal symbol")
+    '(max-line-move         3)
+    '(replacement           "\\}")
+;;; ebnf-c-brace
+)
+
+(lse-define-fill-in "ebnf-choice"
+    '(token)
+    '(token                 "Choice")
+    '(token                 "Case")
+    '(description           "Define alternatives from which the user may choose one")
+    '(max-line-move         3)
+    '(replacement
+        "\\Case"
+        "«ebnf-1-choice»···"
+        "\\Esac"
+     )
+;;; ebnf-choice
+)
+
+(lse-define-fill-in "ebnf-1-choice"
+    '(token)
+    '(token                 "Or")
+    '(description           "Define next alternative of EBNF choice")
+    '(max-line-move         3)
+    '(replacement           "\\| «ebnf-token» ")
+;;; ebnf-1-choice
+)
+
+(lse-define-fill-in "ebnf-comment"
+    '(token)
+    '(token                 "Comment")
+    '(description           "Define something informally with a comment")
+    '(max-line-move         3)
+    '(replacement           "\\C«:«text»:» ")
+;;; ebnf-comment
+)
+
+(lse-define-fill-in "ebnf-default"
+    '(token)
+    '(token                 "default")
+    '(description           "Mark default element of optional choice")
+    '(replacement           "\\Default`«text»'")
+;;; ebnf-default
+)
+
+(lse-define-fill-in "ebnf-empty"
+    '(token)
+    '(token                 "Empty")
+    '(description           "Empty replacement sequence")
+    '(max-line-move         3)
+    '(replacement           "\\Empty ")
+;;; ebnf-empty
+)
+
+(lse-define-fill-in "ebnf-nonterminal"
+    '(token)
+    '(token                 "Nonterminal")
+    '(description           "Use non-terminal EBNF symbol in production")
+    '(max-line-move         3)
+    '(replacement           "\\NT«:«name»:» ")
+;;; ebnf-nonterminal
+)
+
+(lse-define-fill-in "ebnf-o-brace"
+    '(token)
+    '(token                 "obrace")
+    '(description           "Opening Brace `{' as terminal symbol")
+    '(max-line-move         3)
+    '(replacement           "\\{")
+;;; ebnf-c-brace
+)
+
+(lse-define-fill-in "ebnf-one-or-many"
+    '(token)
+    '(token                 "OneOrMany")
+    '(description           "Preceeding EBNF token may occur once or many times")
+    '(max-line-move         3)
+    '(replacement           "\\+ ")
+;;; ebnf-one-or-many
+)
+
+(lse-define-fill-in "ebnf-optional"
+    '(token)
+    '(token                 "Optional")
+    '(description           "Preceeding EBNF token is optional")
+    '(replacement
+        "\\Option "
+        "  «ebnf-token»···"
+        "\\Noitpo "
+     )
+;;; ebnf-optional
+)
+
+(lse-define-fill-in "ebnf-chapter"
+    '(token)
+    '(token                 "Chapter")
+    '(description           "Begins a new chapter")
+    '(max-line-move         3)
+    '(replacement           "\\ebnfChapter«:«text»:»")
+;;; ebnf-chapter
+)
+
+(lse-define-fill-in "ebnf-production"
+    '(token)
+    '(token                 "Production")
+    '(description           "Define an EBNF production")
+    '(max-line-move         3)
+    '(replacement
+        "\\begin{ebnfProduction} «name» : "
+        lse-indent+1
+        "«ebnf-token»···"
+        lse-indent-1
+        "\\end{ebnfProduction} "
+        ""
+     )
+;;; ebnf-production
+)
+
+(lse-define-fill-in "ebnf-section"
+    '(token)
+    '(token                 "Section")
+    '(description           "Begins a new section")
+    '(max-line-move         3)
+    '(replacement           "\\ebnfSection«:«text»:»")
+;;; ebnf-section
+)
+
+(lse-define-fill-in "ebnf-sub-section"
+    '(token)
+    '(token                 "Subsection")
+    '(description           "Begins a new subsection")
+    '(max-line-move         3)
+    '(replacement           "\\ebnfSubsection«:«text»:»")
+;;; ebnf-sub-section
+)
+
+(lse-define-fill-in "ebnf-sub-sub-section"
+    '(token)
+    '(token                 "Subsubsection")
+    '(description           "Begins a new subsubsection")
+    '(max-line-move         3)
+    '(replacement           "\\ebnfSubsubsection«:«text»:»")
+;;; ebnf-sub-sub-section
+)
+
+(lse-define-fill-in "ebnf-terminal"
+    '(token)
+    '(token                 "Terminal")
+    '(description           "Use terminal EBNF symbol in production")
+    '(max-line-move         3)
+    '(replacement           "\\T«:«name»:» ")
+;;; ebnf-terminal
+)
+
+(lse-define-fill-in "ebnf-token"
+    '(token)
+    '(token                 "Token")
+    '(description           "Define 1 element of EBNF production")
+    '(max-line-move         3)
+    '(sort)
+    '(menu
+        ebnf-terminal
+        ebnf-nonterminal
+        ebnf-choice
+        ebnf-comment
+        ebnf-optional
+        ebnf-empty
+        ebnf-one-or-many
+        ebnf-zero-or-many
+        ebnf-o-brace
+        ebnf-c-brace
+     )
+;;; ebnf-token
+)
+
+(lse-define-fill-in "ebnf-zero-or-many"
+    '(token)
+    '(token                 "ZeroOrMany")
+    '(description           "Preceeding EBNF token may occur not at all, once or many times")
+    '(max-line-move         3)
+    '(replacement           "\\* ")
+;;; ebnf-zero-or-many
+)

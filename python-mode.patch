@@ -1,0 +1,19 @@
+*** python-mode.el	Sat Aug  8 15:09:58 1998
+--- python-mode.el.patched	Sat Aug  8 15:15:23 1998
+***************
+*** 773,779 ****
+     "\\(def[ \t]+"                       ; function definitions start with def
+     "\\([a-zA-Z0-9_]+\\)"                ;   name is here
+  					;   function arguments...
+!    "[ \t]*(\\([a-zA-Z0-9_=,\* \t\n]*\\))"
+     "\\)"                                ; end of def
+     "[ \t]*:"                            ; and then the :
+     "\\)"                                ; >>methods and functions<<
+--- 773,779 ----
+     "\\(def[ \t]+"                       ; function definitions start with def
+     "\\([a-zA-Z0-9_]+\\)"                ;   name is here
+  					;   function arguments...
+!    "[ \t]*(\\([-+/a-zA-Z0-9_=,\* \t\n.()\"'#]*\\))"
+     "\\)"                                ; end of def
+     "[ \t]*:"                            ; and then the :
+     "\\)"                                ; >>methods and functions<<

@@ -1,0 +1,74 @@
+@node     Limitations&Future, Index, Customization, Top
+@appendix Limitations of LS-Emacs and Possible Future Extensions
+
+This appendix describes some limitations of, and possible future
+extensions to, LS-Emacs.
+
+@itemize @bullet
+@item
+I started work on LS-Emacs under version 18 of Emacs. Therefore,
+LS-Emacs does not consistently use the features provided by version 19, most
+notably text properties and some advanced hook-functions. 
+@item
+LS-Emacs is implemented entirely in Emacs Lisp --- no change of the C
+sources was done. Obviously, this has a lot of advantages. And, by and
+large, it works satisfactorily. But of course, an implementation in C
+would have a better performance. 
+
+@c  but for two points:
+@c 
+@c @itemize @minus
+@c @item
+@c LS-Emacs redefines the function @code{insert}.@footnote{This is
+@c necessary for automatic replacement of a fill-in when you type over it.}
+@c As the mechanism implemented does not work in all cases and has sluggish
+@c performance, this would be better done by modifying the C source.
+@c 
+@c The use of the Emacs 19 hook @code{before-change-function} would
+@c probably alleviate many or all problems of the redefinition of @code{insert}.
+@c 
+@c @item
+@c The performance of LS-Emacs would be much better if implemented in C. I
+@c did no optimization at all --- even at the Elisp level. On a Intel
+@c i486 PC with 66 MHZ running Linux, LS-Emacs shows adequate --- if somewhat
+@c sluggish --- performance. As I'm using such a beast, I'm not --- yet ---
+@c particularly concerned about performance. Nevertheless, an
+@c implementation in C would be highly desirable.
+@c @end itemize
+
+@item
+Removing text from the buffer can result in LS-Emacs losing information
+about fill-in expansion. In some such cases, LS-Emacs becomes seriously
+confused.
+
+In part, usage of text properties and hook-functions could probably
+diminish information lossage. However, I fear that the way Emacs
+currently handles markers prohibits a complete solution of this issue.
+
+@item
+LS-Emacs still contains too many bugs. Most of them aren't really
+serious, yet they are annoying to encounter.
+
+@item
+The template definitions for some of the supported languages are not yet
+optimized and debugged.
+
+@item
+It would be nice to have more functions for manipulation of the
+expansion history. Some ideas:
+
+@itemize @minus
+@item
+Currently, the expansion history is lost when you terminate your editing
+session. A mechanism for recovery would be very nice.
+
+@item
+Functions for navigating through the expansion history would be nice to
+have.
+
+@item
+LS-Emacs currently does not really recognize the hierarchical structure
+of the expansion history, i.e., document structure. Support for this
+would make possible some very powerful editing mechanisms.
+@end itemize
+@end itemize

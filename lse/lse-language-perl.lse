@@ -1,0 +1,56 @@
+;-*-unibyte: t;-*-
+
+;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;;++
+;;;; Name
+;;;;    lse-language-perl
+;;;;
+;;;; Purpose
+;;;;    Define characteristics of LS-Emacs language perl
+;;;;
+;;;; Revision Dates
+;;;;    14-Jun-1994 (CT) Creation (of comment)
+;;;;    14-Jun-1994 (CT) lse-perl-mode moved in here
+;;;;     8-Jul-1996 (CT) lse-perl-mode:keymap used to get rid of stupid
+;;;;                     keydef's 
+;;;;-- 
+(lse-language:define "perl"
+    '(
+        (lse-tpu:ident-group-chars         "_$%@")
+        (lse-language:tab-increment        4)
+        (lse_comment_head_delim            "#")
+        (lse_comment_head_delim_pattern    "#+ *")
+        (lse_comment_delim_char_set        "#")
+        (lse-language:initial-fill-in      "««perl»»")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode 
+     )
+    '(
+        "lse-templates-unix-generic"
+        "lse-templates-regexp"
+        "lse-templates-regexp-extended"
+        "lse-templates-unix"
+        "lse-templates-perl"
+     )
+;    1499
+;     691
+)
+
+;;;
+;;; Perl mode
+;;;
+(setq perl-mode-hook 'lse-perl-mode)
+(defvar lse-perl-mode:keymap nil);  8-Jul-1996 
+
+(defun lse-perl-mode ()
+  (interactive)
+  (lse-language:use "perl")
+
+  (or lse-perl-mode:keymap; 8-Jul-1996 
+      (setq lse-perl-mode:keymap (make-sparse-keymap))
+  )
+  (use-local-map lse-perl-mode:keymap); 8-Jul-1996 
+  (setq indent-line-function 'lse-indent-line)
+)
