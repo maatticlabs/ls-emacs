@@ -59,6 +59,9 @@
 ;;;;     4-Apr-2003 (CT) `lse-date-day0` added and used for `lse-yyyy/mm/dd`
 ;;;;     3-Nov-2004 (CT) `^t[0-9]$` added to `string-match`ing of
 ;;;;                     `lse-session:system-name`
+;;;;    24-Mar-2005 (CT) Small changes when trying to make it work on `ty`
+;;;;                     (finally, it turned out to be missing byte
+;;;;                     compilation, arrrrgggh)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -494,10 +497,10 @@ This is correct only if the locally used domain is a valid internet domain.
          (user-login-name)
        )
        (defun lse-user-abbr-name ()
-         ""
+         "Noname"
        )
        (defun lse-user-initials ()
-         ""
+         "NN"
        )
        (defun lse-system-domain ()  "undefined.dontknow")
       )
