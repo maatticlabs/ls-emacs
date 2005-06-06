@@ -469,6 +469,7 @@
 )
 
 ;;;  7-Feb-2003
+;;;  6-Jun-2005 (`_real_name` trickery)
 (lse-define-fill-in "TOM-ATS-Type"
     '(token)
     '(token                 "ATS-Type")
@@ -476,15 +477,21 @@
     '(rcompletion-trailer   delete-blank-lines lse-newline)
     '(description           "Define a application-type specific entity type")
     '(replacement
-        "class «ats-type-name» (««_template»», _Ancestor.«ats-type-name») :"
+        "class _" & (lse-insert-replica-or-flat "TOM-Essence-class-name")
+                  & "_«ats-type-name»_ "
+                  & "(««_template»», _Ancestor.«ats-type-name») :"
         lse-indent+1
           ""
-          "_Ancestor = _Ancestor_Essence._ATS_Types.«ats-type-name»"
+          "_Ancestor  = _Ancestor_Essence._ATS_Types.«ats-type-name»"
+          "_real_name = \"«ats-type-name»\" "
           ""
           "««py-statement»»···"
           ""
         lse-indent-1
-        "# end class «ats-type-name»"
+        "«ats-type-name» = _"
+          & (lse-insert-replica-or-flat "TOM-Essence-class-name")
+          & "_«ats-type-name»_ "
+          & "# end class ..."
      )
 ;;; TOM-ATS-Type
 )
@@ -871,7 +878,7 @@
 
 ;;;  7-Feb-2003
 (lse-define-fill-in "ats-type-name"
-    '(auto-replicate        3)
+    '(auto-replicate        6)
     '(replacement           @ py-class-name)
 ;;; ats-type-name
 )
