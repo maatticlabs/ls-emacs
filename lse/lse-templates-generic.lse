@@ -500,7 +500,9 @@
 (lse-define-simple-token "|"  '(lse-tpu:enclose-selection "¦"   "¦"))
 
 ;;; *** site-specific ***
-(cond ((string-match "swing" (lse-system-name)); 11-Jan-1998
+(cond ((or (string-match "swing" (lse-system-name))
+           (string-match "^t[0-9a-z]$" (lse-system-name));  7-Jun-2005
+       ); 11-Jan-1998
        ;;  9-Nov-1995
        ;; *** site-specific ***
        (lse-define-fill-in "this-company-address"
