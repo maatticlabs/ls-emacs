@@ -974,9 +974,10 @@
     '(token                 "def-class-method")
     '(description           "Define a class method inside the class itself.")
     '(replacement
+        "@classmethod"
         "def «py-function-name» (cls, ««py-parameter-declaration»»···) :"
         @ py-function-body
-        "«py-function-name» = classmethod («py-function-name»)"
+        "# end def «py-function-name»"
         ""
      )
 ;;; py-class-method
@@ -2361,6 +2362,22 @@
         py-compound-statement
      )
 ;;; py-statement
+)
+
+;;; 25-Jul-2005
+(lse-define-fill-in "py-static-method"
+    '(token)
+    '(token                 "smdef")
+    '(token                 "def-static-method")
+    '(description           "Define a static method inside a class.")
+    '(replacement
+        "@staticmethod"
+        "def «py-function-name» (««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def «py-function-name»"
+        ""
+     )
+;;; py-static-method
 )
 
 ;;;  7-Jan-1998
