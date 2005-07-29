@@ -60,6 +60,107 @@
 ;;; mail-address
 )
 
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-description"
+    '(token)
+    '(token                 "content-description")
+    '(description           "Description of mime attachement")
+    '(replacement
+        "Content-Description: «text»"
+     )
+;;; mime-content-description
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-disposition"
+    '(token)
+    '(token                 "content-disposition")
+    '(description           "Specify the content of a mime attachement.")
+    '(replacement
+        "Content-Disposition: «mime-content-disposition-spec»"
+     )
+;;; mime-content-disposition
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-disposition-spec"
+    '(menu
+        "attachment; filename=\"«file-name»\""
+        "inline"
+     )
+;;; mime-content-disposition-spec
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-transfer-encoding"
+    '(token)
+    '(token                 "content-transfer-encoding")
+    '(description           "Specify the encoding of a mime attachment.")
+    '(replacement
+        "Content-Transfer-Encoding: «mime-content-transfer-encoding-spec»"
+     )
+;;; mime-content-transfer-encoding
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-transfer-encoding-spec"
+    '(menu
+        "quoted-printable"
+        "base64"
+        "8bit"
+     )
+;;; mime-content-transfer-encoding-spec
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-type"
+    '(token)
+    '(token                 "content-type")
+    '(description           "Specify the content-type of a mime attachement")
+    '(replacement
+        "Content-Type: «mime-content-type-spec»"
+     )
+;;; mime-content-type
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-content-type-spec"
+    '(token)
+    '(menu
+        "text/plain; charset=\"iso-8859-15\""
+        "text/x-python; charset=\"iso-8859-1\""
+        "message/rfc822; name=\"«file-name»\""
+        "application/pdf; name=\"«file-name»\""
+     )
+;;; mime-content-type-spec
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "mime-header"
+    '(token)
+    '(menu
+        mime-content-type
+        mime-content-transfer-encoding
+        mime-content-disposition
+        mime-content-description
+     )
+;;; mime-header
+)
+
+;;; 29-Jul-2005
+(lse-define-fill-in "pma-attach-file"
+    '(token)
+    '(token                 "attach-file")
+    '(description
+         "Use this field to tell PMA to attach a file to the mail"
+     )
+    '(replacement
+        "PMA-Attach-File: «file-name»"
+        "    ««mime-header»»···"
+     )
+;;; pma-attach-file
+)
+
 ;;; 14-Feb-1996
 (lse-define-fill-in "this-mail-address"
     '(token)
