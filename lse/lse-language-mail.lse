@@ -32,6 +32,8 @@
 ;;;;                     `lse-key-template-tab-l`
 ;;;;     6-Dec-2002 (CT) `lse-mail:mh-setup-hook` changed to use
 ;;;;                     `lse-mail-mode` instead of redundant code
+;;;;    29-Jul-2005 (CT) `lse-mail:pma-setup-hook` and `lse-mail:pma-exit`
+;;;;                     added
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -65,9 +67,9 @@
 )
 
 (defun lse-mail-setup-hook ()
-  (let ((lse-tpu:searching-forward t)
-        (sls                       lse-tpu:search-last-string)
-       ); 25-Nov-2002
+  (let* ((lse-tpu:searching-forward t)
+         (sls                       lse-tpu:search-last-string)
+        ); 25-Nov-2002
     (lse-tpu:move-to-beginning)
     (if (lse-tpu:search-internal "^CC:" t)
         (lse-tpu:delete-next-line 1)
@@ -164,10 +166,10 @@
 ;;; 28-Dec-1997
 (defun lse-mail:mh-setup-hook ()
   (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
-      (let (lse-tpu:quiet-replace
-            (lse-tpu:searching-forward t);                          25-Nov-2002
-            (sls                       lse-tpu:search-last-string); 25-Nov-2002
-           )
+      (let* (lse-tpu:quiet-replace
+             (lse-tpu:searching-forward t);                         25-Nov-2002
+             (sls                       lse-tpu:search-last-string);25-Nov-2002
+            )
         (lse-mail-mode)
         (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
         (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
@@ -260,3 +262,54 @@
 )
 
 (add-hook 'server-switch-hook 'lse-mail:mh-setup-hook)
+
+;;; 29-Jul-2005
+(defun lse-mail:pma-setup-hook ()
+  (if (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
+      (let* (lse-tpu:quiet-replace
+             (lse-tpu:searching-forward t);                         25-Nov-2002
+             (sls                       lse-tpu:search-last-string);25-Nov-2002
+            )
+        (lse-mail-mode)
+        (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)
+        (local-set-key [?\C-x ?#]    'lse-mail:pma-exit)
+        (lse-tpu:move-to-beginning)
+        (lse-goto-next-fill-in)
+        (setq lse-tpu:search-last-string sls); 25-Nov-2002
+      )
+  )
+  (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000
+; lse-mail:pma-setup-hook
+)
+
+;;;
+(defun lse-mail:pma-exit ()
+  (interactive "*")
+  (if (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
+      (let ((cb (current-buffer)))
+        (if (buffer-modified-p cb)
+            (progn
+              (lse-tpu:move-to-beginning)
+              (lse-kill-all-optional-fill-ins)
+              (lse-tpu:move-to-beginning)
+              (if (lse-goto-next-fill-in t)
+                  (error (concat "Fill in «"
+                                 (lse-fill-in:name lse_current_fill-in)
+                                 "» before sending the mail"
+                         )
+                  )
+              )
+              (save-buffer nil)
+            )
+        )
+        (call-interactively 'server-edit)
+        (kill-buffer cb)
+      )
+    (if (buffer-modified-p cb) (save-buffer nil))
+    (call-interactively 'server-edit);  8-Feb-1998
+  )
+  (if (framep server-window) (iconify-frame server-window));  3-Jan-2000
+; lse-mail:pma-exit
+)
+
+(add-hook 'server-switch-hook 'lse-mail:pma-setup-hook)
