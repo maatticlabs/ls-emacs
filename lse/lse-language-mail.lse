@@ -34,6 +34,7 @@
 ;;;;                     `lse-mail-mode` instead of redundant code
 ;;;;    29-Jul-2005 (CT) `lse-mail:pma-setup-hook` and `lse-mail:pma-exit`
 ;;;;                     added
+;;;;    19-Sep-2005 (CT) `lse-templates-roundup-mail` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -51,6 +52,7 @@
      )
     '(
         "lse-templates-mail"
+        "lse-templates-roundup-mail"; 19-Sep-2005
      )
     137
      67
