@@ -51,7 +51,7 @@
 (lse-define-fill-in "TOM-Link-Max-Links"
     '(token)
     '(replacement
-        "max_links               = TFL.d_dict \\ "
+        "max_links               = dict \\ "
         "  ( «name» = «number»"
         "  )"
      )
@@ -345,7 +345,7 @@
         "Don't use this feature outside of mixins (use ats-mixins instead)."
      )
     '(replacement
-        "ats_kinds          = TFL.d_dict \\"
+        "ats_kinds          = dict \\"
         "  ( «TOM-Attr-Kind-Dict-Entry»···"
         "  )"
      )
@@ -384,7 +384,9 @@
     '(replacement
         "class _Attributes (_Ancestor_Essence._Attributes) : "
         lse-indent+1
+          ""
           "_Ancestor = _Ancestor_Essence._Attributes"
+          ""
           "««TOM-Attribute»»···"
         lse-indent-1
         "# end class _Attributes"
@@ -512,7 +514,9 @@
     '(replacement
         "class _Predicates (_Ancestor_Essence._Predicates) : "
         lse-indent+1
+          ""
           "_Ancestor = _Ancestor_Essence._Predicates"
+          ""
           "««TOM-Predicate»»···"
         lse-indent-1
         "# end class _Predicates"
@@ -838,7 +842,7 @@
         "Don't use this feature outside of mixins (use ats-mixins instead)."
      )
     '(replacement
-        "ats_kinds          = TFL.d_dict \\"
+        "ats_kinds          = d_dict \\"
         "  ( «TOM-Pred-Kind-Dict-Entry»···"
         "  )"
      )
