@@ -21,15 +21,13 @@
 #    21-Jan-2002 (CT) Default version set to 21.1 (from 20.7)
 #    21-Jan-2002 (CT) Alias for `emacs-$EMACSVERSION` added
 #     3-Nov-2004 (CT) Default version set to 21.3 (from 21.1)
+#     2-Dec-2005 (CT) Default version set to 21.4 (from 21.3)
 #    ««revision-date»»···
 #--
 
 if [ -z "$EMACSVERSION" ]
 then
-#    export EMACSVERSION=19.34
-#    export EMACSVERSION=20.2
-#    export EMACSVERSION=20.7
-    export EMACSVERSION=21.3
+    export EMACSVERSION=21.4
 fi
 export EMACSPROGRAM="emacs-$EMACSVERSION"
 #
