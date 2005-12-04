@@ -22,32 +22,28 @@
 #    21-Jan-2002 (CT) Alias for `emacs-$EMACSVERSION` added
 #     3-Nov-2004 (CT) Default version set to 21.3 (from 21.1)
 #     2-Dec-2005 (CT) Default version set to 21.4 (from 21.3)
+#     4-Dec-2005 (CT) EMACSLOADPATH removed (add `/swing/system/emacs` to
+#                     `load-path` in `~/.emacs` instead)
+#     4-Dec-2005 (CT) `EMACSPROGRAM`, `EMACSVERSION` and `LSE_SYSTEM_PREFIX`
+#                     removed
+#     4-Dec-2005 (CT) Alias `emacs` removed
 #    ««revision-date»»···
 #--
+### Prepend the following code to your .emacs
+#(setq load-path
+#  (append (list "/swing/system/emacs" "/swing/system/emacs/lsc") load-path)
+#)
 
-if [ -z "$EMACSVERSION" ]
-then
-    export EMACSVERSION=21.4
-fi
-export EMACSPROGRAM="emacs-$EMACSVERSION"
 #
 # Customize here ##################################################
 # `-n' means do not export the variable even if export is default
 #
 export -n LSE_USER_PREFIX=/swing/system/emacs
 
-if [ -x /usr/local/bin/$EMACSPROGRAM ]
-then
-    export -n LSE_SYSTEM_PREFIX=/usr/local/share/emacs
-else
-    export -n LSE_SYSTEM_PREFIX=/usr/share/emacs
-fi
-#
 export EMACS_UNIBYTE=1
 export EMACSLOCKDIR=/tmp
-export EMACSLOADPATH="$LSE_USER_PREFIX:$LSE_USER_PREFIX/lsc:$LSE_SYSTEM_PREFIX/$EMACSVERSION/site-lisp:$LSE_SYSTEM_PREFIX/site-lisp:$LSE_SYSTEM_PREFIX/$EMACSVERSION/lisp"
 export EMACSLSESRC="$LSE_USER_PREFIX/lse"
 export EMACSLSEDIR="$LSE_USER_PREFIX/lsc"
 export EMACSLSESCRIPTS="$LSE_USER_PREFIX/scripts"
-#
-alias emacs="emacs-$EMACSVERSION"
+
+### __END__ ls-emacs-ini.bash
