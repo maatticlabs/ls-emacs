@@ -4,6 +4,7 @@
 (lse-define-fill-in "2000 " '(token) '(replacement "2000 ") '(max-line-move 0) '(description "Kassa"))
 (lse-define-fill-in "2100 " '(token) '(replacement "2100 ") '(max-line-move 0) '(description "Konto I 310.025-01418"))
 (lse-define-fill-in "2101 " '(token) '(replacement "2101 ") '(max-line-move 0) '(description "Sparbuch I 32501-41458"))
+(lse-define-fill-in "2200 " '(token) '(replacement "2200 ") '(max-line-move 0) '(description "Konto BSS 4101374"))
 (lse-define-fill-in "2300 " '(token) '(replacement "2300 ") '(max-line-move 0) '(description "Liefer- und Leistungs-Forderungen Inland"))
 (lse-define-fill-in "2301 " '(token) '(replacement "2301 ") '(max-line-move 0) '(description "Liefer- und Leistungs-Forderungen Ausland"))
 (lse-define-fill-in "3280 " '(token) '(replacement "3280 ") '(max-line-move 0) '(description "Umsatzsteuer aus innergemeinschaftlichem Erwerb ohne Vst-Abzug"))

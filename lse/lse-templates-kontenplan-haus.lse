@@ -1,5 +1,3 @@
-;-*-unibyte: t;-*-
-
 (lse-define-fill-in "0000 " '(token) '(replacement "0000 ") '(max-line-move 0) '(description "Grundstücke einschließlich Grundstückseinrichtungen"))
 (lse-define-fill-in "0100 " '(token) '(replacement "0100 ") '(max-line-move 0) '(description "Gebäude und bauliche Investitionen in fremden Gebäuden"))
 (lse-define-fill-in "0100 " '(token) '(replacement "0100 ") '(max-line-move 0) '(description "Renovierung/Verbesserung Gebäude"))
@@ -7,6 +5,7 @@
 (lse-define-fill-in "0900 " '(token) '(replacement "0900 ") '(max-line-move 0) '(description "Wertberichtigungen zu Posten des Anlagevermögens"))
 (lse-define-fill-in "2000 " '(token) '(replacement "2000 ") '(max-line-move 0) '(description "Kassa"))
 (lse-define-fill-in "2100 " '(token) '(replacement "2100 ") '(max-line-move 0) '(description "Erste Österreichische 310.325-00266"))
+(lse-define-fill-in "2200 " '(token) '(replacement "2200 ") '(max-line-move 0) '(description "Konto BSS 4101390"))
 (lse-define-fill-in "2300 " '(token) '(replacement "2300 ") '(max-line-move 0) '(description "Liefer- und Leistungs-Forderungen Inland"))
 (lse-define-fill-in "2301 " '(token) '(replacement "2301 ") '(max-line-move 0) '(description "Liefer- und Leistungs-Forderungen Ausland"))
 (lse-define-fill-in "3290 " '(token) '(replacement "3290 ") '(max-line-move 0) '(description "Finanzamt, Einfuhrumsatzsteuer"))
@@ -47,6 +46,7 @@
 (lse-define-fill-in "7612 " '(token) '(replacement "7612 ") '(max-line-move 0) '(description "Wasser/Abwasser"))
 (lse-define-fill-in "7700 " '(token) '(replacement "7700 ") '(max-line-move 0) '(description "Büromaterial"))
 (lse-define-fill-in "7800 " '(token) '(replacement "7800 ") '(max-line-move 0) '(description "Anlagenabschreibung normal"))
+(lse-define-fill-in "7801 " '(token) '(replacement "7801 ") '(max-line-move 0) '(description "Buchwertabgang"))
 (lse-define-fill-in "8000 " '(token) '(replacement "8000 ") '(max-line-move 0) '(description "Einnahmen Miete"))
 (lse-define-fill-in "80001" '(token) '(replacement "80001") '(max-line-move 0) '(description "Miete Top/1"))
 (lse-define-fill-in "80002" '(token) '(replacement "80002") '(max-line-move 0) '(description "Miete Top/2"))
@@ -67,6 +67,7 @@
 (lse-define-fill-in "83016" '(token) '(replacement "83016") '(max-line-move 0) '(description "Erhaltungsbeitrag Top/6"))
 (lse-define-fill-in "8400 " '(token) '(replacement "8400 ") '(max-line-move 0) '(description "Schadensleistung Versicherung"))
 (lse-define-fill-in "8700 " '(token) '(replacement "8700 ") '(max-line-move 0) '(description "Habenzinsen"))
+(lse-define-fill-in "8900 " '(token) '(replacement "8900 ") '(max-line-move 0) '(description "Eigenverbrauch"))
 (lse-define-fill-in "9000 " '(token) '(replacement "9000 ") '(max-line-move 0) '(description "Bankverrechnungskonto"))
 (lse-define-fill-in "9100 " '(token) '(replacement "9100 ") '(max-line-move 0) '(description "Kapitalkonto"))
 (lse-define-fill-in "9200 " '(token) '(replacement "9200 ") '(max-line-move 0) '(description "Privatentnahmen allgemein"))
@@ -78,4 +79,7 @@
 (lse-define-fill-in "9396 " '(token) '(replacement "9396 ") '(max-line-move 0) '(description "Investitionsfreibetrag 1996"))
 (lse-define-fill-in "9495 " '(token) '(replacement "9495 ") '(max-line-move 0) '(description "Investitionsrücklage   1995"))
 (lse-define-fill-in "9496 " '(token) '(replacement "9496 ") '(max-line-move 0) '(description "Investitionsrücklage   1996"))
+(lse-define-fill-in "9900 " '(token) '(replacement "9900 ") '(max-line-move 0) '(description "Auflösung Mietzinsreserve"))
+(lse-define-fill-in "9997 " '(token) '(replacement "9997 ") '(max-line-move 0) '(description "Einfuhrumsatzsteuer Gegenkonto"))
+(lse-define-fill-in "9998 " '(token) '(replacement "9998 ") '(max-line-move 0) '(description "Vorsteuer innergem. Erwerb Gegenkonto"))
 (lse-define-fill-in "9999 " '(token) '(replacement "9999 ") '(max-line-move 0) '(description "Vor- und Umsatzsteuer Gegenkonto"))
