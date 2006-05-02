@@ -142,6 +142,7 @@
 ;;;;                     key combination)
 ;;;;    18-May-2003 (CT) `[M-up]` and `[M-Down]` defined as previous/next
 ;;;;                     paragraph
+;;;;     2-May-2006 (CT) Added bindings for `[gold] "S"` and `[blue gold] "D"`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -742,6 +743,7 @@
   (gset-alpha-key [gold] "P"          'lse-insert-buffer)
   (gset-alpha-key [gold] "Q"          'lse-insert-buffer-name)
   (gset-alpha-key [gold] "R"          'lse-tpu:toggle-rectangle)
+  (gset-alpha-key [gold] "S"          'lse-insert-time+blank);  2-May-2006
   (gset-alpha-key [gold] "T"          'lse-toggle-mark-global)
   (gset-alpha-key [gold] "U"          'lse-tpu:change-case-upper)
   (gset-alpha-key [gold] "V"          'lse-align-to-next-word-and-up)
@@ -826,6 +828,7 @@
   (gset-alpha-key [blue]      "C"    'lse-tpu:capitalize-strongly)
   (gset-alpha-key [blue gold] "C"    'lse-tpu:change-case); 31-Aug-2002
   (gset-alpha-key [blue]      "D"    'lse-insert-dd-mm-yyyy+blank)
+  (gset-alpha-key [blue gold] "D"    'lse-insert-yyyy/mm/dd+blank);  2-May-2006
   (gset-alpha-key [blue gold] "E"    'lse-kill-buffer)
   (gset-alpha-key [blue]      "F"    'lse-goto-buffer+maybe-create)
   (gset-alpha-key [blue gold] "F"    'lse-goto-buffer-other-window)
@@ -845,7 +848,7 @@
   (gset-alpha-key [blue]      "P"    'lse-insert-buffer)
   (gset-alpha-key [blue]      "Q"    'lse-tpu:special-insert); 31-Aug-2002
   (gset-alpha-key [blue gold] "R"    'lse-revert-buffer);  8-Sep-2002
-  (gset-alpha-key [blue]      "S"    'cd)
+  (gset-alpha-key [blue]      "S"    'undefined)
   (gset-alpha-key [blue]      "T"    'lse-toggle-mark-window)
   (gset-alpha-key [blue gold] "T"    'lse-toggle-mark-buffer)
   (gset-alpha-key [blue]      "V"    'lse-align-to-previous-word-and-down)
