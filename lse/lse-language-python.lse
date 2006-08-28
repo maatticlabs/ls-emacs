@@ -53,6 +53,7 @@
 ;;;;                      `lse:python-mode:std-python-mode` from there
 ;;;;     4-Mar-2003 (CT) `lse-templates-python-TOM` and
 ;;;;                     `lse-templates-python-TTA` added
+;;;;    17-Aug-2006 (CT)  Disable local binding for `f1`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -104,6 +105,9 @@
   (mapcar #'(lambda (key) (local-unset-key key))
 	  (where-is-internal 'newline-and-indent)
   );  8-Mar-1998
+
+  ;; 17-Aug-2006
+  (local-unset-key [f1]); disable broken py-doc binding
 
   ;; move some local key bindings to local C-c keymap
   ;; (lse-move-keys-to-prefix (current-local-map) [?\C-c] [?:])
