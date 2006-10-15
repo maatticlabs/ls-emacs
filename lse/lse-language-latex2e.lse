@@ -3,17 +3,17 @@
 ;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
-;;;; 
+;;;;
 ;;;; This program is free software; you can redistribute it and/or modify
 ;;;; it under the terms of the GNU General Public License as published by
 ;;;; the Free Software Foundation; either version 2 of the License, or
 ;;;; (at your option) any later version.
-;;;; 
+;;;;
 ;;;; This program is distributed in the hope that it will be useful,
 ;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;;;; GNU General Public License for more details.
-;;;; 
+;;;;
 ;;;; You should have received a copy of the GNU General Public License
 ;;;; along with this program; if not, write to the Free Software
 ;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -42,7 +42,7 @@
     (lse-language:initial-fill-in      "««latex2e»»")
    )
   '(lse-tpu:toggle-newline-and-indent
-    auto-fill-mode 
+    auto-fill-mode
    )
   '("lse-templates-latex2e"
     "lse-templates-latex2e-class"
@@ -51,19 +51,19 @@
 ;   997
 )
 
-;;; 
-;;; TeX modes 
-;;; 
+;;;
+;;; TeX modes
+;;;
 (require 'tex-mode)
-;;  1-Mar-2001 don't set hooks as long as latex2e mode doesn't work properly 
+;;  1-Mar-2001 don't set hooks as long as latex2e mode doesn't work properly
 ;;(add-hook 'latex-mode-hook 'lse-latex-mode)
-;;(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+;;(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 ;;(add-hook 'LaTeX-mode-hook 'lse-latex-mode)
 
 (fset 'TEX-MODE       'tex-mode)
 (fset 'tex-mode       'latex-mode)
 
-(defun lse-latex-mode ()
+(defun lse-latex2e-mode ()
   (lse-language:use "latex2e")
   (lse-latex-mode:define-keys)
   (modify-syntax-entry ?ä "w")
@@ -99,7 +99,7 @@
     )
   )
 ; lse-latex-mode:insert-firma-of-kartei
-) 
+)
 
 (defun lse-latex-mode:insert-person-of-kartei ()
   "Lets user choose a person from kartei and inserts the name into buffer"
@@ -116,4 +116,4 @@
     )
   )
 ; lse-latex-mode:insert-person-of-kartei
-) 
+)

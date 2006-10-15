@@ -1062,6 +1062,7 @@ Accepts a prefix argument of the number of characters to invert."
 (make-variable-buffer-local 'lse-tpu:ident-group-chars)
 
 (defvar                      lse-tpu:word-chars nil)
+(make-variable-buffer-local 'lse-tpu:word-chars);  2-Oct-2006
 
 (defun lse-tpu:set-word-char-for-idents ()
   (setq lse-tpu:word-chars
