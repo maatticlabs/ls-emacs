@@ -12,7 +12,6 @@
         ""
         "««py-statement»»···"
         ""
-        "««py-test-def»»···"
         "««py-script-code»»"
         "### __END__ " & lse-insert-buffer-name
      )
