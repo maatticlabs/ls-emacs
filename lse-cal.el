@@ -1,6 +1,6 @@
 ;-*-unibyte: t;-*-
 
-;;;; Copyright (C) 2003 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2007 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -45,6 +45,11 @@
 ;;;;    18-May-2003 (CT) `lse-cal:plan:write` removed (after fixing
 ;;;;                     lse-buffer)
 ;;;;     3-Jul-2003 (CT) Redefinition for `dabbrev-expand` added
+;;;;     9-Feb-2007 (CT) `lse-cal:plan:highlight-today` changed to put cursor
+;;;;                     at the line after the day-pattern (to be consistent
+;;;;                     with `lse-cal:plan:goto-day-forward` and friends)
+;;;;     9-Feb-2007 (CT) `lse-cal:view:add-appointment` added and bound to
+;;;;                     `[?\A-e]` of view-buffer
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -308,6 +313,7 @@
           (goto-char head)
           (lse-scroll-to-top 3)
           (lse-cal:plan:sync-to-view old-p head)
+          (lse-tpu:next-line 1);  9-Feb-2007
         )
     )
   )
@@ -493,6 +499,15 @@
 ; lse-cal:view:goto-month
 )
 
+;;;  9-Feb-2007
+(defun lse-cal:view:add-appointment ()
+  (interactive)
+  (lse-next-window)
+  (or (looking-at "^ *$") (lse-open-line))
+  (lse-expand-token)
+; lse-cal:view:add-appointment
+)
+
 ;;;  7-Apr-2003
 (defun lse-cal:view:highlight-current-day ()
   (interactive)
@@ -615,6 +630,7 @@
   (local-set-key [M-home] 'lse-cal:view:goto-month)
   (local-set-key [down]   'lse-cal:view:goto-next-week)
   (local-set-key [up]     'lse-cal:view:goto-prev-week)
+  (local-set-key [?\A-e]  'lse-cal:view:add-appointment)
   ; XXX setup key bindings for calendar navigation
   (setq mode-line-format
           (list (purecopy (lse-buffer:base-name (current-buffer)))
