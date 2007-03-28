@@ -143,6 +143,7 @@
 ;;;;    18-May-2003 (CT) `[M-up]` and `[M-Down]` defined as previous/next
 ;;;;                     paragraph
 ;;;;     2-May-2006 (CT) Added bindings for `[gold] "S"` and `[blue gold] "D"`
+;;;;    28-Mar-2007 (CT) Added bindings for "`[gold] J"` and `[blue] "J"`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -735,6 +736,7 @@
   (gset-alpha-key [gold] "G"          'lse-goto-mark-and-pop-global)
   (gset-alpha-key [gold] "H"          'lse-goto-home-mark-global)
   (gset-alpha-key [gold] "I"          'lse-visit-file)
+  (gset-alpha-key [gold] "J"          'lse-frame:toggle-menu-bar); 28-Mar-2007
   (gset-alpha-key [gold] "K"          'undefined)
   (gset-alpha-key [gold] "L"          'lse-tpu:change-case-lower)
   (gset-alpha-key [gold] "M"          'lse-push-mark-global)
@@ -838,6 +840,7 @@
   (gset-alpha-key [blue gold] "H"    'lse-set-home-mark-window)
   (gset-alpha-key [blue]      "I"    'lse-visit-file-other-window)
   (gset-alpha-key [blue gold] "I"    'lse-insert-file)
+  (gset-alpha-key [blue]      "J"    'lse-menu:toggle-menu-bar); 28-Mar-2007
   (gset-alpha-key [blue]      "L"    'lse-learn-key)
   (gset-alpha-key [blue gold] "L"    'lse-learn-named-key)
   (gset-alpha-key [blue]      "M"    'lse-push-mark-window)

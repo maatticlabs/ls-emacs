@@ -50,6 +50,7 @@
 ;;;;                     with `lse-cal:plan:goto-day-forward` and friends)
 ;;;;     9-Feb-2007 (CT) `lse-cal:view:add-appointment` added and bound to
 ;;;;                     `[?\A-e]` of view-buffer
+;;;;    28-Mar-2007 (CT) `lse-frame:disable-menu-bar` called
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -652,6 +653,7 @@
         )
         )
     (select-frame fram)
+    (lse-frame:disable-menu-bar fram); 28-Mar-2007
     (let (pbuf vbuf)
       (lse-split-window-horizontally nil 34)
       (lse-goto-buffer
@@ -692,6 +694,7 @@
          )
         )
     (select-frame fram)
+    (lse-frame:disable-menu-bar fram); 28-Mar-2007
     (lse-goto-buffer
       (or (get-file-buffer df)
           (find-file       df)

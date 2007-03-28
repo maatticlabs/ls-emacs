@@ -1,7 +1,7 @@
 ;-*-unibyte: t;-*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
 ;;;; Copyright (C) 1996 Swing Informationssysteme GmbH. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria
@@ -39,6 +39,7 @@
 ;;;;     1-Jan-2000 (CT) Binding for `repeat' added to standard edit-menu
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added
 ;;;;     9-Jan-2000 (CT) `Options' added
+;;;;    28-Mar-2007 (CT) `lse-menu:*-menu-bar` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -148,7 +149,7 @@
 
 (define-key lse-menu:fill-in [reexpand-fi]
             '("Re-Expand" . lse-reexpand-fill-in)
-) 
+)
 (put 'lse-reexpand-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [unexpand-fi]
@@ -191,7 +192,7 @@
 
 (if (fboundp 'menu-bar-make-toggle)
     ;; menu-bar-make-toggle should be provided by the standard library
-    ;; menu-bar.el 
+    ;; menu-bar.el
     (progn
       (defvar lse-menu:options         (make-sparse-keymap "Options"))
       (defvar lse-menu:options:search  (make-sparse-keymap "Search Options"))
@@ -207,14 +208,16 @@
       )
       (define-key lse-menu:options:search [case-replace]
         (menu-bar-make-toggle toggle-case-replace case-replace
-			"Case folding in replacements"
-			"Case folding in replacements %s"
+                        "Case folding in replacements"
+                        "Case folding in replacements %s"
+                        "Case insensitive replacements"
         )
       )
       (define-key lse-menu:options:search [case-fold-search]
         (menu-bar-make-toggle toggle-case-fold-search case-fold-search
-			"Case folding in searches"
-			"Case folding in searches %s"
+                        "Case folding in searches"
+                        "Case folding in searches %s"
+                        "Case insensitive searches"
         )
       )
       (define-key lse-menu:options:search [search-regexp]
@@ -222,6 +225,7 @@
                               lse-tpu:regexp-p
                               "Search for regexp"
                               "Regular expression search and substitute %s"
+                              "Allow regular expressions in search commands"
                               (lse-tpu:toggle-regexp)
         )
       )
@@ -229,6 +233,7 @@
         (menu-bar-make-toggle toggle-search-direction
                               lse-tpu:searching-forward
                               "Search forward" "Search forward %s"
+                              "Toggle search direction"
                               (lse-tpu:toggle-search-direction)
         )
       )
@@ -237,6 +242,7 @@
                               lse-tpu:rectangular-p
                               "Rectangular cut and paste"
                               "Rectangular cut and paste %s"
+                              "Use rectangle mode for cut and paste"
                               (lse-tpu:toggle-rectangle)
         )
       )
@@ -244,6 +250,7 @@
         (menu-bar-make-toggle toggle-overwrite-mode
                               overwrite-mode
                               "Overwrite mode" "Overwrite mode %s"
+                              "Overwrite mode"
                               (lse-tpu:toggle-overwrite-mode)
         )
       )
@@ -251,6 +258,7 @@
         (menu-bar-make-toggle toggle-newline-and-indent
                               lse-tpu:newline-and-indent-p
                               "Indent after newline" "Indent after newline %s"
+                              "Indent after newline"
                               (lse-tpu:toggle-newline-and-indent)
         )
       )
@@ -259,6 +267,7 @@
                               lse-split-line:old-key
                               "Return binds to newline"
                               "Return binds to newline %s"
+                              "Return binds to newline"
                               (lse-toggle-lse-split-line)
         )
       )
@@ -267,6 +276,7 @@
                               lse-tpu:advance
                               "Toggle between Advance/Backup mode"
                               "Advance mode %s"
+                              "Toggle between Advance/Backup mode"
                               (lse-tpu:toggle-direction)
         )
       )
@@ -275,6 +285,7 @@
                               dabbrev-case-fold-search
                               "Ignore case for dabbrev's"
                               "Ignore case for dabbrev's %s"
+                              "Ignore case for dabbrev's"
         )
       )
       (define-key lse-menu:options:editing [auto-fill-mode]
@@ -282,6 +293,7 @@
                               auto-fill-function
                               "Auto Fill (word wrap)"
                               "Auto Fill (word wrap) %s"
+                              "Auto fill mode"
           (if auto-fill-function
               (auto-fill-mode 0)
             (auto-fill-mode 1)
@@ -296,11 +308,11 @@
 
 (define-key menu-bar-lse-help-menu [show-lse-version]
   '("Show Version" . lse-version)
-); 29-Dec-1997 
+); 29-Dec-1997
 
 (define-key menu-bar-lse-help-menu [show-keys-matching]
   '("Show keys matching" . lse-tpu-keys:show-keys-matching)
-); 28-Dec-1997 
+); 28-Dec-1997
 
 (define-key menu-bar-lse-help-menu [show-list-sexp-keys]
   '("Show list/sexp keys" . lse-tpu-keys:show-list-sexp-keys)
@@ -326,10 +338,41 @@
   '("Repeat command" . repeat)
 )
 
-;;;  3-Jan-2000 
+;;;  3-Jan-2000
 (defun lse-menu:add-menubar-index ()
   (interactive)
   (if (fboundp 'imenu-add-menubar-index) (imenu-add-menubar-index))
 ; lse-menu:add-menubar-index
 )
 
+;;; 28-Mar-2007
+(defvar lse-menubar-flag t)
+
+;;; 28-Mar-2007
+(defun lse-menu:hide-menu-bar ()
+  "Disable menu bar on all frames."
+  (interactive)
+  (setq lse-menubar-flag nil)
+  (menu-bar-mode lse-menubar-flag)
+; lse-menu:hide-menu-bar
+)
+
+;;; 28-Mar-2007
+(defun lse-menu:show-menu-bar ()
+  "Enable menu bar on all frames."
+  (interactive)
+  (setq lse-menubar-flag t)
+  (menu-bar-mode lse-menubar-flag)
+; lse-menu:show-menu-bar
+)
+
+;;; 28-Mar-2007
+(defun lse-menu:toggle-menu-bar ()
+  "Toggle menu bar on all frames."
+  (interactive)
+  (setq lse-menubar-flag (not lse-menubar-flag))
+  (menu-bar-mode lse-menubar-flag)
+; lse-menu:toggle-menu-bar
+)
+
+;;; __END__ lse-menu.el

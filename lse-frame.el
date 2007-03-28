@@ -3,8 +3,8 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
-;;;; Copyright (C) 1996 Swing Informationssysteme GmbH. All rights reserved
-;;;; Glasauergasse 32, A--1130 Wien, Austria
+;;;; Copyright (C) 1996-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
 ;;;;
@@ -47,6 +47,8 @@
 ;;;;     3-Jan-2000 (CT) `lse-frame:make' returns the newly made frame
 ;;;;     7-Sep-2002 (CT) `lse-frame:set-width:<nnn>` added
 ;;;;     8-Sep-2002 (CT) `lse-frame:set-height:<nnn>` added
+;;;;    28-Mar-2007 (CT) `lse-frame:large-height` changed from 72 to 66
+;;;;    28-Mar-2007 (CT) `lse-frame:*-menu-bar` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -78,9 +80,10 @@
 )
 
 ;;;  8-Sep-2002
-(defvar lse-frame:large-height 72
+(defvar lse-frame:large-height 66 ;; 28-Mar-2007 s/72/66/
   "Height of large frames (in lines) created by LS-Emacs"
 )
+
 ;;; 12-Aug-1996
 (defun lse-set-frame-title (nam &optional fram)
   (if lse-emacsX-p
@@ -343,3 +346,37 @@
 ; lse-frame:set-height:72
 )
 
+;;; 28-Mar-2007
+(defun lse-frame@change_menu_bar (status &optional fram)
+  (or fram (setq fram (selected-frame)))
+  (modify-frame-parameters fram (list (cons 'menu-bar-lines status)))
+; lse-frame@change_menu_bar
+)
+
+;;; 28-Mar-2007
+(defun lse-frame:disable-menu-bar (&optional fram)
+  "Disable menu bar for frame"
+  (interactive)
+  (lse-frame@change_menu_bar 0)
+; lse-frame:disable-menu-bar
+)
+
+;;; 28-Mar-2007
+(defun lse-frame:enable-menu-bar (&optional fram)
+  "Disable menu bar for frame"
+  (interactive)
+  (lse-frame@change_menu_bar 1)
+; lse-frame:enable-menu-bar
+)
+
+;;; 28-Mar-2007
+(defun lse-frame:toggle-menu-bar (&optional fram)
+  "Toggle menu bar for frame"
+  (interactive)
+  (lse-frame@change_menu_bar
+    (- 1 (frame-parameter fram 'menu-bar-lines))
+  )
+; lse-frame:toggle-menu-bar
+)
+
+;;; __END__ lse-frame.el

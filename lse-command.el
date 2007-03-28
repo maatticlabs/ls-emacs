@@ -1,7 +1,7 @@
 ;-*-unibyte: t;-*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-command:el lse_cmd:el
 ;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
 
@@ -36,7 +36,9 @@
 ;;;;     8-Sep-1994 (CT) Commands 'mail send' and 'mail read' added
 ;;;;     8-Sep-1994 (CT) case-fold parameter passed to lse-complete
 ;;;;    17-Sep-1994 (CT) lse-language:check added
-;;;;-- 
+;;;;    28-Mar-2007 (CT) `lse-menu:toggle-menu-bar` added
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-command)
 
 (defvar lse_command:completion_buffer nil)
@@ -85,12 +87,14 @@
 (lse-command:add-new "revert buffer"            'lse-revert-buffer)
 (lse-command:add-new "save some buffers"        'save-some-buffers)
 (lse-command:add-new "search"                   'lse-tpu:search)
-(lse-command:add-new "mail read"                'rmail);  8-Sep-1994 
-(lse-command:add-new "mail send"                'mail) ;  8-Sep-1994 
+(lse-command:add-new "mail read"                'rmail);  8-Sep-1994
+(lse-command:add-new "mail send"                'mail) ;  8-Sep-1994
 (lse-command:add-new "show buffer"              'lse-show-buffers)
 (lse-command:add-new "shrink window"            '(shrink-window 4))
 (lse-command:add-new "substitute all"           'lse-tpu:replace-all)
 (lse-command:add-new "substitute"               'lse-tpu:replace)
+(lse-command:add-new "toggle menu bar current"  'lse-frame:toggle-menu-bar); 28-Mar-2007
+(lse-command:add-new "toggle menu bar all"      'lse-menu:toggle-menu-bar); 28-Mar-2007
 (lse-command:add-new "toggle rectangle"         'lse-tpu:toggle-rectangle)
 (lse-command:add-new "toggle regexp"            'lse-tpu:toggle-regexp)
 (lse-command:add-new "use language"             'lse-language:use)
