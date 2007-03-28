@@ -77,6 +77,7 @@
 (provide 'lse-cal)
 (require 'lse-face)
 (require 'lse-tpu)
+(require 'lse-frame)
 
 ;;;  3-Apr-2003
 (defvar lse-cal:day-pat
