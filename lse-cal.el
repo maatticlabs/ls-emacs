@@ -649,7 +649,8 @@
   (let ((fram (lse-frame:make
                (concat (lse-user-initials) "'s calendar " year)
                (cons (or x 286) (or y 346))
-               (cons (or wd 115) (or ht 20)) '((font . "6x13"))
+               (cons (or wd 115) (or ht 24)); s/20/24/ for ht
+               '((font . "6x13"))
               ); 45 is another nice height
         )
         )
@@ -690,7 +691,8 @@
          (fram (lse-frame:make
                 (concat (lse-user-initials) "'s Diary " d)
                 (cons (or x 0) (or y 460))
-                (cons (or wd 65) (or ht 9)) '((font . "6x13"))
+                (cons (or wd 65) (or ht 10)); 10-Apr-2007 s/9/10/ for ht
+                '((font . "6x13"))
                )
          )
         )
