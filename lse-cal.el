@@ -51,6 +51,7 @@
 ;;;;     9-Feb-2007 (CT) `lse-cal:view:add-appointment` added and bound to
 ;;;;                     `[?\A-e]` of view-buffer
 ;;;;    28-Mar-2007 (CT) `lse-frame:disable-menu-bar` called
+;;;;    10-Apr-2007 (CT) Default geometry for diary and calendar frames changed
 ;;;;    ««revision-date»»···
 ;;;;--
 
