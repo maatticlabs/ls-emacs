@@ -2,6 +2,7 @@
 ;;;  9-Mar-2003
 (lse-define-fill-in "diary-entry"
     '(token)
+    '(token                 "\n");  4-May-2007
     '(token                 "entry")
     '(description           "One entry of diary")
     '(auto-expand);  9-Apr-2003

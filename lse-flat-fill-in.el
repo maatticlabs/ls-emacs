@@ -146,6 +146,8 @@
 ;;;;    20-Mar-2003 (CT) `lse-remove-next-blank-lines` and
 ;;;;                     `lse-remove-prev-blank-lines` factored
 ;;;;    27-Apr-2003 (CT) `lse_expand_token:try` changed to try new-lines, too
+;;;;     4-May-2007 (CT) `lse_expand_token:try` changed to allow spaces after
+;;;;                     new-line tokens
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -897,7 +899,12 @@
          (et (point))
          matching-tokens token expansion result lse@expansion@separator
         )
-    (if (or (bobp) (not (> et bt)))
+    (if (or
+          (bobp)
+          (not (> et bt))
+          (save-excursion (skip-chars-backward " \t") (and (bolp) (setq bt et))
+          );  4-May-2007
+        )
         (setq token "\n"); 27-Apr-2003
       (setq token (downcase (buffer-substring-no-properties bt et)))
     )

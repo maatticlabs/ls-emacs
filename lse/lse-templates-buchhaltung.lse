@@ -26,14 +26,15 @@
 ;;; Beschreibung
 )
 
-(lse-define-fill-in "Betrag" 
+(lse-define-fill-in "Betrag"
     '(description           "Verbuchter Betrag")
     '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
 )
 
 (lse-define-fill-in "buchhaltung"
     '(token)
-    '(auto-expand); 17-Aug-2000 
+    '(token                 "\n");  4-May-2007
+    '(auto-expand); 17-Aug-2000
     '(replacement
         " «Tag». & "
         & "«Beleg-Zahl» & "
@@ -137,10 +138,10 @@
      )
 ;;; Monat
 )
- 
-(lse-define-fill-in "MWSt" 
+
+(lse-define-fill-in "MWSt"
     '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
-    '(menu 
+    '(menu
         (""      "Mehrwertsteuerfrei")
         ("20"    "Normaler   Mehrwertsteuersatz")
         ("10"    "Ermäßigter Mehrwertsteuersatz")
@@ -148,9 +149,9 @@
      )
 )
 
-(lse-define-fill-in "Person" 
+(lse-define-fill-in "Person"
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
-  '(menu 
+  '(menu
       "GK"
       "RH"
       "CT"
@@ -184,4 +185,4 @@
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
 ;;; Tools
 )
- 
+

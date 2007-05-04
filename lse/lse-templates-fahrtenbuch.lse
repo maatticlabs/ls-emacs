@@ -2,9 +2,10 @@
 
 (lse-define-fill-in "fahrtenbuch"
     '(token)
-    '(auto-expand); 17-Sep-2000    
+    '(token                 "\n");  4-May-2007
+    '(auto-expand); 17-Sep-2000
     '(replacement
-        " «datum» & "
+        "«datum» & "
         & "«Km-Stand» & "
         & "«Privat-Anteil» & "
         & "«Beschreibung»  "
@@ -25,14 +26,14 @@
 ;;; Beschreibung
 )
 
-;;;  1-Apr-1996 
+;;;  1-Apr-1996
 (lse-define-fill-in "km-Stand"
     '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
     '(description           "km-Stand bei Abschluß der Fahrt")
 ;;; km-Stand
 )
 
-;;;  1-Apr-1996 
+;;;  1-Apr-1996
 (lse-define-fill-in "Privat-Anteil"
     '(description           "Privat-Anteil in Prozent")
     '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
