@@ -1,9 +1,9 @@
 ;-*-unibyte: t;-*-
-;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
+;;;; the line above is needed for Emacs 20.3 -- without it, character ranges
 ;;;; for characters between \200 and \377 don't work
- 
-;;;;unix_ms_filename_correspondency swing-kartei-bib.el swi_kbib.el
-;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;;++
 ;;;; Name
 ;;;;    swing-kartei-bib
@@ -14,10 +14,14 @@
 ;;;; Revision Dates
 ;;;;    26-Aug-1994 (CT) Creation (of comment)
 ;;;;    26-Aug-1994 (CT) swing-kartei-bib:change-directory added
-;;;;    14-Nov-1994 (CT) Error corrected 
+;;;;    14-Nov-1994 (CT) Error corrected
 ;;;;                     (DefBibSubtitle instead of DefBibSubTitle)
 ;;;;    15-Oct-1995 (CT) swing-kartei:bib:check-isbn added
-;;;;-- 
+;;;;    21-May-2007 (CT) swing-kartei:bib:check-isbn changed to use
+;;;;                     `/swing/python/isbn.py` instead of
+;;;;                     `/swing/local/bin/isbn`
+;;;;    ««revision-date»»···
+;;;;--
 (provide       'swing-kartei-bib)
 
 (defconst swing-kartei:bib:directory      swing-kartei:directory)
@@ -32,7 +36,7 @@
   (swing-kartei:copy-field src-buf dst-buf limit "entry"           "\t" 15)
   (swing-kartei:copy-field src-buf dst-buf limit "DefBibAuthor/"   "\t" 55)
   (swing-kartei:copy-field src-buf dst-buf limit "DefBibTitle/"    ". ")
-  (swing-kartei:copy-field src-buf dst-buf limit "DefBibSubtitle/" "\t"); 14-Nov-1994 
+  (swing-kartei:copy-field src-buf dst-buf limit "DefBibSubtitle/" "\t"); 14-Nov-1994
   (swing-kartei:copy-field src-buf dst-buf limit "entryflag"       "\n")
 ; swing-kartei:bib:make-entry-summary
 )
@@ -51,7 +55,7 @@
 (defun swing-kartei:bib:change ()
   "Change entry of bibliographic kartei"
   (interactive)
-  (swing-kartei:change 
+  (swing-kartei:change
        swing-kartei:bib:directory
        swing-kartei:bib:file-name
        swing-kartei:bib:file-directory
@@ -66,7 +70,7 @@
 (defun swing-kartei:bib:add ()
   "Add entry to bibliographic kartei"
   (interactive)
-  (swing-kartei:add 
+  (swing-kartei:add
        swing-kartei:bib:directory
        swing-kartei:bib:file-name
        swing-kartei:bib:file-directory
@@ -81,7 +85,7 @@
 (defun swing-kartei:bib:split ()
   "Split bib kartei into one file per entry"
   (interactive)
-  (swing-kartei:split 
+  (swing-kartei:split
        swing-kartei:bib:directory
        swing-kartei:bib:file-name
        swing-kartei:bib:file-directory
@@ -108,16 +112,16 @@
   )
   (setq swing-kartei:bib:directory val)
 ; swing-kartei:bib:change-directory
-) 
+)
 
 ;;; 15-Oct-1995
 (defun swing-kartei:bib:check-isbn (isbn)
-  (if (eq (call-process "/usr/local/bin/isbn" nil
+  (if (eq (call-process "/swing/python/isbn.py" nil
                         (get-buffer-create "*Help*") nil
                         isbn
           ) 0
       )
-      (message (concat "ISBN '" isbn "' is valid"))
+      (lse-message (concat "ISBN '" isbn "' is valid"))
     (lse-message (concat "ISBN '" isbn "' is invalid"))
     nil
   )
