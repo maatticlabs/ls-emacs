@@ -62,6 +62,9 @@
 ;;;;    24-Mar-2005 (CT) Small changes when trying to make it work on `ty`
 ;;;;                     (finally, it turned out to be missing byte
 ;;;;                     compilation, arrrrgggh)
+;;;;    24-May-2007 (CT) TTTech site-specific code removed
+;;;;    24-May-2007 (CT) `(defun lse-system-domain () "swing.co.at")` added
+;;;;                     to site-specificcode for `swing`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -347,6 +350,7 @@ This is correct only if the locally used domain is a valid internet domain.
            (string-match "^t[0-9a-z]$" lse-session:system-name); 29-Dec-2004
        );  3-Nov-2004
        ;;;; ****************************** site-specific *****************************
+       (defun lse-system-domain () "swing.co.at"); 24-May-2007
        (defun lse-user-full-name ()
          (let ((user (user-login-name)))
            (cond ((string= user "appoyer")     "Heinz Appoyer")
@@ -391,104 +395,6 @@ This is correct only if the locally used domain is a valid internet domain.
          )
        )
       ); end   of swing  definitions
-      ;; begin of tttech definitions
-      ((or (string-match "ttt" lse-session:system-name)
-           (string-match "ctt" lse-session:system-name)
-       )
-       (defun lse-user-full-name () (user-full-name))
-
-       ;;;; ****************************** site-specific *****************************
-       ;;;; 11-Mar-1998
-       (defun lse-system-domain ()  "tttech.com")
-
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-user-name ()
-         (let ((user (user-login-name)))
-           (cond ((string= user "gkopetz")  "Kopetz")
-                 ((string= user "hkopetz")  "Kopetz"); 13-Jul-1998
-                 (t (capitalize user))
-           )
-         )
-       )
-
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-user-abbr-name ();  3-May-1995
-         (let ((user (user-login-name)))
-           (cond
-             ((string= user "angelow")       "H. Angelow"); 30-Oct-1998
-             ((string= user "bauer")         "G. Bauer");    7-May-1999
-             ((string= user "briant")        "Y. Briant");  15-Feb-2000
-             ((string= user "eder")          "C. Eder"); 12-Nov-2002
-             ((string= user "erkinger")      "E. Erkinger"); 10-Jun-2002
-             ((string= user "doppelbauer")   "K. Doppelbauer"); 4-Aug-1999
-             ((string= user "gkopetz")       "G. Kopetz")
-             ((string= user "glueck")        "M. Glück")
-             ((string= user "goller")        "A. Goller"); 12-Nov-2002
-             ((string= user "hoeller")       "G. Höller"); 20-Feb-2001
-             ((string= user "kober")         "K. Kober"); 20-Feb-2001
-             ((string= user "koenighofer")   "G. Könighofer");  9-Oct-2002
-             ((string= user "kraft")         "H. Kraft"); 10-Jun-2002
-             ((string= user "lettner")       "R. Lettner");    7-Apr-1999
-             ((string= user "maier")         "R. Maier");    15-Feb-2000
-             ((string= user "niedersuess")   "M. Niedersüß");  7-Apr-1999
-             ((string= user "novak")         "M. Novak");  15-Feb-2000
-             ((string= user "pisecky")       "M. Pisecky");  1-Jul-1999
-             ((string= user "priesch")       "M. Priesch"); 10-Jun-2002
-             ((string= user "poledna")       "S. Poledna")
-             ((string= user "prammer")       "M. Prammer")
-             ((string= user "rugo")          "A. Rugo"); 20-Feb-2001
-             ((string= user "schlatterbeck") "R. Schlatterbeck"); 11-May-2000
-             ((string= user "schoepf")       "M. Schöpf"); 28-Feb-2001
-             ((string= user "schwarz")       "M. Schwarz"); 16-Jul-1999
-             ((string= user "smaili")        "I. Smaili"); 13-Jul-1998
-             ((string= user "stoeger")       "G. Stöger")
-             ((string= user "tanzer")        "C. Tanzer")
-             ((string= user "waechter")      "M. Wächter");  7-May-1999
-             (t user)
-           )
-         )
-       )
-
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-user-initials ()
-         (let ((user (user-login-name)))
-           (cond
-             ((string= user "angelow")        "HA"); 30-Oct-1998
-             ((string= user "bauer")          "GB");  7-May-1999
-             ((string= user "briant")         "YB"); 15-Feb-2000
-             ((string= user "doppelbauer")    "KD");  4-Aug-1999
-             ((string= user "eder")           "CED"); 10-Jun-2002
-             ((string= user "erkinger")       "EER"); 10-Jun-2002
-             ((string= user "feuchtinger")    "MFE"); 20-Feb-2001
-             ((string= user "forstinger")     "SF"); 15-Feb-2000
-             ((string= user "gkopetz")        "GK")
-             ((string= user "glueck")         "MG")
-             ((string= user "goller")         "AGO"); 12-Nov-2002
-             ((string= user "hoeller")        "GHO"); 20-Feb-2001
-             ((string= user "kober")          "KKO"); 20-Feb-2001
-             ((string= user "koenighofer")    "GKH");  9-Oct-2002
-             ((string= user "kraft")          "HKA"); 10-Jun-2002
-             ((string= user "lettner")        "RL");  7-Apr-1999
-             ((string= user "maier")          "RM"); 15-Feb-2000
-             ((string= user "niedersuess")    "MN");  7-Apr-1999
-             ((string= user "novak")          "NV"); 15-Feb-2000
-             ((string= user "pisecky")        "MPI");  5-Sep-2002 ; 1-Jul-1999
-             ((string= user "poledna")        "SP")
-             ((string= user "prammer")        "MP")
-             ((string= user "priesch")        "MPH"); 10-Jun-2002
-             ((string= user "rugo")           "ARU"); 20-Feb-2001
-             ((string= user "schlatterbeck")  "RS"); 11-May-2000
-             ((string= user "schoepf")        "MSF"); 28-Feb-2001
-             ((string= user "schwarz")        "MS"); 16-Jul-1999
-             ((string= user "smaili")         "IS"); 13-Jul-1998
-             ((string= user "stoeger")        "GS")
-             ((string= user "tanzer")         "CT")
-             ((string= user "waechter")       "MW");  7-May-1999
-             (t user)
-           )
-         )
-       )
-      )
       (t;  3-Nov-2004 ; 22-Oct-2002
        (defun lse-user-full-name ()
          (user-full-name)
