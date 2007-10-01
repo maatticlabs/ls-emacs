@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "python-root"

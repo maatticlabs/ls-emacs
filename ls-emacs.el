@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
@@ -70,6 +70,7 @@
 ;;;;     6-Sep-2002 (CT) Adapted to `windows-nt`
 ;;;;    13-Sep-2002 (MG) Set `w32-alt-is-meta` to nil added
 ;;;;     4-Apr-2003 (CT) `lse-cal` added
+;;;;     1-Oct-2007 (CT) `lse-emacs22-p` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -93,6 +94,10 @@
 (defconst lse-emacs21-p (not (string-lessp emacs-version "21"))
           "Non-NIL if we are running GNU Emacs version 21."
 ); 24-Mar-2002
+
+(defconst lse-emacs22-p (not (string-lessp emacs-version "22"))
+          "Non-NIL if we are running GNU Emacs version 22."
+);  1-Oct-2007
 
 (defconst lse-emacsX-p window-system;  3-Oct-1996 ; (boundp 'x-no-window-manager); 18-Mar-1995
           "Non-NIL if running under X"

@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 (lse-define-fill-in "Quotation-File" 
   '(description   "Definition of a single quotation")

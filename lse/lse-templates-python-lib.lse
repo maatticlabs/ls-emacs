@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 ;;; 31-Mar-1999 
 (lse-define-fill-in "Formatted_C_Stream:header_file"

@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
@@ -65,11 +65,18 @@
 ;;;;    13-Sep-2002 (MG) `boundp` guards added for `x-pointer-left-ptr` and
 ;;;;                     `x-display-color-p`
 ;;;;    13-Nov-2002 (CT) Don't make server window under windows-nt
+;;;;     1-Oct-2007 (CT) `lazy-lock-mode` guarded against Emacs 22 (where it
+;;;;                     doesn't exist anymore)
+;;;;     1-Oct-2007 (CT) Call to `set-language-environment` added
+;;;;     1-Oct-2007 (CT) Various modifications for Emacs 22
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
 ; (setq debug-on-error nil)
 (setq-default enable-multibyte-characters nil); 19-Dec-1999
+(set-language-environment "Latin-9"); 1-Oct-2007
+
+(setq vc-handled-backends nil);  1-Oct-2007
 
 (if (not (boundp 'lse-keys:override-emacs-control-keys));  2-Jan-1998
     (if (not window-system)             ; 10-Jan-1998
@@ -197,13 +204,6 @@
 (setq vc-mistrust-permissions nil)      ; use file permissions to decide if
                                         ; file is currently locked
 
-;;; 13-Dec-1997
-(setq dabbrev-case-fold-search nil); don't ignore case for dynamic abbreviations
-
-;;;  2-Jan-1998
-(setq ediff-use-long-help-message  nil); don't start with big ediff control-frame
-(setq ediff-ignore-similar-regions t); ignore whitespace
-
 ;;; 25-May-1997
 ;;; change vc-lock-from-permissions to allow editing if group has write
 ;;; permission
@@ -234,6 +234,13 @@
                (vc-file-setprop file 'vc-locking-user 'none);; 10-Sep-2001 CT
               )
 	      (nil)))))
+
+;;; 13-Dec-1997
+(setq dabbrev-case-fold-search nil); don't ignore case for dynamic abbreviations
+
+;;;  2-Jan-1998
+(setq ediff-use-long-help-message  nil); don't start with big ediff control-frame
+(setq ediff-ignore-similar-regions t); ignore whitespace
 
 ; (setq ispell-command-options "-a -s -t -p /swing/kartei/.ispell_words")
 ; (setq ispell-command-options nil)
@@ -314,12 +321,12 @@
 
       ;; 13-Dec-1997 ;; enabled font-lock-mode
       (global-font-lock-mode t)
-      (setq font-lock-support-mode 'lazy-lock-mode); 17-Dec-1997
-      (setq lazy-lock-minimum-size 1024); 19-Dec-1999
-      ;; (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
-      ;; (add-hook 'c++-mode-hook        'turn-on-font-lock)
-      ;; (add-hook 'tex-mode-hook        'turn-on-font-lock)
-      ;; (add-hook 'perl-mode-hook       'turn-on-font-lock)
+      (if (not lse-emacs22-p);  1-Oct-2007
+          (progn
+            (setq font-lock-support-mode 'lazy-lock-mode); 17-Dec-1997
+            (setq lazy-lock-minimum-size 1024); 19-Dec-1999
+          )
+      )
       (if (eq system-type 'windows-nt); 13-Nov-2002
           t
         (setq server-window ;  3-Jan-2000
@@ -393,3 +400,11 @@
 (defconst ps-paper-type    'a4); 23-Feb-2000
 (defconst ps-spool-duplex  nil); 23-Feb-2000
 (setq     lpr-command      "a2ps")
+
+;;;  1-Oct-2007
+(setq default-indicate-buffer-boundaries 'right)
+
+;;;  1-Oct-2007
+(mouse-wheel-mode t)
+
+;;; __END__ swing-default.el

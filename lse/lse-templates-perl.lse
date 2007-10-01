@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 (lse-define-fill-in "define-perl-path"
     '(description           "Define path used for required library-files. Do not include in library-files themselves")

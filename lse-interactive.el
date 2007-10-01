@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
@@ -73,7 +73,7 @@
 ;;;;     1-Jan-1999 (CT) `lse-replicate-fill-ins-line' added
 ;;;;    12-Jan-1999 (CT) Added `no-indent' to `lse-split-line'
 ;;;;                     `lse-split-line-i' added and used for key bindings
-;;;;    25-May-1999 (CT) Write `;-*-unibyte: t;-*-' as first line of lsc-file
+;;;;    25-May-1999 (CT) Write `;-*- unibyte: t; coding: iso-8859-1; -*-' as first line of lsc-file
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -766,7 +766,7 @@ trailers."
       (erase-buffer)
       (setq buffer-file-name   (concat lse-directory "/" file-name))
       (lse-language:use-loaded (lse-language:load-from-source name))
-      (princ ";-*-unibyte: t;-*-" (current-buffer)); 25-May-1999
+      (princ ";-*- unibyte: t; coding: iso-8859-1; -*-" (current-buffer)); 25-May-1999
       (terpri                     (current-buffer)); 25-May-1999
       (mapatoms 'lse-compile@write-one-fill-in lse_fill-in_table)
       (mapatoms 'lse-compile@write-one-token   lse_token_table)

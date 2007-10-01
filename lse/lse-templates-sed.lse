@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 (lse-define-fill-in "regexp-1-or-more"
     '(description           "not supported by sed")

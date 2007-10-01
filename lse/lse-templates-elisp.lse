@@ -1,4 +1,4 @@
-;-*-unibyte: t;-*-
+;-*- unibyte: t; coding: iso-8859-1; -*-
 
 
 (lse-define-fill-in "and"
@@ -156,7 +156,7 @@
 (lse-define-fill-in "elisp-module"
     '(description           "Module of elisp functions")
     '(replacement
-        ";-*-unibyte: t;-*-" ; 22-Feb-2000 
+        ";-*- unibyte: t; coding: iso-8859-1; -*-" ; 22-Feb-2000 
         ""
         ";;;;««header-comment»»"
         "««provide»»"
