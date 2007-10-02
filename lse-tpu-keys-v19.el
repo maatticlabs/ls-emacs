@@ -144,6 +144,7 @@
 ;;;;                     paragraph
 ;;;;     2-May-2006 (CT) Added bindings for `[gold] "S"` and `[blue gold] "D"`
 ;;;;    28-Mar-2007 (CT) Added bindings for "`[gold] J"` and `[blue] "J"`
+;;;;     2-Oct-2007 (CT) Binding for `[insert]` enabled
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -1015,9 +1016,7 @@
   (global-set-key [s-insert]         'lse-tpu:duplicate-previous-bs-word)
   (global-set-key [C-M-insert]       'lse-tpu:duplicate-word-in-previous-line)
 
-  (global-unset-key [insert])
-; enable after fingers forgot that [insert] moves to beginning of bs-word
-; (global-set-key [insert]           'lse-tpu:paste-region)
+  (global-set-key [insert]           'lse-tpu:paste-region); 2-Oct-2007
   (global-set-key [gold insert]      'lse-tpu:paste-region)
 
 ; lse-define-insertion-keys

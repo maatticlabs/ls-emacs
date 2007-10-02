@@ -76,11 +76,25 @@
 ;;;;    13-Sep-2002 (CT) `[tab]` defined as `lse-goto-next-fill-in`
 ;;;;     8-Oct-2002 (CT) `[C-tab]` instead of `[tab]` defined as
 ;;;;                     `lse-goto-next-fill-in`
-;;;;     6-Nov-2002 (CT)  `[?\A-s]` removed
-;;;;    12-Dec-2002 (CT)  `[?\A-s]` re-added (needed for repeated replication)
+;;;;     6-Nov-2002 (CT) `[?\A-s]` removed
+;;;;    12-Dec-2002 (CT) `[?\A-s]` re-added (needed for repeated replication)
+;;;;     2-Oct-2007 (CT) lse-unset-emacs-function-key-definitions added and
+;;;;                     called
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
+
+;;;  2-Oct-2007
+(defun lse-unset-emacs-function-key-definitions ()
+  (mapcar 'global-unset-key
+    '([f2] [f3] [f4] [f5] [f6] [f7] [f8] [f9]
+      [f10] [f11] [f12] [f13] [f14] [f15] [f16] [f17] [f18] [f19] [f20]
+      [?\C-x ?4] [?\C-x ?4] [?\C-x ?6]
+     )
+  )
+; lse-unset-emacs-function-key-definitions
+)
+(lse-unset-emacs-function-key-definitions)
 
 ;;; 13-Sep-2002
 (defvar lse-keys:override-emacs-control-keys nil
