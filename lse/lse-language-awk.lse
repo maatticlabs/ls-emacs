@@ -1,6 +1,7 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
 ;;;;    lse-language-awk

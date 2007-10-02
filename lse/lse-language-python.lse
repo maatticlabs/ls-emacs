@@ -1,7 +1,7 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1998 Swing Informationssysteme GmbH. All rights reserved
-;;;; Glasauergasse 32, A--1130 Wien, Austria
+;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved.
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.

@@ -3,7 +3,8 @@
 ;;;; for characters between \200 and \377 don't work
  
 ;;;;unix_ms_filename_correspondency swing-kartei-person.el swi_kprs.el
-;;;; (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
 ;;;;    swing-kartei-person
