@@ -40,6 +40,7 @@
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added
 ;;;;     9-Jan-2000 (CT) `Options' added
 ;;;;    28-Mar-2007 (CT) `lse-menu:*-menu-bar` added
+;;;;     2-Oct-2007 (CT) Add `Show Emacs Version` to Emacs 22 Help Menu
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -332,6 +333,12 @@
 
 (define-key menu-bar-help-menu [lse-help-menu]
   (cons "LSE" menu-bar-lse-help-menu)
+)
+
+(if lse-emacs22-p ;  2-Oct-2007
+    (define-key menu-bar-help-menu [lse-show-emacs-version]
+      '("Show Emacs Version" . emacs-version)
+    )
 )
 
 (define-key menu-bar-edit-menu [lse-repeat]
