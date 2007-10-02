@@ -90,35 +90,18 @@
 ;;;;                     `lse-tpu:search-again-reverse` corrected (use
 ;;;;                     `lse-tpu:advance-direction` and
 ;;;;                     `lse-tpu:backup-direction`, respectively)
-;;;;    14-Nov-2002 (CT)  Optional argument `pat` added to
-;;;;                      `lse-tpu:search-forward` and `lse-tpu:search-reverse`
-;;;;    14-Nov-2002 (CT)  `lse-tpu:search-again-forward` and
-;;;;                      `lse-tpu:search-again-reverse` fixed to leave
-;;;;                      direction alone
+;;;;    14-Nov-2002 (CT) Optional argument `pat` added to
+;;;;                     `lse-tpu:search-forward` and `lse-tpu:search-reverse`
+;;;;    14-Nov-2002 (CT) `lse-tpu:search-again-forward` and
+;;;;                     `lse-tpu:search-again-reverse` fixed to leave
+;;;;                     direction alone
+;;;;     2-Oct-2007 (CT) Use `move-to-column` instead of `move-to-column-force`
+;;;;     2-Oct-2007 (CT) Non-nil default for `lse-tpu:word-chars` defined
+;;;;                     (otherwise <C-right> doesn't work in minibuffers)
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
 (require 'picture)
-
-;;; 14-Dec-1997 copied from picture.el because byte-compiler complains:
-;;;    ** the function move-to-column-force is not known to be defined.
-(defun move-to-column-force (column)
-  "Move to column COLUMN in current line.
-Differs from `move-to-column' in that it creates or modifies whitespace
-if necessary to attain exactly the specified column."
-  (or (natnump column) (setq column 0))
-  (move-to-column column)
-  (let ((col (current-column)))
-    (if (< col column)
-	(indent-to column)
-      (if (and (/= col column)
-	       (= (preceding-char) ?\t))
-	  (let (indent-tabs-mode)
-	    (delete-char -1)
-            (indent-to col)
-            (move-to-column column))))
-    ;; This call will go away when Emacs gets real horizontal autoscrolling
-    (hscroll-point-visible)))
 
 (load "vt-control")
 ;;;
@@ -663,10 +646,10 @@ Accepts a prefix argument of the number of characters to invert."
                              'mode-name
                              '(lse-language:name "»")
                              'mode-line-process 'minor-mode-alist
-			     (purecopy "%n")
+                             (purecopy "%n")
                              (purecopy ")%]--")
-  			     (purecopy '(line-number-mode "L%l--"))
-			     (purecopy '(column-number-mode "C%c--"))
+                             (purecopy '(line-number-mode "L%l--"))
+                             (purecopy '(column-number-mode "C%c--"))
                              (purecopy '(-3 . "%p"))
                              (purecopy "-%-")
                        )
@@ -674,19 +657,20 @@ Accepts a prefix argument of the number of characters to invert."
          ;;; setting eol-mnemonic-unix trips 20.3
          ; (setq eol-mnemonic-unix "")
          ;; rectangle mode for cut&paste
-	 (or (assq 'lse-tpu:rectangular-p minor-mode-alist)
-	     (setq minor-mode-alist
-		   (cons '(lse-tpu:rectangular-p lse-tpu:rectangle-string)
-			 minor-mode-alist
+         (or (assq 'lse-tpu:rectangular-p minor-mode-alist)
+             (setq minor-mode-alist
+                   (cons '(lse-tpu:rectangular-p lse-tpu:rectangle-string)
+                         minor-mode-alist
                    )
              )
          )
          ;; newline auto-indents
-	 (or (assq 'lse-tpu:newline-and-indent-p minor-mode-alist)
-	     (setq minor-mode-alist
-		   (cons '(lse-tpu:newline-and-indent-p
-			   lse-tpu:newline-and-indent-string)
-			 minor-mode-alist
+         (or (assq 'lse-tpu:newline-and-indent-p minor-mode-alist)
+             (setq minor-mode-alist
+                   (cons '(lse-tpu:newline-and-indent-p
+                           lse-tpu:newline-and-indent-string
+                          )
+                         minor-mode-alist
                    )
              )
          )
@@ -699,10 +683,10 @@ Accepts a prefix argument of the number of characters to invert."
                (cons '(auto-fill-function " >>>") minor-mode-alist)
          )
          ;; editing direction
-	 (or (assq 'lse-tpu:direction-string minor-mode-alist)
-	     (setq minor-mode-alist
-		   (cons '(lse-tpu:direction-string lse-tpu:direction-string)
-			 minor-mode-alist
+         (or (assq 'lse-tpu:direction-string minor-mode-alist)
+             (setq minor-mode-alist
+                   (cons '(lse-tpu:direction-string lse-tpu:direction-string)
+                         minor-mode-alist
                    )
              )
          )
@@ -717,11 +701,11 @@ Accepts a prefix argument of the number of characters to invert."
                )
          )
          ;;
-	 (or (assq 'delete-selection-mode minor-mode-alist)
-	     (setq minor-mode-alist
+         (or (assq 'delete-selection-mode minor-mode-alist)
+             (setq minor-mode-alist
                (cons
                    '(lse-tpu:delete-sel-mode-flag lse-tpu:delete-sel-mode-flag)
-		    minor-mode-alist
+                    minor-mode-alist
                )
              )
          )
@@ -1061,7 +1045,9 @@ Accepts a prefix argument of the number of characters to invert."
 (make-variable-buffer-local 'lse-tpu:ident-chars)
 (make-variable-buffer-local 'lse-tpu:ident-group-chars)
 
-(defvar                      lse-tpu:word-chars nil)
+(defvar                      lse-tpu:word-chars
+  (concat lse-tpu:ident-group-chars lse-tpu:ident-chars);  2-Oct-2007
+)
 (make-variable-buffer-local 'lse-tpu:word-chars);  2-Oct-2006
 
 (defun lse-tpu:set-word-char-for-idents ()
@@ -1738,17 +1724,17 @@ corners of a rectangle."
                   (lse-tpu:exchange-point-and-mark) ; point -> upper-left
                  )
                  (t                                 ; point @  lower-left
-                  (move-to-column-force mc)         ; point -> lower-right
+                  (move-to-column mc t)             ; point -> lower-right
                   (lse-tpu:exchange-point-and-mark) ; point -> upper-right
-                  (move-to-column-force pc)         ; point -> upper-left
+                  (move-to-column pc t)             ; point -> upper-left
                  )
            )
           )
           (t                                        ; point on upper line
            (cond ((> pc mc)                         ; point @  upper-right
-                  (move-to-column-force mc)         ; point -> upper-left
+                  (move-to-column mc t)             ; point -> upper-left
                   (lse-tpu:exchange-point-and-mark) ; point -> lower-left
-                  (move-to-column-force pc)         ; point -> lower-right
+                  (move-to-column pc t)             ; point -> lower-right
                   (lse-tpu:exchange-point-and-mark) ; point -> upper-left
                  )
            )
