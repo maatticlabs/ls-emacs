@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -79,27 +79,47 @@
 ;;;;                     `lse-goto-next-fill-in`
 ;;;;     6-Nov-2002 (CT) `[?\A-s]` removed
 ;;;;    12-Dec-2002 (CT) `[?\A-s]` re-added (needed for repeated replication)
-;;;;     2-Oct-2007 (CT) lse-unset-emacs-function-key-definitions added and
+;;;;     2-Oct-2007 (CT) `lse-unset-emacs-function-key-definitions` added and
 ;;;;                     called
+;;;;     3-Oct-2007 (CT) `lse-keys-v19:define-vt100-keypad-fkp`,
+;;;;                     `lse-keys-v19:define-vt200-mini-keypad-fkp`,
+;;;;                     `lse-keys:override-emacs-control-keys`,
+;;;;                     `lse-keys-v19:define-super-function-keys-as-keypad`,
+;;;;                     and `lse-unset-emacs-function-key-definitions`
+;;;;                     removed
+;;;;     3-Oct-2007 (CT) `lse-keys:emacs-bindings-to-unset` and
+;;;;                     `lse-keys:function-key-map-bindings` added und
+;;;;                     passed to `mapcar` to allow customizations
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
 
-;;;  2-Oct-2007
-(defun lse-unset-emacs-function-key-definitions ()
-  (mapcar 'global-unset-key
+;;;  3-Oct-2007
+(defvar lse-keys:emacs-bindings-to-unset
     '([f2] [f3] [f4] [f5] [f6] [f7] [f8] [f9]
       [f10] [f11] [f12] [f13] [f14] [f15] [f16] [f17] [f18] [f19] [f20]
       [?\C-x ?4] [?\C-x ?4] [?\C-x ?6]
      )
-  )
-; lse-unset-emacs-function-key-definitions
+  "Override this in your .emacs file, if you want a different set of
+  keybindings defined by standard Emacs to be globally unset."
 )
-(lse-unset-emacs-function-key-definitions)
 
-;;; 13-Sep-2002
-(defvar lse-keys:override-emacs-control-keys nil
-  "Set this variable to bind control keys to fill-in functions."
+;;;  3-Oct-2007
+(defvar lse-keys:function-key-map-bindings
+    '( ;; if you change this, please update the copy in swing-default.el, too
+       ([scroll]        [blue]); Windows NT
+       ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
+       ([f12]           [do])
+       ([pause]         [gold])
+       ([s-pause]       [gray])
+       ([s-print]       [green])
+       ([f11]           [help])
+       ([s-scroll]      [pink])
+       ([s-scroll_lock] [pink])
+       ([print]         [red])
+     )
+  "Override this in your .emacs file to define which keys to use for [gold],
+  [blue], [red], ..."
 )
 
 ;;; 30-May-1996
@@ -107,108 +127,6 @@
   ;; (global-unset-key key)
   (define-key function-key-map key def)
 ; lse-keys-v19:define-fkp-key
-)
-
-;;;  8-Sep-2002
-(defun lse-keys-v19:define-fkp-key+mods (key def)
-  "Define all modifier combinations for `key` in `function-key-map`"
-  t ;;; XXX
-; lse-keys-v19:define-fkp-key+mods
-)
-;;; 17-Jun-2001
-(defun lse-keys-v19:define-super-function-keys-as-keypad ()
-  "Define super-shifted keys as aliases for numeric keypad keys"
-  (lse-keys-v19:define-fkp-key [s-f1]       [kp-1])
-  (lse-keys-v19:define-fkp-key [s-f2]       [kp-2])
-  (lse-keys-v19:define-fkp-key [s-f3]       [kp-3])
-  (lse-keys-v19:define-fkp-key [s-f4]       [kp-4])
-  (lse-keys-v19:define-fkp-key [s-f5]       [kp-5])
-  (lse-keys-v19:define-fkp-key [s-f6]       [kp-6])
-  (lse-keys-v19:define-fkp-key [s-f7]       [kp-7])
-  (lse-keys-v19:define-fkp-key [s-f8]       [kp-8])
-  (lse-keys-v19:define-fkp-key [s-f9]       [kp-9])
-  (lse-keys-v19:define-fkp-key [s-f10]      [kp-0])
-  (lse-keys-v19:define-fkp-key [s-f18]      [pf3])
-  (lse-keys-v19:define-fkp-key [s-break]    [pf4])
-  (lse-keys-v19:define-fkp-key [?\s--]      [kp-subtract])
-  (lse-keys-v19:define-fkp-key [?\s-.]      [kp-decimal])
-; lse-keys-v19:define-super-function-keys-as-keypad
-)
-
-;;; 30-May-1996
-(defun lse-keys-v19:define-X-keypad-fkp ()
-  (interactive)
-  (lse-keys-v19:define-fkp-key [kp-f1]        [gold])
-  (lse-keys-v19:define-fkp-key [s-kp-f1]      [gray]); 30-Aug-2002
-  (lse-keys-v19:define-fkp-key [kp-f2]        [blue])
-  (lse-keys-v19:define-fkp-key [s-kp-f2]      [pink]); 30-Aug-2002
-  (lse-keys-v19:define-fkp-key [kp-f3]        [pf3])
-  (lse-keys-v19:define-fkp-key [kp-f4]        [pf4])
-
-  ;;; XXX (lse-keys-v19:define-fkp-key+mods [f34] [backspace-append])
-  ;;; XXX (lse-keys-v19:define-fkp-key+mods [f35] [delete-append])
-
-  (lse-keys-v19:define-super-function-keys-as-keypad); 17-Jun-2001
-; lse-keys-v19:define-X-keypad-fkp
-)
-
-;;; 29-Sep-1996
-(defun lse-keys-v19:define-vt100-keypad-fkp ()
-  (lse-keys-v19:define-fkp-key "\eOP"   [gold])
-  (lse-keys-v19:define-fkp-key "\eOQ"   [blue])
-  (lse-keys-v19:define-fkp-key "\eOR"   [pf3])
-  (lse-keys-v19:define-fkp-key "\eOS"   [pf4])
-  (lse-keys-v19:define-fkp-key "\eOM"   [kp-enter])
-  (lse-keys-v19:define-fkp-key "\eOl"   [kp-separator])
-  (lse-keys-v19:define-fkp-key "\eOm"   [kp-subtract])
-  (lse-keys-v19:define-fkp-key "\eO?"   [kp-subtract]); allows KP_MinPLus in Linux keytable
-  (lse-keys-v19:define-fkp-key "\eOn"   [kp-decimal])
-  (lse-keys-v19:define-fkp-key "\eOp"   [kp-0])
-  (lse-keys-v19:define-fkp-key "\eOq"   [kp-1])
-  (lse-keys-v19:define-fkp-key "\eOr"   [kp-2])
-  (lse-keys-v19:define-fkp-key "\eOs"   [kp-3])
-  (lse-keys-v19:define-fkp-key "\eOt"   [kp-4])
-  (lse-keys-v19:define-fkp-key "\eOu"   [kp-5])
-  (lse-keys-v19:define-fkp-key "\eOv"   [kp-6])
-  (lse-keys-v19:define-fkp-key "\eOw"   [kp-7])
-  (lse-keys-v19:define-fkp-key "\eOx"   [kp-8])
-  (lse-keys-v19:define-fkp-key "\eOy"   [kp-9])
-; lse-keys-v19:define-vt100-keypad-fkp
-)
-
-;;; 29-Sep-1996
-(defun lse-keys-v19:define-vt200-mini-keypad-fkp ()
-  (lse-keys-v19:define-fkp-key "\e[1~"  [find])   ; e1
-  (lse-keys-v19:define-fkp-key "\e[2~"  [insert]) ; e2
-  (lse-keys-v19:define-fkp-key "\e[3~"  [remove]) ; e3
-  (lse-keys-v19:define-fkp-key "\e[4~"  [select]) ; e4
-  (lse-keys-v19:define-fkp-key "\e[5~"  [prior])  ; e5
-  (lse-keys-v19:define-fkp-key "\e[6~"  [next])   ; e6
-; lse-keys-v19:define-vt200-mini-keypad-fkp
-)
-
-;;; Rename some function keys
-(if lse-emacsX-p
-    (progn
-      (lse-keys-v19:define-fkp-key [f11]       [help])
-      (lse-keys-v19:define-fkp-key [f15]       [help])
-      (lse-keys-v19:define-fkp-key [f12]       [do])
-      (lse-keys-v19:define-fkp-key [f16]       [do])
-      (lse-keys-v19:define-fkp-key [f17]       [red])
-      (lse-keys-v19:define-fkp-key [s-f17]     [green]); 30-Aug-2002
-
-      (lse-keys-v19:define-X-keypad-fkp)
-    )
-  ;; (not lse-emacsX-p)
-  (lse-keys-v19:define-fkp-key "\e[28~" [help])
-  (lse-keys-v19:define-fkp-key "\e[29~" [do])
-  (lse-keys-v19:define-fkp-key "\e[31~" [red])    ; f17
-  (lse-keys-v19:define-fkp-key "\e[32~" [green])  ; f18
-  (lse-keys-v19:define-fkp-key "\e[33~" [pink])   ; f19
-  (lse-keys-v19:define-fkp-key "\e[34~" [?\e])    ; use f20 as escape
-
-  (lse-keys-v19:define-vt100-keypad-fkp)
-  (lse-keys-v19:define-vt200-mini-keypad-fkp)
 )
 
 (defmacro lse-key-cmd (&rest args)
@@ -357,39 +275,6 @@
   ;; (lse-flat-fill-in:define-key [down]         'lse-goto-next-fill-in)
   ;; (lse-flat-fill-in:define-key [left]         'lse-goto-prev-fill-in)
   ;; (lse-flat-fill-in:define-key [up]           'lse-goto-prev-fill-in)
-
-  (if (and (boundp 'lse-keys:override-emacs-control-keys)
-           lse-keys:override-emacs-control-keys
-      ); 17-Dec-1997
-      (progn
-        (global-set-key              [?\C-e] 'lse-expand-token)
-        (global-set-key              [?\C-k] 'lse-kill-fill-in)
-        (global-set-key              [?\C-n] 'lse-goto-next-fill-in)
-        (global-set-key              [?\C-p] 'lse-goto-prev-fill-in)
-        (lse-flat-fill-in:define-key [?\C-e] 'lse-expand)
-        (lse-flat-fill-in:define-key [?\C-o] 'lse-describe-fill-in)
-        (lse-flat-fill-in:define-key [?\C-q] 'lse-replicate-menu); 10-Mar-1996
-        (lse-flat-fill-in:define-key [?\C-r] 'lse-replace-fill-in)
-        (lse-flat-fill-in:define-key [?\C-s] 'lse-replicate-fill-in)
-        (global-set-key [gold      ?\C-e] 'lse-unexpand-fill-in)
-        (global-set-key [blue      ?\C-e] 'lse-reexpand-fill-in)
-        (global-set-key [blue      ?\C-f] 'lse-window:restore-temp-hidden)
-        (global-set-key [gold      ?\C-k] 'lse-unkill-fill-in)
-        (global-set-key [blue gold ?\C-k] 'lse-kill-all-optional-fill-ins)
-        (global-set-key [    ?\A-\M-\C-k] 'lse-kill-all-optional-fill-ins); 20-Aug-1995
-        (global-set-key [       ?\A-\C-k] 'lse-unkill-fill-in); 20-Aug-1995
-        (global-set-key [gold      ?\C-n] 'lse-goto-last-position)
-        (global-set-key [       ?\A-\C-n] 'lse-goto-last-position); 20-Aug-1995
-        (global-set-key [gold      ?\C-p] 'lse-goto-last-position)
-        (global-set-key [       ?\A-\C-p] 'lse-goto-last-position); 20-Aug-1995
-        (global-set-key [gold      ?\C-r] 'lse-unreplace-fill-in)
-        (global-set-key [       ?\A-\C-r] 'lse-unreplace-fill-in); 20-Aug-1995
-        (global-set-key [blue      ?\C-r] 'lse-rereplace-fill-in)
-        (global-set-key [       ?\M-\C-r] 'lse-rereplace-fill-in); 20-Aug-1995
-        (lse-flat-fill-in:define-key [gold ?\C-o]    'lse-help-fill-in)
-        (lse-flat-fill-in:define-key [gold ?\C-s]    'lse-replicate-fill-in); 22-Jan-1995
-      )
-  )
 ; lse-define-std-keys
 )
 
@@ -422,3 +307,11 @@
   )
 ; lse-insert-key-definition
 )
+
+;;;  3-Oct-2007
+(mapcar 'global-unset-key lse-keys:emacs-bindings-to-unset)
+
+(mapcar (function (lambda (x) (apply 'lse-keys-v19:define-fkp-key x)))
+  lse-keys:function-key-map-bindings
+)
+

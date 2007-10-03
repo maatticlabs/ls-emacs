@@ -38,13 +38,10 @@
 ;;;;     1-Sep-2002 (CT) `lse-tpu:app-keypad-p`,
 ;;;;                     `lse-tpu:electric-inserts-p`, and
 ;;;;                     `lse-tpu:use-control-keys-p` added
+;;;;     3-Oct-2007 (CT) `lse-tpu:app-keypad-p` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
-
-(defvar lse-tpu:app-keypad-p t
-  "Define keypad keys as function keys."
-)
 
 (defvar lse-tpu:electric-inserts-p nil
   "Define some printable keys electrically, e.g., electric `,` inserts `, `;

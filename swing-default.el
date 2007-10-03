@@ -70,6 +70,8 @@
 ;;;;                     doesn't exist anymore)
 ;;;;     1-Oct-2007 (CT) Call to `set-language-environment` added
 ;;;;     1-Oct-2007 (CT) Various modifications for Emacs 22
+;;;;     3-Oct-2007 (CT) `lse-keys:override-emacs-control-keys` removed
+;;;;     3-Oct-2007 (CT) `lse-keys:function-key-map-bindings` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
@@ -79,10 +81,30 @@
 
 (setq vc-handled-backends nil);  1-Oct-2007
 
-(if (not (boundp 'lse-keys:override-emacs-control-keys));  2-Jan-1998
-    (if (not window-system)             ; 10-Jan-1998
-        (setq lse-keys:override-emacs-control-keys t)
-    )
+(defvar lse-keys:function-key-map-bindings
+    '( ;; Legacy bindings
+       ([kp-f2]         [blue])
+       ([f16]           [do])
+       ([kp-f1]         [gold])
+       ([s-kp-f1]       [gray])
+       ([s-f17]         [green])
+       ([f15]           [help])
+       ([s-kp-f2]       [pink])
+       ([f17]           [red])
+       ;; Bindings copied from lse-keys-v19.el
+       ([scroll]        [blue]); Windows NT
+       ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
+       ([f12]           [do])
+       ([pause]         [gold])
+       ([s-pause]       [gray])
+       ([s-print]       [green])
+       ([f11]           [help])
+       ([s-scroll]      [pink])
+       ([s-scroll_lock] [pink])
+       ([print]         [red])
+     )
+  "Override this in your .emacs file to define which keys to use for [gold],
+  [blue], [red], ..."
 )
 
 (require 'ls-emacs)

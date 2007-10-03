@@ -72,6 +72,8 @@
 ;;;;    13-Sep-2002 (MG) Set `w32-alt-is-meta` to nil added
 ;;;;     4-Apr-2003 (CT) `lse-cal` added
 ;;;;     1-Oct-2007 (CT) `lse-emacs22-p` added
+;;;;     3-Oct-2007 (CT) `lse-create-lse-keymaps` removed
+;;;;     3-Oct-2007 (CT) Explicit calls to `lse-keys-v19:define-fkp-key` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -257,7 +259,6 @@
 (require 'lse-cal)
 
 (lse-initialize)
-(lse-create-lse-keymaps)
 (if noninteractive       ;  20-Jul-1995
     t                    ;  20-Jul-1995 no need for defining keys
   (if (eq system-type 'windows-nt);  6-Sep-2002
@@ -267,10 +268,6 @@
        (setq w32-rwindow-modifier 'meta)
        (setq w32-alt-is-meta nil)
        (setq w32-apps-modifier 'meta)
-       (lse-keys-v19:define-fkp-key [scroll] [blue])
-       (lse-keys-v19:define-fkp-key [pause]  [gold])
-       (lse-keys-v19:define-fkp-key [f11]    [help])
-       (lse-keys-v19:define-fkp-key [f12]    [do])
      )
    (server-start)
    (setq server-temp-file-regexp (concat "MH/draft/[0-9]+\\|" server-temp-file-regexp))

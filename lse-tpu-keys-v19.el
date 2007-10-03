@@ -146,41 +146,13 @@
 ;;;;     2-May-2006 (CT) Added bindings for `[gold] "S"` and `[blue gold] "D"`
 ;;;;    28-Mar-2007 (CT) Added bindings for "`[gold] J"` and `[blue] "J"`
 ;;;;     2-Oct-2007 (CT) Binding for `[insert]` enabled
+;;;;     3-Oct-2007 (CT) `lse-tpu:app-keypad-p`,
+;;;;                     `lse-tpu:define-keypad-app`,
+;;;;                     `lse-create-lse-keymaps`, `lse-create-map`, and
+;;;;                     `lse-create-sparse-map` removed
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
-
-(defun lse-create-map (map-sym prefix-key &optional in-map)
-  (define-prefix-command map-sym)
-  (define-key (or in-map global-map) prefix-key map-sym)
-  (define-key (or in-map global-map)
-              (if (stringp prefix-key)
-                  (concat prefix-key prefix-key)
-                (vconcat  prefix-key prefix-key)
-              )
-              'undefined
-  )
-)
-
-(defun lse-create-sparse-map (map-sym prefix-key &optional in-map)
-  (fset                               map-sym        (make-sparse-keymap) )
-  (define-key (or in-map global-map)  prefix-key     map-sym              )
-)
-
-(defun lse-create-lse-keymaps ()
-  "Define additional global key maps"
-  ;; (lse-create-map        'GOLD-map      [gold])
-  ;; (lse-create-map        'BLUE-map      [blue])
-  (lse-create-map        'RED-map       [red])
-  (lse-create-sparse-map 'GREEN-map     [green])
-  (lse-create-sparse-map 'PINK-map      [pink])
-  (lse-create-sparse-map 'GOLD-RED-map  [gold red]); 30-Aug-2002
-  (lse-create-sparse-map 'GRAY-map      [gray]);     30-Aug-2002
-
-  (lse-create-map        'BLUE-GOLD-map [blue gold])
-  (lse-create-sparse-map 'BLUE-TAB-map  [blue ?\C-i])
-; lse-create-lse-keymaps
-)
 
 (defun lse-define-alpha-key (map prefix alpha command)
   ;; Defines a key bound to a alphabetic key.
@@ -425,75 +397,6 @@
 )
 
 ;;;  1-Sep-2002
-(defun lse-tpu:define-keypad-app ()
-  (lse-define-key-in-minibuffer-maps [kp-enter]  'exit-minibuffer)
-  (lse-define-key-in-minibuffer-maps [pf3]       'exit-minibuffer)
-  (global-set-key  [pf3]             'lse-tpu:search-again)
-  (global-set-key  [pf4]             'lse-tpu:delete-next-line)
-  (global-set-key  [s-kp-f4]         'lse-tpu:delete-next-line-append); 17-Dec-1997
-  (global-set-smk  [kp-0]            'lse-tpu:line)
-  (global-set-key  [s-kp-0]          'goto-char)
-  (global-set-smk  [kp-1]            'lse-tpu:goto-word-head)
-  (global-set-smk  [kp-2]            'lse-tpu:goto-bs-word-tail)
-  (global-set-smk  [kp-3]            'lse-tpu:end-of-line)
-  (global-set-key  [kp-4]            'lse-tpu:advance-direction)
-  (global-set-key  [kp-5]            'lse-tpu:backup-direction)
-  (global-set-key  [kp-6]            'lse-tpu:cut-region)
-  (global-set-key  [kp-7]            'lse-tpu:page)
-  (global-set-key  [M-kp-7]          'recenter); 17-Dec-1997
-  (global-set-key  [kp-8]            'lse-tpu:scroll-window)
-  (global-set-key  [kp-9]            'lse-tpu:cut-append-region)
-  (global-set-key  [kp-subtract]     'lse-tpu:delete-next-word)
-  (global-set-key  [s-kp-subtract]   'lse-tpu:delete-next-word-append); 17-Dec-1997
-  (global-set-key  [kp-separator]    'lse-tpu:delete-next-char)
-  (global-set-key  [s-kp-separator]  'lse-tpu:delete-next-char-append); 17-Dec-1997
-  (global-set-key  [kp-decimal]      'lse-tpu:select)
-  (global-set-smk  [kp-enter]        'lse-tpu:forward-char)
-  (global-set-key  [A-kp-decimal]    'lse-tpu:unselect)
-  (global-set-key  [C-kp-decimal]    'lse-tpu:unselect); 10-Jan-1998
-  (global-set-key  [s-kp-delete]     'lse-tpu:delete-next-char-append); 25-Feb-1998
-
-  (global-set-key [gold pf3]          'lse-tpu:search)
-  (global-set-key [gold pf4]          'lse-tpu:undelete-line)
-  (global-set-key [gold kp-0]         'lse-open-line)
-  (global-set-key [gold kp-1]         'lse-tpu:change-case)
-  (global-set-key [gold kp-2]         'lse-tpu:delete-tail-of-line)
-  (global-set-key [gold s-kp-2]       'lse-tpu:delete-tail-of-line-append); 17-Dec-1997
-  (global-set-key [gold kp-3]         'lse-tpu:special-insert)
-  (global-set-key [gold kp-4]         'lse-tpu:move-to-end)
-  (global-set-key [gold kp-5]         'lse-tpu:move-to-beginning)
-  (global-set-key [gold kp-6]         'lse-tpu:paste-region)
-  (global-set-key [gold kp-7]         'lse-command:do)
-  (global-set-key [gold kp-8]         'lse-tpu:replace)
-  (global-set-key [gold kp-9]         'lse-tpu:replace-all)
-  (global-set-key [gold kp-subtract]  'lse-tpu:undelete-word)
-  (global-set-key [gold kp-separator] 'lse-tpu:undelete-char)
-  (global-set-key [gold kp-decimal]   'lse-tpu:unselect)
-  (global-set-key [gold kp-enter]     'lse-tpu:replace-all)
-
-  (global-set-key [blue pf3]          'lse-tpu:word-search-forward);  17-Dec-1997
-  (global-set-key [blue pf4]          'lse-tpu:duplicate-previous-line)
-  (global-set-key [blue kp-0]         'goto-line)
-  (global-set-key [blue kp-1]         'lse-tpu:invert-case)
-  (global-set-key [blue kp-4]         'lse-tpu:toggle-search-direction)
-  (global-set-key [blue kp-5]         'lse-tpu:toggle-search-direction)
-  (global-set-key [blue kp-6]         'lse-tpu:copy-region)
-  (global-set-key [blue kp-7]         'lse-show-position)
-  (global-set-key [blue kp-8]         'tags-query-replace)
-  (global-set-key [blue kp-9]         'lse-tpu:copy-append-region)
-  (global-set-key [blue kp-subtract]  'lse-tpu:duplicate-previous-word)
-  (global-set-key [blue kp-separator] 'lse-tpu:duplicate-previous-char)
-  (global-set-key [blue kp-decimal]   'lse-tpu:exchange-point-and-mark)
-  (global-set-key [blue gold pf4]     'lse-tpu:duplicate-word-in-previous-line)
-  (global-set-key [blue gold pf3]     'lse-tpu:word-search-backward); 17-Dec-1997
-  (global-set-key [blue gold kp-7]    'lse-scroll-to-top); 28-Dec-1999 ; reposition-window ; 17-Dec-1997; recenter  3-Jan-1995
-  (global-set-key [blue gold kp-8]    'lse-tpu:replace-all)
-  (global-set-key [blue gold kp-subtract] 'lse-tpu:duplicate-word-in-previous-line)
-  (global-set-key [blue gold kp-decimal]  'lse-blink-select-mark)
-; lse-tpu:define-keypad-app
-)
-
-;;;  1-Sep-2002
 (defun lse-tpu:define-electric-inserts ()
   (global-set-key  "("               'lse-insert-parentheses)
   (global-set-key  "["               'lse-insert-brackets)
@@ -528,10 +431,7 @@
 
 (defun lse-define-tpu-keys ()
   "Redefine keys defined by standard EMACS modes"
-  (if lse-tpu:app-keypad-p
-      (lse-tpu:define-keypad-app)
-    (lse-tpu:define-keypad-num)
-  )
+  (lse-tpu:define-keypad-num);  3-Oct-2007
   (if lse-tpu:electric-inserts-p
       (lse-tpu:define-electric-inserts)
   )
