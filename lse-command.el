@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-command:el lse_cmd:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -38,6 +38,7 @@
 ;;;;     8-Sep-1994 (CT) case-fold parameter passed to lse-complete
 ;;;;    17-Sep-1994 (CT) lse-language:check added
 ;;;;    28-Mar-2007 (CT) `lse-menu:toggle-menu-bar` added
+;;;;     3-Oct-2007 (CT) `lse-visit-file-new` used instead of homegrown code
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-command)
@@ -77,9 +78,9 @@
 (lse-command:add-new "goto buffer"              'lse-goto-buffer)
 (lse-command:add-new "goto buffer/create"       'lse-goto-buffer+maybe-create)
 (lse-command:add-new "goto file alternate"      'lse-visit-alternate-file)
-(lse-command:add-new "goto file by-wildcard"    '(lse-visit-file t))
 (lse-command:add-new "goto file other window"   'lse-visit-file-other-window)
 (lse-command:add-new "goto file"                'lse-visit-file)
+(lse-command:add-new "goto new file"            'lse-visit-file-new)
 (lse-command:add-new "include file"             'lse-insert-file)
 (lse-command:add-new "next buffer"              'lse-goto-next-buffer)
 (lse-command:add-new "previous buffer"          'lse-goto-prev-buffer)

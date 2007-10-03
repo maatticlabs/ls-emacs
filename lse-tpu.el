@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -108,7 +108,7 @@
 ;;;
 ;;;  Revision and Version Information
 ;;;
-(defconst lse-tpu:version "3.7" "lse-tpu version number.")
+(defconst lse-tpu:version "3.8" "lse-tpu version number.")
 
 (defvar lse-tpu:edt-mode nil
   "If non-nil, lse-tpu mode is active.")
@@ -560,7 +560,7 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 (defun lse-tpu:quit nil
-  "Quit the way TPU does, ask to make sure changes should be abandoned."
+  "Quit without saving unused buffers, ask to make sure changes should be abandoned."
   (interactive)
   (let ((list (buffer-list))
         (working t)

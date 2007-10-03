@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-file:el lse_file:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -35,6 +35,9 @@
 ;;;;    17-Sep-1994 (CT) Use lse-script-dir instead of literal path
 ;;;;    16-Oct-1994 (CT) lse-make-directory defined
 ;;;;    28-Oct-1996 (CT) lse-toggle-read-only defined
+;;;;     3-Oct-2007 (CT) lse-visit-file-new defined
+;;;;     3-Oct-2007 (CT) `lse-file:copyright-update` added and added to
+;;;;                     `before-save-hook`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
@@ -54,8 +57,8 @@
   (setq filename (expand-file-name filename))
   ;; Get rid of the prefixes added by the automounter.
   (if (and (string-match automount-dir-prefix filename)
-	   (file-exists-p (file-name-directory
-			   (substring filename (1- (match-end 0)))
+           (file-exists-p (file-name-directory
+                           (substring filename (1- (match-end 0)))
                           )
            )
       )
@@ -63,11 +66,11 @@
   )
   (if (file-directory-p filename)
       (if find-file-run-dired
-	  (dired-noselect filename)
-	(error "%s is a directory." filename)
+          (dired-noselect filename)
+        (error "%s is a directory." filename)
       )
     (let (buf
-	  error
+          error
          )
       (save-excursion
         (setq buf (create-file-buffer filename))
@@ -142,6 +145,13 @@
   (interactive "P")
   (lse@visit@file 'switch-to-buffer file (not must-not-exist))
 )
+;;;  3-Oct-2007
+(defun lse-visit-file-new (&optional file)
+  "Create a new file and visit it in a new buffer."
+  (interactive "P")
+  (lse-visit-file t file)
+; lse-visit-file-new
+)
 
 (defun lse-visit-file-other-window (&optional must-not-exist file)
   "Reads file into a new buffer and displays it in another window."
@@ -163,7 +173,7 @@
        (not (yes-or-no-p
              (format
               "Buffer %s is modified. Do you want to replace it nevertheless? "
-	      (buffer-name)
+              (buffer-name)
              )
             )
        )
@@ -301,3 +311,44 @@ Doesn't overrule file protection."
   )
 ; lse-toggle-read-only
 )
+
+;;;  3-Oct-2007
+(defconst lse-file:copyright-pattern
+  (concat
+    "\\([Cc]opyright \\)?"                              ; \\1 Copyright
+    "([Cc]) "
+    "\\([0-9]\\{4\\}\\)"                                ; \\2 Start year
+    "\\(-\\([0-9]\\{4\\}\\)\\)?"                        ; \\4 End   year
+  )
+)
+
+;;;  3-Oct-2007
+(defun lse-file:copyright-update ()
+  "Update copyright in current buffer"
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (lse-tpu:move-to-beginning)
+      (if (re-search-forward lse-file:copyright-pattern (buffer-size) t)
+          (progn
+            (let* ((y   (lse-date-year))
+                   (low (match-string 2))
+                   (up  (or (match-string 4) y))
+                   (upp (if (string-lessp up y) y up))
+                   (range
+                     (if (string-lessp low upp)
+                         (concat low "-" upp)
+                       low
+                     )
+                   )
+                  )
+              (replace-match (concat "Copyright (C) " range))
+            )
+          )
+      )
+    )
+  )
+; lse-file:copyright-update
+)
+
+(add-hook 'before-save-hook 'lse-file:copyright-update)

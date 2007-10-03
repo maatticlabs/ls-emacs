@@ -74,7 +74,8 @@
 ;;;;     1-Jan-1999 (CT) `lse-replicate-fill-ins-line' added
 ;;;;    12-Jan-1999 (CT) Added `no-indent' to `lse-split-line'
 ;;;;                     `lse-split-line-i' added and used for key bindings
-;;;;    25-May-1999 (CT) Write `;-*- unibyte: t; coding: iso-8859-1; -*-' as first line of lsc-file
+;;;;    25-May-1999 (CT) Write `;-*- unibyte: t; -*-' as first line of lsc-file
+;;;;     2-Oct-2007 (CT) Added `coding: iso-8859-1;`  to first line of lsc-file
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
