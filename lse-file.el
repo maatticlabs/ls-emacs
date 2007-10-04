@@ -36,8 +36,12 @@
 ;;;;    16-Oct-1994 (CT) lse-make-directory defined
 ;;;;    28-Oct-1996 (CT) lse-toggle-read-only defined
 ;;;;     3-Oct-2007 (CT) lse-visit-file-new defined
-;;;;     3-Oct-2007 (CT) `lse-file:copyright-update` added and added to
+;;;;     3-Oct-2007 (CT) `lse-file:update-copyright` added and added to
 ;;;;                     `before-save-hook`
+;;;;     4-Oct-2007 (CT) Adding to `before-save-hook` moved to
+;;;;                     `swing-default.el`
+;;;;     4-Oct-2007 (CT) `lse-insert-file` changed to call
+;;;;                     `insert-file-contents` instead of `insert-file`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
@@ -207,7 +211,7 @@
             )
         )
   )
-  (insert-file file)
+  (insert-file-contents file)
   (lse-tpu:unselect)
 ; lse-insert-file
 )
@@ -323,7 +327,7 @@ Doesn't overrule file protection."
 )
 
 ;;;  3-Oct-2007
-(defun lse-file:copyright-update ()
+(defun lse-file:update-copyright ()
   "Update copyright in current buffer"
   (interactive)
   (save-excursion
@@ -348,7 +352,5 @@ Doesn't overrule file protection."
       )
     )
   )
-; lse-file:copyright-update
+; lse-file:update-copyright
 )
-
-(add-hook 'before-save-hook 'lse-file:copyright-update)

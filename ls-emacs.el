@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -79,8 +79,8 @@
 (provide 'ls-emacs)
 
 ;;; 29-Dec-1997
-(defconst lse-version      "3.1.4"       "Version number of LS-Emacs.")
-(defconst lse-version-date " 1-Sep-2002" "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.2"         "Version number of LS-Emacs.")
+(defconst lse-version-date " 4-Oct-2007" "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."

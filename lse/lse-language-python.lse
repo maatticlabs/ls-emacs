@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1998 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -103,7 +103,7 @@
   ;; revert ``extremely bad form'' of python-mode rebindings of
   ;; 'newline-and-indent
   (mapcar #'(lambda (key) (local-unset-key key))
-	  (where-is-internal 'newline-and-indent)
+          (where-is-internal 'newline-and-indent)
   );  8-Mar-1998
 
   ;; 17-Aug-2006
@@ -288,7 +288,7 @@
                 (beginning-of-line)
                 (looking-at py-blank-or-comment-re)
               )
-	      (not (bobp))
+              (not (bobp))
          )
     (lse-tpu:end-of-line -1)
   )

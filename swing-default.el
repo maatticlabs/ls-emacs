@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency swing-default.el swi_dflt.el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -72,6 +72,7 @@
 ;;;;     1-Oct-2007 (CT) Various modifications for Emacs 22
 ;;;;     3-Oct-2007 (CT) `lse-keys:override-emacs-control-keys` removed
 ;;;;     3-Oct-2007 (CT) `lse-keys:function-key-map-bindings` added
+;;;;     4-Oct-2007 (CT) `lse-file:update-copyright` added to `before-save-hook`
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
@@ -429,5 +430,8 @@
 
 ;;;  1-Oct-2007
 (mouse-wheel-mode t)
+
+;;;  4-Oct-2007
+(add-hook 'before-save-hook 'lse-file:update-copyright)
 
 ;;; __END__ swing-default.el
