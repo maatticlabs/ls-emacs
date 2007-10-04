@@ -77,6 +77,11 @@
 ;;;;--
 ; (setq debug-on-error t)
 ; (setq debug-on-error nil)
+;;;  4-Oct-2007
+(setq safe-local-variable-values
+  (list '(unibyte . t))
+)
+
 (setq-default enable-multibyte-characters nil); 19-Dec-1999
 (set-language-environment "Latin-9"); 1-Oct-2007
 
