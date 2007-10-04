@@ -118,7 +118,7 @@
 
 (lse-define-fill-in "Monat"
     '(description           "Monat, in dem Buchung erfolgte")
-    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+    '(rcompletion-trailer   (lse-tpu:goto-next-bs-word-tail 1)
                             just-one-space
                             (lse-align-to-pattern "&")
      )
@@ -168,7 +168,7 @@
 )
 
 (lse-define-fill-in "Tag"
-    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+    '(rcompletion-trailer   (lse-tpu:goto-next-bs-word-tail 1)
                             (lse-insert-replica-or-flat "monat") "."
                             just-one-space
                             (lse-align-to-pattern "&")

@@ -99,6 +99,8 @@
 ;;;;     2-Oct-2007 (CT) Use `move-to-column` instead of `move-to-column-force`
 ;;;;     2-Oct-2007 (CT) Non-nil default for `lse-tpu:word-chars` defined
 ;;;;                     (otherwise <C-right> doesn't work in minibuffers)
+;;;;     4-Oct-2007 (CT) Direction variables and direction-dependent
+;;;;                     functions removed (need no stinking modes anymore!)
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -155,15 +157,8 @@
   "If non-nil, lse-tpu uses word search and replace routines.")
 (defvar lse-tpu:rectangular-p nil
   "If non-nil, lse-tpu removes and inserts rectangles.")
-(defvar lse-tpu:advance t
-  "True when lse-tpu is operating in the forward direction.")
-(defvar lse-tpu:reverse nil
-  "True when lse-tpu is operating in the backward direction.")
 (defvar lse-tpu:rectangle-string nil
   "Mode line string to identify rectangular mode.")
-(defvar lse-tpu:direction-string " vvv"
-  "Mode line string to identify current direction.")
-
 (defvar lse-tpu:add-at-bol-hist nil
   "History variable for lse-tpu:add-at-bol function.")
 (defvar lse-tpu:add-at-eol-hist nil
@@ -185,9 +180,6 @@
 (make-variable-buffer-local 'lse-tpu:mark-flag)
 (make-variable-buffer-local 'lse-tpu:newline-and-indent-p)
 (make-variable-buffer-local 'lse-tpu:newline-and-indent-string)
-(make-variable-buffer-local 'lse-tpu:advance)
-(make-variable-buffer-local 'lse-tpu:reverse)
-(make-variable-buffer-local 'lse-tpu:direction-string)
 (make-variable-buffer-local 'lse-tpu:rectangle-string)
 (make-variable-buffer-local 'lse-tpu:rectangular-p)
 (make-variable-buffer-local 'lse-tpu:searching-forward)
@@ -356,7 +348,6 @@ version of emacs."
 Sets the mark at POS and activates the region acording to the
 current version of emacs."
   (set-mark pos)
-  ;; (and lse-tpu:lucid-emacs19-p pos (zmacs-activate-region))
 ; lse-tpu:set-mark
 )
 
@@ -431,14 +422,8 @@ Accepts a prefix argument of the number of characters to invert."
          (lse-tpu:unset-match)
         ); lse-tpu:check-match
         (t  ; neither selection nor search range are active
-         (if lse-tpu:reverse
-             (progn
-               (lse-tpu:invert-case-region (- (point) num) (point))
-               (goto-char (- (point) num))
-             )
-           (lse-tpu:invert-case-region (point) (+ (point) num))
-           (goto-char (+ (point) num))
-         )
+         (lse-tpu:invert-case-region (point) (+ (point) num))
+         (goto-char (+ (point) num))
         ); t
   )
 ; lse-tpu:change-case
@@ -683,14 +668,6 @@ Accepts a prefix argument of the number of characters to invert."
          (setq minor-mode-alist
                (cons '(auto-fill-function " >>>") minor-mode-alist)
          )
-         ;; editing direction
-         (or (assq 'lse-tpu:direction-string minor-mode-alist)
-             (setq minor-mode-alist
-                   (cons '(lse-tpu:direction-string lse-tpu:direction-string)
-                         minor-mode-alist
-                   )
-             )
-         )
          ;; key learning (change emacs default)
          (lse-remove-from-list
              minor-mode-alist
@@ -749,23 +726,6 @@ Accepts a prefix argument of the number of characters to invert."
 ;;;--
 (defconst lse-tpu:direction-forward  +1)
 (defconst lse-tpu:direction-backward -1)
-
-(defun lse-tpu:direction (&optional direction)
-  (if (not direction)
-      (if lse-tpu:advance
-          lse-tpu:direction-forward
-        lse-tpu:direction-backward
-      )
-    (if (integerp direction)
-        (if (equal direction 0)
-            (lse-tpu:direction nil)
-          direction
-        )
-      (error "Invalid direction argument : '%s'" direction)
-    )
-  )
-; lse-tpu:direction
-)
 
 ;;;+
 ;;; line head and tail functions
@@ -1329,26 +1289,6 @@ Accepts a prefix argument of the number of characters to invert."
   (goto-char (lse-tpu:prev-word-tail-pos num limit))
 )
 
-(defun lse-tpu:goto-word-head (num &optional direction limit)
-  "Go in current direction to beginning of word."
-  (interactive "p")
-  (if (equal (lse-tpu:direction direction) lse-tpu:direction-backward)
-      (lse-tpu:goto-prev-word-head num limit)
-    (lse-tpu:goto-next-word-head num limit)
-  )
-; lse-tpu:goto-word-head
-)
-
-(defun lse-tpu:goto-word-tail (num &optional direction limit)
-  "Go in current direction to end of word."
-  (interactive "p")
-  (if (equal (lse-tpu:direction direction) lse-tpu:direction-backward)
-      (lse-tpu:goto-prev-word-tail num limit)
-    (lse-tpu:goto-next-word-tail num limit)
-  )
-; lse-tpu:goto-word-tail
-)
-
 (defun lse-tpu:goto-next-bs-word-head (num &optional limit)
   "Goto to beginning of next word (using only blanks as separators.)"
   (interactive "p")
@@ -1378,14 +1318,6 @@ Accepts a prefix argument of the number of characters to invert."
   (interactive "p")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
     (lse-tpu:goto-prev-word-tail num limit)
-  )
-)
-
-(defun lse-tpu:goto-bs-word-tail (num &optional direction limit)
-  "Go in current direction to end of word (using only blanks as separators.)"
-  (interactive "p")
-  (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-word-tail num limit)
   )
 )
 
@@ -2123,15 +2055,12 @@ The search is performed in the current direction."
 ;;  to ensure that the next search will be in the current direction.  It is
 ;;  called from:
 
-;;       lse-tpu:advance              lse-tpu:backup
 ;;       lse-tpu:toggle-regexp        lse-tpu:toggle-search-direction (t)
 ;;       lse-tpu:search               lse-tpu:replace
 ;;       lse-tpu:search-forward (t)   lse-tpu:search-reverse (t)
 
 (defun lse-tpu:set-search (&optional arg)
-  "Set the search functions and set the search direction to the current
-direction.  If an argument is specified, don't set the search direction."
-  (if (not arg) (setq lse-tpu:searching-forward lse-tpu:advance))
+  "Set the search functions."
   (cond (lse-tpu:searching-forward
          (cond (lse-tpu:word-search-p ; 31-Aug-2002
                 (fset 'lse-tpu:emacs-search     'word-search-forward)
@@ -2501,7 +2430,7 @@ or to the current line if no region is selected."
         (t
          (save-excursion
            (if (not (eolp))
-               (lse-tpu:end-of-line 1)
+               (lse-tpu:next-end-of-line 1)
            )
            (insert text)
          )
@@ -2592,14 +2521,6 @@ or from the current line if no region is selected."
 ;;;
 ;;;  Movement by character
 ;;;
-(defun lse-tpu:char (num)
-  "Move to the next character in the current direction.
-A repeat count means move that many characters."
-  (interactive "p")
-  (if lse-tpu:advance (lse-tpu:forward-char num) (lse-tpu:backward-char num))
-; lse-tpu:char
-)
-
 (defun lse-tpu:forward-char (num)
   "Move right ARG characters (left if ARG is negative)."
   (interactive "p")
@@ -2659,17 +2580,6 @@ Accepts a prefix argument for the number of lines to move."
 ; lse-tpu:next-beginning-of-line
 )
 
-(defun lse-tpu:end-of-line (num)
-  "Move to the next end of line in the current direction.
-A repeat count means move that many lines."
-  (interactive "p")
-  (if lse-tpu:advance
-      (lse-tpu:next-end-of-line num)
-    (lse-tpu:previous-end-of-line num)
-  )
-; lse-tpu:end-of-line
-)
-
 (defun lse-tpu:next-end-of-line (num)
   "Move to end of line; if at end, move to end of next line.
 Accepts a prefix argument for the number of lines to move."
@@ -2697,14 +2607,6 @@ Accepts a prefix argument for the number of lines to move."
 ; lse-tpu:current-end-of-line
 )
 
-(defun lse-tpu:line (num)
-  "Move to the beginning of the next line in the current direction.
-A repeat count means move that many lines."
-  (interactive "p")
-  (if lse-tpu:advance (lse-tpu:forward-line num) (lse-tpu:backward-line num))
-; lse-tpu:line
-)
-
 (defun lse-tpu:forward-line (num)
   "Move to beginning of next line.
 Prefix argument serves as a repeat count."
@@ -2727,17 +2629,6 @@ Prefix argument serves as repeat count."
 ;;;
 ;;;  Movement by paragraph
 ;;;
-(defun lse-tpu:paragraph (num)
-  "Move to the next paragraph in the current direction.
-A repeat count means move that many paragraphs."
-  (interactive "p")
-  (if lse-tpu:advance
-      (lse-tpu:next-paragraph num)
-    (lse-tpu:previous-paragraph num)
-  )
-; lse-tpu:paragraph
-)
-
 (defun lse-tpu:next-paragraph (num)
   "Move to beginning of the next paragraph.
 Accepts a prefix argument for the number of paragraphs."
@@ -2782,16 +2673,6 @@ Accepts a prefix argument for the number of paragraphs."
 ;;;
 ;;;  Movement by page
 ;;;
-(defun lse-tpu:page (num)
-  "Move to the next page in the current direction.
-A repeat count means move that many pages."
-  (interactive "p")
-  (lse-tpu:save-pos-before-search)
-  (if lse-tpu:advance (forward-page num) (backward-page num))
-  (if (eobp) (recenter -1))
-; lse-tpu:page
-)
-
 ;;;  8-Sep-2002
 (defun lse-tpu:page-forward (num)
   "Mode to the end of the current page.
@@ -2821,17 +2702,6 @@ A repeat count means move that many pages."
   "Return the vertical position of point in the selected window.
 Top line is 0.  Counts each text line only once, even if it wraps."
   (+ (count-lines (window-start) (point)) (if (= (current-column) 0) 1 0) -1)
-)
-
-(defun lse-tpu:scroll-window (num)
-  "Scroll the display to the next section in the current direction.
-A repeat count means scroll that many sections."
-  (interactive "p")
-  (if lse-tpu:advance
-      (lse-tpu:scroll-window-up num)
-    (lse-tpu:scroll-window-down num)
-  )
-; lse-tpu:scroll-window
 )
 
 (defun lse-tpu:scroll-window-down (num)
@@ -2875,43 +2745,6 @@ A repeat count means scroll that many sections."
   (goto-char (point-max))
   (recenter -1)
 ; lse-tpu:move-to-end
-)
-
-;;;
-;;;  Direction
-;;;
-(defun lse-tpu:advance-direction nil
-  "Set lse-tpu Advance mode so keypad commands move forward."
-  (interactive)
-  (setq lse-tpu:direction-string " vvv")
-  (setq lse-tpu:advance t)
-  (setq lse-tpu:reverse nil)
-  (lse-tpu:set-search)
-  (lse-tpu:update-mode-line)
-; lse-tpu:advance-direction
-)
-
-(defun lse-tpu:backup-direction nil
-  "Set lse-tpu Backup mode so keypad commands move backward."
-  (interactive)
-  (setq lse-tpu:direction-string " ^^^")
-  (setq lse-tpu:advance nil)
-  (setq lse-tpu:reverse t)
-  (lse-tpu:set-search)
-  (lse-tpu:update-mode-line)
-; lse-tpu:backup-direction
-)
-
-;;;  9-Jan-2000
-(defun lse-tpu:toggle-direction ()
-  "Toggle between Advance and Backup direction of keypad commands"
-  (interactive)
-  (if lse-tpu:advance
-      (lse-tpu:backup-direction)
-    (lse-tpu:advance-direction)
-  )
-  lse-tpu:advance
-; lse-tpu:toggle-direction
 )
 
 ;;;
@@ -2982,7 +2815,8 @@ A repeat count means scroll that many sections."
           )
     )
     (lse-tpu:set-mode-line t)
-    (lse-tpu:advance-direction)
+    (lse-tpu:set-search)
+    (lse-tpu:update-mode-line)
     ;; set page delimiter, display line truncation, and scrolling like TPU
     (setq-default page-delimiter "\f")
     (setq-default truncate-lines t)

@@ -2,7 +2,7 @@
 
 (lse-define-fill-in "buchhaltung"
     '(token)
-    '(auto-expand); 17-Aug-2000 
+    '(auto-expand); 17-Aug-2000
     '(replacement
         " «Tag». & "
         & " & "
@@ -40,7 +40,7 @@
 )
 
 (lse-define-fill-in "Tag"
-    '(rcompletion-trailer   (lse-tpu:goto-bs-word-tail 1)
+    '(rcompletion-trailer   (lse-tpu:goto-next-bs-word-tail 1)
                             ; (lse-insert-replica-or-flat "monat") "."
                             just-one-space
                             (lse-align-to-pattern "&")

@@ -1,10 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
-;;;; Copyright (C) 1997 Mag. Christian Tanzer. All rights reserved.
+
+;;;; Copyright (C) 1997-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
-;;;; Glasauergasse 32, A--1130 Wien, Austria
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
 ;;;;
@@ -34,7 +33,6 @@
 ;;;;    14-Dec-1997 (CT) Creation
 ;;;;    ««revision-date»»···
 ;;;;--
-;;;;
 
 (setq lse-elisp-source-dir "/swing/emacs/")
 

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -41,6 +41,7 @@
 ;;;;     9-Jan-2000 (CT) `Options' added
 ;;;;    28-Mar-2007 (CT) `lse-menu:*-menu-bar` added
 ;;;;     2-Oct-2007 (CT) Add `Show Emacs Version` to Emacs 22 Help Menu
+;;;;     4-Oct-2007 (CT) `toggle-editing-direction` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -270,15 +271,6 @@
                               "Return binds to newline %s"
                               "Return binds to newline"
                               (lse-toggle-lse-split-line)
-        )
-      )
-      (define-key lse-menu:options:editing [editing-direction]
-        (menu-bar-make-toggle toggle-editing-direction
-                              lse-tpu:advance
-                              "Toggle between Advance/Backup mode"
-                              "Advance mode %s"
-                              "Toggle between Advance/Backup mode"
-                              (lse-tpu:toggle-direction)
         )
       )
       (define-key lse-menu:options:editing [case-fold-search]

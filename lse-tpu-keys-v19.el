@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -150,6 +150,8 @@
 ;;;;                     `lse-tpu:define-keypad-app`,
 ;;;;                     `lse-create-lse-keymaps`, `lse-create-map`, and
 ;;;;                     `lse-create-sparse-map` removed
+;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
+;;;;                     `lse-tpu:end-of-line`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -528,7 +530,7 @@
   (global-set-key  [do]              'repeat-complex-command)
 
   (global-set-smk  [home]            'lse-tpu:next-beginning-of-line)
-  (global-set-smk  [end]             'lse-tpu:end-of-line)
+  (global-set-smk  [end]             'lse-tpu:next-end-of-line)
   (global-set-key  [cancel]          'lse-tpu:unselect)
   (global-set-key  [select]          'lse-tpu:select)
   (global-set-key  [delete]          'lse-tpu:delete-next-char); 25-Feb-1998
@@ -831,7 +833,7 @@
 
   (global-set-smk [right]           'lse-tpu:forward-char)
   (global-set-smk [M-right]         'lse-tpu:forward-line)
-  (global-set-smk [C-M-right]       'lse-tpu:end-of-line)
+  (global-set-smk [C-M-right]       'lse-tpu:next-end-of-line)
   (global-set-smk [C-right]         'lse-tpu:goto-next-word-head)
   (global-set-smk [s-right]         'lse-tpu:goto-next-bs-word-tail)
   (global-set-smk [C-s-right]       'lse-tpu:goto-next-word-tail)

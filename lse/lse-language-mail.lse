@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1995 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -114,7 +114,7 @@
               "««mail-from»»\n"
               "Reply-to:    " (lse-user-e-mail-address) "\n"; 11-Jan-1999
             )
-            (lse-tpu:line 1)
+            (lse-tpu:forward-line 1)
             (lse-tpu:insert "\n«text»")
           )
       )
@@ -222,7 +222,7 @@
                   "DCC:         " (lse-user-e-mail-address)
                 )
                 (lse-tpu:insert "««mail-cc»»\n" "««mail-bcc»»\n")
-                (lse-tpu:line 1)
+                (lse-tpu:forward-line 1)
                 (lse-tpu:insert "\n«text»\n")
               )
           )

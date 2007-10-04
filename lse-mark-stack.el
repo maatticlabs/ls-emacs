@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-mark-stack:el lse_mark:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -26,26 +26,27 @@
 ;;;;++
 ;;;; Name
 ;;;;    Swing-Mark-Stack
-;;;; 
+;;;;
 ;;;; Purpose
 ;;;;    A mark-stack comprises two lists:
-;;;;         - the first list contains the last-mark (last position saved 
+;;;;         - the first list contains the last-mark (last position saved
 ;;;;           implicitely) and the home-mark
 ;;;;         - the second list contains the marks stacked on explicit request
 ;;;;           by the user (the element at position zero points to the
 ;;;;           current mark of the stack)
-;;;; 
+;;;;
 ;;;;    It's possible to use several independent mark stacks. The internal
 ;;;;    core functions (identified by '@'s as name separators) work on the
 ;;;;    mark-stack bound to 'lse@mark@stack'. Do not use these directly!
-;;;; 
+;;;;
 ;;;;    The interface functions take the mark-stack as parameter. Use the
 ;;;;    commands implementing the global mark-stack as documentation how to
 ;;;;    use them.
-;;;;    
+;;;;
 ;;;; Revision Dates
 ;;;;    12-Dec-1993 (CT) Creation
 ;;;;     9-Oct-1996 (CT) Replaced "'(lambda" by "(function (lambda"
+;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mark-stack)
 
@@ -61,13 +62,13 @@
   )
 )
 
-(defvar lse@mark@stack nil 
+(defvar lse@mark@stack nil
   "Bound by global-mark, buffer-mark and window-mark routines."
 )
 
-;;;;+ 
+;;;;+
 ;;;; Internal core functions working on mark-stack bound to 'lse@mark@stack'.
-;;;; 
+;;;;
 ;;;; !!!!! DO NOT USE THESE FROM OUTSIDE THIS LIBRARY !!!!!
 ;;;;-
 (defun lse@implicit@mark (access)
@@ -201,7 +202,7 @@
 
 ;;;;+
 ;;;; Commands implementing the global-mark-stack.
-;;;;- 
+;;;;-
 
 ;;; (setq lse-global-mark@stack (lse-new-mark-stack))
 (defvar lse-global-mark@stack (lse-new-mark-stack)
@@ -224,7 +225,7 @@
 (defun lse-set-last-mark-global (&optional to-mark)
   "Set global last mark to 'to-mark'."
   (interactive "d")
-  (lse-set-last-mark lse-global-mark@stack 
+  (lse-set-last-mark lse-global-mark@stack
                        (if (integerp to-mark) (copy-marker to-mark) to-mark)
   )
 )
@@ -232,13 +233,13 @@
 (defun lse-set-home-mark-global (to-mark)
   "Set global last mark to 'to-mark'."
   (interactive "d")
-  (lse-set-home-mark lse-global-mark@stack 
+  (lse-set-home-mark lse-global-mark@stack
                        (if (integerp to-mark) (copy-marker to-mark) to-mark)
   )
   (message (format "Global home mark set to buffer %s"
                    (buffer-name (current-buffer))
            )
-  );  3-Nov-1994 
+  );  3-Nov-1994
 )
 
 (defun lse-push-mark-global ()
@@ -260,7 +261,7 @@
 )
 
 (defun lse-set-last-mark-all ()
-  (lse-set-last-mark-global) 
+  (lse-set-last-mark-global)
   (lse-set-last-mark-buffer)
   (lse-set-last-mark-window)
 )

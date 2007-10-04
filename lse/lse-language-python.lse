@@ -53,7 +53,9 @@
 ;;;;                      `lse:python-mode:std-python-mode` from there
 ;;;;     4-Mar-2003 (CT) `lse-templates-python-TOM` and
 ;;;;                     `lse-templates-python-TTA` added
-;;;;    17-Aug-2006 (CT)  Disable local binding for `f1`
+;;;;    17-Aug-2006 (CT) Disable local binding for `f1`
+;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
+;;;;                     `lse-tpu:end-of-line`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -244,7 +246,7 @@
       )                                    ;  6-Jun-2000
       (progn                               ;  6-Jun-2000
         (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
-        (lse-tpu:end-of-line 0)            ;  6-Jun-2000
+        (lse-tpu:next-end-of-line 0)       ;  4-Oct-2007 ; 6-Jun-2000
       )                                    ;  6-Jun-2000
   )                                        ;  6-Jun-2000
   (py-goto-block-up t)
@@ -283,14 +285,14 @@
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-end-of-last-statement ()
-  (lse-tpu:end-of-line 0)
+  (lse-tpu:next-end-of-line 0)
   (while (and (save-excursion
                 (beginning-of-line)
                 (looking-at py-blank-or-comment-re)
               )
               (not (bobp))
          )
-    (lse-tpu:end-of-line -1)
+    (lse-tpu:next-end-of-line -1)
   )
 ; lse-python@goto-end-of-last-statement
 )

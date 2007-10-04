@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -77,6 +77,8 @@
 ;;;;    20-Mar-2003 (CT) `lse-remove-next-blank-lines` and
 ;;;;                     `lse-remove-prev-blank-lines` added (factored from
 ;;;;                     lse-flat-fill-in.el)
+;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
+;;;;                     `lse-tpu:end-of-line`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -458,7 +460,7 @@ previous line"
       (error "Cannot align blanks")
   )
   (or (stringp pat) (setq pat (regexp-quote (char-to-string pat))))
-  (or dir (setq dir (lse-tpu:direction)))
+  (or dir (setq dir +1))
   (or (looking-at pat)
       (error (concat "Current position not at `" pat "'"))
   )
@@ -719,13 +721,13 @@ previous line"
   (let ((offset 0)
        )
     (save-excursion
-      (lse-tpu:line 1)
+      (lse-tpu:forward-line 1)
       (while (= offset 0)
         (skip-chars-forward " \t")
         (if (eobp)
             (setq offset (lse-tab-increment))
-          (if (and (bolp) (not (eolp))) ; lse-tpu:next-line doesn't work
-              (lse-tpu:end-of-line 1)   ;     if eol = eob
+          (if (and (bolp) (not (eolp)))      ; lse-tpu:next-line doesn't work
+              (lse-tpu:next-end-of-line 1)   ;     if eol = eob
           )
           (if (eobp)
               (setq offset (lse-tab-increment))
@@ -758,7 +760,7 @@ previous line"
       (error "Cannot align blanks")
   )
   (or (stringp pat) (setq pat (regexp-quote (char-to-string pat))))
-  (or dir (setq dir (lse-tpu:direction)))
+  (or dir (setq dir +1))
   (let ((cp         (point))
         (found      nil)
         (distance   1)
