@@ -101,6 +101,7 @@
 ;;;;                     (otherwise <C-right> doesn't work in minibuffers)
 ;;;;     4-Oct-2007 (CT) Direction variables and direction-dependent
 ;;;;                     functions removed (need no stinking modes anymore!)
+;;;;     4-Oct-2007 (CT) Pre-Emacs-19 code removed
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -187,11 +188,8 @@
 (make-variable-buffer-local 'lse-tpu:match-end-mark)
 
 
-(cond (lse-tpu:emacs19-p
-       (add-hook 'activate-mark-hook   'lse-tpu:update-mode-line)
-       (add-hook 'deactivate-mark-hook 'lse-tpu:update-mode-line)
-      )
-)
+(add-hook 'activate-mark-hook   'lse-tpu:update-mode-line)
+(add-hook 'deactivate-mark-hook 'lse-tpu:update-mode-line)
 
 ;;;+
 ;;;  Match Markers -
@@ -334,12 +332,7 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
   "lse-tpu version of the mark function.
 Return the appropriate value of the mark for the current
 version of emacs."
-  (cond
-        (lse-tpu:emacs19-p
-            (and mark-active (mark (not transient-mark-mode)))
-        )
-        (t (mark))
-  )
+  (and mark-active (mark (not transient-mark-mode)))
 ; lse-tpu:mark
 )
 
@@ -353,10 +346,7 @@ current version of emacs."
 
 (defun lse-tpu:string-prompt (prompt history-symbol)
   "Read a string with PROMPT."
-  (if lse-tpu:emacs19-p
-      (read-from-minibuffer prompt nil nil nil history-symbol)
-    (read-string prompt)
-  )
+  (read-from-minibuffer prompt nil nil nil history-symbol)
 ; lse-tpu:string-prompt
 )
 
@@ -706,7 +696,7 @@ Accepts a prefix argument of the number of characters to invert."
   (setq lse-tpu:delete-sel-mode-flag
         (if (and (lse-tpu:mark) delete-selection-mode) " Del-Sel")
   )
-  (cond (lse-tpu:emacs19-p (force-mode-line-update))
+  (cond ((force-mode-line-update))
         (t (set-buffer-modified-p (buffer-modified-p)) (sit-for 0))
   )
 ; lse-tpu:update-mode-line
@@ -1961,10 +1951,7 @@ With argument reinserts the text that many times."
          )
         )
        )
-    (if lse-tpu:emacs19-p
-        (read-from-minibuffer re-prompt nil nil nil 'lse-tpu:regexp-prompt-hist)
-      (read-string re-prompt)
-    )
+    (read-from-minibuffer re-prompt nil nil nil 'lse-tpu:regexp-prompt-hist)
   )
 ; lse-tpu:regexp-prompt
 )
@@ -2802,18 +2789,7 @@ A repeat count means scroll that many sections."
   (interactive)
   (cond
    ((not lse-tpu:edt-mode)
-    (cond (lse-tpu:emacs19-p
-           ;; 12-Mar-1995 ;; (and window-system (lse-tpu:load-xkeys nil))
-           (lse-tpu:arrow-history)
-          )
-          (t
-           ;; define ispell functions
-           (autoload 'ispell-word          "ispell" "Check spelling of word at or before point" t)
-           (autoload 'ispell-complete-word "ispell" "Complete word at or before point"          t)
-           (autoload 'ispell-buffer        "ispell" "Check spelling of entire buffer"           t)
-           (autoload 'ispell-region        "ispell" "Check spelling of region"                  t)
-          )
-    )
+    (lse-tpu:arrow-history)
     (lse-tpu:set-mode-line t)
     (lse-tpu:set-search)
     (lse-tpu:update-mode-line)

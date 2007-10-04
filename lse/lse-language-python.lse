@@ -56,6 +56,8 @@
 ;;;;    17-Aug-2006 (CT) Disable local binding for `f1`
 ;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
 ;;;;                     `lse-tpu:end-of-line`
+;;;;     4-Oct-2007 (CT) `lse-python:update-patchlevel` added and bound to
+;;;;                     `[red ?v]`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -124,6 +126,7 @@
   (local-set-smk   [red      ?g]     'lse-python:goto-end-of-class);       13-Apr-1998
   (local-set-smk   [red      ?r]     'lse-python:goto-prev-statement);      8-Sep-2002
   (local-set-smk   [red      ?s]     'lse-python:goto-next-statement);      8-Sep-2002
+  (local-set-smk   [red      ?v]     'lse-python:update-patchlevel);        4-Oct-2007
   (local-set-smk   [red   right]     'lse-python:goto-next-statement);     18-Nov-2002
   (local-set-smk   [red   ?\C-e]     'lse-python:goto-next-statement-end); 18-Nov-2002
   (local-set-smk   [red    left]     'lse-python:goto-prev-statement);     18-Nov-2002
@@ -333,4 +336,66 @@
   (lse-python:goto-prev-statement num)
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-prev-statement-end
+)
+
+;;;  4-Oct-2007
+(defconst lse-python:patchlevel-pattern
+  (concat
+    "\\(patchlevel += +\\)"                      ; \\1 patchlevel head
+    "\\([0-9]+\\)"                               ; \\2 patchlevel value
+    "\\(.*\n?\\)"                                ; \\3 patchlevel tail
+    "\\( *, date += \"\\)"                       ; \\3 date       head
+    "\\( ?[0-9]+-[A-Z][a-z]+-[0-9]+ ?\\)"        ; \\3 date       value
+    "\\(\"\\)"                                   ; \\3 date       tail
+  )
+)
+
+;;;  4-Oct-2007
+(defun lse-python:update-patchlevel ()
+  "Update patchlevel/date of a Python Version file."
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (lse-tpu:move-to-beginning)
+      (if (re-search-forward lse-python:patchlevel-pattern (buffer-size) t)
+          (let* ((p_head  (match-string-no-properties 1))
+                 (p_value (match-string-no-properties 2))
+                 (p_tail  (match-string-no-properties 3))
+                 (d_head  (match-string-no-properties 4))
+                 (d_value (format "%11s " (lse-dd-mmm-yyyy)))
+                 (d_tail  (match-string-no-properties 6))
+                 (new_pv  (format "%d" (1+ (string-to-number p_value))))
+                 (rv_tail "")
+                 (user    (concat "(" (lse-user-initials)  ")"))
+                )
+            (replace-match
+              (concat p_head new_pv p_tail d_head d_value d_tail)
+            )
+            (lse-tpu:move-to-beginning)
+            (if (re-search-forward
+                  (concat "# +" d_value user " +"
+                          "Patchlevel +increased to [0-9]+\\(.*\\)\n"
+                  )
+                )
+                (progn
+                  (setq rv_tail (match-string-no-properties 1))
+                  (replace-match "")
+                )
+            )
+            (if (re-search-forward "^#\\( +««revision-date»»···\\|--\\)")
+                (replace-match
+                  (concat
+                    "#    " d_value user " Patchlevel     increased to " new_pv
+                    "\n"
+                    (match-string 0)
+                  )
+                )
+            )
+            (message "Patchlevel increased to %s" new_pv)
+          )
+        (message "No patchlevel/date code found.")
+      )
+    )
+  )
+; lse-python:update-patchlevel
 )
