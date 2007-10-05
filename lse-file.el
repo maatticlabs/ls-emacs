@@ -42,16 +42,14 @@
 ;;;;                     `swing-default.el`
 ;;;;     4-Oct-2007 (CT) `lse-insert-file` changed to call
 ;;;;                     `insert-file-contents` instead of `insert-file`
+;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
 
 (defun lse-read-file-name (prompt &optional dir def must-exist)
   (or def (setq def (lse-tpu:selection)))
-  (if lse-emacs19-p
-      (read-file-name prompt dir nil must-exist def)
-    ;; (read-file-name-with-history-in 'file-history prompt dir def must-exist)
-  )
+  (read-file-name prompt dir nil must-exist def)
 )
 
 (defun lse-find-file-noselect (filename &optional nowarn)
@@ -239,6 +237,7 @@
     (save-excursion
       (set-buffer (get-buffer buf))
       (set-visited-file-name new-name)
+      (lse-buffer:rename-unique-anchored-name);  5-Oct-2007
       (if silent
           nil
         (message "File name of buffer %s is now %s"

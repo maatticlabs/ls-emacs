@@ -56,6 +56,13 @@
 ;;;;    18-May-2003 (CT) `lse-save-some-buffers` and `lse-write-buffer`
 ;;;;                     changed to let `inhibit-point-motion-hooks` and
 ;;;;                     `inhibit-read-only`
+;;;;     5-Oct-2007 (CT) `lse-insert-buffer` changed to use
+;;;;                     `insert-buffer-substring` instead of `insert-buffer`
+;;;;     5-Oct-2007 (CT) `save-match-data` added to
+;;;;                     `lse-buffer:unique_anchored_name`
+;;;;     5-Oct-2007 (CT) `lse-buffer:initialize` changed to initialize
+;;;;                     `lse-buffer:n` to `lse-buffer:new_n` instead of `0`
+;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -63,10 +70,7 @@
 (defvar buf nil) ; for some reason debugger does not work without this???
 
 (defun lse-buffer:alist ()
-  (mapcar (function (lambda (x)
-                      (cons (buffer-name x) x)
-                    )
-          )
+  (mapcar (function (lambda (x) (cons (buffer-name x) x)))
           (buffer-list)
   )
 )
@@ -80,19 +84,15 @@
 (defun lse-buffer:read-name (prompt &optional def must-exist)
   (let (result)
     (setq result
-          (if lse-emacs19-p
-              (completing-read
-                   prompt (lse-buffer:alist) nil must-exist
-                   (if (stringp def)
-                       def
-                     (if (bufferp def) (buffer-name def) "")
-                   )
-                   'buffer-history
-              )
-            ; (read-buffer-with-history-in 'buffer-history prompt def must-exist)
+          (completing-read
+               prompt (lse-buffer:alist) nil must-exist
+               (if (stringp def)
+                   def
+                 (if (bufferp def) (buffer-name def) "")
+               )
+               'buffer-history
           )
     )
-;    (if result (get-buffer result))
     result
   )
 )
@@ -118,10 +118,12 @@
       (setq rn      (file-relative-name fname a))
       (if (or (string= ".." (substring rn 0 2)) (string= rn bname))
           t
-        (while (string-match "/" rn)
-          ;;  3-Apr-2003
-          ;; `switch-to-buffer` gets confused by buffer-names containing `/`
-          (setq rn (replace-match ":" t t rn))
+        (save-match-data ;  5-Oct-2007
+          (while (string-match "/" rn)
+            ;;  3-Apr-2003
+            ;; `switch-to-buffer` gets confused by buffer-names containing `/`
+            (setq rn (replace-match ":" t t rn))
+          )
         )
         (setq result (generate-new-buffer-name rn))
         (setq anchors nil)
@@ -297,8 +299,8 @@
   ;; a bug starting with Emacs 19.30 forced me to put it into another
   ;; function which is called via the post-command-hook
   (setq lse-buffer:new   (current-buffer))
-  (setq lse-buffer:n     0);  7-Oct-1996
   (setq lse-buffer:new_n (1+ lse-buffer:new_n)); 10-Oct-1996
+  (setq lse-buffer:n     lse-buffer:new_n); 5-Oct-2007 ; instead of `0`
   (add-hook 'post-command-hook 'lse-buffer:initialize-hack-19.30+)
 )
 
@@ -400,22 +402,12 @@
   "Delete buffer."
   (interactive)
   (setq buf
-        (get-buffer (or buf (lse-buffer:read-name "Delete buffer: "
-                                                    (buffer-name)
-                                                    t
-                             )
-                    )
+        (get-buffer
+            (or buf (lse-buffer:read-name "Delete buffer: " (buffer-name) t))
         )
   )
   (if (not dont-move) (lse-goto-last-mark-window));  5-May-1998
   (save-excursion
-    (if lse-emacs19-p
-        t;  kill-buffer-hook does the work automatically
-      (set-buffer buf)
-      (if lse-buffer:n
-          (lse-buffer:remove-from-chain)
-      )
-    )
     (kill-buffer buf)
   )
 ; lse-kill-buffer
@@ -425,7 +417,7 @@
 
 (defun lse-insert-buffer (&optional buffer)
   (interactive "bBuffer to paste: ")
-  (insert-buffer buffer)
+  (insert-buffer-substring buffer)
   (lse-tpu:unselect t)
 ; lse-insert-buffer
 )

@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -12,8 +12,11 @@
 ;;;; Revision Dates
 ;;;;    14-Jun-1994 (CT) Creation (of comment)
 ;;;;    14-Jun-1994 (CT) lse-text-mode put in here
+;;;;     5-Oct-2007 (CT) `lse-text-mode` changed to guard `lse-language:use`
+;;;;                     call
 ;;;;    ««revision-date»»···
 ;;;;--
+
 (lse-language:define "generic"
   '((lse-tpu:ident-group-chars         "_")
     (lse-language:tab-increment        2)
@@ -32,7 +35,12 @@
 
 (defun lse-text-mode ()
   (interactive);  9-Jul-1997
-  (lse-language:use "generic")
+  (if (eq major-mode 'text-mode)
+      ;; this is called *after* the function defining a mode derived from
+      ;; text-mode; without the guard it resets the language selected by that
+      ;; mode-function
+      (lse-language:use "generic")
+  )
   (setq indent-line-function 'lse-indent-line)
   (local-unset-key "\C-n")
   (local-unset-key "\C-i")

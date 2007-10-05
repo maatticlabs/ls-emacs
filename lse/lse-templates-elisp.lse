@@ -1,6 +1,5 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-
 (lse-define-fill-in "and"
     '(token)
     '(description           "Evaluate embedded forms in order until one forms returns nil or return value of last form")
@@ -18,7 +17,7 @@
 )
 
 (lse-define-fill-in "binding"
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(menu
         ("(«name» «form»)"     "Initialize «name» with value of «form»")
         ("«name»"              "Initialize «name» with nil")
@@ -35,7 +34,7 @@
 
 (lse-define-fill-in "cleanup-form"
     '(description           "Executed by unwind-protect in all circumstances (but itself not protected!)")
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement           @ form)
 )
 
@@ -60,6 +59,7 @@
 
 (lse-define-fill-in "condition-case"
     '(token)
+    '(token                 "try");  5-Oct-2007
     '(description           "Establish the error handlers «condition-handler»··· around the execution of «form»")
     '(replacement
         "(condition-case «condition-var»"
@@ -75,7 +75,8 @@
 
 (lse-define-fill-in "condition-handler"
     '(token)
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(token                 "except");  5-Oct-2007
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement
         "(«condition-handler-condition»"
           @ form-list &
@@ -87,10 +88,32 @@
 (lse-define-fill-in "condition-handler-condition"
     '(description           "(List of) error condition name(s)")
     '(menu
-        ("«name»"           "Condition handler handles the single condition «name»")
-        ("(«name»···)"      "Condition handler handles all conditions in list of «name»s")
+        condition-handler-error-symbol
+        ("(«condition-handler-error-symbol»···)"
+           "Condition handler handles all conditions in list of error-symbols"
+        )
      )
 ;;; condition-handler-condition
+)
+
+;;;  5-Oct-2007
+(lse-define-fill-in "condition-handler-error-symbol"
+    '(token)
+    '(separator             " ")
+    '(sort)
+    '(menu
+        "args-out-of-range"
+        "arith-error"
+        "buffer-read-only"
+        "file-error"
+        "invalid-function"
+        "invalid-regexp"
+        "scan-error"
+        "search-failed"
+        "wrong-number-of-arguments"
+        "wrong-type-argument"
+     )
+;;; condition-handler-error-symbol
 )
 
 (lse-define-fill-in "condition-var"
@@ -108,12 +131,12 @@
 ;;; def-name
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (lse-define-fill-in "defconst"
     '(token)
     '(description           "Define a lisp constant")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        ";;; " & lse-insert-dd-mmm-yyyy+blank
         "(defconst «def-name» «form» ««quoted-text»»)"
      )
 ;;; defconst
@@ -123,7 +146,7 @@
     '(token)
     '(description           "Define a lisp macro")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        ";;; " & lse-insert-dd-mmm-yyyy+blank
         "(defmacro «def-name» " & @ function-definition &
           "; «def-name»"
         ")"
@@ -134,20 +157,20 @@
     '(token)
     '(description           "Define a named lisp function")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        ";;; " & lse-insert-dd-mmm-yyyy+blank
         "(defun «def-name» " &
            @ function-definition &
         "; «def-name»"
         ")"
      )
-) 
+)
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (lse-define-fill-in "defvar"
     '(token)
     '(description           "Define a lisp variable")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank 
+        ";;; " & lse-insert-dd-mmm-yyyy+blank
         "(defvar «def-name» «form» ««quoted-text»»)"
      )
 ;;; defvar
@@ -156,7 +179,7 @@
 (lse-define-fill-in "elisp-module"
     '(description           "Module of elisp functions")
     '(replacement
-        ";-*- unibyte: t; coding: iso-8859-1; -*-" ; 22-Feb-2000 
+        ";-*- unibyte: t; coding: iso-8859-1; -*-" ; 22-Feb-2000
         ""
         ";;;;««header-comment»»"
         "««provide»»"
@@ -168,14 +191,14 @@
 )
 
 (lse-define-fill-in "else-clause"
-  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
   '(replacement @ "progn")
 )
 
 (lse-define-fill-in "form"
   '(description           "Any valid Elisp form")
   '(token)
-  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
   '(menu
       ("«name»"     "Value of variable «name»")
       ("(«name»)"   "Value of function, macro or special form «name»")
@@ -203,7 +226,7 @@
 )
 
 (lse-define-fill-in "form-list"
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998 
+    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement
         lse-indent+1
         "«form»···"
@@ -214,7 +237,7 @@
 
 (lse-define-fill-in "function-definition"
     '(replacement "(««arg»»···)"
-        lse-environment-indent lse-indent+1                            
+        lse-environment-indent lse-indent+1
         "««quoted-text»»"
         "««interactive»»"
         "«form»···"

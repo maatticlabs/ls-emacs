@@ -90,6 +90,7 @@
 ;;;;     3-Oct-2007 (CT) `lse-keys:emacs-bindings-to-unset` and
 ;;;;                     `lse-keys:function-key-map-bindings` added und
 ;;;;                     passed to `mapcar` to allow customizations
+;;;;     5-Oct-2007 (CT) `lse-keys-v19:define-fkp-key` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -120,13 +121,6 @@
      )
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."
-)
-
-;;; 30-May-1996
-(defun lse-keys-v19:define-fkp-key (key def)
-  ;; (global-unset-key key)
-  (define-key function-key-map key def)
-; lse-keys-v19:define-fkp-key
 )
 
 (defmacro lse-key-cmd (&rest args)
@@ -309,9 +303,9 @@
 )
 
 ;;;  3-Oct-2007
-(mapcar 'global-unset-key lse-keys:emacs-bindings-to-unset)
+(mapc 'global-unset-key lse-keys:emacs-bindings-to-unset)
 
-(mapcar (function (lambda (x) (apply 'lse-keys-v19:define-fkp-key x)))
+(mapc (function (lambda (x) (apply 'define-key function-key-map x)))
   lse-keys:function-key-map-bindings
 )
 

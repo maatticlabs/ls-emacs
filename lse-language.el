@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-language:el lse_lngg:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -39,7 +39,10 @@
 ;;;;    13-Sep-1994 (CT) lse-language:fill-in-refs & lse-language:fill-in-defs
 ;;;;    11-Oct-1996 (CT) lse-language:name added
 ;;;;    11-Oct-1996 (CT) Comments added
-;;;;-- 
+;;;;     5-Oct-2007 (CT) Use `lse-language:call-hook` instead of `funcall`
+;;;;                     (and try to pass `t` to each of the hooks there)
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-language)
 
 (defvar lse-language:master_prefix "lse-language-")
@@ -67,7 +70,7 @@
             )
           (setq curr (or (elt state 2) (elt state 1)))
         )
-        (if curr 
+        (if curr
             (progn
               (goto-char curr)
               (insert-before-markers "\n")
@@ -79,7 +82,7 @@
     )
   )
 )
- 
+
 (defun lse-compile@write-one-fill-in (f)
   (if (equal f 0)
       t
@@ -113,7 +116,7 @@
     (terpri                                (current-buffer))
   )
 )
- 
+
 (defun lse-define-compiled-fill-in (name plist)
   (let ((psym (intern (downcase name) lse_fill-in_table))
        )
@@ -136,7 +139,7 @@
     (fset tsym nil)
   )
 )
- 
+
 (defvar                      lse-language:table (make-vector 47 0)
   "Table holding all defined languages of LS-Emacs"
 )
@@ -151,12 +154,12 @@
 )
 (defvar                      lse-language:name            nil
   "Name of language used in buffer."
-); 11-Oct-1996 
+); 11-Oct-1996
 (make-variable-buffer-local 'lse-language:initial-fill-in)
 (make-variable-buffer-local 'lse-language:expand-initial)
-(make-variable-buffer-local 'lse-language:name); 11-Oct-1996 
+(make-variable-buffer-local 'lse-language:name); 11-Oct-1996
 
-(defun lse-language:define 
+(defun lse-language:define
            (name properties hooks files &optional fill-in-size token-size)
   (let ((lsym (intern-soft (downcase name) lse-language:table))
         new
@@ -180,16 +183,29 @@
   )
 ; lse-language:define
 )
- 
+
 (defun lse-language:set-property (name value)
   (set name value)
 )
 
-(defun lse-language:use-loaded (lsym &optional initial)
-  (mapcar (function (lambda (x) (apply 'lse-language:set-property x))) 
-          (get lsym 'properties)
+;;;  5-Oct-2007
+(defun lse-language:call-hook (hook)
+  (cond ((symbolp hook)
+         (condition-case nil
+             (funcall hook t)
+           (wrong-number-of-arguments (funcall hook))
+         )
+        )
+        ((consp hook) (eval hook))
   )
-  (mapcar 'funcall  (get lsym 'hooks))
+; lse-language:call-hook
+)
+
+(defun lse-language:use-loaded (lsym &optional initial)
+  (mapc (function (lambda (x) (apply 'lse-language:set-property x)))
+        (get lsym 'properties)
+  )
+  (mapc 'lse-language:call-hook (get lsym 'hooks))
   (lse-tpu:set-word-char-for-idents)
   (setq lse_token_table   (get lsym 'token-table))
   (setq lse_fill-in_table (get lsym 'fill-in-table))
@@ -230,13 +246,13 @@
   )
 ; lse-language:load@internal
 )
- 
+
 (defun lse-language:load-from-source (name)
-  (setq lse-language:fill-in-refs nil); 13-Sep-1994 
-  (setq lse-language:fill-in-defs nil); 13-Sep-1994 
+  (setq lse-language:fill-in-refs nil); 13-Sep-1994
+  (setq lse-language:fill-in-defs nil); 13-Sep-1994
   (lse-language:load@internal
     name
-    (function 
+    (function
        (lambda (lsym)
          (let (result)
            (lse-define-fill-in "$$default$$separator"
@@ -247,11 +263,11 @@
                        t nil t
                  )
            )
-           (mapcar 
-              (function 
-                 (lambda (f) 
+           (mapcar
+              (function
+                 (lambda (f)
                    (lse-define:message "Loading  `%25s'" f)
-                   (if (load (concat f lse-language:source_ext) t nil t) 
+                   (if (load (concat f lse-language:source_ext) t nil t)
                        t                ; relax
                      (setq result nil)
                      (lse-define:message "Error in file %s" f)
@@ -286,7 +302,7 @@
   (let ((load-path lse-load-path)
         (lsym (intern-soft (downcase name) lse-language:table))
        )
-    (if lsym 
+    (if lsym
         t                               ; relax
       (load (concat lse-language:master_prefix name lse-language:source_ext)
             nil nil t
