@@ -58,6 +58,7 @@
 ;;;;                     `lse-tpu:end-of-line`
 ;;;;     4-Oct-2007 (CT) `lse-python:update-patchlevel` added and bound to
 ;;;;                     `[red ?v]`
+;;;;     4-Oct-2007 (CT) `extras` added to `lse-python:update-patchlevel`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -365,27 +366,37 @@
                  (d_value (format "%11s " (lse-dd-mmm-yyyy)))
                  (d_tail  (match-string-no-properties 6))
                  (new_pv  (format "%d" (1+ (string-to-number p_value))))
-                 (rv_tail "")
                  (user    (concat "(" (lse-user-initials)  ")"))
+                 (rv_tail "")
+                 (extras  "")
                 )
             (replace-match
               (concat p_head new_pv p_tail d_head d_value d_tail)
+            )
+            (if (re-search-backward
+                  (concat user " \\( +\\)" "Patchlevel +increased to") 0 t
+                )
+                (setq extras (match-string-no-properties 1))
             )
             (lse-tpu:move-to-beginning)
             (if (re-search-forward
                   (concat "# +" d_value user " +"
                           "Patchlevel +increased to [0-9]+\\(.*\\)\n"
                   )
+                  (buffer-size) t
                 )
                 (progn
                   (setq rv_tail (match-string-no-properties 1))
                   (replace-match "")
                 )
             )
-            (if (re-search-forward "^#\\( +««revision-date»»···\\|--\\)")
+            (if (re-search-forward
+                  "^#\\( +««revision-date»»···\\|--\\)"(buffer-size) t
+                )
                 (replace-match
                   (concat
-                    "#    " d_value user " Patchlevel     increased to " new_pv
+                    "#    " d_value user extras
+                      " Patchlevel     increased to " new_pv
                     "\n"
                     (match-string 0)
                   )
