@@ -73,6 +73,7 @@
 ;;;;     3-Oct-2007 (CT) `lse-keys:override-emacs-control-keys` removed
 ;;;;     3-Oct-2007 (CT) `lse-keys:function-key-map-bindings` added
 ;;;;     4-Oct-2007 (CT) `lse-file:update-copyright` added to `before-save-hook`
+;;;;     5-Oct-2007 (CT) `Py-Version-Update` added and bound to `[red gold ?V]`
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
@@ -438,5 +439,19 @@
 
 ;;;  4-Oct-2007
 (add-hook 'before-save-hook 'lse-file:update-copyright)
+
+;;;  5-Oct-2007
+(defun Py-Version-Update ()
+  "Update all python version files"
+  (interactive)
+  (lse-python:update-patchlevel-many
+    "_CDT:Version.py" "_GCD:Version.py" "_XCD:Version.py"
+    "_NDT:Version.py" "_GND:Version.py" "_XND:Version.py"
+    "_DLT:Version.py"
+  )
+; Py-Version-Update
+)
+
+(global-set-key [red gold ?V] 'Py-Version-Update)
 
 ;;; __END__ swing-default.el

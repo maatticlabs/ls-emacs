@@ -59,6 +59,8 @@
 ;;;;     4-Oct-2007 (CT) `lse-python:update-patchlevel` added and bound to
 ;;;;                     `[red ?v]`
 ;;;;     4-Oct-2007 (CT) `extras` added to `lse-python:update-patchlevel`
+;;;;     5-Oct-2007 (CT) `lse-python:update-patchlevel-many` and
+;;;;                     `lse-python:update-patchlevel-one` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -410,3 +412,25 @@
   )
 ; lse-python:update-patchlevel
 )
+
+;;;  5-Oct-2007
+(defun lse-python:update-patchlevel-many (&rest arg)
+  (mapc 'lse-python:update-patchlevel-one arg)
+; lse-python:update-patchlevel-many
+)
+
+;;;  5-Oct-2007
+(defun lse-python:update-patchlevel-one (name)
+  (save-excursion
+    (if (get-buffer name)
+        (progn
+          (set-buffer name)
+          (lse-python:update-patchlevel)
+        )
+      (message "No buffer named `%s` exists" name)
+    )
+  )
+; lse-python:update-patchlevel-one
+)
+
+;;; __END__ lse-language-python.lse
