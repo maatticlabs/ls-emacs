@@ -43,9 +43,13 @@
 ;;;;     4-Oct-2007 (CT) `lse-insert-file` changed to call
 ;;;;                     `insert-file-contents` instead of `insert-file`
 ;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
+;;;;     6-Oct-2007 (CT) `use-file-dialog` set to `nil` to avoid nasty dialog
+;;;;                     box
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
+
+(setq use-file-dialog nil);  6-Oct-2007
 
 (defun lse-read-file-name (prompt &optional dir def must-exist)
   (or def (setq def (lse-tpu:selection)))

@@ -76,17 +76,17 @@
         ); 25-Nov-2002
     (lse-tpu:set-search t);  6-Oct-2007
     (lse-tpu:move-to-beginning)
-    (if (lse-tpu:search+goto "^CC:")
+    (if (lse-tpu:search+goto "^CC:" nil t)
         (lse-tpu:delete-next-line 1)
     )
     (lse-tpu:move-to-beginning)
     (save-excursion
-      (if (or (looking-at "^To: *$") (lse-tpu:search+goto "^To: *$"))
+      (if (lse-tpu:search+goto "^To: *$" nil t)
           (progn
             (lse-tpu:forward-char 3)
             (lse-tpu:insert "          «text»")
           )
-        (if (or (looking-at "^To: *.+$") (lse-tpu:search+goto "^To: *.*+$"))
+        (if (lse-tpu:search+goto "^To: *.*+$" nil t)
             (progn
               (lse-tpu:forward-char 3)
               (lse-tpu:insert "         ")
@@ -94,12 +94,12 @@
         )
       )
       (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search+goto "^Subject: *$")
+      (if (lse-tpu:search+goto "^Subject: *$" nil t)
           (progn
             (lse-tpu:forward-char 8)
             (lse-tpu:insert "     «text»")
           )
-        (if (lse-tpu:search+goto "^Subject: *.+$")
+        (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
             (progn
               (lse-tpu:forward-char 8)
               (lse-tpu:insert "    ")
@@ -107,13 +107,13 @@
         )
       )
       (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search+goto "^BCC: *.+$")
+      (if (lse-tpu:search+goto "^BCC: *.+$" nil t)
           (progn
             (lse-tpu:forward-char 4)
             (lse-tpu:insert "        ")
           )
       )
-      (if (lse-tpu:search+goto "^--text follows this line--")
+      (if (lse-tpu:search+goto "^--text follows this line--" nil t)
           (progn
             (lse-tpu:insert "««mail-cc»»\n"
               "««mail-bcc»»\n"
@@ -163,7 +163,7 @@
 (defun lse-mail:insert-if-missing (tag &rest text)
   (if (save-excursion
         (lse-tpu:move-to-beginning)
-        (or (looking-at tag) (lse-tpu:search+goto tag))
+        (lse-tpu:search+goto tag nil t)
       );  8-Feb-1998 ; avoid duplicate field
       t
     (apply 'lse-tpu:insert text)
@@ -186,12 +186,12 @@
         (lse-tpu:insert "\n"); insert extra blank line
         (save-excursion
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto  "^To: *$")
+          (if (lse-tpu:search+goto  "^To: *$" nil t)
               (progn
                 (lse-tpu:forward-char 3)
                 (lse-tpu:insert "          «text»")
               )
-            (if (lse-tpu:search+goto "^To: *.+$")
+            (if (lse-tpu:search+goto "^To: *.+$" nil t)
                 (progn
                   (lse-tpu:forward-char 3)
                   (lse-tpu:insert "         ")
@@ -199,12 +199,12 @@
             )
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^Subject: *$")
+          (if (lse-tpu:search+goto "^Subject: *$" nil t)
               (progn
                 (lse-tpu:forward-char 8)
                 (lse-tpu:insert "     «text»")
               )
-            (if (lse-tpu:search+goto "^Subject: *.+$")
+            (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
                 (progn
                   (lse-tpu:forward-char 8)
                   (lse-tpu:insert "    ")
@@ -212,11 +212,11 @@
             )
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^CC:[ \t]*$")
+          (if (lse-tpu:search+goto "^CC:[ \t]*$" nil t)
               (lse-tpu:delete-next-line 1)
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^--------$")
+          (if (lse-tpu:search+goto "^--------$" nil t)
               (progn
                 (lse-mail:insert-if-missing "^From: "
                   "From:        " (lse-user-e-mail-address)

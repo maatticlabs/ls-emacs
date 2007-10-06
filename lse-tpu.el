@@ -109,6 +109,8 @@
 ;;;;     6-Oct-2007 (CT) `lse-tpu:search+goto+set-match` and
 ;;;;                     `lse-tpu:search+goto` factored from
 ;;;;                     `lse-tpu:search-internal`
+;;;;     6-Oct-2007 (CT) Argument `stay-at-bob` added to
+;;;;                     `lse-tpu:adjust-search` and `lse-tpu:search+goto`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2084,10 +2086,10 @@ direction."
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:search+goto (pat &optional limit)
+(defun lse-tpu:search+goto (pat &optional limit stay-at-bob)
   (lse-tpu:save-pos-before-search)
   (lse-tpu:unset-match)
-  (lse-tpu:adjust-search)
+  (lse-tpu:adjust-search nil stay-at-bob)
   (if (lse-tpu:emacs-search pat limit t)
       (progn
         (goto-char (match-beginning 0))
@@ -2098,8 +2100,8 @@ direction."
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:search+goto+set-match (pat &optional limit)
-  (if (lse-tpu:search+goto pat limit)
+(defun lse-tpu:search+goto+set-match (pat &optional limit stay-at-bob)
+  (if (lse-tpu:search+goto pat limit stay-at-bob)
       (progn
         (lse-tpu:set-match)
         t
@@ -2108,7 +2110,8 @@ direction."
 ; lse-tpu:search+goto+set-match
 )
 
-(defun lse-tpu:search-internal (pat &optional quiet limit dont-look-other-dir)
+(defun lse-tpu:search-internal
+    (pat &optional quiet limit dont-look-other-dir stay-at-bob)
   ;; Search for a string or regular expression.
   ;; 12-Dec-1993 CT : do not prompt if found in reverse direction
   (setq lse-tpu:search-last-string
@@ -2122,7 +2125,9 @@ direction."
   ;;; XXX split this into two functions
   ;;; * change most current clients of lse-tpu:search-internal to use
   ;;;   lse-tpu:search+goto
-  (cond ((lse-tpu:search+goto+set-match lse-tpu:search-last-string limit)
+  (cond ((lse-tpu:search+goto+set-match
+           lse-tpu:search-last-string limit stay-at-bob
+         )
            t
         )
         ((not dont-look-other-dir)
@@ -2130,7 +2135,7 @@ direction."
            (let ((found nil))
              (save-excursion
                (let ((lse-tpu:searching-forward (not lse-tpu:searching-forward)))
-                 (lse-tpu:adjust-search)
+                 (lse-tpu:adjust-search stay-at-bob)
                  (setq found
                    (lse-tpu:emacs-rev-search lse-tpu:search-last-string nil t)
                  )
@@ -2163,12 +2168,12 @@ direction."
 ; lse-tpu:search-internal
 )
 
-(defun lse-tpu:adjust-search (&optional arg)
+(defun lse-tpu:adjust-search (&optional arg stay-at-bob)
   "For forward searches, move forward a character before searching,
 and backward a character after a failed search.  Arg means end of search."
   (if lse-tpu:searching-forward
-      (cond (arg (if (not (bobp)) (lse-tpu:forward-char -1)))
-            (t   (if (not (eobp)) (lse-tpu:forward-char  1)))
+      (cond (arg               (if (not (bobp)) (lse-tpu:forward-char -1)))
+            ((not stay-at-bob) (if (not (eobp)) (lse-tpu:forward-char  1)))
       )
   )
 ; lse-tpu:adjust-search
@@ -2307,7 +2312,7 @@ and backward a character after a failed search.  Arg means end of search."
              )
           (save-excursion
             (goto-char head)
-            (lse-tpu:adjust-search)
+            (lse-tpu:adjust-search nil t)
             (setq found (lse-tpu:search-internal from t cp t)
                   ; (lse-tpu:emacs-rev-search from head t)
             )

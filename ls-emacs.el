@@ -79,8 +79,8 @@
 (provide 'ls-emacs)
 
 ;;; 29-Dec-1997
-(defconst lse-version      "3.2"         "Version number of LS-Emacs.")
-(defconst lse-version-date " 4-Oct-2007" "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.3"         "Version number of LS-Emacs.")
+(defconst lse-version-date " 6-Oct-2007" "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
