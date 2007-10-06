@@ -36,6 +36,8 @@
 ;;;;    29-Jul-2005 (CT) `lse-mail:pma-setup-hook` and `lse-mail:pma-exit`
 ;;;;                     added
 ;;;;    19-Sep-2005 (CT) `lse-templates-roundup-mail` added
+;;;;     6-Oct-2007 (CT) Use `lse-tpu:search+goto` instead of
+;;;;                     `lse-tpu:search-internal` and call `lse-tpu:set-search`
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -71,29 +73,33 @@
 
 (defun lse-mail-setup-hook ()
   (let* ((lse-tpu:searching-forward t)
-         (sls                       lse-tpu:search-last-string)
         ); 25-Nov-2002
+    (lse-tpu:set-search t);  6-Oct-2007
     (lse-tpu:move-to-beginning)
-    (if (lse-tpu:search-internal "^CC:" t)
+    (if (lse-tpu:search+goto "^CC:")
         (lse-tpu:delete-next-line 1)
     )
     (lse-tpu:move-to-beginning)
     (save-excursion
-      (if (looking-at "^To: *$")
+      (if (or (looking-at "^To: *$") (lse-tpu:search+goto "^To: *$"))
           (progn
             (lse-tpu:forward-char 3)
             (lse-tpu:insert "          «text»")
           )
-        (lse-tpu:forward-char 3)
-        (lse-tpu:insert "         ")
+        (if (or (looking-at "^To: *.+$") (lse-tpu:search+goto "^To: *.*+$"))
+            (progn
+              (lse-tpu:forward-char 3)
+              (lse-tpu:insert "         ")
+            )
+        )
       )
       (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search-internal "^Subject: *$" t)
+      (if (lse-tpu:search+goto "^Subject: *$")
           (progn
             (lse-tpu:forward-char 8)
             (lse-tpu:insert "     «text»")
           )
-        (if (lse-tpu:search-internal "^Subject: *.+$" t)
+        (if (lse-tpu:search+goto "^Subject: *.+$")
             (progn
               (lse-tpu:forward-char 8)
               (lse-tpu:insert "    ")
@@ -101,13 +107,13 @@
         )
       )
       (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search-internal "^BCC: *.+$" t)
+      (if (lse-tpu:search+goto "^BCC: *.+$")
           (progn
             (lse-tpu:forward-char 4)
             (lse-tpu:insert "        ")
           )
       )
-      (if (lse-tpu:search-internal "^--text follows this line--" t)
+      (if (lse-tpu:search+goto "^--text follows this line--")
           (progn
             (lse-tpu:insert "««mail-cc»»\n"
               "««mail-bcc»»\n"
@@ -121,8 +127,8 @@
       (lse-tpu:unselect)
     )
     (lse-goto-next-fill-in)
-    (setq lse-tpu:search-last-string sls); 25-Nov-2002
   )
+  (lse-tpu:set-search t);  6-Oct-2007
 ; lse-mail-setup-hook
 )
 
@@ -157,7 +163,7 @@
 (defun lse-mail:insert-if-missing (tag &rest text)
   (if (save-excursion
         (lse-tpu:move-to-beginning)
-        (lse-tpu:search-internal tag t)
+        (or (looking-at tag) (lse-tpu:search+goto tag))
       );  8-Feb-1998 ; avoid duplicate field
       t
     (apply 'lse-tpu:insert text)
@@ -171,8 +177,8 @@
   (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
       (let* (lse-tpu:quiet-replace
              (lse-tpu:searching-forward t);                         25-Nov-2002
-             (sls                       lse-tpu:search-last-string);25-Nov-2002
             )
+        (lse-tpu:set-search t);  6-Oct-2007
         (lse-mail-mode)
         (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
         (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
@@ -180,12 +186,12 @@
         (lse-tpu:insert "\n"); insert extra blank line
         (save-excursion
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search-internal  "^To: *$" t)
+          (if (lse-tpu:search+goto  "^To: *$")
               (progn
                 (lse-tpu:forward-char 3)
                 (lse-tpu:insert "          «text»")
               )
-            (if (lse-tpu:search-internal "^To: *.+$" t)
+            (if (lse-tpu:search+goto "^To: *.+$")
                 (progn
                   (lse-tpu:forward-char 3)
                   (lse-tpu:insert "         ")
@@ -193,12 +199,12 @@
             )
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search-internal "^Subject: *$" t)
+          (if (lse-tpu:search+goto "^Subject: *$")
               (progn
                 (lse-tpu:forward-char 8)
                 (lse-tpu:insert "     «text»")
               )
-            (if (lse-tpu:search-internal "^Subject: *.+$" t)
+            (if (lse-tpu:search+goto "^Subject: *.+$")
                 (progn
                   (lse-tpu:forward-char 8)
                   (lse-tpu:insert "    ")
@@ -206,11 +212,11 @@
             )
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search-internal "^CC:[ \t]*$" t)
+          (if (lse-tpu:search+goto "^CC:[ \t]*$")
               (lse-tpu:delete-next-line 1)
           )
           (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search-internal "^--------$" t)
+          (if (lse-tpu:search+goto "^--------$")
               (progn
                 (lse-mail:insert-if-missing "^From: "
                   "From:        " (lse-user-e-mail-address)
@@ -231,7 +237,6 @@
         (lse-tpu:move-to-beginning)
         (lse-tpu:delete-next-char 1); remove extra blank line inserted
         (lse-goto-next-fill-in)
-        (setq lse-tpu:search-last-string sls); 25-Nov-2002
       )
   )
   (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000
@@ -271,14 +276,13 @@
   (if (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
       (let* (lse-tpu:quiet-replace
              (lse-tpu:searching-forward t);                         25-Nov-2002
-             (sls                       lse-tpu:search-last-string);25-Nov-2002
             )
+        (lse-tpu:set-search t);  6-Oct-2007
         (lse-mail-mode)
         (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)
         (local-set-key [?\C-x ?#]    'lse-mail:pma-exit)
         (lse-tpu:move-to-beginning)
         (lse-goto-next-fill-in)
-        (setq lse-tpu:search-last-string sls); 25-Nov-2002
       )
   )
   (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000

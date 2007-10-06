@@ -42,6 +42,7 @@
 ;;;;    28-Mar-2007 (CT) `lse-menu:*-menu-bar` added
 ;;;;     2-Oct-2007 (CT) Add `Show Emacs Version` to Emacs 22 Help Menu
 ;;;;     4-Oct-2007 (CT) `toggle-editing-direction` removed
+;;;;     5-Oct-2007 (CT) Search direction removed
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -229,14 +230,6 @@
                               "Regular expression search and substitute %s"
                               "Allow regular expressions in search commands"
                               (lse-tpu:toggle-regexp)
-        )
-      )
-      (define-key lse-menu:options:search [search-direction]
-        (menu-bar-make-toggle toggle-search-direction
-                              lse-tpu:searching-forward
-                              "Search forward" "Search forward %s"
-                              "Toggle search direction"
-                              (lse-tpu:toggle-search-direction)
         )
       )
       (define-key lse-menu:options:editing [rectangular-mode]

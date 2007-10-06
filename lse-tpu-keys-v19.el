@@ -412,7 +412,8 @@
 ;;;  1-Sep-2002
 (defun lse-tpu:redefine-some-control-keys ()
   (lse-define-key-in-all-maps [?\C-w]    'lse-tpu:delete-prev-bs-word);  6-Jan-2002
-  (global-set-smk             [?\C-f]    'lse-tpu:search);
+  (global-set-smk             [?\C-f]    'lse-tpu:search-forward);  5-Oct-2007
+  (global-set-smk             [?\s-F]    'lse-tpu:search-reverse);  5-Oct-200)
   (global-set-smk             [?\C-n]    'lse-tpu:search-again-forward); 31-Aug-2002
   (global-set-smk             [?\C-o]    'lse-open-line); 31-Aug-2002
   (global-set-smk             [?\C-p]    'lse-tpu:search-again-reverse); 31-Aug-2002

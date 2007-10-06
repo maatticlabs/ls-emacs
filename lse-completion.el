@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-completion:el lse_cmpl:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -38,14 +38,17 @@
 ;;;;    19-Mar-1995 (CT) lse_completion:overlay added
 ;;;;     1-Apr-1996 (CT) Override `completion-ignore-case' and
 ;;;;                     `case-fold-search' with value of
-;;;;                     `lse-completion:case-fold' 
+;;;;                     `lse-completion:case-fold'
 ;;;;    11-Oct-1996 (CT) Bindings for mouse buttons added and mouse-face set
 ;;;;    16-Oct-1996 (CT) lse-face:completion-m used instead of
 ;;;;                     lse-face:completion for mouse-face
 ;;;;    17-Dec-1997 (CT) `lse_completion:mouse_exit' added
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
+;;;;     5-Oct-2007 (CT) lse_completion:define_keys modernized
+;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
+;;;;                     `search-reverse`
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide 'lse-completion)
 
 (defvar lse_completion_buffer         nil)
@@ -62,10 +65,10 @@
 (defvar                      lse_completion:list           nil)
 (defvar                      lse_completion:last_key       nil)
 (defvar                      lse_completion:saved_wdw_conf nil)
-(defvar                      lse_completion:helped         nil); 29-Jun-1994 
-(defvar                      lse_completion:case-fold      nil);  8-Sep-1994 
+(defvar                      lse_completion:helped         nil); 29-Jun-1994
+(defvar                      lse_completion:case-fold      nil);  8-Sep-1994
 (defconst                    lse_completion:left_margin    3)
-(defvar                      lse_completion:overlay        nil); 19-Mar-1995 
+(defvar                      lse_completion:overlay        nil); 19-Mar-1995
 
 (defun lse_completion:widen ()
   (widen)
@@ -74,7 +77,7 @@
 
 (defun lse-completion:narrow ()
   (save-excursion
-    (let (head 
+    (let (head
           tail
          )
       (setq head (lse_completion:goto_match))
@@ -104,11 +107,11 @@
 (defun lse_completion:goto_match (&optional pat)
   (lse_completion:widen)
   (goto-char 1)
-  (re-search-forward 
+  (re-search-forward
        (concat "^"
-               (make-string  lse_completion:left_margin ? ) 
+               (make-string  lse_completion:left_margin ? )
                (regexp-quote (or pat lse_completion:so_far))
-       ) 
+       )
        nil t
   )
   (beginning-of-line)
@@ -117,21 +120,21 @@
 
 (defun lse_completion:goto_last_match (&optional pat)
   (goto-char (point-max))
-  (re-search-backward 
+  (re-search-backward
        (concat "^"
-               (make-string  lse_completion:left_margin ? ) 
+               (make-string  lse_completion:left_margin ? )
                (regexp-quote (or pat lse_completion:so_far))
-       ) 
+       )
        nil t
   )
   (beginning-of-line)
   (point)
 )
 
-;;;;;; 16-Oct-1996 
+;;;;;; 16-Oct-1996
 ;;;(defun lse_completion:goto_last_match (&optional pat)
 ;;;  (let ((p (concat "^"
-;;;               (make-string  lse_completion:left_margin ? ) 
+;;;               (make-string  lse_completion:left_margin ? )
 ;;;               (regexp-quote (or pat lse_completion:so_far))
 ;;;           )
 ;;;        )
@@ -174,7 +177,7 @@
   (throw 'exit@lse_completion nil)
 )
 
-;;; 17-Dec-1997 
+;;; 17-Dec-1997
 (defun lse_completion:mouse_exit ()
   (interactive)
   (call-interactively 'mouse-set-point)
@@ -205,13 +208,13 @@
 
 (defun lse_completion:complete (&optional add-chars quiet)
   (interactive)
-  (let* ((so-far (concat lse_completion:so_far 
+  (let* ((so-far (concat lse_completion:so_far
                          (or add-chars "")
                  )
          )
-         (new-compl (lse_completion:try so-far)) 
-         (case-fold-search       lse_completion:case-fold);  1-Apr-1996 
-         (completion-ignore-case lse_completion:case-fold);  1-Apr-1996 
+         (new-compl (lse_completion:try so-far))
+         (case-fold-search       lse_completion:case-fold);  1-Apr-1996
+         (completion-ignore-case lse_completion:case-fold);  1-Apr-1996
          is-complete
         )
     (if (not new-compl)
@@ -247,7 +250,7 @@
 (defun lse_completion:delete_last_completion ()
   (interactive)
   (setq lse_completion:so_far (car lse_completion:last))
-  (if (> (length lse_completion:last) 1) 
+  (if (> (length lse_completion:last) 1)
       (lse-remove-car-from-list lse_completion:last)
   )
   (lse_completion:goto_match)
@@ -286,7 +289,7 @@
   )
 )
 
-;;; 29-Jun-1994 
+;;; 29-Jun-1994
 (defun lse_completion:entry_desc (tail &optional full)
   (let (result
         help
@@ -294,7 +297,7 @@
     (cond ((symbolp tail)
            (setq result
                  (or (get tail 'description)
-                     (if (fboundp tail) 
+                     (if (fboundp tail)
                          (documentation tail)
                      )
                  )
@@ -322,7 +325,7 @@
 ; lse_completion:entry_desc
 )
 
-;;; 29-Jun-1994 
+;;; 29-Jun-1994
 (defun lse_completion:help ()
   (interactive)
   (let* ((item (lse_completion:current_item))
@@ -349,7 +352,7 @@
         )
         (princ "\n")
       )
-      (save-excursion 
+      (save-excursion
         (set-buffer " $lse help$")
         (fill-individual-paragraphs (point-min) (point-max))
       )
@@ -362,6 +365,8 @@
 (defun lse_completion:define_keys ()
   (local-set-key [?\C-e]               'lse_completion:exit)
   (local-set-key [?\A-e]               'lse_completion:exit)
+  (local-set-key [?\C-f]               'lse-tpu:search-forward);  5-Oct-2007
+  (local-set-key [?\s-f]               'lse-tpu:search-reverse);  5-Oct-2007
   (local-set-key [?\C-g]               'lse_completion:abort)
   (local-set-key [?\A-g]               'lse_completion:abort)
   (local-set-key [tab]                 'lse_completion:exit)
@@ -373,8 +378,10 @@
   (local-set-key [?\C-m]               'lse_completion:exit)
   (local-set-key [?\A-m]               'lse_completion:exit)
   (local-set-key [return]              'lse_completion:exit)
-  (local-set-key [?\C-o]               'lse_completion:help); 29-Jun-1994 
-  (local-set-key [?\A-o]               'lse_completion:help); 29-Jun-1994 
+  (local-set-key [?\C-n]               'lse-tpu:search-again-forward); 5-Oct-2007
+  (local-set-key [?\C-o]               'lse_completion:help); 29-Jun-1994
+  (local-set-key [?\A-o]               'lse_completion:help); 29-Jun-1994
+  (local-set-key [?\C-p]               'lse-tpu:search-again-reverse); 5-Oct-2007
   (local-set-key [?\C-u]               'lse_completion:delete_so_far)
   (local-set-key [?\A-u]               'lse_completion:delete_so_far)
 
@@ -384,31 +391,28 @@
   (local-set-key [right]          'lse-tpu:pan-left)
   (local-set-key [down]           'lse_completion:select_next)
   (local-set-key [up]             'lse_completion:select_prev)
-  (local-set-key [help]           'lse_completion:help); 29-Jun-1994 
-  (local-set-key [f1]             'lse_completion:help);  2-Jan-1998 
-  (local-set-key [blue gold help] 'help-command); 29-Jun-1994 
-  (local-set-key [find]           'lse-tpu:search)
+  (local-set-key [help]           'lse_completion:help); 29-Jun-1994
+  (local-set-key [f1]             'lse_completion:help);  2-Jan-1998
+  (local-set-key [blue gold help] 'help-command); 29-Jun-1994
   (local-set-key [prior]          (lse-key-cmd (lse-previous-screen 2)))
   (local-set-key [next]           (lse-key-cmd (lse-next-screen 2)))
-  (local-set-key [pf3]            'lse-tpu:search-again)
-  (local-set-key [gold pf3]       'lse-tpu:search)
-  (local-set-key [gold kp-5]      'lse-tpu:move-to-beginning)
-  (local-set-key [gold kp-4]      'lse-tpu:move-to-end)
+  (local-set-key [C-home]         'lse-tpu:move-to-beginning)
+  (local-set-key [C-end]          'lse-tpu:move-to-end)
   (local-set-key [gold ?>]        'lse-tpu:pan-right)
   (local-set-key [gold ?<]        'lse-tpu:pan-left)
   (local-set-key [gold ?^]        (lambda nil (interactive) (lse-frame:set-width 132)))
   (local-set-key [blue ?^]        (lambda nil (interactive) (lse-frame:set-width 0)))
-  (local-set-key [gold ??]        'lse_completion:help); 29-Jun-1994 
+  (local-set-key [gold ??]        'lse_completion:help); 29-Jun-1994
   (local-set-key [gold ?s]        'lse_completion:sort)
   (local-set-key "\177"           'lse_completion:delete_prev_char)
   ;; (local-set-key [del]         'lse_completion:delete_prev_char)
 
   (local-set-key [mouse-1]        'mouse-set-point)      ; 11-Oct-1996
-  (local-set-key [mouse-2]        'lse_completion:mouse_exit); 17-Dec-1997 
+  (local-set-key [mouse-2]        'lse_completion:mouse_exit); 17-Dec-1997
   (local-set-key [mouse-3]        'mouse-set-point)      ; 11-Oct-1996
-  (local-set-key [double-mouse-1] 'lse_completion:exit)  ; 11-Oct-1996 
-  ;; (local-set-key [double-mouse-2] 'lse_completion:exit)  ; 11-Oct-1996 
-  (local-set-key [double-mouse-3] 'lse_completion:exit)  ; 11-Oct-1996 
+  (local-set-key [double-mouse-1] 'lse_completion:exit)  ; 11-Oct-1996
+  ;; (local-set-key [double-mouse-2] 'lse_completion:exit)  ; 11-Oct-1996
+  (local-set-key [double-mouse-3] 'lse_completion:exit)  ; 11-Oct-1996
 
   (let ((i ? ))
     (while (< i ?~)
@@ -438,27 +442,27 @@
                 (purecopy "'")
           )
     )
-  ) 
+  )
 )
 
 (defun lse_completion:buffer (buf-nam)
   (if (not (bufferp lse_completion_buffer))
       (save-excursion
-        (set-buffer (setq lse_completion_buffer 
+        (set-buffer (setq lse_completion_buffer
                           (get-buffer-create (concat " $" buf-nam " buffer$"))
                     )
         )
         (lse_completion:initialize_buffer buf-nam)
-        ;;  19-Mar-1995 
+        ;;  19-Mar-1995
         (setq lse_completion:overlay (make-overlay 1 1))
         (overlay-put lse_completion:overlay 'face 'lse-face:completion)
       )
   )
-  lse_completion_buffer 
+  lse_completion_buffer
 )
 
 (defun lse_completion:show_entry (entry description)
-  (let ((opoint (point))); 11-Oct-1996 
+  (let ((opoint (point))); 11-Oct-1996
     (lse-indent)
     (lse-fill-in-insert entry "\C-i")
     (indent-to 25)
@@ -471,7 +475,7 @@
           )
       )
     )
-    ;; 11-Oct-1996 
+    ;; 11-Oct-1996
   )
   (lse-fill-in-insert "\n")
 )
@@ -479,10 +483,10 @@
 (defun lse_completion:show_obarray (starter oba dont-sort)
   (let ((completions (all-completions starter oba))
        )
-    (lse_completion:show_alist 
+    (lse_completion:show_alist
          starter
          (mapcar
-              (function (lambda (x) 
+              (function (lambda (x)
                           (cons x
                                 (or (get (intern-soft x oba) 'description)
                                     ""
@@ -503,8 +507,8 @@
 
 (defun lse_completion:show_alist (starter the-completions dont-sort)
   (let (head
-        (completions 
-             (if dont-sort 
+        (completions
+             (if dont-sort
                  the-completions
                (setq lse_completion:sorted t)
                (sort (copy-sequence the-completions) 'lse_completion:<)
@@ -534,7 +538,7 @@
         (lse_completion:show_obarray starter completions dont-sort)
       (if (consp completions)
           (lse_completion:show_alist starter completions dont-sort)
-        (error "Argument to lse-complete not an obarray or alist: %s" 
+        (error "Argument to lse-complete not an obarray or alist: %s"
                completions
         )
       )
@@ -556,16 +560,16 @@
             (lse-completion:narrow)
             (lse_completion:highlight)
             (setq lse_completion:last_key (read-key-sequence nil))
-            (setq binding 
+            (setq binding
                   (lookup-key (current-local-map) lse_completion:last_key)
             )
             (if (commandp binding)
                 (command-execute binding)
-              (lse-message "Key %s is undefined" 
+              (lse-message "Key %s is undefined"
                        (lse-key-name lse_completion:last_key)
               )
             )
-            (if helped                             ; 29-Jun-1994 
+            (if helped                             ; 29-Jun-1994
                 (progn
                   (lse-window:restore-temp-hidden)
                   (setq lse_completion:helped nil)
@@ -580,7 +584,7 @@
   )
 )
 
-(defun lse-complete 
+(defun lse-complete
          (starter completions
           &optional dont-sort dont-initialize-buffer force start-position
                     case-fold
@@ -589,10 +593,10 @@
   (setq lse_completion:so_far         starter)
   (setq lse_completion:case-fold      case-fold)
   (unwind-protect
-      (progn 
+      (progn
         (catch 'exit@lse_completion
           (progn
-            (lse_completion:goto_buffer_window 
+            (lse_completion:goto_buffer_window
                  (lse_completion:buffer "LSE Completion")
             )
             (let* ((lse_completion:list    completions)
@@ -616,7 +620,7 @@
       (lse_completion:widen)
       (set-window-configuration lse_completion:saved_wdw_conf)
     )
-  )  
+  )
   lse_completion:so_far
 ; lse-complete
 )

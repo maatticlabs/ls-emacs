@@ -52,6 +52,8 @@
 ;;;;                     `[?\A-e]` of view-buffer
 ;;;;    28-Mar-2007 (CT) `lse-frame:disable-menu-bar` called
 ;;;;    10-Apr-2007 (CT) Default geometry for diary and calendar frames changed
+;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
+;;;;                     `search-reverse`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -324,14 +326,22 @@
 )
 
 ;;; 21-Apr-2003
-(defun lse-cal:plan:search ()
+(defun lse-cal:plan:search-forward ()
   (interactive)
   (let ((inhibit-point-motion-hooks t))
-    (call-interactively 'lse-tpu:search)
+    (call-interactively 'lse-tpu:search-forward)
   )
-; lse-cal:plan:search
+; lse-cal:plan:search-forward
 )
 
+;;;  5-Oct-2007
+(defun lse-cal:plan:search-reverse ()
+  (interactive)
+  (let ((inhibit-point-motion-hooks t))
+    (call-interactively 'lse-tpu:search-reverse)
+  )
+; lse-cal:plan:search-reverse
+)
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-again-forward ()
   (interactive)
@@ -380,7 +390,8 @@
   (local-set-key [M-down]  'lse-cal:plan:goto-day-forward)
   (local-set-key [M-up]    'lse-cal:plan:goto-day-backward)
   (local-set-key [M-home]  'lse-cal:plan:highlight-today)
-  (local-set-key [?\C-f]   'lse-cal:plan:search)
+  (local-set-key [?\C-f]   'lse-cal:plan:search-forward);  5-Oct-2007
+  (local-set-key [?\s-f]   'lse-cal:plan:search-reverse);  5-Oct-2007
   (local-set-key [?\C-n]   'lse-cal:plan:search-again-forward)
   (local-set-key [?\C-p]   'lse-cal:plan:search-again-reverse)
   (local-set-key [?\C-:]   'lse-cal:plan:replace)

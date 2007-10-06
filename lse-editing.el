@@ -79,6 +79,8 @@
 ;;;;                     lse-flat-fill-in.el)
 ;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
 ;;;;                     `lse-tpu:end-of-line`
+;;;;     6-Oct-2007 (CT) Use `lse-tpu:search+goto+set-match` instead of
+;;;;                     `lse-tpu:search-internal`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -549,7 +551,7 @@ previous line"
   (let (head
         tail
        )
-    (if (lse-tpu:search-internal starter nil nil t)
+    (if (lse-tpu:search+goto+set-match starter nil)
         (progn
           (setq head (lse-tpu:match-end))
           (lse-tpu:set-mark head)

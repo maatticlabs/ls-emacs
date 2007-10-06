@@ -39,6 +39,8 @@
 ;;;;    17-Sep-1994 (CT) lse-language:check added
 ;;;;    28-Mar-2007 (CT) `lse-menu:toggle-menu-bar` added
 ;;;;     3-Oct-2007 (CT) `lse-visit-file-new` used instead of homegrown code
+;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
+;;;;                     `search-reverse`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-command)
@@ -88,7 +90,8 @@
 (lse-command:add-new "reload language"          'lse-language:reload)
 (lse-command:add-new "revert buffer"            'lse-revert-buffer)
 (lse-command:add-new "save some buffers"        'save-some-buffers)
-(lse-command:add-new "search"                   'lse-tpu:search)
+(lse-command:add-new "search forward"           'lse-tpu:search-forward);  5-Oct-2007
+(lse-command:add-new "search reverse"           'lse-tpu:search-reverse);  5-Oct-2007
 (lse-command:add-new "mail read"                'rmail);  8-Sep-1994
 (lse-command:add-new "mail send"                'mail) ;  8-Sep-1994
 (lse-command:add-new "show buffer"              'lse-show-buffers)
