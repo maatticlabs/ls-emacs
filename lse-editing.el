@@ -81,6 +81,8 @@
 ;;;;                     `lse-tpu:end-of-line`
 ;;;;     6-Oct-2007 (CT) Use `lse-tpu:search+goto+set-match` instead of
 ;;;;                     `lse-tpu:search-internal`
+;;;;     7-Oct-2007 (CT) `lse@select-brace-range` changed to call
+;;;;                     `lse-tpu:save-pos-before-search`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -551,6 +553,7 @@ previous line"
   (let (head
         tail
        )
+    (lse-tpu:save-pos-before-search)
     (if (lse-tpu:search+goto+set-match starter nil)
         (progn
           (setq head (lse-tpu:match-end))

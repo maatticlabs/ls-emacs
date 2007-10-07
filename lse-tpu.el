@@ -115,6 +115,12 @@
 ;;;;     7-Oct-2007 (CT) Unused `lse-tpu:last-replaced-text removed`
 ;;;;     7-Oct-2007 (CT) `lse-tpu:last-replace-info` and
 ;;;;                     `lse-tpu:replace:add-info` added
+;;;;     7-Oct-2007 (CT) `lse-tpu:search+goto` changed not to call
+;;;;                     `lse-tpu:save-pos-before-search`
+;;;;     7-Oct-2007 (CT) `lse-tpu:search-internal`, `lse-tpu:replace`, and
+;;;;                     `lse-tpu:replace-all` changed to call
+;;;;                     `lse-tpu:save-pos-before-search`
+;;;;     7-Oct-2007 (CT) `lse-tpu:do-replace` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2098,7 +2104,6 @@ direction."
 
 ;;;  6-Oct-2007
 (defun lse-tpu:search+goto (pat &optional limit stay-at-bob)
-  (lse-tpu:save-pos-before-search)
   (lse-tpu:unset-match)
   (lse-tpu:adjust-search nil stay-at-bob)
   (if (lse-tpu:emacs-search pat limit t)
@@ -2133,6 +2138,7 @@ direction."
           )
         )
   )
+  (lse-tpu:save-pos-before-search)
   (cond ((lse-tpu:search+goto+set-match
            lse-tpu:search-last-string limit stay-at-bob
          )
@@ -2286,13 +2292,14 @@ and backward a character after a failed search.  Arg means end of search."
 )
 
 (defun lse-tpu:replace-rest (from to &optional tail-limit)
-  (let ((repl-number 0)
+  (let ((go-on t)
+        (repl-number 0)
        )
     (save-excursion
-      (while (lse-tpu:check-match)
+      (while go-on
         (lse-tpu:replace-one to)
         (setq repl-number (1+ repl-number))
-        (lse-tpu:search+goto+set-match from tail-limit)
+        (setq go-on (lse-tpu:search+goto+set-match from tail-limit))
       )
     )
     repl-number
@@ -2302,21 +2309,44 @@ and backward a character after a failed search.  Arg means end of search."
 
 (defun lse-tpu:replace@all (from to head-limit tail-limit)
   (save-excursion
-    (let ((lse-tpu:searching-forward t))
-      (goto-char head-limit)
-      (if (not (looking-at (if lse-tpu:regexp-p from (regexp-quote from))))
-          (lse-tpu:search+goto+set-match from tail-limit)
-      )
-      (let ((repl-number (lse-tpu:replace-rest from to tail-limit)))
-        (unless (boundp 'lse-tpu:quiet-replace)
-          (message "Replaced %s occurrence%s."
-            repl-number (if (not (= 1 repl-number)) "s" "")
+    (goto-char head-limit)
+    (if (not (looking-at (if lse-tpu:regexp-p from (regexp-quote from))))
+        (lse-tpu:search+goto+set-match from tail-limit)
+    )
+    (lse-tpu:replace-rest from to tail-limit)
+  )
+; lse-tpu:replace@all
+)
+
+;;;  7-Oct-2007
+(defun lse-tpu:do-replace (from to head-limit tail-limit replace-fct)
+  (let (repl-number)
+    (lse-tpu:replace:reset-info)
+    (lse-tpu:save-pos-before-search)
+    (unless (and head-limit tail-limit)
+        (setq head-limit (lse-tpu:selection-head-pos))
+        (setq tail-limit (lse-tpu:selection-tail-pos))
+        (if (and tail-limit (<= tail-limit (point)))
+            (lse-tpu:exchange-point-and-mark)
+        )
+    )
+    (let* ((lse-tpu:searching-forward t)
+           (start (or head-limit (point-min)))
+           (end   (or tail-limit (point-max)))
+           (head  (min start end))
+           (tail  (max start end))
           )
+      (setq repl-number (funcall replace-fct from to head tail))
+      (unless (boundp 'lse-tpu:quiet-replace)
+        (message "Replaced %s occurrence%s."
+          repl-number (if (not (= 1 repl-number)) "s" "")
         )
       )
     )
+    (setq deactivate-mark nil)
+    repl-number
   )
-; lse-tpu:replace@all
+; lse-tpu:do-replace
 )
 
 (defun lse-tpu:replace-all (from to &optional head-limit tail-limit)
@@ -2325,19 +2355,7 @@ and backward a character after a failed search.  Arg means end of search."
                      (lse-tpu:regexp-prompt "by: ")
                )
   )
-  (lse-tpu:replace:reset-info)
-  (or head-limit tail-limit
-      (and (setq head-limit (lse-tpu:selection-head-pos))
-           (setq tail-limit (lse-tpu:selection-tail-pos))
-      )
-  )
-  (or head-limit (setq head-limit (point-min)))
-  (or tail-limit (setq tail-limit (point-max)))
-  (if (< head-limit tail-limit)
-      (lse-tpu:replace@all from to head-limit tail-limit)
-    (lse-tpu:replace@all from to tail-limit head-limit)
-  )
-  (setq deactivate-mark nil); 17-Mar-1995
+  (lse-tpu:do-replace from to head-limit tail-limit 'lse-tpu:replace@all)
 ; lse-tpu:replace-all
 )
 
@@ -2347,20 +2365,7 @@ and backward a character after a failed search.  Arg means end of search."
                      (lse-tpu:regexp-prompt "by: ")
                )
   )
-  (lse-tpu:replace:reset-info)
-  (unless (and head-limit tail-limit)
-      (setq head-limit (lse-tpu:selection-head-pos))
-      (setq tail-limit (lse-tpu:selection-tail-pos))
-      (if (and tail-limit (<= tail-limit (point)))
-          (lse-tpu:exchange-point-and-mark)
-      )
-  )
-  (let ((repl-number (lse-tpu:replace-internal from to head-limit tail-limit)))
-    (message "Replaced %s occurrence%s."
-      repl-number (if (not (= 1 repl-number)) "s" "")
-    )
-  )
-  (setq deactivate-mark nil); 17-Mar-1995
+  (lse-tpu:do-replace from to head-limit tail-limit 'lse-tpu:replace-internal)
 ; lse-tpu:replace
 )
 
@@ -2370,23 +2375,18 @@ and backward a character after a failed search.  Arg means end of search."
   (if (string= "" from) (error "No string to replace."))
   (let* ((repl-number 0)
          (cp (point))
-         (start (or head-limit (point-min)))
-         (end   (or tail-limit (point-max)))
-         (head  (min start end))
-         (tail  (max start end))
-         (lse-tpu:searching-forward t)
          lse-tpu:quit-search
        )
-    (if (< cp head) (goto-char head))
-    (setq repl-number (lse-tpu:replace-loop from to tail))
+    (if (< cp head-limit) (goto-char head-limit))
+    (setq repl-number (lse-tpu:replace-loop from to tail-limit))
     (or lse-tpu:quit-search
-        (<     cp head)
-        (equal cp head)
+        (<     cp head-limit)
+        (equal cp head-limit)
         (let ((found nil)
               (match-pos nil)
              )
           (save-excursion
-            (goto-char head)
+            (goto-char head-limit)
             (lse-tpu:adjust-search nil t)
             (setq found (lse-tpu:search+goto+set-match from cp))
             (setq match-pos (match-beginning 0))
@@ -2430,7 +2430,9 @@ and backward a character after a failed search.  Arg means end of search."
               )
 
               ((or (= ans ?a) (= ans ?A))
-               (setq repl-number (+ repl-number (lse-tpu:replace-rest from to)))
+               (setq repl-number
+                 (+ repl-number (lse-tpu:replace-rest from to tail-limit))
+               )
               )
 
               ((or (= ans ?l) (= ans ?L))
