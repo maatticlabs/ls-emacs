@@ -2172,8 +2172,10 @@ direction."
   "For forward searches, move forward a character before searching,
 and backward a character after a failed search.  Arg means end of search."
   (if lse-tpu:searching-forward
-      (cond (arg               (if (not (bobp)) (lse-tpu:forward-char -1)))
-            ((not stay-at-bob) (if (not (eobp)) (lse-tpu:forward-char  1)))
+      (cond (arg  (if (not (bobp)) (lse-tpu:forward-char -1)))
+            ((not (and (bobp) stay-at-bob))
+             (if  (not (eobp)) (lse-tpu:forward-char  1))
+            )
       )
   )
 ; lse-tpu:adjust-search
