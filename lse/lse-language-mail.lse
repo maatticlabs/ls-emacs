@@ -38,6 +38,7 @@
 ;;;;    19-Sep-2005 (CT) `lse-templates-roundup-mail` added
 ;;;;     6-Oct-2007 (CT) Use `lse-tpu:search+goto` instead of
 ;;;;                     `lse-tpu:search-internal` and call `lse-tpu:set-search`
+;;;;     7-Oct-2007 (CT) `lse-tpu:quiet-replace` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -175,9 +176,7 @@
 ;;; 28-Dec-1997
 (defun lse-mail:mh-setup-hook ()
   (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
-      (let* (lse-tpu:quiet-replace
-             (lse-tpu:searching-forward t);                         25-Nov-2002
-            )
+      (let* ((lse-tpu:searching-forward t))
         (lse-tpu:set-search t);  6-Oct-2007
         (lse-mail-mode)
         (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
@@ -274,9 +273,7 @@
 ;;; 29-Jul-2005
 (defun lse-mail:pma-setup-hook ()
   (if (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
-      (let* (lse-tpu:quiet-replace
-             (lse-tpu:searching-forward t);                         25-Nov-2002
-            )
+      (let* ((lse-tpu:searching-forward t))
         (lse-tpu:set-search t);  6-Oct-2007
         (lse-mail-mode)
         (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)

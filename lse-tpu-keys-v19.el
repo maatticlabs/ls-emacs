@@ -152,6 +152,9 @@
 ;;;;                     `lse-create-sparse-map` removed
 ;;;;     4-Oct-2007 (CT) Use `lse-tpu:next-end-of-line` instead of
 ;;;;                     `lse-tpu:end-of-line`
+;;;;     7-Oct-2007 (CT) Binding for `lse-tpu:replace:goto-next`
+;;;;                     (`[blue ?\C-n]`) and `lse-tpu:replace:goto-prev`
+;;;;                     (`[blue ?\C-p]`) added
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -814,6 +817,8 @@
   (global-set-key [blue      ?\C-m]  'lse-split-line-i); 20-Jan-1998
   (global-set-key [blue gold ?\A-m]  'lse-tpu:toggle-newline-and-indent)
   (global-set-key [blue gold ?\C-m]  'lse-tpu:toggle-newline-and-indent)
+  (global-set-key [blue      ?\C-n]  'lse-tpu:replace:goto-next);  7-Oct-2007
+  (global-set-key [blue      ?\C-p]  'lse-tpu:replace:goto-prev);  7-Oct-2007
   (global-set-key [blue      ?\A-w]  'lse-set-buffer-nowrite)
   (global-set-key [blue gold ?\A-w]  'lse-set-buffer-write)
   (global-set-key [blue      backspace] 'lse-tpu:delete-prev-char-append)

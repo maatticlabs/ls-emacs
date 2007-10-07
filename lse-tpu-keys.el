@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys:el lse_tpks:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -92,8 +92,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
     )
     (save-excursion
       (set-buffer (get-buffer-create bf))
-      (lse-tpu:replace-all "menu-bar [-a-zA-Z0-9 ]*" "Menu")
-      (lse-tpu:replace-all "down-mouse-3 [-a-zA-Z0-9 ]*" "Mouse-Menu")
+      (lse-tpu:replace-all "menu-bar[-a-zA-Z0-9 ]*" "Menu")
+      (lse-tpu:replace-all "down-mouse-3[-a-zA-Z0-9 ]*" "Mouse-Menu")
       (sort-lines nil (point-min) (point-max))
     )
   )
