@@ -47,28 +47,34 @@
 ;;;;     5-Oct-2007 (CT) lse_completion:define_keys modernized
 ;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
 ;;;;                     `search-reverse`
+;;;;     8-Oct-2007 (CT) `lse_completion:left_margin` inscreased from `3` to `6`
+;;;;     8-Oct-2007 (CT) `lse_completion:show_entry` changed to show an
+;;;;                     optional `head`
+;;;;     8-Oct-2007 (CT) `lse_completion:show_alist` changed to handle plain
+;;;;                     lists and to put an index into left margin
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
 
-(defvar lse_completion_buffer         nil)
-(defvar lse_completion_keymap         (make-keymap))
+(defvar lse_completion_buffer  nil)
+(defvar lse_completion_keymap  (make-keymap))
 
-(defvar                      lse_completion:end_pos        nil)
-(make-variable-buffer-local 'lse_completion:end_pos)
+(defvar                        lse_completion:end_pos        nil)
+(defvar                        lse_completion:sorted         nil)
+(defvar                        lse_completion:current        nil)
+(defvar                        lse_completion:so_far         nil)
+(defvar                        lse_completion:starter        nil)
+(defvar                        lse_completion:last           nil)
+(defvar                        lse_completion:list           nil)
+(defvar                        lse_completion:last_key       nil)
+(defvar                        lse_completion:saved_wdw_conf nil)
+(defvar                        lse_completion:helped         nil); 29-Jun-1994
+(defvar                        lse_completion:case-fold      nil);  8-Sep-1994
+(defconst                      lse_completion:left_margin    6)
+(defvar                        lse_completion:index-start    1);    8-Oct-2007
+(defvar                        lse_completion:overlay        nil); 19-Mar-1995
 
-(defvar                      lse_completion:sorted         nil)
-(defvar                      lse_completion:current        nil)
-(defvar                      lse_completion:so_far         nil)
-(defvar                      lse_completion:starter        nil)
-(defvar                      lse_completion:last           nil)
-(defvar                      lse_completion:list           nil)
-(defvar                      lse_completion:last_key       nil)
-(defvar                      lse_completion:saved_wdw_conf nil)
-(defvar                      lse_completion:helped         nil); 29-Jun-1994
-(defvar                      lse_completion:case-fold      nil);  8-Sep-1994
-(defconst                    lse_completion:left_margin    3)
-(defvar                      lse_completion:overlay        nil); 19-Mar-1995
+(make-variable-buffer-local   'lse_completion:end_pos)
 
 (defun lse_completion:widen ()
   (widen)
@@ -109,7 +115,7 @@
   (goto-char 1)
   (re-search-forward
        (concat "^"
-               (make-string  lse_completion:left_margin ? )
+               (make-string  lse_completion:left_margin ?.)
                (regexp-quote (or pat lse_completion:so_far))
        )
        nil t
@@ -122,7 +128,7 @@
   (goto-char (point-max))
   (re-search-backward
        (concat "^"
-               (make-string  lse_completion:left_margin ? )
+               (make-string  lse_completion:left_margin ?.)
                (regexp-quote (or pat lse_completion:so_far))
        )
        nil t
@@ -131,35 +137,12 @@
   (point)
 )
 
-;;;;;; 16-Oct-1996
-;;;(defun lse_completion:goto_last_match (&optional pat)
-;;;  (let ((p (concat "^"
-;;;               (make-string  lse_completion:left_margin ? )
-;;;               (regexp-quote (or pat lse_completion:so_far))
-;;;           )
-;;;        )
-;;;        result
-;;;        last
-;;;       )
-;;;    (setq last (lse_completion:goto_match pat))
-;;;    (while (not result)
-;;;      (lse-tpu:next-line-internal 1)
-;;;      (if (not (looking-at p))
-;;;          (setq result (point))
-;;;        (setq last (point))
-;;;      )
-;;;    )
-;;;    (goto-char last)
-;;;    last
-;;;  )
-;;;)
-
 (defun lse_completion:highlight ()
   (beginning-of-line)
   (setq overlay-arrow-string   "#>")
   (setq overlay-arrow-position (point-marker))
-  (move-overlay lse_completion:overlay (point-marker) (lse-tpu:line-tail-pos)
-                (current-buffer)
+  (move-overlay lse_completion:overlay
+    (point-marker) (lse-tpu:line-tail-pos) (current-buffer)
   )
   (lse-tpu:forward-char lse_completion:left_margin)
   (lse-tpu:update-mode-line)
@@ -208,10 +191,7 @@
 
 (defun lse_completion:complete (&optional add-chars quiet)
   (interactive)
-  (let* ((so-far (concat lse_completion:so_far
-                         (or add-chars "")
-                 )
-         )
+  (let* ((so-far (concat lse_completion:so_far (or add-chars "")))
          (new-compl (lse_completion:try so-far))
          (case-fold-search       lse_completion:case-fold);  1-Apr-1996
          (completion-ignore-case lse_completion:case-fold);  1-Apr-1996
@@ -392,8 +372,7 @@
   (local-set-key [down]           'lse_completion:select_next)
   (local-set-key [up]             'lse_completion:select_prev)
   (local-set-key [help]           'lse_completion:help); 29-Jun-1994
-  (local-set-key [f1]             'lse_completion:help);  2-Jan-1998
-  (local-set-key [blue gold help] 'help-command); 29-Jun-1994
+  (local-set-key [f1]             'help-command)
   (local-set-key [prior]          (lse-key-cmd (lse-previous-screen 2)))
   (local-set-key [next]           (lse-key-cmd (lse-next-screen 2)))
   (local-set-key [C-home]         'lse-tpu:move-to-beginning)
@@ -461,9 +440,13 @@
   lse_completion_buffer
 )
 
-(defun lse_completion:show_entry (entry description)
+(defun lse_completion:show_entry (entry description &optional head)
   (let ((opoint (point))); 11-Oct-1996
-    (lse-indent)
+    (if (not head)
+        (lse-indent)
+      (lse-fill-in-insert (propertize head 'face 'fringe))
+      (indent-to lse_completion:left_margin)
+    )
     (lse-fill-in-insert entry "\C-i")
     (indent-to 25)
     (add-text-properties opoint (point) '(mouse-face lse-face:completion-m))
@@ -486,15 +469,12 @@
     (lse_completion:show_alist
          starter
          (mapcar
-              (function (lambda (x)
-                          (cons x
-                                (or (get (intern-soft x oba) 'description)
-                                    ""
-                                )
-                          )
-                        )
+            (function
+              (lambda (x)
+                (cons x (or (get (intern-soft x oba) 'description) ""))
               )
-              completions
+            )
+            completions
          )
          dont-sort
     )
@@ -506,25 +486,31 @@
 )
 
 (defun lse_completion:show_alist (starter the-completions dont-sort)
-  (let (head
-        (completions
+  (let ((completions
              (if dont-sort
                  the-completions
                (setq lse_completion:sorted t)
                (sort (copy-sequence the-completions) 'lse_completion:<)
              )
         )
-        tail
+        (n lse_completion:index-start)
+        head lead next tail
        )
     (setq lse_completion:list completions); 29-Jun-1994
     (while (consp completions)
-      (setq head        (car completions))
-      (setq tail        (cdr head))
+      (setq next        (car completions))
       (setq completions (cdr completions))
-      (lse_completion:show_entry
-           (car head)
-           (lse_completion:entry_desc tail)
+      (if (consp next)
+          (progn
+            (setq head (car next))
+            (setq tail (cdr next))
+          )
+        (setq head next)
+        (setq tail nil)
       )
+      (setq lead (format "%4d" n))
+      (lse_completion:show_entry head (lse_completion:entry_desc tail) lead)
+      (setq n (1+ n))
     )
   )
 )

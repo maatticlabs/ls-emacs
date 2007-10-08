@@ -121,6 +121,8 @@
 ;;;;                     `lse-tpu:replace-all` changed to call
 ;;;;                     `lse-tpu:save-pos-before-search`
 ;;;;     7-Oct-2007 (CT) `lse-tpu:do-replace` factored
+;;;;     8-Oct-2007 (CT) `lse-tpu:search-again` changed to use `lse-complete`
+;;;;                     if called with a non-numeric prefix argument
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2012,12 +2014,18 @@ With argument reinserts the text that many times."
 
 ;;;  6-Oct-2007
 (defun lse-tpu:search-again (n fct)
-  (let ((pat (if (numberp n)
+  (let* ((lse_completion:index-start 0)
+         (pat (cond
+                ((numberp n)
                  (nth n lse-tpu:regexp-prompt-hist)
-               lse-tpu:search-last-string
-             )
+                )
+                ((and n lse-tpu:regexp-prompt-hist)
+                 (lse-complete "" lse-tpu:regexp-prompt-hist t)
+                )
+                (t lse-tpu:search-last-string)
+              )
+         )
         )
-       )
     (funcall fct pat)
   )
 ; lse-tpu:search-again
