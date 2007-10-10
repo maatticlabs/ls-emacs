@@ -39,6 +39,7 @@
 ;;;;     6-Oct-2007 (CT) Use `lse-tpu:search+goto` instead of
 ;;;;                     `lse-tpu:search-internal` and call `lse-tpu:set-search`
 ;;;;     7-Oct-2007 (CT) `lse-tpu:quiet-replace` removed
+;;;;     9-Oct-2007 (CT) Adapted to change in lse-tpu:search direction handling
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -73,63 +74,58 @@
 )
 
 (defun lse-mail-setup-hook ()
-  (let* ((lse-tpu:searching-forward t)
-        ); 25-Nov-2002
-    (lse-tpu:set-search t);  6-Oct-2007
-    (lse-tpu:move-to-beginning)
+  (lse-tpu:move-to-beginning)
+  (save-excursion
     (if (lse-tpu:search+goto "^CC:" nil t)
         (lse-tpu:delete-next-line 1)
     )
     (lse-tpu:move-to-beginning)
-    (save-excursion
-      (if (lse-tpu:search+goto "^To: *$" nil t)
+    (if (lse-tpu:search+goto "^To: *$" nil t)
+        (progn
+          (lse-tpu:forward-char 3)
+          (lse-tpu:insert "          «text»")
+        )
+      (if (lse-tpu:search+goto "^To: *.*+$" nil t)
           (progn
             (lse-tpu:forward-char 3)
-            (lse-tpu:insert "          «text»")
+            (lse-tpu:insert "         ")
           )
-        (if (lse-tpu:search+goto "^To: *.*+$" nil t)
-            (progn
-              (lse-tpu:forward-char 3)
-              (lse-tpu:insert "         ")
-            )
-        )
       )
-      (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search+goto "^Subject: *$" nil t)
+    )
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto "^Subject: *$" nil t)
+        (progn
+          (lse-tpu:forward-char 8)
+          (lse-tpu:insert "     «text»")
+        )
+      (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
           (progn
             (lse-tpu:forward-char 8)
-            (lse-tpu:insert "     «text»")
-          )
-        (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
-            (progn
-              (lse-tpu:forward-char 8)
-              (lse-tpu:insert "    ")
-            )
-        )
-      )
-      (lse-tpu:move-to-beginning)
-      (if (lse-tpu:search+goto "^BCC: *.+$" nil t)
-          (progn
-            (lse-tpu:forward-char 4)
-            (lse-tpu:insert "        ")
+            (lse-tpu:insert "    ")
           )
       )
-      (if (lse-tpu:search+goto "^--text follows this line--" nil t)
-          (progn
-            (lse-tpu:insert "««mail-cc»»\n"
-              "««mail-bcc»»\n"
-              "««mail-from»»\n"
-              "Reply-to:    " (lse-user-e-mail-address) "\n"; 11-Jan-1999
-            )
-            (lse-tpu:forward-line 1)
-            (lse-tpu:insert "\n«text»")
-          )
-      )
-      (lse-tpu:unselect)
     )
-    (lse-goto-next-fill-in)
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto "^BCC: *.+$" nil t)
+        (progn
+          (lse-tpu:forward-char 4)
+          (lse-tpu:insert "        ")
+        )
+    )
+    (if (lse-tpu:search+goto "^--text follows this line--" nil t)
+        (progn
+          (lse-tpu:insert "««mail-cc»»\n"
+            "««mail-bcc»»\n"
+            "««mail-from»»\n"
+            "Reply-to:    " (lse-user-e-mail-address) "\n"; 11-Jan-1999
+          )
+          (lse-tpu:forward-line 1)
+          (lse-tpu:insert "\n«text»")
+        )
+    )
+    (lse-tpu:unselect)
   )
-  (lse-tpu:set-search t);  6-Oct-2007
+  (lse-goto-next-fill-in)
 ; lse-mail-setup-hook
 )
 
@@ -175,68 +171,63 @@
 
 ;;; 28-Dec-1997
 (defun lse-mail:mh-setup-hook ()
-  (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
-      (let* ((lse-tpu:searching-forward t))
-        (lse-tpu:set-search t);  6-Oct-2007
-        (lse-mail-mode)
-        (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
-        (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
-        (lse-tpu:move-to-beginning)
-        (lse-tpu:insert "\n"); insert extra blank line
-        (save-excursion
-          (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto  "^To: *$" nil t)
-              (progn
-                (lse-tpu:forward-char 3)
-                (lse-tpu:insert "          «text»")
-              )
-            (if (lse-tpu:search+goto "^To: *.+$" nil t)
-                (progn
-                  (lse-tpu:forward-char 3)
-                  (lse-tpu:insert "         ")
-                )
-            )
-          )
-          (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^Subject: *$" nil t)
-              (progn
-                (lse-tpu:forward-char 8)
-                (lse-tpu:insert "     «text»")
-              )
-            (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
-                (progn
-                  (lse-tpu:forward-char 8)
-                  (lse-tpu:insert "    ")
-                )
-            )
-          )
-          (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^CC:[ \t]*$" nil t)
-              (lse-tpu:delete-next-line 1)
-          )
-          (lse-tpu:move-to-beginning)
-          (if (lse-tpu:search+goto "^--------$" nil t)
-              (progn
-                (lse-mail:insert-if-missing "^From: "
-                  "From:        " (lse-user-e-mail-address)
-                )
-                (lse-mail:insert-if-missing "^Reply-To: "
-                  "Reply-to:    " (lse-user-e-mail-address)
-                )
-                (lse-mail:insert-if-missing "^DCC: "
-                  "DCC:         " (lse-user-e-mail-address)
-                )
-                (lse-tpu:insert "««mail-cc»»\n" "««mail-bcc»»\n")
-                (lse-tpu:forward-line 1)
-                (lse-tpu:insert "\n«text»\n")
-              )
-          )
-          (lse-tpu:unselect)
+  (when (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
+    (lse-mail-mode)
+    (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
+    (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
+    (lse-tpu:move-to-beginning)
+    (lse-tpu:insert "\n"); insert extra blank line
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto  "^To: *$" nil t)
+        (progn
+          (lse-tpu:forward-char 3)
+          (lse-tpu:insert "          «text»")
         )
-        (lse-tpu:move-to-beginning)
-        (lse-tpu:delete-next-char 1); remove extra blank line inserted
-        (lse-goto-next-fill-in)
+      (if (lse-tpu:search+goto "^To: *.+$" nil t)
+          (progn
+            (lse-tpu:forward-char 3)
+            (lse-tpu:insert "         ")
+          )
       )
+    )
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto "^Subject: *$" nil t)
+        (progn
+          (lse-tpu:forward-char 8)
+          (lse-tpu:insert "     «text»")
+        )
+      (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
+          (progn
+            (lse-tpu:forward-char 8)
+            (lse-tpu:insert "    ")
+          )
+      )
+    )
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto "^CC:[ \t]*$" nil t)
+        (lse-tpu:delete-next-line 1)
+    )
+    (lse-tpu:move-to-beginning)
+    (if (lse-tpu:search+goto "^--------$" nil t)
+        (progn
+          (lse-mail:insert-if-missing "^From: "
+            "From:        " (lse-user-e-mail-address)
+          )
+          (lse-mail:insert-if-missing "^Reply-To: "
+            "Reply-to:    " (lse-user-e-mail-address)
+          )
+          (lse-mail:insert-if-missing "^DCC: "
+            "DCC:         " (lse-user-e-mail-address)
+          )
+          (lse-tpu:insert "««mail-cc»»\n" "««mail-bcc»»\n")
+          (lse-tpu:forward-line 1)
+          (lse-tpu:insert "\n«text»\n")
+        )
+    )
+    (lse-tpu:unselect)
+    (lse-tpu:move-to-beginning)
+    (lse-tpu:delete-next-char 1); remove extra blank line inserted
+    (lse-goto-next-fill-in)
   )
   (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000
 ; lse-mail:mh-setup-hook
@@ -272,15 +263,12 @@
 
 ;;; 29-Jul-2005
 (defun lse-mail:pma-setup-hook ()
-  (if (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
-      (let* ((lse-tpu:searching-forward t))
-        (lse-tpu:set-search t);  6-Oct-2007
-        (lse-mail-mode)
-        (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)
-        (local-set-key [?\C-x ?#]    'lse-mail:pma-exit)
-        (lse-tpu:move-to-beginning)
-        (lse-goto-next-fill-in)
-      )
+  (when (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
+    (lse-mail-mode)
+    (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)
+    (local-set-key [?\C-x ?#]    'lse-mail:pma-exit)
+    (lse-tpu:move-to-beginning)
+    (lse-goto-next-fill-in)
   )
   (if (framep server-window) (make-frame-visible server-window)); 7-Feb-2000
 ; lse-mail:pma-setup-hook

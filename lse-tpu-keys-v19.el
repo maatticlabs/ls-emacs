@@ -155,6 +155,7 @@
 ;;;;     7-Oct-2007 (CT) Binding for `lse-tpu:replace:goto-next`
 ;;;;                     (`[blue ?\C-n]`) and `lse-tpu:replace:goto-prev`
 ;;;;                     (`[blue ?\C-p]`) added
+;;;;     9-Oct-2007 (CT) s/lse-tpu:word-search-.*ward/lse-tpu:change-search-mode/
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -806,10 +807,10 @@
   (global-set-key [blue gold ?']     'lse-remove-backquote-quote); 26-Apr-1996
   (global-set-key [blue gold ?~]     'lse-fill-range)
   (global-set-key [blue ?-]          'negative-argument)
-  (global-set-key [blue      ?\C-f]  'lse-tpu:word-search-forward); 31-Aug-2002
+  (global-set-key [blue      ?\C-f]  'lse-tpu:change-search-mode);  9-Oct-2007
   (global-set-key [blue      ?\M-f]  'lse-grep); 31-Aug-2002
   (global-set-key [blue gold ?\M-f]  'find-tag); 31-Aug-2002
-  (global-set-key [blue gold ?\C-f]  'lse-tpu:word-search-backward); 31-Aug-2002
+  (global-set-key [blue gold ?\C-f]  'lse-tpu:change-search-mode);  9-Oct-2007
   (global-set-key [blue gold ?\A-i]  'auto-fill-mode)
   (global-set-key [blue gold ?\C-i]  'auto-fill-mode)
   (global-set-key [blue      ?\A-j]  'lse-tpu:delete-prev-word-append)

@@ -52,6 +52,12 @@
 ;;;;                     optional `head`
 ;;;;     8-Oct-2007 (CT) `lse_completion:show_alist` changed to handle plain
 ;;;;                     lists and to put an index into left margin
+;;;;     9-Oct-2007 (CT) `lse_completion:entry_desc` changed to consider
+;;;;                     'variable-documentation, too
+;;;;     9-Oct-2007 (CT) `lse_completion:show_alist` changed to handle
+;;;;                     lists of symbols properly
+;;;;    10-Oct-2007 (CT) `lse_completion:entry_desc` changed to use
+;;;;                     `documentation-property` instead of home-grown code
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
@@ -277,9 +283,11 @@
     (cond ((symbolp tail)
            (setq result
                  (or (get tail 'description)
-                     (if (fboundp tail)
-                         (documentation tail)
+                     (if (boundp tail)
+                         (documentation-property tail 'variable-documentation)
                      )
+                     (if (fboundp tail) (documentation tail))
+                     (if tail (symbol-name tail))
                  )
            )
            (if full
@@ -298,9 +306,9 @@
              (setq result (car tail))
            )
           )
-          (t nil)
+          (t "")
     )
-    result
+    (or result "")
   )
 ; lse_completion:entry_desc
 )
@@ -496,22 +504,34 @@
         (n lse_completion:index-start)
         head lead next tail
        )
-    (setq lse_completion:list completions); 29-Jun-1994
+    (setq lse_completion:list '())
     (while (consp completions)
       (setq next        (car completions))
       (setq completions (cdr completions))
-      (if (consp next)
-          (progn
-            (setq head (car next))
-            (setq tail (cdr next))
-          )
-        (setq head next)
-        (setq tail nil)
+      (cond
+        ((consp next)
+         (setq head (car next))
+         (setq tail (cdr next))
+        )
+        ((symbolp next)
+         (setq head (format "%s" (cond ((boundp  next) (symbol-value next))
+                                       ((fboundp next) (symbol-name  next))
+                                 )
+                    )
+         )
+         (setq tail next)
+        )
+        ((stringp next)
+         (setq head next)
+         (setq tail nil)
+        )
       )
       (setq lead (format "%4d" n))
       (lse_completion:show_entry head (lse_completion:entry_desc tail) lead)
+      (push head lse_completion:list)
       (setq n (1+ n))
     )
+    (setq lse_completion:list (nreverse lse_completion:list))
   )
 )
 

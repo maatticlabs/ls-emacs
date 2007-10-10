@@ -74,6 +74,7 @@
 ;;;;     3-Oct-2007 (CT) `lse-keys:function-key-map-bindings` added
 ;;;;     4-Oct-2007 (CT) `lse-file:update-copyright` added to `before-save-hook`
 ;;;;     5-Oct-2007 (CT) `Py-Version-Update` added and bound to `[red gold ?V]`
+;;;;     9-Oct-2007 (CT) `(lse-tpu:toggle-regexp)` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
@@ -281,7 +282,6 @@
     (lse-terminal-setup)
   )
   (auto-fill-mode 1)
-  (lse-tpu:toggle-regexp)
   (add-hook 'pre-command-hook 'lse-tpu:shift-mark-hook); 29-Dec-1997
 )
 ; (debug-on-entry (quote swing-terminal-setup))

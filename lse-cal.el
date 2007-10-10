@@ -54,6 +54,7 @@
 ;;;;    10-Apr-2007 (CT) Default geometry for diary and calendar frames changed
 ;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
 ;;;;                     `search-reverse`
+;;;;     9-Oct-2007 (CT) s/lse-tpu:regexp-prompt/lse-tpu:search-prompt-read/g
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -362,8 +363,8 @@
 
 ;;; 21-Apr-2003
 (defun lse-cal:plan:replace (from to &optional head-limit tail-limit)
-  (interactive (list (lse-tpu:regexp-prompt "replace: ")
-                     (lse-tpu:regexp-prompt "by: ")
+  (interactive (list (lse-tpu:search-prompt-read "replace: ")
+                     (lse-tpu:search-prompt-read "by: ")
                )
   )
   (let ((inhibit-point-motion-hooks t))

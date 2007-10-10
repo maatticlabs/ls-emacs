@@ -41,6 +41,8 @@
 ;;;;     3-Oct-2007 (CT) `lse-visit-file-new` used instead of homegrown code
 ;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
 ;;;;                     `search-reverse`
+;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
+;;;;                     `lse-tpu:change-search-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-command)
@@ -68,12 +70,10 @@
 
 
 (lse-command:add-new "capitalize word"          'lse-tpu:capitalize-strongly)
+(lse-command:add-new "change search mode"       'lse-tpu:change-search-mode)
 (lse-command:add-new "check language"           'lse-language:check)
 (lse-command:add-new "compile language"         'lse-language:compile)
-(if lse-emacs19-p
-    (lse-command:add-new "emacs command"        'execute-extended-command)
-  (lse-command:add-new "emacs command"          'gmhist-execute-extended-command)
-)
+(lse-command:add-new "emacs command"            'execute-extended-command)
 (lse-command:add-new "enlarge window"           '(enlarge-window 4))
 (lse-command:add-new "exit"                     'lse-tpu:exit)
 (lse-command:add-new "goto buffer other window" 'lse-goto-buffer-other-window)
@@ -101,7 +101,6 @@
 (lse-command:add-new "toggle menu bar current"  'lse-frame:toggle-menu-bar); 28-Mar-2007
 (lse-command:add-new "toggle menu bar all"      'lse-menu:toggle-menu-bar); 28-Mar-2007
 (lse-command:add-new "toggle rectangle"         'lse-tpu:toggle-rectangle)
-(lse-command:add-new "toggle regexp"            'lse-tpu:toggle-regexp)
 (lse-command:add-new "use language"             'lse-language:use)
 (lse-command:add-new "what line"                'lse-show-position)
 (lse-command:add-new "write selection"          'write-region)

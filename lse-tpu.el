@@ -123,6 +123,9 @@
 ;;;;     7-Oct-2007 (CT) `lse-tpu:do-replace` factored
 ;;;;     8-Oct-2007 (CT) `lse-tpu:search-again` changed to use `lse-complete`
 ;;;;                     if called with a non-numeric prefix argument
+;;;;     9-Oct-2007 (CT) Major surgery of search-functions (mode and
+;;;;                     direction handling)
+;;;;    10-Oct-2007 (CT) Search-mode dependent history added, bugs fixed
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -155,11 +158,93 @@
 
 (defvar lse-tpu:match-beginning-mark (make-marker))
 (defvar lse-tpu:match-end-mark       (make-marker))
-(defvar lse-tpu:searching-forward t
-  "If non-nil, lse-tpu is searching in the forward direction."
-)
 (defvar lse-tpu:search-last-string ""
   "Last text searched for by the lse-tpu search commands."
+)
+
+;;;  9-Oct-2007
+(defconst lse-tpu:search-dir-forward 1 "Search in forward direction.")
+(defconst lse-tpu:search-dir-reverse 0 "Search in reverse direction.")
+(defconst lse-tpu:search-mode-text   0 "Search for text.")
+(defconst lse-tpu:search-mode-regexp 1 "Search for regular expression.")
+(defconst lse-tpu:search-mode-word   2 "Search for words.")
+(defconst lse-tpu:search-modes
+  (list 'lse-tpu:search-mode-text
+        'lse-tpu:search-mode-regexp
+        'lse-tpu:search-mode-word
+  )
+)
+(defconst lse-tpu:search-functions-regexp
+  (vector 're-search-backward 're-search-forward)
+  "Emacs search functions used for regular expression searching."
+)
+(defconst lse-tpu:search-functions-word
+  (vector 'word-search-backward 'word-search-forward)
+  "Emacs search functions used for word searching."
+)
+(defconst lse-tpu:search-functions-text
+  (vector 'search-backward 'search-forward)
+  "Emacs search functions used for text searching."
+)
+(defconst lse-tpu:search-functions
+  (vector
+    lse-tpu:search-functions-text
+    lse-tpu:search-functions-regexp
+    lse-tpu:search-functions-word
+  )
+  "Vector of search functions indexed by search-mode."
+)
+(defconst lse-tpu:search-prompt-mode (vector "" "RE " "Word "))
+(defconst lse-tpu:search-mode-names
+  (vector "plain text" "regular expression" "word")
+)
+
+(defconst lse-tpu:search-prompt-dir  (vector " ^^^"    " vvv"))
+(defconst lse-tpu:search-dir-names   (vector "reverse" "forward"))
+
+;;; 10-Oct-2007
+(defvar lse-tpu:search-history-text '()
+  "History variable for text-mode search and replace functions."
+)
+(defvar lse-tpu:search-history-regexp  '()
+  "History variable for regexp-mode search and replace functions."
+)
+(defvar lse-tpu:search-history-word '()
+  "History variable for word-mode search and replace functions."
+)
+(defconst lse-tpu:search-history
+  (vector
+    'lse-tpu:search-history-text
+    'lse-tpu:search-history-regexp
+    'lse-tpu:search-history-word
+  )
+)
+
+;;;  9-Oct-2007
+(defvar lse-tpu:search-dir  lse-tpu:search-dir-forward
+  "Currently selected direction for searching."
+)
+(defvar lse-tpu:search-mode lse-tpu:search-mode-regexp
+  "Currently selected mode for searching."
+)
+
+;;;  9-Oct-2007
+(defsubst lse-tpu:search-function (&optional dir mode)
+  (aref
+    (aref lse-tpu:search-functions (or mode lse-tpu:search-mode))
+    (or dir lse-tpu:search-dir)
+  )
+; lse-tpu:search-function
+)
+
+;;; 10-Oct-2007
+(defsubst lse-tpu:search-history-symbol (&optional mode)
+  (aref lse-tpu:search-history (or mode lse-tpu:search-mode))
+; lse-tpu:search-history-symbol
+)
+
+(defsubst lse-tpu:search-history-value (&optional mode)
+  (symbol-value (lse-tpu:search-history-symbol mode))
 )
 
 ;;; 31-Aug-2002
@@ -177,11 +262,6 @@
   "Index into`lse-tpu:last-replace-info`."
 )
 
-(defvar lse-tpu:regexp-p nil
-  "If non-nil, lse-tpu uses regexp search and replace routines.")
-;;; 31-Aug-2002
-(defvar lse-tpu:word-search-p nil
-  "If non-nil, lse-tpu uses word search and replace routines.")
 (defvar lse-tpu:rectangular-p nil
   "If non-nil, lse-tpu removes and inserts rectangles.")
 (defvar lse-tpu:rectangle-string nil
@@ -190,8 +270,6 @@
   "History variable for lse-tpu:add-at-bol function.")
 (defvar lse-tpu:add-at-eol-hist nil
   "History variable for lse-tpu:add-at-eol function.")
-(defvar lse-tpu:regexp-prompt-hist  nil
-  "History variable for search and replace functions.")
 
 (defvar lse-tpu:newline-and-indent-p nil
   "If non-nil, Return produces a newline and indents.")
@@ -209,7 +287,6 @@
 (make-variable-buffer-local 'lse-tpu:newline-and-indent-string)
 (make-variable-buffer-local 'lse-tpu:rectangle-string)
 (make-variable-buffer-local 'lse-tpu:rectangular-p)
-(make-variable-buffer-local 'lse-tpu:searching-forward)
 (make-variable-buffer-local 'lse-tpu:match-beginning-mark)
 (make-variable-buffer-local 'lse-tpu:match-end-mark)
 (make-variable-buffer-local 'lse-tpu:last-pos-before-search)
@@ -1946,70 +2023,53 @@ With argument reinserts the text that many times."
 ;;;
 ;;;  Search
 ;;;
-(defun lse-tpu:toggle-regexp nil
-  "Switches in and out of regular expression search and replace mode."
+(defun lse-tpu:change-search-mode ()
+  "Change mode of searching to one of : `text`, `word`, `regexp`."
   (interactive)
-  (setq lse-tpu:regexp-p (not lse-tpu:regexp-p))
-  (lse-tpu:set-search lse-tpu:searching-forward)
-  (and (interactive-p)
-       (message "Regular expression search and substitute %sabled."
-                (if lse-tpu:regexp-p "en" "dis")
-       )
+  (let* ((m (format "%s" lse-tpu:search-mode))
+         (mode (lse-complete "" lse-tpu:search-modes t nil nil m))
+        )
+    (when mode
+      (setq mode (string-to-number mode))
+      (setq lse-tpu:search-mode mode)
+      (setq lse-tpu:search-last-string (nth 0 (lse-tpu:search-history-value)))
+      (message
+        "Search mode changed to %s." (aref lse-tpu:search-mode-names mode)
+      )
+    )
+    mode
   )
-  lse-tpu:regexp-p
-; lse-tpu:toggle-regexp
+; lse-tpu:change-search-mode
 )
 
-(defun lse-tpu:regexp-prompt (prompt)
-  "Read a string, adding 'RE' to the prompt if lse-tpu:regexp-p is set."
+(defun lse-tpu:search-prompt-read (prompt &optional show_dir)
+  "Read a search string with a prompt appropriate to `mode` and `dir`."
   (let ((re-prompt
-         (concat (if lse-tpu:word-search-p
-                     "Word "
-                   (if lse-tpu:regexp-p "RE ")
-                 )
-                 prompt
+         (concat
+           (aref lse-tpu:search-prompt-mode lse-tpu:search-mode)
+           prompt
+           (if show_dir (aref lse-tpu:search-prompt-dir  lse-tpu:search-dir))
+           " : "
          )
         )
        )
-    (read-from-minibuffer re-prompt nil nil nil 'lse-tpu:regexp-prompt-hist)
+    (read-from-minibuffer re-prompt nil nil nil (lse-tpu:search-history-symbol))
   )
-; lse-tpu:regexp-prompt
-)
-
-(defun lse-tpu:search (dir word pat)
-  (setq lse-tpu:searching-forward dir)
-  (setq lse-tpu:word-search-p word)
-  (lse-tpu:set-search dir)
-  (lse-tpu:search-internal (or pat ""))
-; lse-tpu:search
+; lse-tpu:search-prompt-read
 )
 
 (defun lse-tpu:search-forward (&optional pat)
   "Search for a string or regular expression in forward direction."
   (interactive)
-  (lse-tpu:search t nil pat)
+  (lse-tpu:search lse-tpu:search-dir-forward lse-tpu:search-mode pat)
 ; lse-tpu:search-forward
 )
 
 (defun lse-tpu:search-reverse (&optional pat)
   "Search for a string or regular expression reverse direction."
   (interactive)
-  (lse-tpu:search nil nil pat)
+  (lse-tpu:search lse-tpu:search-dir-reverse lse-tpu:search-mode pat)
 ; lse-tpu:search-reverse
-)
-
-(defun lse-tpu:word-search-forward (&optional pat)
-  "Search for a word in forward direction."
-  (interactive)
-  (lse-tpu:search t t pat)
-; lse-tpu:word-search-forward
-)
-
-(defun lse-tpu:word-search-reverse (&optional pat)
-  "Search for a word in reverse direction."
-  (interactive)
-  (lse-tpu:search nil t pat)
-; lse-tpu:word-search-reverse
 )
 
 ;;;  6-Oct-2007
@@ -2017,10 +2077,10 @@ With argument reinserts the text that many times."
   (let* ((lse_completion:index-start 0)
          (pat (cond
                 ((numberp n)
-                 (nth n lse-tpu:regexp-prompt-hist)
+                 (nth n (lse-tpu:search-history-value))
                 )
-                ((and n lse-tpu:regexp-prompt-hist)
-                 (lse-complete "" lse-tpu:regexp-prompt-hist t)
+                ((and n (lse-tpu:search-history-value))
+                 (lse-complete "" (lse-tpu:search-history-value) t)
                 )
                 (t lse-tpu:search-last-string)
               )
@@ -2050,75 +2110,13 @@ direction."
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:word-search-again-forward (n)
-  "Search for the same word as last time in forward direction."
-  (interactive "P")
-  (lse-tpu:search-again n 'lse-tpu:word-search-forward)
-; lse-tpu:word-search-again-forward
-)
-
-;;;  6-Oct-2007
-(defun lse-tpu:word-search-again-reverse (n)
-  "Search for the same word as last time in reverse direction."
-  (interactive "P")
-  (lse-tpu:search-again n 'lse-tpu:word-search-reverse)
-; lse-tpu:word-search-again-reverse
-)
-
-;;  lse-tpu:set-search defines the search functions used by the lse-tpu internal
-;;  search function.  It should be called whenever the direction changes, or
-;;  the regular expression mode is turned on or off.  It can also be called
-;;  to ensure that the next search will be in the current direction.  It is
-;;  called from:
-
-;;       lse-tpu:toggle-regexp        lse-tpu:replace
-;;       lse-tpu:search-forward (t)   lse-tpu:search-reverse (t)
-
-(defun lse-tpu:set-search (dir)
-  "Set the search functions."
-  (cond (dir
-         (cond (lse-tpu:word-search-p ; 31-Aug-2002
-                (fset 'lse-tpu:emacs-search     'word-search-forward)
-                (fset 'lse-tpu:emacs-rev-search 'word-search-backward)
-               )
-               (lse-tpu:regexp-p
-                (fset 'lse-tpu:emacs-search     're-search-forward)
-                (fset 'lse-tpu:emacs-rev-search 're-search-backward)
-               )
-               (t
-                (fset 'lse-tpu:emacs-search     'search-forward)
-                (fset 'lse-tpu:emacs-rev-search 'search-backward)
-               )
-         )
-        )
-        (t
-         (cond (lse-tpu:word-search-p ; 31-Aug-2002
-                (fset 'lse-tpu:emacs-search     'word-search-backward)
-                (fset 'lse-tpu:emacs-rev-search 'word-search-forward)
-               )
-               (lse-tpu:regexp-p
-                (fset 'lse-tpu:emacs-search     're-search-backward)
-                (fset 'lse-tpu:emacs-rev-search 're-search-forward)
-               )
-               (t
-                (fset 'lse-tpu:emacs-search     'search-backward)
-                (fset 'lse-tpu:emacs-rev-search 'search-forward)
-               )
-         )
-        )
-  )
-; lse-tpu:set-search
-)
-
-;;;  6-Oct-2007
 (defun lse-tpu:search+goto (pat &optional limit stay-at-bob)
   (lse-tpu:unset-match)
   (lse-tpu:adjust-search nil stay-at-bob)
-  (if (lse-tpu:emacs-search pat limit t)
-      (progn
-        (goto-char (match-beginning 0))
-        t
-      )
+  (let ((result (funcall (lse-tpu:search-function) pat limit t))
+       )
+    (if result (goto-char (match-beginning 0)))
+    result
   )
 ; lse-tpu:search+goto
 )
@@ -2134,66 +2132,60 @@ direction."
 ; lse-tpu:search+goto+set-match
 )
 
-(defun lse-tpu:search-internal
-    (pat &optional quiet limit dont-look-other-dir stay-at-bob)
-  ;; Search for a string or regular expression.
-  ;; 12-Dec-1993 CT : do not prompt if found in reverse direction
+(defun lse-tpu:search
+    (dir mode pat &optional quiet limit dont-look-other-dir stay-at-bob)
   (setq lse-tpu:search-last-string
-        (if (not (string= "" pat))
-            pat
-          (lse-tpu:regexp-prompt
-            (format "Search %s : " (if lse-tpu:searching-forward "vvv" "^^^"))
+        (if (or (not pat) (string= "" pat))
+            (lse-tpu:search-prompt-read "Search" t)
+          pat
+        )
+  )
+  (let ((found nil)
+        (lse-tpu:search-dir  dir)
+        (lse-tpu:search-mode mode)
+        (pat lse-tpu:search-last-string)
+       )
+    (lse-tpu:save-pos-before-search)
+    (cond ((lse-tpu:search+goto+set-match pat limit stay-at-bob)
+             t
           )
-        )
-  )
-  (lse-tpu:save-pos-before-search)
-  (cond ((lse-tpu:search+goto+set-match
-           lse-tpu:search-last-string limit stay-at-bob
-         )
-           t
-        )
-        ((not dont-look-other-dir)
-           (lse-tpu:adjust-search t)
-           (let ((found nil))
+          ((not dont-look-other-dir)
+             (lse-tpu:adjust-search t)
              (save-excursion
-               (let ((lse-tpu:searching-forward (not lse-tpu:searching-forward)))
-                 (lse-tpu:adjust-search stay-at-bob)
-                 (setq found
-                   (lse-tpu:emacs-rev-search lse-tpu:search-last-string nil t)
-                 )
-               )
-             )
-             (if (not quiet)
-                 (if found
-                     (lse-message "Found in %s direction. "
-                              (if lse-tpu:searching-forward "reverse" "forward")
+               (let ((lse-tpu:search-dir (- 1 lse-tpu:search-dir)))
+                 (setq found (lse-tpu:search+goto pat nil stay-at-bob))
+                 (unless quiet
+                   (if found
+                       (lse-message "Found in %s direction. "
+                         (aref lse-tpu:search-dir-names lse-tpu:search-dir)
+                       )
+                     (lse-message "%sSearch failed: \"%s\""
+                       (aref lse-tpu:search-prompt-mode lse-tpu:search-mode)
+                       lse-tpu:search-last-string
                      )
-                   (lse-message "%sSearch failed: \"%s\""
-                     (if lse-tpu:regexp-p "RE " "") lse-tpu:search-last-string
                    )
-                   (lse-tpu:unset-match)
-                   nil
+                 )
+               )
+             )
+             nil
+          )
+          (t (unless quiet
+                 (lse-message "%sSearch failed: \"%s\""
+                    (aref lse-tpu:search-prompt-mode lse-tpu:search-mode)
+                    lse-tpu:search-last-string
                  )
              )
-           )
-           nil
-        )
-        (t (lse-tpu:unset-match)
-           (or quiet
-               (lse-message "%sSearch failed: \"%s\""
-                  (if lse-tpu:regexp-p "RE " "") lse-tpu:search-last-string
-               )
-           )
-           nil
-        )
+             nil
+          )
+    )
   )
-; lse-tpu:search-internal
+; lse-tpu:search
 )
 
 (defun lse-tpu:adjust-search (&optional arg stay-at-bob)
   "For forward searches, move forward a character before searching,
 and backward a character after a failed search.  Arg means end of search."
-  (if lse-tpu:searching-forward
+  (if (= lse-tpu:search-dir lse-tpu:search-dir-forward)
       (cond (arg  (if (not (bobp)) (lse-tpu:forward-char -1)))
             ((not (and (bobp) stay-at-bob))
              (if  (not (eobp)) (lse-tpu:forward-char  1))
@@ -2267,7 +2259,7 @@ and backward a character after a failed search.  Arg means end of search."
       (message "No more replacement instance.")
     )
   )
-; lse-tpu:replace:goto-next
+; lse-tpu:replace@goto
 )
 
 ;;;  7-Oct-2007
@@ -2290,8 +2282,10 @@ and backward a character after a failed search.  Arg means end of search."
   (let ((beg (point)))
     (lse-tpu:unset-match-highlight); 22-Mar-1995
     (lse-tpu:replace:add-info);  7-Oct-2007
-    (replace-match to (not case-replace) (not lse-tpu:regexp-p))
-    (if lse-tpu:searching-forward
+    (replace-match to (not case-replace)
+      (/= lse-tpu:search-mode lse-tpu:search-mode-regexp)
+    )
+    (if (= lse-tpu:search-dir lse-tpu:search-dir-forward)
         (lse-tpu:forward-char -1)
       (goto-char beg)
     )
@@ -2318,8 +2312,8 @@ and backward a character after a failed search.  Arg means end of search."
 (defun lse-tpu:replace@all (from to head-limit tail-limit)
   (save-excursion
     (goto-char head-limit)
-    (if (not (looking-at (if lse-tpu:regexp-p from (regexp-quote from))))
-        (lse-tpu:search+goto+set-match from tail-limit)
+    (unless (looking-at from)
+      (lse-tpu:search+goto+set-match from tail-limit)
     )
     (lse-tpu:replace-rest from to tail-limit)
   )
@@ -2338,7 +2332,8 @@ and backward a character after a failed search.  Arg means end of search."
             (lse-tpu:exchange-point-and-mark)
         )
     )
-    (let* ((lse-tpu:searching-forward t)
+    (let* ((lse-tpu:search-dir  lse-tpu:search-dir-forward)
+           (lse-tpu:search-mode lse-tpu:search-mode-regexp)
            (start (or head-limit (point-min)))
            (end   (or tail-limit (point-max)))
            (head  (min start end))
@@ -2359,8 +2354,8 @@ and backward a character after a failed search.  Arg means end of search."
 
 (defun lse-tpu:replace-all (from to &optional head-limit tail-limit)
   "Replace all occurences of `from` by `to`."
-  (interactive (list (lse-tpu:regexp-prompt "replace all: ")
-                     (lse-tpu:regexp-prompt "by: ")
+  (interactive (list (lse-tpu:search-prompt-read "replace all")
+                     (lse-tpu:search-prompt-read "by")
                )
   )
   (lse-tpu:do-replace from to head-limit tail-limit 'lse-tpu:replace@all)
@@ -2369,8 +2364,8 @@ and backward a character after a failed search.  Arg means end of search."
 
 (defun lse-tpu:replace (from to &optional head-limit tail-limit)
   "Interactively replace occurrences of `from` by `to`."
-  (interactive (list (lse-tpu:regexp-prompt "replace: ")
-                     (lse-tpu:regexp-prompt "by: ")
+  (interactive (list (lse-tpu:search-prompt-read "replace")
+                     (lse-tpu:search-prompt-read "by")
                )
   )
   (lse-tpu:do-replace from to head-limit tail-limit 'lse-tpu:replace-internal)
@@ -2388,8 +2383,7 @@ and backward a character after a failed search.  Arg means end of search."
     (if (< cp head-limit) (goto-char head-limit))
     (setq repl-number (lse-tpu:replace-loop from to tail-limit))
     (or lse-tpu:quit-search
-        (<     cp head-limit)
-        (equal cp head-limit)
+        (<=    cp head-limit)
         (let ((found nil)
               (match-pos nil)
              )
@@ -2419,9 +2413,8 @@ and backward a character after a failed search.  Arg means end of search."
   (let ((go-on t)
         (repl-number 0)
        )
-    (lse-tpu:set-search lse-tpu:searching-forward)
-    (if (not (looking-at (if lse-tpu:regexp-p from (regexp-quote from))))
-        (setq go-on (lse-tpu:search+goto+set-match from tail-limit))
+    (unless (looking-at from)
+      (setq go-on (lse-tpu:search+goto+set-match from tail-limit))
     )
     (while go-on
       (setq go-on nil)
@@ -2884,7 +2877,6 @@ A repeat count means scroll that many sections."
    ((not lse-tpu:edt-mode)
     (lse-tpu:arrow-history)
     (lse-tpu:set-mode-line t)
-    (lse-tpu:set-search t)
     (lse-tpu:update-mode-line)
     ;; set page delimiter, display line truncation, and scrolling like TPU
     (setq-default page-delimiter "\f")

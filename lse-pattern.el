@@ -44,7 +44,7 @@
   "\\(^).*\\)"                         ; \\1 the entire line
 )
 
-; (lse-tpu:search lse-pattern:args-of-defun nil lse-tpu:searching-forward)
-; (lse-tpu:search lse-pattern:head-of-defun nil lse-tpu:searching-forward)
-; (lse-tpu:search lse-pattern:tail-of-defun nil lse-tpu:searching-forward)
+; (lse-tpu:search-forward lse-pattern:args-of-defun)
+; (lse-tpu:search-forward lse-pattern:head-of-defun)
+; (lse-tpu:search-forward lse-pattern:tail-of-defun)
 

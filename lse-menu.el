@@ -43,6 +43,8 @@
 ;;;;     2-Oct-2007 (CT) Add `Show Emacs Version` to Emacs 22 Help Menu
 ;;;;     4-Oct-2007 (CT) `toggle-editing-direction` removed
 ;;;;     5-Oct-2007 (CT) Search direction removed
+;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
+;;;;                     `lse-tpu:change-search-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -209,6 +211,9 @@
       (define-key lse-menu:options [editing-options]
         (cons "Editing" lse-menu:options:editing)
       )
+      (define-key lse-menu:options:search [change-search-mode]
+         '("Search mode" . lse-tpu:change-search-mode)
+      )
       (define-key lse-menu:options:search [case-replace]
         (menu-bar-make-toggle toggle-case-replace case-replace
                         "Case folding in replacements"
@@ -221,15 +226,6 @@
                         "Case folding in searches"
                         "Case folding in searches %s"
                         "Case insensitive searches"
-        )
-      )
-      (define-key lse-menu:options:search [search-regexp]
-        (menu-bar-make-toggle toggle-search-regexp
-                              lse-tpu:regexp-p
-                              "Search for regexp"
-                              "Regular expression search and substitute %s"
-                              "Allow regular expressions in search commands"
-                              (lse-tpu:toggle-regexp)
         )
       )
       (define-key lse-menu:options:editing [rectangular-mode]
