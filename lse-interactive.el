@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -76,6 +76,8 @@
 ;;;;                     `lse-split-line-i' added and used for key bindings
 ;;;;    25-May-1999 (CT) Write `;-*- unibyte: t; -*-' as first line of lsc-file
 ;;;;     2-Oct-2007 (CT) Added `coding: iso-8859-1;`  to first line of lsc-file
+;;;;    11-Oct-2007 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
+;;;;                     added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -510,6 +512,23 @@
 ;;;+
 ;;; Commands for moving to fill-ins
 ;;;-
+;;; 11-Oct-2007
+(defun lse-goto-first-fill-in (&optional quiet name)
+  "Move point to first flat fill-in in buffer."
+  (interactive "P")
+  (lse-tpu:move-to-beginning)
+  (lse-goto-next-fill-in quiet name)
+; lse-goto-first-fill-in
+)
+
+(defun lse-goto-last-fill-in (&optional quiet name)
+  "Move point to last flat fill-in in buffer."
+  (interactive "P")
+  (lse-tpu:move-to-end)
+  (lse-goto-prev-fill-in quiet name)
+; lse-goto-last-fill-in
+)
+
 (defun lse-goto-next-fill-in (&optional quiet name)
   "Move point to next flat fill-in."
   (interactive "P")
@@ -864,116 +883,5 @@ trailers."
   (message "Language used is: %s" (or lse-language:name "none"))
 ; lse-show-language
 )
-
-;;;+
-;;; Load and use of lse lingo-languages 30-Mar-1996
-;;;-
-;;(defvar lse_lingo:last_language nil)
-;;
-;;(defun lse-lingo:read-name (&optional name)
-;;  (or name
-;;      (progn
-;;        (setq name
-;;           (lse-complete "" lse_lingo:language_table nil nil nil
-;;                            lse_lingo:last_language t
-;;           )
-;;        )
-;;        (and name (not (equal name "")) (setq lse_lingo:last_language name))
-;;      )
-;;      (if lse-emacs19-p
-;;          (setq name (completing-read
-;;                          "Lingo-Language: " lse_lingo:language_table
-;;                          nil nil nil
-;;                          'minibuffer-history
-;;                     )
-;;          )
-;;        (setq name (completing-read-with-history-in
-;;                        'minibuffer-history "Lingo-Language: "
-;;                        lse_lingo:language_table
-;;                   )
-;;        )
-;;      )
-;;  )
-;;  name
-;;; lse-lingo:read-name
-;;)
-;;
-;;(defun lse-lingo:use (&optional name)
-;;  "Use a specific LSE lingo-language for the current buffer."
-;;  (interactive)
-;;  (setq name (lse-lingo:read-name name))
-;;  (let ((lsym (lse-lingo:language name))
-;;       )
-;;    (if (or (not lsym) (not (get lsym 'loaded)))
-;;        (or (setq  lsym (lse-lingo:load           name))
-;;            (error "Can't find lingo-language %s" name)
-;;        )
-;;    )
-;;    (setq lse_lingo:token_table (get lsym 'token-table))
-;;    (setq lse-lingo:language    name)
-;;  )
-;;; lse-lingo:use
-;;)
-;;
-;;(defun lse-lingo:write (&optional name)
-;;  "Write lingo-token definitions of specific LSE lingo-language."
-;;  (interactive)
-;;  (setq name (lse-lingo:read-name name))
-;;  (let ((lsym (lse-lingo:language name))
-;;       )
-;;    (if lsym
-;;        (lse-lingo@write-language name lsym)
-;;      (error "Can't find lingo-language %s" name)
-;;    )
-;;  )
-;;; lse-lingo:write
-;;)
-;;
-;;;;; 30-Mar-1996
-;;(defun lse-lingo:expand-token ()
-;;  "Expand the current token as lingo-token (word(s) before the cursor)."
-;;  (interactive "*")
-;;  (let ((lse_token_table lse_lingo:token_table)
-;;        overwrite-mode
-;;        result
-;;        lse_current_fill-in
-;;       )
-;;    (or (setq result
-;;           (lse_expand_token:try lse-tpu:blank-sep-word-chars 1
-;;                                 'lse-lingo@expand
-;;           )
-;;        )
-;;        (setq result
-;;           (lse_expand_token:try lse-tpu:word-chars 1
-;;                                 'lse-lingo@expand
-;;           )
-;;        )
-;;    )
-;;    result
-;;  )
-;;; lse-lingo:expand-token
-;;)
-;;
-;;;;; 30-Mar-1996
-;;(defun lse-lingo:add-token ()
-;;  "Add current word to lingo-tokens."
-;;  (interactive)
-;;  (let* ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars)
-;;         (cwr (lse-tpu:current-word-range))
-;;        )
-;;    (if cwr
-;;        (let ((token
-;;                  (buffer-substring-no-properties (lse-range:head cwr) (point))
-;;              )
-;;             )
-;;          (lse-lingo:define-token token)
-;;          (lse-lingo:write lse-lingo:language)
-;;          (message (concat "Lingo-token `" token "' added to language `"
-;;                           lse-lingo:language "'"
-;;                   )
-;;          )
-;;        )
-;;    )
-;;  )
-;;; lse-lingo:add-token
-;;)
+
+;;; __END__ lse-interactive.el

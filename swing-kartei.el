@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency swing-kartei.el swi_kart.el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -22,7 +22,10 @@
 ;;;;    30-Mar-1995 (CT) swing-kartei:quit-entry changed (changed text
 ;;;;                     attributes of command-fill-in resulted in stupid
 ;;;;                     question to user)
-;;;;-- 
+;;;;    11-Oct-2007 (CT) `swing-kartei:get-file-buffer` changed to use
+;;;;                     `lse-file:expanded-name`
+;;;;    ««revision-date»»···
+;;;;--
 (let ((kdir (getenv "SWING_KARTEI")))
   (if kdir
       (defconst swing-kartei:directory (concat kdir "/"))
@@ -48,10 +51,10 @@
        )
     (switch-to-buffer src-buf)
     (let (buffer-read-only)
-      (sort-regexp-fields nil 
-                          swing-kartei:entry:pattern 
-                          "\\2" 
-                          (point-min) 
+      (sort-regexp-fields nil
+                          swing-kartei:entry:pattern
+                          "\\2"
+                          (point-min)
                           (point-max)
       )
     )
@@ -61,7 +64,7 @@
 
 (defun swing-kartei:make-entry-summary (limit make-entry-summary)
   (let (head)
-    ;; indentation + \t allow the summary file to be used as completion buffer 
+    ;; indentation + \t allow the summary file to be used as completion buffer
     (set-buffer dst-buf)
     (setq head (point))
     (indent-to lse_completion:left_margin)
@@ -80,11 +83,11 @@
           )
           (field   "")
           (gc-cons-threshold 100000); all other values take much more time!!!
-          dst-buf 
+          dst-buf
           p
          )
       (save-window-excursion
-        (lse-goto-buffer+maybe-create 
+        (lse-goto-buffer+maybe-create
              (concat kartei-dir kartei-name ".summary") nil t
         )
         (setq tab-width 1)
@@ -170,7 +173,7 @@
 
 (defun swing-kartei:field-value (limit field-name)
   (if (re-search-forward
-         (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro) 
+         (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro)
          limit
          t
       )
@@ -178,7 +181,7 @@
   )
 )
 
-(defun swing-kartei:copy-field 
+(defun swing-kartei:copy-field
            (src-buf dst-buf limit field-name &optional trailer indent)
   (let (field)
     (set-buffer src-buf)
@@ -193,8 +196,8 @@
 ; swing-kartei:copy-field
 )
 
-(defconst swing-kartei:pattern:arg-of-macro  
-  (concat " *%? *\n? *"            ; 
+(defconst swing-kartei:pattern:arg-of-macro
+  (concat " *%? *\n? *"            ;
           "\\(\\[[^]]*\\]\\)?"     ; \\1 optional leading  parameter (including [])
           "{\\([^}]*\\)}"          ; \\2 required          parameter (excluding {})
           "\\(\\[[^]]*\\]\\)?"     ; \\3 optional trailing parameter (including [])
@@ -203,16 +206,16 @@
 
 (defun swing-kartei:field+option-values (limit field-name)
   (if (re-search-forward
-         (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro) 
+         (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro)
          limit
          t
       )
-      (list 
+      (list
          (buffer-substring-no-properties (match-beginning 2) (match-end 2))
-         (if (match-beginning 1) 
+         (if (match-beginning 1)
              (buffer-substring-no-properties (match-beginning 1) (match-end 1))
          )
-         (if (match-beginning 3) 
+         (if (match-beginning 3)
              (buffer-substring-no-properties (match-beginning 3) (match-end 3))
          )
       )
@@ -220,12 +223,12 @@
   )
 )
 
-(defun swing-kartei:copy-field+tail-option 
+(defun swing-kartei:copy-field+tail-option
            (src-buf dst-buf limit field-name &optional trailer indent)
   (set-buffer src-buf)
   (save-excursion
     (if (re-search-forward
-           (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro) 
+           (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro)
            limit
            t
         )
@@ -234,8 +237,8 @@
              (buffer-substring-no-properties (match-beginning 2) (match-end 2))
           )
           (if (match-beginning 3)
-              (setq field 
-                    (concat field " " 
+              (setq field
+                    (concat field " "
                        (buffer-substring-no-properties (match-beginning 3) (match-end 3))
                     )
               )
@@ -253,8 +256,8 @@
 
 (defun swing-kartei:get-file-buffer (dir name ext &optional read-only no-lock)
   (if (or no-lock (file-readable-p (concat dir "." name ".open")))
-      (let* ((full-name (concat dir name "." ext))
-             (rbuf      (get-file-buffer full-name))  
+      (let* ((full-name (lse-file:expanded-name (concat dir name "." ext)))
+             (rbuf      (get-file-buffer full-name))
             )
         (if rbuf
             (let ((uptodate (verify-visited-file-modtime rbuf))
@@ -292,7 +295,7 @@
 )
 
 (defun swing-kartei:add
-         (kartei-dir kartei-name kartei-file-dir make-entry-summary 
+         (kartei-dir kartei-name kartei-file-dir make-entry-summary
           &optional kartei-language commit-entry-hook not-case-fold-search
          )
   (let* ((entry-name (swing-kartei:entry:read-name kartei-dir kartei-name))
@@ -333,7 +336,7 @@
 )
 
 (defun swing-kartei:change
-         (kartei-dir kartei-name kartei-file-dir make-entry-summary 
+         (kartei-dir kartei-name kartei-file-dir make-entry-summary
           &optional   kartei-language commit-entry-hook not-case-fold-search
          )
   (let* ((case-fold-search         (not not-case-fold-search))
@@ -369,7 +372,7 @@
 ; swing-kartei:change
 )
 
-(defun swing-kartei:assert-consistency 
+(defun swing-kartei:assert-consistency
            (entry-name initial-value with-buffer kartei-case-fold-search)
   (save-excursion
     (let (old-entry)
@@ -382,7 +385,7 @@
       )
     )
   )
-; swing-kartei:assert-consistency 
+; swing-kartei:assert-consistency
 )
 
 (defun swing-kartei:commit-entry ()
@@ -397,15 +400,15 @@
     )
     (goto-char 1)
     (let* ((kartei-buf       (swing-kartei:get-file-buffer
-                                swing-kartei:entry:kartei-dir 
-                                swing-kartei:entry:kartei-name 
+                                swing-kartei:entry:kartei-dir
+                                swing-kartei:entry:kartei-name
                                 "kartei"
                                 t
                              )
            )
            (summary-buf      (swing-kartei:get-file-buffer
-                                swing-kartei:entry:kartei-dir 
-                                swing-kartei:entry:kartei-name 
+                                swing-kartei:entry:kartei-dir
+                                swing-kartei:entry:kartei-name
                                 "summary"
                              )
            )
@@ -416,28 +419,28 @@
            (new-entry        (swing-kartei:entry:value entry-name 'quiet))
            (limit            (match-end 0))
            (inhibit-quit     t)
-           successor 
+           successor
            end-of-entry
           )
       (if (not new-entry) (error "Did not find entry %s" entry-name))
-      (if (equal new-entry swing-kartei:entry:initial-val) 
+      (if (equal new-entry swing-kartei:entry:initial-val)
           (error "Entry `%s' did not change" entry-name)
       )
-      (swing-kartei:assert-consistency 
+      (swing-kartei:assert-consistency
           entry-name swing-kartei:entry:initial-val kartei-buf
           swing-kartei:entry:case-fold-search
       )
       (setq successor (swing-kartei:commit-entry@summary
-                           swing-kartei:entry:kartei-dir 
-                           swing-kartei:entry:kartei-name 
+                           swing-kartei:entry:kartei-dir
+                           swing-kartei:entry:kartei-name
                            entry-name
-                           swing-kartei:entry:initial-val 
+                           swing-kartei:entry:initial-val
                            swing-kartei:entry:make-entry-summary limit
                            src-buf
                            swing-kartei:entry:case-fold-search
                       )
       )
-      (if swing-kartei:entry:initial-val 
+      (if swing-kartei:entry:initial-val
           (swing-kartei:entry:delete entry-name kartei-buf)
       )
       (swing-kartei:entry:insert new-entry successor kartei-buf)
@@ -452,14 +455,14 @@
         (setq end-of-entry (match-end 0))
       )
       (write-region (match-beginning 0) end-of-entry
-          (concat swing-kartei:entry:kartei-file-dir entry-name ".tex") 
+          (concat swing-kartei:entry:kartei-file-dir entry-name ".tex")
           nil 'quiet
       )
       (swing-kartei:log
           (if swing-kartei:entry:initial-val "changed" "added")
           entry-name
-          swing-kartei:entry:kartei-dir 
-          swing-kartei:entry:kartei-name 
+          swing-kartei:entry:kartei-dir
+          swing-kartei:entry:kartei-name
       )
     ); let
   ); save-excursion
@@ -481,7 +484,7 @@
       (setq case-fold-search kartei-case-fold-search)
       (if (not initial-entry)
           (setq successor (swing-kartei:summary:successor entry-name))
-        (setq successor 
+        (setq successor
               (swing-kartei:summary:delete entry-name (current-buffer)
                                            kartei-case-fold-search
               )
@@ -505,15 +508,15 @@
   (save-excursion
     (goto-char 1)
     (let* ((kartei-buf    (swing-kartei:get-file-buffer
-                               swing-kartei:entry:kartei-dir 
-                               swing-kartei:entry:kartei-name 
+                               swing-kartei:entry:kartei-dir
+                               swing-kartei:entry:kartei-name
                                "kartei"
                                t
                           )
            )
            (summary-buf   (swing-kartei:get-file-buffer
-                               swing-kartei:entry:kartei-dir 
-                               swing-kartei:entry:kartei-name 
+                               swing-kartei:entry:kartei-dir
+                               swing-kartei:entry:kartei-name
                                "summary"
                           )
            )
@@ -523,7 +526,7 @@
            (new-entry     (swing-kartei:entry:value entry-name 'quiet))
           )
       (if (not new-entry) (error "Did not find entry %s" entry-name))
-      (swing-kartei:assert-consistency 
+      (swing-kartei:assert-consistency
           entry-name swing-kartei:entry:initial-val kartei-buf
           swing-kartei:entry:case-fold-search
       )
@@ -533,10 +536,10 @@
       (swing-kartei:entry:delete   entry-name kartei-buf)
       (swing-kartei:save_buffers   kartei-buf summary-buf)
       (swing-kartei:log
-          "deleted" 
+          "deleted"
           entry-name
-          swing-kartei:entry:kartei-dir 
-          swing-kartei:entry:kartei-name 
+          swing-kartei:entry:kartei-dir
+          swing-kartei:entry:kartei-name
       )
     ); let
   ); save-excursion
@@ -554,15 +557,15 @@
   (save-excursion
     (goto-char 1)
     (let* ((kartei-buf       (swing-kartei:get-file-buffer
-                                swing-kartei:entry:kartei-dir 
-                                swing-kartei:entry:kartei-name 
+                                swing-kartei:entry:kartei-dir
+                                swing-kartei:entry:kartei-name
                                 "kartei"
                                 t
                              )
            )
            (summary-buf      (swing-kartei:get-file-buffer
-                                swing-kartei:entry:kartei-dir 
-                                swing-kartei:entry:kartei-name 
+                                swing-kartei:entry:kartei-dir
+                                swing-kartei:entry:kartei-name
                                 "summary"
                              )
            )
@@ -575,7 +578,7 @@
       (if (not new-entry) (error "Did not find entry %s" entry-name))
       (if (not swing-kartei:entry:initial-val)
           t                             ; relax
-        (swing-kartei:assert-consistency 
+        (swing-kartei:assert-consistency
             entry-name swing-kartei:entry:initial-val kartei-buf
             swing-kartei:entry:case-fold-search
         )
@@ -586,18 +589,18 @@
         (setq swing-kartei:entry:initial-val nil)
         (swing-kartei:save_buffers kartei-buf summary-buf)
       )
-      (setq new-name 
-            (swing-kartei:entry:read-name swing-kartei:entry:kartei-dir 
+      (setq new-name
+            (swing-kartei:entry:read-name swing-kartei:entry:kartei-dir
                                           swing-kartei:entry:kartei-name
             )
       )
       (lse-tpu:replace-all entry-name new-name)
       (rename-buffer new-name)
       (swing-kartei:log
-          "deleted" 
+          "deleted"
           entry-name
-          swing-kartei:entry:kartei-dir 
-          swing-kartei:entry:kartei-name 
+          swing-kartei:entry:kartei-dir
+          swing-kartei:entry:kartei-name
       )
     ); let
   ); save-excursion
@@ -616,9 +619,9 @@
                    (lse-file-name-sans-extension (buffer-name)) 'quiet
                )
                swing-kartei:entry:initial-val
-        ); 30-Mar-1995 ; instead of buffer-modified-p 
+        ); 30-Mar-1995 ; instead of buffer-modified-p
         t                                 ; relax
-      (if (not (y-or-n-p 
+      (if (not (y-or-n-p
                   (format "Buffer %s modified! kill anyway? " (buffer-name))
                )
           )
@@ -643,7 +646,7 @@
 
 (defun swing-kartei:log (mode entry dir name)
   (save-excursion
-    (set-buffer 
+    (set-buffer
         (swing-kartei:get-file-buffer dir (concat "." name) mode nil t)
     )
     (goto-char (point-max))
@@ -655,7 +658,7 @@
 
 
 (defun swing-kartei:remove-tex-markup ()
-  (let ((case-replace nil)); do not change case of replacements 
+  (let ((case-replace nil)); do not change case of replacements
     (lse-tpu:replace-all "\\\\ "     " ")
     (lse-tpu:replace-all "\\\\,"     " ")
     (lse-tpu:replace-all "\\\\&"     "&")
@@ -663,7 +666,7 @@
     (lse-tpu:replace-all "~"         " ")
     (lse-tpu:replace-all "\\\\'n"    "n")
     (lse-tpu:replace-all "\\\\v s"   "s")
-    (let ((case-fold-search t)); ignore case when searching 
+    (let ((case-fold-search t)); ignore case when searching
       (lse-tpu:replace-all "\\\\swingphone/"       "877 66 92--0")
       (lse-tpu:replace-all "\\\\viennaphonecode/"  "")
       (lse-tpu:replace-all "\\\\austriaphonecode/" "0")

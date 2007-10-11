@@ -45,11 +45,21 @@
 ;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
 ;;;;     6-Oct-2007 (CT) `use-file-dialog` set to `nil` to avoid nasty dialog
 ;;;;                     box
+;;;;    11-Oct-2007 (CT) `lse-file:expanded-name` added and used
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
 
 (setq use-file-dialog nil);  6-Oct-2007
+
+;;; 11-Oct-2007
+(defun lse-file:expanded-name (filename)
+  (if find-file-visit-truename
+      (file-truename filename)
+    (expand-file-name filename)
+  )
+; lse-file:expanded-name
+)
 
 (defun lse-read-file-name (prompt &optional dir def must-exist)
   (or def (setq def (lse-tpu:selection)))
@@ -60,7 +70,7 @@
   ;; 22-Nov-1993 CT: do not return buffer already existing
   ;; Read file FILENAME into a buffer and return the buffer.
   ;; The buffer is not selected, just returned to the caller.
-  (setq filename (expand-file-name filename))
+  (setq filename (lse-file:expanded-name filename))
   ;; Get rid of the prefixes added by the automounter.
   (if (and (string-match automount-dir-prefix filename)
            (file-exists-p (file-name-directory

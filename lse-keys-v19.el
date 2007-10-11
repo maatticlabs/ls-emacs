@@ -91,6 +91,8 @@
 ;;;;                     `lse-keys:function-key-map-bindings` added und
 ;;;;                     passed to `mapcar` to allow customizations
 ;;;;     5-Oct-2007 (CT) `lse-keys-v19:define-fkp-key` removed
+;;;;    11-Oct-2007 (CT) `[M-home]` and `[M-end]` added to
+;;;;                     `lse-keys:emacs-bindings-to-unset`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -100,6 +102,7 @@
     '([f2] [f3] [f4] [f5] [f6] [f7] [f8] [f9]
       [f10] [f11] [f12] [f13] [f14] [f15] [f16] [f17] [f18] [f19] [f20]
       [?\C-x ?4] [?\C-x ?4] [?\C-x ?6]
+      [M-home] [M-end]
      )
   "Override this in your .emacs file, if you want a different set of
   keybindings defined by standard Emacs to be globally unset."

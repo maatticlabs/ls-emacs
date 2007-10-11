@@ -212,6 +212,8 @@
   "Major mode for diary"
   (lse-language:use "diary")
   (lse-key-template-tab-l); 10-Mar-2003
+  (local-set-key [M-home] 'lse-cal:switch-diary)
+  (local-set-key [s-home] 'lse-cal:switch-diary)
 )
 
 ;;;  1-May-1999

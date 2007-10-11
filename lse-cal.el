@@ -55,6 +55,9 @@
 ;;;;     5-Oct-2007 (CT) Replace `search` by `search-forward` and
 ;;;;                     `search-reverse`
 ;;;;     9-Oct-2007 (CT) s/lse-tpu:regexp-prompt/lse-tpu:search-prompt-read/g
+;;;;    11-Oct-2007 (CT) `lse-cal:plan:highlight-today` changed to delete old
+;;;;                     highlight, if any
+;;;;    11-Oct-2007 (CT) `lse-cal:switch-diary` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -305,6 +308,9 @@
   (let ((old-p (point))
         (inhibit-point-motion-hooks t)
        )
+    (if lse-cal:plan:today-overlay
+        (delete-overlay lse-cal:plan:today-overlay)
+    )
     (lse-tpu:move-to-beginning)
     (if (re-search-forward (lse-yyyy/mm/dd) nil t)
         (let (head tail)
@@ -471,14 +477,14 @@
   (interactive)
   (if (not m) (setq m (lse-date-month)))
   (if (not d) (setq d (lse-date-day)))
-  (and lse-cal:view:today-month-overlay
-       (delete-overlay lse-cal:view:today-month-overlay)
+  (if lse-cal:view:today-month-overlay
+      (delete-overlay lse-cal:view:today-month-overlay)
   )
-  (and lse-cal:view:today-overlay
-       (delete-overlay lse-cal:view:today-overlay)
+  (if lse-cal:view:today-overlay
+      (delete-overlay lse-cal:view:today-overlay)
   )
-  (and lse-cal:view:today-week-overlay
-       (delete-overlay lse-cal:view:today-week-overlay)
+  (if lse-cal:view:today-week-overlay
+      (delete-overlay lse-cal:view:today-week-overlay)
   )
   (let ((pat m)
         (inhibit-point-motion-hooks t)
@@ -700,9 +706,8 @@
 (defun lse-cal:setup-diary (&optional x y ht wd)
   (interactive)
   (let* ((d    (lse-yyyy/mm/dd))
-         (df   (concat "~/diary/" d ".diary"))
          (fram (lse-frame:make
-                (concat (lse-user-initials) "'s Diary " d)
+                nil
                 (cons (or x 0) (or y 460))
                 (cons (or wd 65) (or ht 11)); 11-Apr-2007 s/9/11/ for ht
                 '((font . "6x13"))
@@ -711,11 +716,7 @@
         )
     (select-frame fram)
     (lse-frame:disable-menu-bar fram); 28-Mar-2007
-    (lse-goto-buffer
-      (or (get-file-buffer df)
-          (find-file       df)
-      )
-    )
+    (lse-cal:switch-diary d)
   )
 ; lse-cal:setup-diary
 )
@@ -726,6 +727,17 @@
   (lse-cal:setup-year (lse-date-year) x y ht wd)
   (lse-cal:setup-diary)
 ; lse-cal:setup-year-and-diary
+)
+
+;;; 11-Oct-2007
+(defun lse-cal:switch-diary (&optional d)
+  (interactive)
+  (if (not d) (setq d (lse-yyyy/mm/dd)))
+  (let ((df (lse-file:expanded-name (concat "~/diary/" d ".diary"))))
+    (lse-goto-buffer (or (get-file-buffer df) (find-file df)))
+    (lse-set-shorthosted-frame-title (concat (lse-user-initials) "'s Diary " d))
+  )
+; lse-cal:switch-diary
 )
 
 ;;; A view of half a year needs an emacs window with 29 lines

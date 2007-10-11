@@ -63,6 +63,7 @@
 ;;;;     5-Oct-2007 (CT) `lse-buffer:initialize` changed to initialize
 ;;;;                     `lse-buffer:n` to `lse-buffer:new_n` instead of `0`
 ;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
+;;;;    11-Oct-2007 (CT) Use `lse-file:expanded-name` instead of `file-truename`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -105,7 +106,7 @@
 ;;;  2-Apr-2003
 (defun lse-buffer:unique_anchored_name (&optional buffer)
   (let* ((buffer  (or buffer              (current-buffer)))
-         (fname   (file-truename          (buffer-file-name buffer)))
+         (fname   (lse-file:expanded-name (buffer-file-name buffer)))
          (bname   (file-name-nondirectory fname))
          (result  (buffer-name            buffer))
          (anchors lse-buffer:relative-directory-anchors)

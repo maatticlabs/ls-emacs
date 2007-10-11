@@ -156,6 +156,7 @@
 ;;;;                     (`[blue ?\C-n]`) and `lse-tpu:replace:goto-prev`
 ;;;;                     (`[blue ?\C-p]`) added
 ;;;;     9-Oct-2007 (CT) s/lse-tpu:word-search-.*ward/lse-tpu:change-search-mode/
+;;;;    11-Oct-2007 (CT) Added bindings for `[A-end]` and `[A-home]`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -858,7 +859,9 @@
   (global-set-key [gold C-right]    'lse-select-current-word)
   (global-set-key [gold s-right]    'lse-select-current-bs-word)
 
+  (global-set-smk [A-end]           'lse-goto-last-fill-in);     11-Oct-2007
   (global-set-smk [C-end]           'lse-tpu:move-to-end);       31-Aug-2002
+  (global-set-smk [A-home]          'lse-goto-first-fill-in);    11-Oct-2007
   (global-set-smk [C-home]          'lse-tpu:move-to-beginning); 31-Aug-2002
   (global-set-smk [C-next]          'lse-tpu:page-forward);      31-Aug-2002
   (global-set-smk [C-prior]         'lse-tpu:page-backward);      8-Sep-2002

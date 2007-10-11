@@ -145,11 +145,11 @@
 )
 
 ;;;  9-Apr-1998
-(defun lse-frame:make-small (&optional ht nam)
+(defun lse-frame:make-small (&optional ht nam alist)
   "Make a small frame with height `ht' (default: 30)"
   (interactive "p")
   (if (eq ht 1) (setq ht lse-frame:small-height))
-  (lse-frame:make nil nil (cons lse-frame:std-width ht))
+  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
 ; lse-frame:make-small
 )
 
