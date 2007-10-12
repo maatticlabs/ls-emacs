@@ -58,6 +58,10 @@
 ;;;;                     lists of symbols properly
 ;;;;    10-Oct-2007 (CT) `lse_completion:entry_desc` changed to use
 ;;;;                     `documentation-property` instead of home-grown code
+;;;;    12-Oct-2007 (CT) Guard `(equal (current-buffer) lse_completion_buffer)`
+;;;;                     added to `lse_completion:widen`,
+;;;;                     `lse-completion:narrow`, `lse_completion:key_handler`
+;;;;    12-Oct-2007 (CT) Bindings for `[mouse-4]` and `[mouse-5]` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
@@ -83,20 +87,26 @@
 (make-variable-buffer-local   'lse_completion:end_pos)
 
 (defun lse_completion:widen ()
-  (widen)
-  (narrow-to-region 1 (max lse_completion:end_pos 1))
+  (if (equal (current-buffer) lse_completion_buffer)
+      (progn
+        (widen)
+        (narrow-to-region 1 (max lse_completion:end_pos 1))
+      )
+  )
 )
 
 (defun lse-completion:narrow ()
-  (save-excursion
-    (let (head
-          tail
-         )
-      (setq head (lse_completion:goto_match))
-      (setq tail (lse_completion:goto_last_match))
-      (lse_completion:widen)
-      (narrow-to-region head (lse-tpu:line-tail-pos))
-    )
+  (if (equal (current-buffer) lse_completion_buffer)
+      (save-excursion
+        (let (head
+              tail
+             )
+          (setq head (lse_completion:goto_match))
+          (setq tail (lse_completion:goto_last_match))
+          (lse_completion:widen)
+          (narrow-to-region head (lse-tpu:line-tail-pos))
+        )
+      )
   )
 )
 
@@ -397,6 +407,12 @@
   (local-set-key [mouse-1]        'mouse-set-point)      ; 11-Oct-1996
   (local-set-key [mouse-2]        'lse_completion:mouse_exit); 17-Dec-1997
   (local-set-key [mouse-3]        'mouse-set-point)      ; 11-Oct-1996
+  (if (fboundp 'mwheel-scroll); 12-Oct-2007
+      (progn
+        (local-set-key [mouse-4]  'mwheel-scroll)
+        (local-set-key [mouse-5]  'mwheel-scroll)
+      )
+  )
   (local-set-key [double-mouse-1] 'lse_completion:exit)  ; 11-Oct-1996
   ;; (local-set-key [double-mouse-2] 'lse_completion:exit)  ; 11-Oct-1996
   (local-set-key [double-mouse-3] 'lse_completion:exit)  ; 11-Oct-1996
@@ -560,7 +576,7 @@
   (let (binding helped)
     (lse_completion:goto_match start-position)
     (while t
-      (unwind-protect
+      (if (equal (current-buffer) lse_completion_buffer)
           (progn
             (setq lse_completion:current (lse_completion:current_item))
             (lse-completion:narrow)
@@ -584,7 +600,8 @@
               (setq helped lse_completion:helped)
             )
           )
-        nil
+        (setq lse_completion:so_far nil)
+        (throw 'exit@lse_completion nil)
       )
     )
   )
