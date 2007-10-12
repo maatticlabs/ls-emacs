@@ -69,6 +69,8 @@
 ;;;;     9-Mar-2003 (CT) Locally unset `{`, `[`, and `(` for LaTeX
 ;;;;     9-Mar-2003 (CT) Use `lse-key-template-tab-l` for
 ;;;;                     lse-aufwandserfassung-mode and lse-kartei-mode
+;;;;    12-Oct-2007 (CT) Added keybindings for `lse-cal:diary:next-day` and
+;;;;                     `lse-cal:diary:prev-day` to `lse-diary-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mode-alist)
@@ -212,8 +214,10 @@
   "Major mode for diary"
   (lse-language:use "diary")
   (lse-key-template-tab-l); 10-Mar-2003
-  (local-set-key [M-home] 'lse-cal:switch-diary)
-  (local-set-key [s-home] 'lse-cal:switch-diary)
+  (local-set-key [M-home]    'lse-cal:switch-diary)
+  (local-set-key [s-home]    'lse-cal:switch-diary)
+  (local-set-key [red right] 'lse-cal:diary:next-day)
+  (local-set-key [red left]  'lse-cal:diary:prev-day)
 )
 
 ;;;  1-May-1999

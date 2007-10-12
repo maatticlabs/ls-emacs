@@ -58,6 +58,7 @@
 ;;;;    11-Oct-2007 (CT) `lse-cal:plan:highlight-today` changed to delete old
 ;;;;                     highlight, if any
 ;;;;    11-Oct-2007 (CT) `lse-cal:switch-diary` factored
+;;;;    12-Oct-2007 (CT) `lse-cal:diary:next-day` and friends added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -730,14 +731,81 @@
 )
 
 ;;; 11-Oct-2007
-(defun lse-cal:switch-diary (&optional d)
+(defun lse-cal:switch-diary (&optional d quiet)
   (interactive)
   (if (not d) (setq d (lse-yyyy/mm/dd)))
   (let ((df (lse-file:expanded-name (concat "~/diary/" d ".diary"))))
     (lse-goto-buffer (or (get-file-buffer df) (find-file df)))
-    (lse-set-shorthosted-frame-title (concat (lse-user-initials) "'s Diary " d))
+    (unless quiet
+      (lse-set-shorthosted-frame-title
+        (concat (lse-user-initials) "'s Diary " d)
+      )
+    )
   )
 ; lse-cal:switch-diary
+)
+
+;;; 12-Oct-2007
+(defun lse-cal:diary:process-buffer ()
+  (save-excursion
+    (let ((b (get-buffer-create " *Diary Process Buffer*")))
+      (set-buffer b)
+      (erase-buffer)
+      b
+    )
+  )
+; lse-cal:diary:process-buffer
+)
+
+;;; 12-Oct-2007
+(defun lse-cal:diary:next-day (&optional n)
+  (interactive "p")
+  (save-match-data
+    (let* ((fname    (buffer-file-name))
+           (date_pat "\\([12][0-9]\\{3\\}/[01][0-9]/[0-3][0-9]\\)")
+           (file_pat (concat "diary/" date_pat ".diary"))
+           (dbuf     (lse-cal:diary:process-buffer))
+           date new_d
+         )
+      (if (string-match file_pat fname)
+          (progn
+            (setq date (match-string 1 fname))
+            (if (eq 0
+                  (call-process "python"
+                    nil                                           ; infile
+                    dbuf                                          ; destination
+                    nil                                           ; display
+                    "/swing/python/Date.py"                          ; args
+                    "-format=%Y/%m/%d" (format "-offset=%d" n) date  ; args
+                  )
+                )
+                (progn
+                  (save-excursion
+                    (set-buffer dbuf)
+                    (setq new_d (buffer-substring 1 (1- (point))))
+                  )
+                  (if (string-match date_pat new_d)
+                      (lse-cal:switch-diary new_d t)
+                    (message "Can't switch to %s" new_d)
+                  )
+                )
+              (message "/swing/python/Date.py failed for date %s [%s]"
+                date fname
+              )
+            )
+          )
+        (message "Not in a diary buffer: %s [%s]." fname file_pat)
+      )
+    )
+  )
+; lse-cal:diary:next-day
+)
+
+;;; 12-Oct-2007
+(defun lse-cal:diary:prev-day (&optional n)
+  (interactive "p")
+  (lse-cal:diary:next-day (- n))
+; lse-cal:diary:prev-day
 )
 
 ;;; A view of half a year needs an emacs window with 29 lines
