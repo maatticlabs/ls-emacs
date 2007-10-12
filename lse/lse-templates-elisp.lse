@@ -125,6 +125,14 @@
 ;;; condition-var
 )
 
+;;; 12-Oct-2007
+(lse-define-fill-in "date-of-def"
+    '(token)
+    '(description           "Comment with the date a definition was added")
+    '(replacement           ";;; " & lse-insert-dd-mmm-yyyy+blank)
+;;; date-of-def
+)
+
 (lse-define-fill-in "def-name"
     '(description           "Name of defined entity")
     '(auto-replicate        1)
@@ -136,7 +144,7 @@
     '(token)
     '(description           "Define a lisp constant")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank
+        @ date-of-def
         "(defconst «def-name» «form» ««quoted-text»»)"
      )
 ;;; defconst
@@ -146,9 +154,19 @@
     '(token)
     '(description           "Define a lisp macro")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank
-        "(defmacro «def-name» " & @ function-definition &
-          "; «def-name»"
+        @ date-of-def
+        "(defmacro" @ named-function-definition
+        ")"
+     )
+)
+
+;;; 12-Oct-2007
+(lse-define-fill-in "defsubst"
+    '(token)
+    '(description           "Define a named inline lisp function")
+    '(replacement
+        @ date-of-def
+        "(defsubst" & @ named-function-definition
         ")"
      )
 )
@@ -157,10 +175,8 @@
     '(token)
     '(description           "Define a named lisp function")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank
-        "(defun «def-name» " &
-           @ function-definition &
-        "; «def-name»"
+        @ date-of-def
+        "(defun" & @ named-function-definition
         ")"
      )
 )
@@ -170,7 +186,7 @@
     '(token)
     '(description           "Define a lisp variable")
     '(replacement
-        ";;; " & lse-insert-dd-mmm-yyyy+blank
+        @ date-of-def
         "(defvar «def-name» «form» ««quoted-text»»)"
      )
 ;;; defvar
@@ -210,6 +226,7 @@
       lambda-expression
       let
       let*
+      or
       not
       progn
       prog1
@@ -219,7 +236,9 @@
       save-restriction
       save-window-excursion
       throw
+      unless
       unwind-protect
+      when
       while
       with-output-to-temp-buffer
    )
@@ -233,6 +252,17 @@
         lse-indent-1
      )
 ;;; form-list
+)
+
+;;; 12-Oct-2007
+(lse-define-fill-in "function"
+    '(token)
+    '(token                 "anonymous-function")
+    '(description           "Use tis for defining anonymous functions")
+    '(replacement
+        "(function " & @ lambda-expression & ")"
+     )
+;;; function
 )
 
 (lse-define-fill-in "function-definition"
@@ -329,6 +359,14 @@
     '(token)
     '(description           "Like let, except that each symbol in «binding»··· is bound as soon as its new value is computed")
     '(replacement           "(let* («binding»···" "      )" @ form-list & ")")
+)
+
+;;; 12-Oct-2007
+(lse-define-fill-in "named-function-definition"
+    '(replacement " «def-name» " & @ function-definition &
+      "; «def-name»"
+     )
+;;; named-function-definition
 )
 
 (lse-define-fill-in "not"
@@ -454,8 +492,18 @@
     '(replacement           "throw «symbol» «form»")
 )
 
+;;; 12-Oct-2007
+(lse-define-fill-in "unless"
+    '(token)
+    '(description
+      "Evaluate embedded forms unless first form returns true"
+     )
+    '(replacement           "(unless «form»" @ form-list & ")")
+)
+
 (lse-define-fill-in "unwind-protect"
     '(token)
+    '(token                 "finally")
     '(description           "Execute «form» with a guarantee that «cleanup-form»··· are executed, if control leaves «form», no matter how that happens")
     '(replacement
         "(unwind-protect"
@@ -467,6 +515,13 @@
         ")"
      )
 ;;; unwind-protect
+)
+
+;;; 12-Oct-2007
+(lse-define-fill-in "when"
+    '(token)
+    '(description           "Evaluate embedded forms if first form returns true")
+    '(replacement           "(when «form»" @ form-list & ")")
 )
 
 (lse-define-fill-in "while"

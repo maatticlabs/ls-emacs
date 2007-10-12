@@ -85,7 +85,15 @@
 )
 
 (setq-default enable-multibyte-characters nil); 19-Dec-1999
-(set-language-environment "Latin-9"); 1-Oct-2007
+
+;;; `set-language-environment` to exactly the value as specified by the
+;;; coding directive (iso-8859-1)
+;;; Calling `set-language-environment` with `Latin-9` lead to a mixture of
+;;; unibyte and multibyte in LS-Emacs templates that resulted in a
+;;; very-hard-to-debug mess (`assq` in `lse_expand_menu` didn't work for
+;;; seemingly identical strings, one of which was unibyte, the other one was
+;;; multibyte)
+(set-language-environment "Latin-1"); 12-Oct-2007
 
 (setq vc-handled-backends nil);  1-Oct-2007
 
