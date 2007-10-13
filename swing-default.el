@@ -466,5 +466,6 @@
 ;;; 13-Oct-2007
 (lse-add-to-list lse-byte-compile:files "swing-default")
 (lse-add-to-list lse-byte-compile:files "swing-keys-v19")
+(lse-add-to-list lse-byte-compile:files "swing--kartei-bib")
 
 ;;; __END__ swing-default.el
