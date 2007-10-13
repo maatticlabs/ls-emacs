@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-compilation:el lse_cmpi:el
-;;;; Copyright (C) 1995 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -34,7 +34,7 @@
 ;;;;    23-Feb-1995 (CT) Save window configuration before executing
 ;;;;                     compile-command or grep
 ;;;;    17-Mar-1995 (CT) Use lse-push-window-configuration to save window
-;;;;                     configuration 
+;;;;                     configuration
 ;;;;    29-Mar-1995 (CT) Pop window configuration before pushing one
 ;;;;    31-Mar-1995 (CT) Don't pop window configuration before pushing one
 ;;;;     9-Jun-1995 (CT) lse-set-compile-command added
@@ -60,7 +60,7 @@
   (lse-define-alpha-key map [gold] "n" 'compilation-next-file)
 )
 
-;;;  9-Sep-1995 
+;;;  9-Sep-1995
 (defun lse-compilation-mode-hook ()
   (let ((map (current-local-map)))
     (define-key map           [?\A-f]    'compile-goto-error)
@@ -77,9 +77,9 @@
 ; lse-compilation-mode-hook
 )
 
-(add-hook 'compilation-mode-hook 'lse-compilation-mode-hook); 9-Sep-1995 
+(add-hook 'compilation-mode-hook 'lse-compilation-mode-hook); 9-Sep-1995
 
-(defvar lse-language:c:compile-switch nil);  2-Mar-1995 
+(defvar lse-language:c:compile-switch nil);  2-Mar-1995
 
 (defvar lse-compilation:last@mark     nil); 14-Dec-1997
 
@@ -113,7 +113,7 @@
 (defun lse-compile-defun ()
   "Evaluates the current lisp defun"
   (interactive)
-  (save-excursion 
+  (save-excursion
     (beginning-of-defun)
     (eval-defun nil)
   )
@@ -123,7 +123,7 @@
 (defun lse-compile ()
   "Compiles the current buffer"
   (interactive)
-  (cond ((equal (lse-file-name-extension (buffer-name(current-buffer))) ".lse")
+  (cond ((equal (lse-file-name-extension (buffer-name)) ".lse")
          (lse-language:compile)
         )
         ((equal mode-name "Emacs-Lisp")
@@ -163,15 +163,15 @@ easily repeat a grep command."
     (grep grep-args)
   )
 ; lse-grep
-) 
+)
 
-;;;  9-Jun-1995 
+;;;  9-Jun-1995
 (defun lse-set-compile-command (cc)
   "Change compile command for current buffer"
   (interactive
     (list (read-from-minibuffer
              "Compile command: " compile-command nil nil 'compile-history
-             
+
           )
     )
   )

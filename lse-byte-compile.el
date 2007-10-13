@@ -31,44 +31,136 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    14-Dec-1997 (CT) Creation
+;;;;    13-Oct-2007 (CT) Complete overhaul
 ;;;;    ««revision-date»»···
 ;;;;--
 
-(setq lse-elisp-source-dir "/swing/emacs/")
+(provide 'lse-byte-compile)
 
-(byte-compile-file (concat lse-elisp-source-dir "lse-basics.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-list-util.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-buffer.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-buffer-list.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-command.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-comment.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-compilation.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-completion.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-deep-fill-in.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-define.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-editing.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-face.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-file.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-fill-in.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-fill-in-info.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-fill-in-history.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-fill-in--delimiters.el"))
-;;; compilation of lse-fill-in--search.el goes into a loop
-;;; (byte-compile-file (concat lse-elisp-source-dir "lse-fill-in--search.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-flat-fill-in.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-frame.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-indent.el"))
-;;; after compilation of lse-interactive.el flat fill-ins don't work !!!!????
-;;; (byte-compile-file (concat lse-elisp-source-dir "lse-interactive.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-keys.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-kill.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-language.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-learn-key.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-mark-stack.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-menu.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-mode-alist.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-range.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-session.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-tpu.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-window.el"))
-(byte-compile-file (concat lse-elisp-source-dir "lse-tpu-keys.el"))
+(defvar   lse-byte-compile:source-dir "/swing/emacs/")
+
+;;; 13-Oct-2007
+(defvar   lse-byte-compile:load t)
+
+;;; 13-Oct-2007
+(defvar lse-byte-compile:black-list
+  (list
+    ;;; compilation of lse-fill-in--search.el goes into a loop
+    "lse-fill-in--search"
+    ;;; after compilation of lse-interactive.el flat fill-ins don't work !!!!????
+    "lse-interactive"
+  )
+  "Files that can't be compiled without breaking LS-Emacs"
+)
+
+;;; 13-Oct-2007
+(defvar lse-byte-compile:files
+  (list
+    "ls-emacs"
+    "lse-basics"
+    "lse-buffer-list"
+    "lse-buffer"
+    "lse-byte-compile"
+    "lse-cal"
+    "lse-command"
+    "lse-comment"
+    "lse-compilation"
+    "lse-completion"
+    "lse-deep-fill-in"
+    "lse-define"
+    "lse-editing"
+    "lse-face"
+    "lse-file"
+    "lse-fill-in--delimiters"
+    "lse-fill-in-history"
+    "lse-fill-in-info"
+    "lse-fill-in-marks"
+    "lse-fill-in"
+    "lse-flat-fill-in"
+    "lse-frame"
+    "lse-indent"
+    "lse-keys-v19"
+    "lse-keys"
+    "lse-kill"
+    "lse-language"
+    "lse-learn-key"
+    "lse-list-util"
+    "lse-mark-stack"
+    "lse-menu"
+    "lse-mode-alist"
+    "lse-range"
+    "lse-session"
+    "lse-tpu-keys-v19"
+    "lse-tpu-keys"
+    "lse-tpu"
+    "lse-window"
+  )
+)
+
+;;; 13-Oct-2007
+(defun lse-byte-compile:all (&rest files)
+  "Byte-compile all LS-Emacs files that are safe for compiling and load them
+into Emacs."
+  (interactive)
+  (mapcar 'lse-byte-compile:one (or files lse-byte-compile:files))
+; lse-byte-compile:all
+)
+
+;;; 13-Oct-2007
+(defun lse-byte-compile:current ()
+  "Byte-compile current file and load it into Emacs."
+  (interactive)
+  (save-match-data
+    (let ((full-name (buffer-file-name)))
+      (if (string-match "/\\([-a-zA-Z0-9_]+\\)\\.el" full-name)
+          (let ((file (match-string 1 full-name)))
+            (if (buffer-modified-p)
+                (save-buffer)
+            )
+            (lse-byte-compile:one file)
+          )
+        (message "Not a elisp buffer '%s'?" full-name)
+      )
+    )
+  )
+; lse-byte-compile:current
+)
+
+;;; 13-Oct-2007
+(defun lse-byte-compile:one (file)
+  (let ((full-name
+          (lse-file:expanded-name
+            (concat lse-byte-compile:source-dir file ".el")
+          )
+        )
+       )
+    (if (member file lse-byte-compile:black-list)
+        (save-excursion
+          (message
+            "File %s is not safe for compiling, evaluating it instead." file
+          )
+          (eval-buffer (or (get-file-buffer full-name) (find-file full-name)))
+        )
+      (byte-compile-file full-name lse-byte-compile:load)
+    )
+  )
+; lse-byte-compile:one
+)
+
+;;; 13-Oct-2007
+(defun lse-byte-compile:is-lse-file-p ()
+  (let (result)
+    (save-match-data
+      (setq result
+        (string-match
+          "\\(ls-emacs\\|lse-[-a-zA-Z0-9_]+\\|swing-[-a-zA-Z0-9_]+\\)\\.el"
+          (buffer-file-name)
+        )
+      )
+    )
+    result
+  )
+; lse-byte-compile:is-lse-file-p
+)
+
+;;;  __END__ lse-byte-compile.el

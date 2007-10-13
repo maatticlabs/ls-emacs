@@ -43,6 +43,7 @@
 ;;;;                     `search-reverse`
 ;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
 ;;;;                     `lse-tpu:change-search-mode`
+;;;;    13-Oct-2007 (CT) Byte compile commands added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-command)
@@ -69,38 +70,39 @@
 )
 
 
-(lse-command:add-new "capitalize word"          'lse-tpu:capitalize-strongly)
-(lse-command:add-new "change search mode"       'lse-tpu:change-search-mode)
-(lse-command:add-new "check language"           'lse-language:check)
-(lse-command:add-new "compile language"         'lse-language:compile)
-(lse-command:add-new "emacs command"            'execute-extended-command)
-(lse-command:add-new "enlarge window"           '(enlarge-window 4))
-(lse-command:add-new "exit"                     'lse-tpu:exit)
-(lse-command:add-new "goto buffer other window" 'lse-goto-buffer-other-window)
-(lse-command:add-new "goto buffer"              'lse-goto-buffer)
-(lse-command:add-new "goto buffer/create"       'lse-goto-buffer+maybe-create)
-(lse-command:add-new "goto file alternate"      'lse-visit-alternate-file)
-(lse-command:add-new "goto file other window"   'lse-visit-file-other-window)
-(lse-command:add-new "goto file"                'lse-visit-file)
-(lse-command:add-new "goto new file"            'lse-visit-file-new)
-(lse-command:add-new "include file"             'lse-insert-file)
-(lse-command:add-new "next buffer"              'lse-goto-next-buffer)
-(lse-command:add-new "previous buffer"          'lse-goto-prev-buffer)
-(lse-command:add-new "quit"                     'lse-tpu:quit)
-(lse-command:add-new "reload language"          'lse-language:reload)
-(lse-command:add-new "revert buffer"            'lse-revert-buffer)
-(lse-command:add-new "save some buffers"        'save-some-buffers)
-(lse-command:add-new "search forward"           'lse-tpu:search-forward);  5-Oct-2007
-(lse-command:add-new "search reverse"           'lse-tpu:search-reverse);  5-Oct-2007
-(lse-command:add-new "mail read"                'rmail);  8-Sep-1994
-(lse-command:add-new "mail send"                'mail) ;  8-Sep-1994
-(lse-command:add-new "show buffer"              'lse-show-buffers)
-(lse-command:add-new "shrink window"            '(shrink-window 4))
-(lse-command:add-new "substitute all"           'lse-tpu:replace-all)
-(lse-command:add-new "substitute"               'lse-tpu:replace)
-(lse-command:add-new "toggle menu bar current"  'lse-frame:toggle-menu-bar); 28-Mar-2007
-(lse-command:add-new "toggle menu bar all"      'lse-menu:toggle-menu-bar); 28-Mar-2007
-(lse-command:add-new "toggle rectangle"         'lse-tpu:toggle-rectangle)
-(lse-command:add-new "use language"             'lse-language:use)
-(lse-command:add-new "what line"                'lse-show-position)
-(lse-command:add-new "write selection"          'write-region)
+(lse-command:add-new "byte compile LS-Emacs"       'lse-byte-compile:all)
+(lse-command:add-new "byte compile current buffer" 'lse-byte-compile:current)
+(lse-command:add-new "capitalize word"             'lse-tpu:capitalize-strongly)
+(lse-command:add-new "change search mode"          'lse-tpu:change-search-mode)
+(lse-command:add-new "check language"              'lse-language:check)
+(lse-command:add-new "compile language"            'lse-language:compile)
+(lse-command:add-new "emacs command"               'execute-extended-command)
+(lse-command:add-new "enlarge window"              '(enlarge-window 4))
+(lse-command:add-new "exit"                        'lse-tpu:exit)
+(lse-command:add-new "goto buffer other window"    'lse-goto-buffer-other-window)
+(lse-command:add-new "goto buffer"                 'lse-goto-buffer)
+(lse-command:add-new "goto buffer/create"          'lse-goto-buffer+maybe-create)
+(lse-command:add-new "goto file alternate"         'lse-visit-alternate-file)
+(lse-command:add-new "goto file other window"      'lse-visit-file-other-window)
+(lse-command:add-new "goto file"                   'lse-visit-file)
+(lse-command:add-new "goto new file"               'lse-visit-file-new)
+(lse-command:add-new "include file"                'lse-insert-file)
+(lse-command:add-new "mail send"                   'mail) ;  8-Sep-1994
+(lse-command:add-new "next buffer"                 'lse-goto-next-buffer)
+(lse-command:add-new "previous buffer"             'lse-goto-prev-buffer)
+(lse-command:add-new "quit"                        'lse-tpu:quit)
+(lse-command:add-new "reload language"             'lse-language:reload)
+(lse-command:add-new "revert buffer"               'lse-revert-buffer)
+(lse-command:add-new "save some buffers"           'save-some-buffers)
+(lse-command:add-new "search forward"              'lse-tpu:search-forward);  5-Oct-2007
+(lse-command:add-new "search reverse"              'lse-tpu:search-reverse);  5-Oct-2007
+(lse-command:add-new "show buffer"                 'lse-show-buffers)
+(lse-command:add-new "shrink window"               '(shrink-window 4))
+(lse-command:add-new "substitute all"              'lse-tpu:replace-all)
+(lse-command:add-new "substitute"                  'lse-tpu:replace)
+(lse-command:add-new "toggle menu bar all"         'lse-menu:toggle-menu-bar); 28-Mar-2007
+(lse-command:add-new "toggle menu bar current"     'lse-frame:toggle-menu-bar); 28-Mar-2007
+(lse-command:add-new "toggle rectangle"            'lse-tpu:toggle-rectangle)
+(lse-command:add-new "use language"                'lse-language:use)
+(lse-command:add-new "what line"                   'lse-show-position)
+(lse-command:add-new "write selection"             'write-region)

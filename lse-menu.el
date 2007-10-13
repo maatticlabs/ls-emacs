@@ -45,12 +45,16 @@
 ;;;;     5-Oct-2007 (CT) Search direction removed
 ;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
 ;;;;                     `lse-tpu:change-search-mode`
+;;;;    13-Oct-2007 (CT) `lse-byte-compile` commands added to `emacs-lisp` menu
+;;;;    13-Oct-2007 (CT) Disabled standard byte-compile entries in
+;;;;                     `emacs-lisp` menu for LS-Emacs files
 ;;;;    ««revision-date»»···
 ;;;;--
-;;;;
+
 (provide 'lse-menu)
 
 (eval-when-compile
+  (require 'lse-byte-compile)
   (require 'lse-flat-fill-in)
   (require 'lse-interactive)
   (require 'lse-tpu-keys)
@@ -324,6 +328,30 @@
 
 (define-key menu-bar-edit-menu [lse-repeat]
   '("Repeat command" . repeat)
+)
+
+;;; 13-Oct-2007
+(define-key emacs-lisp-mode-map [menu-bar emacs-lisp separator-LSE] '("--"))
+
+(define-key emacs-lisp-mode-map [menu-bar emacs-lisp lse-byte-compile-all]
+  '("Byte-compile All LS-Emacs Files" . lse-byte-compile:all)
+)
+
+(define-key emacs-lisp-mode-map [menu-bar emacs-lisp lse-byte-compile-current]
+  '("Byte-compile Current LS-Emacs File" . lse-byte-compile:current)
+)
+
+(put 'lse-byte-compile:current
+  'menu-enable '(lse-byte-compile:is-lse-file-p)
+)
+(put 'emacs-lisp-byte-compile
+  'menu-enable '(not (lse-byte-compile:is-lse-file-p))
+)
+(put 'emacs-lisp-byte-compile-and-load
+  'menu-enable '(not (lse-byte-compile:is-lse-file-p))
+)
+(put 'byte-recompile-directory
+  'menu-enable '(not (lse-byte-compile:is-lse-file-p))
 )
 
 ;;;  3-Jan-2000

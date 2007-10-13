@@ -75,6 +75,7 @@
 ;;;;     4-Oct-2007 (CT) `lse-file:update-copyright` added to `before-save-hook`
 ;;;;     5-Oct-2007 (CT) `Py-Version-Update` added and bound to `[red gold ?V]`
 ;;;;     9-Oct-2007 (CT) `(lse-tpu:toggle-regexp)` removed
+;;;;    13-Oct-2007 (CT) `lse-byte-compile:files` updated
 ;;;;    ««revision-date»»···
 ;;;;--
 ; (setq debug-on-error t)
@@ -461,5 +462,9 @@
 )
 
 (global-set-key [red gold ?V] 'Py-Version-Update)
+
+;;; 13-Oct-2007
+(lse-add-to-list lse-byte-compile:files "swing-default")
+(lse-add-to-list lse-byte-compile:files "swing-keys-v19")
 
 ;;; __END__ swing-default.el

@@ -74,6 +74,7 @@
 ;;;;     1-Oct-2007 (CT) `lse-emacs22-p` added
 ;;;;     3-Oct-2007 (CT) `lse-create-lse-keymaps` removed
 ;;;;     3-Oct-2007 (CT) Explicit calls to `lse-keys-v19:define-fkp-key` removed
+;;;;    13-Oct-2007 (CT) `lse-byte-compile` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -224,6 +225,7 @@
 
 (require 'lse-buffer)
 (require 'lse-buffer-list)
+(require 'lse-byte-compile)
 (require 'lse-command)
 (require 'lse-comment)
 (require 'lse-compilation)
