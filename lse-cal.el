@@ -59,6 +59,7 @@
 ;;;;                     highlight, if any
 ;;;;    11-Oct-2007 (CT) `lse-cal:switch-diary` factored
 ;;;;    12-Oct-2007 (CT) `lse-cal:diary:next-day` and friends added
+;;;;    14-Oct-2007 (CT) `lse-cal:scroll-nicely` factored and made nice
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -236,7 +237,7 @@
               )
               (lse-tpu:forward-char 1)
               (lse-cal:view:highlight-current-day)
-              (lse-scroll-to-top 3)
+              (lse-cal:scroll-nicely 3)
               (select-window pw)
             )
         )
@@ -324,7 +325,7 @@
               (lse-cal:highlight head tail 'lse-face:cal:today)
           )
           (goto-char head)
-          (lse-scroll-to-top 3)
+          (lse-cal:scroll-nicely 3)
           (lse-cal:plan:sync-to-view old-p head)
           (lse-tpu:next-line 1);  9-Feb-2007
         )
@@ -515,7 +516,7 @@
           )
         )
     )
-    (lse-scroll-to-top 3)
+    (lse-cal:scroll-nicely 3)
     (lse-cal:view:sync-to-plan old-p p)
   )
 ; lse-cal:view:goto-month
@@ -542,6 +543,17 @@
 ; lse-cal:view:highlight-current-day
 )
 
+;;; 14-Oct-2007
+(defun lse-cal:scroll-nicely (&optional lines-from-top)
+  (lse-scroll-to-top (if (integerp lines-from-top) lines-from-top 3))
+  (if (pos-visible-in-window-p (point-max))
+      (save-excursion
+        (lse-tpu:move-to-end) ; scrolls bottom line to bottom of window
+      )
+  )
+; lse-cal:scroll-nicely
+)
+
 ;;;  6-Apr-2003
 (defun lse-cal:view:sync-to-plan (old-p new-p)
   (lse-cal:view:highlight-current-day)
@@ -560,7 +572,7 @@
                 (lse-cal:next-match (concat d "#" w))
                 (lse-tpu:next-beginning-of-line 2)
                 (lse-cal:plan:goto-day-forward 1)
-                (lse-scroll-to-top 3)
+                (lse-cal:scroll-nicely 3)
                 (select-window vw)
               )
             )
