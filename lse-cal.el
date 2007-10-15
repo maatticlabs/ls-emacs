@@ -59,7 +59,9 @@
 ;;;;                     highlight, if any
 ;;;;    11-Oct-2007 (CT) `lse-cal:switch-diary` factored
 ;;;;    12-Oct-2007 (CT) `lse-cal:diary:next-day` and friends added
-;;;;    14-Oct-2007 (CT) `lse-cal:scroll-nicely` factored and made nice
+;;;;    15-Oct-2007 (CT) Guard `lse-cal:plan-buffer` added to
+;;;;                     `lse-cal:view:goto-month`
+;;;;    15-Oct-2007 (CT) `current-year-p` added to `lse-cal:setup-year`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -237,7 +239,7 @@
               )
               (lse-tpu:forward-char 1)
               (lse-cal:view:highlight-current-day)
-              (lse-cal:scroll-nicely 3)
+              (lse-scroll-to-top 3)
               (select-window pw)
             )
         )
@@ -325,7 +327,7 @@
               (lse-cal:highlight head tail 'lse-face:cal:today)
           )
           (goto-char head)
-          (lse-cal:scroll-nicely 3)
+          (lse-scroll-to-top 3)
           (lse-cal:plan:sync-to-view old-p head)
           (lse-tpu:next-line 1);  9-Feb-2007
         )
@@ -488,36 +490,38 @@
   (if lse-cal:view:today-week-overlay
       (delete-overlay lse-cal:view:today-week-overlay)
   )
-  (let ((pat m)
-        (inhibit-point-motion-hooks t)
-        (old-p (point))
-        month
-        p q
-       )
-    (lse-tpu:move-to-beginning)
-    (lse-cal:next-match pat)
-    (beginning-of-line)
-    (setq month (lse-cal:view:next-month))
-    (setq lse-cal:view:today-month-overlay
+  (if lse-cal:plan-buffer
+      (let ((pat m)
+            (inhibit-point-motion-hooks t)
+            (old-p (point))
+            month
+            p q
+           )
+        (lse-tpu:move-to-beginning)
+        (lse-cal:next-match pat)
+        (beginning-of-line)
+        (setq month (lse-cal:view:next-month))
+        (setq lse-cal:view:today-month-overlay
           (lse-cal:highlight (car month) (cdr month) 'lse-face:cal:this-month)
-    )
-    (goto-char (car month))
-    (if d
-        (progn
-          (setq p (lse-cal:next-match (concat " \\(" d "\\) ") 1))
-          (setq lse-cal:view:today-overlay
-            (lse-cal:highlight (match-beginning 0) (match-end 0)
-                               'lse-face:cal:today
-            )
-          )
-          (setq q (lse-tpu:line-head-pos 1))
-          (setq lse-cal:view:today-week-overlay
-            (lse-cal:highlight q (+ q 3) 'lse-face:cal:this-week)
-          )
         )
-    )
-    (lse-cal:scroll-nicely 3)
-    (lse-cal:view:sync-to-plan old-p p)
+        (goto-char (car month))
+        (if d
+            (progn
+              (setq p (lse-cal:next-match (concat " \\(" d "\\) ") 1))
+              (setq lse-cal:view:today-overlay
+                (lse-cal:highlight
+                  (match-beginning 0) (match-end 0) 'lse-face:cal:today
+                )
+              )
+              (setq q (lse-tpu:line-head-pos 1))
+              (setq lse-cal:view:today-week-overlay
+                (lse-cal:highlight q (+ q 3) 'lse-face:cal:this-week)
+              )
+            )
+        )
+        (lse-scroll-to-top 3)
+        (lse-cal:view:sync-to-plan old-p p)
+      )
   )
 ; lse-cal:view:goto-month
 )
@@ -543,17 +547,6 @@
 ; lse-cal:view:highlight-current-day
 )
 
-;;; 14-Oct-2007
-(defun lse-cal:scroll-nicely (&optional lines-from-top)
-  (lse-scroll-to-top (if (integerp lines-from-top) lines-from-top 3))
-  (if (pos-visible-in-window-p (point-max))
-      (save-excursion
-        (lse-tpu:move-to-end) ; scrolls bottom line to bottom of window
-      )
-  )
-; lse-cal:scroll-nicely
-)
-
 ;;;  6-Apr-2003
 (defun lse-cal:view:sync-to-plan (old-p new-p)
   (lse-cal:view:highlight-current-day)
@@ -572,7 +565,7 @@
                 (lse-cal:next-match (concat d "#" w))
                 (lse-tpu:next-beginning-of-line 2)
                 (lse-cal:plan:goto-day-forward 1)
-                (lse-cal:scroll-nicely 3)
+                (lse-scroll-to-top 3)
                 (select-window vw)
               )
             )
@@ -685,7 +678,8 @@
                '((font . "6x13"))
               ); 45 is another nice height
         )
-        )
+        (current-year-p (string= year (lse-date-year)))
+       )
     (select-frame fram)
     (lse-frame:disable-menu-bar fram); 28-Mar-2007
     (let (pbuf vbuf)
@@ -705,10 +699,13 @@
       (setq vbuf (current-buffer))
       (setq lse-cal:plan-buffer pbuf)
       (lse-tpu:move-to-beginning)
-      (lse-cal:view:goto-month)
+      (if current-year-p
+          (lse-cal:view:goto-month)
+        (lse-cal:view:goto-month "1" "1")
+      )
       (lse-next-window)
       (lse-tpu:move-to-beginning)
-      (lse-cal:plan:highlight-today)
+      (and current-year-p (lse-cal:plan:highlight-today))
       (setq lse-cal:view-buffer vbuf)
     )
   )

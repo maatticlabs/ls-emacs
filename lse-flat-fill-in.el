@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -149,6 +149,8 @@
 ;;;;    27-Apr-2003 (CT) `lse_expand_token:try` changed to try new-lines, too
 ;;;;     4-May-2007 (CT) `lse_expand_token:try` changed to allow spaces after
 ;;;;                     new-line tokens
+;;;;    15-Oct-2007 (CT) `lse_start_replacement_if_in_fill-in` defined as
+;;;;                     `defun` instead of as `defmacro`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -808,7 +810,7 @@
     ); 30-Sep-1994 force completion (otherwise empty menu entries don't work)
     (if choice
         (if (not (setq result (cdr (assoc choice entries))))
-            (error "undefined menu entry : %s" choice)
+            (error "undefined menu entry : `%s` not in [%s]" choice the-entries)
           (progn
             (cond ((symbolp result)
                    (setq result (lse_fill-in:definition (symbol-name result)))
@@ -1056,28 +1058,28 @@
 ;;; start replacement of current fill-in, if any
 ;;;
 (defvar lse-flat-fill-in:expansion-in-progress nil)
-(defmacro lse_start_replacement_if_in_fill-in ()
+
+(defun lse_start_replacement_if_in_fill-in ()
   (or lse-flat-fill-in:expansion-in-progress
       (if lse@active@in@buffer
-          (if lse_replaced_fill-in
-              t
-            (if (not (eobp))
-                (let ((name (lse_inside_fill-in)))
-                   (if name
-                       (if (lse-replacement@allowed)
+          (or lse_replaced_fill-in
+              (let ((name (lse_inside_fill-in)))
+                 (if name
+                     (if (lse-replacement@allowed)
+                         (progn
                            (if (lse-replacement@auto-expand)
                                (lse-expand)
                              (lse_open_fill-in_replacement name)
                            )
-                         (error; 24-Feb-1995 changed wording
+                           t
+                         )
+                       (error
                          "Fill-In `%s' cannot be replaced, it must be expanded"
                          name
-                         )
                        )
-                   )
-                )
-            )
-            t
+                     )
+                 )
+              )
           )
       )
   )

@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -31,21 +31,23 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    24-May-1994 (CT) Creation (of comment)
-;;;;    24-May-1994 (CT) lse-range:name-range renamed to lse-range:inner-range 
+;;;;    24-May-1994 (CT) lse-range:name-range renamed to lse-range:inner-range
 ;;;;                     lse_last_position made buffer-local
 ;;;;    25-May-1994 (CT) buffer-boundary parameter to avoid boundary errors
 ;;;;    26-May-1994 (CT) Interactive functions moved to lse-interactive
 ;;;;    27-Jun-1994 (CT) lse_inside_fill-in: take care of
-;;;;                     lse-flat-fill-in:open-replacement 
-;;;;    23-Jan-1995 (CT) Error corrected 
+;;;;                     lse-flat-fill-in:open-replacement
+;;;;    23-Jan-1995 (CT) Error corrected
 ;;;;                       (concat lse_comment_delim_char_set " \t\n") instead
 ;;;;                       of (concat " \t\n" lse_comment_delim_char_set)
 ;;;;    19-Mar-1995 (CT) Don't call lse-use-lse-self-insert-command and
-;;;;                     lse-use-emacs-self-insert-command 
+;;;;                     lse-use-emacs-self-insert-command
 ;;;;                     lse-flat-fill-in:highlight-current called instead
 ;;;;    25-Mar-1995 (CT) lse-fill-in:*highlight-current renamed to
-;;;;                     lse-flat-fill-in:*highlight-current 
-;;;;-- 
+;;;;                     lse-flat-fill-in:*highlight-current
+;;;;    15-Oct-2007 (CT) Cruft removed
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-fill-in--search)
 
 (defvar                      lse_last_position nil)
@@ -66,13 +68,13 @@
       (looking-at (lse_opt_fill-in_pattern name))
     (looking-at (lse_req_fill-in_pattern name))
   )
-) 
+)
 
 (defun lse_current_fill-in_is_optional ()
   (let (result)
     (if lse_current_fill-in
         (save-excursion
-          (goto-char 
+          (goto-char
              (lse-range:head-pos (lse-fill-in:range lse_current_fill-in))
           )
           (setq result (looking-at lse_opt_fill-in_head_delim_pattern))
@@ -80,11 +82,11 @@
     )
     result
   )
-) 
+)
 
 (defun lse_current_fill-in_repeats ()
   (lse-fill-in:is-list lse_current_fill-in)
-) 
+)
 
 (defmacro lse_search_fill-in:backward_once (&optional name)
   (skip-chars-backward lse_fill-in-not_head_start_chars)
@@ -100,7 +102,7 @@
     )
     result
    )
-) 
+)
 
 (defmacro lse_search_fill-in:forward_once (&optional name)
   (skip-chars-forward  lse_fill-in-not_head_start_chars)
@@ -116,7 +118,7 @@
     )
     result
   )
-) 
+)
 
 (defun lse@check_fill-in ()
   ;; returns a fill-in_info if matched fill-in has a definition
@@ -129,7 +131,7 @@
        )
     (setq result (and head tail (buffer-substring-no-properties head tail)))
     (if (setq pdef (lse_fill-in:definition result))
-        (setq result 
+        (setq result
               (lse-fill-in:new
                 pdef                                              ; symbol
                 result                                            ; name
@@ -140,7 +142,7 @@
                 nil                                               ; complement
                 (if (match-beginning 2)                           ; duplicate
                     (lse-range:new (match-beginning 2) (match-end 2))
-                  nil                                            
+                  nil
                 )
               )
         )
@@ -148,7 +150,7 @@
     )
     result
   )
-) 
+)
 
 (defun lse@goto_fill-in (search-fct buffer-boundary &optional name)
   ;; may be called by lse_goto_fill-in only !!!
@@ -175,11 +177,11 @@
     result
   )
 ; lse@goto_fill-in
-) 
+)
 
 (defun lse_goto_fill-in (search-fct buffer-boundary &optional name)
   ;; search-fct has to be either lse_search_fill-in:backward or
-  ;;                             lse_search_fill-in:forward 
+  ;;                             lse_search_fill-in:forward
   ;; buffer-boundary has to be either bobp or eobp
   (let (result
         (last-pos (point-marker))
@@ -198,22 +200,22 @@
     )
     result
   )
-) 
+)
 
 (defun lse_inside_fill-in ()
   (let (result
         (cp (point))
        )
-    (cond ((eq lse-flat-fill-in:open-replacement 'lse@expanded); 27-Jun-1994 
-           (setq result nil) ; expansion is pending              27-Jun-1994 
+    (cond ((eq lse-flat-fill-in:open-replacement 'lse@expanded); 27-Jun-1994
+           (setq result nil) ; expansion is pending              27-Jun-1994
           )
-          ((eq lse-flat-fill-in:open-replacement 'lse@replaced);  4-Jul-1994 
-           (setq result nil) ; replacement is pending             4-Jul-1994 
+          ((eq lse-flat-fill-in:open-replacement 'lse@replaced);  4-Jul-1994
+           (setq result nil) ; replacement is pending             4-Jul-1994
           )
           (t
            (lse_shut_fill-in_replacement/if_outside)
            (save-match-data
-              (cond 
+              (cond
                 ((and lse_current_fill-in
                       (lse-range:inside
                           (lse-fill-in:inner-range lse_current_fill-in)
@@ -221,8 +223,8 @@
                  )
                    ;; check if the current fill-in is still valid
                    (save-excursion
-                     (goto-char 
-                          (lse-range:head-pos 
+                     (goto-char
+                          (lse-range:head-pos
                                (lse-fill-in:inner-range lse_current_fill-in)
                           )
                      )
@@ -240,7 +242,7 @@
                    (save-excursion
                      (let (found)
                        (save-restriction
-                         (narrow-to-region 
+                         (narrow-to-region
                               (lse-tpu:line-head-pos) (lse-tpu:line-tail-pos)
                          )
                          (if (lse_search_fill-in:backward_once) (setq found t))
@@ -251,7 +253,7 @@
                                  (setq result nil)
                                (lse-flat-fill-in:unhighlight-current)
                                (setq lse_current_fill-in current)
-                               (if (or (lse-range:inside 
+                               (if (or (lse-range:inside
                                           (lse-fill-in:inner-range current) cp
                                        )
                                        (bobp)
@@ -259,28 +261,26 @@
                                    (setq result (lse-fill-in:name current))
                                  (setq result nil)
                                )
-                             ) 
+                             )
                            )
                        )
                      )
                    )
-                ); t 
+                ); t
               ); cond
               (if result
                   (progn
                     (setq lse@active@in@buffer t)
-                    ; 19-Mar-1995 ; (lse-use-lse-self-insert-command)
                     (lse-flat-fill-in:highlight-current)
                   )
-                ; 19-Mar-1995 ; (lse-use-emacs-self-insert-command)
               )
            )
           )
-    ); cond 
+    ); cond
     result
   )
 ; lse_inside_fill-in
-) 
+)
 
 
 (defun lse-goto-@-fill-in (search-fct buffer-boundary &optional quiet name)
@@ -289,9 +289,9 @@
     (or quiet result (lse-message "No more fill-ins"))
     result
   )
-) 
+)
 
-;;; positions to first fill-in of range if any or stays at previous position 
+;;; positions to first fill-in of range if any or stays at previous position
 (defun lse_goto_first_fill-in_of_range (head tail)
   (if (and (integer-or-marker-p head)
            (integer-or-marker-p tail)
@@ -309,7 +309,7 @@
               (goto-char cp)
             )
           )
-        )  
+        )
         (setq lse_current_fill-in first-fill-in)
       )
   )

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -64,6 +64,9 @@
 ;;;;     1-Sep-2002 (CT) `lse-scroll-to-top` changed to allow prefix argument
 ;;;;    21-Nov-2002 (CT) Python buffers added to `special-display-regexps`
 ;;;;     7-Apr-2003 (CT) `size` added to `lse-split-window`
+;;;;    14-Oct-2007 (CT) `show-eob` added to `lse-scroll-to-top`
+;;;;    15-Oct-2007 (CT) `lse-scroll-to-top` changed to scroll end-of-buffer
+;;;;                     to bottom of screen unconditionally if visible
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -262,6 +265,11 @@
   "Scroll current line to top of window."
   (interactive "P")
   (recenter (or arg 0))
+  (if (pos-visible-in-window-p (point-max))
+      (save-excursion
+        (lse-tpu:move-to-end) ; scrolls bottom line to bottom of window
+      )
+  )
 ; lse-scroll-to-top
 )
 

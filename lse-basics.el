@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-basics:el lse_bscs:el
-;;;; Copyright (C) 1995 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -41,56 +41,12 @@
 ;;;;    13-Dec-1997 (CT) chars-in-string added for compatibility with 19.n
 ;;;;    29-Dec-1997 (CT) defsubst        added
 ;;;;    30-Dec-1997 (CT) lse-safe        added
+;;;;    15-Oct-2007 (CT) Cruft removed (lse-insert, ...)
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide 'lse-basics)
 
 (defvar lse@emacs-insert@replaced nil)
-;;;++
-;;; lse-insert and its friends try to automatically clean the current
-;;; fill-in if the user inserts anything inside the fill-in's range. 
-;;; But alas: this is only part of the game. All C-code using insert still
-;;; functions as before. 
-;;; And then there are many more functions changing the buffer. What one
-;;; would really need is a pre-buffer-change-hook, which contains the first
-;;; if-statement.
-;;;-- 
-;  7-Oct-1996 ; commented out
-;;;(defun lse-insert (&rest args)
-;;;  (lse_start_replacement_if_in_fill-in)
-;;;  (apply 'lse-insert:emacs: args)
-;;;)
-;;;
-;;;(defmacro lse-insert (&rest args)
-;;;  (lse_start_replacement_if_in_fill-in)
-;;;  (` (lse-insert:emacs: (,@ args)))
-;;;)
-
-;  7-Oct-1996 ; commented out
-;;;(defun lse-self-insert-command ()
-;;;  (interactive)
-;;;  (if lse@active@in@buffer
-;;;      (progn
-;;;        (lse_start_replacement_if_in_fill-in)
-;;;        (lse-use-emacs-self-insert-command)
-;;;      )
-;;;  )
-;;;  (call-interactively 'self-insert-command)
-;;;)
-
-; 19-Mar-1995 ; commented out (text-property keymap used instead)
-;;;(defun lse-use-lse-self-insert-command ()
-;;;  (substitute-key-definition 
-;;;       'self-insert-command     'lse-self-insert-command global-map
-;;;  )
-;;;)
-
-; 19-Mar-1995 ; commented out (text-property keymap used instead)
-;;;(defun lse-use-emacs-self-insert-command ()
-;;;  (substitute-key-definition 
-;;;       'lse-self-insert-command 'self-insert-command     global-map
-;;;  )
-;;;)
 
 (defun lse-initialization ()
   (if (not lse@emacs-insert@replaced)
@@ -110,7 +66,7 @@
 
 (if (fboundp 'chars-in-string)
     nil
-  ;;; 13-Dec-1997 
+  ;;; 13-Dec-1997
   (fset 'chars-in-string (symbol-function 'length))
 )
 

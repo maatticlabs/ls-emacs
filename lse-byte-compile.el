@@ -32,6 +32,7 @@
 ;;;; Revision Dates
 ;;;;    14-Dec-1997 (CT) Creation
 ;;;;    13-Oct-2007 (CT) Complete overhaul
+;;;;    15-Oct-2007 (CT) `lse-interactive.el` removed from `black-list`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -45,10 +46,8 @@
 ;;; 13-Oct-2007
 (defvar lse-byte-compile:black-list
   (list
-    ;;; compilation of lse-fill-in--search.el goes into a loop
+    ;;; compilation of lse-fill-in--search.el goes into a endless loop
     "lse-fill-in--search"
-    ;;; after compilation of lse-interactive.el flat fill-ins don't work !!!!????
-    "lse-interactive"
   )
   "Files that can't be compiled without breaking LS-Emacs"
 )
@@ -79,6 +78,7 @@
     "lse-flat-fill-in"
     "lse-frame"
     "lse-indent"
+    "lse-interactive"
     "lse-keys-v19"
     "lse-keys"
     "lse-kill"
