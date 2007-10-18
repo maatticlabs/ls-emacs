@@ -33,6 +33,7 @@
 ;;;;    14-Dec-1997 (CT) Creation
 ;;;;    13-Oct-2007 (CT) Complete overhaul
 ;;;;    15-Oct-2007 (CT) `lse-interactive.el` removed from `black-list`
+;;;;    18-Oct-2007 (CT) `lse-config` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -65,6 +66,7 @@
     "lse-comment"
     "lse-compilation"
     "lse-completion"
+    "lse-config"
     "lse-deep-fill-in"
     "lse-define"
     "lse-editing"
