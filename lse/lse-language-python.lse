@@ -61,6 +61,8 @@
 ;;;;     4-Oct-2007 (CT) `extras` added to `lse-python:update-patchlevel`
 ;;;;     5-Oct-2007 (CT) `lse-python:update-patchlevel-many` and
 ;;;;                     `lse-python:update-patchlevel-one` added
+;;;;    25-Oct-2007 (CT) `lse-python:update-patchlevel` changed to check
+;;;;                     `verify-visited-file-modtime`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -359,6 +361,13 @@
   (interactive)
   (save-excursion
     (save-match-data
+      (if (verify-visited-file-modtime (current-buffer))
+          t
+        (if (buffer-modified-p (current-buffer))
+            (error "Buffer was modified but related file changed on disk")
+          (lse-revert-buffer)
+        )
+      )
       (lse-tpu:move-to-beginning)
       (if (re-search-forward lse-python:patchlevel-pattern (buffer-size) t)
           (let* ((p_head  (match-string-no-properties 1))

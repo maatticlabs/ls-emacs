@@ -14,3 +14,7 @@ ls_emacs.tgz : $(DOC_FILES) $(SCRIPT_FILES) $(EL_FILES) $(LSE_FILES) $(LSC_FILES
 
 lse-new.tgz : $(EL_FILES) $(LSE_FILES) 
 	tar cfvz $@ $?
+
+lse-new.tbz : $(EL_FILES) $(LSE_FILES)
+	tar cfvj $@ $?
+
