@@ -126,6 +126,7 @@
 ;;;;     9-Oct-2007 (CT) Major surgery of search-functions (mode and
 ;;;;                     direction handling)
 ;;;;    10-Oct-2007 (CT) Search-mode dependent history added, bugs fixed
+;;;;    20-Nov-2007 (CT) `lse-tpu:search-prompt-read`: argument `dir` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2042,13 +2043,15 @@ With argument reinserts the text that many times."
 ; lse-tpu:change-search-mode
 )
 
-(defun lse-tpu:search-prompt-read (prompt &optional show_dir)
+(defun lse-tpu:search-prompt-read (prompt &optional show_dir dir)
   "Read a search string with a prompt appropriate to `mode` and `dir`."
   (let ((re-prompt
          (concat
            (aref lse-tpu:search-prompt-mode lse-tpu:search-mode)
            prompt
-           (if show_dir (aref lse-tpu:search-prompt-dir  lse-tpu:search-dir))
+           (if show_dir
+               (aref lse-tpu:search-prompt-dir (or dir lse-tpu:search-dir))
+           )
            " : "
          )
         )
@@ -2136,7 +2139,7 @@ direction."
     (dir mode pat &optional quiet limit dont-look-other-dir stay-at-bob)
   (setq lse-tpu:search-last-string
         (if (or (not pat) (string= "" pat))
-            (lse-tpu:search-prompt-read "Search" t)
+            (lse-tpu:search-prompt-read "Search" t dir)
           pat
         )
   )
