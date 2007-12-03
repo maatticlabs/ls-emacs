@@ -46,6 +46,7 @@
 ;;;;     6-Oct-2007 (CT) `use-file-dialog` set to `nil` to avoid nasty dialog
 ;;;;                     box
 ;;;;    11-Oct-2007 (CT) `lse-file:expanded-name` added and used
+;;;;     3-Dec-2007 (CT) Guard for `filename` added to `lse-file:expanded-name`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
@@ -54,9 +55,11 @@
 
 ;;; 11-Oct-2007
 (defun lse-file:expanded-name (filename)
-  (if find-file-visit-truename
-      (file-truename filename)
-    (expand-file-name filename)
+  (if filename
+      (if find-file-visit-truename
+          (file-truename filename)
+        (expand-file-name filename)
+      )
   )
 ; lse-file:expanded-name
 )

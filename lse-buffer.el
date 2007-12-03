@@ -64,6 +64,8 @@
 ;;;;                     `lse-buffer:n` to `lse-buffer:new_n` instead of `0`
 ;;;;     5-Oct-2007 (CT) Pre-Emacs-19 code removed
 ;;;;    11-Oct-2007 (CT) Use `lse-file:expanded-name` instead of `file-truename`
+;;;;     3-Dec-2007 (CT) Guard for `fname` added to
+;;;;                     `lse-buffer:unique_anchored_name`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -107,28 +109,30 @@
 (defun lse-buffer:unique_anchored_name (&optional buffer)
   (let* ((buffer  (or buffer              (current-buffer)))
          (fname   (lse-file:expanded-name (buffer-file-name buffer)))
-         (bname   (file-name-nondirectory fname))
+         (bname   (and fname              (file-name-nondirectory fname)))
          (result  (buffer-name            buffer))
          (anchors lse-buffer:relative-directory-anchors)
          a
          rn
         )
-    (while (consp anchors)
-      (setq a       (car anchors))
-      (setq anchors (cdr anchors))
-      (setq rn      (file-relative-name fname a))
-      (if (or (string= ".." (substring rn 0 2)) (string= rn bname))
-          t
-        (save-match-data ;  5-Oct-2007
-          (while (string-match "/" rn)
-            ;;  3-Apr-2003
-            ;; `switch-to-buffer` gets confused by buffer-names containing `/`
-            (setq rn (replace-match ":" t t rn))
+    (if fname
+        (while (consp anchors)
+          (setq a       (car anchors))
+          (setq anchors (cdr anchors))
+          (setq rn      (file-relative-name fname a))
+          (if (or (string= ".." (substring rn 0 2)) (string= rn bname))
+              t
+            (save-match-data ;  5-Oct-2007
+              (while (string-match "/" rn)
+                ;;  3-Apr-2003
+                ;; `switch-to-buffer` gets confused by buffer-names containing `/`
+                (setq rn (replace-match ":" t t rn))
+              )
+            )
+            (setq result (generate-new-buffer-name rn))
+            (setq anchors nil)
           )
         )
-        (setq result (generate-new-buffer-name rn))
-        (setq anchors nil)
-      )
     )
     result
   )

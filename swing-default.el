@@ -77,6 +77,7 @@
 ;;;;     9-Oct-2007 (CT) `(lse-tpu:toggle-regexp)` removed
 ;;;;    13-Oct-2007 (CT) `lse-byte-compile:files` updated
 ;;;;    18-Oct-2007 (CT) `lse-config.el` factored out
+;;;;     3-Dec-2007 (CT) Remove `vc-find-file-hook` from `find-file-hook`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -134,5 +135,8 @@
 (lse-add-to-list lse-byte-compile:files "swing-default")
 (lse-add-to-list lse-byte-compile:files "swing-keys-v19")
 (lse-add-to-list lse-byte-compile:files "swing-kartei-bib")
+
+;;;  3-Dec-2007
+(remove-hook 'find-file-hook 'vc-find-file-hook)
 
 ;;; __END__ swing-default.el
