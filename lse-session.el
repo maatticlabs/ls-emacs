@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-session:el lse_sssn:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -66,6 +66,7 @@
 ;;;;    24-May-2007 (CT) TTTech site-specific code removed
 ;;;;    24-May-2007 (CT) `(defun lse-system-domain () "swing.co.at")` added
 ;;;;                     to site-specificcode for `swing`
+;;;;     6-Dec-2007 (CT) `lse-insert-buffer-name-plus-extension` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -301,7 +302,16 @@ This is correct only if the locally used domain is a valid internet domain.
 
 (defun lse-insert-buffer-name (&optional buf)
   (interactive "*")
-  (lse-tpu:insert (lse-buffer:base-name (current-buffer)))
+  (lse-tpu:insert (lse-buffer:base-name (or buf (current-buffer))))
+)
+
+;;;  6-Dec-2007
+(defun lse-insert-buffer-name-plus-extension (&optional buf)
+  (interactive "*")
+  (lse-insert-buffer-name buf)
+  (lse-tpu:insert
+    (lse-file-name-extension (buffer-name (or buf (current-buffer))))
+  )
 )
 
 (defun lse-file-name-sans-extension (name)

@@ -213,7 +213,7 @@
                 & ") Creation"
         "    ««revision-date»»···"
         "--"
-        @ header-comment-postamble  ;  3-May-1995
+        & @ header-comment-postamble  ;  3-May-1995
      )
 ;;; header-comment
 )
@@ -356,14 +356,16 @@
    '(description         "Text quoted by double quotes")
    '(replacement-leading "\"")
    '(replacement-trailer "\"")
-   '(replacement         @ "text")
+   ;  6-Dec-2007 ; '(replacement         @ "text")
+   '(replacement         "«text»")
 )
 
 (lse-define-fill-in "quoted-text-s"
    '(description         "Text quoted by single quotes")
    '(replacement-leading "'")
    '(replacement-trailer "'")
-   '(replacement         @ "text")
+   ;  6-Dec-2007 ; '(replacement         @ "text")
+   '(replacement         "«text»")
 )
 
 ;;; maybe *** site-specific ***

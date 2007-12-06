@@ -311,6 +311,7 @@
 (lse-define-fill-in "lse-define-fill-in"
   '(token)
   '(token                 "fill-in")
+  '(token                 "\n");  6-Dec-2007
   '(rcompletion-leading   (if (not (bobp)) (forward-char -1)) delete-blank-lines lse-newline-and-indent)
   '(rcompletion-trailer    delete-blank-lines lse-newline)
   '(replacement

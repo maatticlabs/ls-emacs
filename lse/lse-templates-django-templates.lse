@@ -1,0 +1,1607 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2007 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;;
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-django-templates
+;;;;
+;;;; Purpose
+;;;;    Define lse templates of LS-Emacs language django-templates
+;;;;
+;;;; Revision Dates
+;;;;     6-Dec-2007 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-root"
+    '(token)
+    '(description
+      "Root template of LS-Emacs language django-templates."
+     )
+    '(replacement
+        "{# Django template: "
+            & lse-insert-buffer-name-plus-extension & " #}"
+        "{% comment %}"
+        "  ##««header-comment»»"
+        "{% endcomment %}"
+        "  ««djt-statement»»···"
+        "{# __END__ Django template: "
+            & lse-insert-buffer-name-plus-extension & " #}"
+     )
+;;; djt-root
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-autoescape"
+    '(token)
+    '(token                 "autoescape")
+    '(description           "Turn `autoescape` on or off.")
+    '(replacement
+        "{% autoescape «djt-autoescape-state» %}"
+        "  ««djt-statement»»···"
+        "{% endautoescape %}"
+     )
+;;; djt-autoescape
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-autoescape-state"
+    '(menu
+        "on"
+        "off"
+     )
+;;; djt-autoescape-state
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-block"
+    '(token)
+    '(token                 "block")
+    '(description
+      "Define a block that can be overriden by child templates."
+     )
+    '(replacement
+        "{% block «djt-block-name» %}"
+        "  ««djt-statement»»···"
+        "{% endblock «djt-block-name» %}"
+     )
+;;; djt-block
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-block-name"
+    '(description           "Unique name for block.")
+    '(auto-replicate        1)
+;;; djt-block-name
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-cycle/loop"
+    '(token)
+    '(token                 "cycle")
+    '(token                 "lcycle")
+    '(description
+      "Within a loop, cycles among the given strings/variables each "
+      "time through the loop."
+     )
+    '(replacement
+        "{% cycle «djt-cycle-value»··· %}"
+     )
+;;; djt-cycle/loop
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-comment"
+    '(token)
+    '(token                 "comment")
+    '(description           "Block comment in djamgo templates.")
+    '(replacement
+        "{% comment %}"
+        "  «text»"
+        "{% endcomment %}"
+     )
+;;; djt-comment
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-cycle/named"
+    '(token)
+    '(token                 "ncycle")
+    '(description
+      "Cycle among the given strings or variables each "
+      "time a cycle with the name given here is encountered."
+     )
+    '(replacement
+        "{% cycle «djt-cycle-value»··· as «djt-cycle-name» %}"
+     )
+;;; djt-cycle/named
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-cycle/use"
+    '(token)
+    '(token                 "ucycle")
+    '(description           "Use next value of named cycle.")
+    '(replacement
+        "{% cycle «djt-cycle-name» %}"
+     )
+;;; djt-cycle/use
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-cycle-name"
+    '(description           "Name of a cycle to be used outside a loop.")
+;;; djt-cycle-name
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-cycle-value"
+    '(description           "One of the values cycled through by `cycle`.")
+    '(leading               " ")
+    '(separator             " ")
+    '(replacement           @ djt-variable-or-literal)
+;;; djt-cycle-value
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-date-format"
+    '(token)
+    '(description
+      "Same format as PHP's date() function (http://php.net/date) "
+      "with some custom extensions."
+     )
+    '(sort)
+    '(menu
+        ("a"    "'a.m.' or 'p.m.'")
+        ("A"    "'AM' or 'PM'.")
+        ("b"    "Month, textual, 3 letters, lowercase.")
+      ; ("B"    "Not implemented.")
+        ("d"    "Day of the month, 2 digits with leading zeros.")
+        ("D"    "Day of the week, textual, 3 letters.")
+        ("F"    "Month, textual, long.")
+      ; ("I"    "Not implemented.")
+        ("j"    "Day of the month without leading zeros.")
+        ("l"    "Day of the week, textual, long.")
+        ("L"    "Boolean for whether itùs a leap year.")
+        ("m"    "Month, 2 digits with leading zeros.")
+        ("M"    "Month, textual, 3 letters.")
+        ("n"    "Month without leading zeros.")
+        ("N"    "Month abbreviation in Associated Press style. Proprietary extension.")
+        ("r"    "RFC 2822 formatted date.")
+        ("S"    "English ordinal suffix for day of the month, 2 characters.")
+        ("t"    "Number of days in the given month.")
+      ; ("U"    "Not implemented.")
+        ("w"    "Day of the week, digits without leading zeros.")
+        ("W"    "ISO-8601 week number of year, with weeks starting on Monday.")
+        ("y"    "Year, 2 digits.")
+        ("Y"    "Year, 4 digits.")
+        ("z"    "Day of the year.")
+        @ djt-time-format
+     )
+;;; djt-date-format
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-time-format"
+    '(token)
+    '(description
+      "Same format as PHP's date() function (http://php.net/date) "
+      "with some custom extensions."
+     )
+    '(sort)
+    '(menu
+        ("f"    "Time, in 12-hour hours and minutes, with minutes left off if theyùre zero. Proprietary extension.")
+        ("g"    "Hour, 12-hour format without leading zeros.")
+        ("G"    "Hour, 24-hour format without leading zeros.")
+        ("h"    "Hour, 12-hour format.")
+        ("H"    "Hour, 24-hour format.")
+        ("i"    "Minutes.")
+        ("O"    "Difference to Greenwich time in hours.")
+        ("P"    "Time, in 12-hour hours, minutes and øa.m.ù/ùp.m.ù, with minutes left off if theyùre zero and the special-case strings ømidnightù and ønoonù if appropriate. Proprietary extension.")
+        ("s"    "Seconds, 2 digits with leading zeros.")
+        ("T"    "Time zone of this machine.")
+        ("Z"    "Time zone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.")
+     )
+;;; djt-time-format
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-debug"
+    '(token)
+    '(token                 "debug")
+    '(description
+      "Output a whole load of debugging information, including the "
+      "current context and imported modules."
+     )
+    '(replacement
+        "{% debug %}"
+     )
+;;; djt-debug
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-extends"
+    '(token)
+    '(token                 "extends")
+    '(description
+      "Signal that this template extends a parent template."
+     )
+    '(replacement
+        "{% extends «djt-variable-or-literal» %}"
+     )
+;;; djt-extends
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter"
+    '(token)
+    '(token                 "filter")
+    '(description
+      "Filter the contents of the variable through variable filters."
+      "Filters can also be piped through each other, and they can have "
+      "arguments -- just like in variable syntax."
+     )
+    '(replacement
+        "{% filter «djt-filter-function»··· %}"
+        "  ««djt-statement»»···"
+        "{% endfilter %}"
+     )
+;;; djt-filter
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-function"
+    '(token)
+    '(description           "Function filtering text.")
+    '(separator             " | ")
+    '(leading               "|")
+    '(sort)
+    '(menu
+        djt-filter-add
+        djt-filter-addslashes
+        djt-filter-capfirst
+        djt-filter-center
+        djt-filter-cut
+        djt-filter-date
+        djt-filter-default
+        djt-filter-default_if_none
+        djt-filter-dictsort
+        djt-filter-dictsortreversed
+        djt-filter-divisibleby
+        djt-filter-escape
+        djt-filter-escapejs
+        djt-filter-filesizeformat
+        djt-filter-first
+        djt-filter-fix_ampersands
+        djt-filter-floatformat
+        djt-filter-force_escape
+        djt-filter-get_digit
+        djt-filter-iriencode
+        djt-filter-join
+        djt-filter-length
+        djt-filter-length_is
+        djt-filter-linebreaks
+        djt-filter-linebreaksbr
+        djt-filter-linenumbers
+        djt-filter-ljust
+        djt-filter-lower
+        djt-filter-make_list
+        djt-filter-markdown
+        djt-filter-phone2numeric
+        djt-filter-pluralize
+        djt-filter-pprint
+        djt-filter-random
+        djt-filter-removetags
+        djt-filter-restructuredtext
+        djt-filter-rjust
+        djt-filter-safe
+        djt-filter-slice
+        djt-filter-slugify
+        djt-filter-stringformat
+        djt-filter-striptags
+        djt-filter-textile
+        djt-filter-time
+        djt-filter-timesince
+        djt-filter-timeuntil
+        djt-filter-title
+        djt-filter-truncatewords
+        djt-filter-truncatewords_html
+        djt-filter-unordered_list
+        djt-filter-upper
+        djt-filter-urlencode
+        djt-filter-urlize
+        djt-filter-urlizetrunc
+        djt-filter-wordcount
+        djt-filter-wordwrap
+        djt-filter-yesno
+     )
+;;; djt-filter-function
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-add"
+    '(token)
+    '(token                 "filter-add")
+    '(description           "Adds the arg to the value.")
+    '(replacement
+        "add: «number»"
+     )
+;;; djt-filter-add
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-addslashes"
+    '(token)
+    '(token                 "filter-addslashes")
+    '(description
+      "Adds slashes before quotes. "
+      "Useful for escaping strings in CSV, for example."
+     )
+    '(replacement
+        "addslashes"
+     )
+;;; djt-filter-addslashes
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-capfirst"
+    '(token)
+    '(token                 "filter-capfirst")
+    '(description           "Capitalizes the first character of the value.")
+    '(replacement
+        "capfirst"
+     )
+;;; djt-filter-capfirst
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-center"
+    '(token)
+    '(token                 "filter-center")
+    '(description           "Centers the value in a field of a given width.")
+    '(replacement
+        "center"
+     )
+;;; djt-filter-center
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-cut"
+    '(token)
+    '(token                 "filter-cut")
+    '(description           "Removes all values of arg from the given string.")
+    '(replacement
+        "cut: «djt-variable-or-literal»" ; ??? arg type ???
+     )
+;;; djt-filter-cut
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-date"
+    '(token)
+    '(token                 "filter-date")
+    '(description
+      "Formats a date according to the given format (same as the now tag)."
+     )
+    '(replacement
+        "date: «djt-date-format»"
+     )
+;;; djt-filter-date
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-default"
+    '(token)
+    '(token                 "filter-default")
+    '(description           "If value is unavailable, use given default.")
+    '(replacement
+        "default: «djt-variable-or-literal»"
+     )
+;;; djt-filter-default
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-default_if_none"
+    '(token)
+    '(token                 "filter-default_if_none")
+    '(description           "If value is None, use given default.")
+    '(replacement
+        "default_if_none: «djt-variable-or-literal»"
+     )
+;;; djt-filter-default_if_none
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-dictsort"
+    '(token)
+    '(token                 "filter-dictsort")
+    '(description
+      "Takes a list of dictionaries, returns that list sorted by "
+      "the key given in the argument."
+     )
+    '(replacement
+        "dictsort: «djt-variable-or-literal» " &
+          "by «djt-variable-name» as «djt-variable-name»"
+     )
+;;; djt-filter-dictsort
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-dictsortreversed"
+    '(token)
+    '(token                 "filter-dictsortreversed")
+    '(description
+      "Takes a list of dictionaries, returns that list sorted "
+      "in reverse order by the key given in the argument."
+     )
+    '(replacement
+        "dictsortreversed: «djt-variable-or-literal» " &
+          "by «djt-variable-name» as «djt-variable-name»"
+     )
+;;; djt-filter-dictsortreversed
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-divisibleby"
+    '(token)
+    '(token                 "filter-divisibleby")
+    '(description
+      "Returns true if the value is divisible by the argument."
+     )
+    '(replacement
+        "divisibleby: «number»"
+     )
+;;; djt-filter-divisibleby
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-escape"
+    '(token)
+    '(token                 "filter-escape")
+    '(description
+      "Escapes a string's HTML. "
+      "The escaping is only applied when the string is output, so it "
+      "does not matter where in a chained sequence of filters you put "
+      "escape: it will always be applied as though it were the last "
+      "filter. If you want escaping to be applied immediately, use "
+      "the force_escape filter."
+     )
+    '(replacement
+        "escape"
+     )
+;;; djt-filter-escape
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-escapejs"
+    '(token)
+    '(token                 "filter-escapejs")
+    '(description
+      "Escapes characters for use in JavaScript strings. This does not "
+      "make the string safe for use in HTML, but does protect you from "
+      "syntax errors when using templates to generate JavaScript/JSON."
+     )
+    '(replacement
+        "escapejs"
+     )
+;;; djt-filter-escapejs
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-filesizeformat"
+    '(token)
+    '(token                 "filter-filesizeformat")
+    '(description
+      "Format the value like a 'human-readable' file size "
+      "(i.e. '13 KB', '4.1 MB', '102 bytes', etc)."
+     )
+    '(replacement
+        "filesizeformat"
+     )
+;;; djt-filter-filesizeformat
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-first"
+    '(token)
+    '(token                 "filter-first")
+    '(description           "Returns the first item in a list.")
+    '(replacement
+        "first"
+     )
+;;; djt-filter-first
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-fix_ampersands"
+    '(token)
+    '(token                 "filter-fix_ampersands")
+    '(description           "Replaces ampersands with &amp; entities.")
+    '(replacement
+        "fix_ampersands"
+     )
+;;; djt-filter-fix_ampersands
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-floatformat"
+    '(token)
+    '(token                 "filter-floatformat")
+    '(description
+      "When used without an argument, rounds a floating-point number "
+      "to one decimal place -- but only if there's a decimal part to "
+      "be displayed. "
+      "If used with a numeric integer argument, floatformat rounds a "
+      "number to that many decimal places. "
+      "If the argument passed to floatformat is negative, it will "
+      "round a number to that many decimal places -- but only if there's "
+      "a decimal part to be displayed. "
+     )
+    '(replacement
+        "floatformat: ««number»»"
+     )
+;;; djt-filter-floatformat
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-force_escape"
+    '(token)
+    '(token                 "filter-force_escape")
+    '(description
+      "Applies HTML escaping to a string (see the escape filter "
+      "for details). This filter is applied immediately and returns "
+      "a new, escaped string. This is useful in the rare cases where "
+      "you need multiple escaping or want to apply other filters to "
+      "the escaped results. Normally, you want to use the escape filter."
+     )
+    '(replacement
+        "force_escape"
+     )
+;;; djt-filter-force_escape
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-get_digit"
+    '(token)
+    '(token                 "filter-get_digit")
+    '(description
+      "Given a whole number, returns the requested digit of it, "
+      "where 1 is the right-most digit, 2 is the second-right-most "
+      "digit, etc. Returns the original value for invalid input (if "
+      "input or argument is not an integer, or if argument is less "
+      "than 1). Otherwise, output is always an integer."
+     )
+    '(replacement
+        "get_digit: «number»"
+     )
+;;; djt-filter-get_digit
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-iriencode"
+    '(token)
+    '(token                 "filter-iriencode")
+    '(description
+      "Converts an IRI (Internationalized Resource Identifier) to a "
+      "string that is suitable for including in a URL. This is necessary "
+      "if you're trying to use strings containing non-ASCII characters "
+      "in a URL."
+      "\n"
+      "It's safe to use this filter on a string that has already gone "
+      "through the urlencode filter."
+     )
+    '(replacement
+        "iriencode"
+     )
+;;; djt-filter-iriencode
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-join"
+    '(token)
+    '(token                 "filter-join")
+    '(description
+      "Joins a list with a string, like Python's str.join(list)."
+     )
+    '(replacement
+        "join: «djt-variable-or-literal»"
+     )
+;;; djt-filter-join
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-length"
+    '(token)
+    '(token                 "filter-length")
+    '(description
+      "Returns the length of the value. Useful for lists."
+     )
+    '(replacement
+        "length"
+     )
+;;; djt-filter-length
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-length_is"
+    '(token)
+    '(token                 "filter-length_is")
+    '(description
+      "Returns a boolean of whether the value's length is the argument."
+     )
+    '(replacement
+        "length_is: «number»"
+     )
+;;; djt-filter-length_is
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-linebreaks"
+    '(token)
+    '(token                 "filter-linebreaks")
+    '(description
+      "Replaces line breaks in plain text with appropriate HTML; "
+      "a single newline becomes an HTML line break (<br />) and a "
+      "new line followed by a blank line becomes a paragraph break (</p>)."
+     )
+    '(replacement
+        "linebreaks"
+     )
+;;; djt-filter-linebreaks
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-linebreaksbr"
+    '(token)
+    '(token                 "filter-linebreaksbr")
+    '(description
+      "Converts all newlines in a piece of plain text to HTML line "
+      "breaks (<br />)."
+     )
+    '(replacement
+        "linebreaksbr"
+     )
+;;; djt-filter-linebreaksbr
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-linenumbers"
+    '(token)
+    '(token                 "filter-linenumbers")
+    '(description           "Displays text with line numbers.")
+    '(replacement
+        "linenumbers"
+     )
+;;; djt-filter-linenumbers
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-ljust"
+    '(token)
+    '(token                 "filter-ljust")
+    '(description
+      "Left-aligns the value in a field of a given width."
+     )
+    '(replacement
+        "ljust: «number»"
+     )
+;;; djt-filter-ljust
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-lower"
+    '(token)
+    '(token                 "filter-lower")
+    '(description           "Converts a string into all lowercase.")
+    '(replacement
+        "lower"
+     )
+;;; djt-filter-lower
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-make_list"
+    '(token)
+    '(token                 "filter-make_list")
+    '(description
+      "Returns the value turned into a list. For an integer, it's a "
+      "list of digits. For a string, it's a list of characters."
+     )
+    '(replacement
+        "make_list"
+     )
+;;; djt-filter-make_list
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-markdown"
+    '(token)
+    '(token                 "filter-markdown")
+    '(description
+      "Convert text marked up with `markdown` into HTML "
+      "(Needs {% load markup %})."
+     )
+    '(replacement
+        "markdown"
+     )
+;;; djt-filter-markdown
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-phone2numeric"
+    '(token)
+    '(token                 "filter-phone2numeric")
+    '(description
+      "Converts a phone number (possibly containing letters) to its "
+      "numerical equivalent. For example, '800-COLLECT' will be converted "
+      "to '800-2655328'."
+      "\n"
+      "The input doesn't have to be a valid phone number. This will "
+      "happily convert any string."
+     )
+    '(replacement
+        "phone2numeric"
+     )
+;;; djt-filter-phone2numeric
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-pluralize"
+    '(token)
+    '(token                 "filter-pluralize")
+    '(description
+      "Returns a plural suffix if the value is not 1. By default, "
+      "this suffix is 's'."
+      "For words that require a suffix other than 's', you can "
+      "provide an alternate suffix as a parameter to the filter."
+      "For words that don't pluralize by simple suffix, you can specify "
+      "both a singular and plural suffix, separated by a comma."
+     )
+    '(replacement
+        "pluralize: ««djt-variable-or-literal»»"
+     )
+;;; djt-filter-pluralize
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-pprint"
+    '(token)
+    '(token                 "filter-pprint")
+    '(description
+      "A wrapper around pprint.pprint -- for debugging, really."
+     )
+    '(replacement           "pprint")
+;;; djt-filter-pprint
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-random"
+    '(token)
+    '(token                 "filter-random")
+    '(description           "Returns a random item from the list.")
+    '(replacement
+        "random"
+     )
+;;; djt-filter-random
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-removetags"
+    '(token)
+    '(token                 "filter-removetags")
+    '(description
+      "Removes a space separated list of [X]HTML tags from the output.")
+    '(replacement
+        "removetags: «djt-variable-or-literal»···" ; ??? syntax for args ???
+     )
+;;; djt-filter-removetags
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-restructuredtext"
+    '(token)
+    '(token                 "filter-restructuredtext")
+    '(description
+      "Convert text marked up with `restructuredtext` into HTML."
+      "(Needs {% load markup %})."
+     )
+    '(replacement
+        "restructuredtext"
+     )
+;;; djt-filter-restructuredtext
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-rjust"
+    '(token)
+    '(token                 "filter-rjust")
+    '(description
+      "Right-aligns the value in a field of a given width."
+     )
+    '(replacement
+        "rjust: «number»"
+     )
+;;; djt-filter-rjust
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-safe"
+    '(token)
+    '(token                 "filter-safe")
+    '(description
+      "Marks a string as not requiring further HTML escaping prior "
+      "to output. When autoescaping is off, this filter has no effect."
+     )
+    '(replacement
+        "safe"
+     )
+;;; djt-filter-safe
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-slice"
+    '(token)
+    '(token                 "filter-slice")
+    '(description
+      "Returns a slice of the list."
+      "Uses the same syntax as Python's list slicing. "
+      "Example: {{ some_list|slice:':2' }}"
+     )
+    '(replacement
+        "slice: «quoted-text»"
+     )
+;;; djt-filter-slice
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-slugify"
+    '(token)
+    '(token                 "filter-slugify")
+    '(description
+      "Converts to lowercase, removes non-word characters "
+      "(alphanumerics and underscores) and converts spaces to hyphens. "
+      "Also strips leading and trailing whitespace."
+     )
+    '(replacement
+        "slugify"
+     )
+;;; djt-filter-slugify
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-stringformat"
+    '(token)
+    '(token                 "filter-stringformat")
+    '(description
+      "Formats the variable according to the argument, a string "
+      "formatting specifier. This specifier uses Python string "
+      "formating syntax, with the exception that the leading `%` is dropped."
+     )
+    '(replacement
+        "stringformat: «djt-variable-or-literal»"
+     )
+;;; djt-filter-stringformat
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-striptags"
+    '(token)
+    '(token                 "filter-striptags")
+    '(description           "Strips all [X]HTML tags.")
+    '(replacement
+        "striptags"
+     )
+;;; djt-filter-striptags
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-textile"
+    '(token)
+    '(token                 "filter-textile")
+    '(description
+      "Convert text marked up with `Textile` into HTML. "
+      "(Needs {% load markup %})."
+     )
+    '(replacement
+        "textile"
+     )
+;;; djt-filter-textile
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-time"
+    '(token)
+    '(token                 "filter-time")
+    '(description
+      "Formats a time according to the given format (same as the now tag). "
+      "The time filter will only accept parameters in the format string "
+      "that relate to the time of day, not the date (for obvious reasons). "
+      "If you need to format a date, use the date filter."
+     )
+    '(replacement
+        "time: «djt-time-format»"
+     )
+;;; djt-filter-time
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-timesince"
+    '(token)
+    '(token                 "filter-timesince")
+    '(description
+      "Formats a date as the time since that date (i.e. `4 days, 6 hours`). "
+      "Takes an optional argument that is a variable containing the date "
+      "to use as the comparison point (without the argument, the comparison "
+      "point is now). "
+     )
+    '(replacement
+        "timesince: ««djt-variable-name»»"
+     )
+;;; djt-filter-timesince
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-timeuntil"
+    '(token)
+    '(token                 "filter-timeuntil")
+    '(description
+      "Similar to timesince, except that it measures the time from now "
+      "until the given date or datetime. For example, if today is "
+      "1 June 2006 and conference_date is a date instance holding "
+      "29 June 2006, then {{ conference_date|timeuntil }} will return "
+      "`4 weeks`."
+      "Takes an optional argument that is a variable containing the date "
+      "to use as the comparison point (without the argument, the comparison "
+      "point is now). "
+     )
+    '(replacement
+        "timeuntil: ««djt-variable-name»»"
+     )
+;;; djt-filter-timeuntil
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-title"
+    '(token)
+    '(token                 "filter-title")
+    '(description           "Converts a string into titlecase.")
+    '(replacement
+        "title"
+     )
+;;; djt-filter-title
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-truncatewords"
+    '(token)
+    '(token                 "filter-truncatewords")
+    '(description
+      "Truncates a string after a certain number of words."
+     )
+    '(replacement
+        "truncatewords: «number»"
+     )
+;;; djt-filter-truncatewords
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-truncatewords_html"
+    '(token)
+    '(token                 "filter-truncatewords_html")
+    '(description
+      "Similar to truncatewords, except that it is aware of HTML tags. "
+      "Any tags that are opened in the string and not closed before the "
+      "truncation point, are closed immediately after the truncation. "
+      "This is less efficient than truncatewords, so should only be used "
+      "when it is being passed HTML text."
+     )
+    '(replacement
+        "truncatewords_html: «number»"
+     )
+;;; djt-filter-truncatewords_html
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-unordered_list"
+    '(token)
+    '(token                 "filter-unordered_list")
+    '(description
+      "Recursively takes a self-nested list and returns an HTML "
+      "unordered list -- WITHOUT opening and closing <ul> tags."
+     )
+    '(replacement
+        "unordered_list"
+     )
+;;; djt-filter-unordered_list
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-upper"
+    '(token)
+    '(token                 "filter-upper")
+    '(description           "Converts a string into all uppercase.")
+    '(replacement
+        "upper"
+     )
+;;; djt-filter-upper
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-urlencode"
+    '(token)
+    '(token                 "filter-urlencode")
+    '(description           "Escapes a value for use in a URL.")
+    '(replacement
+        "urlencode"
+     )
+;;; djt-filter-urlencode
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-urlize"
+    '(token)
+    '(token                 "filter-urlize")
+    '(description
+      "Converts URLs in plain text into clickable links. Note that if "
+      "urlize is applied to text that already contains HTML markup, "
+      "things won't work as expected. Apply this filter only to plain text."
+     )
+    '(replacement
+        "urlize"
+     )
+;;; djt-filter-urlize
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-urlizetrunc"
+    '(token)
+    '(token                 "filter-urlizetrunc")
+    '(description
+      "Converts URLs into clickable links, truncating URLs longer than "
+      "the given character limit. As with urlize, this filter should "
+      "only be applied to plain text."
+     )
+    '(replacement
+        "urlizetrunc: «number»"
+     )
+;;; djt-filter-urlizetrunc
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-wordcount"
+    '(token)
+    '(token                 "filter-wordcount")
+    '(description           "Returns the number of words.")
+    '(replacement
+        "wordcount"
+     )
+;;; djt-filter-wordcount
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-wordwrap"
+    '(token)
+    '(token                 "filter-wordwrap")
+    '(description           "Wraps words at specified line length.")
+    '(replacement
+        "wordwrap: «number»"
+     )
+;;; djt-filter-wordwrap
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-filter-yesno"
+    '(token)
+    '(token                 "filter-yesno")
+    '(description
+      "Given a string mapping values for true, false and (optionally) "
+      "None, returns one of those strings according to the value."
+     )
+    '(replacement
+        "yesno: «quoted-text»"
+     )
+;;; djt-filter-yesno
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-firstof"
+    '(token)
+    '(token                 "firstof")
+    '(description
+      "Outputs the first variable passed that is not False. "
+      "Outputs nothing if all the passed variables are False."
+      "You can also use a literal string as a fallback value in "
+      "case all passed variables are False."
+     )
+    '(replacement
+        "{% firstof «djt-variable-name»··· ««quoted-text»» %}"
+     )
+;;; djt-firstof
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-for"
+    '(token)
+    '(token                 "for")
+    '(description           "Loop over each item in an array. ")
+    '(replacement
+        "{% for «djt-variable-name» in «djt-variable-name» ««djt-reversed»» %}"
+        "  «djt-statement»···"
+        "{% endfor %}"
+     )
+;;; djt-for
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.counter"
+    '(token)
+    '(token                 "forloop.counter")
+    '(description           "The current iteration of the loop (1-indexed)")
+    '(replacement
+        "forloop.counter"
+     )
+;;; djt-forloop.counter
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.counter0"
+    '(token)
+    '(token                 "forloop.counter0")
+    '(description           "The current iteration of the loop (0-indexed)")
+    '(replacement
+        "forloop.counter0"
+     )
+;;; djt-forloop.counter0
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.revcounter"
+    '(token)
+    '(token                 "forloop.revcounter")
+    '(description
+      "The number of iterations from the end of the loop (1-indexed)"
+     )
+    '(replacement
+        "forloop.revcounter"
+     )
+;;; djt-forloop.revcounter
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.revcounter0"
+    '(token)
+    '(token                 "forloop.revcounter0")
+    '(description
+      "The number of iterations from the end of the loop (0-indexed)"
+     )
+    '(replacement
+        "forloop.revcounter0"
+     )
+;;; djt-forloop.revcounter0
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.first"
+    '(token)
+    '(token                 "forloop.first")
+    '(description           "True if this is the first time through the loop.")
+    '(replacement
+        "forloop.first"
+     )
+;;; djt-forloop.first
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.last"
+    '(token)
+    '(token                 "forloop.last")
+    '(description           "True if this is the last time through the loop.")
+    '(replacement
+        "forloop.last"
+     )
+;;; djt-forloop.last
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-forloop.parentloop"
+    '(token)
+    '(token                 "forloop.parentloop")
+    '(description
+      "For nested loops, this is the loop `above` the current one."
+     )
+    '(replacement
+        "forloop.parentloop"
+     )
+;;; djt-forloop.parentloop
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-if"
+    '(token)
+    '(token                 "if")
+    '(description
+      "The {% if %} tag evaluates a variable, and if that variable is "
+      "`true` (i.e. exists, is not empty, and is not a false boolean "
+      "value) the contents of the block are output."
+     )
+    '(replacement
+        "{% if «djt-variable-name» %}"
+        "  «djt-statement»···"
+        "{% else %}"
+        "  «djt-statement»···"
+        "{% endif %}"
+     )
+;;; djt-if
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ifchanged"
+    '(description
+      "Check if a value has changed from the last iteration of a loop."
+     )
+    '(menu
+        djt-ifchanged-contents
+        djt-ifchanged-variable
+     )
+;;; djt-ifchanged
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ifchanged-contents"
+    '(token)
+    '(token                 "ifchanged-contents")
+    '(description
+      "Checks its own rendered contents against its previous state and "
+      "only displays the content if it has changed. "
+     )
+    '(replacement
+        "{% ifchanged %}"
+        "  «djt-statement»···"
+        "{% endifchanged %}"
+     )
+;;; djt-ifchanged-contents
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ifchanged-variable"
+    '(token)
+    '(token                 "ifchanged-variable")
+    '(description           "Check whether variable has changed. ")
+    '(replacement
+        "{% ifchanged «djt-variable-name» %}"
+        "  «djt-statement»···"
+        "{% endifchanged %}"
+     )
+;;; djt-ifchanged-variable
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ifequal"
+    '(token)
+    '(token                 "ifequal")
+    '(description
+      "Output the contents of the block if the two arguments equal each other."
+     )
+    '(replacement
+        "{% ifequal «djt-variable-or-literal» «djt-variable-or-literal» %}"
+        "  «djt-statement»···"
+        "{% endifequal %}"
+     )
+;;; djt-ifequal
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ifnotequal"
+    '(token)
+    '(token                 "ifnotequal")
+    '(description
+      "Just like ifequal, except it tests that the two arguments are not equal."
+     )
+    '(replacement
+        "{% ifnotequal «djt-variable-or-literal» «djt-variable-or-literal» %}"
+        "  «djt-statement»···"
+        "{% endifnotequal %}"
+     )
+;;; djt-ifnotequal
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-include"
+    '(token)
+    '(token                 "include")
+    '(description
+      "Loads a template and renders it with the current context. "
+      "This is a way of `including` other templates within a template."
+      "The template name can either be a variable or a hard-coded "
+      "(quoted) string, in either single or double quotes."
+     )
+    '(replacement
+        "{% include «djt-variable-or-literal» %}"
+     )
+;;; djt-include
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-literal-contents"
+    '(description           "Literal contents of the template.")
+;;; djt-literal-contents
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-load"
+    '(token)
+    '(token                 "load")
+    '(description           "Load a custom template tag set.")
+    '(replacement
+        "{% load «djt-variable-name» %}"
+     )
+;;; djt-load
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-now"
+    '(token)
+    '(token                 "now")
+    '(description
+      "Display the date, formatted according to the given string."
+      "Uses the same format as PHP's date() function (http://php.net/date) "
+      "with some custom extensions."
+     )
+    '(replacement
+        "{% now «djt-date-format» %}"
+     )
+;;; djt-now
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-number"
+    '(description           "A number")
+    '(leading               ":")
+    '(replacement           @ number)
+;;; djt-number
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-regroup"
+    '(token)
+    '(token                 "regroup")
+    '(description
+      "Regroup a list of alike objects by a common attribute."
+      "Example: {% regroup people by gender as gender_list %}"
+     )
+    '(replacement
+        "{% regroup «djt-variable-name» " &
+          "by «djt-variable-name» as «djt-variable-name» %}"
+     )
+;;; djt-regroup
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-reversed"
+    '(token)
+    '(token                 "reversed")
+    '(description           "Iterate over a list in reverse")
+    '(replacement           "reversed")
+;;; djt-reversed
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-spaceless"
+    '(token)
+    '(token                 "spaceless")
+    '(description
+      "Removes whitespace between HTML tags. This includes "
+      "tab characters and newlines."
+      "Only space between tags is removed ô not space between tags and text. "
+     )
+    '(replacement
+        "{% spaceless %}"
+        "  «djt-statement»···"
+        "{% endspaceless %}"
+     )
+;;; djt-spaceless
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-ssi"
+    '(token)
+    '(token                 "ssi")
+    '(description
+      "Output the contents of a given file into the page."
+      "If the optional `parsed` parameter is given, the contents of "
+      "the included file are evaluated as template code, within the "
+      "current context."
+      "Note that if you use {% ssi %}, you'll need to define "
+      "ALLOWED_INCLUDE_ROOTS in your Django settings, as a security measure."
+     )
+    '(replacement
+        "{% ssi «file-name» ««djt-ssi-parsed»» %}"
+     )
+;;; djt-ssi
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-statement"
+    '(token)
+    '(sort)
+    '(menu
+        djt-autoescape
+        djt-block
+        djt-cycle/loop
+        djt-cycle/named
+        djt-extends
+        djt-filter
+        djt-firstof
+        djt-for
+        djt-if
+        djt-ifchanged
+        djt-ifequal
+        djt-ifnotequal
+        djt-include
+        djt-literal-contents
+        djt-load
+        djt-now
+        djt-regroup
+        djt-spaceless
+        djt-ssi
+        djt-templatetag
+        djt-url
+        djt-variable-replacement
+        djt-widthratio
+        djt-with
+     )
+;;; djt-statement
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-templatetag"
+    '(token)
+    '(token                 "templatetag")
+    '(description
+      "Output one of the syntax characters used to compose template tags."
+     )
+    '(replacement
+        "{% templatetag «djt-templatetag-arg» %}"
+     )
+;;; djt-templatetag
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-templatetag-arg"
+    '(sort)
+    '(menu
+        ("openblock"     "Outputs: {%")
+        ("closeblock"    "Outputs: %}")
+        ("openvariable"  "Outputs: {{")
+        ("closevariable" "Outputs: }}")
+        ("openbrace"     "Outputs: {")
+        ("closebrace"    "Outputs: }")
+        ("opencomment"   "Outputs: {#")
+        ("closecomment"  "Outputs: #}")
+     )
+;;; djt-templatetag-arg
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-url"
+    '(token)
+    '(token                 "url")
+    '(description
+      "Returns an absolute URL (i.e., a URL without the domain name) "
+      "matching a given view function and optional parameters. This is a "
+      "way to output links without violating the DRY principle by having "
+      "to hard-code URLs in your templates.")
+    '(replacement
+        "{% url «djt-view» ««djt-view-args»»··· %}"
+     )
+;;; djt-url
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-variable-name"
+    '(leading               ":")
+    '(separator             " ")
+    '(description           "Name of a variable.")
+;;; djt-variable-name
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-variable-or-literal"
+    '(leading               ":")
+    '(separator             " ")
+    '(menu
+        quoted-text
+        quoted-text-s
+        djt-variable-name
+     )
+;;; djt-variable-or-literal
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-variable-replacement"
+    '(token)
+    '(token                 "variable-replacement")
+    '(description
+      "When the template engine encounters a variable, it evaluates "
+      "that variable and replaces it with the result. "
+      "Variables look like this: {{ variable }} or "
+      "{{ variable.attribute.method }}. "
+     )
+    '(replacement
+        "{{ «djt-variable-name» }}"
+     )
+;;; djt-variable-replacement
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-view"
+    '(description           "(Qualified) Name of view function.")
+;;; djt-view
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-view-args"
+    '(description           "Arguments to view")
+    '(leading               ",")
+    '(separator             ", ")
+;;; djt-view-args
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-widthratio"
+    '(token)
+    '(token                 "widthratio")
+    '(description
+      "For creating bar charts and such, this tag calculates the "
+      "ratio of a given value to a maximum value, and then applies "
+      "that ratio to a constant."
+      "For example:"
+      "<img src='bar.gif' height='10' "
+      "width='{% widthratio this_value max_value 100 %}' />"
+      "Above, if this_value is 175 and max_value is 200, then the image "
+      "in the above example will be 88 pixels wide "
+      "(because 175/200 = .875; .875 * 100 = 87.5 which is rounded up to 88)."
+     )
+    '(replacement
+        "{% widthratio «number» «number» «number» %}"
+     )
+;;; djt-widthratio
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-with"
+    '(token)
+    '(token                 "with")
+    '(description
+      "Caches a complex variable under a simpler name. This is useful "
+      "when accessing an üexpensiveý method (e.g., one that hits the "
+      "database) multiple times."
+     )
+    '(replacement
+        "{% with «djt-variable-name» as «djt-variable-name» %}"
+        "  «djt-statement»···"
+        "{% endwith %}"
+     )
+;;; djt-with
+)
+
+;;;; __END__ lse-templates-django-templates.lse

@@ -1,24 +1,24 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;  3-May-1995 
+;;;  3-May-1995
 (lse-define-fill-in "change-request-desc"
     '(token)
     '(description           "Description of change reqest")
     '(replacement
-        @ current-date & "  «number»  -  «change-request-title» " 
+        @ current-date & "  «number»  -  «change-request-title» "
         & lse-insert-user-abbr-name
      )
 ;;; change-request-desc
 )
 
-;;;  3-May-1995 
+;;;  3-May-1995
 (lse-define-fill-in "change-request-title"
     '(rcompletion-trailer   just-one-space & (indent-to 69))
     '(description           "Enter title of change request")
 ;;; change-request-title
 )
 
-;;;  3-May-1995 
+;;;  3-May-1995
 (lse-define-fill-in "copyright-notice"
     '(token)
     '(description           "Put copyright notice into buffer")
@@ -38,10 +38,11 @@
 ;;; copyright-notice
 )
 
-;;;  3-May-1995 
+;;;  3-May-1995
 (lse-define-fill-in "header-comment-postamble"
     '(token                 "hc_postamble")
     '(replacement
+         ""
          ""
          " ****************************************************************************"
          " *                   ERCOS/OLT Change Request History                       *"
@@ -54,14 +55,14 @@
 ;;; header-comment-postamble
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-attribute-to-write"
     '(description           "Attribute of OLT class to be written to BIN_OFTSREAM")
     '(leading               "<<")
 ;;; OLT-attribute-to-write
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-definition"
     '(token)
     '(description           "Definition of a class")
@@ -74,7 +75,7 @@
 ;;; OLT-class-definition
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-definition-body"
     '(description           "Body of definition of a class")
     '(replacement
@@ -119,7 +120,7 @@
 ;;; OLT-class-definition-body
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-header"
     '(description           "Header of class definition")
     '(replacement
@@ -128,13 +129,13 @@
 ;;; OLT-class-header
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-std-constructor"
     '(replacement
         (lse-insert-replica-or-flat "class-name") & "  "
-            & lse-anchor-indent 
+            & lse-anchor-indent
               "(const Identifier_OLT & ident)"
-            lse-expansion-indent 
+            lse-expansion-indent
             "  : Ancestor (ident)"
             "  , ««member_initialization»»···"
             "  {};"
@@ -143,7 +144,7 @@
 ;;; OLT-class-std-constructor
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-bin-ifstream-constructor"
     '(replacement
         (lse-insert-replica-or-flat "class-name") & "  " &
@@ -156,7 +157,7 @@
 ;;; OLT-class-bin-ifstream-constructor
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-destructor"
     '(replacement
         "virtual" & " ~" & (lse-insert-replica-or-flat "class-name")
@@ -166,7 +167,7 @@
 ;;; OLT-class-destructor
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-Object_OLT-Properties"
     '(description           "Properties characteristic for descendents of Object_OLT")
     '(replacement
@@ -185,7 +186,7 @@
 ;;; OLT-Object_OLT-Properties
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-class-invariant"
     '(replacement
         "virtual BOOLEAN invariant () const"
@@ -204,7 +205,7 @@
 ;;; OLT-class-invariant
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-type-function"
     '(replacement
         "static  const "
@@ -216,7 +217,7 @@
 ;;; OLT-class-type-function
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-cast-function"
     '(replacement
         "static  " & (lse-insert-replica-or-flat "class-name")
@@ -237,20 +238,20 @@
 ;;; OLT-class-cast-function
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-write-function"
     '(replacement
         "virtual BIN_OFSTREAM   & write (BIN_OFSTREAM & s) const"
         "  {"
         "    Ancestor::write (s);"
         "    return s << ««OLT-attribute-to-write»»;"
-        "  };" 
+        "  };"
         ""
      )
 ;;; OLT-class-write-function
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-class-predicates"
     '(replacement
         "virtual BOOLEAN          is_correct_locally  () const;"
@@ -263,14 +264,14 @@
 ;;; OLT-class-predicates
 )
 
-;;; 19-May-1995 
+;;; 19-May-1995
 (lse-define-fill-in "OLT-class-define-function"
     '(replacement
         "virtual void define "
-            & lse-anchor-indent & 
+            & lse-anchor-indent &
               "(«parameter-declaration»···"
               ")"
-            lse-expansion-indent 
+            lse-expansion-indent
         "  {"
         lse-indent+1
         "««preconditions»»"
@@ -286,7 +287,7 @@
 ;;; OLT-class-define-function
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-class-usage-allowed"
     '(replacement
         "virtual BOOLEAN usage_allowed (const Source_Context_OLT & s) const"
@@ -295,7 +296,7 @@
 ;;; OLT-class-usage-allowed
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-Object_OLT-protected-Properties"
     '(replacement
         lse-indent-1
@@ -309,7 +310,7 @@
 ;;; OLT-Object_OLT-protected-Properties
 )
 
-;;;  1-Apr-1997 
+;;;  1-Apr-1997
 (lse-define-fill-in "OLT-class-default-constructor"
     '(replacement
         ""
@@ -322,7 +323,7 @@
 ;;; OLT-class-default-constructor
 )
 
-;;; 12-Apr-1995 
+;;; 12-Apr-1995
 (lse-define-fill-in "OLT-class-private-functions"
     '(replacement
         lse-indent-1
@@ -356,17 +357,17 @@
                             &  ")"
                             & ", new_"
                             & lse-insert-buffer-name
-                            & lse-tpu:change-case-lower 
+                            & lse-tpu:change-case-lower
                             & ", new_"
                             & lse-insert-buffer-name
-                            & lse-tpu:change-case-lower 
+                            & lse-tpu:change-case-lower
                             & ", ««OLT-ancestors»»"
                             & ");"
      )
 ;;; OLT-Type-initialization
 )
 
-;;; 17-Apr-1995 
+;;; 17-Apr-1995
 (lse-define-fill-in "OLT-ancestors"
     '(description           "List of ancestors between class and Object_OLT (blank separated)")
     '(leading               ",")
@@ -382,21 +383,21 @@
           &"("
               & (lse-insert-replica-or-flat "class-name")
               & ", new_" & lse-insert-buffer-name
-                         & lse-tpu:change-case-lower 
+                         & lse-tpu:change-case-lower
               & ", BIN_IFSTREAM"
           & ")"
         "DEFINE_POLY_CONSTRUCTOR_OBJ_OLT "
           &"("
               & (lse-insert-replica-or-flat "class-name")
               & ", new_" & lse-insert-buffer-name
-                         & lse-tpu:change-case-lower 
+                         & lse-tpu:change-case-lower
               & ", const Identifier_OLT"
           & ");"
      )
 ;;; OLT-new-instance
 )
 
-;;; 15-Apr-1995 
+;;; 15-Apr-1995
 (lse-define-fill-in "OLT-property-class-definition"
     '(token)
     '(description           "Definition of a class")
@@ -409,7 +410,7 @@
 ;;; OLT-property-class-definition
 )
 
-;;; 15-Apr-1995 
+;;; 15-Apr-1995
 (lse-define-fill-in "OLT-property-class-definition-body"
     '(description           "Body of definition of a class")
     '(replacement
@@ -458,7 +459,7 @@
 ;;; OLT-property-class-definition-body
 )
 
-;;; 15-Apr-1995 
+;;; 15-Apr-1995
 (lse-define-fill-in "OLT-property-class-header"
     '(description           "Header of class definition")
     '(replacement
