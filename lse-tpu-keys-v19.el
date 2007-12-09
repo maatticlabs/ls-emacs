@@ -157,6 +157,8 @@
 ;;;;                     (`[blue ?\C-p]`) added
 ;;;;     9-Oct-2007 (CT) s/lse-tpu:word-search-.*ward/lse-tpu:change-search-mode/
 ;;;;    11-Oct-2007 (CT) Added bindings for `[A-end]` and `[A-home]`
+;;;;     8-Dec-2007 (CT) Added bindings (`[?\s-q]`, `<blue> <gold> q`) for
+;;;;                     `lse-insert-buffer-name-plus-extension` added
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -502,6 +504,7 @@
   (global-set-key  [?\A-l]           'lse-tpu:insert-formfeed)
   (global-set-key  [?\M-l]           'goto-line); 31-Aug-2002
   (global-set-key  [?\A-q]           'lse-insert-buffer-name); 28-Apr-1996
+  (global-set-key  [?\s-q]           'lse-insert-buffer-name-plus-extension);  8-Dec-2007
   (global-set-key  [?\M-r]           'lse-scroll-to-top);  1-Sep-2002
   (global-set-key  [?\A-t]           'transpose-chars); 10-Jan-1998
   (global-set-key  [?\A-u]           'lse-tpu:delete-head-of-line)
@@ -760,6 +763,7 @@
   (gset-alpha-key [blue gold] "O"    'lse-make-directory)
   (gset-alpha-key [blue]      "P"    'lse-insert-buffer)
   (gset-alpha-key [blue]      "Q"    'lse-tpu:special-insert); 31-Aug-2002
+  (gset-alpha-key [blue gold] "Q"    'lse-insert-buffer-name-plus-extension);  8-Dec-2007
   (gset-alpha-key [blue gold] "R"    'lse-revert-buffer);  8-Sep-2002
   (gset-alpha-key [blue]      "S"    'undefined)
   (gset-alpha-key [blue]      "T"    'lse-toggle-mark-window)

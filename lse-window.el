@@ -67,6 +67,8 @@
 ;;;;    14-Oct-2007 (CT) `show-eob` added to `lse-scroll-to-top`
 ;;;;    15-Oct-2007 (CT) `lse-scroll-to-top` changed to scroll end-of-buffer
 ;;;;                     to bottom of screen unconditionally if visible
+;;;;     8-Dec-2007 (CT) `lse-scroll-to-top` changed to scroll end-of-buffer
+;;;;                     just past bottom of screen if it was visible
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -264,11 +266,19 @@
 (defun lse-scroll-to-top (arg)
   "Scroll current line to top of window."
   (interactive "P")
-  (recenter (or arg 0))
-  (if (pos-visible-in-window-p (point-max))
-      (save-excursion
-        (lse-tpu:move-to-end) ; scrolls bottom line to bottom of window
-      )
+  (let ((pos-1 (point))
+        pos-2
+       )
+    (recenter (or arg 0))
+    (if (pos-visible-in-window-p (point-max))
+        (save-excursion
+          (lse-tpu:move-to-end)
+          (lse-tpu:previous-line 1)
+          (setq pos-2 (point))
+          (recenter -1)
+        )
+    )
+    (if pos-2 (goto-char (min pos-1 pos-2)))
   )
 ; lse-scroll-to-top
 )
