@@ -69,6 +69,10 @@
 ;;;;                     to bottom of screen unconditionally if visible
 ;;;;     8-Dec-2007 (CT) `lse-scroll-to-top` changed to scroll end-of-buffer
 ;;;;                     just past bottom of screen if it was visible
+;;;;    19-Dec-2007 (CT) `lse-scroll-to-top` changed to use
+;;;;                     `lse-tpu:backward-char` instead of
+;;;;                     `lse-tpu:previous-line` (which breaks
+;;;;                     `lse-cal:plan:sync-to-view` [due to a bug in Emacs?!])
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -273,7 +277,7 @@
     (if (pos-visible-in-window-p (point-max))
         (save-excursion
           (lse-tpu:move-to-end)
-          (lse-tpu:previous-line 1)
+          (lse-tpu:backward-char 1)
           (setq pos-2 (point))
           (recenter -1)
         )

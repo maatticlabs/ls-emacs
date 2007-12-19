@@ -74,7 +74,7 @@
 ;;;
 ;;; The plan and view buffers are linked (by `lse-cal:setup-year`) so that
 ;;; movements of point in one buffer result in approbriate movements of point
-;;; in the other -- both buffer should always show the same selected day.
+;;; in the other -- both buffers should always show the same selected day.
 ;;; The point linkage is provided by binding `lse-cal:plan:sync-to-view` and
 ;;; `lse-cal:view:sync-to-plan` to `point-entered` text-properties.
 ;;;
@@ -233,14 +233,18 @@
                   (setq d (concat " " (substring d 1 2)))
               )
               (select-window vw)
-              (lse-tpu:move-to-beginning)
-              (lse-cal:next-match
-                (concat "^" w "\\( [ 0-3][0-9]\\)*\\( " d " \\)") 2
+              (let (lse-cal:plan-buffer ;  break recursion
+                    (inhibit-point-motion-hooks t)
+                   )
+                (lse-tpu:move-to-beginning)
+                (lse-cal:next-match
+                  (concat "^" w "\\( [ 0-3][0-9]\\)*\\( " d " \\)") 2
+                )
+                (lse-tpu:forward-char 1)
+                (lse-cal:view:highlight-current-day)
+                (lse-scroll-to-top 3)
+                (select-window pw)
               )
-              (lse-tpu:forward-char 1)
-              (lse-cal:view:highlight-current-day)
-              (lse-scroll-to-top 3)
-              (select-window pw)
             )
         )
       )
@@ -549,7 +553,6 @@
 
 ;;;  6-Apr-2003
 (defun lse-cal:view:sync-to-plan (old-p new-p)
-  (lse-cal:view:highlight-current-day)
   (if lse-cal:plan-buffer
       (let ((w  (get-text-property new-p 'week))
             (d  (get-text-property new-p 'weekday))
@@ -557,10 +560,13 @@
             (vw (selected-window))
             (inhibit-point-motion-hooks t)
            )
+        (lse-cal:view:highlight-current-day)
         (if (and pw w d)
             (progn
               (select-window pw)
-              (let (lse-cal:view-buffer) ;  break recursion
+              (let (lse-cal:view-buffer ;  break recursion
+                    (inhibit-point-motion-hooks t)
+                   )
                 (lse-tpu:move-to-beginning)
                 (lse-cal:next-match (concat d "#" w))
                 (lse-tpu:next-beginning-of-line 2)
