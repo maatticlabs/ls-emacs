@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency swing-kartei--entry.el swi_kntr.el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -16,20 +16,21 @@
 ;;;;    16-Aug-1994 (CT) Creation (of comment)
 ;;;;    16-Aug-1994 (CT) case-fold-search added
 ;;;;     8-Sep-1994 (CT) case-fold parameter for
-;;;;                     swing-kartei:entry:complete-name 
-;;;;     1-May-1999 (CT) lse-kartei-mode added to 
+;;;;                     swing-kartei:entry:complete-name
+;;;;     1-May-1999 (CT) lse-kartei-mode added to
 ;;;;                     swing-kartei:entry:create+goto-buffer
-;;;;      
+;;;;    23-Dec-2007 (CT) `(lse_completion:left_margin 3)` added to
+;;;;                     `swing-kartei:entry:complete-name`
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide                    'swing-kartei--entry)
 
 ;;;;++
 ;;;; searching for entries
-;;;;-- 
+;;;;--
 (defun swing-kartei:entry:head-pattern (name-pat)
   (concat "\\(^%?"                         ; \\1 entire head of entry
-             "\\\\entry *{"               
+             "\\\\entry *{"
              "\\("                         ; \\2        name of entry
              (or name-pat ".+")
              "\\)"
@@ -51,19 +52,19 @@
   (swing-kartei:entry:head-pattern ".+")
 )
 
-(defconst swing-kartei:entry:body-pattern  
+(defconst swing-kartei:entry:body-pattern
   (concat "\\("                           ; \\1 entire body
             "\\("                         ; \\2
               "^[\\% ].*\n"               ;     a single line
               "\\|^\n"                    ;     maybe empty
-            "\\)+"                        ;         but at least one line 
-          "\\)"                           ; 
+            "\\)+"                        ;         but at least one line
+          "\\)"                           ;
   )
 )
 
-(defconst swing-kartei:entry:tail-pattern   
+(defconst swing-kartei:entry:tail-pattern
   (concat "\\(^%?"                        ; \\1 the entire tail
-            "\\\\endentry.*\n"            ; 
+            "\\\\endentry.*\n"            ;
             "\\(·+ *\n\\)"                ; \\2 filler between entries
           "\\)"
   )
@@ -76,7 +77,7 @@
   )
 )
 
-(defun swing-kartei:entry:find (name &optional quiet) 
+(defun swing-kartei:entry:find (name &optional quiet)
   (interactive "sName of entry: ")
   (if (re-search-forward (swing-kartei:entry:pattern name) nil t)
       (goto-char (match-beginning 0))
@@ -88,7 +89,7 @@
 ; swing-kartei:entry:find
 )
 
-(defun swing-kartei:entry:value (name &optional quiet) 
+(defun swing-kartei:entry:value (name &optional quiet)
   (interactive "sName of entry: ")
   (if (swing-kartei:entry:find name quiet)
       (buffer-substring-no-properties (match-beginning 0) (match-end 0))
@@ -98,7 +99,7 @@
 
 ;;;;++
 ;;;; entry buffer related material
-;;;;-- 
+;;;;--
 (defvar                      swing-kartei:entry:kartei-name        nil)
 (defvar                      swing-kartei:entry:kartei-dir         nil)
 (defvar                      swing-kartei:entry:kartei-file-dir    nil)
@@ -118,6 +119,7 @@
   (let* ((lse_completion_buffer
               (swing-kartei:get-file-buffer kartei-dir kartei-name "summary")
          )
+         (lse_completion:left_margin 3)
          result
          blank
         )
@@ -156,7 +158,7 @@
 )
 
 (defun swing-kartei:entry:create+goto-buffer
-           (kartei-dir kartei-name kartei-file-dir 
+           (kartei-dir kartei-name kartei-file-dir
                        entry-name entry
                        make-entry-summary
                        &optional kartei-language
@@ -164,7 +166,7 @@
                        not-case-fold-search
            )
   (lse-goto-buffer+maybe-create entry-name)
-  (lse-kartei-mode);  1-May-1999 
+  (lse-kartei-mode);  1-May-1999
   (setq swing-kartei:entry:kartei-dir         kartei-dir)
   (setq swing-kartei:entry:kartei-name        kartei-name)
   (setq swing-kartei:entry:kartei-file-dir    kartei-file-dir)
