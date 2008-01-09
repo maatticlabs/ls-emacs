@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -40,6 +40,13 @@
 ;;;;                     `lse-tpu:search-internal` and call `lse-tpu:set-search`
 ;;;;     7-Oct-2007 (CT) `lse-tpu:quiet-replace` removed
 ;;;;     9-Oct-2007 (CT) Adapted to change in lse-tpu:search direction handling
+;;;;     9-Jan-2008 (CT) `lse-mail:before-send-hook` added and used
+;;;;     9-Jan-2008 (CT) `lse-mail:insert-if-missing` changed to search
+;;;;                     case-insensitively, to use `re-search-forward`
+;;;;                     instead of `lse-tpu:search+goto`, and to
+;;;;                     `save-match-data`
+;;;;     9-Jan-2008 (CT) `lse-mail-setup-hook` changed to use
+;;;;                     `lse-mail:insert-if-missing` for `Reply-to`
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -117,7 +124,9 @@
           (lse-tpu:insert "««mail-cc»»\n"
             "««mail-bcc»»\n"
             "««mail-from»»\n"
-            "Reply-to:    " (lse-user-e-mail-address) "\n"; 11-Jan-1999
+          )
+          (lse-mail:insert-if-missing "^Reply-To: "
+            "Reply-to:    " (lse-user-e-mail-address)
           )
           (lse-tpu:forward-line 1)
           (lse-tpu:insert "\n«text»")
@@ -129,9 +138,15 @@
 ; lse-mail-setup-hook
 )
 
+;;;  9-Jan-2008
+(defvar lse-mail:before-send-hook nil
+  "Hooks run before lse-mail:send-hook, lse-mail:mh-exit and lse-mail:pma-exit"
+)
+
 ;;;  3-Nov-1997
 (defun lse-mail:send-hook ()
   (lse-tpu:move-to-beginning)
+  (run-hooks 'lse-mail:before-send-hook);  9-Jan-2008
   (lse-tpu:replace-all "^DCC: " "BCC: ")
   (lse-kill-all-optional-fill-ins)
   (lse-tpu:move-to-beginning)
@@ -158,13 +173,17 @@
 
 ;;; 13-Feb-1998
 (defun lse-mail:insert-if-missing (tag &rest text)
-  (if (save-excursion
-        (lse-tpu:move-to-beginning)
-        (lse-tpu:search+goto tag nil t)
-      );  8-Feb-1998 ; avoid duplicate field
-      t
-    (apply 'lse-tpu:insert text)
-    (lse-tpu:insert "\n")
+  (let ((case-fold-search t))
+    (save-match-data
+      (if (save-excursion
+            (lse-tpu:move-to-beginning)
+            (re-search-forward tag nil t)
+          );  8-Feb-1998 ; avoid duplicate field
+          t
+        (apply 'lse-tpu:insert text)
+        (lse-tpu:insert "\n")
+      )
+    )
   )
 ; lse-mail:insert-if-missing
 )
@@ -239,6 +258,7 @@
   (if (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
       (let ((cb (current-buffer)))
         (lse-tpu:move-to-beginning)
+        (run-hooks 'lse-mail:before-send-hook);  9-Jan-2008
         (lse-kill-all-optional-fill-ins)
         (lse-tpu:move-to-beginning)
         (if (lse-goto-next-fill-in t)
@@ -282,6 +302,7 @@
         (if (buffer-modified-p cb)
             (progn
               (lse-tpu:move-to-beginning)
+              (run-hooks 'lse-mail:before-send-hook);  9-Jan-2008
               (lse-kill-all-optional-fill-ins)
               (lse-tpu:move-to-beginning)
               (if (lse-goto-next-fill-in t)
