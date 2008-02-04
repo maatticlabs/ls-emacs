@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -75,6 +75,7 @@
 ;;;;     3-Oct-2007 (CT) `lse-create-lse-keymaps` removed
 ;;;;     3-Oct-2007 (CT) Explicit calls to `lse-keys-v19:define-fkp-key` removed
 ;;;;    13-Oct-2007 (CT) `lse-byte-compile` added
+;;;;     4-Feb-2008 (CT) Removed latex2e language
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -160,7 +161,6 @@
     (lse-language:pre-load "gnats-pr"); 27-Sep-2001
     (lse-language:pre-load "kassabuch")
     (lse-language:pre-load "latex")
-    (lse-language:pre-load "latex2e"); 3-Aug-1999
     (lse-language:pre-load "lse")
     (lse-language:pre-load "mail"); 25-May-1995
     (lse-language:pre-load "perl")

@@ -17,6 +17,7 @@
 ;;;;    23-Feb-1995 (CT) Define compile-command as buffer local variable
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to
 ;;;;                     `latex-mode-hook'
+;;;;     4-Feb-2008 (CT) Don't alias `tex-mode` as `latex-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "latex"
@@ -58,9 +59,6 @@
 (add-hook 'latex-mode-hook 'lse-latex-mode)
 (add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 (add-hook 'LaTeX-mode-hook 'lse-latex-mode)
-
-(fset 'TEX-MODE       'tex-mode)
-(fset 'tex-mode       'latex-mode)
 
 (defun lse-latex-mode ()
   (lse-language:use "latex")
