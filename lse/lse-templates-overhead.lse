@@ -11,9 +11,9 @@
 ;;; gfolie
 )
 
-(lse-define-fill-in "Folie" 
+(lse-define-fill-in "Folie"
   '(token)
-  '(replacement 
+  '(replacement
       "\\begin{folie}{«folien_title»}"
       "    ««folien_label»»"
       ""
@@ -24,16 +24,16 @@
    )
 )
 
-(lse-define-fill-in "folien_chapter" 
+(lse-define-fill-in "folien_chapter"
   '(token           "\\folienchapter")
-  '(replacement 
+  '(replacement
       "\\folienchapter{«text»}««folien_chapter_zeit»»"
    )
 )
 
-(lse-define-fill-in "folien_chapter_zeit" 
+(lse-define-fill-in "folien_chapter_zeit"
   '(description   "Uhrzeit, zu welcher das Kapitel beginnt" )
-  '(replacement 
+  '(replacement
       "[«text»:«text»]"
    )
 )
@@ -49,18 +49,18 @@
 ;;; folien_label
 )
 
-(lse-define-fill-in "folien_section" 
+(lse-define-fill-in "folien_section"
   '(token           "\\foliensection")
-  '(replacement 
+  '(replacement
       "\\foliensection{«text»}"
    )
 )
 
-(lse-define-fill-in "folien_title" 
+(lse-define-fill-in "folien_title"
   '(description   "Ueberschrift der Folie")
 )
 
-;;; 12-Apr-1996 
+;;; 12-Apr-1996
 (lse-define-fill-in "notrainermanual"
     '(token)
     '(description           "Mark material to be ignored by trainer manual")
@@ -72,26 +72,30 @@
 ;;; notrainermanual
 )
 
-(lse-define-fill-in "Overhead" 
-  '(replacement 
-      "\\documentstyle[1%"
-      "4pt,% 1 = Double-Handouts, 2 = Handouts, 4 = Trainer-Manual, 7 = Projection"
-      "  german,swing,idioms,swing_bib,overhead]{business}"
+(lse-define-fill-in "Overhead"
+  '(replacement
+      "\\ifx\\folienptsize\\undefined\\def\\folienptsize{12pt}\\fi"
+      "\\documentclass[\folienptsize,swing_bib,idioms,««options»»···]{overhead}"
+      ""
+      "\\usepackage{t1enc}"
+      "\\usepackage[german]{babel}"
+      ""
+      "\\input{seminar.def}"
+      ""
       "%\\nofiles"
+      "%\\ShowLabels"
       "\\let\\tableofcontents=\\relax"
       "\\let\\makeindex=\\relax"
-      "%\\def\\insertindex{\\addtocontents{toc}{\\protect\\contentsline{section}{\\protect\\numberline{~}Index}{I--i}}}" 
+      "\\let\\insertindex=\\relax"
+      "%\\def\\insertindex{\\addtocontents{toc}{\\protect\\contentsline{section}{\\protect\\numberline{~}Index}{I--i}}}"
       "%\\includeonly%"
       "  {%"
       "  %«text»,%"
       "  %bib,%"
       "  }"
       ""
-      "  %DEF+"
-      "    \\inputdefinition{«text»}"
-      "    \\inputtermin{«text»}"
-      "    \\UseSeminarTermin/[«text»]"
-      "  %DEF-"
+      ""
+      "\\RequirePackage[dvips]{graphicx}"
       ""
       "\\begin{document}"
       ""

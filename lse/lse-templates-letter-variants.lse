@@ -1,12 +1,13 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-(lse-define-fill-in "ANGEBOT" 
+(lse-define-fill-in "ANGEBOT"
   '(description   "Latex letter document style for Angebote" )
-  '(replacement 
-      "\\documentstyle[12pt,german,swing,letter]{business}"
+  '(replacement
+      ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
+      "\\documentclass[12pt,german,««options»»···]{busletter}"
       ""
       lse-indent+1
-      "\\briefautor{«Initialen»}"                        
+      "\\briefautor{«Initialen»}"
       @ "\\briefdatum"
       "««\\foreignletter»»"
       "««\\nofoldmark»»"
@@ -29,7 +30,7 @@
       "\\Anrede"
       ""
       "«text»···"
-      ""                                            
+      ""
       "\\bigskip"
       "Dieses Angebot ist verbindlich und basiert auf den \">Allgemeinen"
       "Geschäftsbedingungen\"< und der \">Honorarordnung\"<"
@@ -39,7 +40,7 @@
       "Wir hoffen, Ihnen mit diesem Angebot gedient zu haben und verbleiben"
       ""
       "«gruesse»"
-      ""  
+      ""
       "\\vfill"
       ""
       "\\beilagen%"
@@ -51,7 +52,7 @@
       lse-indent-1
       "}"
       lse-indent-1
-      ""  
+      ""
       "\\printletterperson{«Kartei_Zuname»_««Kartei_Vorname»»}[««Kartei-Key»»]"
       "\\printletterausfertigung[Duplikat]"
       ""
@@ -64,16 +65,17 @@
   '(description   "Code fuer Angebot: Firmenkurzname--Datum")
 )
 
-(lse-define-fill-in "Include-Projekt-Letter-Definition" 
-  '(replacement 
+(lse-define-fill-in "Include-Projekt-Letter-Definition"
+  '(replacement
         "\\input{$SDM$LETTERS:PROJEKT_LETTER.DEF}"
    )
 )
 
-(lse-define-fill-in "LIEFERSCHEIN" 
+(lse-define-fill-in "LIEFERSCHEIN"
   '(description   "Latex letter document style" )
-  '(replacement 
-      "\\documentstyle[12pt,german,swing,letter]{business}"
+  '(replacement
+      ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
+      "\\documentclass[12pt,german,««options»»···]{busletter}"
       ""
       lse-indent+1
       "\\def\\unserzeichen/{{«text»}}"
@@ -116,13 +118,13 @@
    )
 )
 
-(lse-define-fill-in "LIEFERSCHEIN-CODE" 
+(lse-define-fill-in "LIEFERSCHEIN-CODE"
   '(description   "Code fuer Lieferschein: Firmenkurzname--Datum")
 )
 
-(lse-define-fill-in "PROJEKT-LETTER-DEFINITION" 
+(lse-define-fill-in "PROJEKT-LETTER-DEFINITION"
   '(description   "Angebots-Code, Bestell-Code, ..., fuer kaufm. Korrespondenz" )
-  '(replacement 
+  '(replacement
       lse-indent+1
       "\\def\\kunde/{{«text»}}            % Firmenkurzname / Abteilung"
       "\\def\\angebotdatum/{{«text»}}       % Datum des Angebots von Swing"
@@ -142,10 +144,11 @@
    )
 )
 
-(lse-define-fill-in "RECHNUNG" 
+(lse-define-fill-in "RECHNUNG"
   '(description   "Latex letter document style for bills" )
-  '(replacement 
-      "\\documentstyle[12pt,german,swing,««text»»letter]{business}"
+  '(replacement
+      ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,««text»»letter]{business}"
+      "\\documentclass[12pt,german,««options»»···]{busletter}"
       ""
       lse-indent+1
       "\\briefautor{«Initialen»}"
@@ -177,7 +180,7 @@
       ""
       "\\bigskip"
       "«rechnungs-zahlungsziel»"
-      ""             
+      ""
       lse-indent-1
       "«gruesse»"
       ""
@@ -198,13 +201,13 @@
    )
 )
 
-(lse-define-fill-in "RECHNUNGS-CODE" 
+(lse-define-fill-in "RECHNUNGS-CODE"
   '(description   "Code fuer Rechnung: Firmenkurzname--Datum")
 )
 
-(lse-define-fill-in "RECHNUNGS-ZAHLUNGSZIEL" 
-  '(menu 
-        "Zahlungsziel: «text»." 
+(lse-define-fill-in "RECHNUNGS-ZAHLUNGSZIEL"
+  '(menu
+        "Zahlungsziel: «text»."
         "Die Rechnung ist sofort und ohne jeden Abzug fällig."
    )
 )

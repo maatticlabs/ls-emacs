@@ -57,7 +57,8 @@
 (lse-define-fill-in "BUSINESS"
   '(description   "SWing business document style" )
   '(replacement
-      "\\documentstyle[12pt,german,swing,««options»»···]{business}"
+      ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,««options»»···]{business}"
+      "\\documentclass[12pt,german,««options»»···]{business}"
       ""
       lse-indent+1
       "\\pageheading{{«text» \\hfill}}"

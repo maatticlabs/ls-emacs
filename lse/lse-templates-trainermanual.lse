@@ -16,7 +16,7 @@
   '(replacement     @ "Text")
 )
 
-;;; 14-Apr-1996 
+;;; 14-Apr-1996
 (lse-define-fill-in "\\HandwrittenTerm"
     '(token)
     '(description           "Term to be written by hand on empty transparency")
@@ -31,7 +31,7 @@
     )
 )
 
-;;; 20-Feb-1996 
+;;; 20-Feb-1996
 (lse-define-fill-in "kaffeepause"
     '(token)
     '(token                 "\\kaffeepause")
@@ -111,7 +111,7 @@
     )
 )
 
-;;; 20-Feb-1996 
+;;; 20-Feb-1996
 (lse-define-fill-in "mittagspause"
     '(token)
     '(token                 "\\mittagspause")
@@ -147,9 +147,11 @@
 (lse-define-fill-in "Trainer-Manual"
   '(description   "Trainer-Manual fuer Seminare")
   '(replacement
+      "\\ifx\\folienptsize\\undefined\\def\\folienptsize{14pt}\\fi"
       "\\documentstyle[1%"
       "0pt,% 4 = Trainer-Manual, 0 = Draft"
       "   german,swing,idioms,multicol,trainer_manual]{business}"
+      "\\documentclass[\\folienptsize,german,idioms,««options»»···]{trainer_manual}"
       "\\def\\tableofcontents{}"
       "\\GenerateTimeTable"
       "%\\includeonly"

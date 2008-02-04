@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -12,13 +12,13 @@
 ;;;; Revision Dates
 ;;;;    14-Jun-1994 (CT) Creation (of comment)
 ;;;;    14-Jun-1994 (CT) lse-latex-mode and friends put in here
-;;;;     6-Dec-1994 (CT) lse-latex-mode:insert-person-of-kartei and 
+;;;;     6-Dec-1994 (CT) lse-latex-mode:insert-person-of-kartei and
 ;;;;                     lse-latex-mode:insert-firma-of-kartei added
 ;;;;    23-Feb-1995 (CT) Define compile-command as buffer local variable
-;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to 
+;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to
 ;;;;                     `latex-mode-hook'
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (lse-language:define "latex"
   '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
     (lse-tpu:ident-group-chars         "-\@_")
@@ -29,7 +29,7 @@
     (lse-language:initial-fill-in      "««latex»»")
    )
   '(lse-tpu:toggle-newline-and-indent
-    auto-fill-mode 
+    auto-fill-mode
    )
   '("lse-templates-latex"
     "lse-templates-latex-swing"
@@ -45,17 +45,18 @@
     "lse-templates-overhead"
     "lse-templates-trainermanual"
     "lse-templates-seminar"
+    "lse-templates-latex2e-class" ;  4-Feb-2008
    )
 ;  1373
 ;   997
 )
 
-;;; 
-;;; TeX modes 
-;;; 
+;;;
+;;; TeX modes
+;;;
 (require 'tex-mode)
 (add-hook 'latex-mode-hook 'lse-latex-mode)
-(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 (add-hook 'LaTeX-mode-hook 'lse-latex-mode)
 
 (fset 'TEX-MODE       'tex-mode)
@@ -97,7 +98,7 @@
     )
   )
 ; lse-latex-mode:insert-firma-of-kartei
-) 
+)
 
 (defun lse-latex-mode:insert-person-of-kartei ()
   "Lets user choose a person from kartei and inserts the name into buffer"
@@ -114,4 +115,4 @@
     )
   )
 ; lse-latex-mode:insert-person-of-kartei
-) 
+)
