@@ -62,6 +62,8 @@
 (lse-define-fill-in "7820 " '(token) '(replacement "7820 ") '(max-line-move 0) '(description "Geringwertige Wirtschaftsgüter          (<= 400 Euro)"))
 (lse-define-fill-in "78201" '(token) '(replacement "78201") '(max-line-move 0) '(description "Geringwertige Wirtschaftsgüter EDV      (<= 400 Euro)"))
 (lse-define-fill-in "8000 " '(token) '(replacement "8000 ") '(max-line-move 0) '(description "Erlöse 20%"))
+(lse-define-fill-in "80001" '(token) '(replacement "80001") '(max-line-move 0) '(description "Erlöse 20% Swing"))
+(lse-define-fill-in "80002" '(token) '(replacement "80002") '(max-line-move 0) '(description "Erlöse 20% TTTech"))
 (lse-define-fill-in "8001 " '(token) '(replacement "8001 ") '(max-line-move 0) '(description "Erlöse Ausland (nicht steuerbar)"))
 (lse-define-fill-in "8002 " '(token) '(replacement "8002 ") '(max-line-move 0) '(description "Sonstige Erlöse 10%"))
 (lse-define-fill-in "8003 " '(token) '(replacement "8003 ") '(max-line-move 0) '(description "Erlöse USt-frei"))
