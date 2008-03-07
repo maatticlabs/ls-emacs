@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-face:el lse_face:el
-;;;; Copyright (C) 1995 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -53,6 +53,8 @@
 ;;;;    20-Apr-2003 (CT) `lse-face:cal:holiday` added
 ;;;;    21-Apr-2003 (CT) Some colors of lse-face:cal:-faces changed
 ;;;;    20-Nov-2003 (CT) `lse-face:current-line-hl` added
+;;;;     3-Mar-2008 (CT) Background for `trailing-whitespace` made less
+;;;;                     ghastly (`grey80` instead of `red1`)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -105,6 +107,8 @@
     (lse-face:define 'lse-face:cal:week-end   "Gray60"        "Gray88")
     (lse-face:define 'lse-face:cal:week-field nil             "Orange")
 
-    (set-face-background 'modeline "Grey"); 28-Dec-1997
-    (set-face-foreground 'modeline "Light Yellow"); 28-Dec-1997
+    (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
+    (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
+
+    (set-face-background 'trailing-whitespace "gray80")       ;  3-Mar-2008
 )
