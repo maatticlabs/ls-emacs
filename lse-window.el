@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -73,6 +73,7 @@
 ;;;;                     `lse-tpu:backward-char` instead of
 ;;;;                     `lse-tpu:previous-line` (which breaks
 ;;;;                     `lse-cal:plan:sync-to-view` [due to a bug in Emacs?!])
+;;;;     3-Apr-2008 (CT) Added `lse-scroll-to-bottom`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -285,6 +286,14 @@
     (if pos-2 (goto-char (min pos-1 pos-2)))
   )
 ; lse-scroll-to-top
+)
+
+;;;  3-Apr-2008
+(defun lse-scroll-to-bottom (arg)
+  "Scroll current line to bottom of window."
+  (interactive "P")
+  (recenter (or arg -1))
+; lse-scroll-to-bottom
 )
 
 (defun lse-scroll-other-window-forw ()

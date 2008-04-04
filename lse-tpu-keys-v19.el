@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -159,6 +159,7 @@
 ;;;;    11-Oct-2007 (CT) Added bindings for `[A-end]` and `[A-home]`
 ;;;;     8-Dec-2007 (CT) Added bindings (`[?\s-q]`, `<blue> <gold> q`) for
 ;;;;                     `lse-insert-buffer-name-plus-extension` added
+;;;;     3-Apr-2008 (CT) Added bindings for `lse-scroll-to-bottom`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -506,6 +507,7 @@
   (global-set-key  [?\A-q]           'lse-insert-buffer-name); 28-Apr-1996
   (global-set-key  [?\s-q]           'lse-insert-buffer-name-plus-extension);  8-Dec-2007
   (global-set-key  [?\M-r]           'lse-scroll-to-top);  1-Sep-2002
+  (global-set-key  [?\M-R]           'lse-scroll-to-bottom);   3-Apr-2008
   (global-set-key  [?\A-t]           'transpose-chars); 10-Jan-1998
   (global-set-key  [?\A-u]           'lse-tpu:delete-head-of-line)
   (global-set-key  [?\s-\A-u]        'lse-tpu:delete-head-of-line-append); 17-Dec-1997
@@ -539,7 +541,9 @@
   (global-set-key  [do]              'repeat-complex-command)
 
   (global-set-smk  [home]            'lse-tpu:next-beginning-of-line)
+  (global-set-key  [red home]        'lse-scroll-to-top);  3-Apr-2008
   (global-set-smk  [end]             'lse-tpu:next-end-of-line)
+  (global-set-key  [red end]         'lse-scroll-to-bottom);  3-Apr-2008
   (global-set-key  [cancel]          'lse-tpu:unselect)
   (global-set-key  [select]          'lse-tpu:select)
   (global-set-key  [delete]          'lse-tpu:delete-next-char); 25-Feb-1998
@@ -935,6 +939,6 @@
 
   (global-set-key [insert]           'lse-tpu:paste-region); 2-Oct-2007
   (global-set-key [gold insert]      'lse-tpu:paste-region)
-
+  (global-set-key [red  insert]      'lse-tpu:paste-region);  3-Apr-2008
 ; lse-define-insertion-keys
 )

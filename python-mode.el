@@ -1,6 +1,6 @@
 ;;; python-mode.el --- Major mode for editing Python programs
 
-;; Copyright (C) 1992,1993,1994  Tim Peters
+;; Copyright (C) 1992-2008,1993,1994  Tim Peters
 
 ;; Author: 1995-2002 Barry A. Warsaw
 ;;         1992-1994 Tim Peters
@@ -248,7 +248,7 @@ Otherwise, all modified buffers are saved without asking."
   :type 'function
   :group 'python)
 
-(defcustom py-imenu-show-method-args-p nil 
+(defcustom py-imenu-show-method-args-p nil
   "*Controls echoing of arguments of functions & methods in the Imenu buffer.
 When non-nil, arguments are printed."
   :type 'boolean
@@ -287,7 +287,7 @@ file heading imports to see if they look Java-like."
   "Imported packages that imply `jpython-mode'."
   :type '(repeat string)
   :group 'python)
-  
+
 ;; Not customizable
 (defvar py-master-file nil
   "If non-nil, execute the named file instead of the buffer's file.
@@ -352,7 +352,7 @@ support for features needed by `python-mode'.")
 			  "from"     "global"   "if"      "import"
 			  "in"       "is"       "lambda"  "not"
 			  "or"       "pass"     "print"   "raise"
-			  "return"   "while"    "yield"
+			  "return"   "while"    "with"    "yield"
 			  )
 			"\\|"))
 	(kw2 (mapconcat 'identity
@@ -419,7 +419,7 @@ Currently-active file is at the head of the list.")
    "\\(" "[^#'\"\n\\]" "\\|" py-stringlit-re "\\)*"
    "\\\\$")
   "Regular expression matching Python backslash continuation lines.")
-  
+
 (defconst py-blank-or-comment-re "[ \t]*\\($\\|#\\)"
   "Regular expression matching a blank or comment line.")
 
@@ -432,7 +432,7 @@ Currently-active file is at the head of the list.")
 			   "\\|")
 	  "\\)")
   "Regular expression matching statements to be dedented one level.")
-  
+
 (defconst py-block-closing-keywords-re
   "\\(return\\|raise\\|break\\|continue\\|pass\\)"
   "Regular expression matching keywords which typically close a block.")
@@ -580,7 +580,7 @@ Currently-active file is at the head of the list.")
   ;; expect RET to do a `py-newline-and-indent' and any Emacsers who
   ;; dislike this are probably knowledgeable enough to do a rebind.
   ;; However, we do *not* change C-j since many Emacsers have already
-  ;; swapped RET and C-j and they don't want C-j bound to `newline' to 
+  ;; swapped RET and C-j and they don't want C-j bound to `newline' to
   ;; change.
   (define-key py-mode-map "\C-m" 'py-newline-and-indent)
   )
@@ -807,7 +807,7 @@ package.  Note that the latest X/Emacs releases contain this package.")
 
 (defvar py-imenu-method-regexp
   (concat                               ; <<methods and functions>>
-   "\\("                                ; 
+   "\\("                                ;
    "^[ \t]*"                            ; new line and maybe whitespace
    "\\(def[ \t]+"                       ; function definitions start with def
    "\\([a-zA-Z0-9_]+\\)"                ;   name is here
@@ -843,7 +843,7 @@ information.")
 ;; it.
 (defvar py-imenu-generic-expression
   (cons
-   (concat 
+   (concat
     py-imenu-class-regexp
     "\\|"				; or...
     py-imenu-method-regexp
@@ -912,7 +912,7 @@ of the first definition found."
 	looking-p
 	def-name prev-name
 	cur-indent def-pos
-	(class-paren (first  py-imenu-generic-parens)) 
+	(class-paren (first  py-imenu-generic-parens))
 	(def-paren   (second py-imenu-generic-parens)))
     (setq looking-p
 	  (re-search-forward py-imenu-generic-regexp (point-max) t))
@@ -967,7 +967,7 @@ of the first definition found."
 			  (cons save-elmt sub-method-alist))
 		    index-alist))))
        ;; found less indented expression, we're done.
-       (t 
+       (t
 	(setq looking-p nil)
 	(re-search-backward py-imenu-generic-regexp (point-min) t)))
       ;; end-cond
@@ -1177,7 +1177,7 @@ It is added to `interpreter-mode-alist' and `py-choose-shell'.
 		  (backward-to-indentation 1))
 		(not (looking-at py-no-outdent-re)))
 	 )))
-      
+
 (defun py-electric-colon (arg)
   "Insert a colon.
 In certain cases the line is dedented appropriately.  If a numeric
@@ -2710,7 +2710,7 @@ pleasant."
 ;; ripped from cc-mode
 (defun py-forward-into-nomenclature (&optional arg)
   "Move forward to end of a nomenclature section or word.
-With \\[universal-argument] (programmatically, optional argument ARG), 
+With \\[universal-argument] (programmatically, optional argument ARG),
 do it that many times.
 
 A `nomenclature' is a fancy way of saying AWordWithMixedCaseNotUnderscores."
@@ -3281,7 +3281,7 @@ multi-line statement we need to skip over the continuation lines."
 
 (defun py-statement-opens-block-p ()
   "Return t iff the current statement opens a block.
-I.e., iff it ends with a colon that is not in a comment.  Point should 
+I.e., iff it ends with a colon that is not in a comment.  Point should
 be at the start of a statement."
   (save-excursion
     (let ((start (point))
@@ -3365,7 +3365,7 @@ does not include blank lines, comments, or continuation lines."
 KEY is a regular expression describing a Python keyword.  Skip blank
 lines and non-indenting comments.  If the statement found starts with
 KEY, then stop, otherwise go back to first enclosing block starting
-with KEY.  If successful, leave point at the start of the KEY line and 
+with KEY.  If successful, leave point at the start of the KEY line and
 return t.  Otherwise, leav point at an undefined place and return nil."
   ;; skip blanks and non-indenting #
   (py-goto-initial-line)
@@ -3457,7 +3457,7 @@ non-nil) just submit an enhancement request."
      "Dear Barry,")			;salutation
     (if enhancement-p nil
       (set-mark (point))
-      (insert 
+      (insert
 "Please replace this text with a sufficiently large code sample\n\
 and an exact recipe so that I can reproduce your problem.  Failure\n\
 to do so may mean a greater delay in fixing your bug.\n\n")
