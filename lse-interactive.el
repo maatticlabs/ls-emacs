@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -78,6 +78,8 @@
 ;;;;     2-Oct-2007 (CT) Added `coding: iso-8859-1;`  to first line of lsc-file
 ;;;;    11-Oct-2007 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
 ;;;;                     added
+;;;;     7-Apr-2008 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
+;;;;                     changed to remember `lse_last_position`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -516,16 +518,24 @@
 (defun lse-goto-first-fill-in (&optional quiet name)
   "Move point to first flat fill-in in buffer."
   (interactive "P")
-  (lse-tpu:move-to-beginning)
-  (lse-goto-next-fill-in quiet name)
+  (let ((last-pos (point-marker)))
+    (lse-tpu:move-to-beginning)
+    (if (lse-goto-next-fill-in quiet name)
+        (setq lse_last_position last-pos)
+    )
+  )
 ; lse-goto-first-fill-in
 )
 
 (defun lse-goto-last-fill-in (&optional quiet name)
   "Move point to last flat fill-in in buffer."
   (interactive "P")
-  (lse-tpu:move-to-end)
-  (lse-goto-prev-fill-in quiet name)
+  (let ((last-pos (point-marker)))
+    (lse-tpu:move-to-end)
+    (if (lse-goto-prev-fill-in quiet name)
+        (setq lse_last_position last-pos)
+    )
+  )
 ; lse-goto-last-fill-in
 )
 
