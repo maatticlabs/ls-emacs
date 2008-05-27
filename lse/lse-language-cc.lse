@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -34,9 +34,11 @@
 ;;;;    30-Dec-1998 (CT) `lse-cc:goto-class-head' and
 ;;;;                     `lse-cc:goto-class-tail' added
 ;;;;    30-Dec-1998 (CT) Set `comment-line-break-function' to
-;;;;                     `indent-new-comment-line' 
+;;;;                     `indent-new-comment-line'
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to `c++-mode-hook'
 ;;;;    24-May-2000 (CT) Removed [?(] and [?)] from local key map
+;;;;    27-May-2008 (CT) s/c-guess-basic-syntax/c-guess-basic-syntax-hide!/
+;;;;                     (broken in Emacs 22.2 or earlier)
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "cc"
@@ -70,31 +72,31 @@
 
 (if lse-emacs20-p
     (progn
-      ;;; 28-Dec-1997 
+      ;;; 28-Dec-1997
       (defun lse-c++-mode-hook ()
         (lse-cc:set-compile-command); 16-Oct-1995 factored out
         (lse-language:use "cc")
         (if lse-cc:customized
             t
-          (setq lse-cc:customized t); 2-Jan-1998 
+          (setq lse-cc:customized t); 2-Jan-1998
           (lse-cc:customize)
         )
-        (setq indent-line-function 'lse-indent-line);                29-Dec-98 
-        (setq comment-line-break-function 'indent-new-comment-line); 30-Dec-98 
+        (setq indent-line-function 'lse-indent-line);                29-Dec-98
+        (setq comment-line-break-function 'indent-new-comment-line); 30-Dec-98
 
-        (local-set-key [C-next]  'lse-cc:goto-next-class-section); 29-Dec-1998 
-        (local-set-key [C-prior] 'lse-cc:goto-prev-class-section); 29-Dec-1998 
+        (local-set-key [C-next]  'lse-cc:goto-next-class-section); 29-Dec-1998
+        (local-set-key [C-prior] 'lse-cc:goto-prev-class-section); 29-Dec-1998
 
-        (local-set-key [red ?c]  'lse-cc:goto-class-head);         30-Dec-1998 
-        (local-set-key [red ?g]  'lse-cc:goto-class-tail);         30-Dec-1998 
+        (local-set-key [red ?c]  'lse-cc:goto-class-head);         30-Dec-1998
+        (local-set-key [red ?g]  'lse-cc:goto-class-tail);         30-Dec-1998
       ; lse-c++-mode-hook
       )
       (add-hook 'c++-mode-hook 'lse-c++-mode-hook)
-      (add-hook 'c++-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+      (add-hook 'c++-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
     )
   ;;;+
   ;;; Redefinition of c++-mode
-  ;;; 
+  ;;;
   ;;; The function itself is redefined instead of using c++-mode-hook because
   ;;; it sets too many hooks.
   ;;;-
@@ -106,7 +108,7 @@
   Turning on C++ mode calls the value of the variable `c++-mode-hook' with
   no args if that value is non-nil."
     (interactive)
-    (c++-mode-setup);              4-Mar-1996 factored out 
+    (c++-mode-setup);              4-Mar-1996 factored out
     (lse-cc:set-compile-command); 16-Oct-1995 factored out
     (lse-language:use "cc")
   )
@@ -114,9 +116,9 @@
 
 ;;; 16-Oct-1995
 (defun lse-cc:set-compile-command ()
-  (save-excursion                             ;  16-Oct-1995 
-    (lse-tpu:move-to-beginning)               ;  16-Oct-1995 
-    (if (re-search-forward "main *(" nil t)   ;  16-Oct-1995 
+  (save-excursion                             ;  16-Oct-1995
+    (lse-tpu:move-to-beginning)               ;  16-Oct-1995
+    (if (re-search-forward "main *(" nil t)   ;  16-Oct-1995
         (set (make-local-variable 'compile-command)
              (concat "make -k "
                  (lse-file-name-sans-extension (buffer-name (current-buffer)))
@@ -137,16 +139,16 @@
 (defconst lse-cc:class-section-pattern "^[ \t]*p[a-z]+:")
 (defconst lse-cc:class-pattern         "^\\([ \t]*template <[^>]+>\\)?[ \t]*class[ \t]+[a-zA-Z_]")
 
-;;; 30-Dec-1998 
+;;; 30-Dec-1998
 (defun lse-cc:at-class-head-p ()
-  (save-excursion 
+  (save-excursion
     (if (not (bolp)) (lse-tpu:next-beginning-of-line 1))
     (looking-at lse-cc:class-pattern)
   )
 ; lse-cc:at-class-head-p
 )
 
-;;; 30-Dec-1998 
+;;; 30-Dec-1998
 (defun lse-cc:goto-class-head ()
   "Goto head of current class"
   (interactive)
@@ -156,7 +158,7 @@
 ; lse-cc:goto-class-head
 )
 
-;;; 30-Dec-1998 
+;;; 30-Dec-1998
 (defun lse-cc:goto-class-tail ()
   "Goto tail of current class"
   (interactive)
@@ -168,12 +170,12 @@
           (forward-list)
           (lse-tpu:next-beginning-of-line 1)
         )
-    )    
+    )
   )
 ; lse-cc:goto-class-tail
 )
 
-;;; 29-Dec-1998 
+;;; 29-Dec-1998
 (defun lse-cc:goto-next-class-section ()
   "Goto next section of class definition."
   (interactive)
@@ -185,38 +187,38 @@
 ; lse-cc:goto-next-class-section
 )
 
-;;; 29-Dec-1998 
+;;; 29-Dec-1998
 (defun lse-cc:goto-prev-class-section ()
   "Goto previous section of class definition."
   (interactive)
   (save-match-data
-     (re-search-backward lse-cc:class-section-pattern nil t) 
+     (re-search-backward lse-cc:class-section-pattern nil t)
   )
 ; lse-cc:goto-prev-class-section
 )
 
-;;; 30-Dec-1997 
+;;; 30-Dec-1997
 (defun lse-cc:customize ()
   ;; customize indentation offsets
   (c-set-offset 'arglist-close         'c-lineup-arglist-close-under-paren)
   (c-set-offset 'arglist-cont-nonempty 'c-lineup-arglist-close-under-paren)
-  (c-set-offset 'comment-intro         'lse-cc:lineup-comment);  3-Apr-1998 
+  (c-set-offset 'comment-intro         'lse-cc:lineup-comment);  3-Apr-1998
 
   ;; move some local key bindings to local C-c keymap
   (lse-move-keys-to-prefix c-mode-base-map [?\C-c]
-      [?{] [?}] [?:] [?,] [?\;] 
+      [?{] [?}] [?:] [?,] [?\;]
       [?/] [?*];                                                 6-May-1998
-      [?#];                                                     29-Dec-1998 
+      [?#];                                                     29-Dec-1998
       [?\C-i] [?\177]
   )
   (lse-move-keys-to-prefix c++-mode-map [?\C-c]
-      [?<] [?>];                                                30-Dec-1998 
-      [?(] [?)];                                                24-May-2000 
+      [?<] [?>];                                                30-Dec-1998
+      [?(] [?)];                                                24-May-2000
   )
 ; lse-cc:customize
 )
 
-;;;  3-Apr-1998 
+;;;  3-Apr-1998
 (defun lse-cc:lineup-comment (arg)
   (current-column)
 ; lse-cc:lineup-comment
@@ -224,13 +226,13 @@
 
 ;;; 30-Dec-1997
 ;;; Hack c-guess-basic-syntax to give better results for for-loops
-;;;     'statement-cont is used for 
+;;;     'statement-cont is used for
 ;;;         - the 2. and following lines of multi-line statements
-;;;         - elements of a for-list 
+;;;         - elements of a for-list
 ;;;         - stuff after ',' (outside argument lists)
 ;;; For the elements of a for-list 'arglist-cont-nonempty is used instead (a
 ;;; separate syntax category would be nice)
-(defun c-guess-basic-syntax ()
+(defun c-guess-basic-syntax-hide! ()
   (save-excursion
     (save-restriction
       (beginning-of-line)
