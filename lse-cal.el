@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2003-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2008 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -62,6 +62,9 @@
 ;;;;    15-Oct-2007 (CT) Guard `lse-cal:plan-buffer` added to
 ;;;;                     `lse-cal:view:goto-month`
 ;;;;    15-Oct-2007 (CT) `current-year-p` added to `lse-cal:setup-year`
+;;;;     5-Jun-2008 (CT) `lse-cal:plan:highlight-today` changed to use
+;;;;                     `lse-cal:view:goto-month` instead of
+;;;;                     `lse-cal:plan:sync-to-view`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -316,6 +319,9 @@
   (let ((old-p (point))
         (inhibit-point-motion-hooks t)
        )
+    (with-current-buffer lse-cal:view-buffer
+      (lse-cal:view:goto-month)
+    )
     (if lse-cal:plan:today-overlay
         (delete-overlay lse-cal:plan:today-overlay)
     )
@@ -332,7 +338,6 @@
           )
           (goto-char head)
           (lse-scroll-to-top 3)
-          (lse-cal:plan:sync-to-view old-p head)
           (lse-tpu:next-line 1);  9-Feb-2007
         )
     )
@@ -711,8 +716,8 @@
       )
       (lse-next-window)
       (lse-tpu:move-to-beginning)
-      (and current-year-p (lse-cal:plan:highlight-today))
       (setq lse-cal:view-buffer vbuf)
+      (and current-year-p (lse-cal:plan:highlight-today))
     )
   )
 ; lse-cal:setup-year
