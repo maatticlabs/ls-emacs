@@ -47,15 +47,19 @@
 ;;;;                     `save-match-data`
 ;;;;     9-Jan-2008 (CT) `lse-mail-setup-hook` changed to use
 ;;;;                     `lse-mail:insert-if-missing` for `Reply-to`
+;;;;    19-Jun-2008 (CT) Don't set `lse_comment_delim_char_set` to `>`
+;;;;                     (makes `lse-kill-fill-in` remove `>` from any mail
+;;;;                     address immediately preceeding the killed fill-in )
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
     '(
         (lse-language:tab-increment        4)
         (lse-tpu:ident-chars               "A-Za-z0-9äöüßÄÖÜ")
-        (lse_comment_delim_char_set        ">")
+        ;;; breaks mail addresses ending in `>` when next fill-in is killed
+        ;;; (lse_comment_delim_char_set    ">")
         (lse_comment_head_delim            ">")
-        (lse_comment_head_delim_pattern    "> *")
+        (lse_comment_head_delim_pattern    "^ *> *")
         (fill-column                       70)
      )
     '(
