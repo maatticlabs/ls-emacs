@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    18-Oct-2007 (CT) Creation (factored from swing-default.el)
+;;;;     9-Sep-2008 (CT) Add `Py-Version-Update` to Python menu in menu-bar
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -383,6 +384,13 @@
 )
 
 (global-set-key [red gold ?V] 'Py-Version-Update)
+
+;;;  9-Sep-2008
+(define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
+(define-key py-mode-map [menu-bar Python Py-Version-Update]
+  '("Py-Version-Update" . Py-Version-Update)
+)
+
 
 ;;;  5-Feb-2008
 (font-lock-add-keywords 'python-mode
