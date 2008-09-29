@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -93,6 +93,7 @@
 ;;;;     5-Oct-2007 (CT) `lse-keys-v19:define-fkp-key` removed
 ;;;;    11-Oct-2007 (CT) `[M-home]` and `[M-end]` added to
 ;;;;                     `lse-keys:emacs-bindings-to-unset`
+;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -125,6 +126,10 @@
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."
 )
+
+;;; 29-Sep-2008
+(defvar lse-key:toggle-tab-p nil)
+(make-variable-buffer-local 'lse-key:toggle-tab-p)
 
 (defmacro lse-key-cmd (&rest args)
   (`'(lambda () (interactive) (,@ args)))
@@ -160,6 +165,21 @@
   (local-set-key  [tab]   'lse-goto-next-fill-in)
   (local-set-key  [C-tab] 'lse-tabulator)
 ; lse-key-template-tab-l
+)
+
+;;; 29-Sep-2008
+(defun lse-key:toggle-tab ()
+  "Toggle between normal tab-binding `lse-tabulator` and `lse-goto-next-fill-in`."
+  (interactive)
+  (let ((binding (key-binding [tab])))
+    (setq lse-key:toggle-tab-p (not (eq binding 'lse-tabulator)))
+    (if lse-key:toggle-tab-p
+        (lse-key-std-tab-l)
+      (lse-key-template-tab-l)
+    )
+  )
+  lse-key:toggle-tab-p
+; lse-key:toggle-tab
 )
 
 (defun lse-define-std-keys ()

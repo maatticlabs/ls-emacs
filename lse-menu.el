@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -48,6 +48,7 @@
 ;;;;    13-Oct-2007 (CT) `lse-byte-compile` commands added to `emacs-lisp` menu
 ;;;;    13-Oct-2007 (CT) Disabled standard byte-compile entries in
 ;;;;                     `emacs-lisp` menu for LS-Emacs files
+;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -259,6 +260,15 @@
       )
       (define-key lse-menu:options:editing [lse-split-line]
         (menu-bar-make-toggle toggle-lse-split-line
+                              lse-key:toggle-tab-p
+                              "Tab binds to lse-tabulator"
+                              "Tab binds to lse-tabulator"
+                              "Tab binds to lse-tabulator"
+                              (lse-key:toggle-tab)
+        )
+      )
+      (define-key lse-menu:options:editing [lse-tabulator]
+        (menu-bar-make-toggle toggle-lse-tabulator
                               lse-split-line:old-key
                               "Return binds to newline"
                               "Return binds to newline %s"
