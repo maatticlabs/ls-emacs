@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -76,6 +76,8 @@
 ;;;;     3-Oct-2007 (CT) Explicit calls to `lse-keys-v19:define-fkp-key` removed
 ;;;;    13-Oct-2007 (CT) `lse-byte-compile` added
 ;;;;     4-Feb-2008 (CT) Removed latex2e language
+;;;;    13-May-2009 (CT) Use `defvar` instead of `setq` to set
+;;;;                     `lse-directory` and friends
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -115,9 +117,9 @@
       (lsrc     (getenv "EMACSLSESRC"))
       (lscripts (getenv "EMACSLSESCRIPTS"))
      )
-  (setq lse-directory     (or ldir     "/swing/dsystem/emacs/lse"))
-  (setq lse-src-directory (or lsrc     "/swing/system/emacs/lse"))
-  (setq lse-script-dir    (or lscripts "/swing/system/emacs/scripts"))
+  (defvar lse-directory     (or ldir     "/swing/dsystem/emacs/lse"))
+  (defvar lse-src-directory (or lsrc     "/swing/system/emacs/lse"))
+  (defvar lse-script-dir    (or lscripts "/swing/system/emacs/scripts"))
 )
 (setq lse-load-path
       (append (list lse-directory lse-src-directory) load-path nil)
