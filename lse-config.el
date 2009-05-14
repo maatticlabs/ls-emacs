@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2007-2008 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -29,8 +29,13 @@
 ;;;; Revision Dates
 ;;;;    18-Oct-2007 (CT) Creation (factored from swing-default.el)
 ;;;;     9-Sep-2008 (CT) Add `Py-Version-Update` to Python menu in menu-bar
+;;;;    14-May-2009 (CT) `lse-macosx` added
 ;;;;    ««revision-date»»···
 ;;;;--
+
+(if (eq window-system 'mac)
+    (require lse-macosx)
+)
 
 ; (setq debug-on-error t)
 ; (setq debug-on-error nil)
