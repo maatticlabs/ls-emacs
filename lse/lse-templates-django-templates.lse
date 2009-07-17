@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2007 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;     6-Dec-2007 (CT) Creation
+;;;;    17-Jul-2009 (CT) Lots of improvements
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -38,6 +39,7 @@
       "Root template of LS-Emacs language django-templates."
      )
     '(replacement
+        "««djt-extends»»"
         "{# Django template: "
             & lse-insert-buffer-name-plus-extension & " #}"
         "{% comment %}"
@@ -94,6 +96,17 @@
 ;;; djt-block-name
 )
 
+;;; 17-Jul-2009
+(lse-define-fill-in "djt-block-super"
+  '(token)
+  '(token                 "super")
+  '(description
+      "Insert the content of the block from the parent template."
+   )
+  '(replacement           "{{ block.super }}")
+;;; djt-block-super
+)
+
 ;;;  6-Dec-2007
 (lse-define-fill-in "djt-cycle/loop"
     '(token)
@@ -110,16 +123,25 @@
 )
 
 ;;;  6-Dec-2007
-(lse-define-fill-in "djt-comment"
+(lse-define-fill-in "djt-comment-block"
     '(token)
-    '(token                 "comment")
+    '(token                 "comment-block")
     '(description           "Block comment in djamgo templates.")
     '(replacement
         "{% comment %}"
         "  «text»"
         "{% endcomment %}"
      )
-;;; djt-comment
+;;; djt-comment-block
+)
+
+;;; 17-Jul-2009
+(lse-define-fill-in "djt-comment-line"
+    '(token)
+    '(token                 "#")
+    '(description           "Single line comment in django templates.")
+    '(replacement           "{# «text» #}")
+;;; djt-comment-line
 )
 
 ;;;  6-Dec-2007
@@ -238,10 +260,39 @@
 ;;; djt-debug
 )
 
+;;; 17-Jul-2009
+(lse-define-fill-in "djt-else"
+    '(token)
+    '(token                 "else")
+    '(description           "Else clause for a {% if %} tag")
+    '(replacement
+        "{% else %}"
+        "  «djt-statement»···"
+     )
+;;; djt-else
+)
+
 ;;;  6-Dec-2007
-(lse-define-fill-in "djt-extends"
+(lse-define-fill-in "djt-extends-token"
     '(token)
     '(token                 "extends")
+    '(description
+      "Signal that this template extends a parent template."
+     )
+    '(replacement
+        (if (eq (point) (point-min))
+            t
+          (setq lse_last_position (point-marker))
+          (lse-tpu:move-to-beginning)
+          (lse-open-line)
+        )
+        & @ djt-extends
+     )
+;;; djt-extends-token
+)
+
+;;;  6-Dec-2007
+(lse-define-fill-in "djt-extends"
     '(description
       "Signal that this template extends a parent template."
      )
@@ -333,6 +384,7 @@
         djt-filter-wordcount
         djt-filter-wordwrap
         djt-filter-yesno
+        @ "djo-filter-function"
      )
 ;;; djt-filter-function
 )
@@ -343,7 +395,7 @@
     '(token                 "filter-add")
     '(description           "Adds the arg to the value.")
     '(replacement
-        "add: «number»"
+        "add:«number»"
      )
 ;;; djt-filter-add
 )
@@ -390,7 +442,7 @@
     '(token                 "filter-cut")
     '(description           "Removes all values of arg from the given string.")
     '(replacement
-        "cut: «djt-variable-or-literal»" ; ??? arg type ???
+        "cut:«djt-variable-or-literal»" ; ??? arg type ???
      )
 ;;; djt-filter-cut
 )
@@ -403,7 +455,7 @@
       "Formats a date according to the given format (same as the now tag)."
      )
     '(replacement
-        "date: «djt-date-format»"
+        "date:«djt-date-format»"
      )
 ;;; djt-filter-date
 )
@@ -414,7 +466,7 @@
     '(token                 "filter-default")
     '(description           "If value is unavailable, use given default.")
     '(replacement
-        "default: «djt-variable-or-literal»"
+        "default:«djt-variable-or-literal»"
      )
 ;;; djt-filter-default
 )
@@ -425,7 +477,7 @@
     '(token                 "filter-default_if_none")
     '(description           "If value is None, use given default.")
     '(replacement
-        "default_if_none: «djt-variable-or-literal»"
+        "default_if_none:«djt-variable-or-literal»"
      )
 ;;; djt-filter-default_if_none
 )
@@ -439,7 +491,7 @@
       "the key given in the argument."
      )
     '(replacement
-        "dictsort: «djt-variable-or-literal» " &
+        "dictsort:«djt-variable-or-literal» " &
           "by «djt-variable-name» as «djt-variable-name»"
      )
 ;;; djt-filter-dictsort
@@ -454,7 +506,7 @@
       "in reverse order by the key given in the argument."
      )
     '(replacement
-        "dictsortreversed: «djt-variable-or-literal» " &
+        "dictsortreversed:«djt-variable-or-literal» " &
           "by «djt-variable-name» as «djt-variable-name»"
      )
 ;;; djt-filter-dictsortreversed
@@ -468,7 +520,7 @@
       "Returns true if the value is divisible by the argument."
      )
     '(replacement
-        "divisibleby: «number»"
+        "divisibleby:«number»"
      )
 ;;; djt-filter-divisibleby
 )
@@ -557,7 +609,7 @@
       "a decimal part to be displayed. "
      )
     '(replacement
-        "floatformat: ««number»»"
+        "floatformat:««number»»"
      )
 ;;; djt-filter-floatformat
 )
@@ -591,7 +643,7 @@
       "than 1). Otherwise, output is always an integer."
      )
     '(replacement
-        "get_digit: «number»"
+        "get_digit:«number»"
      )
 ;;; djt-filter-get_digit
 )
@@ -623,7 +675,7 @@
       "Joins a list with a string, like Python's str.join(list)."
      )
     '(replacement
-        "join: «djt-variable-or-literal»"
+        "join:«djt-variable-or-literal»"
      )
 ;;; djt-filter-join
 )
@@ -649,7 +701,7 @@
       "Returns a boolean of whether the value's length is the argument."
      )
     '(replacement
-        "length_is: «number»"
+        "length_is:«number»"
      )
 ;;; djt-filter-length_is
 )
@@ -702,7 +754,7 @@
       "Left-aligns the value in a field of a given width."
      )
     '(replacement
-        "ljust: «number»"
+        "ljust:«number»"
      )
 ;;; djt-filter-ljust
 )
@@ -777,7 +829,7 @@
       "both a singular and plural suffix, separated by a comma."
      )
     '(replacement
-        "pluralize: ««djt-variable-or-literal»»"
+        "pluralize:««djt-variable-or-literal»»"
      )
 ;;; djt-filter-pluralize
 )
@@ -811,7 +863,7 @@
     '(description
       "Removes a space separated list of [X]HTML tags from the output.")
     '(replacement
-        "removetags: «djt-variable-or-literal»···" ; ??? syntax for args ???
+        "removetags:«djt-variable-or-literal»···" ; ??? syntax for args ???
      )
 ;;; djt-filter-removetags
 )
@@ -838,7 +890,7 @@
       "Right-aligns the value in a field of a given width."
      )
     '(replacement
-        "rjust: «number»"
+        "rjust:«number»"
      )
 ;;; djt-filter-rjust
 )
@@ -867,7 +919,7 @@
       "Example: {{ some_list|slice:':2' }}"
      )
     '(replacement
-        "slice: «quoted-text»"
+        "slice:«quoted-text»"
      )
 ;;; djt-filter-slice
 )
@@ -897,7 +949,7 @@
       "formating syntax, with the exception that the leading `%` is dropped."
      )
     '(replacement
-        "stringformat: «djt-variable-or-literal»"
+        "stringformat:«djt-variable-or-literal»"
      )
 ;;; djt-filter-stringformat
 )
@@ -938,7 +990,7 @@
       "If you need to format a date, use the date filter."
      )
     '(replacement
-        "time: «djt-time-format»"
+        "time:«djt-time-format»"
      )
 ;;; djt-filter-time
 )
@@ -954,7 +1006,7 @@
       "point is now). "
      )
     '(replacement
-        "timesince: ««djt-variable-name»»"
+        "timesince:««djt-variable-name»»"
      )
 ;;; djt-filter-timesince
 )
@@ -974,7 +1026,7 @@
       "point is now). "
      )
     '(replacement
-        "timeuntil: ««djt-variable-name»»"
+        "timeuntil:««djt-variable-name»»"
      )
 ;;; djt-filter-timeuntil
 )
@@ -998,7 +1050,7 @@
       "Truncates a string after a certain number of words."
      )
     '(replacement
-        "truncatewords: «number»"
+        "truncatewords:«number»"
      )
 ;;; djt-filter-truncatewords
 )
@@ -1015,7 +1067,7 @@
       "when it is being passed HTML text."
      )
     '(replacement
-        "truncatewords_html: «number»"
+        "truncatewords_html:«number»"
      )
 ;;; djt-filter-truncatewords_html
 )
@@ -1081,7 +1133,7 @@
       "only be applied to plain text."
      )
     '(replacement
-        "urlizetrunc: «number»"
+        "urlizetrunc:«number»"
      )
 ;;; djt-filter-urlizetrunc
 )
@@ -1103,7 +1155,7 @@
     '(token                 "filter-wordwrap")
     '(description           "Wraps words at specified line length.")
     '(replacement
-        "wordwrap: «number»"
+        "wordwrap:«number»"
      )
 ;;; djt-filter-wordwrap
 )
@@ -1117,7 +1169,7 @@
       "None, returns one of those strings according to the value."
      )
     '(replacement
-        "yesno: «quoted-text»"
+        "yesno:«quoted-text»"
      )
 ;;; djt-filter-yesno
 )
@@ -1246,8 +1298,7 @@
     '(replacement
         "{% if «djt-variable-name» %}"
         "  «djt-statement»···"
-        "{% else %}"
-        "  «djt-statement»···"
+        "««djt-else»»"
         "{% endif %}"
      )
 ;;; djt-if
@@ -1352,7 +1403,7 @@
     '(token                 "load")
     '(description           "Load a custom template tag set.")
     '(replacement
-        "{% load «djt-variable-name» %}"
+        "{% load «djt-variable-name»··· %}"
      )
 ;;; djt-load
 )
@@ -1448,7 +1499,8 @@
         djt-block
         djt-cycle/loop
         djt-cycle/named
-        djt-extends
+        djt-extends-token
+        djt-else
         djt-filter
         djt-firstof
         djt-for
@@ -1593,7 +1645,7 @@
     '(token                 "with")
     '(description
       "Caches a complex variable under a simpler name. This is useful "
-      "when accessing an üexpensiveý method (e.g., one that hits the "
+      "when accessing an expensive method (e.g., one that hits the "
       "database) multiple times."
      )
     '(replacement

@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2007-2008 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -29,6 +29,8 @@
 ;;;; Revision Dates
 ;;;;     6-Dec-2007 (CT) Creation
 ;;;;    26-Feb-2008 (CT) `lse-django-mode-hook` added
+;;;;    17-Jul-2009 (CT) Comment delimiters changed to avoid LS-Emacs bugs
+;;;;    17-Jul-2009 (CT) `lse-templates-djo-templates` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -38,11 +40,9 @@
     '(
         (lse-language:initial-fill-in      "««djt-root»»")
         (lse-language:tab-increment        2)
-        (lse_comment_delim_char_set        "#{}")
-        (lse_comment_head_delim            "{#\\|^ *##")
-        (lse_comment_head_delim_pattern    "{#+ *\\|^ *##+ *")
-        (lse_comment_tail_delim            "#}\\|$")
-        (lse_comment_tail_delim_pattern    " *#+}\\|$")
+        (lse_comment_delim_char_set        "#")
+        (lse_comment_head_delim            "#")
+        (lse_comment_head_delim_pattern    "#+ *")
         (lse-tpu:ident-group-chars         "_")
      )
     '(
@@ -51,6 +51,7 @@
      )
     '(
         "lse-templates-django-templates"
+        "lse-templates-djo-templates"
      )
     137
      67
