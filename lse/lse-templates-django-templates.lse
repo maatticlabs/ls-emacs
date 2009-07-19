@@ -29,6 +29,7 @@
 ;;;; Revision Dates
 ;;;;     6-Dec-2007 (CT) Creation
 ;;;;    17-Jul-2009 (CT) Lots of improvements
+;;;;    19-Jul-2009 (CT) `lse-stmt-block` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -43,9 +44,11 @@
         "{# Django template: "
             & lse-insert-buffer-name-plus-extension & " #}"
         "{% comment %}"
-        "  ##««header-comment»»"
+        lse-indent+1
+        "##««header-comment»»"
+        lse-indent-1
         "{% endcomment %}"
-        "  ««djt-statement»»···"
+        @ djt-stmt-block
         "{# __END__ Django template: "
             & lse-insert-buffer-name-plus-extension & " #}"
      )
@@ -59,7 +62,7 @@
     '(description           "Turn `autoescape` on or off.")
     '(replacement
         "{% autoescape «djt-autoescape-state» %}"
-        "  ««djt-statement»»···"
+        @ djt-stmt-block
         "{% endautoescape %}"
      )
 ;;; djt-autoescape
@@ -83,7 +86,7 @@
      )
     '(replacement
         "{% block «djt-block-name» %}"
-        "  ««djt-statement»»···"
+        @ djt-stmt-block
         "{% endblock «djt-block-name» %}"
      )
 ;;; djt-block
@@ -129,7 +132,7 @@
     '(description           "Block comment in djamgo templates.")
     '(replacement
         "{% comment %}"
-        "  «text»"
+        @ text-block
         "{% endcomment %}"
      )
 ;;; djt-comment-block
@@ -267,7 +270,7 @@
     '(description           "Else clause for a {% if %} tag")
     '(replacement
         "{% else %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
      )
 ;;; djt-else
 )
@@ -313,7 +316,7 @@
      )
     '(replacement
         "{% filter «djt-filter-function»··· %}"
-        "  ««djt-statement»»···"
+        @ djt-stmt-block
         "{% endfilter %}"
      )
 ;;; djt-filter
@@ -1197,7 +1200,7 @@
     '(description           "Loop over each item in an array. ")
     '(replacement
         "{% for «djt-variable-name» in «djt-variable-name» ««djt-reversed»» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endfor %}"
      )
 ;;; djt-for
@@ -1297,7 +1300,7 @@
      )
     '(replacement
         "{% if «djt-variable-name» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "««djt-else»»"
         "{% endif %}"
      )
@@ -1326,7 +1329,7 @@
      )
     '(replacement
         "{% ifchanged %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endifchanged %}"
      )
 ;;; djt-ifchanged-contents
@@ -1339,7 +1342,7 @@
     '(description           "Check whether variable has changed. ")
     '(replacement
         "{% ifchanged «djt-variable-name» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endifchanged %}"
      )
 ;;; djt-ifchanged-variable
@@ -1354,7 +1357,7 @@
      )
     '(replacement
         "{% ifequal «djt-variable-or-literal» «djt-variable-or-literal» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endifequal %}"
      )
 ;;; djt-ifequal
@@ -1369,7 +1372,7 @@
      )
     '(replacement
         "{% ifnotequal «djt-variable-or-literal» «djt-variable-or-literal» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endifnotequal %}"
      )
 ;;; djt-ifnotequal
@@ -1466,7 +1469,7 @@
      )
     '(replacement
         "{% spaceless %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endspaceless %}"
      )
 ;;; djt-spaceless
@@ -1522,6 +1525,16 @@
         djt-with
      )
 ;;; djt-statement
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "djt-stmt-block"
+  '(replacement
+        lse-indent+1
+        "«djt-statement»···"
+        lse-indent-1
+   )
+;;; djt-stmt-block
 )
 
 ;;;  6-Dec-2007
@@ -1650,7 +1663,7 @@
      )
     '(replacement
         "{% with «djt-variable-name» as «djt-variable-name» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endwith %}"
      )
 ;;; djt-with

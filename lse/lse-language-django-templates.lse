@@ -52,6 +52,7 @@
     '(
         "lse-templates-django-templates"
         "lse-templates-djo-templates"
+        "lse-templates-html"
      )
     137
      67

@@ -28,6 +28,9 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    17-Jul-2009 (CT) Creation
+;;;;    19-Jul-2009 (CT) Use `lse-indent+1` and `lse-indent-1` instead of
+;;;;                     literal indentation
+;;;;    19-Jul-2009 (CT) `lse-stmt-block` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -255,7 +258,7 @@
      )
     '(replacement
         "{% blet «djt-variable-name» %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endblet %}"
      )
 ;;; djo-blet
@@ -268,7 +271,7 @@
     '(description           "Create a scope with temporary variables")
     '(replacement
         "{% let «djo-binding»··· %}"
-        "  «djt-statement»···"
+        @ djt-stmt-block
         "{% endlet %}"
      )
 ;;; djo-let
@@ -284,14 +287,16 @@
      )
     '(replacement
         "{% onion «djt-variable-name» %}"
-        "  {% head %}"
-        "    «djt-statement»···"
-        "  ««djt-else»»"
-        "  {% body %}"
-        "    «djt-statement»···"
-        "  {% tail %}"
-        "    «djt-statement»···"
-        "  ««djt-else»»"
+        lse-indent+1
+        "{% head %}"
+        @ djt-stmt-block
+        "««djt-else»»"
+        "{% body %}"
+        @ djt-stmt-block
+        "{% tail %}"
+        @ djt-stmt-block
+        "««djt-else»»"
+        lse-indent-1
         "{% endonion %}"
      )
 ;;; djo-onion

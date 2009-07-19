@@ -1,0 +1,618 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;;
+;;;; This library is free software; you can redistribute it and/or
+;;;; modify it under the terms of the GNU Library General Public
+;;;; License as published by the Free Software Foundation; either
+;;;; version 2 of the License, or (at your option) any later version.
+;;;;
+;;;; This library is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;;;; Library General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU Library General Public
+;;;; License along with this library; if not, write to the Free
+;;;; Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-html
+;;;;
+;;;; Purpose
+;;;;    Define templates for HTML
+;;;;
+;;;; Revision Dates
+;;;;    19-Jul-2009 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-charset"
+    '(token)
+    '(token                 "attr-charset")
+    '(leading               " ")
+    '(description           "Identify the character set used")
+    '(replacement           "charset=«quoted-text»")
+;;; html-attr-charset
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-cite"
+    '(token)
+    '(token                 "attr-cite")
+    '(leading               " ")
+    '(description
+        "Identify the online source for the quotation in the form of an URI."
+     )
+    '(replacement           "cite=«quoted-text»")
+;;; html-attr-cite
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-class"
+    '(token)
+    '(token                 "attr-class")
+    '(leading               " ")
+    '(description
+        "One of more class names specifying style or semantics."
+     )
+    '(replacement           "class=«quoted-text»")
+;;; html-attr-class
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-id"
+    '(token)
+    '(token                 "attr-id")
+    '(leading               " ")
+    '(description           "Unique identifier for element")
+    '(replacement           "id=«quoted-text»")
+;;; html-attr-id
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "lse-attr-lang"
+    '(token)
+    '(token                 "attr-lang")
+    '(leading               " ")
+    '(description
+        "Identify the language of the contents of the element."
+     )
+    '(replacement           "lang=«quoted-text» xml:lang=«quoted-text»")
+;;; lse-attr-lang
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-media"
+    '(token)
+    '(token                 "attr-media")
+    '(description           "Identify the media this element applies to")
+    '(leading               " ")
+    '(replacement           "media=\"«html-attr-media-value»···\"")
+;;; html-attr-media
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-media-value"
+    '(leading               ",")
+    '(separator             ", ")
+    '(sort)
+    '(menu
+        "all"
+        "aural"
+        "braille"
+        "embossed"
+        "handheld"
+        "print"
+        "projection"
+        "screen"
+        "tty"
+        "tv"
+     )
+;;; html-attr-media-value
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-profile"
+    '(token)
+    '(token                 "attr-profile")
+    '(leading               " ")
+    '(description
+        "Define document profile (most likely in XML format)."
+     )
+    '(replacement           "profile=«quoted-text»")
+;;; html-attr-profile
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-rel"
+    '(token)
+    '(token                 "attr-rel")
+    '(leading               " ")
+    '(description           "Define relationship to linked resource")
+    '(replacement           "rel=\"«html-attr-rel-value»···\"")
+;;; html-attr-rel
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-rel-value"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        @ "html-attr-rev-value"
+        "icon"
+        "license"
+     )
+;;; html-attr-rel-value
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-rev"
+    '(token)
+    '(token                 "attr-rev")
+    '(leading               " ")
+    '(description           "Define reverse relationship to linked resource")
+    '(replacement           "rev=\"«html-attr-rev-value»···\"")
+;;; html-attr-rev
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-rev-value"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        "alternate"
+        "bookmark"
+        "chapter"
+        "contents"
+        "copyright"
+        "glossary"
+        "help"
+        "index"
+        "next"
+        "prev"
+        "section"
+        "start"
+        "stylesheet"
+        "subsection"
+     )
+;;; html-attr-rev-value
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-src"
+    '(token)
+    '(token                 "attr-src")
+    '(leading               " ")
+    '(description           "Location of document referred to by element")
+    '(replacement           "src=«quoted-text»")
+;;; html-attr-src
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-style"
+    '(token)
+    '(token                 "attr-style")
+    '(leading               " ")
+    '(description
+        "Specify the style of the element (**bad** practice -- use CSS instead)."
+     )
+    '(replacement           "style=«quoted-text»")
+;;; html-attr-style
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-title"
+    '(token)
+    '(token                 "attr-title")
+    '(leading               " ")
+    '(description           "Provides a short description of the element.")
+    '(replacement           "title=«quoted-text»")
+;;; html-attr-title
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-type"
+    '(token)
+    '(token                 "attr-type")
+    '(leading               " ")
+    '(description           "MIME type of an element")
+    '(replacement           "type=«quoted-text»")
+;;; html-attr-type
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-base"
+    '(token)
+    '(token                 "base")
+    '(description           "Define the base URL for all links")
+    '(replacement           "<base href=«quoted-text»/>")
+;;; html-base
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html_be_block"
+    '(replacement
+          lse-indent+1
+          "««html-body-element»»"
+          lse-indent-1
+     )
+;;; html_be_block
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-blockquote"
+    '(token)
+    '(token                 "blockquote")
+    '(description           "HTML blockquote element")
+    '(replacement
+        "<blockquote ««html-blockquote-attr»»···>"
+        @ html_be_block
+        "</blockquote>"
+     )
+;;; html-blockquote
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-blockquote-attr"
+    '(token)
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-cite
+        @ html-core-attr
+     )
+;;; html-blockquote-attr
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-body"
+    '(token)
+    '(token                 "body")
+    '(description           "Body element")
+    '(replacement
+        "<body ««html-core-attr»»···>"
+        @ html_be_block
+        "</body>"
+     )
+;;; html-body
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-body-element"
+    '(token)
+    '(sort)
+    '(menu
+        html-blockquote
+        html-body
+        html-br
+        html-div
+        html-h1
+        html-h2
+        html-h3
+        html-h4
+        html-h5
+        html-h6
+        html-hr
+        ; ««fill-in-menu-item»»···
+     )
+;;; html-body-element
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-br"
+    '(token)
+    '(token                 "br")
+    '(description           "Line break")
+    '(replacement           "<br  ««html-core-attr»»··· />")
+;;; html-br
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-core-attr"
+    '(description           "Core html attributes")
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-class
+        html-attr-id
+        html-attr-lang
+        html-attr-style
+        html-attr-title
+     )
+;;; html-core-attr
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-div"
+    '(token)
+    '(token                 "div")
+    '(description           "Generic block level element")
+    '(replacement
+        "<div ««html-core-attr»»···>"
+        @ html_be_block
+        "</div>"
+     )
+;;; html-div
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h1"
+    '(token)
+    '(token                 "h1")
+    '(description           "Highest heading level")
+    '(replacement
+        "<h1 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h1>"
+     )
+;;; html-h1
+)
+
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h2"
+    '(token)
+    '(token                 "h2")
+    '(description           "Second highest heading level")
+    '(replacement
+        "<h2 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h2>"
+     )
+;;; html-h2
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h3"
+    '(token)
+    '(token                 "h3")
+    '(description           "Third highest heading level")
+    '(replacement
+        "<h3 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h3>"
+     )
+;;; html-h3
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h4"
+    '(token)
+    '(token                 "h4")
+    '(description           "Fourth highest heading level")
+    '(replacement
+        "<h4 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h4>"
+     )
+;;; html-h4
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h5"
+    '(token)
+    '(token                 "h5")
+    '(description           "Fifth highest heading level")
+    '(replacement
+        "<h5 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h5>"
+     )
+;;; html-h5
+)
+
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-h6"
+    '(token)
+    '(token                 "h6")
+    '(description           "Sixth highest heading level")
+    '(replacement
+        "<h6 ««html-core-attr»»···>"
+        @ html_be_block
+        "</h6>"
+     )
+;;; html-h6
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-head"
+    '(token)
+    '(token                 "head")
+    '(description           "Head element")
+    '(replacement
+        "<head ««html-head-attr»»···>"
+        lse-indent+1
+        "«html-title»"
+        "««html-head-element»»···"
+        lse-indent-1
+        "</head>"
+     )
+;;; html-head
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-head-attr"
+    '(token)
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-profile
+        @ html-core-attr
+     )
+;;; html-head-attr
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-head-element"
+    '(token)
+    '(sort)
+    '(menu
+        html-base
+        html-link
+        html-meta
+        html-script
+        html-style
+        ; ««fill-in-menu-item»»···
+     )
+;;; html-head-element
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-hr"
+    '(token)
+    '(token                 "hr")
+    '(description           "Highly visible break")
+    '(replacement           "<hr ««html-core-attr»»··· />")
+;;; html-hr
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-html"
+    '(token)
+    '(description           "Outermost element")
+    '(replacement
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\" ««html-core-attr»»···>"
+        lse-indent+1
+        @ html-head
+        @ html-body
+        lse-indent-1
+        "</html>"
+     )
+;;; html-html
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-link"
+    '(token)
+    '(description           "Link element (refers to style sheet, ...)")
+    '(replacement
+        "<link href=«quoted-text» "
+        & "rel=\"«html-attr-rel-value»···\" "
+        & "««html-link-attr»»···/>"
+     )
+;;; html-link
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-link-attr"
+    '(token)
+    '(sort)
+    '(menu
+        html-attr-charset
+        html-attr-media
+        html-attr-rev
+        html-attr-type
+     )
+;;; html-link-attr
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-meta"
+    '(token)
+    '(token                 "meta")
+    '(description           "Meta element")
+    '(replacement
+        "<meta " & @ html-meta-type & " content=«quoted-text»>"
+     )
+;;; html-meta
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-meta-http-equiv"
+    '(description           "Simulate value for http response header")
+    '(replacement           "http-equiv=«quoted-text»")
+;;; html-meta-http-equiv
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-meta-name"
+    '(description           "Meta element with name/content pair")
+    '(replacement           "name=«quoted-text» ««html-meta-scheme»»")
+;;; html-meta-name
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-meta-scheme"
+    '(description
+        "Provide additional information "
+        "(used with `profile` attribute of <head>)."
+     )
+    '(leading               " ")
+    '(replacement           "scheme=«quoted-text»")
+;;; html-meta-scheme
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-meta-type"
+    '(menu
+        html-meta-http-equiv
+        html-meta-name
+     )
+;;; html-meta-type
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-paragraph"
+    '(token)
+    '(token                 "p")
+    '(description           "Paragraph element")
+    '(replacement
+        "<p ««html-core-attr»»···/>"
+        @ html_be_block
+        "</p>"
+     )
+;;; html-paragraph
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-script"
+    '(token)
+    '(token                 "script")
+    '(description           "Client side script")
+    '(replacement
+        "<script ««html-attr-src»» ««html-attr-charset»» «html-attr-type»>"
+        @ text-block
+        "</script>"
+     )
+;;; html-script
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-style"
+    '(token)
+    '(token                 "style")
+    '(description           "Style element (use external style sheets instead)")
+    '(replacement
+        "<style ««html-attr-media»» «html-attr-type»>"
+        @ text-block
+        "</style>"
+     )
+;;; html-style
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-title"
+    '(token)
+    '(token                 "title")
+    '(description           "Title element")
+    '(replacement
+      "<title>"
+      @ text-block
+      "</title>"
+     )
+;;; html-title
+)
+
+;;;; __END__ lse-templates-html.lse
