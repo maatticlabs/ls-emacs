@@ -31,6 +31,154 @@
 ;;;;    ««revision-date»»···
 ;;;;--
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-a"
+    '(token)
+    '(token                 "a")
+    '(description           "Hyperlink")
+    '(replacement
+        "<a "  & @ html-attr-href & " ««html-a-attr»»···>"
+        @ html_be_block
+        "</a>"
+     )
+;;; html-a
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-a-attr"
+    '(sort)
+    '(menu
+        html-attr-rel
+        html-attr-rev
+        html-attr-tabindex
+        @ html-core-attr
+     )
+;;; html-a-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-abbr"
+    '(token)
+    '(token                 "abbr")
+    '(description
+        "Abbreviation or acronym with the expansion given by the `title`."
+     )
+    '(replacement
+        "<abbr " & @ html-attr-title " ««html-core-attr»»···>«text»</abbr>"
+     )
+;;; html-abbr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-address"
+    '(token)
+    '(token                 "address")
+    '(description
+        "Contact information for the section containing this element."
+     )
+    '(replacement
+        "<address>"
+        @ html_be_block
+        "</address>"
+     )
+;;; html-address
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-abbr"
+    '(token)
+    '(token                 "attr-abbr")
+    '(description           "Abbreviated form of element's content.")
+    '(replacement           "abbr=«quoted-text»")
+;;; html-attr-abbr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-accept"
+    '(token)
+    '(token                 "attr-accept")
+    '(leading               " ")
+    '(description           "Define what file types are accepted")
+    '(replacement           "accept=\"«html-attr-accept-value»···\"")
+;;; html-attr-accept
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-accept-value"
+    '(separator             ", ")
+    '(leading               ",")
+    '(menu
+        "image/*"
+        "audio/*"
+        "video/*"
+        text
+     )
+;;; html-attr-accept-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-action"
+    '(token)
+    '(token                 "attr-action")
+    '(leading               " ")
+    '(description
+        "URI to send the form data to when form is submitted."
+     )
+    '(replacement           "action=«quoted-text»")
+;;; html-attr-action
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-align"
+    '(token)
+    '(token                 "attr-align")
+    '(description           "Specify alignment of element")
+    '(replacement           "align=\"«html-attr-align-value»\"")
+;;; html-attr-align
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-align-value"
+    '(menu
+        "center"
+        "char"
+        "justify"
+        "left"
+        "right"
+     )
+;;; html-attr-align-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-alt"
+    '(token)
+    '(token                 "attr-alt")
+    '(leading               " ")
+    '(description           "Alternative information about image")
+    '(replacement           "alt=«quoted-text»")
+;;; html-attr-alt
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-char"
+    '(token)
+    '(token                 "attr-char")
+    '(description           "Specify character on which to align")
+    '(replacement           "char=«quoted-char» ««html-attr-charoff»»")
+;;; html-attr-char
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-charoff"
+    '(token)
+    '(token                 "attr-charoff")
+    '(description
+        "Specify character offset for char on which to align"
+     )
+    '(replacement           "charoff=«quoted-number»")
+;;; html-attr-char
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-attr-charset"
     '(token)
@@ -39,6 +187,16 @@
     '(description           "Identify the character set used")
     '(replacement           "charset=«quoted-text»")
 ;;; html-attr-charset
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-checked"
+    '(token)
+    '(token                 "attr-checked")
+    '(leading               " ")
+    '(description           "Set default state of input element to `checked`")
+    '(replacement           "checked=\"checked\"")
+;;; html-attr-checked
 )
 
 ;;; 19-Jul-2009
@@ -65,6 +223,114 @@
 ;;; html-attr-class
 )
 
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-cols"
+    '(token)
+    '(token                 "attr-cols")
+    '(description           "Specify number of cols to be visible")
+    '(replacement           "cols=«quoted-number»")
+;;; html-attr-cols
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-colspan"
+    '(token)
+    '(token                 "attr-colspan")
+    '(description           "Specify how many columns the element applies to")
+    '(replacement           "colspan=«quoted-number»")
+;;; html-attr-colspan
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-data"
+    '(token)
+    '(token                 "attr-data")
+    '(description           "URL specifying the address of the resource")
+    '(replacement           "data=«quoted-text»")
+;;; html-attr-data
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-disabled"
+    '(token)
+    '(token                 "attr-disabled")
+    '(leading               " ")
+    '(description           "Disable element")
+    '(replacement           "disabled=\"disabled\"")
+;;; html-attr-disabled
+)
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-enctype"
+    '(token)
+    '(token                 "attr-enctype")
+    '(leading               " ")
+    '(description
+        "Encoding to be used for transmitting the form data."
+     )
+    '(replacement           "enctype=\"«html-attr-enctype-value»\"")
+;;; html-attr-enctype
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-enctype-value"
+    '(menu
+        ("application/x-www-form-urlencoded"     "Default")
+        ("multipart/form-data"
+         "Necessary for forms offering file upload"
+        )
+        ("text/plain"     "Do you really want to use this?")
+     )
+;;; html-attr-enctype-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-for"
+    '(token)
+    '(token                 "attr-for")
+    '(leading               " ")
+    '(description
+        "Reference to another element's id that this element refers to"
+     )
+    '(replacement           "for=«quoted-text»")
+;;; html-attr-for
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-headers"
+    '(token)
+    '(token                 "attr-headers")
+    '(description
+        "Specifies the list of header cells that provide header "
+        "information for the current data cell."
+     )
+    '(replacement           "headers=«quoted-text»")
+;;; html-attr-headers
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-height"
+    '(token)
+    '(token                 "attr-height")
+    '(description
+        "Specifies the height in pixels or as a percentage of the height "
+        "of the containing element"
+     )
+    '(replacement           "height=«quoted-number»")
+;;; html-attr-height
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-href"
+    '(token)
+    '(token                 "attr-href")
+    '(leading               " ")
+    '(description
+        "Reference to another document or another place in the same document"
+     )
+    '(replacement           "href=«quoted-text»")
+;;; html-attr-href
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-attr-id"
     '(token)
@@ -75,8 +341,17 @@
 ;;; html-attr-id
 )
 
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-label"
+    '(token)
+    '(token                 "attr-label")
+    '(description           "Label to identify the contents of the element")
+    '(replacement           "label=«quoted-text»")
+;;; html-attr-label
+)
+
 ;;; 19-Jul-2009
-(lse-define-fill-in "lse-attr-lang"
+(lse-define-fill-in "html-attr-lang"
     '(token)
     '(token                 "attr-lang")
     '(leading               " ")
@@ -84,7 +359,19 @@
         "Identify the language of the contents of the element."
      )
     '(replacement           "lang=«quoted-text» xml:lang=«quoted-text»")
-;;; lse-attr-lang
+;;; html-attr-lang
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-maxlength"
+    '(token)
+    '(token                 "attr-maxlength")
+    '(leading               " ")
+    '(description
+        "Restrict total number of characters allowed for an element."
+     )
+    '(replacement           "maxlength=«quoted-number»")
+;;; html-attr-maxlength
 )
 
 ;;; 19-Jul-2009
@@ -117,6 +404,47 @@
 ;;; html-attr-media-value
 )
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-method"
+    '(token)
+    '(token                 "attr-method")
+    '(leading               " ")
+    '(description           "HTTP method to use for submission")
+    '(replacement           "method=\"«html-attr-method-value»\"")
+;;; html-attr-method
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-method-value"
+    '(menu
+        ("GET"     "Use HTTP GET    method (result is bookmarkable).")
+        ("POST"    "Use HTTP POST   method (more robust than GET)")
+        ("PUT"     "Use HTTP PUT    method (only in HTML 5)")
+        ("DELETE"  "Use HTTP DELETE method (only in HTML 5)")
+     )
+;;; html-attr-method-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "htnl-attr-multiple"
+    '(token)
+    '(token                 "attr-multiple")
+    '(leading               " ")
+    '(description           "Allow selection of multiple elements")
+    '(replacement           "multiple=\"multiple\"")
+;;; htnl-attr-multiple
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-name"
+    '(token)
+    '(token                 "attr-name")
+    '(leading               " ")
+    '(description           "Name of the element")
+    '(replacement           "name=«quoted-text»")
+;;; html-attr-name
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-attr-profile"
     '(token)
@@ -127,6 +455,18 @@
      )
     '(replacement           "profile=«quoted-text»")
 ;;; html-attr-profile
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-readonly"
+    '(token)
+    '(token                 "attr-readonly")
+    '(leading               " ")
+    '(description
+        "Define contents of element as readonly, i.e., immutable."
+     )
+    '(replacement           "readonly=\"readonly\"")
+;;; html-attr-readonly
 )
 
 ;;; 19-Jul-2009
@@ -186,6 +526,64 @@
 ;;; html-attr-rev-value
 )
 
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-rows"
+    '(token)
+    '(token                 "attr-rows")
+    '(description           "Specify number of rows to be visible")
+    '(replacement           "rows=«quoted-number»")
+;;; html-attr-rows
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-rowspan"
+    '(token)
+    '(token                 "attr-rowspan")
+    '(description           "Specify how many rows the element applies to")
+    '(replacement           "rowspan=«quoted-number»")
+;;; html-attr-span
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-selected"
+    '(token)
+    '(token                 "attr-selected")
+    '(description           "Preselect the element")
+    '(replacement           "selected=\"selected\"")
+;;; html-attr-selected
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-size"
+    '(token)
+    '(token                 "attr-size")
+    '(leading               " ")
+    '(description           "Set the width (in characters) of the element")
+    '(replacement           "size=«quoted-number»")
+;;; html-attr-size
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-size-select"
+    '(token)
+    '(token                 "attr-size-select")
+    '(leading               " ")
+    '(description
+        "Set the the number of elements of a <select> to display"
+     )
+    '(replacement           "size=«quoted-number»")
+;;; html-attr-size-select
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-span"
+    '(token)
+    '(token                 "attr-span")
+    '(description           "Specify how many columns the element applies to")
+    '(replacement           "span=«quoted-number»")
+;;; html-attr-span
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-attr-src"
     '(token)
@@ -206,6 +604,16 @@
      )
     '(replacement           "style=«quoted-text»")
 ;;; html-attr-style
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-tabindex"
+    '(token)
+    '(token                 "attr-tabindex")
+    '(leading               " ")
+    '(description           "Define place in tabbing order")
+    '(replacement           "tabindex=«quoted-number»")
+;;; html-attr-tabindex
 )
 
 ;;; 19-Jul-2009
@@ -229,11 +637,103 @@
 )
 
 ;;; 19-Jul-2009
+(lse-define-fill-in "html-attr-type-button"
+    '(token)
+    '(token                 "attr-type-button")
+    '(leading               " ")
+    '(description           "Type of a button")
+    '(replacement           "type=«html-attr-type-button-value»")
+;;; html-attr-type-button
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-type-button-value"
+    '(menu
+        ("submit"     "Submit button")
+        ("reset"      "Reset button")
+        ("button"     "Does nothing")
+     )
+;;; html-attr-type-button-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-type-input"
+    '(token)
+    '(token                 "attr-type-input")
+    '(leading               " ")
+    '(description           "Type of an input element")
+    '(replacement           "type=«html-attr-type-input-value»")
+;;; html-attr-type-input
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-type-input-value"
+    '(sort)
+    '(menu
+        "button"
+        "checkbox"
+        "file"
+        "hidden"
+        "image"
+        "password"
+        "radio"
+        "reset"
+        "submit"
+        "text"
+     )
+;;; html-attr-type-input-value
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-valign"
+    '(token)
+    '(token                 "attr-valign")
+    '(description           "Specify vertical alignment of element")
+    '(replacement           "valign=«html-attr-valign-value»")
+;;; html-attr-valign
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-valign-value"
+    '(menu
+        "baseline"
+        "bottom"
+        "middle"
+        "top"
+     )
+;;; html-attr-valign-value
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-attr-value"
+    '(token)
+    '(token                 "attr-value")
+    '(leading               " ")
+    '(description
+        "Specify the element's value for the purposes of "
+        "form display or submission."
+     )
+    '(replacement           "value=«quoted-text»")
+;;; html-attr-value
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-attr-width"
+    '(token)
+    '(token                 "attr-width")
+    '(description
+        "Specify width in pixels or as percentage of the width of the "
+        "containing element"
+     )
+    '(replacement           "width=«quoted-number»")
+;;; html-attr-width
+)
+;;; 19-Jul-2009
 (lse-define-fill-in "html-base"
     '(token)
     '(token                 "base")
     '(description           "Define the base URL for all links")
-    '(replacement           "<base href=«quoted-text»/>")
+    '(replacement           "<base " & @ html-attr-href & "/>")
 ;;; html-base
 )
 
@@ -241,7 +741,7 @@
 (lse-define-fill-in "html_be_block"
     '(replacement
           lse-indent+1
-          "««html-body-element»»"
+          "««html-body-element»»···"
           lse-indent-1
      )
 ;;; html_be_block
@@ -253,7 +753,7 @@
     '(token                 "blockquote")
     '(description           "HTML blockquote element")
     '(replacement
-        "<blockquote ««html-blockquote-attr»»···>"
+        "<blockquote ««html-quote-attr»»···>"
         @ html_be_block
         "</blockquote>"
      )
@@ -261,23 +761,10 @@
 )
 
 ;;; 19-Jul-2009
-(lse-define-fill-in "html-blockquote-attr"
-    '(token)
-    '(separator             " ")
-    '(leading               " ")
-    '(sort)
-    '(menu
-        html-attr-cite
-        @ html-core-attr
-     )
-;;; html-blockquote-attr
-)
-
-;;; 19-Jul-2009
 (lse-define-fill-in "html-body"
     '(token)
     '(token                 "body")
-    '(description           "Body element")
+    '(description           "Body")
     '(replacement
         "<body ««html-core-attr»»···>"
         @ html_be_block
@@ -291,10 +778,19 @@
     '(token)
     '(sort)
     '(menu
+        html-a
+        html-abbr
+        html-address
         html-blockquote
         html-body
         html-br
+        html-cite
+        html-code
+        html-dfn
         html-div
+        html-dl
+        html-em
+        html-form
         html-h1
         html-h2
         html-h3
@@ -302,6 +798,21 @@
         html-h5
         html-h6
         html-hr
+        html-img
+        html-kbd
+        html-noscript
+        html-object
+        html-pre
+        html-q
+        html-samp
+        html-script
+        html-small
+        html-span
+        html-strong
+        html-sub
+        html-sup
+        html-table
+        html-var
         ; ««fill-in-menu-item»»···
      )
 ;;; html-body-element
@@ -312,8 +823,136 @@
     '(token)
     '(token                 "br")
     '(description           "Line break")
-    '(replacement           "<br  ««html-core-attr»»··· />")
+    '(replacement           "<br ««html-core-attr»»··· />")
 ;;; html-br
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-button"
+    '(token)
+    '(token                 "button")
+    '(description           "Button for submitting or resetting a form")
+    '(replacement
+        "<button ««html-button-attr»»···>"
+        "«html-body-element»···"
+        "</button>"
+     )
+;;; html-button
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-button-attr"
+    '(token)
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-disabled
+        html-attr-name
+        html-attr-tabindex
+        html-attr-type-button
+        html-attr-value
+        @ html-core-attr
+     )
+;;; html-button-attr
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-caption"
+    '(token)
+    '(token                 "caption")
+    '(description           "Describe the table's contents")
+    '(replacement
+        "<caption ««html-core-attr»»···>"
+        @ text-block
+        "</caption>"
+     )
+;;; html-caption
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-cite"
+    '(token)
+    '(token                 "cite")
+    '(description
+        "Represents just the title of a work (book, paper, movie...). "
+        "Don't use for author's name, quotations, etc."
+     )
+    '(replacement           "<cite>«text»</cite>")
+;;; html-cite
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-code"
+    '(token)
+    '(token                 "code")
+    '(description
+        "Represents a fragment of computer code. "
+        "A block of code should be encapsulated inside "
+        "<pre><code>...</code></pre>."
+     )
+    '(replacement           "<code «html-code-attr»···>«text»</code>")
+;;; html-code
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-code-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-code-language
+        @ html-core-attr
+     )
+;;; html-code-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-code-language"
+    '(description           "Language of a code fragment")
+    '(replacement           "class=\"language-«text»\"")
+;;; html-code-language
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-col"
+    '(token)
+    '(token                 "col")
+    '(description           "Define properties of a single column of a table")
+    '(replacement           "<col ««html-col-attr»»···/>")
+;;; html-col
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-colgroup"
+    '(token)
+    '(token                 "colgroup")
+    '(description
+        "Define properties of a group of columns of a table"
+     )
+    '(replacement
+        "<colgroup ««html-col-attr»»···>"
+        lse-indent+1
+        ««html-col»»···
+        lse-indent-1
+        "</colgroup>"
+     )
+;;; html-colgroup
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-col-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-align
+        html-attr-char
+        html-attr-span
+        html-attr-valign
+        html-attr-width
+        @ html-core-attr
+     )
+;;; html-col-attr
 )
 
 ;;; 19-Jul-2009
@@ -332,6 +971,30 @@
 ;;; html-core-attr
 )
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-dd"
+    '(token)
+    '(token                 "dd")
+    '(description           "Definition description")
+    '(replacement
+        "<dd ««html-core-attr»»···>"
+        @ html_be_block
+        "</dd>"
+     )
+;;; html-dd
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-dfn"
+    '(token)
+    '(token                 "dfn")
+    '(description           "Identify the defining instance of a term.")
+    '(replacement
+        "<dfn ««html-core-attr»»···>«text»</dfn>"
+     )
+;;; html-dfn
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-div"
     '(token)
@@ -343,6 +1006,125 @@
         "</div>"
      )
 ;;; html-div
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-dl"
+    '(token)
+    '(token                 "dl")
+    '(description           "Definition list")
+    '(replacement
+        "<dl ««html-core-attr»»···>"
+        lse-indent+1
+        "«html-dl-element»···"
+        lse-indent-1
+        "</dl>"
+     )
+;;; html-dl
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-dl-element"
+    '(token)
+    '(token                 "dl-element")
+    '(description           "Single element of a definition list")
+    '(replacement
+        @ html-dt
+        "«html-dd»···"
+     )
+;;; html-dl-element
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-dt"
+    '(token)
+    '(token                 "dt")
+    '(description           "Definition term")
+    '(replacement           "<dt ««html-core-attr»»···>«text»</dt>")
+;;; html-dt
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-em"
+    '(token)
+    '(token                 "em")
+    '(description           "Emphasize contents")
+    '(replacement           "<em ««html-core-attr»»···>«text»</em>")
+;;; html-em
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-fieldset"
+    '(token)
+    '(token                 "fieldset")
+    '(description
+        "Set of form controls grouped under a common name."
+     )
+    '(replacement
+        "<fieldset ««html-core-attr»»···>"
+        lse-indent+1
+        "««html-legend»»"
+        "«html-fieldset-element»···"
+        lse-indent-1
+        "</fieldset>"
+     )
+;;; html-fieldset
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-fieldset-element"
+    '(token)
+    '(token                 "fieldset-element")
+    '(sort)
+    '(menu
+        html-button
+        html-input
+        html-label
+        html-select
+        html-textarea
+     )
+;;; html-fieldset-element
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-form"
+    '(token)
+    '(token                 "form")
+    '(description           "Form accepting user input")
+    '(replacement
+        "<form «html-form-attr»···>"
+        lse-indent+1
+        "«html-form-element»···"
+        lse-indent-1
+        "</form>"
+     )
+;;; html-form
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-form-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-action
+        html-attr-enctype
+        html-attr-method
+        html-attr-name
+        @ html-core-attr
+     )
+;;; html-form-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-form-element"
+    '(token)
+    '(token                 "form-element")
+    '(sort)
+    '(menu
+        html-fieldset
+        @ html-fieldset-element
+     )
+;;; html-form-element
 )
 
 ;;; 19-Jul-2009
@@ -357,7 +1139,6 @@
      )
 ;;; html-h1
 )
-
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-h2"
@@ -493,13 +1274,127 @@
 ;;; html-html
 )
 
+;;; 23-Jul-2009
+(lse-define-fill-in "html-img"
+    '(token)
+    '(token                 "img")
+    '(description           "Embed an image")
+    '(replacement
+        "<img «html-attr-alt» «html-attr-src» ««html-img-attr»»···/>"
+     )
+;;; html-img
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-img-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-height
+        html-attr-name
+        html-attr-width
+        @ html-core-attr
+     )
+;;; html-img-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-input"
+    '(token)
+    '(token                 "input")
+    '(description           "Input element of a form")
+    '(replacement           "<input «html-input-attr»···/>")
+;;; html-input
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-input-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-accept
+        html-attr-alt
+        html-attr-checked
+        html-attr-disabled
+        html-attr-maxlength
+        html-attr-name
+        html-attr-readonly
+        html-attr-size
+        html-attr-src
+        html-attr-tabindex
+        html-attr-type-input
+        html-attr-value
+        @ html-core-attr
+     )
+;;; html-input-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-kbd"
+    '(token)
+    '(token                 "kbd")
+    '(description           "Identify user input (typically via keyboard).")
+    '(replacement           "<kdb>«text»</kbd>")
+;;; html-kbd
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-label"
+    '(token)
+    '(token                 "label")
+    '(description           "Caption in a user interface.")
+    '(replacement           "<label «html-label-attr»···>««text»»</label>")
+;;; html-label
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-label-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-for
+        @ html-core-attr
+     )
+;;; html-label-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-legend"
+    '(token)
+    '(token                 "legend")
+    '(description
+        "Caption for the rest of the contents of the legend element's "
+        "parent element."
+     )
+    '(replacement
+        "<legend ««html-core-attr»»···>"
+        @ text-block
+        "</legend>"
+     )
+;;; html-legend
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-li"
+    '(token)
+    '(token                 "li")
+    '(description           "List element")
+    '(replacement
+        "<li ««html-core-attr»»···>"
+        @ html_be_block
+        "</li>"
+     )
+;;; html-li
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-link"
     '(token)
     '(description           "Link element (refers to style sheet, ...)")
     '(replacement
-        "<link href=«quoted-text» "
-        & "rel=\"«html-attr-rel-value»···\" "
+        "<link "
+        & @ html-attr-href & " "
+        & @ html-attr-rel  & " "
         & "««html-link-attr»»···/>"
      )
 ;;; html-link
@@ -563,17 +1458,174 @@
 ;;; html-meta-type
 )
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-noscript"
+    '(token)
+    '(token                 "noscript")
+    '(description
+        "Content for situations when scripting is disabled."
+     )
+    '(replacement
+        "<noscript>"
+        @ text-block
+        "</noscript>"
+     )
+;;; html-noscript
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-object"
+    '(token)
+    '(token                 "object")
+    '(description
+        "Embedd an external resource (image, video, plugin, ...)"
+     )
+    '(replacement
+        "<object «html-object-attr»···>"
+        lse-indent+1
+        "««html-param»»···"
+        lse-indent-1
+        "</object>"
+     )
+;;; html-object
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-object-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-data
+        html-attr-height
+        html-attr-name
+        html-attr-tabindex
+        html-attr-type
+        html-attr-width
+        @ html-core-attr
+     )
+;;; html-object-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-ol"
+    '(token)
+    '(token                 "ol")
+    '(description           "Ordered list")
+    '(replacement
+        "<ol ««html-core-attr»»···>"
+        lse-indent+1
+        "«html-li»···"
+        lse-indent-1
+        "</ol>"
+     )
+;;; html-ol
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-optgroup"
+    '(token)
+    '(token                 "optgroup")
+    '(description           "Group of `option`s with a common label")
+    '(replacement
+        "<optgroup «html-attr-label» ««html-core-attr»»···>"
+        lse-indent+1
+        "«html-option»···"
+        lse-indent-1
+        "</optgroup>"
+     )
+;;; html-optgroup
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-option"
+    '(token)
+    '(token                 "option")
+    '(description           "One option that the user can choose")
+    '(replacement           "<option «html-option-attr»···>«text»</option>")
+;;; html-option
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-option-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-disabled
+        html-attr-label
+        html-attr-selected
+        html-attr-value
+        @ html-core-attr
+     )
+;;; html-option-attr
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-paragraph"
     '(token)
     '(token                 "p")
-    '(description           "Paragraph element")
+    '(description           "Paragraph")
     '(replacement
-        "<p ««html-core-attr»»···/>"
+        "<p ««html-core-attr»»···>"
         @ html_be_block
         "</p>"
      )
 ;;; html-paragraph
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-param"
+    '(token)
+    '(token                 "param")
+    '(description           "Provide parameter to parent element")
+    '(replacement           "<param «html-attr-name» «html-attr-value»/>")
+;;; html-param
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-pre"
+    '(token)
+    '(token                 "pre")
+    '(description           "Block of preformatted text")
+    '(replacement
+        "<pre ««html-core-attr»»···>"
+        @ text-block
+        "</pre>"
+     )
+;;; html-pre
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-q"
+    '(token)
+    '(token                 "q")
+    '(description           "(Inline) quotation.")
+    '(replacement           "<q ««html-quote-attr»»···>«text»</q>")
+;;; html-q
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "html-quote-attr"
+    '(token)
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-cite
+        @ html-core-attr
+     )
+;;; html-quote-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-samp"
+    '(token)
+    '(token                 "samp")
+    '(description
+        "Identify output froma program or computing system."
+     )
+    '(replacement           "<samp ««html-core-attr»»···>«text»</samp>")
+;;; html-samp
 )
 
 ;;; 19-Jul-2009
@@ -589,6 +1641,79 @@
 ;;; html-script
 )
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-select"
+    '(token)
+    '(token                 "select")
+    '(description           "Set of options to choose from")
+    '(replacement
+        "<select ««html-select-attr»»···>"
+        lse-indent+1
+        "«html-select-element»···"
+        lse-indent-1
+        "</select>"
+     )
+;;; html-select
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-select-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-disabled
+        htnl-attr-multiple
+        html-attr-name
+        html-attr-size-select
+        @ html-core-attr
+     )
+;;; html-select-attr
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-select-element"
+    '(token)
+    '(token                 "select-element")
+    '(menu
+        html-optgroup
+        html-option
+     )
+;;; html-select-element
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-small"
+    '(token)
+    '(token                 "small")
+    '(description           "Identify small print or side comments.")
+    '(replacement
+        "<small ««html-core-attr»»···>«html-body-element»</small>"
+     )
+;;; html-small
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-span"
+    '(token)
+    '(token                 "span")
+    '(description           "Generic inline element")
+    '(replacement
+        "<span ««html-core-attr»»···>«html-body-element»</span>"
+     )
+;;; html-span
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-strong"
+    '(token)
+    '(token                 "strong")
+    '(description           "Strongly emphasize contents.")
+    '(replacement
+        "<strong ««html-core-attr»»···>«text»</strong>"
+     )
+;;; html-strong
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-style"
     '(token)
@@ -602,17 +1727,240 @@
 ;;; html-style
 )
 
+;;; 20-Jul-2009
+(lse-define-fill-in "html-sub"
+    '(token)
+    '(token                 "sub")
+    '(description           "Subscript")
+    '(replacement           "<sub>«text»</sub>")
+;;; html-sub
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-sup"
+    '(token)
+    '(token                 "sup")
+    '(description           "Superscript")
+    '(replacement           "<sup>«text»</sup>")
+;;; html-sup
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-table"
+    '(token)
+    '(token                 "table")
+    '(description           "Present data in a grid-like representation")
+    '(replacement
+        "<table ««html-core-attr»»···>"
+        lse-indent+1
+        ««html-caption»»
+        ««html-colgroup»»···
+        ««html-col»»···
+        ««html-thead»»
+        ««html-tfoot»»
+        «html-tbody»···
+        lse-indent-1
+        "</table>"
+     )
+;;; html-table
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-tbody"
+    '(token)
+    '(token                 "tbody")
+    '(description           "Define a body section of a table")
+    '(replacement
+        "<tbody ««html-core-attr»»···">
+        lse-indent+1
+        «html-tr»···
+        lse-indent-1
+        "</tbody>"
+     )
+;;; html-tbody
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-td"
+    '(token)
+    '(token                 "td")
+    '(description           "Data cell of a table")
+    '(replacement
+        "<td ««html-td-attr»»···>"
+        @ text-block
+        "</td>"
+     )
+;;; html-td
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-td-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-abbr
+        html-attr-align
+        html-attr-char
+        html-attr-colspan
+        html-attr-headers
+        html-attr-rowspan
+        html-attr-valign
+        @ html-core-attr
+     )
+;;; html-td-attr
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-textarea"
+    '(token)
+    '(token                 "textarea")
+    '(description           "Multiline plain text edit control")
+    '(replacement
+        "<textarea «html-attr-cols» «html-attr-rows» ««html-textarea-attr»»···>"
+        @ text-block
+        "</textarea>"
+     )
+;;; html-textarea
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-textarea-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(menu
+        html-attr-disabled
+        html-attr-name
+        html-attr-readonly
+        html-attr-tabindex
+        @ html-core-attr
+     )
+;;; html-textarea-attr
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-tfoot"
+    '(token)
+    '(token                 "tfoot")
+    '(description           "Define a footer for a table")
+    '(replacement
+        "<tfoot ««html-core-attr»»···">
+        lse-indent+1
+        «html-tr»···
+        lse-indent-1
+        "</tfoot>"
+     )
+;;; html-tfoot
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-th"
+    '(token)
+    '(token                 "th")
+    '(description           "Header cell of a table")
+    '(replacement
+        "<th ««html-td-attr»»···>"
+        @ text-block
+        "</th>"
+     )
+;;; html-th
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-thead"
+    '(token)
+    '(token                 "thead")
+    '(description           "Define a header for a table")
+    '(replacement
+        "<thead ««html-core-attr»»···">
+        lse-indent+1
+        «html-trh»···
+        lse-indent-1
+        "</thead>"
+     )
+;;; html-tfoot
+)
+
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-title"
     '(token)
     '(token                 "title")
-    '(description           "Title element")
+    '(description           "Title of document")
     '(replacement
       "<title>"
       @ text-block
       "</title>"
      )
 ;;; html-title
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-tr"
+    '(token)
+    '(token                 "tr")
+    '(description           "Define a row of a table")
+    '(replacement
+        "<tr ««html-tr-attr»»···>"
+        lse-indent+1
+        «html-td»···
+        lse-indent-1
+        "</tr>"
+     )
+;;; html-tr
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-tr-attr"
+    '(separator             " ")
+    '(leading               " ")
+    '(sort)
+    '(menu
+        html-attr-align
+        html-attr-char
+        html-attr-charoff
+        html-attr-valign
+        @ html-core-attr
+     )
+;;; html-tr-attr
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "html-trh"
+    '(token)
+    '(token                 "trh")
+    '(description           "Define a header row of a table")
+    '(replacement
+        "<tr ««html-tr-attr»»···>"
+        lse-indent+1
+        «html-th»···
+        lse-indent-1
+        "</tr>"
+     )
+;;; html-trh
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-ul"
+    '(token)
+    '(token                 "ul")
+    '(description           "Unordered list")
+    '(replacement
+        "<ul ««html-core-attr»»···>"
+        lse-indent+1
+        "«html-li»···"
+        lse-indent-1
+        "</ul>"
+     )
+;;; html-ul
+)
+
+;;; 20-Jul-2009
+(lse-define-fill-in "html-var"
+    '(token)
+    '(token                 "var")
+    '(description           "Indicate a variable")
+    '(replacement           "<var>«text»</var>")
+;;; html-var
 )
 
 ;;;; __END__ lse-templates-html.lse

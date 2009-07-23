@@ -352,6 +352,22 @@
   '(description   "Name of owner")
 )
 
+;;; 23-Jul-2009
+(lse-define-fill-in "quoted-char"
+   '(description         "Character quoted by double quotes")
+   '(replacement-leading "\"")
+   '(replacement-trailer "\"")
+   '(replacement         "«char»")
+)
+
+;;; 23-Jul-2009
+(lse-define-fill-in "quoted-number"
+   '(description         "Number quoted by double quotes")
+   '(replacement-leading "\"")
+   '(replacement-trailer "\"")
+   '(replacement         "«number»")
+)
+
 (lse-define-fill-in "quoted-text"
    '(description         "Text quoted by double quotes")
    '(replacement-leading "\"")
