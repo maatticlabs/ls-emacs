@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    19-Jul-2009 (CT) Creation
+;;;;    24-Jul-2009 (CT) Creation finished
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -37,8 +38,8 @@
     '(token                 "a")
     '(description           "Hyperlink")
     '(replacement
-        "<a "  & @ html-attr-href & " ««html-a-attr»»···>"
-        @ html_be_block
+        "<a "  & @ html-attr-href & " ««html-a-attr»»··· >"
+        @ html_be_block &
         "</a>"
      )
 ;;; html-a
@@ -46,6 +47,7 @@
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-a-attr"
+    '(kill-action           delete-horizontal-space)
     '(sort)
     '(menu
         html-attr-rel
@@ -64,7 +66,7 @@
         "Abbreviation or acronym with the expansion given by the `title`."
      )
     '(replacement
-        "<abbr " & @ html-attr-title " ««html-core-attr»»···>«text»</abbr>"
+        "<abbr " & @ html-attr-title " ««html-core-attr»»··· >«text»</abbr>"
      )
 ;;; html-abbr
 )
@@ -78,7 +80,7 @@
      )
     '(replacement
         "<address>"
-        @ html_be_block
+        @ html_be_block &
         "</address>"
      )
 ;;; html-address
@@ -753,8 +755,8 @@
     '(token                 "blockquote")
     '(description           "HTML blockquote element")
     '(replacement
-        "<blockquote ««html-quote-attr»»···>"
-        @ html_be_block
+        "<blockquote ««html-quote-attr»»··· >"
+        @ html_be_block &
         "</blockquote>"
      )
 ;;; html-blockquote
@@ -766,8 +768,8 @@
     '(token                 "body")
     '(description           "Body")
     '(replacement
-        "<body ««html-core-attr»»···>"
-        @ html_be_block
+        "<body ««html-core-attr»»··· >"
+        @ html_be_block &
         "</body>"
      )
 ;;; html-body
@@ -833,7 +835,7 @@
     '(token                 "button")
     '(description           "Button for submitting or resetting a form")
     '(replacement
-        "<button ««html-button-attr»»···>"
+        "<button ««html-button-attr»»··· >"
         "«html-body-element»···"
         "</button>"
      )
@@ -842,7 +844,7 @@
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-button-attr"
-    '(token)
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -863,8 +865,8 @@
     '(token                 "caption")
     '(description           "Describe the table's contents")
     '(replacement
-        "<caption ««html-core-attr»»···>"
-        @ text-block
+        "<caption ««html-core-attr»»··· >"
+        @ text-block &
         "</caption>"
      )
 ;;; html-caption
@@ -891,12 +893,13 @@
         "A block of code should be encapsulated inside "
         "<pre><code>...</code></pre>."
      )
-    '(replacement           "<code «html-code-attr»···>«text»</code>")
+    '(replacement           "<code «html-code-attr»··· >«text»</code>")
 ;;; html-code
 )
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-code-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -918,7 +921,7 @@
     '(token)
     '(token                 "col")
     '(description           "Define properties of a single column of a table")
-    '(replacement           "<col ««html-col-attr»»···/>")
+    '(replacement           "<col ««html-col-attr»»··· />")
 ;;; html-col
 )
 
@@ -930,9 +933,9 @@
         "Define properties of a group of columns of a table"
      )
     '(replacement
-        "<colgroup ««html-col-attr»»···>"
+        "<colgroup ««html-col-attr»»··· >"
         lse-indent+1
-        ««html-col»»···
+        "««html-col»»···"
         lse-indent-1
         "</colgroup>"
      )
@@ -941,6 +944,7 @@
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-col-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -957,6 +961,7 @@
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-core-attr"
+    '(kill-action           fixup-whitespace)
     '(description           "Core html attributes")
     '(separator             " ")
     '(leading               " ")
@@ -977,8 +982,8 @@
     '(token                 "dd")
     '(description           "Definition description")
     '(replacement
-        "<dd ««html-core-attr»»···>"
-        @ html_be_block
+        "<dd ««html-core-attr»»··· >"
+        @ html_be_block &
         "</dd>"
      )
 ;;; html-dd
@@ -990,7 +995,7 @@
     '(token                 "dfn")
     '(description           "Identify the defining instance of a term.")
     '(replacement
-        "<dfn ««html-core-attr»»···>«text»</dfn>"
+        "<dfn ««html-core-attr»»··· >«text»</dfn>"
      )
 ;;; html-dfn
 )
@@ -1001,8 +1006,8 @@
     '(token                 "div")
     '(description           "Generic block level element")
     '(replacement
-        "<div ««html-core-attr»»···>"
-        @ html_be_block
+        "<div ««html-core-attr»»··· >"
+        @ html_be_block &
         "</div>"
      )
 ;;; html-div
@@ -1014,7 +1019,7 @@
     '(token                 "dl")
     '(description           "Definition list")
     '(replacement
-        "<dl ««html-core-attr»»···>"
+        "<dl ««html-core-attr»»··· >"
         lse-indent+1
         "«html-dl-element»···"
         lse-indent-1
@@ -1040,7 +1045,7 @@
     '(token)
     '(token                 "dt")
     '(description           "Definition term")
-    '(replacement           "<dt ««html-core-attr»»···>«text»</dt>")
+    '(replacement           "<dt ««html-core-attr»»··· >«text»</dt>")
 ;;; html-dt
 )
 
@@ -1049,7 +1054,7 @@
     '(token)
     '(token                 "em")
     '(description           "Emphasize contents")
-    '(replacement           "<em ««html-core-attr»»···>«text»</em>")
+    '(replacement           "<em ««html-core-attr»»··· >«text»</em>")
 ;;; html-em
 )
 
@@ -1061,7 +1066,7 @@
         "Set of form controls grouped under a common name."
      )
     '(replacement
-        "<fieldset ««html-core-attr»»···>"
+        "<fieldset ««html-core-attr»»··· >"
         lse-indent+1
         "««html-legend»»"
         "«html-fieldset-element»···"
@@ -1092,7 +1097,7 @@
     '(token                 "form")
     '(description           "Form accepting user input")
     '(replacement
-        "<form «html-form-attr»···>"
+        "<form «html-form-attr»··· >"
         lse-indent+1
         "«html-form-element»···"
         lse-indent-1
@@ -1103,6 +1108,7 @@
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-form-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1133,8 +1139,8 @@
     '(token                 "h1")
     '(description           "Highest heading level")
     '(replacement
-        "<h1 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h1 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h1>"
      )
 ;;; html-h1
@@ -1146,8 +1152,8 @@
     '(token                 "h2")
     '(description           "Second highest heading level")
     '(replacement
-        "<h2 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h2 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h2>"
      )
 ;;; html-h2
@@ -1159,8 +1165,8 @@
     '(token                 "h3")
     '(description           "Third highest heading level")
     '(replacement
-        "<h3 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h3 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h3>"
      )
 ;;; html-h3
@@ -1172,8 +1178,8 @@
     '(token                 "h4")
     '(description           "Fourth highest heading level")
     '(replacement
-        "<h4 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h4 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h4>"
      )
 ;;; html-h4
@@ -1185,8 +1191,8 @@
     '(token                 "h5")
     '(description           "Fifth highest heading level")
     '(replacement
-        "<h5 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h5 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h5>"
      )
 ;;; html-h5
@@ -1199,8 +1205,8 @@
     '(token                 "h6")
     '(description           "Sixth highest heading level")
     '(replacement
-        "<h6 ««html-core-attr»»···>"
-        @ html_be_block
+        "<h6 ««html-core-attr»»··· >"
+        @ html_be_block &
         "</h6>"
      )
 ;;; html-h6
@@ -1212,7 +1218,7 @@
     '(token                 "head")
     '(description           "Head element")
     '(replacement
-        "<head ««html-head-attr»»···>"
+        "<head ««html-head-attr»»··· >"
         lse-indent+1
         "«html-title»"
         "««html-head-element»»···"
@@ -1224,7 +1230,7 @@
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-head-attr"
-    '(token)
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -1264,7 +1270,7 @@
     '(token)
     '(description           "Outermost element")
     '(replacement
-        "<html xmlns=\"http://www.w3.org/1999/xhtml\" ««html-core-attr»»···>"
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\" ««html-core-attr»»··· >"
         lse-indent+1
         @ html-head
         @ html-body
@@ -1280,13 +1286,14 @@
     '(token                 "img")
     '(description           "Embed an image")
     '(replacement
-        "<img «html-attr-alt» «html-attr-src» ««html-img-attr»»···/>"
+        "<img «html-attr-alt» «html-attr-src» ««html-img-attr»»··· />"
      )
 ;;; html-img
 )
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-img-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1303,12 +1310,13 @@
     '(token)
     '(token                 "input")
     '(description           "Input element of a form")
-    '(replacement           "<input «html-input-attr»···/>")
+    '(replacement           "<input «html-input-attr»··· />")
 ;;; html-input
 )
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-input-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1343,12 +1351,13 @@
     '(token)
     '(token                 "label")
     '(description           "Caption in a user interface.")
-    '(replacement           "<label «html-label-attr»···>««text»»</label>")
+    '(replacement           "<label «html-label-attr»··· >««text»»</label>")
 ;;; html-label
 )
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-label-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1367,8 +1376,8 @@
         "parent element."
      )
     '(replacement
-        "<legend ««html-core-attr»»···>"
-        @ text-block
+        "<legend ««html-core-attr»»··· >"
+        @ text-block &
         "</legend>"
      )
 ;;; html-legend
@@ -1380,8 +1389,8 @@
     '(token                 "li")
     '(description           "List element")
     '(replacement
-        "<li ««html-core-attr»»···>"
-        @ html_be_block
+        "<li ««html-core-attr»»··· >"
+        @ html_be_block &
         "</li>"
      )
 ;;; html-li
@@ -1395,14 +1404,14 @@
         "<link "
         & @ html-attr-href & " "
         & @ html-attr-rel  & " "
-        & "««html-link-attr»»···/>"
+        & "««html-link-attr»»··· />"
      )
 ;;; html-link
 )
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-link-attr"
-    '(token)
+    '(kill-action           delete-horizontal-space)
     '(sort)
     '(menu
         html-attr-charset
@@ -1467,7 +1476,7 @@
      )
     '(replacement
         "<noscript>"
-        @ text-block
+        @ text-block &
         "</noscript>"
      )
 ;;; html-noscript
@@ -1481,7 +1490,7 @@
         "Embedd an external resource (image, video, plugin, ...)"
      )
     '(replacement
-        "<object «html-object-attr»···>"
+        "<object «html-object-attr»··· >"
         lse-indent+1
         "««html-param»»···"
         lse-indent-1
@@ -1492,6 +1501,7 @@
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-object-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -1513,7 +1523,7 @@
     '(token                 "ol")
     '(description           "Ordered list")
     '(replacement
-        "<ol ««html-core-attr»»···>"
+        "<ol ««html-core-attr»»··· >"
         lse-indent+1
         "«html-li»···"
         lse-indent-1
@@ -1528,7 +1538,7 @@
     '(token                 "optgroup")
     '(description           "Group of `option`s with a common label")
     '(replacement
-        "<optgroup «html-attr-label» ««html-core-attr»»···>"
+        "<optgroup «html-attr-label» ««html-core-attr»»··· >"
         lse-indent+1
         "«html-option»···"
         lse-indent-1
@@ -1542,12 +1552,13 @@
     '(token)
     '(token                 "option")
     '(description           "One option that the user can choose")
-    '(replacement           "<option «html-option-attr»···>«text»</option>")
+    '(replacement           "<option «html-option-attr»··· >«text»</option>")
 ;;; html-option
 )
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-option-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1566,8 +1577,8 @@
     '(token                 "p")
     '(description           "Paragraph")
     '(replacement
-        "<p ««html-core-attr»»···>"
-        @ html_be_block
+        "<p ««html-core-attr»»··· >"
+        @ html_be_block &
         "</p>"
      )
 ;;; html-paragraph
@@ -1588,8 +1599,8 @@
     '(token                 "pre")
     '(description           "Block of preformatted text")
     '(replacement
-        "<pre ««html-core-attr»»···>"
-        @ text-block
+        "<pre ««html-core-attr»»··· >"
+        @ text-block &
         "</pre>"
      )
 ;;; html-pre
@@ -1600,13 +1611,13 @@
     '(token)
     '(token                 "q")
     '(description           "(Inline) quotation.")
-    '(replacement           "<q ««html-quote-attr»»···>«text»</q>")
+    '(replacement           "<q ««html-quote-attr»»··· >«text»</q>")
 ;;; html-q
 )
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-quote-attr"
-    '(token)
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -1624,7 +1635,7 @@
     '(description
         "Identify output froma program or computing system."
      )
-    '(replacement           "<samp ««html-core-attr»»···>«text»</samp>")
+    '(replacement           "<samp ««html-core-attr»»··· >«text»</samp>")
 ;;; html-samp
 )
 
@@ -1635,7 +1646,7 @@
     '(description           "Client side script")
     '(replacement
         "<script ««html-attr-src»» ««html-attr-charset»» «html-attr-type»>"
-        @ text-block
+        @ text-block &
         "</script>"
      )
 ;;; html-script
@@ -1647,7 +1658,7 @@
     '(token                 "select")
     '(description           "Set of options to choose from")
     '(replacement
-        "<select ««html-select-attr»»···>"
+        "<select ««html-select-attr»»··· >"
         lse-indent+1
         "«html-select-element»···"
         lse-indent-1
@@ -1658,6 +1669,7 @@
 
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-select-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1687,7 +1699,7 @@
     '(token                 "small")
     '(description           "Identify small print or side comments.")
     '(replacement
-        "<small ««html-core-attr»»···>«html-body-element»</small>"
+        "<small ««html-core-attr»»··· >«html-body-element»</small>"
      )
 ;;; html-small
 )
@@ -1698,7 +1710,7 @@
     '(token                 "span")
     '(description           "Generic inline element")
     '(replacement
-        "<span ««html-core-attr»»···>«html-body-element»</span>"
+        "<span ««html-core-attr»»··· >«html-body-element»</span>"
      )
 ;;; html-span
 )
@@ -1709,7 +1721,7 @@
     '(token                 "strong")
     '(description           "Strongly emphasize contents.")
     '(replacement
-        "<strong ««html-core-attr»»···>«text»</strong>"
+        "<strong ««html-core-attr»»··· >«text»</strong>"
      )
 ;;; html-strong
 )
@@ -1721,7 +1733,7 @@
     '(description           "Style element (use external style sheets instead)")
     '(replacement
         "<style ««html-attr-media»» «html-attr-type»>"
-        @ text-block
+        @ text-block &
         "</style>"
      )
 ;;; html-style
@@ -1751,14 +1763,14 @@
     '(token                 "table")
     '(description           "Present data in a grid-like representation")
     '(replacement
-        "<table ««html-core-attr»»···>"
+        "<table ««html-core-attr»»··· >"
         lse-indent+1
-        ««html-caption»»
-        ««html-colgroup»»···
-        ««html-col»»···
-        ««html-thead»»
-        ««html-tfoot»»
-        «html-tbody»···
+        "««html-caption»»"
+        "««html-colgroup»»···"
+        "««html-col»»···"
+        "««html-thead»»"
+        "««html-tfoot»»"
+        "«html-tbody»···"
         lse-indent-1
         "</table>"
      )
@@ -1773,7 +1785,7 @@
     '(replacement
         "<tbody ««html-core-attr»»···">
         lse-indent+1
-        «html-tr»···
+        "«html-tr»···"
         lse-indent-1
         "</tbody>"
      )
@@ -1786,8 +1798,8 @@
     '(token                 "td")
     '(description           "Data cell of a table")
     '(replacement
-        "<td ««html-td-attr»»···>"
-        @ text-block
+        "<td ««html-td-attr»»··· >"
+        @ text-block &
         "</td>"
      )
 ;;; html-td
@@ -1795,6 +1807,7 @@
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-td-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -1817,8 +1830,8 @@
     '(token                 "textarea")
     '(description           "Multiline plain text edit control")
     '(replacement
-        "<textarea «html-attr-cols» «html-attr-rows» ««html-textarea-attr»»···>"
-        @ text-block
+        "<textarea «html-attr-cols» «html-attr-rows» ««html-textarea-attr»»··· >"
+        @ text-block &
         "</textarea>"
      )
 ;;; html-textarea
@@ -1826,6 +1839,7 @@
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-textarea-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(menu
@@ -1846,7 +1860,7 @@
     '(replacement
         "<tfoot ««html-core-attr»»···">
         lse-indent+1
-        «html-tr»···
+        "«html-tr»···"
         lse-indent-1
         "</tfoot>"
      )
@@ -1859,8 +1873,8 @@
     '(token                 "th")
     '(description           "Header cell of a table")
     '(replacement
-        "<th ««html-td-attr»»···>"
-        @ text-block
+        "<th ««html-td-attr»»··· >"
+        @ text-block &
         "</th>"
      )
 ;;; html-th
@@ -1872,9 +1886,9 @@
     '(token                 "thead")
     '(description           "Define a header for a table")
     '(replacement
-        "<thead ««html-core-attr»»···">
+        "<thead ««html-core-attr»»···>"
         lse-indent+1
-        «html-trh»···
+        "«html-trh»···"
         lse-indent-1
         "</thead>"
      )
@@ -1888,7 +1902,7 @@
     '(description           "Title of document")
     '(replacement
       "<title>"
-      @ text-block
+      @ text-block &
       "</title>"
      )
 ;;; html-title
@@ -1900,9 +1914,9 @@
     '(token                 "tr")
     '(description           "Define a row of a table")
     '(replacement
-        "<tr ««html-tr-attr»»···>"
+        "<tr ««html-tr-attr»»··· >"
         lse-indent+1
-        «html-td»···
+        "«html-td»···"
         lse-indent-1
         "</tr>"
      )
@@ -1911,6 +1925,7 @@
 
 ;;; 23-Jul-2009
 (lse-define-fill-in "html-tr-attr"
+    '(kill-action           delete-horizontal-space)
     '(separator             " ")
     '(leading               " ")
     '(sort)
@@ -1930,9 +1945,9 @@
     '(token                 "trh")
     '(description           "Define a header row of a table")
     '(replacement
-        "<tr ««html-tr-attr»»···>"
+        "<tr ««html-tr-attr»»··· >"
         lse-indent+1
-        «html-th»···
+        "«html-th»···"
         lse-indent-1
         "</tr>"
      )
@@ -1945,7 +1960,7 @@
     '(token                 "ul")
     '(description           "Unordered list")
     '(replacement
-        "<ul ««html-core-attr»»···>"
+        "<ul ««html-core-attr»»··· >"
         lse-indent+1
         "«html-li»···"
         lse-indent-1

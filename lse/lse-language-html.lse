@@ -59,5 +59,4 @@
 
 (add-hook 'html-mode-hook 'lse-html-mode-hook)
 
-
 ;;;; __END__ lse-language-html.lse
