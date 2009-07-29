@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -83,6 +83,7 @@
 ;;;;                     `lse-tpu:search-internal`
 ;;;;     7-Oct-2007 (CT) `lse@select-brace-range` changed to call
 ;;;;                     `lse-tpu:save-pos-before-search`
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -90,17 +91,13 @@
 (if lse-emacs19-p
     t
   (defmacro save-match-data (&rest forms)
-    (`(let ((old-match-data (match-data))
-           )
-        (unwind-protect
-            (progn
-              (,@ forms)
-            )
-          ;; restore match-data of calling environment
-          (store-match-data old-match-data)
-        )
-      )
-    )
+    `(let ((old-match-data (match-data)))
+       (unwind-protect
+           (progn ,@forms)
+         ;; restore match-data of calling environment
+         (store-match-data old-match-data)
+       )
+     )
   )
 )
 

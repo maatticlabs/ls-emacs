@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -94,6 +94,7 @@
 ;;;;    11-Oct-2007 (CT) `[M-home]` and `[M-end]` added to
 ;;;;                     `lse-keys:emacs-bindings-to-unset`
 ;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -132,7 +133,7 @@
 (make-variable-buffer-local 'lse-key:toggle-tab-p)
 
 (defmacro lse-key-cmd (&rest args)
-  (`'(lambda () (interactive) (,@ args)))
+  `(lambda () (interactive) ,@args)
 )
 
 ;;; 22-Oct-2002

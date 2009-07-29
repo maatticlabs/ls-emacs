@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-face:el lse_face:el
-;;;; Copyright (C) 1995-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -55,6 +55,7 @@
 ;;;;    20-Nov-2003 (CT) `lse-face:current-line-hl` added
 ;;;;     3-Mar-2008 (CT) Background for `trailing-whitespace` made less
 ;;;;                     ghastly (`grey80` instead of `red1`)
+;;;;    29-Jul-2009 (CT) `lse-face:line-too-long` too long
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -70,45 +71,47 @@
 
 (if (not lse-emacsX-p)
     t
-    (lse-face:define 'lse-face:open-replacement            "Yellow" "Red")
-    (lse-face:define 'lse-face:current-fill-in             "Yellow")
-    (lse-face:define 'lse-face:current-fill-in-terminal    nil "Orange")
-    (lse-face:define 'lse-face:current-fill-in-replacement nil "Magenta")
-    (lse-face:define 'lse-face:current-fill-in-menu        nil "Blue")
-    (lse-face:define 'lse-face:current-fill-in-function    nil "Brown")
+  (lse-face:define 'lse-face:open-replacement            "Yellow" "Red")
+  (lse-face:define 'lse-face:current-fill-in             "Yellow")
+  (lse-face:define 'lse-face:current-fill-in-terminal    nil      "Orange")
+  (lse-face:define 'lse-face:current-fill-in-replacement nil      "Magenta")
+  (lse-face:define 'lse-face:current-fill-in-menu        nil      "Blue")
+  (lse-face:define 'lse-face:current-fill-in-function    nil      "Brown")
 
-    (lse-face:define 'lse-face:search-match    "Cyan")
-    (lse-face:define 'lse-face:search-match-bg "Yellow")
-    (lse-face:define 'lse-face:completion      "Yellow"       "Red")
-    (lse-face:define 'lse-face:completion-m    "LightGray"    "Red")
+  (lse-face:define 'lse-face:search-match    "Cyan")
+  (lse-face:define 'lse-face:search-match-bg "Yellow")
+  (lse-face:define 'lse-face:completion      "Yellow"       "Red")
+  (lse-face:define 'lse-face:completion-m    "LightGray"    "Red")
 
-    (lse-face:define 'lse-face:current-line-hl "Gray95")
+  (lse-face:define 'lse-face:current-line-hl "Gray95")
 
-    (lse-face:define 'lse-face:cal:current    "LightPink"     nil)
-    (lse-face:define 'lse-face:cal:day-line   "Gray88"        "Gray50")
-    (lse-face:define 'lse-face:cal:desc       nil             "Royal Blue")
-    (lse-face:define 'lse-face:cal:even       "Gray85"        nil)
-    (lse-face:define 'lse-face:cal:fri        nil             "Gray40")
-    (lse-face:define 'lse-face:cal:holiday    "Deep Sky Blue" "Gray95")
-    (lse-face:define 'lse-face:cal:mon        nil             "Gray40")
-    (lse-face:define 'lse-face:cal:month-name nil             "Royal Blue")
-    (lse-face:define 'lse-face:cal:month-num  nil             "Orange")
-    (lse-face:define 'lse-face:cal:odd        "Gray80"        nil)
-    (lse-face:define 'lse-face:cal:sat        nil             "Gray60")
-    (lse-face:define 'lse-face:cal:sun        nil             "Gray60")
-    (lse-face:define 'lse-face:cal:text       nil             "Gray40")
-    (lse-face:define 'lse-face:cal:this-month "Yellow"        nil)
-    (lse-face:define 'lse-face:cal:this-week  "Orange"        "Royal Blue")
-    (lse-face:define 'lse-face:cal:thu        nil             "Gray40")
-    (lse-face:define 'lse-face:cal:time-field nil             "Orange")
-    (lse-face:define 'lse-face:cal:today      "Yellow"        "Red")
-    (lse-face:define 'lse-face:cal:tue        nil             "Gray40")
-    (lse-face:define 'lse-face:cal:wed        nil             "Gray40")
-    (lse-face:define 'lse-face:cal:week-end   "Gray60"        "Gray88")
-    (lse-face:define 'lse-face:cal:week-field nil             "Orange")
+  (lse-face:define 'lse-face:line-too-long   "Red"          "Yellow")
 
-    (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
-    (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
+  (lse-face:define 'lse-face:cal:current    "LightPink"     nil)
+  (lse-face:define 'lse-face:cal:day-line   "Gray88"        "Gray50")
+  (lse-face:define 'lse-face:cal:desc       nil             "Royal Blue")
+  (lse-face:define 'lse-face:cal:even       "Gray85"        nil)
+  (lse-face:define 'lse-face:cal:fri        nil             "Gray40")
+  (lse-face:define 'lse-face:cal:holiday    "Deep Sky Blue" "Gray95")
+  (lse-face:define 'lse-face:cal:mon        nil             "Gray40")
+  (lse-face:define 'lse-face:cal:month-name nil             "Royal Blue")
+  (lse-face:define 'lse-face:cal:month-num  nil             "Orange")
+  (lse-face:define 'lse-face:cal:odd        "Gray80"        nil)
+  (lse-face:define 'lse-face:cal:sat        nil             "Gray60")
+  (lse-face:define 'lse-face:cal:sun        nil             "Gray60")
+  (lse-face:define 'lse-face:cal:text       nil             "Gray40")
+  (lse-face:define 'lse-face:cal:this-month "Yellow"        nil)
+  (lse-face:define 'lse-face:cal:this-week  "Orange"        "Royal Blue")
+  (lse-face:define 'lse-face:cal:thu        nil             "Gray40")
+  (lse-face:define 'lse-face:cal:time-field nil             "Orange")
+  (lse-face:define 'lse-face:cal:today      "Yellow"        "Red")
+  (lse-face:define 'lse-face:cal:tue        nil             "Gray40")
+  (lse-face:define 'lse-face:cal:wed        nil             "Gray40")
+  (lse-face:define 'lse-face:cal:week-end   "Gray60"        "Gray88")
+  (lse-face:define 'lse-face:cal:week-field nil             "Orange")
 
-    (set-face-background 'trailing-whitespace "gray80")       ;  3-Mar-2008
+  (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
+  (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
+
+  (set-face-background 'trailing-whitespace "gray80")       ;  3-Mar-2008
 )

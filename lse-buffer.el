@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -66,6 +66,7 @@
 ;;;;    11-Oct-2007 (CT) Use `lse-file:expanded-name` instead of `file-truename`
 ;;;;     3-Dec-2007 (CT) Guard for `fname` added to
 ;;;;                     `lse-buffer:unique_anchored_name`
+;;;;    29-Jul-2009 (CT) `font-lock` for `lse-face:line-too-long` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -307,6 +308,9 @@
   (setq lse-buffer:new_n (1+ lse-buffer:new_n)); 10-Oct-1996
   (setq lse-buffer:n     lse-buffer:new_n); 5-Oct-2007 ; instead of `0`
   (add-hook 'post-command-hook 'lse-buffer:initialize-hack-19.30+)
+  ;; mark overlong lines ;; 29-Jul-2009
+  (font-lock-add-keywords nil
+    '(("^[^\n]\\{78\\}\\(.*\\)$" 1 lse-face:line-too-long)))
 )
 
 ;;;  2-Oct-1996

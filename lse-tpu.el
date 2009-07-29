@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -127,6 +127,7 @@
 ;;;;                     direction handling)
 ;;;;    10-Oct-2007 (CT) Search-mode dependent history added, bugs fixed
 ;;;;    20-Nov-2007 (CT) `lse-tpu:search-prompt-read`: argument `dir` added
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1121,22 +1122,16 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 (defmacro lse-tpu:char-in-string (c s)
-  (` (memq (, c)
-           (mapcar (function identity) (, s))
-     )
-  )
+  `(memq ,c (mapcar (function identity) ,s))
 ; lse-tpu:char-in-string
 )
 
 (defmacro lse-tpu:remove-char-from-string  (c s)
-  (` (setq s (mapconcat (function char-to-string)
-                        (delq (, c)
-                              (mapcar (function identity) (, s))
-                        )
-                        ""
-             )
+  `(setq s
+     (mapconcat (function char-to-string)
+       (delq ,c (mapcar (function identity) ,s)) ""
      )
-  )
+   )
 ; lse-tpu:remove-char-from-string
 )
 

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-basics:el lse_bscs:el
-;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -42,6 +42,7 @@
 ;;;;    29-Dec-1997 (CT) defsubst        added
 ;;;;    30-Dec-1997 (CT) lse-safe        added
 ;;;;    15-Oct-2007 (CT) Cruft removed (lse-insert, ...)
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-basics)
@@ -79,10 +80,8 @@
 ;;; 30-Dec-1997 ;;; stolen from cc-defs.el
 (defmacro lse-safe (&rest body)
   ;; safely execute BODY, return nil if an error occurred
-  (` (condition-case nil
-	 (progn (,@ body))
-       (error nil)
-     )
-  )
+  `(condition-case nil
+       (progn ,@body)
+     (error nil)
+   )
 )
-

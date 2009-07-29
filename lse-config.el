@@ -398,9 +398,7 @@
 
 
 ;;;  5-Feb-2008
-(font-lock-add-keywords 'python-mode
-  '(("### XXX" 1 font-lock-warning-face prepend))
-)
+(font-lock-add-keywords 'python-mode '(("### XXX" 1 font-lock-warning-face)))
 
 ;;;  5-Feb-2008
 (setq-default show-trailing-whitespace 1)

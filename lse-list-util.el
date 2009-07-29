@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-list-util:el lse_lstu:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -32,46 +32,46 @@
 ;;;; Revision Dates
 ;;;;    18-Jun-1994 (CT) Creation (of comment)
 ;;;;     9-Oct-1996 (CT) Define add-to-list if (not fboundp)
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;--
 (provide 'lse-list-util)
 
 (defmacro lse-add-to-list (the-list the-entry)
-  (`(setq (, the-list) (cons (, the-entry) (, the-list))))
+  `(setq ,the-list (cons ,the-entry ,the-list))
 )
 
 (defmacro lse-remove-car-from-list (the-list)
-  (`(setq (, the-list) (cdr (, the-list))))
+  `(setq ,the-list (cdr ,the-list))
 )
 
 (defmacro lse-remove-from-list (the-list the-entry &optional replace-by)
-  (`(let (pred
-          (entry (, the-entry))
+  `(let (pred
+         (entry ,the-entry)
+        )
+     (if entry
+         (progn
+           (if (equal entry (car ,the-list))
+               (if ,replace-by
+                   (setcar ,the-list ,replace-by)
+                 (setq ,the-list (cdr ,the-list))
+               )
+             (let ((pred ,the-list))
+               (while (and pred (not (equal entry (car (cdr pred)))))
+                 (setq pred (cdr pred))
+               )
+               (if ,replace-by
+                   (setcdr pred (cons ,replace-by (cdr (cdr pred))))
+                 (setcdr pred (cdr (cdr pred)))
+               )
+             )
+           )
          )
-      (if entry
-          (progn
-            (if (equal entry (car (, the-list)))
-                (if (, replace-by)
-                    (setcar (, the-list) (, replace-by))
-                  (setq (, the-list) (cdr (, the-list)))
-                )
-              (let ((pred (, the-list)))
-                (while (and pred (not (equal entry (car (cdr pred)))))
-                  (setq pred (cdr pred))
-                )
-                (if (, replace-by)
-                    (setcdr pred (cons (, replace-by) (cdr (cdr pred))))
-                  (setcdr pred (cdr (cdr pred)))
-                )
-              )
-            )
-          )
-      )
-    )
-  )
+     )
+   )
 )
 
 (if (not (fboundp 'add-to-list))
-    ;;;  9-Oct-1996 
+    ;;;  9-Oct-1996
     (defun add-to-list (var value)
       "Add to the value of LIST-VAR the element ELEMENT if it isn't there yet.
 The test for presence of ELEMENT is done with `equal'.

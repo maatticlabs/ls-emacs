@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -151,30 +151,30 @@
 ;;;;                     new-line tokens
 ;;;;    15-Oct-2007 (CT) `lse_start_replacement_if_in_fill-in` defined as
 ;;;;                     `defun` instead of as `defmacro`
+;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
 
 (defmacro with_lse_fill_environment_at (pos &rest forms)
-  (` (let (lse@current-expansion-indent
-           lse@original-expansion-indent
-           lse@environment-expansion-indent
-           lse@expansion-line-leading
-           lse@expansion-line-trailer
-           lse@expansion-line-leading-indent
-           lse@expansion-line-trailer-indent
-          )
-       (save-excursion
-         (and (, pos) (goto-char (, pos)))
-         (setq lse@current-expansion-indent     (current-column))
-         (setq lse@original-expansion-indent    (current-column))
-         (setq lse@environment-expansion-indent (current-indentation))
-         (lse_comment:setup_expansion_leading)
-         (lse_comment:setup_expansion_trailer)
-       )
-       (,@ forms)
+  `(let (lse@current-expansion-indent
+         lse@original-expansion-indent
+         lse@environment-expansion-indent
+         lse@expansion-line-leading
+         lse@expansion-line-trailer
+         lse@expansion-line-leading-indent
+         lse@expansion-line-trailer-indent
+        )
+     (save-excursion
+       (and ,pos (goto-char ,pos))
+       (setq lse@current-expansion-indent     (current-column))
+       (setq lse@original-expansion-indent    (current-column))
+       (setq lse@environment-expansion-indent (current-indentation))
+       (lse_comment:setup_expansion_leading)
+       (lse_comment:setup_expansion_trailer)
      )
-  )
+     ,@forms
+   )
 ; with_lse_fill_environment_at
 )
 
