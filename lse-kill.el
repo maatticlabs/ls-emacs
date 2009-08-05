@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-kill:el lse_kill:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -35,10 +35,10 @@
 ;;;;    26-May-1994 (CT) Interactive functions moved to lse-interactive
 ;;;;     1-Jun-1994 (CT) Error removed from lse@kill_current_fill-in
 ;;;;    11-Jun-1994 (CT) Allow pattern in leading
-;;;;    22-Jan-1995 (CT) lse_unkill_fill_in put in here 
+;;;;    22-Jan-1995 (CT) lse_unkill_fill_in put in here
 ;;;;                     (was contained inline in lse-unkill-fill-in in
 ;;;;                     lse-interactive.el)
-;;;;    28-Jan-1995 (CT) Error corrected 
+;;;;    28-Jan-1995 (CT) Error corrected
 ;;;;                     (in lse_trailer_tail_position_with_delim)
 ;;;;    18-Feb-1995 (CT) lse-kill-future-fill-in added
 ;;;;    19-Feb-1995 (CT) descendants added (to lse-kill-future-fill-in and
@@ -51,19 +51,23 @@
 ;;;;    20-Mar-1995 (CT) Add killed fill-in to expansion history
 ;;;;    11-Oct-1996 (CT) Use lse-range:contents-np in lse-kill:enclosure
 ;;;;    31-Dec-1997 (CT) `lse-kill:join-sexp-boundary-maybe' added
+;;;;     5-Aug-2009 (CT) Guards against nil `lse_comment_head_delim_pattern`
+;;;;     5-Aug-2009 (CT) Use `mapc` instead of `mapcar` in `lse_unkill_fill_in`
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide 'lse-kill)
 
-;;; 22-Jan-1995 
+;;; 22-Jan-1995
 (defun lse_kill:adjust_fill-in_leading (leading_range trailer_range)
-  (save-excursion 
+  (save-excursion
     (goto-char (lse-range:head-pos leading_range))
-    (if (or (looking-at (concat "[ \t\n]*" lse_comment_head_delim_pattern))
+    (if (or (and lse_comment_head_delim_pattern
+              (looking-at (concat "[ \t\n]*" lse_comment_head_delim_pattern))
+            )
             (bolp)
         )
         (let (needs-adjustment)
-          (save-excursion 
+          (save-excursion
             (goto-char (lse-range:head-pos trailer_range))
             (if (looking-at
                   (concat "[ \t]*" (or lse_comment_tail_delim_pattern "$"))
@@ -85,17 +89,19 @@
 ; lse_kill:adjust_fill-in_leading
 )
 
-;;; 22-Jan-1995 
+;;; 22-Jan-1995
 (defun lse_kill:adjust_fill-in_trailer (leading_range trailer_range)
   (if lse_comment_tail_delim_pattern
-      (save-excursion 
+      (save-excursion
         (goto-char (lse-range:head-pos trailer_range))
         (if (looking-at (concat "[ \t\n]*" lse_comment_tail_delim_pattern))
             (let (needs-adjustment)
-              (save-excursion 
+              (save-excursion
                 (goto-char (lse-range:head-pos leading_range))
-                (if (looking-at
-                       (concat "[ \t\n]*" lse_comment_head_delim_pattern)
+                (if (and lse_comment_head_delim_pattern
+                      (looking-at
+                        (concat "[ \t\n]*" lse_comment_head_delim_pattern)
+                      )
                     )
                     (setq needs-adjustment nil)
                   (setq needs-adjustment t)
@@ -121,7 +127,7 @@
     (save-excursion
       (goto-char (lse-range:head-pos (lse-fill-in:range fill-in_info)))
       (if (not (eolp))
-          (lse-skip-whitespace+empty-comments-backward 
+          (lse-skip-whitespace+empty-comments-backward
                (lse-tpu:line-head-pos)
           )
       )
@@ -143,14 +149,14 @@
           )
           (progn
             (goto-char (match-beginning 0))
-            (if (equal leading "")           ; 13-Mar-1995 
+            (if (equal leading "")           ; 13-Mar-1995
                 t                            ;     forward-char of Emacs 19.27 gives an error at the beginning of the buffer
-              (while (looking-at leading)    ; 11-Jun-1994 
+              (while (looking-at leading)    ; 11-Jun-1994
                 (lse-tpu:forward-char -1)
               )
             )
-            (lse-tpu:forward-char 1)                 ; 11-Jun-1994 
-            (lse-skip-whitespace+empty-comments-backward 
+            (lse-tpu:forward-char 1)                 ; 11-Jun-1994
+            (lse-skip-whitespace+empty-comments-backward
                  (lse-tpu:line-head-pos 0)
             )
             (setq result (point-marker))
@@ -198,7 +204,7 @@
       (if (looking-at trailer)
           (progn
             (goto-char (match-end 0))
-            (lse-skip-whitespace+empty-comments-forward 
+            (lse-skip-whitespace+empty-comments-forward
                  (lse-tpu:line-tail-pos 1)
             )
             (setq result (point-marker))
@@ -224,9 +230,9 @@
 (defun lse_kill:leading_blank_line_range (head)
   (let (p q)
     (save-excursion
-      (goto-char head) 
+      (goto-char head)
       (setq p (point))
-      (lse-skip-whitespace+empty-comments-backward 
+      (lse-skip-whitespace+empty-comments-backward
            (lse-tpu:line-head-pos (if (eolp) 1 0))
       )
       (if (bolp)
@@ -242,9 +248,9 @@
 (defun lse_kill:trailing_blank_line_range (tail)
   (let (p q)
     (save-excursion
-      (goto-char tail) 
+      (goto-char tail)
       (setq p (point))
-      (lse-skip-whitespace+empty-comments-forward 
+      (lse-skip-whitespace+empty-comments-forward
            (lse-tpu:line-tail-pos (if (bolp) 1 2))
       )
       (if (eolp)
@@ -261,7 +267,7 @@
   (lse-range:new
        (lse_leading_head_position lse_current_fill-in (get psym 'leading))
        (lse-range:head (lse-fill-in:range lse_current_fill-in))
-  )  
+  )
 ; lse_kill:fill-in-leading
 )
 
@@ -284,14 +290,14 @@
 (defun lse-kill:enclosure (psym)
   (let* ((leading_range (lse_kill:fill-in-leading psym))
          (trailer_range (lse_kill:fill-in-trailer psym))
-         (head_blank_line_range 
+         (head_blank_line_range
             (lse_kill:leading_blank_line_range (lse-range:head leading_range))
          )
-         (tail_blank_line_range (lse_kill:trailing_blank_line_range 
+         (tail_blank_line_range (lse_kill:trailing_blank_line_range
                                      (lse-range:tail-pos trailer_range)
                                 )
          )
-         (enclosure (make-vector 4 nil)) 
+         (enclosure (make-vector 4 nil))
         )
     (setq leading_range
           (lse_kill:adjust_fill-in_leading leading_range trailer_range)
@@ -303,10 +309,12 @@
              (<= (lse-tpu:line-tail-pos) (lse-range:tail-pos trailer_range))
         )
         ;; both leading and trailer are on different than current line
-        (if (string-match lse_comment_head_delim_pattern
-                          (lse-range:contents-np head_blank_line_range)
+        (if (and lse_comment_head_delim_pattern
+              (string-match lse_comment_head_delim_pattern
+                (lse-range:contents-np head_blank_line_range)
+              )
             )
-            (aset enclosure 3 
+            (aset enclosure 3
                   (lse_kill:range+contents tail_blank_line_range)
             )
           (aset enclosure 0
@@ -317,23 +325,23 @@
                (> (lse-tpu:line-tail-pos) (lse-range:tail-pos trailer_range))
           )
           ;; both leading and trailer are on current line
-          (if (equal " " (buffer-substring-no-properties 
+          (if (equal " " (buffer-substring-no-properties
                               (1- (lse-range:tail-pos trailer_range))
                                   (lse-range:tail-pos trailer_range)
                          )
               )
-              (if (not (lse-range:is-empty leading_range)); 22-Jan-1995 
-                  (lse-range:change-tail trailer_range 
+              (if (not (lse-range:is-empty leading_range)); 22-Jan-1995
+                  (lse-range:change-tail trailer_range
                                          (lse-range:tail-pos trailer_range)
                   )
               )
             (if nil ; (bolp); embedded if lets remain a single blank after killing
-                (if (equal " " (buffer-substring-no-properties 
-                                        (lse-range:head-pos leading_range) 
+                (if (equal " " (buffer-substring-no-properties
+                                        (lse-range:head-pos leading_range)
                                     (1+ (lse-range:head-pos leading_range))
                                )
                     )
-                    (lse-range:change-head leading_range 
+                    (lse-range:change-head leading_range
                                            (1+ (lse-range:head-pos leading_range))
                     )
                 )
@@ -349,7 +357,7 @@
 )
 
 (defun lse@kill_current_fill-in ()
-  (save-match-data 
+  (save-match-data
     (let* ((psym         (lse-fill-in:symbol      lse_current_fill-in))
            (range        (lse-fill-in:range       lse_current_fill-in))
            (enclosure    (lse-kill:enclosure      psym))
@@ -364,7 +372,7 @@
       ;; was used here: in some situations (when range and enclosure[2] are
       ;; adjoining without blanks) this leads to a distortion of
       ;; `(lse-range:tail range)', so we have to do it by hand and in the
-      ;; proper order (from front to back in the buffer)  1-Jun-1994 
+      ;; proper order (from front to back in the buffer)  1-Jun-1994
       (lse-range:clean (car (aref enclosure 0)))
       (lse-range:clean (car (aref enclosure 1)))
       (setq dead       (lse-range:clean range))
@@ -379,7 +387,7 @@
       (lse-fill-in:change-enclosure      lse_dead_fill-in enclosure)
       (lse-fill-in:change-descendants    lse_dead_fill-in nil)
 
-      (lse_fill-in_history:add_expansion lse_dead_fill-in); 20-Mar-1995 
+      (lse_fill-in_history:add_expansion lse_dead_fill-in); 20-Mar-1995
 
       (if (and last-fill-in-range
             (setq  tail-pos (lse-range:tail last-fill-in-range))
@@ -394,7 +402,7 @@
 
 (defun lse_kill_current_fill-in ()
   (if (not (lse_current_fill-in_is_optional))
-      (if (not (y-or-n-p 
+      (if (not (y-or-n-p
                 (concat "fill-in  `"
                         (lse_inside_fill-in)
                         "'  is required! Do you really want to kill it? "
@@ -432,11 +440,11 @@
 ; lse_kill_current_fill-in_if_optional
 )
 
-;;; 18-Feb-1995 
+;;; 18-Feb-1995
 (defun lse-kill-future-fill-in (name how-many)
   (let ((descendants (lse-fill-in:descendants lse_dead_fill-in)); 26-Feb-1995
        )
-    (save-excursion 
+    (save-excursion
       (let (lse_current_fill-in
             lse_dead_fill-in
            )
@@ -452,7 +460,7 @@
     )
   )
 ; lse-kill-future-fill-in
-) 
+)
 
 (defun lse@unkill_fill_in (lse_dead_fill-in)
   (let* ((complement               (lse-fill-in:complement lse_dead_fill-in))
@@ -486,8 +494,8 @@
     (let* ((descendants (lse-fill-in:descendants lse_dead_fill-in)))
       (setq lse_current_fill-in (lse@unkill_fill_in lse_dead_fill-in))
       (setq lse_dead_fill-in    nil)
-      (save-excursion 
-        (mapcar 'lse@unkill_fill_in descendants)
+      (save-excursion
+        (mapc 'lse@unkill_fill_in descendants)
       )
       (lse-goto-prev-fill-in)
     )
@@ -495,7 +503,7 @@
 ; lse_unkill_fill_in
 )
 
-;;; 31-Dec-1997 
+;;; 31-Dec-1997
 (defun lse-kill:join-sexp-boundary-maybe ()
   (if lse_dead_fill-in
       (if (not (save-excursion

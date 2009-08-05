@@ -78,13 +78,16 @@
 ;;;;     4-Feb-2008 (CT) Removed latex2e language
 ;;;;    13-May-2009 (CT) Use `defvar` instead of `setq` to set
 ;;;;                     `lse-directory` and friends
+;;;;     5-Aug-2009 (CT) `(vt-keypad-on)` removed from `lse-terminal-setup`
+;;;;     5-Aug-2009 (CT) `lse-emacs23-p` added
+;;;;     5-Aug-2009 (CT) `lse-version` increased
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
 ;;; 29-Dec-1997
-(defconst lse-version      "3.4"          "Version number of LS-Emacs.")
-(defconst lse-version-date "13-Oct-2007 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.5"          "Version number of LS-Emacs.")
+(defconst lse-version-date " 5-Aug-2009 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
@@ -105,6 +108,10 @@
 (defconst lse-emacs22-p (not (string-lessp emacs-version "22"))
           "Non-NIL if we are running GNU Emacs version 22."
 );  1-Oct-2007
+
+(defconst lse-emacs23-p (not (string-lessp emacs-version "23"))
+          "Non-NIL if we are running GNU Emacs version 23."
+);   5-Aug-2009
 
 (defconst lse-emacsX-p window-system;  3-Oct-1996 ; (boundp 'x-no-window-manager); 18-Mar-1995
           "Non-NIL if running under X"
@@ -181,7 +188,6 @@
 (defun lse-terminal-setup ()
   (if noninteractive; 17-Dec-1997
       t             ; 17-Dec-1997 no need for setting up the terminal
-    (vt-keypad-on)
     (lse-replace-std-emacs-bindings)
     (lse-define-std-keys)
     (lse-set-home-mark-global (point-marker))

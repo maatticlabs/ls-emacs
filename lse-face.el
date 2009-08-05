@@ -53,9 +53,9 @@
 ;;;;    20-Apr-2003 (CT) `lse-face:cal:holiday` added
 ;;;;    21-Apr-2003 (CT) Some colors of lse-face:cal:-faces changed
 ;;;;    20-Nov-2003 (CT) `lse-face:current-line-hl` added
-;;;;     3-Mar-2008 (CT) Background for `trailing-whitespace` made less
-;;;;                     ghastly (`grey80` instead of `red1`)
-;;;;    29-Jul-2009 (CT) `lse-face:line-too-long` too long
+;;;;     3-Mar-2008 (CT) Background for `trailing-whitespace` made less ghastly
+;;;;    29-Jul-2009 (CT) `lse-face:line-too-long` added
+;;;;     5-Aug-2009 (CT) `lse-face:line-too-long` made less conspicuous
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -85,7 +85,7 @@
 
   (lse-face:define 'lse-face:current-line-hl "Gray95")
 
-  (lse-face:define 'lse-face:line-too-long   "Red"          "Yellow")
+  (lse-face:define 'lse-face:line-too-long   "Gray90"       nil)
 
   (lse-face:define 'lse-face:cal:current    "LightPink"     nil)
   (lse-face:define 'lse-face:cal:day-line   "Gray88"        "Gray50")
@@ -113,5 +113,5 @@
   (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
   (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
 
-  (set-face-background 'trailing-whitespace "gray80")       ;  3-Mar-2008
+  (set-face-background 'trailing-whitespace "Gray80")       ;  3-Mar-2008
 )

@@ -67,6 +67,7 @@
 ;;;;     3-Dec-2007 (CT) Guard for `fname` added to
 ;;;;                     `lse-buffer:unique_anchored_name`
 ;;;;    29-Jul-2009 (CT) `font-lock` for `lse-face:line-too-long` added
+;;;;     5-Aug-2009 (CT) Quote added to `lse-face:line-too-long`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -310,7 +311,7 @@
   (add-hook 'post-command-hook 'lse-buffer:initialize-hack-19.30+)
   ;; mark overlong lines ;; 29-Jul-2009
   (font-lock-add-keywords nil
-    '(("^[^\n]\\{78\\}\\(.*\\)$" 1 lse-face:line-too-long)))
+    '(("^[^\n]\\{78\\}\\(.*\\)$" 1 'lse-face:line-too-long)))
 )
 
 ;;;  2-Oct-1996

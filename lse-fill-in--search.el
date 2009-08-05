@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -46,6 +46,7 @@
 ;;;;    25-Mar-1995 (CT) lse-fill-in:*highlight-current renamed to
 ;;;;                     lse-flat-fill-in:*highlight-current
 ;;;;    15-Oct-2007 (CT) Cruft removed
+;;;;     5-Aug-2009 (CT) Modernize use of backquotes
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-fill-in--search)
@@ -91,7 +92,7 @@
 (defmacro lse_search_fill-in:backward_once (&optional name)
   (skip-chars-backward lse_fill-in-not_head_start_chars)
   (skip-chars-backward lse_fill-in_head_delim_chars)
-  (` (lse_looking_at_fill-in (, name)))
+  `(lse_looking_at_fill-in ,name)
 )
 
 (defun lse_search_fill-in:backward (&optional name)
@@ -107,7 +108,7 @@
 (defmacro lse_search_fill-in:forward_once (&optional name)
   (skip-chars-forward  lse_fill-in-not_head_start_chars)
   (skip-chars-backward lse_fill-in_head_delim_chars)
-  (` (lse_looking_at_fill-in (, name)))
+  `(lse_looking_at_fill-in ,name)
 )
 
 (defun lse_search_fill-in:forward (&optional name)

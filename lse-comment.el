@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-comment:el lse_cmnt:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -54,10 +54,7 @@
              ;; 18-May-1994 search forward instead of backward to catch all
              ;; comment characters
              (or (beginning-of-line) t)
-             (re-search-forward  lse_comment_head_delim_pattern 
-                                 search-limit
-                                 t
-             )
+             (re-search-forward  lse_comment_head_delim_pattern search-limit t)
         )
         (point)
       nil
@@ -66,12 +63,12 @@
 )
 
 (defun lse_comment:setup_expansion_leading ()
-  (if lse_comment_head_delim_pattern 
+  (if lse_comment_head_delim_pattern
       (save-match-data
         (save-excursion
           (if (lse_comment:leading_comment_head_position)
               (progn
-                (setq lse@expansion-line-leading 
+                (setq lse@expansion-line-leading
                       (buffer-substring-no-properties
                           (match-beginning 0) (match-end 0)
                       )
@@ -87,7 +84,7 @@
 
 (defun lse_comment:trailer_comment_tail_position ()
   (if (and lse_comment_tail_delim_pattern
-           (re-search-forward lse_comment_tail_delim_pattern 
+           (re-search-forward lse_comment_tail_delim_pattern
                               (lse-tpu:line-tail-pos)
                               t
            )
@@ -103,12 +100,12 @@
         (save-excursion
           (if (lse_comment:trailer_comment_tail_position)
               (progn
-                (setq lse@expansion-line-trailer 
+                (setq lse@expansion-line-trailer
                       (buffer-substring-no-properties
                           (match-beginning 0) (match-end 0)
                       )
                 )
-                (setq lse@expansion-line-trailer-indent 
+                (setq lse@expansion-line-trailer-indent
                       (- (point) (match-beginning 0))
                 )
               )
@@ -118,9 +115,9 @@
   )
 )
 
-;;;  2-Jan-1998 
+;;;  2-Jan-1998
 (defun lse-comment:insidep (start)
-  "Returns true if point is inside a comment. 
+  "Returns true if point is inside a comment.
 START is the point to start parsing."
   (let ((state (parse-partial-sexp start (point))))
     (if (nth 4 state)
