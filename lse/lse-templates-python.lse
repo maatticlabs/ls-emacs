@@ -313,6 +313,22 @@
 ;;; py-class-delattr
 )
 
+;;;  24-Sep-2009
+(lse-define-fill-in "py-class-delete"
+    '(token)
+    '(token                 "__delete__")
+    '(description
+        "Descriptor method for attribute deletion."
+     )
+    '(replacement
+        "def __delete__ (self, obj) :"
+        @ py-function-body
+        "# end def __delete__"
+        ""
+     )
+;;; py-class-delete
+)
+
 ;;;  7-Jan-1998
 (lse-define-fill-in "py-class-delitem"
     '(token)
@@ -414,6 +430,29 @@
         ""
      )
 ;;; py-class-float
+)
+
+;;;  24-Sep-2009
+(lse-define-fill-in "py-class-get"
+    '(token)
+    '(token                 "__get__")
+    '(description
+        "Descriptior method for attribute retrieval."
+     )
+    '(replacement
+        "def __get__ (self, obj, cls) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "if obj is None : "
+          lse-indent+1
+            "return self"
+          lse-indent-1
+          "«py-statement»···"
+        lse-indent:<
+        "# end def __get__"
+        ""
+     )
+;;; py-class-get
 )
 
 ;;;  7-Jan-1998
@@ -1387,6 +1426,22 @@
 ;;; py-class-rxor
 )
 
+;;;  24-Sep-2009
+(lse-define-fill-in "py-class-set"
+    '(token)
+    '(token                 "__set__")
+    '(description
+        "Descriptor method for attribute assignment."
+     )
+    '(replacement
+        "def __set__ (self, obj, value) :"
+        @ py-function-body
+        "# end def __set__"
+        ""
+     )
+;;; py-class-set
+)
+
 ;;;  7-Jan-1998
 (lse-define-fill-in "py-class-setattr"
     '(token)
@@ -1912,9 +1967,7 @@
         lse-indent+1
           "««py-doc-string»»"
           "««py-statement»»···"
-          "result = super ("
-              & (lse-insert-replica-or-flat "py-class-name")
-              & ", cls).__call__ (* args, ** kw)"
+          "result = cls.__m_super.__call__ (* args, ** kw)"
           "««py-statement»»···"
           "return result"
         lse-indent-1
@@ -1964,9 +2017,7 @@
         lse-indent+1
           "««py-doc-string»»"
           "««py-statement»»···"
-          "super ("
-              & (lse-insert-replica-or-flat "py-class-name")
-              & ", cls).__init__ (name, bases, dict)"
+          "cls.__m_super.__init__ (name, bases, dict)"
           "««py-statement»»···"
         lse-indent-1
         "# end def __init__"
