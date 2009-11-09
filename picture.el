@@ -1,16 +1,18 @@
-;;; picture.el --- "Picture mode" -- editing using quarter-plane screen model.
+;;; picture.el --- "Picture mode" -- editing using quarter-plane screen model
 
-;; Copyright (C) 1985, 1994 Free Software Foundation, Inc.
+;; Copyright (C) 1985, 1994, 2001, 2002, 2003, 2004,
+;;   2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 
 ;; Author: K. Shane Hartman
 ;; Maintainer: FSF
+;; Keywords: convenience wp
 
 ;; This file is part of GNU Emacs.
 
-;; GNU Emacs is free software; you can redistribute it and/or modify
+;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
-;; any later version.
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,39 +20,65 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING.  If not, write to the
-;; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-;; Boston, MA 02111-1307, USA.
+;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
-;; This code provides the picture-mode commands documented in the Emacs 
+;; This code provides the picture-mode commands documented in the Emacs
 ;; manual.  The screen is treated as a semi-infinite quarter-plane with
 ;; support for rectangle operations and `etch-a-sketch' character
 ;; insertion in any of eight directions.
 
 ;;; Code:
 
-(defun move-to-column-force (column)
-  "Move to column COLUMN in current line.
-Differs from `move-to-column' in that it creates or modifies whitespace
-if necessary to attain exactly the specified column."
-  (or (natnump column) (setq column 0))
-  (move-to-column column)
-  (let ((col (current-column)))
-    (if (< col column)
-	(indent-to column)
-      (if (and (/= col column)
-	       (= (preceding-char) ?\t))
-	  (let (indent-tabs-mode)
-	    (delete-char -1)
-            (indent-to col)
-            (move-to-column column))))
-    ;; This call will go away when Emacs gets real horizontal autoscrolling
-    (hscroll-point-visible)))
+(defgroup picture nil
+  "Picture mode --- editing using quarter-plane screen model."
+  :prefix "picture-"
+  :group 'editing)
 
-
+(defcustom picture-rectangle-ctl ?+
+  "*Character `picture-draw-rectangle' uses for top left corners."
+  :type 'character
+  :group 'picture)
+(defcustom picture-rectangle-ctr ?+
+  "*Character `picture-draw-rectangle' uses for top right corners."
+  :type 'character
+  :group 'picture)
+(defcustom picture-rectangle-cbr ?+
+  "*Character `picture-draw-rectangle' uses for bottom right corners."
+  :type 'character
+  :group 'picture)
+(defcustom picture-rectangle-cbl ?+
+  "*Character `picture-draw-rectangle' uses for bottom left corners."
+  :type 'character
+  :group 'picture)
+(defcustom picture-rectangle-v   ?|
+  "*Character `picture-draw-rectangle' uses for vertical lines."
+  :type 'character
+  :group 'picture)
+(defcustom picture-rectangle-h   ?-
+  "*Character `picture-draw-rectangle' uses for horizontal lines."
+  :type 'character
+  :group 'picture)
+
+
 ;; Picture Movement Commands
+
+;; When a cursor is on a wide-column character (e.g. Chinese,
+;; Japanese, Korean), this variable tells the desired current column
+;; which may be different from (current-column).
+(defvar picture-desired-column 0)
+
+;; If the value of picture-desired-column is far from the current
+;; column, or if the arg ADJUST-TO-CURRENT is non-nil, set it to the
+;; current column.   Return the current column.
+(defun picture-update-desired-column (adjust-to-current)
+  (let ((current-column (current-column)))
+    (if (or adjust-to-current
+	    (< picture-desired-column (1- current-column))
+	    (> picture-desired-column (1+ current-column)))
+	(setq picture-desired-column current-column))
+    current-column))
 
 (defun picture-beginning-of-line (&optional arg)
   "Position point at the beginning of the line.
@@ -59,8 +87,7 @@ If scan reaches end of buffer, stop there without error."
   (interactive "P")
   (if arg (forward-line (1- (prefix-numeric-value arg))))
   (beginning-of-line)
-  ;; This call will go away when Emacs gets real horizontal autoscrolling
-  (hscroll-point-visible))
+  (setq picture-desired-column 0))
 
 (defun picture-end-of-line (&optional arg)
   "Position point after last non-blank character on current line.
@@ -70,45 +97,51 @@ If scan reaches end of buffer, stop there without error."
   (if arg (forward-line (1- (prefix-numeric-value arg))))
   (beginning-of-line)
   (skip-chars-backward " \t" (prog1 (point) (end-of-line)))
-  ;; This call will go away when Emacs gets real horizontal autoscrolling
-  (hscroll-point-visible))
+  (setq picture-desired-column (current-column)))
 
-(defun picture-forward-column (arg)
+(defun picture-forward-column (arg &optional interactive)
   "Move cursor right, making whitespace if necessary.
 With argument, move that many columns."
-  (interactive "p")
-  (let ((target-column (+ (current-column) arg)))
-    (move-to-column-force target-column)
-    ;; Picture mode isn't really suited to multi-column characters,
-    ;; but we might as well let the user move across them.
-    (and (< arg 0)
-	 (> (current-column) target-column)
-	 (forward-char -1))))
+  (interactive "p\nd")
+  (let (deactivate-mark)
+    (picture-update-desired-column interactive)
+    (setq picture-desired-column (max 0 (+ picture-desired-column arg)))
+    (let ((current-column (move-to-column picture-desired-column t)))
+      (if (and (> current-column picture-desired-column)
+	       (< arg 0))
+	  ;; It seems that we have just tried to move to the right
+	  ;; column of a multi-column character.
+	  (forward-char -1)))))
 
-(defun picture-backward-column (arg)
+(defun picture-backward-column (arg &optional interactive)
   "Move cursor left, making whitespace if necessary.
 With argument, move that many columns."
-  (interactive "p")
+  (interactive "p\nd")
+  (picture-update-desired-column interactive)
   (picture-forward-column (- arg)))
 
 (defun picture-move-down (arg)
   "Move vertically down, making whitespace if necessary.
 With argument, move that many lines."
   (interactive "p")
-  (let ((col (current-column)))
+  (let (deactivate-mark)
+    (picture-update-desired-column nil)
     (picture-newline arg)
-    (move-to-column-force col)))
+    (let ((current-column (move-to-column picture-desired-column t)))
+      (if (> current-column picture-desired-column)
+	  (forward-char -1)))))
 
-(defconst picture-vertical-step 0
+(defvar picture-vertical-step 0
   "Amount to move vertically after text character in Picture mode.")
 
-(defconst picture-horizontal-step 1
+(defvar picture-horizontal-step 1
   "Amount to move horizontally after text character in Picture mode.")
 
 (defun picture-move-up (arg)
   "Move vertically up, making whitespace if necessary.
 With argument, move that many lines."
   (interactive "p")
+  (picture-update-desired-column nil)
   (picture-move-down (- arg)))
 
 (defun picture-movement-right ()
@@ -131,25 +164,29 @@ With argument, move that many lines."
   (interactive)
   (picture-set-motion 1 0))
 
-(defun picture-movement-nw ()
-  "Move up and left after self-inserting character in Picture mode."
-  (interactive)
-  (picture-set-motion -1 -1))
+(defun picture-movement-nw (&optional arg)
+  "Move up and left after self-inserting character in Picture mode.
+With prefix argument, move up and two-column left."
+  (interactive "P")
+  (picture-set-motion -1 (if arg -2 -1)))
 
-(defun picture-movement-ne ()
-  "Move up and right after self-inserting character in Picture mode."
-  (interactive)
-  (picture-set-motion -1 1))
+(defun picture-movement-ne (&optional arg)
+  "Move up and right after self-inserting character in Picture mode.
+With prefix argument, move up and two-column right."
+  (interactive "P")
+  (picture-set-motion -1 (if arg 2 1)))
 
-(defun picture-movement-sw ()
-  "Move down and left after self-inserting character in Picture mode."
-  (interactive)
-  (picture-set-motion 1 -1))
+(defun picture-movement-sw (&optional arg)
+  "Move down and left after self-inserting character in Picture mode.
+With prefix argument, move down and two-column left."
+  (interactive "P")
+  (picture-set-motion 1 (if arg -2 -1)))
 
-(defun picture-movement-se ()
-  "Move down and right after self-inserting character in Picture mode."
-  (interactive)
-  (picture-set-motion 1 1))
+(defun picture-movement-se (&optional arg)
+  "Move down and right after self-inserting character in Picture mode.
+With prefix argument, move down and two-column right."
+  (interactive "P")
+  (picture-set-motion 1 (if arg 2 1)))
 
 (defun picture-set-motion (vert horiz)
   "Set VERTICAL and HORIZONTAL increments for movement in Picture mode.
@@ -158,15 +195,18 @@ The mode line is updated to reflect the current direction."
 	picture-horizontal-step horiz)
   (setq mode-name
 	(format "Picture:%s"
-		(car (nthcdr (+ 1 (% horiz 2) (* 3 (1+ (% vert 2))))
-			     '(nw up ne left none right sw down se)))))
+		(nth (+ 2 (% horiz 3) (* 5 (1+ (% vert 2))))
+		     '(wnw nw up ne ene Left left none right Right
+			   wsw sw down se ese))))
   (force-mode-line-update)
   (message ""))
 
 (defun picture-move ()
   "Move in direction of `picture-vertical-step' and `picture-horizontal-step'."
-  (picture-move-down picture-vertical-step)
-  (picture-forward-column picture-horizontal-step))
+  (if (/= picture-vertical-step 0)
+      (picture-move-down picture-vertical-step))
+  (if (/= picture-horizontal-step 0)
+      (picture-forward-column picture-horizontal-step)))
 
 (defun picture-motion (arg)
   "Move point in direction of current picture motion in Picture mode.
@@ -181,12 +221,47 @@ Do \\[command-apropos]  picture-movement  to see commands which control motion."
   "Move point in direction opposite of current picture motion in Picture mode.
 With ARG do it that many times.  Useful for delineating rectangles in
 conjunction with diagonal picture motion.
-Do \\[command-apropos] `picture-movement' to see commands which control motion."
+Do \\[command-apropos]  picture-movement  to see commands which control motion."
   (interactive "p")
   (picture-motion (- arg)))
 
+(defun picture-mouse-set-point (event)
+  "Move point to the position clicked on, making whitespace if necessary."
+  (interactive "e")
+  (let* ((pos (posn-col-row (event-start event)))
+	 (x (car pos))
+	 (y (cdr pos))
+	 (current-row (count-lines (window-start) (line-beginning-position))))
+    (unless (equal x (current-column))
+      (picture-forward-column (- x (current-column))))
+    (unless (equal y current-row)
+      (picture-move-down (- y current-row)))))
+
 
 ;; Picture insertion and deletion.
+
+(defun picture-insert (ch arg)
+  (let* ((width (char-width ch))
+	 ;; We must be sure that the succeeding insertion won't delete
+	 ;; the just inserted character.
+	 (picture-horizontal-step
+	  (if (and (= picture-vertical-step 0)
+		   (> width 1)
+		   (< (abs picture-horizontal-step) 2))
+	      (* picture-horizontal-step 2)
+	    picture-horizontal-step)))
+    (while (> arg 0)
+      (setq arg (1- arg))
+      (if (/= picture-desired-column (current-column))
+	  (move-to-column picture-desired-column t))
+      (let ((col (+ picture-desired-column width)))
+	(or (eolp)
+	    (let ((pos (point)))
+	      (move-to-column col t)
+	      (delete-region pos (point)))))
+      (insert ch)
+      (forward-char -1)
+      (picture-move))))
 
 (defun picture-self-insert (arg)
   "Insert this character in place of character previously at the cursor.
@@ -194,24 +269,22 @@ The cursor then moves in the direction you previously specified
 with the commands `picture-movement-right', `picture-movement-up', etc.
 Do \\[command-apropos] `picture-movement' to see those commands."
   (interactive "p")
-  (while (> arg 0)
-    (setq arg (1- arg))
-    (move-to-column-force (1+ (current-column)))
-    (delete-char -1)
-    (insert last-command-event)		; Always a character in this case.
-    (forward-char -1)
-    (picture-move)))
+  (picture-update-desired-column (not (eq this-command last-command)))
+  (picture-insert last-command-event arg)) ; Always a character in this case.
 
 (defun picture-clear-column (arg)
   "Clear out ARG columns after point without moving."
   (interactive "p")
-  (let* ((opoint (point))
-	 (original-col (current-column))
-	 (target-col (+ original-col arg)))
-    (move-to-column-force target-col)
-    (delete-region opoint (point))
+  (let* ((original-col (current-column))
+	 (target-col (max 0 (+ original-col arg)))
+	 pos)
+    (move-to-column target-col t)
+    (setq pos (point))
+    (move-to-column original-col)
+    (delete-region pos (point))
     (save-excursion
-     (indent-to (max target-col original-col)))))
+     (indent-to (max target-col original-col))))
+  (setq picture-desired-column (current-column)))
 
 (defun picture-backward-clear-column (arg)
   "Clear out ARG columns before point, moving back over them."
@@ -243,9 +316,7 @@ always moves to the beginning of a line."
     (while (> arg 0)
       (end-of-line)
       (if (eobp) (newline) (forward-char 1))
-      (setq arg (1- arg))))
-  ;; This call will go away when Emacs gets real horizontal autoscrolling
-  (hscroll-point-visible))
+      (setq arg (1- arg)))))
 
 (defun picture-open-line (arg)
   "Insert an empty line after the current line.
@@ -253,9 +324,7 @@ With positive argument insert that many lines."
   (interactive "p")
   (save-excursion
    (end-of-line)
-   (open-line arg))
-  ;; This call will go away when Emacs gets real horizontal autoscrolling
-  (hscroll-point-visible))
+   (open-line arg)))
 
 (defun picture-duplicate-line ()
   "Insert a duplicate of the current line, below it."
@@ -285,16 +354,16 @@ With positive argument insert that many lines."
     (if (> change 0)
 	(delete-region (point)
 		       (progn
-			 (move-to-column-force (+ change (current-column)))
+			 (move-to-column (+ change (current-column)) t)
 			 (point))))
     (replace-match newtext fixedcase literal)
     (if (< change 0)
-	(insert-char ?\ (- change)))))
+	(insert-char ?\s (- change)))))
 
 ;; Picture Tabs
 
-(defvar picture-tab-chars "!-~"
-  "*A character set which controls behavior of commands
+(defcustom picture-tab-chars "!-~"
+  "*A character set which controls behavior of commands.
 \\[picture-set-tab-stops] and \\[picture-tab-search].  It is NOT a
 regular expression, any regexp special characters will be quoted.
 It defines a set of \"interesting characters\" to look for when setting
@@ -316,7 +385,9 @@ letters `A' through `Z' and the character `-').  If you want the
 character `\\' in the set it must be preceded by itself: \"\\\\\".
 
 The command \\[picture-tab-search] is defined to move beneath (or to) a
-character belonging to this set independent of the tab stops list.")
+character belonging to this set independent of the tab stops list."
+  :type 'string
+  :group 'picture)
 
 (defun picture-set-tab-stops (&optional arg)
   "Set value of `tab-stop-list' according to context of this line.
@@ -339,7 +410,7 @@ stops computed are displayed in the minibuffer with `:' at each stop."
 	      (skip-chars-forward " \t")
 	      (setq tabs (cons (current-column) tabs)))
 	    (if (null tabs)
-		(error "No characters in set %s on this line."
+		(error "No characters in set %s on this line"
 		       (regexp-quote picture-tab-chars))))))
       (setq tab-stop-list tabs)
       (let ((blurb (make-string (1+ (nth (1- (length tabs)) tabs)) ?\ )))
@@ -372,7 +443,7 @@ If no such character is found, move to beginning of line."
 	  (setq target (1- (current-column)))
 	(setq target nil)))
     (if target
-	(move-to-column-force target)
+	(move-to-column target t)
       (beginning-of-line))))
 
 (defun picture-tab (&optional arg)
@@ -391,7 +462,7 @@ See also documentation for variable `picture-tab-chars'."
 
 ;; Picture Rectangles
 
-(defconst picture-killed-rectangle nil
+(defvar picture-killed-rectangle nil
   "Rectangle killed or copied by \\[picture-clear-rectangle] in Picture mode.
 The contents can be retrieved by \\[picture-yank-rectangle]")
 
@@ -418,7 +489,7 @@ prefix argument, the rectangle is actually killed, shifting remaining text."
                  (delete-extract-rectangle start end)
                (prog1 (extract-rectangle start end)
                       (clear-rectangle start end))))
-	   (move-to-column-force column))))
+	   (move-to-column column t))))
 
 (defun picture-yank-rectangle (&optional insertp)
   "Overlay rectangle saved by \\[picture-clear-rectangle]
@@ -428,7 +499,7 @@ shifting existing text.  Leaves mark at one corner of rectangle and
 point at the other (diagonally opposed) corner."
   (interactive "P")
   (if (not (consp picture-killed-rectangle))
-      (error "No rectangle saved.")
+      (error "No rectangle saved")
     (picture-insert-rectangle picture-killed-rectangle insertp)))
 
 (defun picture-yank-at-click (click arg)
@@ -450,7 +521,7 @@ of rectangle and point at the other (diagonally opposed) corner."
   (interactive "cRectangle from register: \nP")
   (let ((rectangle (get-register register)))
     (if (not (consp rectangle))
-	(error "Register %c does not contain a rectangle." register)
+	(error "Register %c does not contain a rectangle" register)
       (picture-insert-rectangle rectangle insertp))))
 
 (defun picture-insert-rectangle (rectangle &optional insertp)
@@ -468,17 +539,61 @@ Leaves the region surrounding the rectangle."
     (push-mark)
     (insert-rectangle rectangle)))
 
+(defun picture-current-line ()
+  "Return the vertical position of point.  Top line is 1."
+  (+ (count-lines (point-min) (point))
+     (if (= (current-column) 0) 1 0)))
+
+(defun picture-draw-rectangle (start end)
+  "Draw a rectangle around region."
+  (interactive "*r")                    ; start will be less than end
+  (let* ((sl     (picture-current-line))
+         (sc     (current-column))
+         (pvs    picture-vertical-step)
+         (phs    picture-horizontal-step)
+         (c1     (progn (goto-char start) (current-column)))
+         (r1     (picture-current-line))
+         (c2     (progn (goto-char end) (current-column)))
+         (r2     (picture-current-line))
+         (right  (max c1 c2))
+         (left   (min c1 c2))
+         (top    (min r1 r2))
+         (bottom (max r1 r2)))
+    (goto-line top)
+    (move-to-column left t)
+    (picture-update-desired-column t)
+
+    (picture-movement-right)
+    (picture-insert picture-rectangle-ctl 1)
+    (picture-insert picture-rectangle-h (- right picture-desired-column))
+
+    (picture-movement-down)
+    (picture-insert picture-rectangle-ctr 1)
+    (picture-insert picture-rectangle-v (- bottom (picture-current-line)))
+
+    (picture-movement-left)
+    (picture-insert picture-rectangle-cbr 1)
+    (picture-insert picture-rectangle-h (- picture-desired-column left))
+
+    (picture-movement-up)
+    (picture-insert picture-rectangle-cbl 1)
+    (picture-insert picture-rectangle-v (- (picture-current-line) top))
+
+    (picture-set-motion pvs phs)
+    (goto-line sl)
+    (move-to-column sc t)))
+
 
 ;; Picture Keymap, entry and exit points.
 
-(defconst picture-mode-map nil)
+(defvar picture-mode-map nil)
 
 (defun picture-substitute (oldfun newfun)
-  (substitute-key-definition oldfun newfun picture-mode-map global-map))
+  (define-key picture-mode-map (vector 'remap oldfun) newfun))
 
 (if (not picture-mode-map)
     (progn
-      (setq picture-mode-map (list 'keymap (make-vector 256 nil)))
+      (setq picture-mode-map (make-keymap))
       (picture-substitute 'self-insert-command 'picture-self-insert)
       (picture-substitute 'completion-separator-self-insert-command
 			  'picture-self-insert)
@@ -498,6 +613,7 @@ Leaves the region surrounding the rectangle."
       (picture-substitute 'previous-line 'picture-move-up)
       (picture-substitute 'beginning-of-line 'picture-beginning-of-line)
       (picture-substitute 'end-of-line 'picture-end-of-line)
+      (picture-substitute 'mouse-set-point 'picture-mouse-set-point)
 
       (define-key picture-mode-map "\C-c\C-d" 'delete-char)
       (define-key picture-mode-map "\e\t" 'picture-toggle-tab-state)
@@ -508,6 +624,7 @@ Leaves the region surrounding the rectangle."
       (define-key picture-mode-map "\C-c\C-w" 'picture-clear-rectangle-to-register)
       (define-key picture-mode-map "\C-c\C-y" 'picture-yank-rectangle)
       (define-key picture-mode-map "\C-c\C-x" 'picture-yank-rectangle-from-register)
+      (define-key picture-mode-map "\C-c\C-r" 'picture-draw-rectangle)
       (define-key picture-mode-map "\C-c\C-c" 'picture-mode-exit)
       (define-key picture-mode-map "\C-c\C-f" 'picture-motion)
       (define-key picture-mode-map "\C-c\C-b" 'picture-motion-reverse)
@@ -518,11 +635,21 @@ Leaves the region surrounding the rectangle."
       (define-key picture-mode-map "\C-c`" 'picture-movement-nw)
       (define-key picture-mode-map "\C-c'" 'picture-movement-ne)
       (define-key picture-mode-map "\C-c/" 'picture-movement-sw)
-      (define-key picture-mode-map "\C-c\\" 'picture-movement-se)))
+      (define-key picture-mode-map "\C-c\\" 'picture-movement-se)
+      (define-key picture-mode-map [(control ?c) left]  'picture-movement-left)
+      (define-key picture-mode-map [(control ?c) right] 'picture-movement-right)
+      (define-key picture-mode-map [(control ?c) up]    'picture-movement-up)
+      (define-key picture-mode-map [(control ?c) down]  'picture-movement-down)
+      (define-key picture-mode-map [(control ?c) home]  'picture-movement-nw)
+      (define-key picture-mode-map [(control ?c) prior] 'picture-movement-ne)
+      (define-key picture-mode-map [(control ?c) end]   'picture-movement-sw)
+      (define-key picture-mode-map [(control ?c) next]  'picture-movement-se)))
 
-(defvar picture-mode-hook nil
+(defcustom picture-mode-hook nil
   "If non-nil, its value is called on entry to Picture mode.
-Picture mode is invoked by the command \\[picture-mode].")
+Picture mode is invoked by the command \\[picture-mode]."
+  :type 'hook
+  :group 'picture)
 
 (defvar picture-mode-old-local-map)
 (defvar picture-mode-old-mode-name)
@@ -532,81 +659,89 @@ Picture mode is invoked by the command \\[picture-mode].")
 ;;;###autoload
 (defun picture-mode ()
   "Switch to Picture mode, in which a quarter-plane screen model is used.
+\\<picture-mode-map>
 Printing characters replace instead of inserting themselves with motion
 afterwards settable by these commands:
-  C-c <	  Move left after insertion.
-  C-c >	  Move right after insertion.
-  C-c ^	  Move up after insertion.
-  C-c .	  Move down after insertion.
-  C-c `	  Move northwest (nw) after insertion.
-  C-c '	  Move northeast (ne) after insertion.
-  C-c /	  Move southwest (sw) after insertion.
-  C-c \\   Move southeast (se) after insertion.
+
+ Move left after insertion:            \\[picture-movement-left]
+ Move right after insertion:           \\[picture-movement-right]
+ Move up after insertion:              \\[picture-movement-up]
+ Move down after insertion:            \\[picture-movement-down]
+
+ Move northwest (nw) after insertion:  \\[picture-movement-nw]
+ Move northeast (ne) after insertion:  \\[picture-movement-ne]
+ Move southwest (sw) after insertion:  \\[picture-movement-sw]
+ Move southeast (se) after insertion:  \\[picture-movement-se]
+
+ Move westnorthwest (wnw) after insertion:  C-u \\[picture-movement-nw]
+ Move eastnortheast (ene) after insertion:  C-u \\[picture-movement-ne]
+ Move westsouthwest (wsw) after insertion:  C-u \\[picture-movement-sw]
+ Move eastsoutheast (ese) after insertion:  C-u \\[picture-movement-se]
+
 The current direction is displayed in the mode line.  The initial
 direction is right.  Whitespace is inserted and tabs are changed to
 spaces when required by movement.  You can move around in the buffer
 with these commands:
-  \\[picture-move-down]	  Move vertically to SAME column in previous line.
-  \\[picture-move-up]	  Move vertically to SAME column in next line.
-  \\[picture-end-of-line]	  Move to column following last non-whitespace character.
-  \\[picture-forward-column]	  Move right inserting spaces if required.
-  \\[picture-backward-column]	  Move left changing tabs to spaces if required.
-  C-c C-f Move in direction of current picture motion.
-  C-c C-b Move in opposite direction of current picture motion.
-  Return  Move to beginning of next line.
-You can edit tabular text with these commands:
-  M-Tab	  Move to column beneath (or at) next interesting character.
-	    `Indents' relative to a previous line.
-  Tab	  Move to next stop in tab stop list.
-  C-c Tab Set tab stops according to context of this line.
-	    With ARG resets tab stops to default (global) value.
-	    See also documentation of variable	picture-tab-chars
-	    which defines \"interesting character\".  You can manually
-	    change the tab stop list with command \\[edit-tab-stops].
-You can manipulate text with these commands:
-  C-d	  Clear (replace) ARG columns after point without moving.
-  C-c C-d Delete char at point - the command normally assigned to C-d.
-  \\[picture-backward-clear-column]  Clear (replace) ARG columns before point, moving back over them.
-  \\[picture-clear-line]	  Clear ARG lines, advancing over them.	 The cleared
-	    text is saved in the kill ring.
-  \\[picture-open-line]	  Open blank line(s) beneath current line.
-You can manipulate rectangles with these commands:
-  C-c C-k Clear (or kill) a rectangle and save it.
-  C-c C-w Like C-c C-k except rectangle is saved in named register.
-  C-c C-y Overlay (or insert) currently saved rectangle at point.
-  C-c C-x Like C-c C-y except rectangle is taken from named register.
-  \\[copy-rectangle-to-register]   Copies a rectangle to a register.
-  \\[advertised-undo]   Can undo effects of rectangle overlay commands
-	    commands if invoked soon enough.
-You can return to the previous mode with:
-  C-c C-c Which also strips trailing whitespace from every line.
-	    Stripping is suppressed by supplying an argument.
 
-Entry to this mode calls the value of  picture-mode-hook  if non-nil.
+ Move vertically to SAME column in previous line: \\[picture-move-down]
+ Move vertically to SAME column in next line:     \\[picture-move-up]
+ Move to column following last
+  non-whitespace character:                       \\[picture-end-of-line]
+ Move right, inserting spaces if required:        \\[picture-forward-column]
+ Move left changing tabs to spaces if required:   \\[picture-backward-column]
+ Move in direction of current picture motion:     \\[picture-motion]
+ Move opposite to current picture motion:         \\[picture-motion-reverse]
+ Move to beginning of next line:                  \\[next-line]
+
+You can edit tabular text with these commands:
+
+ Move to column beneath (or at) next interesting
+  character (see variable `picture-tab-chars'):   \\[picture-tab-search]
+ Move to next stop in tab stop list:              \\[picture-tab]
+ Set tab stops according to context of this line: \\[picture-set-tab-stops]
+   (With ARG, resets tab stops to default value.)
+ Change the tab stop list:                        \\[edit-tab-stops]
+
+You can manipulate text with these commands:
+ Clear ARG columns after point without moving:    \\[picture-clear-column]
+ Delete char at point:                            \\[delete-char]
+ Clear ARG columns backward:                      \\[picture-backward-clear-column]
+ Clear ARG lines, advancing over them:            \\[picture-clear-line]
+  (the cleared text is saved in the kill ring)
+ Open blank line(s) beneath current line:         \\[picture-open-line]
+
+You can manipulate rectangles with these commands:
+  Clear a rectangle and save it:                  \\[picture-clear-rectangle]
+  Clear a rectangle, saving in a named register:  \\[picture-clear-rectangle-to-register]
+  Insert currently saved rectangle at point:      \\[picture-yank-rectangle]
+  Insert rectangle from named register:           \\[picture-yank-rectangle-from-register]
+  Draw a rectangular box around mark and point:   \\[picture-draw-rectangle]
+  Copies a rectangle to a register:               \\[copy-rectangle-to-register]
+  Undo effects of rectangle overlay commands:     \\[advertised-undo]
+
+You can return to the previous mode with \\[picture-mode-exit], which
+also strips trailing whitespace from every line.  Stripping is suppressed
+by supplying an argument.
+
+Entry to this mode calls the value of `picture-mode-hook' if non-nil.
 
 Note that Picture mode commands will work outside of Picture mode, but
 they are not defaultly assigned to keys."
   (interactive)
   (if (eq major-mode 'picture-mode)
-      (error "You are already editing a picture.")
-    (make-local-variable 'picture-mode-old-local-map)
-    (setq picture-mode-old-local-map (current-local-map))
+      (error "You are already editing a picture")
+    (set (make-local-variable 'picture-mode-old-local-map) (current-local-map))
     (use-local-map picture-mode-map)
-    (make-local-variable 'picture-mode-old-mode-name)
-    (setq picture-mode-old-mode-name mode-name)
-    (make-local-variable 'picture-mode-old-major-mode)
-    (setq picture-mode-old-major-mode major-mode)
+    (set (make-local-variable 'picture-mode-old-mode-name) mode-name)
+    (set (make-local-variable 'picture-mode-old-major-mode) major-mode)
     (setq major-mode 'picture-mode)
-    (make-local-variable 'picture-killed-rectangle)
-    (setq picture-killed-rectangle nil)
-    (make-local-variable 'tab-stop-list)
-    (setq tab-stop-list (default-value 'tab-stop-list))
-    (make-local-variable 'picture-tab-chars)
-    (setq picture-tab-chars (default-value 'picture-tab-chars))
+    (set (make-local-variable 'picture-killed-rectangle) nil)
+    (set (make-local-variable 'tab-stop-list) (default-value 'tab-stop-list))
+    (set (make-local-variable 'picture-tab-chars)
+	 (default-value 'picture-tab-chars))
     (make-local-variable 'picture-vertical-step)
     (make-local-variable 'picture-horizontal-step)
-    (make-local-variable 'picture-mode-old-truncate-lines)
-    (setq picture-mode-old-truncate-lines truncate-lines)
+    (set (make-local-variable 'picture-mode-old-truncate-lines) truncate-lines)
     (setq truncate-lines t)
     (picture-set-motion 0 1)
 
@@ -620,27 +755,23 @@ they are not defaultly assigned to keys."
 (defalias 'edit-picture 'picture-mode)
 
 (defun picture-mode-exit (&optional nostrip)
-  "Undo picture-mode and return to previous major mode.
-With no argument strips whitespace from end of every line in Picture buffer
-  otherwise just return to previous mode."
+  "Undo `picture-mode' and return to previous major mode.
+With no argument, strip whitespace from end of every line in Picture buffer;
+  otherwise, just return to previous mode.
+Runs `picture-mode-exit-hook' at the end."
   (interactive "P")
   (if (not (eq major-mode 'picture-mode))
-      (error "You aren't editing a Picture.")
-    (if (not nostrip) (picture-clean))
+      (error "You aren't editing a Picture")
+    (if (not nostrip) (delete-trailing-whitespace))
     (setq mode-name picture-mode-old-mode-name)
     (use-local-map picture-mode-old-local-map)
     (setq major-mode picture-mode-old-major-mode)
     (kill-local-variable 'tab-stop-list)
     (setq truncate-lines picture-mode-old-truncate-lines)
-    (force-mode-line-update)))
-
-(defun picture-clean ()
-  "Eliminate whitespace at ends of lines."
-  (save-excursion
-   (goto-char (point-min))
-   (while (re-search-forward "[ \t][ \t]*$" nil t)
-     (delete-region (match-beginning 0) (point)))))
+    (force-mode-line-update)
+    (run-hooks 'picture-mode-exit-hook)))
 
 (provide 'picture)
 
+;; arch-tag: e452d08d-a470-4fbf-896e-ea276698d1ca
 ;;; picture.el ends here
