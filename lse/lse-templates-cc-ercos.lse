@@ -6,7 +6,7 @@
     '(description           "Description of change reqest")
     '(replacement
         @ current-date & "  «number»  -  «change-request-title» "
-        & lse-insert-user-abbr-name
+        & lse-insert-user-name
      )
 ;;; change-request-desc
 )

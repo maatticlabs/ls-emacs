@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-session:el lse_sssn:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -65,8 +65,10 @@
 ;;;;                     compilation, arrrrgggh)
 ;;;;    24-May-2007 (CT) TTTech site-specific code removed
 ;;;;    24-May-2007 (CT) `(defun lse-system-domain () "swing.co.at")` added
-;;;;                     to site-specificcode for `swing`
+;;;;                     to site-specific code for `swing`
 ;;;;     6-Dec-2007 (CT) `lse-insert-buffer-name-plus-extension` added
+;;;;    12-Nov-2009 (CT) `lse-new-site-info` and functions using it added
+;;;;                     (and: site-specific function definitions removed)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -211,13 +213,13 @@
 )
 
 ;;; 12-Jan-1998
-(defun lse-system-domain ()
+(defun lse-system-domain-auto ()
   (let* ((sn   (system-name))
          (tail (string-match "\\." sn))
         )
     (substring sn (1+ tail))
   )
-; lse-system-domain
+; lse-system-domain-auto
 )
 
 ;;; 12-Jan-1998
@@ -247,6 +249,7 @@ This is correct only if the locally used domain is a valid internet domain.
   (lse-tpu:insert (lse-user-e-mail-address))
 ; lse-insert-user-e-mail-address
 )
+
 (defun lse-insert-user-name ()
   (interactive "*")
   (lse-tpu:insert (lse-user-name))
@@ -355,75 +358,94 @@ This is correct only if the locally used domain is a valid internet domain.
 )
 
 (defvar lse-session:system-name (lse-system-name)); 11-Jan-1998
-
-;;;; ****************************** site-specific *****************************
-(cond ((or (string-match "swing"       lse-session:system-name); 11-Jan-1998
-           (string-match "^t[0-9a-z]$" lse-session:system-name); 29-Dec-2004
-       );  3-Nov-2004
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-system-domain () "swing.co.at"); 24-May-2007
-       (defun lse-user-full-name ()
-         (let ((user (user-login-name)))
-           (cond ((string= user "appoyer")     "Heinz Appoyer")
-                 ((string= user "froelich")    "Eleanor Froelich")
-                 ((string= user "koenighofer") "Gerhard Koenighofer")
-                 ((string= user "koenig")      "Gerhard Koenighofer")
-                 ((string= user "rainer")      "Ulrich Rainer-Harbach")
-                 ((string= user "tanzer")      "Christian Tanzer")
-                 ((string= user "root")        "Christian R. Tanzer")
-                 (t (user-full-name))
-           )
-         )
+
+;;; 12-Nov-2009
+(defun lse-new-site-info (kw &optional parent)
+  (let ((result
+          (if parent
+              (copy-hash-table parent)
+            (make-hash-table :test 'equal)
+          )
+        )
+        item
+        key
+        val
        )
-
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-user-abbr-name ();  3-May-1995
-         (let ((user (user-login-name)))
-           (cond ((string= user "appoyer")        "H. Appoyer")
-                 ((string= user "froelich")       "E. Froelich")
-                 ((string= user "koenighofer")    "G. Koenighofer")
-                 ((string= user "koenig")         "G. Koenighofer")
-                 ((string= user "rainer")         "U. Rainer-Harbach")
-                 ((string= user "tanzer")         "C. Tanzer")
-                 ((string= user "root")           "C.R. Tanzer")
-                 (t "")
-           )
-         )
-       )
-
-       ;;;; ****************************** site-specific *****************************
-       (defun lse-user-initials ()
-         (let ((user (user-login-name)))
-           (cond ((string= user "appoyer")        "HA")
-                 ((string= user "froelich")       "EFE")
-                 ((string= user "koenighofer")    "GK")
-                 ((string= user "koenig")         "GK")
-                 ((string= user "rainer")         "RH")
-                 ((string= user "tanzer")         "CT")
-                 ((string= user "root")           "CT/R")
-                 (t "")
-           )
-         )
-       )
-      ); end   of swing  definitions
-      (t;  3-Nov-2004 ; 22-Oct-2002
-       (defun lse-user-full-name ()
-         (user-full-name)
-       )
-       (defun lse-user-name ()
-         (user-login-name)
-       )
-       (defun lse-user-abbr-name ()
-         "Noname"
-       )
-       (defun lse-user-initials ()
-         "NN"
-       )
-       (defun lse-system-domain ()  "undefined.dontknow")
-      )
+    (while kw
+      (setq item (car kw))
+      (setq kw   (cdr kw))
+      (setq key  (car item))
+      (setq val  (cdr item))
+      (puthash key val result)
+    )
+    result
+  )
+; lse-new-site-info
 )
 
-;;;; ****************************** site-specific *****************************
+(load "lse-site-info")
+
+;;; 12-Nov-2009
+(defun lse-company-address ()
+  (gethash 'company-address lse-site-info "Earth, Milky Way, Universe")
+; lse-company-address
+)
+
+;;; 12-Nov-2009
+(defun lse-company-e-mail ()
+  (let ((result (gethash 'company-e-mail lse-site-info)))
+    (if result
+        t
+      (setq result (concat "office@" (lse-system-domain)))
+    )
+    result
+  )
+; lse-company-e-mail
+)
+
+;;; 12-Nov-2009
+(defun lse-company-name ()
+  (gethash 'company-name lse-site-info (lse-user-full-name))
+; lse-company-name
+)
+
+;;; 12-Nov-2009
+(defun lse-system-domain ()
+  (gethash 'system-domain lse-site-info "undefined.dontknow")
+; lse-system-domain
+)
+
+;;; 12-Nov-2009
+(defun lse-user-full-name (&optional login)
+  (let* ((uln      (or login (user-login-name)))
+         (ufn      (user-full-name))
+         (user-map (gethash 'user-map:name lse-site-info))
+         (result   (if user-map (gethash uln user-map ufn) ufn))
+        )
+    result
+  )
+; lse-user-full-name
+)
+
+;;; 12-Nov-2009
+(defun lse-user-initials (&optional login full)
+  (let* ((uln      (or login (user-login-name)))
+         (ufn      (or full  (lse-user-full-name)))
+         (user-map (gethash 'user-map:initials lse-site-info))
+         (result   (if user-map (gethash uln user-map)))
+         (case-fold-search nil)
+        )
+    (if result
+        t
+      (save-match-data
+        (setq result (replace-regexp-in-string "[^A-Z]" "" ufn t))
+      )
+    )
+    result
+  )
+; lse-user-initials
+)
+
 ;;; 27-Aug-1996
 (defun lse-user-initials-r ()
   (let ((user (user-login-name)))

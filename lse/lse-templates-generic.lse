@@ -427,6 +427,33 @@
 ;;; text-block
 )
 
+;;; 12-Nov-2009
+(lse-define-fill-in "this-company-address"
+    '(token)
+    '(description           "Company address of LS-Emacs user")
+    '(auto-replicate        100)
+    '(replacement           (insert (lse-company-address)))
+;;; this-company-address
+)
+
+;;; 12-Nov-2009
+(lse-define-fill-in "this-company-e-mail"
+    '(token)
+    '(description           "E-mail address of company of LS-Emacs user")
+    '(auto-replicate        100)
+    '(replacement           (insert (lse-company-e-mail)))
+;;; this-company-e-mail
+)
+
+;;; 12-Nov-2009
+(lse-define-fill-in "this-company-name"
+    '(token)
+    '(description           "Company name of LS-Emacs user")
+    '(auto-replicate        100)
+    '(replacement           (insert (lse-company-name)))
+;;; this-company-name
+)
+
 (lse-define-fill-in "time"
     '(description           "Enter valid time")
 )
@@ -481,6 +508,15 @@
   '(description   "Year in numeric format (e.g., 2001)")
 )
 
+;;; 12-Nov-2009
+(lse-define-fill-in "your-e-mail"
+  '(token)
+  '(description           "E-mail address of author")
+  '(max-line-move         1)
+  '(replacement           lse-insert-user-e-mail-address)
+;; your-e-mail
+)
+
 (lse-define-fill-in "your-name"
   '(description   "Name of author (e.g., `Stallman')")
   '(token)
@@ -517,115 +553,4 @@
 (lse-define-simple-token "<<" '(lse-tpu:enclose-selection "««" "»»"))
 (lse-define-simple-token "|"  '(lse-tpu:enclose-selection "¦"   "¦"))
 
-;;; *** site-specific ***
-(cond ((or (string-match "swing" (lse-system-name))
-           (string-match "^t[0-9a-z]$" (lse-system-name));  7-Jun-2005
-       ); 11-Jan-1998
-       ;;  9-Nov-1995
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-address"
-           '(token)
-           '(description           "Company address of LS-Emacs user")
-           '(auto-replicate        100)
-           '(replacement
-             "Glasauergasse 32, A--1130 Wien, Austria"
-            )
-       ;; this-company-address
-       )
-
-       ;;  2-Mar-1998
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-e-mail"
-           '(token)
-           '(description           "E-mail address of company of LS-Emacs user")
-           '(auto-replicate        100)
-           '(replacement           "tanzer@" & lse-insert-system-domain)
-       ;;; this-company-e-mail
-       )
-
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-name"
-           '(description    "Company name of LS-Emacs user")
-           '(token)
-           '(auto-replicate 100)
-           ;;  2-Mar-1998
-           ;; '(replacement    "Swing Informationssysteme GmbH.")
-           '(replacement    "Mag. Christian Tanzer.")
-       )
-
-       ;;  3-May-1995
-       ;; *** site-specific ***
-       (lse-define-fill-in "your-e-mail"
-           '(description           "E-mail address of author")
-           '(max-line-move         1)
-           '(menu
-               your-e-mail-auto
-               "appoyer@vmars.tuwien.ac.at"
-            )
-       ;; your-e-mail
-       )
-
-       ;; 29-Sep-1996
-       ;; *** site-specific ***
-       (lse-define-fill-in "your-e-mail-auto"
-           '(token)
-           '(description           "Expands to `username'@swing.co.at")
-           '(replacement           @ your-name & "@swing.co.at")
-       ;; your-e-mail-auto
-       )
-      ); end   of swing  definitions
-
-      ;; begin of tttech definitions
-      ((string-match "ttt" (lse-system-name))
-       ;;  9-Nov-1995
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-address"
-           '(token)
-           '(description           "Company address of LS-Emacs user")
-           '(auto-replicate        100)
-           '(replacement
-             "Schönbrunnerstraße 7, A--1040 Wien, Austria"
-            )
-       ;; this-company-address
-       )
-
-       ;;  2-Mar-1998
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-e-mail"
-           '(token)
-           '(description           "E-mail address of company of LS-Emacs user")
-           '(auto-replicate        100)
-           '(replacement           "office@" & lse-insert-system-domain)
-       ;;; this-company-e-mail
-       )
-
-       ;; *** site-specific ***
-       (lse-define-fill-in "this-company-name"
-           '(description    "Company name of LS-Emacs user")
-           '(token)
-           '(auto-replicate 100)
-           '(replacement    "TTTech Computertechnik AG."); 17-Aug-2000
-       )
-
-       ;;  3-May-1995
-       ;; *** site-specific ***
-       (lse-define-fill-in "your-e-mail"
-           '(description           "E-mail address of author")
-           '(max-line-move         1)
-           '(replacement           @ your-e-mail-auto)
-       ;; your-e-mail
-       )
-
-       ;; 29-Sep-1996
-       ;; *** site-specific ***
-       (lse-define-fill-in "your-e-mail-auto"
-           '(token)
-           '(description           "Expands to `username'@tttech.com")
-           ;; cannot use lse-user-name (i.e. `@your-name') because that
-           ;; doesn't work for login-names names like gkopetz (lse-user-name
-           ;; returns kopetz in this case)
-           '(replacement           (insert user-login-name) & "@tttech.com")
-       ;; your-e-mail-auto
-       )
-      )
-)
+;;; __END__ lse-templates-generic.lse
