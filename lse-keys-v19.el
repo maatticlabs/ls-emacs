@@ -95,10 +95,15 @@
 ;;;;                     `lse-keys:emacs-bindings-to-unset`
 ;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    13-Nov-2009 (CT) Explicitly turn on `normal-erase-is-backspace-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
 
+;;; 13-Nov-2009
+(if (fboundp 'normal-erase-is-backspace-mode)
+    (normal-erase-is-backspace-mode 1)
+)
 ;;;  3-Oct-2007
 (defvar lse-keys:emacs-bindings-to-unset
     '([f2] [f3] [f4] [f5] [f6] [f7] [f8] [f9]
