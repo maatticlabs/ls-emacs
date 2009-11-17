@@ -81,6 +81,7 @@
 ;;;;     5-Aug-2009 (CT) `(vt-keypad-on)` removed from `lse-terminal-setup`
 ;;;;     5-Aug-2009 (CT) `lse-emacs23-p` added
 ;;;;     5-Aug-2009 (CT) `lse-version` increased
+;;;;    17-Nov-2009 (CT) `server-start` guarded against `server-running-p`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -279,7 +280,8 @@
        (setq w32-alt-is-meta nil)
        (setq w32-apps-modifier 'meta)
      )
-   (server-start)
+   (require 'server)
+   (unless (server-running-p) (server-start))
    (setq server-temp-file-regexp (concat "MH/draft/[0-9]+\\|" server-temp-file-regexp))
   )
   (lse-define-tpu-keys)

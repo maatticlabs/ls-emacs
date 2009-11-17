@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
-;;;; Copyright (C) 1996-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1996-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -49,6 +49,10 @@
 ;;;;     8-Sep-2002 (CT) `lse-frame:set-height:<nnn>` added
 ;;;;    28-Mar-2007 (CT) `lse-frame:large-height` changed from 72 to 66
 ;;;;    28-Mar-2007 (CT) `lse-frame:*-menu-bar` added
+;;;;    17-Nov-2009 (CT) `lse-frame:set-parameter` and
+;;;;                     `lse-frame:window-list` added
+;;;;    17-Nov-2009 (CT) `lse-frame:desktop-save` and
+;;;;                     `lse-frame:restore-saved-config` added and hooked
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -89,9 +93,9 @@
   (if lse-emacsX-p
     (modify-frame-parameters
         (or fram (selected-frame))
-        (if (< emacs-minor-version 31)
-            (list (cons 'name nam))
-          (list (cons 'title nam))
+        (list
+          (cons 'name nam)
+          (cons 'title nam)
         )
     )
   )
@@ -161,6 +165,13 @@
   (or fram (setq fram (selected-frame)))
   (cdr (assoc nsym (frame-parameters fram)))
 ; lse-frame:parameter
+)
+
+;;; 17-Nov-2009
+(defun lse-frame:set-parameter (nsym value &optional fram)
+  (or fram (setq fram (selected-frame)))
+  (modify-frame-parameters fram (list (cons nsym value)))
+; lse-frame:set-parameter
 )
 
 ;;;  5-Mar-1997
@@ -378,5 +389,132 @@
   )
 ; lse-frame:toggle-menu-bar
 )
+
+;;; 17-Nov-2009
+(defun lse-frame:window-list (&optional fram)
+  "Returns the list of windows of frame"
+  (or fram (setq fram (selected-frame)))
+  (let (windows)
+    (walk-windows
+      (lambda (w) (setq windows (cons w windows)))
+      "no-mini-buf"
+      fram
+    )
+    windows
+  )
+; lse-frame:window-list
+)
+
+;;;; Saving of frame information
+;;; 17-Nov-2009
+(add-hook 'after-init-hook
+  (function
+    (lambda () (lse-frame:set-parameter 'root-p t))
+  )
+)
+
+;;; 17-Nov-2009
+(defun lse-frame:desktop-save ()
+  (let ((out (current-buffer)))
+    (insert "\n;; Frame configuration section:\n")
+    (insert "(setq lse-frame:saved-config '(" )
+    (dolist (frame (frame-list))
+      (lse-frame:save-one frame out)
+    )
+    (insert "))\n\n")
+  )
+; lse-frame:desktop-save
+)
+
+;;; 17-Nov-2009
+(defun lse-frame:restore-saved-config ()
+  (when (boundp 'lse-frame:saved-config)
+    (let ((start-frame (selected-frame))
+         )
+      (dolist (frame-infos lse-frame:saved-config)
+        (let ((root-p       (nth 0 frame-infos))
+              (frame-params (nth 1 frame-infos))
+              (window-infos (nth 2 frame-infos))
+              (first t)
+             )
+          (save-window-excursion
+            (if root-p
+                (progn
+                  (select-frame start-frame)
+                  (modify-frame-parameters start-frame frame-params)
+                )
+              (select-frame (make-frame frame-params))
+            )
+            (dolist (window-info window-infos)
+              (if first
+                  (setq first nil)
+                (lse-split-window)
+                (lse-previous-window)
+              )
+              (lse-goto-buffer+maybe-create (nth 0 window-info))
+              (goto-char (nth 1 window-info))
+            )
+          )
+        )
+      )
+      (select-frame-set-input-focus start-frame)
+    )
+    (makunbound 'lse-frame:saved-config)
+  )
+; lse-frame:restore-saved-config
+)
+
+;;; 17-Nov-2009
+(defun lse-frame:save-one (frame out)
+  (let* ((params     (frame-parameters frame))
+         (height     (cdr (assoc 'height     params)))
+         (left       (cdr (assoc 'left       params)))
+         (name       (cdr (assoc 'name       params)))
+         (root-p     (cdr (assoc 'root-p     params)))
+         (top        (cdr (assoc 'top        params)))
+         (visibility (cdr (assoc 'visibility params)))
+         (width      (cdr (assoc 'width      params)))
+         buffer
+         buffer-name
+         result
+         window-infos
+        )
+    (dolist (window (lse-frame:window-list frame))
+      (setq buffer      (window-buffer window))
+      (setq buffer-name (buffer-name   buffer))
+      (when (and buffer-name (lse-buffer:is-lse-buffer buffer))
+        (setq window-infos
+          (cons
+            (list buffer-name
+              (save-window-excursion (select-window window) (point))
+            )
+            window-infos
+          )
+        )
+      )
+    )
+    (when window-infos
+      (setq result
+        (list
+          root-p
+          (list
+            (cons 'height     height)
+            (cons 'left       left)
+            (cons 'top        top)
+            (cons 'visibility visibility)
+            (cons 'width      width)
+            (unless root-p (cons 'name name))
+          )
+          window-infos
+        )
+      )
+      (print result out)
+    )
+  )
+; lse-frame:save-one
+)
+
+(add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
+(add-hook 'desktop-save-hook       'lse-frame:desktop-save)
 
 ;;; __END__ lse-frame.el
