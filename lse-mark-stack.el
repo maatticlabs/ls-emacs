@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-mark-stack:el lse_mark:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -46,6 +46,8 @@
 ;;;; Revision Dates
 ;;;;    12-Dec-1993 (CT) Creation
 ;;;;     9-Oct-1996 (CT) Replaced "'(lambda" by "(function (lambda"
+;;;;    17-Nov-2009 (CT) `lse-global-home-mark-initialized` and
+;;;;                     `lse-home-mark-global` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mark-stack)
@@ -69,8 +71,6 @@
 ;;;;+
 ;;;; Internal core functions working on mark-stack bound to 'lse@mark@stack'.
 ;;;;
-;;;; !!!!! DO NOT USE THESE FROM OUTSIDE THIS LIBRARY !!!!!
-;;;;-
 (defun lse@implicit@mark (access)
   (or (funcall access (car lse@mark@stack))
       (point-marker)
@@ -210,6 +210,9 @@
   ;; by user.
 )
 
+;;; 17-Nov-2009
+(defvar lse-global-home-mark-initialized nil)
+
 (defun lse-goto-last-mark-global ()
   "Goto global last mark."
   (interactive)
@@ -219,7 +222,13 @@
 (defun lse-goto-home-mark-global ()
   "Goto global home mark."
   (interactive)
-  (lse-goto-buffer (lse-buffer:main))
+  (lse-goto-position (lse-home-mark-global))
+)
+
+;;; 17-Nov-2009
+(defun lse-home-mark-global ()
+  (lse-home-mark lse-global-mark@stack)
+; lse-home-mark-global
 )
 
 (defun lse-set-last-mark-global (&optional to-mark)
@@ -233,6 +242,7 @@
 (defun lse-set-home-mark-global (to-mark)
   "Set global last mark to 'to-mark'."
   (interactive "d")
+  (setq lse-global-home-mark-initialized t)
   (lse-set-home-mark lse-global-mark@stack
                        (if (integerp to-mark) (copy-marker to-mark) to-mark)
   )

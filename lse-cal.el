@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2003-2008 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -65,6 +65,8 @@
 ;;;;     5-Jun-2008 (CT) `lse-cal:plan:highlight-today` changed to use
 ;;;;                     `lse-cal:view:goto-month` instead of
 ;;;;                     `lse-cal:plan:sync-to-view`
+;;;;    17-Nov-2009 (CT) `lse-cal:setup-year-frame` factored
+;;;;                     (and used for `frame-setup` frame property)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -445,7 +447,7 @@
        )
     (while (> num 0)
       (let ((op (point)))
-        (next-line 1)
+        (next-line-internal 1)
         (if (eobp)
             (progn
               (goto-char op)
@@ -470,7 +472,7 @@
        )
     (while (> num 0)
       (let ((op (point)))
-        (next-line -1)
+        (next-line-internal -1)
         (if (bobp)
             (progn
               (goto-char op)
@@ -679,19 +681,14 @@
   (lse-cal:view:goto-month)
 )
 
-;;;  7-Apr-2003
-(defun lse-cal:setup-year (year &optional x y ht wd)
-  (interactive "sYear to setup (YYYY) \n")
-  (let ((fram (lse-frame:make
-               (concat (lse-user-initials) "'s calendar " year)
-               (cons (or x 284) (or y 341))
-               (cons (or wd 115) (or ht 24)); s/20/24/ for ht
-               '((font . "6x13"))
-              ); 45 is another nice height
-        )
-        (current-year-p (string= year (lse-date-year)))
-       )
+;;; 17-Nov-2009
+(defun lse-cal:setup-year-frame (fram &optional year)
+  (or year (setq year (lse-date-year)))
+  (let ((current-year-p (string= year (lse-date-year))))
     (select-frame fram)
+    (lse-frame:set-parameter
+      'frame-setup (list 'lse-cal:setup-year-frame 'frame year) fram
+    )
     (lse-frame:disable-menu-bar fram); 28-Mar-2007
     (let (pbuf vbuf)
       (lse-split-window-horizontally nil 34)
@@ -720,6 +717,22 @@
       (and current-year-p (lse-cal:plan:highlight-today))
     )
   )
+; lse-cal:setup-year-frame
+)
+
+;;;  7-Apr-2003
+(defun lse-cal:setup-year (year &optional x y ht wd)
+  (interactive "sYear to setup (YYYY) \n")
+  (let ((fram (lse-frame:make
+               (concat (lse-user-initials) "'s calendar " year)
+               (cons (or x 284) (or y 341))
+               (cons (or wd 115) (or ht 24))
+               '((font . "6x13") (Font . "6x13"))
+              )
+        )
+       )
+    (lse-cal:setup-year-frame fram year)
+  )
 ; lse-cal:setup-year
 )
 
@@ -731,7 +744,7 @@
                 nil
                 (cons (or x 0) (or y 460))
                 (cons (or wd 65) (or ht 11)); 11-Apr-2007 s/9/11/ for ht
-                '((font . "6x13"))
+                '((font . "6x13") (Font . "6x13"))
                )
          )
         )

@@ -53,6 +53,7 @@
 ;;;;                     `lse-frame:window-list` added
 ;;;;    17-Nov-2009 (CT) `lse-frame:desktop-save` and
 ;;;;                     `lse-frame:restore-saved-config` added and hooked
+;;;;    17-Nov-2009 (CT) `frame-setup` added to save/restore
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -435,7 +436,9 @@
         (let ((root-p       (nth 0 frame-infos))
               (frame-params (nth 1 frame-infos))
               (window-infos (nth 2 frame-infos))
+              (frame-setup  (nth 3 frame-infos))
               (first t)
+              frame
              )
           (save-window-excursion
             (if root-p
@@ -445,16 +448,22 @@
                 )
               (select-frame (make-frame frame-params))
             )
-            (dolist (window-info window-infos)
-              (unless first
-                (lse-split-window)
-                (lse-previous-window)
-              )
-              (unless (and root-p (equal (length window-infos) 1))
+            (if frame-setup
+                (let ((frame (selected-frame)))
+                  (eval frame-setup)
+                )
+              (dolist (window-info window-infos)
+                (unless first
+                  (lse-split-window)
+                  (lse-previous-window)
+                )
                 (lse-goto-buffer+maybe-create (nth 0 window-info))
                 (goto-char                    (nth 1 window-info))
+                (when (and root-p first)
+                  (lse-set-home-mark-global (point-marker))
+                )
+                (setq first nil)
               )
-              (setq first nil)
             )
           )
         )
@@ -468,47 +477,58 @@
 
 ;;; 17-Nov-2009
 (defun lse-frame:save-one (frame out)
-  (let* ((params     (frame-parameters frame))
-         (height     (cdr (assoc 'height     params)))
-         (left       (cdr (assoc 'left       params)))
-         (name       (cdr (assoc 'name       params)))
-         (root-p     (cdr (assoc 'root-p     params)))
-         (top        (cdr (assoc 'top        params)))
-         (visibility (cdr (assoc 'visibility params)))
-         (width      (cdr (assoc 'width      params)))
+  (let* ((params      (frame-parameters frame))
+         ;; We use`Font` instead of `font` because bloody Emacs 23.1 converts
+         ;; "6x13" to a font-string that gives an error on restore
+         (font        (cdr (assoc 'Font        params)))
+         (frame-setup (cdr (assoc 'frame-setup params)))
+         (height      (cdr (assoc 'height      params)))
+         (left        (cdr (assoc 'left        params)))
+         (name        (cdr (assoc 'name        params)))
+         (root-p      (cdr (assoc 'root-p      params)))
+         (top         (cdr (assoc 'top         params)))
+         (visibility  (cdr (assoc 'visibility  params)))
+         (width       (cdr (assoc 'width       params)))
          buffer
          buffer-name
          result
          window-infos
         )
-    (dolist (window (lse-frame:window-list frame))
-      (setq buffer      (window-buffer window))
-      (setq buffer-name (buffer-name   buffer))
-      (when (and buffer-name (lse-buffer:is-lse-buffer buffer))
-        (setq window-infos
-          (cons
-            (list buffer-name
-              (save-window-excursion (select-window window) (point))
+    (unless frame-setup
+      (dolist (window (lse-frame:window-list frame))
+        (setq buffer      (window-buffer window))
+        (setq buffer-name (buffer-name   buffer))
+        (when (and buffer-name (lse-buffer:is-lse-buffer buffer))
+          (setq window-infos
+            (cons
+              (list buffer-name
+                (save-window-excursion (select-window window) (point))
+              )
+              window-infos
             )
-            window-infos
           )
         )
       )
     )
-    (when window-infos
-      (setq result
-        (list
-          root-p
-          (list
-            (cons 'height     height)
-            (cons 'left       left)
-            (cons 'top        top)
-            (cons 'visibility visibility)
-            (cons 'width      width)
-            (unless root-p (cons 'name name))
-          )
-          window-infos
+    (when (or frame-setup window-infos)
+      (let ((fpl
+              (list
+                (cons 'height     height)
+                (cons 'left       left)
+                (cons 'top        top)
+                (cons 'visibility visibility)
+                (cons 'width      width)
+              )
+            )
+           )
+        (when font
+          ;; We set `Font` because bloody Emacs 23.1 converts "6x13" to a
+          ;; font-string that gives an error on restore
+          (setq fpl (cons (cons 'font font) fpl))
+          (setq fpl (cons (cons 'Font font) fpl))
         )
+        (unless root-p (setq fpl (cons (cons 'name name) fpl)))
+        (setq result (list root-p fpl window-infos frame-setup))
       )
       (print result out)
     )

@@ -82,6 +82,7 @@
 ;;;;     5-Aug-2009 (CT) `lse-emacs23-p` added
 ;;;;     5-Aug-2009 (CT) `lse-version` increased
 ;;;;    17-Nov-2009 (CT) `server-start` guarded against `server-running-p`
+;;;;    17-Nov-2009 (CT) Guard for `lse-global-home-mark-initialized` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -191,7 +192,9 @@
       t             ; 17-Dec-1997 no need for setting up the terminal
     (lse-replace-std-emacs-bindings)
     (lse-define-std-keys)
-    (lse-set-home-mark-global (point-marker))
+    (unless lse-global-home-mark-initialized
+      (lse-set-home-mark-global (point-marker))
+    )
     (lse@initialize@window@mark@stack)
     (lse-set-hosted-frame-title "LSE")
     (lse-ring-bell)
