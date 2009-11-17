@@ -284,7 +284,7 @@
        (setq w32-apps-modifier 'meta)
      )
    (require 'server)
-   (unless (boundp 'server-running-p)
+   (unless (fboundp 'server-running-p)
      ;;; 17-Nov-2009; `server-running-p` doesn't exist in 22.x
      (defun server-running-p (&optional x) nil)
    )
