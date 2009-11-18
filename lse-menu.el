@@ -122,7 +122,7 @@
 )
 (put 'lse-goto-parent-expansion-head 'menu-enable 'lse-language:name)
 
-(define-key lse-menu:fill-in [separator-fi-move-1]
+(define-key lse-menu:fill-in [separator-fi-move-2]
             '("--")
 )
 
