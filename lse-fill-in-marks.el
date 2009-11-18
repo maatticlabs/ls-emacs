@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-fill-in-marks:el lse_fmar:el
-;;;; Copyright (C) 1997 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -32,17 +32,20 @@
 ;;;; Revision Dates
 ;;;;    29-Dec-1997 (CT) Creation (based on functions from tempo.el by
 ;;;;                     David K}gedal <davidk@lysator.liu.se>)
-;;;;-- 
+;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
+;;;;                     `lse-fill-in-marks:goto-open-tail` added
+;;;;    ««revision-date»»···
+;;;;--
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defvar                      lse-fill-in-marks:head nil)
 (make-variable-buffer-local 'lse-fill-in-marks:head)
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defvar                      lse-fill-in-marks:tail nil)
 (make-variable-buffer-local 'lse-fill-in-marks:tail)
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:insert-mark (m marks)
   "Insert mark `m' into mark-list `marks' while keeping it sorted"
   (let ((mrk (copy-marker m)))
@@ -67,19 +70,19 @@
 ; lse-fill-in-marks:insert-mark
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:insert-head (m)
   (lse-fill-in-marks:insert-mark m 'lse-fill-in-marks:head)
 ; lse-fill-in-marks:insert-head
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:insert-tail (m)
   (lse-fill-in-marks:insert-mark m 'lse-fill-in-marks:tail)
 ; lse-fill-in-marks:insert-tail
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-next (marks)
   "Jump to the next mark in `marks'."
   (let ((next-mark (catch 'found
@@ -101,7 +104,7 @@
 ; lse-fill-in-marks:goto-next
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-prev (marks)
   "Jump to the prev mark in `marks'."
   (let ((prev-mark (catch 'found
@@ -125,7 +128,7 @@
 ; lse-fill-in-marks:goto-prev
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-next-head ()
   "Goto head-mark of next fill-in in buffer."
   (interactive)
@@ -133,7 +136,7 @@
 ; lse-fill-in-marks:goto-next-head
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-next-tail ()
   "Goto tail-mark of next fill-in in buffer."
   (interactive)
@@ -141,7 +144,7 @@
 ; lse-fill-in-marks:goto-next-tail
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-prev-head ()
   "Goto head-mark of prev fill-in in buffer."
   (interactive)
@@ -149,12 +152,44 @@
 ; lse-fill-in-marks:goto-prev-head
 )
 
-;;; 29-Dec-1997 
+;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-prev-tail ()
   "Goto tail-mark of prev fill-in in buffer."
   (interactive)
   (lse-fill-in-marks:goto-prev 'lse-fill-in-marks:tail)
 ; lse-fill-in-marks:goto-prev-tail
+)
+
+;;; 18-Nov-2009
+(defun lse-fill-in-marks:goto-open-head ()
+  "Goto head of currently open replacement."
+  (interactive)
+  (if lse_replaced_fill-in
+      (progn
+        (let* ((range      (lse-fill-in:range      lse_replaced_fill-in))
+               (head-pos   (lse-range:head-pos     range))
+              )
+          (goto-char head-pos)
+        )
+      )
+  )
+; lse-fill-in-marks:goto-open-head
+)
+
+;;; 18-Nov-2009
+(defun lse-fill-in-marks:goto-open-tail ()
+  "Goto tail of currently open replacement."
+  (interactive)
+  (if lse_replaced_fill-in
+      (progn
+        (let* ((range      (lse-fill-in:range      lse_replaced_fill-in))
+               (tail-pos   (lse-range:tail-pos     range))
+              )
+          (goto-char tail-pos)
+        )
+      )
+  )
+; lse-fill-in-marks:goto-open-tail
 )
 
 (provide 'lse-fill-in-marks)

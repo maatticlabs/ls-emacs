@@ -54,6 +54,7 @@
 ;;;;    17-Nov-2009 (CT) `lse-frame:desktop-save` and
 ;;;;                     `lse-frame:restore-saved-config` added and hooked
 ;;;;    17-Nov-2009 (CT) `frame-setup` added to save/restore
+;;;;    18-Nov-2009 (CT) Don't save/restore `name` as it fixes the frame title
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -95,7 +96,7 @@
     (modify-frame-parameters
         (or fram (selected-frame))
         (list
-          (cons 'name nam)
+          (cons 'name  nam)
           (cons 'title nam)
         )
     )
@@ -478,20 +479,18 @@
 ;;; 17-Nov-2009
 (defun lse-frame:save-one (frame out)
   (let* ((params      (frame-parameters frame))
-         ;; We use`Font` instead of `font` because bloody Emacs 23.1 converts
+         ;; We use`Font` instead of `font` because bloody Emacs 23.1.1 converts
          ;; "6x13" to a font-string that gives an error on restore
-         (font        (cdr (assoc 'Font        params)))
+         (Font        (cdr (assoc 'Font        params)))
          (frame-setup (cdr (assoc 'frame-setup params)))
          (height      (cdr (assoc 'height      params)))
          (left        (cdr (assoc 'left        params)))
-         (name        (cdr (assoc 'name        params)))
          (root-p      (cdr (assoc 'root-p      params)))
          (top         (cdr (assoc 'top         params)))
          (visibility  (cdr (assoc 'visibility  params)))
          (width       (cdr (assoc 'width       params)))
          buffer
          buffer-name
-         result
          window-infos
         )
     (unless frame-setup
@@ -520,17 +519,17 @@
                 (cons 'width      width)
               )
             )
+            result
            )
-        (when font
-          ;; We set `Font` because bloody Emacs 23.1 converts "6x13" to a
+        (when Font
+          ;; We set `Font` because bloody Emacs 23.1.1 converts "6x13" to a
           ;; font-string that gives an error on restore
-          (setq fpl (cons (cons 'font font) fpl))
-          (setq fpl (cons (cons 'Font font) fpl))
+          (setq fpl (cons (cons 'font  Font)  fpl))
+          (setq fpl (cons (cons 'Font  Font)  fpl))
         )
-        (unless root-p (setq fpl (cons (cons 'name name) fpl)))
-        (setq result (list root-p fpl window-infos frame-setup))
+        (setq  result (list root-p fpl window-infos frame-setup))
+        (print result out)
       )
-      (print result out)
     )
   )
 ; lse-frame:save-one

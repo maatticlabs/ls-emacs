@@ -96,6 +96,8 @@
 ;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    13-Nov-2009 (CT) Explicitly turn on `normal-erase-is-backspace-mode`
+;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
+;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -246,6 +248,8 @@
   (global-set-key [blue      ?\A-e] 'lse-reexpand-fill-in);  2-Jan-1998
 
   (global-set-key [blue      ?\A-f] 'lse-window:restore-temp-hidden)
+  (global-set-key [          ?\M-f] 'lse-fill-in-marks:goto-open-tail); 18-Nov-2009
+  (global-set-key [          ?\M-b] 'lse-fill-in-marks:goto-open-head); 18-Nov-2009
 
   (global-set-key [          ?\A-k] 'lse-kill-fill-in)
   (global-set-key [       ?\s-\A-k] 'lse-kill-fill-in-join-sexp);  1-Jan-1999

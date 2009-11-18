@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -49,6 +49,8 @@
 ;;;;    13-Oct-2007 (CT) Disabled standard byte-compile entries in
 ;;;;                     `emacs-lisp` menu for LS-Emacs files
 ;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
+;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
+;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -119,6 +121,20 @@
             '("Parent" . lse-goto-parent-expansion-head)
 )
 (put 'lse-goto-parent-expansion-head 'menu-enable 'lse-language:name)
+
+(define-key lse-menu:fill-in [separator-fi-move-1]
+            '("--")
+)
+
+(define-key lse-menu:fill-in [tail-replacement]
+            '("Tail of replacement" . lse-fill-in-marks:goto-open-tail)
+)
+(put 'lse-fill-in-marks:goto-open-tail 'menu-enable 'lse_replaced_fill-in)
+
+(define-key lse-menu:fill-in [head-replacement]
+            '("Head of replacement" . lse-fill-in-marks:goto-open-head)
+)
+(put 'lse-fill-in-marks:goto-open-head 'menu-enable 'lse_replaced_fill-in)
 
 (define-key lse-menu:fill-in [separator-fi-move-1]
             '("--")
