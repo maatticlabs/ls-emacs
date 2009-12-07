@@ -128,6 +128,7 @@
 ;;;;    10-Oct-2007 (CT) Search-mode dependent history added, bugs fixed
 ;;;;    20-Nov-2007 (CT) `lse-tpu:search-prompt-read`: argument `dir` added
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;     7-Dec-2009 (CT) `lse-tpu:set-cursor-style` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -282,6 +283,36 @@
 
 (defvar lse-tpu:saved-delete-func nil
   "Saved value of the delete key.")
+
+;;;  7-Dec-2009
+(defvar lse-tpu:cursor-color-normal "gray50"
+  "Cursor color for normal mode."
+)
+
+;;;  7-Dec-2009
+(defvar lse-tpu:cursor-color-overwrite "red"
+  "Cursor color for overwrite mode."
+)
+
+;;;  7-Dec-2009
+(defvar lse-tpu:cursor-color-readonly "gray80"
+  "Cursor color for readonly mode."
+)
+
+;;;  7-Dec-2009
+(defvar lse-tpu:cursor-type-normal 'box
+  "Cursor type for normal mode."
+)
+
+;;;  7-Dec-2009
+;;;  7-Dec-2009
+(defvar lse-tpu:cursor-type-overwrite 'box
+  "Cursor type for overwrite mode."
+)
+
+(defvar lse-tpu:cursor-type-readonly 'box
+  "Cursor type for readonly mode."
+)
 
 (make-variable-buffer-local 'lse-tpu:saved-delete-func)
 (make-variable-buffer-local 'lse-tpu:mark-flag)
@@ -590,7 +621,7 @@ Accepts a prefix argument of the number of characters to invert."
          (overwrite-mode 0)
         )
         (t
-         (setq lse-tpu:saved-delete-func (local-key-binding "\177"))
+         (setq lse-tpu:saved-delete-func  (local-key-binding "\177"))
          (local-set-key [backspace] 'picture-backward-clear-column)
          (overwrite-mode 1)
         )
@@ -598,6 +629,27 @@ Accepts a prefix argument of the number of characters to invert."
   overwrite-mode
 ; lse-tpu:toggle-overwrite-mode
 )
+
+;;;  7-Dec-2009
+(defun lse-tpu:set-cursor-style ()
+  "Set cursor style according to mode (normal, overwrite, readonly)"
+  (cond (buffer-read-only
+         (set-cursor-color lse-tpu:cursor-color-readonly)
+         (setq cursor-type lse-tpu:cursor-type-readonly)
+        )
+        (overwrite-mode
+         (set-cursor-color lse-tpu:cursor-color-overwrite)
+         (setq cursor-type lse-tpu:cursor-type-overwrite)
+        )
+        (t
+         (set-cursor-color lse-tpu:cursor-color-normal)
+         (setq cursor-type lse-tpu:cursor-type-normal)
+        )
+  )
+; lse-tpu:set-cursor-style
+)
+
+(add-hook 'post-command-hook 'lse-tpu:set-cursor-style)
 
 (defun lse-tpu:special-insert (num)
   "Insert a character or control code according to its ASCII decimal value."
