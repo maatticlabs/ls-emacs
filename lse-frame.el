@@ -55,6 +55,7 @@
 ;;;;                     `lse-frame:restore-saved-config` added and hooked
 ;;;;    17-Nov-2009 (CT) `frame-setup` added to save/restore
 ;;;;    18-Nov-2009 (CT) Don't save/restore `name` as it fixes the frame title
+;;;;     8-Dec-2009 (CT) `lse-frame:select` and `lse-frame:list:...` added
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;;;
@@ -537,5 +538,149 @@
 
 (add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
 (add-hook 'desktop-save-hook       'lse-frame:desktop-save)
+
+;;;; Commands for frame management
+;;;  8-Dec-2009
+(defun lse-frame:select (frame)
+  (make-frame-visible frame)
+  (raise-frame frame)
+  (select-frame-set-input-focus frame)
+; lse-frame:select
+)
+
+;;;  8-Dec-2009
+(defvar lse-frame:list:buffer      nil)
+(defvar lse-frame:list:buffer-name " $LSE-Frame-List$")
+(defvar lse-frame:list:keymap      nil)
+(defvar lse-frame:list:overlay     nil)
+
+;;;  8-Dec-2009
+(defun lse-frame:list:abort ()
+  (interactive)
+  (let ((to-hide (eq (cdr (assq 'lse-frame-list-p (frame-parameters))) t))
+       )
+    (when to-hide (iconify-frame))
+  )
+; lse-frame:list:abort
+)
+
+;;;  8-Dec-2009
+(defun lse-frame:list:define-keys ()
+  (let ((lmap (current-local-map)))
+    (local-set-key [double-mouse-1] 'lse-frame:list:select)
+    (local-set-key [find]           'lse-frame:list:select)
+    (local-set-key [mouse-2]        'lse-frame:list:select)
+    (local-set-key [return]         'lse-frame:list:select)
+    (local-set-key [select]         'lse-frame:list:select)
+    (local-set-key [tab]            'lse-frame:list:select)
+
+    (local-set-key [?\A-g]          'lse-frame:list:abort)
+    (local-set-key [?\C-g]          'lse-frame:list:abort)
+  )
+; lse-frame:list:define-keys
+)
+
+;;;  8-Dec-2009
+(defun lse-frame:list:select ()
+  (interactive)
+  (let ((frame   (get-text-property (point) 'frame))
+        (window  (get-text-property (point) 'window))
+        (to-hide (eq (cdr (assq 'lse-frame-list-p (frame-parameters))) t))
+       )
+    (when to-hide (iconify-frame))
+    (when frame   (lse-frame:select frame))
+    (when window  (select-window    window))
+  )
+; lse-frame:list:select
+)
+
+;;;  8-Dec-2009
+(defun lse-frame:list:setup-buffer ()
+  (unless (and (bufferp     lse-frame:list:buffer)
+               (buffer-name lse-frame:list:buffer)
+          )
+    (setq lse-frame:list:buffer  (get-buffer-create lse-frame:list:buffer-name))
+    (setq lse-frame:list:keymap  (make-sparse-keymap))
+    (setq lse-frame:list:overlay (make-overlay 1 1))
+    (save-excursion
+      (set-buffer      lse-frame:list:buffer)
+      (use-local-map   lse-frame:list:keymap)
+      (overlay-put     lse-frame:list:overlay 'face 'lse-face:completion)
+      (lse-frame:list:define-keys)
+      (make-variable-buffer-local 'hl-line-face)
+      (setq hl-line-face 'lse-face:fl:current)
+      (hl-line-mode t)
+      (setq buffer-read-only t)
+    )
+  )
+  (let ((window (get-buffer-window lse-frame:list:buffer 0)))
+    (if window
+        (let ((frame (window-frame window)))
+          (make-frame-visible frame)
+          (raise-frame frame)
+        )
+      (let* ((frame  (with-current-buffer lse-frame:list:buffer (make-frame)))
+             (window (frame-selected-window frame))
+            )
+        (set-window-buffer      window lse-frame:list:buffer)
+        (set-window-dedicated-p window t)
+        (lse-frame:set-parameter 'lse-frame-list-p t frame)
+      )
+    )
+  )
+; lse-frame:list:setup-buffer
+)
+
+;;;  8-Dec-2009
+(defun lse-frame:list:show ()
+  "Show a list of frames with the buffers displayed inside."
+  (interactive)
+  (lse-frame:list:setup-buffer)
+  (save-excursion
+    (let ((inhibit-read-only t))
+      (set-buffer lse-frame:list:buffer)
+      (erase-buffer)
+      (let ((standard-output lse-frame:list:buffer))
+        (dolist (frame (frame-list))
+          (let* ((head (point))
+                 (params      (frame-parameters frame))
+                 (height      (cdr (assoc 'height      params)))
+                 (left        (cdr (assoc 'left        params)))
+                 (name        (cdr (assoc 'name        params)))
+                 (top         (cdr (assoc 'top         params)))
+                 (width       (cdr (assoc 'width       params)))
+                )
+            (princ (format "%-40s %dx%d+%d+%d\n" name height width left top))
+            (add-text-properties head (point) (list 'face  'lse-face:fl:frame))
+            (dolist (window (lse-frame:window-list frame))
+              (let* ((head (point))
+                     (buffer (window-buffer window))
+                     (bufnam (buffer-name   buffer))
+                     (height (window-height window))
+                     (top    (nth 1         (window-edges window)))
+                    )
+                (when (and bufnam (lse-buffer:is-lse-buffer buffer))
+                  (princ (format "    %-50s %4d @%4d\n" bufnam height top))
+                  (add-text-properties head (point)
+                    (list
+                      'face   'lse-face:fl:buffer
+                      'window window
+                    )
+                  )
+                )
+              )
+            )
+            (add-text-properties head (point) (list 'frame frame))
+            (princ "\n")
+          )
+        )
+        (goto-char (point-min))
+        (delete-blank-lines)
+        (set-buffer-modified-p nil)
+      )
+    )
+  )
+; lse-frame:list:show
+)
 
 ;;; __END__ lse-frame.el

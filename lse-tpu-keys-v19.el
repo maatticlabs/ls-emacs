@@ -160,6 +160,8 @@
 ;;;;     8-Dec-2007 (CT) Added bindings (`[?\s-q]`, `<blue> <gold> q`) for
 ;;;;                     `lse-insert-buffer-name-plus-extension` added
 ;;;;     3-Apr-2008 (CT) Added bindings for `lse-scroll-to-bottom`
+;;;;     8-Dec-2009 (CT) Binding for `[blue gold ?*]` changed from
+;;;;                     `lse-show-windows` to `lse-frame:list:show`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -783,7 +785,7 @@
 
   (global-set-key [blue      ?#]     'lse-count-matches)
   (global-set-key [blue      ?*]     'lse-show-all-buffers)
-  (global-set-key [blue gold ?*]     'lse-show-windows)
+  (global-set-key [blue gold ?*]     'lse-frame:list:show);  8-Dec-2009
   (global-set-key [blue      ?/]     'lse-align-and-down)
   (global-set-key [blue      ?=]     'lse-split-window-horizontally); 22-May-97
   (global-set-key [blue      ??]     'lse-insert-key-name); 12-Jun-1994

@@ -51,6 +51,7 @@
 ;;;;    29-Sep-2008 (CT) `lse-key:toggle-tab` added
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
+;;;;     8-Dec-2009 (CT) `lse-frame:list:show` and `lse-show-position` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -82,6 +83,14 @@
               '("Show language" . lse-show-language)
 )
 (put 'lse-show-language 'menu-enable 'lse-language:name)
+
+(define-key lse-menu:lse-menu [lse-show-frames]
+              '("Show frames" . lse-frame:list:show)
+)
+
+(define-key lse-menu:lse-menu [show-lse-position]
+  '("Show Position" . lse-show-position)
+);  8-Dec-2009
 
 (define-key lse-flat-fill-in:keymap [down-mouse-3] lse-menu:fill-in)
 
@@ -315,12 +324,16 @@
     )
 )
 
-;;; extend standard help menu
+;;; extend standard `Help` menu
 (defvar menu-bar-lse-help-menu (make-sparse-keymap "LSE"))
 
 (define-key menu-bar-lse-help-menu [show-lse-version]
   '("Show Version" . lse-version)
 ); 29-Dec-1997
+
+(define-key menu-bar-lse-help-menu [show-lse-position]
+  '("Show Position" . lse-show-position)
+);  8-Dec-2009
 
 (define-key menu-bar-lse-help-menu [show-keys-matching]
   '("Show keys matching" . lse-tpu-keys:show-keys-matching)

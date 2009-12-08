@@ -56,6 +56,8 @@
 ;;;;     3-Mar-2008 (CT) Background for `trailing-whitespace` made less ghastly
 ;;;;    29-Jul-2009 (CT) `lse-face:line-too-long` added
 ;;;;     5-Aug-2009 (CT) `lse-face:line-too-long` made less conspicuous
+;;;;     8-Dec-2009 (CT) `lse-face:fl:` faces added
+;;;;                     (`:frame`, `:buffer`, and `:current`)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -109,6 +111,9 @@
   (lse-face:define 'lse-face:cal:wed        nil             "Gray40")
   (lse-face:define 'lse-face:cal:week-end   "Gray60"        "Gray88")
   (lse-face:define 'lse-face:cal:week-field nil             "Orange")
+  (lse-face:define 'lse-face:fl:frame       "Deep Sky Blue" "Gray95")
+  (lse-face:define 'lse-face:fl:buffer      "Gray88"        "Gray30")
+  (lse-face:define 'lse-face:fl:current     "Yellow"        "Red")
 
   (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
   (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
