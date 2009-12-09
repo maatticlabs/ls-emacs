@@ -32,6 +32,7 @@
 ;;;;--
 
 (provide 'lse-hash)
+(require 'cl)
 
 ;;;  9-Dec-2009
 (defun lse-hash:clear (hash)
