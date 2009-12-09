@@ -56,10 +56,15 @@
 ;;;;    17-Nov-2009 (CT) `frame-setup` added to save/restore
 ;;;;    18-Nov-2009 (CT) Don't save/restore `name` as it fixes the frame title
 ;;;;     8-Dec-2009 (CT) `lse-frame:select` and `lse-frame:list:...` added
+;;;;     9-Dec-2009 (CT) `lse-frame:restore-saved-config` changed to
+;;;;                     explicitly act on `visibility`
+;;;;     9-Dec-2009 (CT) `lse-frame:list:restrict` added
 ;;;;    ««revision-date»»···
 ;;;;--
-;;;;
+
 (provide 'lse-frame)
+(require 'lse-face)
+(require 'lse-hash)
 
 ;;;  8-Sep-2002
 (defvar lse-frame:std-width 80
@@ -435,12 +440,13 @@
     (let ((start-frame (selected-frame))
          )
       (dolist (frame-infos lse-frame:saved-config)
-        (let ((root-p       (nth 0 frame-infos))
-              (frame-params (nth 1 frame-infos))
-              (window-infos (nth 2 frame-infos))
-              (frame-setup  (nth 3 frame-infos))
-              (first t)
-              frame
+        (let* ((root-p       (nth 0 frame-infos))
+               (frame-params (nth 1 frame-infos))
+               (window-infos (nth 2 frame-infos))
+               (frame-setup  (nth 3 frame-infos))
+               (visibility   (cdr (assoc 'visibility frame-params)))
+               (first t)
+               frame
              )
           (save-window-excursion
             (if root-p
@@ -450,21 +456,24 @@
                 )
               (select-frame (make-frame frame-params))
             )
-            (if frame-setup
-                (let ((frame (selected-frame)))
+            (let ((frame (selected-frame)))
+              (if frame-setup
                   (eval frame-setup)
+                (dolist (window-info window-infos)
+                  (unless first
+                    (lse-split-window)
+                    (lse-previous-window)
+                  )
+                  (lse-goto-buffer+maybe-create (nth 0 window-info))
+                  (goto-char                    (nth 1 window-info))
+                  (when (and root-p first)
+                    (lse-set-home-mark-global (point-marker))
+                  )
+                  (setq first nil)
                 )
-              (dolist (window-info window-infos)
-                (unless first
-                  (lse-split-window)
-                  (lse-previous-window)
-                )
-                (lse-goto-buffer+maybe-create (nth 0 window-info))
-                (goto-char                    (nth 1 window-info))
-                (when (and root-p first)
-                  (lse-set-home-mark-global (point-marker))
-                )
-                (setq first nil)
+              )
+              (cond ((equal visibility 'icon) (iconify-frame))
+                    ((not   visibility)       (make-frame-invisible))
               )
             )
           )
@@ -551,6 +560,7 @@
 ;;;  8-Dec-2009
 (defvar lse-frame:list:buffer      nil)
 (defvar lse-frame:list:buffer-name " $LSE-Frame-List$")
+(defvar lse-frame:list:buffer-map  (lse-hash:mms:new))
 (defvar lse-frame:list:keymap      nil)
 (defvar lse-frame:list:overlay     nil)
 
@@ -559,7 +569,7 @@
   (interactive)
   (let ((to-hide (eq (cdr (assq 'lse-frame-list-p (frame-parameters))) t))
        )
-    (when to-hide (iconify-frame))
+    (when to-hide (make-frame-invisible))
   )
 ; lse-frame:list:abort
 )
@@ -567,17 +577,60 @@
 ;;;  8-Dec-2009
 (defun lse-frame:list:define-keys ()
   (let ((lmap (current-local-map)))
-    (local-set-key [double-mouse-1] 'lse-frame:list:select)
-    (local-set-key [find]           'lse-frame:list:select)
+    (local-set-key [?\A-g]          'lse-frame:list:abort)
+    (local-set-key [?\C-g]          'lse-frame:list:abort)
+
+    (local-set-key [gold ?f]        'lse-frame:list:restrict)
+    (local-set-key [blue ?f]        'lse-frame:list:unstrict)
+    (local-set-key [?r]             'lse-frame:list:restrict)
+    (local-set-key [?u]             'lse-frame:list:unstrict)
+
     (local-set-key [mouse-2]        'lse-frame:list:select)
     (local-set-key [return]         'lse-frame:list:select)
     (local-set-key [select]         'lse-frame:list:select)
     (local-set-key [tab]            'lse-frame:list:select)
-
-    (local-set-key [?\A-g]          'lse-frame:list:abort)
-    (local-set-key [?\C-g]          'lse-frame:list:abort)
   )
 ; lse-frame:list:define-keys
+)
+
+;;;  9-Dec-2009
+(defun lse-frame:list:restrict (&optional buffer)
+  "Restrict display to frames containing `buffer`"
+  (interactive)
+  (setq buffer
+    (or buffer
+      (lse-buffer:read-name "Restrict to buffer: " (lse-tpu:selection) t)
+    )
+  )
+  (lse-frame:list:unstrict)
+  (let ((inhibit-read-only t)
+        (name buffer)
+       )
+    (when (and name (not (equal name "")))
+      (let ((relevants (lse-hash:mms:get lse-frame:list:buffer-map name)))
+        (goto-char (point-min))
+        (put-text-property (point-min) (point-max) 'invisible t)
+        (while (not (eobp))
+          (let* ((pos   (point))
+                 (frame (get-text-property pos 'frame))
+                 (head
+                   (or (previous-single-property-change pos 'frame) (point-min))
+                 )
+                 (tail
+                   (or (next-single-property-change     pos 'frame) (point-max))
+                 )
+                )
+            (when (and frame (member frame relevants))
+              (put-text-property head tail 'invisible nil)
+            )
+            (goto-char tail)
+          )
+        )
+      )
+    )
+    (set-buffer-modified-p nil)
+  )
+; lse-frame:list:restrict
 )
 
 ;;;  8-Dec-2009
@@ -587,7 +640,7 @@
         (window  (get-text-property (point) 'window))
         (to-hide (eq (cdr (assq 'lse-frame-list-p (frame-parameters))) t))
        )
-    (when to-hide (iconify-frame))
+    (when to-hide (make-frame-invisible))
     (when frame   (lse-frame:select frame))
     (when window  (select-window    window))
   )
@@ -607,8 +660,7 @@
       (use-local-map   lse-frame:list:keymap)
       (overlay-put     lse-frame:list:overlay 'face 'lse-face:completion)
       (lse-frame:list:define-keys)
-      (make-variable-buffer-local 'hl-line-face)
-      (setq hl-line-face 'lse-face:fl:current)
+      (set (make-local-variable 'hl-line-face) 'lse-face:fl:current)
       (hl-line-mode t)
       (setq buffer-read-only t)
     )
@@ -628,6 +680,7 @@
       )
     )
   )
+  (lse-hash:mms:clear lse-frame:list:buffer-map)
 ; lse-frame:list:setup-buffer
 )
 
@@ -667,6 +720,7 @@
                       'window window
                     )
                   )
+                  (lse-hash:mms:put lse-frame:list:buffer-map bufnam frame)
                 )
               )
             )
@@ -681,6 +735,19 @@
     )
   )
 ; lse-frame:list:show
+)
+
+;;;  9-Dec-2009
+(defun lse-frame:list:unstrict ()
+  "Don't restrict display to frames containing a specific buffer."
+  (interactive)
+  (let ((inhibit-read-only t)
+       )
+    (put-text-property (point-min) (point-max) 'invisible nil)
+    (goto-char (point-min))
+    (set-buffer-modified-p nil)
+  )
+; lse-frame:list:unstrict
 )
 
 ;;; __END__ lse-frame.el

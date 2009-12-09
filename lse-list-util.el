@@ -33,7 +33,9 @@
 ;;;;    18-Jun-1994 (CT) Creation (of comment)
 ;;;;     9-Oct-1996 (CT) Define add-to-list if (not fboundp)
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    ««revision-date»»···
 ;;;;--
+
 (provide 'lse-list-util)
 
 (defmacro lse-add-to-list (the-list the-entry)
