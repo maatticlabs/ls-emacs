@@ -1,0 +1,1375 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;;
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-jinja-templates
+;;;;
+;;;; Purpose
+;;;;    Define lse templates of LS-Emacs language jinja-templates
+;;;;
+;;;; Revision Dates
+;;;;    26-Dec-2009 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-root"
+    '(token)
+    '(description
+      "Root template of LS-Emacs language jinja-templates."
+     )
+    '(replacement
+        "««jnj-extends»»"
+        "{# jinja template: "
+            & lse-insert-buffer-name-plus-extension & " #}"
+        "{#"
+        "##««header-comment»»"
+        "#}"
+        «jnj-statement»···
+        "{# __END__ jinja template: "
+            & lse-insert-buffer-name-plus-extension & " #}"
+     )
+;;; jnj-root
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-block"
+    '(token)
+    '(token                 "block")
+    '(description
+      "Define a block that can be overriden by child templates."
+     )
+    '(replacement
+        "{% block «jnj-block-name» ««jnj-block-scoped»» %}"
+        @ jnj-stmt-block
+        "{% endblock «jnj-block-name» %}"
+     )
+;;; jnj-block
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-block-name"
+    '(description           "Unique name for block.")
+    '(auto-replicate        1)
+;;; jnj-block-name
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-block-scoped"
+  '(description           "Allow access to variables in enclosing scope.")
+  '(replacement           "scoped")
+;;; jnj-block-scoped
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-block-super"
+  '(token)
+  '(token                 "super")
+  '(description
+      "Insert the content of the block from the parent template."
+   )
+  '(replacement           "{{ super () }}")
+;;; jnj-block-super
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-comment-block"
+    '(token)
+    '(token                 "comment-block")
+    '(description           "Block comment in jinja templates.")
+    '(replacement
+        "{#"
+        "##«text-block»"
+        "#}"
+     )
+;;; jnj-comment-block
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-comment-line"
+    '(token)
+    '(token                 "#")
+    '(description           "Single line comment in jinja templates.")
+    '(replacement           "{# «text» #}")
+;;; jnj-comment-line
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-cycle/loop"
+    '(token)
+    '(token                 "cycle")
+    '(token                 "lcycle")
+    '(description
+      "Within a loop, cycles among the given strings/variables each "
+      "time through the loop."
+     )
+    '(replacement
+        "{{ loop.cycle («jnj-cycle-value»···) }}"
+     )
+;;; jnj-cycle/loop
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-cycle/named"
+    '(token)
+    '(token                 "ncycle")
+    '(description
+      "Cycle among the given strings or variables each "
+      "time a cycle with the name given here is encountered."
+     )
+    '(replacement
+        "{% set «jnj-cycle-name» = cycler («jnj-cycle-value»···)  %}"
+     )
+;;; jnj-cycle/named
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-cycle/use"
+    '(token)
+    '(token                 "ucycle")
+    '(description           "Use next value of named cycle.")
+    '(replacement
+        "{{ «jnj-cycle-name».next () }}"
+     )
+;;; jnj-cycle/use
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-cycle-name"
+    '(description           "Name of a cycle to be used outside a loop.")
+;;; jnj-cycle-name
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-cycle-value"
+    '(description           "One of the values cycled through by `cycle`.")
+    '(leading               " ")
+    '(separator             ", ")
+    '(replacement           @ jnj-variable-or-literal)
+;;; jnj-cycle-value
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-elif"
+    '(token)
+    '(token                 "elif")
+    '(description           "Elif clause for a {% if %} tag")
+    '(replacement
+        "{% elif «jnj-variable-name» %}"
+        @ jnj-stmt-block
+        "««jnj-elif»»"
+     )
+;;; jnj-else
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-else"
+    '(token)
+    '(token                 "else")
+    '(description           "Else clause for a {% if %} tag")
+    '(replacement
+        "{% else %}"
+        @ jnj-stmt-block
+     )
+;;; jnj-else
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-extends-token"
+    '(token)
+    '(token                 "extends")
+    '(description
+      "Signal that this template extends a parent template."
+     )
+    '(replacement
+        (if (eq (point) (point-min))
+            t
+          (setq lse_last_position (point-marker))
+          (lse-tpu:move-to-beginning)
+          (lse-open-line)
+        )
+        & @ jnj-extends
+     )
+;;; jnj-extends-token
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-extends"
+    '(description
+      "Signal that this template extends a parent template."
+     )
+    '(replacement
+        "{% extends «jnj-variable-or-literal» %}"
+     )
+;;; jnj-extends
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter"
+    '(token)
+    '(token                 "filter")
+    '(description
+      "Filter the contents of the variable through variable filters."
+      "Filters can also be piped through each other, and they can have "
+      "arguments -- just like in variable syntax."
+     )
+    '(replacement
+        "{% filter «jnj-filter-function»··· %}"
+        @ jnj-stmt-block
+        "{% endfilter %}"
+     )
+;;; jnj-filter
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-function"
+    '(token)
+    '(description           "Function filtering text.")
+    '(separator             " | ")
+    '(leading               "|")
+    '(sort)
+    '(menu
+        jnj-filter-abs
+        jnj-filter-attr
+        jnj-filter-batch
+        jnj-filter-capitalize
+        jnj-filter-center
+        jnj-filter-default
+        jnj-filter-default_if_false
+        jnj-filter-dictsort
+        jnj-filter-escape
+        jnj-filter-filesizeformat
+        jnj-filter-first
+        jnj-filter-float
+        jnj-filter-force_escape
+        jnj-filter-format
+        jnj-filter-groupby
+        jnj-filter-int
+        jnj-filter-join
+        jnj-filter-last
+        jnj-filter-length
+        jnj-filter-list
+        jnj-filter-lower
+        jnj-filter-pprint
+        jnj-filter-random
+        jnj-filter-replace
+        jnj-filter-reverse
+        jnj-filter-round
+        jnj-filter-safe
+        jnj-filter-slice
+        jnj-filter-sort
+        jnj-filter-string
+        jnj-filter-striptags
+        jnj-filter-sum
+        jnj-filter-title
+        jnj-filter-trim
+        jnj-filter-truncate
+        jnj-filter-upper
+        jnj-filter-urlize
+        jnj-filter-wordcount
+        jnj-filter-wordwrap
+        jnj-filter-xmlattr
+     )
+;;; jnj-filter-function
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-abs"
+    '(token)
+    '(token                 "filter-abs")
+    '(description           "Return the absolute value of the argument.")
+    '(replacement
+        "abs"
+     )
+;;; jnj-filter-abs
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-attr"
+    '(token)
+    '(token                 "filter-attr")
+    '(description
+      "Get an attribute of an object. ."
+     )
+    '(replacement
+        "attr («name»)"
+     )
+;;; jnj-filter-attr
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-batch"
+    '(token)
+    '(token                 "filter-batch")
+    '(description           "A filter that batches items. It works pretty much like slice just the other way round. It returns a list of lists with the given number of items. If you provide a second parameter this is used to fill missing items.")
+    '(replacement           "batch («number», ««default»»)")
+;;; jnj-filter-batch
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-capitalize"
+    '(token)
+    '(token                 "filter-capitalize")
+    '(description           "Capitalizes a value.")
+    '(replacement
+        "capitalize"
+     )
+;;; jnj-filter-capitalize
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-center"
+    '(token)
+    '(token                 "filter-center")
+    '(description           "Centers the value in a field of a given width.")
+    '(replacement
+        "center (««number»»)"
+     )
+;;; jnj-filter-center
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-default"
+    '(token)
+    '(token                 "filter-default")
+    '(description           "If value is unavailable, use given default.")
+    '(replacement
+        "default («jnj-variable-or-literal»)"
+     )
+;;; jnj-filter-default
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-default_if_false"
+    '(token)
+    '(token                 "filter-default_if_false")
+    '(description           "If value is false, use given default.")
+    '(replacement
+        "default («jnj-variable-or-literal», true)"
+     )
+;;; jnj-filter-default_if_false
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-dictsort"
+    '(token)
+    '(token                 "filter-dictsort")
+    '(description
+      "Sort a dict and yield (key, value) pairs."
+     )
+    '(replacement
+        "dictsort"
+     )
+;;; jnj-filter-dictsort
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-escape"
+    '(token)
+    '(token                 "filter-escape")
+    '(description
+      "Escapes a string's HTML. "
+      "The escaping is only applied when the string is output, so it "
+      "does not matter where in a chained sequence of filters you put "
+      "escape: it will always be applied as though it were the last "
+      "filter. If you want escaping to be applied immediately, use "
+      "the force_escape filter."
+     )
+    '(replacement
+        "escape"
+     )
+;;; jnj-filter-escape
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-filesizeformat"
+    '(token)
+    '(token                 "filter-filesizeformat")
+    '(description
+      "Format the value like a 'human-readable' file size "
+      "(i.e. '13 KB', '4.1 MB', '102 bytes', etc)."
+     )
+    '(replacement
+        "filesizeformat"
+     )
+;;; jnj-filter-filesizeformat
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-first"
+    '(token)
+    '(token                 "filter-first")
+    '(description           "Returns the first item in a list.")
+    '(replacement
+        "first"
+     )
+;;; jnj-filter-first
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-float"
+    '(token)
+    '(token                 "filter-float")
+    '(description
+       "Convert the value into a floating point number. "
+     )
+    '(replacement
+        "float (««default»»)"
+     )
+;;; jnj-filter-float
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-force_escape"
+    '(token)
+    '(token                 "filter-force_escape")
+    '(description
+      "Applies HTML escaping to a string (see the escape filter "
+      "for details). This filter is applied immediately and returns "
+      "a new, escaped string. This is useful in the rare cases where "
+      "you need multiple escaping or want to apply other filters to "
+      "the escaped results. Normally, you want to use the escape filter."
+     )
+    '(replacement
+        "forceescape"
+     )
+;;; jnj-filter-force_escape
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-format"
+    '(token)
+    '(token                 "filter-format")
+    '(description
+      "Apply python string formatting on an object."
+     )
+    '(replacement
+        "format («jnj-variable-or-literal»···)"
+     )
+;;; jnj-filter-format
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-groupby"
+    '(token)
+    '(token                 "filter-groupby")
+    '(description
+      "Group a sequence of objects by a common attribute"
+     )
+    '(replacement
+        "groupby («name»)"
+     )
+;;; jnj-filter-groupby
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-int"
+    '(token)
+    '(token                 "filter-int")
+    '(description           "Convert the value into an integer.")
+    '(replacement           "int (««default»»)")
+;;; jnj-filter-int
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-join"
+    '(token)
+    '(token                 "filter-join")
+    '(description
+      "Joins a list with a string, like Python's str.join(list)."
+     )
+    '(replacement
+        "join (««jnj-variable-or-literal»)"
+     )
+;;; jnj-filter-join
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-last"
+    '(token)
+    '(token                 "filter-last")
+    '(description           "Return the last item of a sequence.")
+    '(replacement           "last")
+;;; jnj-filter-last
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-length"
+    '(token)
+    '(token                 "filter-length")
+    '(description
+      "Returns the length of the value. "
+     )
+    '(replacement
+        "length"
+     )
+;;; jnj-filter-length
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-list"
+    '(token)
+    '(token                 "filter-list")
+    '(description
+      "Convert the value into a list."
+     )
+    '(replacement
+        "list («jnj-variable-or-literal»)"
+     )
+;;; jnj-filter-list
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-lower"
+    '(token)
+    '(token                 "filter-lower")
+    '(description           "Converts a string into all lowercase.")
+    '(replacement
+        "lower"
+     )
+;;; jnj-filter-lower
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-pprint"
+    '(token)
+    '(token                 "filter-pprint")
+    '(description
+      "A wrapper around pprint.pprint -- for debugging, really."
+     )
+    '(replacement           "pprint")
+;;; jnj-filter-pprint
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-random"
+    '(token)
+    '(token                 "filter-random")
+    '(description           "Returns a random item from the list.")
+    '(replacement
+        "random"
+     )
+;;; jnj-filter-random
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-replace"
+    '(token)
+    '(token                 "filter-replace")
+    '(description
+      "Return a copy of the value with all occurrences of a substring replaced with a new one."
+     )
+    '(replacement
+        "replace («jnj-variable-or-literal», «jnj-variable-or-literal», ««jnj-number»»)"
+     )
+;;; jnj-filter-replace
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-reverse"
+    '(token)
+    '(token                 "filter-reverse")
+    '(description           "Reverse the object or return an iterator the iterates over it the other way round.")
+    '(replacement           "reverse")
+;;; jnj-filter-reverse
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-round"
+    '(token)
+    '(token                 "filter-round")
+    '(description           "Round the number to a given precision.")
+    '(replacement
+        "round («jnj-variable-or-literal», ««jnd-filter-round-precision»», ««jnd-filter-round-method»»)"
+     )
+;;; jnj-filter-round
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-round-precision"
+    '(description           "Precision for rounding (default: 0)")
+    '(leading               ",")
+;;; jnj-filter-round-precision
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnd-filter-round-method"
+    '(description           "Rounding method (default: common)")
+    '(menu
+        ("'common'"     "rounds either up or down")
+        ("'ceil'"       "always rounds up")
+        ("'floor'"      "always rounds down")
+     )
+;;; jnd-filter-round-method
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-safe"
+    '(token)
+    '(token                 "filter-safe")
+    '(description
+      "Marks a string as not requiring further HTML escaping prior "
+      "to output. When autoescaping is off, this filter has no effect."
+     )
+    '(replacement
+        "safe"
+     )
+;;; jnj-filter-safe
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-slice"
+    '(token)
+    '(token                 "filter-slice")
+    '(description
+      "Slice an iterator and return a list of lists containing those items. "
+      "Useful if you want to create a div containing three ul tags "
+      "that represent column."
+     )
+    '(replacement
+        "slice («number», ««default»»)"
+     )
+;;; jnj-filter-slice
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-sort"
+    '(token)
+    '(token                 "filter-sort")
+    '(description
+      "Sort a sequence. Per default it sorts ascending, "
+      "if you pass it true as first argument it will reverse the sorting."
+     )
+    '(replacement
+        "sort (««jnd-filter-sort-descending»»)"
+     )
+;;; jnj-filter-sort
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnd-filter-sort-descending"
+    '(description           "Sort descending")
+    '(replacement           "true")
+;;; jnd-filter-sort-descending
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-string"
+    '(token)
+    '(token                 "filter-string")
+    '(description
+      "Make a string unicode if it isnt already. "
+      "That way a markup string is not converted back to unicode."
+     )
+    '(replacement
+        "string"
+     )
+;;; jnj-filter-string
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-striptags"
+    '(token)
+    '(token                 "filter-striptags")
+    '(description
+      "Strips all SGML/XML tags and replace adjacent whitespace by one space.."
+     )
+    '(replacement
+        "striptags"
+     )
+;;; jnj-filter-striptags
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-sum"
+    '(token)
+    '(token                 "filter-sum")
+    '(description
+      "Returns the sum of a sequence of numbers (NOT strings) "
+      "plus the value of parameter `default`. "
+     )
+    '(replacement           "sum (««default»»)")
+;;; jnj-filter-sum
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-title"
+    '(token)
+    '(token                 "filter-title")
+    '(description           "Converts a string into titlecase.")
+    '(replacement
+        "title"
+     )
+;;; jnj-filter-title
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-trim"
+    '(token)
+    '(token                 "filter-trim")
+    '(description           "Strip leading and trailing whitespace.")
+    '(replacement           "trim")
+;;; jnj-filter-trim
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-truncate"
+    '(token)
+    '(token                 "filter-truncate")
+    '(description
+      "Truncates a string after a certain number of characters."
+     )
+    '(replacement
+        "truncate («number»)"
+     )
+;;; jnj-filter-truncate
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-upper"
+    '(token)
+    '(token                 "filter-upper")
+    '(description           "Converts a string into all uppercase.")
+    '(replacement
+        "upper"
+     )
+;;; jnj-filter-upper
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-urlize"
+    '(token)
+    '(token                 "filter-urlize")
+    '(description
+      "Converts URLs in plain text into clickable links, "
+      "truncating URLs longer than the given character limit. "
+     )
+    '(replacement
+        "urlize (««number»», ««jnj-filter-urlize-nofollow»»)"
+     )
+;;; jnj-filter-urlize
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-filter-urlize-nofollow"
+    '(description           "Make the url `nofollow`")
+    '(replacement           "true")
+;;; jnj-filter-urlize-nofollow
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-wordcount"
+    '(token)
+    '(token                 "filter-wordcount")
+    '(description           "Returns the number of words.")
+    '(replacement
+        "wordcount"
+     )
+;;; jnj-filter-wordcount
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-wordwrap"
+    '(token)
+    '(token                 "filter-wordwrap")
+    '(description           "Wraps words at specified line length.")
+    '(replacement
+        "wordwrap («number»)"
+     )
+;;; jnj-filter-wordwrap
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-filter-xmlattr"
+    '(token)
+    '(token                 "filter-xmlattr")
+    '(description
+      "Create an SGML/XML attribute string based on the items in a dict. "
+      "All values that are neither none nor undefined are automatically escaped."
+     )
+    '(replacement
+        "xmlattr"
+     )
+;;; jnj-filter-xmlattr
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-firstof"
+    '(token)
+    '(token                 "firstof")
+    '(description
+      "Outputs the first variable passed that is not False. "
+      "Outputs nothing if all the passed variables are False."
+      "You can also use a literal string as a fallback value in "
+      "case all passed variables are False."
+     )
+    '(replacement
+        "{% firstof «jnj-variable-name»··· ««quoted-text»» %}"
+     )
+;;; jnj-firstof
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-for"
+    '(token)
+    '(token                 "for")
+    '(description           "Loop over each item in an array. ")
+    '(replacement
+        "{% for «jnj-variable-name» in «jnj-variable-or-literal» "
+          & "««jnj-for-filter»» "
+          & "««jnj-for-recursive»» "
+          & "%}"
+        @ jnj-stmt-block
+        "««jnj-for-else»»"
+        "{% endfor %}"
+     )
+;;; jnj-for
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-for-else"
+    '(description           "Executed if loop was empty")
+    '(replacement           @ jnj-else)
+;;; jnj-for-else
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-for-filter"
+    '(description
+      "Restrict items to those satisfying the filter condition."
+     )
+    '(replacement           "if «jnj-variable-name»")
+;;; jnj-for-filter
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-for-recursive"
+    '(token                 "recursive")
+    '(description           "Allow recursive use of loop.")
+    '(replacement           "recursive")
+;;; jnj-for-recursive
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-if"
+    '(token)
+    '(token                 "if")
+    '(description
+      "The {% if %} tag evaluates a variable, and if that variable is "
+      "`true` (i.e. exists, is not empty, and is not a false boolean "
+      "value) the contents of the block are output."
+     )
+    '(replacement
+        "{% if «jnj-variable-name» %}"
+        @ jnj-stmt-block
+        "««jnj-elif»»"
+        "««jnj-else»»"
+        "{% endif %}"
+     )
+;;; jnj-if
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-if-expression"
+    '(token)
+    '(token                 "if-expression")
+    '(token                 "ifx")
+    '(replacement
+        "if «jnj-variable-name» ««jnj-if-expression-else»»"
+     )
+;;; jnj-if-expression
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-if-expression-else"
+    '(description           "Else part of an if-expression")
+    '(replacement
+        "else «jnj-variable-or-literal»"
+     )
+;;; jnj-if-expression-else
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-import"
+    '(token)
+    '(token                 "import")
+    '(description           "Import macros from a template")
+    '(replacement
+        "import «jnj-variable-or-literal» as «name» ««jnj-include-context»»"
+     )
+;;; jnj-import
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-import-from"
+    '(token)
+    '(token                 "from-import")
+    '(description           "Import macros from a template")
+    '(replacement
+        "from «jnj-variable-or-literal» import «name»··· ««jnj-include-context»»"
+     )
+;;; jnj-import
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-include"
+    '(token)
+    '(token                 "include")
+    '(description
+      "Loads a template and renders it with the current context. "
+      "This is a way of `including` other templates within a template."
+      "The template name can either be a variable or a hard-coded "
+      "(quoted) string, in either single or double quotes."
+     )
+    '(replacement
+        "{% include «jnj-variable-or-literal» "
+          & "««jnj-include-ignore-missing»»"
+          & "««jnj-include-context»»"
+          & " %}"
+     )
+;;; jnj-include
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-include-ignore-missing"
+    '(description           "Ignore statement if template isn't found")
+    '(replacement           "ignore missing")
+;;; jnj-include-ignore-missing
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-include-context"
+    '(menu
+        ("with context"     "Enable access to context")
+        ("without context"  "Disable access to context")
+     )
+;;; jnj-include-context
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-literal-contents"
+    '(description           "Literal contents of the template.")
+;;; jnj-literal-contents
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-loop-recurse"
+    '(token)
+    '(token                 "loop-recurse")
+    '(description           "Recurse into loop")
+    '(replacement           "{{ loop («jnj-variable-or-literal») }}")
+;;; jnj-loop-recurse
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.first"
+    '(token)
+    '(token                 "loop.first")
+    '(description           "True if this is the first time through the loop.")
+    '(replacement
+        "loop.first"
+     )
+;;; jnj-loop.first
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.index"
+    '(token)
+    '(token                 "loop.index")
+    '(description           "The current iteration of the loop (1-indexed)")
+    '(replacement
+        "loop.index"
+     )
+;;; jnj-loop.index
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.index0"
+    '(token)
+    '(token                 "loop.index0")
+    '(description           "The current iteration of the loop (0-indexed)")
+    '(replacement
+        "loop.index0"
+     )
+;;; jnj-loop.index0
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.last"
+    '(token)
+    '(token                 "loop.last")
+    '(description           "True if this is the last time through the loop.")
+    '(replacement
+        "loop.last"
+     )
+;;; jnj-loop.last
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.length"
+    '(token)
+    '(token                 "loop.length")
+    '(description           "The number of items in the sequence.")
+    '(replacement
+        "loop.length"
+     )
+;;; jnj-loop.length
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.revindex"
+    '(token)
+    '(token                 "loop.revindex")
+    '(description
+      "The number of iterations from the end of the loop (1-indexed)"
+     )
+    '(replacement
+        "loop.revindex"
+     )
+;;; jnj-loop.revindex
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-loop.revindex0"
+    '(token)
+    '(token                 "loop.revindex0")
+    '(description
+      "The number of iterations from the end of the loop (0-indexed)"
+     )
+    '(replacement
+        "loop.revindex0"
+     )
+;;; jnj-loop.revindex0
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-macro"
+    '(token)
+    '(token                 "macro")
+    '(description           "Define a macro that can be called from templates.")
+    '(replacement
+        "{% macro «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        @ jnj-stmt-block
+        "{% endmacro ««jnj-macro-name»» %}"
+     )
+;;; jnj-macro
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-macro-call"
+    '(token)
+    '(token                 "call")
+    '(description           "Call a macro passing the block")
+    '(replacement
+        "{% call «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        @ jnj-stmt-block
+        "{% endcall %}"
+     )
+;;; jnj-macro-call
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-macro-call-back"
+    '(token)
+    '(token                 "call-back")
+    '(description           "Call back the block passed by `call`")
+    '(replacement
+        "{{ caller (««jnj-variable-name»»···) }}"
+     )
+;;; jnj-macro-call-back
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-macro-name"
+    '(description           "Unique name for macro.")
+    '(auto-replicate        1)
+;;; jnj-macro-name
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-number"
+    '(description           "A number")
+    '(leading               ",")
+    '(replacement           @ number)
+;;; jnj-number
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-set"
+    '(token)
+    '(token                 "set")
+    '(description           "Assign a value to a name")
+    '(replacement
+        "{% set «jnj-variable-name»··· = «jnj-variable-or-literal» %}"
+     )
+;;; jnj-set
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-statement"
+    '(token)
+    '(sort)
+    '(menu
+        jnj-block
+        jnj-cycle/loop
+        jnj-cycle/named
+        jnj-elif
+        jnj-else
+        jnj-extends-token
+        jnj-filter
+        jnj-firstof
+        jnj-for
+        jnj-if
+        jnj-import
+        jnj-include
+        jnj-macro
+        jnj-macro-call
+        jnj-set
+     )
+;;; jnj-statement
+)
+
+;;; 19-Jul-2009
+(lse-define-fill-in "jnj-stmt-block"
+  '(replacement
+        "  «jnj-statement»···"
+   )
+;;; jnj-stmt-block
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test"
+    '(token)
+    '(description           "Test a variable for a certain condition.")
+    '(replacement           "«jnj-variable-name» is «jnj-test-function»")
+;;; jnj-test
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-function"
+    '(token)
+    '(description           "Function testing a value.")
+    '(leading               "is")
+    '(separator             " is ")
+    '(sort)
+    '(menu
+        jnj-test-callable
+        jnj-test-defined
+        jnj-test-divisibleby
+        jnj-test-escaped
+        jnj-test-even
+        jnj-test-iterable
+        jnj-test-lower
+        jnj-test-none
+        jnj-test-number
+        jnj-test-odd
+        jnj-test-sameas
+        jnj-test-sequence
+        jnj-test-string
+        jnj-test-undefined
+        jnj-test-upper
+     )
+;;; jnj-test-function
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-callable"
+    '(token)
+    '(token                 "test-callable")
+    '(description
+      "Return whether the object is callable (i.e., some kind of function)."
+     )
+    '(replacement           "callable")
+;;; jnj-test-callable
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-defined"
+    '(token)
+    '(token                 "test-defined")
+    '(description           "Return true if the variable is defined.")
+    '(replacement           "defined")
+;;; jnj-test-defined
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-test-divisibleby"
+    '(token)
+    '(token                 "test-divisibleby")
+    '(description
+      "Returns true if the value is divisible by the argument."
+     )
+    '(replacement
+        "divisibleby («number»)"
+     )
+;;; jnj-test-divisibleby
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-escaped"
+    '(token)
+    '(token                 "test-escaped")
+    '(description           "Check if the value is escaped.")
+    '(replacement           "escaped")
+;;; jnj-test-escaped
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-even"
+    '(token)
+    '(token                 "test-even")
+    '(description           "Return true if the variable is even.")
+    '(replacement           "even")
+;;; jnj-test-even
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-iterable"
+    '(token)
+    '(token                 "test-iterable")
+    '(description           "Check if its possible to iterate over an object.")
+    '(replacement           "iterable")
+;;; jnj-test-iterable
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-lower"
+    '(token)
+    '(token                 "test-lower")
+    '(description           "Return true if the variable is lowercased.")
+    '(replacement           "lower")
+;;; jnj-test-lower
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-none"
+    '(token)
+    '(token                 "test-none")
+    '(description           "Return true if the variable is none.")
+    '(replacement           "none")
+;;; jnj-test-none
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-number"
+    '(token)
+    '(token                 "test-number")
+    '(description           "Return true if the variable is a number.")
+    '(replacement           "number")
+;;; jnj-test-number
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-odd"
+    '(token)
+    '(token                 "test-odd")
+    '(description           "Return true if the variable is odd.")
+    '(replacement           "odd")
+;;; jnj-test-odd
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-sameas"
+    '(token)
+    '(token                 "test-sameas")
+    '(description
+      "Check if an object points to the same memory address "
+      "than another object."
+     )
+    '(replacement           "sameas («jnj-variable-or-literal»)")
+;;; jnj-test-sameas
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-sequence"
+    '(token)
+    '(token                 "test-sequence")
+    '(description           "Return true if the variable is a sequence.")
+    '(replacement           "sequence")
+;;; jnj-test-sequence
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-string"
+    '(token)
+    '(token                 "test-string")
+    '(description           "Return true if the object is a string.")
+    '(replacement           "string")
+;;; jnj-test-string
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-undefined"
+    '(token)
+    '(token                 "test-undefined")
+    '(description           "Return true if the variable is undefined.")
+    '(replacement           "undefined")
+;;; jnj-test-undefined
+)
+
+;;; 26-Dec-2009
+(lse-define-fill-in "jnj-test-upper"
+    '(token)
+    '(token                 "test-upper")
+    '(description           "Return true if the variable is uppercased.")
+    '(replacement           "upper")
+;;; jnj-test-upper
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-variable-name"
+    '(leading               ",")
+    '(separator             ", ")
+    '(description           "Name of a variable.")
+;;; jnj-variable-name
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-variable-or-literal"
+    '(leading               ",")
+    '(separator             ", ")
+    '(menu
+        quoted-text
+        quoted-text-s
+        jnj-number
+        jnj-variable-name
+     )
+;;; jnj-variable-or-literal
+)
+
+;;;  26-Dec-2009
+(lse-define-fill-in "jnj-variable-replacement"
+    '(token)
+    '(token                 "variable-replacement")
+    '(description
+      "When the template engine encounters a variable, it evaluates "
+      "that variable and replaces it with the result. "
+      "Variables look like this: {{ variable }} or "
+      "{{ variable.attribute.method }}. "
+     )
+    '(replacement
+        "{{ «jnj-variable-name» }}"
+     )
+;;; jnj-variable-replacement
+)
+
+;;;; __END__ lse-templates-jinja-templates.lse
