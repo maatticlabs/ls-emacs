@@ -44,11 +44,20 @@
         "{#"
         "##««header-comment»»"
         "#}"
-        «jnj-statement»···
+        "«jnj-statement»···"
         "{# __END__ jinja template: "
             & lse-insert-buffer-name-plus-extension & " #}"
      )
 ;;; jnj-root
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-binding"
+    '(description           "Bind a value to a name")
+    '(leading               ",")
+    '(separator             ", ")
+    '(replacement           "«jnj-variable-name» = «jnj-variable-or-literal»")
+;;; jnj-binding
 )
 
 ;;;  26-Dec-2009
@@ -59,9 +68,9 @@
       "Define a block that can be overriden by child templates."
      )
     '(replacement
-        "{% block «jnj-block-name» ««jnj-block-scoped»» %}"
+        "{%- block «jnj-block-name» ««jnj-block-scoped»» %}"
         @ jnj-stmt-block
-        "{% endblock «jnj-block-name» %}"
+        "{% endblock «jnj-block-name» -%}"
      )
 ;;; jnj-block
 )
@@ -104,13 +113,33 @@
 ;;; jnj-comment-block
 )
 
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-break"
+    '(token)
+    '(token                 "break")
+    '(description           "When break is reached, the loop is terminated.")
+    '(replacement           "{%- break %}")
+;;; jnj-break
+)
+
 ;;; 26-Dec-2009
 (lse-define-fill-in "jnj-comment-line"
     '(token)
     '(token                 "#")
     '(description           "Single line comment in jinja templates.")
-    '(replacement           "{# «text» #}")
+    '(replacement           "{#- «text» #}")
 ;;; jnj-comment-line
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-continue"
+    '(token)
+    '(token                 "break")
+    '(description
+      "When continue is reached, the loop is restarted at the next iteration."
+     )
+    '(replacement           "{%- continue %}")
+;;; jnj-continue
 )
 
 ;;;  26-Dec-2009
@@ -137,7 +166,7 @@
       "time a cycle with the name given here is encountered."
      )
     '(replacement
-        "{% set «jnj-cycle-name» = cycler («jnj-cycle-value»···)  %}"
+        "{%- set «jnj-cycle-name» = " & jnj-gf-cycler & " %}"
      )
 ;;; jnj-cycle/named
 )
@@ -168,13 +197,27 @@
 ;;; jnj-cycle-value
 )
 
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-do"
+    '(token)
+    '(token                 "do")
+    '(description
+      "If the expression-statement extension is loaded a tag called do "
+      "is available that works exactly like the regular variable "
+      "expression ({{ ... }}) just that it doesn't print anything. "
+      "This can be used to modify lists."
+     )
+    '(replacement           "{%- do «text» %}")
+;;; jnj-do
+)
+
 ;;; 26-Dec-2009
 (lse-define-fill-in "jnj-elif"
     '(token)
     '(token                 "elif")
     '(description           "Elif clause for a {% if %} tag")
     '(replacement
-        "{% elif «jnj-variable-name» %}"
+        "{%- elif «jnj-variable-name» %}"
         @ jnj-stmt-block
         "««jnj-elif»»"
      )
@@ -187,7 +230,7 @@
     '(token                 "else")
     '(description           "Else clause for a {% if %} tag")
     '(replacement
-        "{% else %}"
+        "{%- else %}"
         @ jnj-stmt-block
      )
 ;;; jnj-else
@@ -218,7 +261,7 @@
       "Signal that this template extends a parent template."
      )
     '(replacement
-        "{% extends «jnj-variable-or-literal» %}"
+        "{%- extends «jnj-variable-or-literal» %}"
      )
 ;;; jnj-extends
 )
@@ -233,9 +276,9 @@
       "arguments -- just like in variable syntax."
      )
     '(replacement
-        "{% filter «jnj-filter-function»··· %}"
+        "{%- filter «jnj-filter-function»··· %}"
         @ jnj-stmt-block
-        "{% endfilter %}"
+        "{% endfilter -%}"
      )
 ;;; jnj-filter
 )
@@ -823,7 +866,7 @@
       "case all passed variables are False."
      )
     '(replacement
-        "{% firstof «jnj-variable-name»··· ««quoted-text»» %}"
+        "{%- firstof «jnj-variable-name»··· ««quoted-text»» %}"
      )
 ;;; jnj-firstof
 )
@@ -834,13 +877,13 @@
     '(token                 "for")
     '(description           "Loop over each item in an array. ")
     '(replacement
-        "{% for «jnj-variable-name» in «jnj-variable-or-literal» "
+        "{%- for «jnj-variable-name» in «jnj-variable-or-literal» "
           & "««jnj-for-filter»» "
           & "««jnj-for-recursive»» "
           & "%}"
         @ jnj-stmt-block
         "««jnj-for-else»»"
-        "{% endfor %}"
+        "{% endfor -%}"
      )
 ;;; jnj-for
 )
@@ -869,6 +912,80 @@
 ;;; jnj-for-recursive
 )
 
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-global-function"
+    '(token)
+    '(description           "Global functions available in Jinja templates")
+    '(sort)
+    '(menu
+        jnj-gf-cycler
+        jnj-gf-dict
+        jnj-gf-joiner
+        jnj-gf-lipsum
+        jnj-gf-range
+     )
+;;; jnj-global-function
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-gf-cycler"
+    '(token)
+    '(token                 "cycler")
+    '(description
+      "Cycles among the given values. Can be used outside of loops, too."
+     )
+    '(replacement           "cycler («jnj-cycle-value»···)")
+;;; jnj-gf-cycler
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-gf-dict"
+    '(token)
+    '(token                 "dict")
+    '(description           "Create a dict from key-value arguents.")
+    '(replacement           "dict («jnj-binding»···)")
+;;; jnj-gf-dict
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-gf-joiner"
+    '(token)
+    '(token                 "joiner")
+    '(description
+      "A tiny helper that can be use to `join` multiple sections. "
+      "A joiner is passed a string and will return that string "
+      "every time it's calld, except the first time in which situation "
+      "it returns an empty string."
+     )
+    '(replacement           "joiner («jnj-variable-or-literal»)")
+;;; jnj-gf-joiner
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-gf-lipsum"
+    '(token)
+    '(token                 "lipsum")
+    '(description
+      "Generates some lorem ipsum for the template. Per default five "
+      "paragraphs with HTML are generated each paragraph between "
+      "20 and 100 words. If html is disabled regular text is returned. "
+      "This is useful to generate simple contents for layout testing."
+     )
+    '(replacement           "lipsum (««jnj-variable-or-literal»»)")
+;;; jnj-gf-lipsum
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-gf-range"
+    '(token)
+    '(token                 "range")
+    '(description
+      "Return a list containing an arithmetic progression of integers."
+     )
+    '(replacement           "range («jnj-variable-or-literal»)")
+;;; jnj-gf-range
+)
+
 ;;;  26-Dec-2009
 (lse-define-fill-in "jnj-if"
     '(token)
@@ -879,11 +996,11 @@
       "value) the contents of the block are output."
      )
     '(replacement
-        "{% if «jnj-variable-name» %}"
+        "{%- if «jnj-variable-name» %}"
         @ jnj-stmt-block
         "««jnj-elif»»"
         "««jnj-else»»"
-        "{% endif %}"
+        "{% endif -%}"
      )
 ;;; jnj-if
 )
@@ -941,7 +1058,7 @@
       "(quoted) string, in either single or double quotes."
      )
     '(replacement
-        "{% include «jnj-variable-or-literal» "
+        "{%- include «jnj-variable-or-literal» "
           & "««jnj-include-ignore-missing»»"
           & "««jnj-include-context»»"
           & " %}"
@@ -1067,9 +1184,9 @@
     '(token                 "macro")
     '(description           "Define a macro that can be called from templates.")
     '(replacement
-        "{% macro «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        "{%- macro «jnj-macro-name» (««jnj-variable-name»»···) %}"
         @ jnj-stmt-block
-        "{% endmacro ««jnj-macro-name»» %}"
+        "{% endmacro ««jnj-macro-name»» -%}"
      )
 ;;; jnj-macro
 )
@@ -1080,9 +1197,9 @@
     '(token                 "call")
     '(description           "Call a macro passing the block")
     '(replacement
-        "{% call «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        "{%- call «jnj-macro-name» (««jnj-variable-name»»···) %}"
         @ jnj-stmt-block
-        "{% endcall %}"
+        "{% endcall -%}"
      )
 ;;; jnj-macro-call
 )
@@ -1119,7 +1236,7 @@
     '(token                 "set")
     '(description           "Assign a value to a name")
     '(replacement
-        "{% set «jnj-variable-name»··· = «jnj-variable-or-literal» %}"
+        "{%- set «jnj-variable-name»··· = «jnj-variable-or-literal» %}"
      )
 ;;; jnj-set
 )
@@ -1333,6 +1450,38 @@
     '(description           "Return true if the variable is uppercased.")
     '(replacement           "upper")
 ;;; jnj-test-upper
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-trans"
+    '(token)
+    '(token                 "trans")
+    '(description           "Mark parts in the template as translatable.")
+    '(replacement
+        "{%- trans ««jnj-binding»»··· %}"
+        @ jnj-stmt-block
+        "««jnj-trans-pluralize»»"
+        "{% endtrans -%}"
+     )
+;;; jnj-trans
+)
+
+;;; 27-Dec-2009
+(lse-define-fill-in "jnj-trans-pluralize"
+    '(token)
+    '(token                 "pluralize")
+    '(description
+      "Introduce the plural form for the translation. "
+      "Per default the first variable in a block is used to determine "
+      "the correct singular or plural form. If that doesn't work out you "
+      "can specify the name which should be used for pluralizing by "
+      "adding it as parameter to pluralize."
+     )
+    '(replacement
+        "{%- pluralize ««name»» %}"
+        @ jnj-stmt-block
+     )
+;;; jnj-trans-pluralize
 )
 
 ;;;  26-Dec-2009

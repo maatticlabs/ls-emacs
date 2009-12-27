@@ -31,6 +31,8 @@
 ;;;;    ««revision-date»»···
 ;;;;--
 
+(require 'jinja-mode)
+
 (lse-language:define "jinja-templates"
     '(
         (lse-language:initial-fill-in      "««jnj-root»»")
@@ -58,5 +60,7 @@
   (lse-language:use "jinja-templates")
 ; lse-jinja-mode-hook
 )
+
+(add-hook 'jinja-mode-hook 'lse-jinja-mode-hook)
 
 ;;;; __END__ lse-language-jinja-templates.lse
