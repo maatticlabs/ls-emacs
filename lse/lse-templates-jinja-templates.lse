@@ -39,14 +39,14 @@
      )
     '(replacement
         "««jnj-extends»»"
-        "{# jinja template: "
-            & lse-insert-buffer-name-plus-extension & " #}"
+        "{#- jinja template: "
+            & lse-insert-buffer-name-plus-extension & " -#}"
         "{#"
         "##««header-comment»»"
         "#}"
         "«jnj-statement»···"
-        "{# __END__ jinja template: "
-            & lse-insert-buffer-name-plus-extension & " #}"
+        "{#- __END__ jinja template: "
+            & lse-insert-buffer-name-plus-extension & " -#}"
      )
 ;;; jnj-root
 )
@@ -68,9 +68,9 @@
       "Define a block that can be overriden by child templates."
      )
     '(replacement
-        "{%- block «jnj-block-name» ««jnj-block-scoped»» %}"
+        "{%- block «jnj-block-name» ««jnj-block-scoped»» -%}"
         @ jnj-stmt-block
-        "{% endblock «jnj-block-name» -%}"
+        "{%- endblock «jnj-block-name» -%}"
      )
 ;;; jnj-block
 )
@@ -106,9 +106,9 @@
     '(token                 "comment-block")
     '(description           "Block comment in jinja templates.")
     '(replacement
-        "{#"
+        "{#-"
         "##«text-block»"
-        "#}"
+        "-#}"
      )
 ;;; jnj-comment-block
 )
@@ -127,7 +127,7 @@
     '(token)
     '(token                 "#")
     '(description           "Single line comment in jinja templates.")
-    '(replacement           "{#- «text» #}")
+    '(replacement           "{#- «text» -#}")
 ;;; jnj-comment-line
 )
 
@@ -1031,7 +1031,7 @@
     '(token                 "import")
     '(description           "Import macros from a template")
     '(replacement
-        "import «jnj-variable-or-literal» as «name» ««jnj-include-context»»"
+        "{%- import «jnj-variable-or-literal» as «name» ««jnj-include-context»» %}"
      )
 ;;; jnj-import
 )
@@ -1042,7 +1042,7 @@
     '(token                 "from-import")
     '(description           "Import macros from a template")
     '(replacement
-        "from «jnj-variable-or-literal» import «name»··· ««jnj-include-context»»"
+        "{%- from «jnj-variable-or-literal» import «name»··· ««jnj-include-context»» %}"
      )
 ;;; jnj-import
 )
@@ -1184,9 +1184,9 @@
     '(token                 "macro")
     '(description           "Define a macro that can be called from templates.")
     '(replacement
-        "{%- macro «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        "{%- macro «jnj-macro-name» (««jnj-variable-name»»···) -%}"
         @ jnj-stmt-block
-        "{% endmacro ««jnj-macro-name»» -%}"
+        "{%- endmacro -%} {#- ««jnj-macro-name»» -#}"
      )
 ;;; jnj-macro
 )
@@ -1197,9 +1197,9 @@
     '(token                 "call")
     '(description           "Call a macro passing the block")
     '(replacement
-        "{%- call «jnj-macro-name» (««jnj-variable-name»»···) %}"
+        "{%- call «jnj-macro-name» (««jnj-variable-name»»···) -%}"
         @ jnj-stmt-block
-        "{% endcall -%}"
+        "{%- endcall -%} {#- ««jnj-macro-name»» -#}"
      )
 ;;; jnj-macro-call
 )

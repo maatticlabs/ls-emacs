@@ -19,9 +19,9 @@
 
 (defconst jinja-font-lock-keywords-1
   (list
-   '("{% ?\\(\\(end\\)?\\(block\\|break\\|continue\\|elif\\|else\\|extends\\|for\\|filter\\|firstof\\|if\\|include\\|import\\|\\)\\) ?.*? ?%}" . 1)
+   '("{%-? ?\\(\\(end\\)?\\(block\\|break\\|continue\\|elif\\|else\\|extends\\|for\\|filter\\|firstof\\|if\\|include\\|import\\|\\)\\) ?.*? ?-?%}" . 1)
    '("{{ ?\\(.*?\\) ?}}" . (1 font-lock-variable-name-face))
-   '("{%\\|\\%}\\|{{\\|}}" . font-lock-builtin-face)
+   '("{%-?\\|\\%}\\|{{\\|}}" . font-lock-builtin-face)
    )
 )
 
