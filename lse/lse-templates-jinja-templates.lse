@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2010 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -1230,6 +1230,31 @@
 ;;; jnj-number
 )
 
+;;;  5-Jan-2010
+(lse-define-fill-in "jnj-onion"
+    '(token)
+    '(token                 "onion")
+    '(description
+        "Enclose a block with a head and a tail that depends on a condition. "
+        "The `else`-clauses of both `head` and `tail` are optional."
+     )
+    '(replacement
+        "{%- onion «jnj-variable-name» %}"
+        lse-indent+1
+        "{%- head %}"
+        @ jnj-stmt-block
+        "««jnj-else»»"
+        "{%- body %}"
+        @ jnj-stmt-block
+        "{%- tail %}"
+        @ jnj-stmt-block
+        "««jnj-else»»"
+        lse-indent:<
+        "{%- endonion %}"
+     )
+;;; jnj-onion
+)
+
 ;;; 26-Dec-2009
 (lse-define-fill-in "jnj-set"
     '(token)
@@ -1268,7 +1293,9 @@
 ;;; 19-Jul-2009
 (lse-define-fill-in "jnj-stmt-block"
   '(replacement
-        "  «jnj-statement»···"
+        lse-indent+1
+        "«jnj-statement»···"
+        lse-indent:<
    )
 ;;; jnj-stmt-block
 )

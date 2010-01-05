@@ -139,58 +139,136 @@
   '(description           "Name of file")
 )
 
-;;;  9-Nov-1995
-(lse-define-fill-in "GNU-General-Public-License"
-    '(token                 "GPL")
+;;;  5-Jan-2010
+(lse-define-fill-in "GNU-Affero-General-Public-License-3"
+    '(token                 "AGPL3")
     '(token)
+    '(description
+      "Notice to include in source files licensed by the Affero GPL"
+     )
+    '(replacement
+      "****************************************************************************"
+      "««license:part-of»»"
+      ""
+      "This «license:entity» is free software: you can redistribute it and/or modify"
+      "it under the terms of the GNU Affero General Public License as published by"
+      "the Free Software Foundation, either version 3 of the License, or"
+      "(at your option) any later version."
+      ""
+      "This «license:entity» is distributed in the hope that it will be useful,"
+      "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+      "GNU Affero General Public License for more details."
+      ""
+      "You should have received a copy of the GNU Affero General Public License"
+      "along with this «license:entity».  If not, see <http://www.gnu.org/licenses/>."
+      "****************************************************************************"
+     )
+;;; GNU-Affero-General-Public-License-3
+)
+
+;;;  9-Nov-1995
+(lse-define-fill-in "GNU-General-Public-License-2"
+    '(token)
+    '(token                 "GPL2")
     '(description           "Text of GPL for inclusion into source file")
     '(replacement
         "****************************************************************************"
-        "««text»»"
+        "««license:part-of»»"
         ""
-        "This program is free software; you can redistribute it and/or modify"
+        "This «license:entity» is free software; you can redistribute it and/or modify"
         "it under the terms of the GNU General Public License as published by"
         "the Free Software Foundation; either version 2 of the License, or"
         "(at your option) any later version."
         ""
-        "This program is distributed in the hope that it will be useful,"
+        "This «license:entity» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
         "GNU General Public License for more details."
         ""
         "You should have received a copy of the GNU General Public License"
-        "along with this program; if not, write to the Free Software"
-        "Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
+        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
         "****************************************************************************"
      )
-;;; GNU-General-Public-License
+;;; GNU-General-Public-License-2
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "GNU-General-Public-License-3"
+    '(token)
+    '(token                 "GPL3")
+    '(description           "Text of GPL for inclusion into source file")
+    '(replacement
+        "****************************************************************************"
+        "««license:part-of»»"
+        ""
+        "This «license:entity» is free software; you can redistribute it and/or modify"
+        "it under the terms of the GNU General Public License as published by"
+        "the Free Software Foundation; either version 3 of the License, or"
+        "(at your option) any later version."
+        ""
+        "This «license:entity» is distributed in the hope that it will be useful,"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+        "GNU General Public License for more details."
+        ""
+        "You should have received a copy of the GNU General Public License"
+        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+        "****************************************************************************"
+     )
+;;; GNU-General-Public-License-3
 )
 
 ;;;  9-Nov-1995
-(lse-define-fill-in "GNU-Library-General-Public-License"
-    '(token                 "LGPL")
+(lse-define-fill-in "GNU-Library-General-Public-License-2"
     '(token)
+    '(token                 "LGPL2")
     '(description           "Text of Library-GPL for inclusion into source file")
     '(replacement
         "****************************************************************************"
-        "««text»»"
+        "««license:part-of»»"
         ""
-        "This library is free software; you can redistribute it and/or"
+        "This «license:entity» is free software; you can redistribute it and/or"
         "modify it under the terms of the GNU Library General Public"
         "License as published by the Free Software Foundation; either"
         "version 2 of the License, or (at your option) any later version."
         ""
-        "This library is distributed in the hope that it will be useful,"
+        "This «license:entity» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU"
         "Library General Public License for more details."
         ""
-        "You should have received a copy of the GNU Library General Public"
-        "License along with this library; if not, write to the Free"
-        "Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
+        "You should have received a copy of the GNU Library General Public License"
+        "icense along with this «license:entity»; if not, see <http://www.gnu.org/licenses/>."
         "****************************************************************************"
      )
-;;; GNU-Library-General-Public-License
+;;; GNU-Library-General-Public-License-2
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "GNU-Lesser-General-Public-License-3"
+    '(token)
+    '(token                 "LGPL3")
+    '(description           "Text of LGPL for inclusion into source file")
+    '(replacement
+        "****************************************************************************"
+        "««license:part-of»»"
+        ""
+        "This «license:entity» is free software; you can redistribute it and/or modify"
+        "it under the terms of the GNU Lesser General Public License as published by"
+        "the Free Software Foundation; either version 3 of the License, or"
+        "(at your option) any later version."
+        ""
+        "This «license:entity» is distributed in the hope that it will be useful,"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+        "GNU Lesser General Public License for more details."
+        ""
+        "You should have received a copy of the GNU Lesser General Public License"
+        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+        "****************************************************************************"
+     )
+;;; GNU-General-Public-License-3
 )
 
 (lse-define-fill-in "group"
@@ -295,12 +373,50 @@
 (lse-define-fill-in "License"
     '(token)
     '(description           "Expands to license")
-    '(sort)
     '(menu
-        GNU-General-Public-License
-        GNU-Library-General-Public-License
+        GNU-Library-General-Public-License-2
+        GNU-Affero-General-Public-License-3
+        GNU-General-Public-License-2
+        GNU-Lesser-General-Public-License-3
+        GNU-General-Public-License-3
      )
 ;;; License
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "license:d"
+    '(description
+      "Name of package/library/program to which license applies"
+     )
+    '(menu
+        "package"
+        "library"
+        "program"
+     )
+;;; license:d
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "license:entity"
+    '(description           "Name of entity to which license applies")
+    '(auto-replicate        5)
+    '(menu
+        "module"
+        "package"
+        "file"
+        "library"
+        "program"
+     )
+;;; license:entity
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "license:part-of"
+    '(description           "Description of entity to which this file belongs")
+    '(replacement
+        "This «license:entity» is part of the «license:d» «text»."
+     )
+;;; license:part-of
 )
 
 (lse-define-fill-in "minute:MM"

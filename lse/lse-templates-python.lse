@@ -398,6 +398,34 @@
 ;;; py-class-divmod
 )
 
+;;;  5-Jan-2010
+(lse-define-fill-in "py-class-enter"
+    '(token)
+    '(token                 "__enter__")
+    '(description           "Define `enter` method for context manager.")
+    '(replacement
+        "def __enter__ (self) :"
+        @ py-function-body
+        "# end def __enter__"
+        ""
+     )
+;;; py-class-enter
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "py-class-exit"
+    '(token)
+    '(token                 "__exit__")
+    '(description           "Define `exit` method for context manager.")
+    '(replacement
+        "def __exit__ (self, exc_type, exc_val, exc_tb) :"
+        @ py-function-body
+        "# end def __exit__"
+        ""
+     )
+;;; py-class-enter
+)
+
 ;;;  4-Sep-2001
 (lse-define-fill-in "py-class-equal"
     '(token)
@@ -2013,11 +2041,11 @@
         "The return value is ignored."
      )
     '(replacement
-        "def __init__ (cls, name, bases, dict) :"
+        "def __init__ (cls, name, bases, dct) :"
         lse-indent+1
           "««py-doc-string»»"
           "««py-statement»»···"
-          "cls.__m_super.__init__ (name, bases, dict)"
+          "cls.__m_super.__init__ (name, bases, dct)"
           "««py-statement»»···"
         lse-indent-1
         "# end def __init__"
@@ -2055,13 +2083,13 @@
         "applies `__init__`."
      )
     '(replacement
-        "def __new__ (meta, name, bases, dict) :"
+        "def __new__ (mcls, name, bases, dct) :"
         lse-indent+1
           "««py-doc-string»»"
           "««py-statement»»···"
           "result = super ("
               & (lse-insert-replica-or-flat "py-class-name")
-              & ", meta).__new__ (meta, name, bases, dict)"
+              & ", mcls).__new__ (mcls, name, bases, dct)"
           "««py-statement»»···"
           "return result"
         lse-indent-1
@@ -2348,10 +2376,43 @@
      )
     '(replacement
         lse-no-indent
-        "if __name__ == \"__main__\" :"
-        @ py-block
+        "if __name__ != \"__main__\" :"
+        lse-indent+1
+        "««py-script-code:export»»"
+        lse-indent-1
+        "else"
+        lse-indent+1
+        "««py-script-code:main»»"
+        lse-indent:<
      )
 ;;; py-script-code
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "py-script-code:export"
+    '(token)
+    '(token                 "export")
+    '(description           "Export for package namespace")
+    '(kill-action           "\n    pass")
+    '(menu
+        "«name»._Export (««quoted-text»»)"
+        "«name»._Export_Module ()"
+        "pass"
+     )
+;;; py-script-code:export
+)
+
+;;;  5-Jan-2010
+(lse-define-fill-in "py-script-code:main"
+    '(token)
+    '(token                 "main")
+    '(token                 "__main__")
+    '(description           "Code to be executed when module is run as script")
+    '(menu
+        "_Command ()"
+        py-statement
+     )
+;;; py-script-code:main
 )
 
 ;;;  3-Jan-1998
@@ -2541,50 +2602,6 @@
     '(replacement-trailer   "'''")
     '(replacement           @ text)
 ;;; py-tsq-string
-)
-
-;;;  4-May-2001
-(lse-define-fill-in "py-test-def"
-    '(token)
-    '(token                 "test")
-    '(description           "Definition of test code/driver for the module")
-    '(replacement
-        "### unit-test code ############################################################"
-        ""
-        "if __debug__ :"
-        "    import U_Test"
-        ""
-        "    def _unit_test () :"
-        "        class Test_Case (U_Test.Case) :"
-        "            ### Each test case is implemented by a method "
-        "            ### starting with `check_'"
-        ""
-        "            ««py-method»»···"
-        ""
-        "        # end class Test_Case"
-        ""
-        "        ts = U_Test.make_suite (Test_Case, \"check_\")"
-        "        U_Test.Runner ().run (ts)"
-        "    # end def _unit_test"
-        ""
-        "    def _doc_test () :"
-        "        return U_Test.run_module_doc_tests " &
-                     "(\"««text»»" & lse-insert-buffer-name & "\")"
-        "    # end def _doc_test"
-        ""
-        "    def _test () :"
-        "        _unit_test ()"
-        "        _doc_test  ()"
-        "    # end def _test"
-        ""
-        "    if __name__ == \"__main__\" :"
-        "        _test ()"
-        "# end if __debug__"
-        ""
-        "### end unit-test code ########################################################"
-        ""
-     )
-;;; py-test-def
 )
 
 ; ««lse-define-fill-in»»···
