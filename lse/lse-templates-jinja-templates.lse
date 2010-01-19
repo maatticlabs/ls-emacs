@@ -1197,9 +1197,9 @@
     '(token                 "call")
     '(description           "Call a macro passing the block")
     '(replacement
-        "{%- call «jnj-macro-name» (««jnj-variable-name»»···) -%}"
+        "{% call «jnj-macro-name» (««jnj-variable-name»»···) -%}"
         @ jnj-stmt-block
-        "{%- endcall -%} {#- ««jnj-macro-name»» -#}"
+        "{% endcall %} {# ««jnj-macro-name»» #}"
      )
 ;;; jnj-macro-call
 )

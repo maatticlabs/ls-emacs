@@ -2380,7 +2380,7 @@
         lse-indent+1
         "««py-script-code:export»»"
         lse-indent-1
-        "else"
+        "else :"
         lse-indent+1
         "««py-script-code:main»»"
         lse-indent:<
@@ -2408,6 +2408,7 @@
     '(token                 "main")
     '(token                 "__main__")
     '(description           "Code to be executed when module is run as script")
+    '(leading               "else :")
     '(menu
         "_Command ()"
         py-statement
