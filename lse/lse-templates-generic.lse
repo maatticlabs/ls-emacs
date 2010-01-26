@@ -403,6 +403,8 @@
     '(menu
         "module"
         "package"
+        "template"
+        "script"
         "file"
         "library"
         "program"
