@@ -1,0 +1,582 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2010 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This module is part of the template library of LS-Emacs.
+;;;;
+;;;; This module is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 3 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This module is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this module. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-python-MOM
+;;;;
+;;;; Purpose
+;;;;    Define LS-Emacs templates for the definition of MOM-based object models
+;;;;
+;;;; Revision Dates
+;;;;    31-Jan-2010 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attr-Spec"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _Attributes (_Ancestor_Essence._Attributes) : "
+        lse-indent+1
+          ""
+          "_Ancestor = _Ancestor_Essence._Attributes"
+          ""
+          "««MOM-Attribute»»···"
+        lse-indent-1
+        "# end class _Attributes"
+     )
+;;; MOM-Attr-Spec
+)
+
+;;;  31-Jan-2010
+(lse-define-fill-in "MOM-Attribute"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description
+        "Define a specific attribute of an essential object/link"
+     )
+    '(replacement
+        "class «py-class-name» («MOM-Attribute-Type») :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "««MOM-Attribute-Kind»»"
+          "««MOM-Attribute-Attribute»»···"
+          ""
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; MOM-Attribute
+)
+
+;;;  31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Attribute"
+    '(token)
+    '(description           "Attribute of a MOM.Attr.Type")
+    '(menu
+        MOM-Attribute-default
+        MOM-Attribute-store-default
+        MOM-Attribute-explanation
+        MOM-Attribute-group
+        MOM-Attribute-syntax
+        MOM-Attribute-method-computed
+     )
+;;; MOM-Attribute-Attribute
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-default"
+    '(token)
+    '(description           "Default value of a MOM attribute")
+    '(menu
+        "default            = «value»"
+        "raw_default        = «quoted-text»"
+     )
+;;; MOM-Attribute-default
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-store-default"
+    '(token)
+    '(description
+        "Store attribute in DB even if it has the default value"
+     )
+    '(replacement
+        "store_default      = True"
+     )
+;;; MOM-Attribute-store-default
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-explanation"
+    '(token)
+    '(description           "Further explanation for a MOM attribute")
+    '(replacement
+        "explanation        = \"\"\" "
+        "  «text»"
+        "  \"\"\" "
+     )
+;;; MOM-Attribute-explanation
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-group"
+    '(token)
+    '(description           "Sort group of a MOM attribute")
+    '(replacement
+        "group              = «text»"
+     )
+;;; MOM-Attribute-group
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Kind"
+    '(token)
+    '(description           "Define attribute Kind")
+    '(replacement
+        "kind               = Attr.«MOM-Attribute-Kind-Type»"
+        "««MOM-Attribute-Kind-Mixins»»"
+     )
+;;; MOM-Attribute-Kind
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Kind-Mixins"
+    '(token)
+    '(description           "Define additional mixins for attribute kind")
+    '(replacement
+        "Kind_Mixins        = («MOM-Attribute-Kind-Type-Mixin»···)"
+     )
+;;; MOM-Attribute-Kind-Mixins
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Kind-Type"
+    '(token)
+    '(menu
+        "Primary"
+        "Primary_Optional"
+        "Required"
+        "Optional"
+        "Internal"
+        "Const"
+        "Cached"
+        ("Auto_Cached"
+         "Value calculated by `computed` of attribute after attribute changes of object."
+        )
+        ("Sync_Cached"
+         "Value calculated by `computed` of attribute when syncing."
+        )
+        ("Once_Cached"
+         "Value calculated just once -- effectively a constant."
+        )
+        ("Computed"
+         "Value always calculated by `computed` of attribute. Watch out for performance problem."
+        )
+     )
+;;; MOM-Attribute-Kind-Type
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Kind-Type-Mixin"
+    '(replacement-trailer   ", ")
+    '(menu
+        "Computed_Mixin"
+        "Sticky_Mixin"
+     )
+;;; MOM-Attribute-Kind-Type-Mixin
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-method-computed"
+    '(token)
+    '(description           "Method to compute value of attribute")
+    '(replacement
+        "def computed (self, obj) :"
+        @ py-function-body
+        "# end def computed"
+     )
+;;; MOM-Attribute-method-computed
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-syntax"
+    '(token)
+    '(description           "Syntax description for a MOM attribute")
+    '(replacement
+        "syntax             = \\ "
+        @ MOM-multi-line-text-assignment
+     )
+;;; MOM-Attribute-syntax
+)
+
+;;;  31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Type"
+    '(description           "Type of attribute")
+    '(menu
+        MOM-Attribute-Type-Derived
+        "A_«MOM-Attribute-Type-1»"
+     )
+;;; MOM-Attribute-Type
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Type-1"
+    '(description           "Concrete type of attribute")
+    '(menu
+       "Boolean"
+       "Char"
+       "Date"
+       "Date_Time"
+       "Decimal"
+       "Float"
+       "Int"
+       "Length"
+       "Name"
+       "String"
+       "Text"
+       "Time"
+     )
+;;; MOM-Attribute-Type-1
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Attribute-Type-Derived"
+    '(description           "Derived from _Ancestor attribute of same name")
+    '(replacement
+        "_Ancestor." & (lse-insert-replica-or-flat "py-class-name")
+     )
+;;; MOM-Attribute-Type-Derived
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Link"
+    '(token)
+    '(description           "Define an essential link type")
+    '(replacement
+        "_Ancestor_Essence = «name»"
+        ""
+        "class «py-class-name» (_Ancestor_Essence) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "««MOM-Attr-Spec-Link»»"
+          "««MOM-Pred-Spec»»"
+          "««py-class-init»»"
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; MOM-Link
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-multi-line-text-assignment"
+    '(replacement
+        "  ( «quoted-text»···"
+        "  )"
+     )
+;;; MOM-multi-line-text-assignment
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Object"
+    '(token)
+    '(description           "Define an essential object type")
+    '(replacement
+        "_Ancestor_Essence = «name»"
+        ""
+        "class «py-class-name» (_Ancestor_Essence) :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "««MOM-Attr-Spec»»"
+          "««MOM-Pred-Spec»»"
+          "««py-class-init»»"
+          "««py-statement»»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; MOM-Object
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Pred-Spec"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _Predicates (_Ancestor_Essence._Predicates) : "
+        lse-indent+1
+          ""
+          "_Ancestor = _Ancestor_Essence._Predicates"
+          ""
+          "««MOM-Predicate»»···"
+        lse-indent-1
+        "# end class _Predicates"
+     )
+;;; MOM-Pred-Spec
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate"
+    '(token)
+    '(token                 "Predicate")
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description
+        "Define a specific predicate of an essential object/link"
+     )
+    '(replacement
+        "class «py-class-name» («MOM-Predicate-Type») :"
+        lse-indent+1
+          "««py-doc-string»»"
+          "««MOM-Predicate-Kind»»"
+          "««MOM-Predicate-Attribute»»···"
+        lse-indent-1
+        "# end class «py-class-name»"
+     )
+;;; MOM-Predicate
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-Attribute"
+    '(token)
+    '(description           "Attribute of a MOM.Pred.Type")
+    '(menu
+        MOM-Predicate-explanation
+        MOM-Predicate-assertion
+        MOM-Predicate-attributes
+        MOM-Predicate-attr-none
+        MOM-Predicate-parameters
+        MOM-Predicate-bvar
+        MOM-Predicate-bvar_attr
+        MOM-Predicate-seq
+        MOM-Predicate-guard
+        MOM-Predicate-guard-attr
+        MOM-Predicate-lower-limit
+        MOM-Predicate-upper-limit
+        MOM-Predicate-extralinks
+        MOM-Predicate-rank
+        MOM-Predicate-severe
+     )
+;;; MOM-Predicate-Attribute-mixin
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-assertion"
+    '(token)
+    '(token                 "assertion")
+    '(description           "Define assertion describing the predicate")
+    '(replacement
+        "assertion          = «quoted-text»"
+     )
+;;; MOM-Predicate-assertion
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-attributes"
+    '(token)
+    '(description
+        "Define attributes checked by this predicate. The predicate is only"
+        "checked if all `attributes` have a non-None value."
+     )
+    '(replacement
+        "attributes         = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-attributes
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-attr-none"
+    '(token)
+    '(description
+        "Define attributes checked by this predicate. The predicate is "
+        "checked even if some `attr-none` have a None value."
+     )
+    '(replacement
+        "attr_none          = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-attr-none
+)
+
+(lse-define-fill-in "MOM-Predicate-bvar"
+    '(token)
+    '(description
+        "Define bounded variables used by this predicate"
+     )
+    '(replacement
+        "bvar               = «quoted-text»"
+     )
+;;; MOM-Predicate-bvar
+)
+
+(lse-define-fill-in "MOM-Predicate-bvar_attr"
+    '(token)
+    '(description
+        "Define bounded variable attributes used by this predicate"
+     )
+    '(replacement
+        "bvar_attr          = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-bvar_attr
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-explanation"
+    '(token)
+    '(replacement
+        @ MOM-Attribute-explanation
+     )
+;;; MOM-Predicate-explanation
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-extralinks"
+    '(token)
+    '(description           "Define additional hyperlinks for error widget")
+    '(replacement
+        "_extra_links_s     = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-extralinks
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-guard"
+    '(token)
+    '(description
+        "Define a guard predicate. The predicate will only be checked if the"
+        "guard is true."
+     )
+    '(replacement
+        "guard              = «quoted-text»"
+     )
+;;; MOM-Predicate-guard
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-guard-attr"
+    '(token)
+    '(description
+        "Define a guard predicate. The predicate will only be checked if the"
+        "guard is true."
+     )
+    '(replacement
+        "guard_attr         = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-guard-attr
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-Kind"
+    '(token)
+    '(description           "Define predicate kind")
+    '(replacement
+        "kind           = Pred.«MOM-Predicate-Kind-Type»"
+     )
+;;; MOM-Predicate-Kind
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-Kind-Type"
+    '(token)
+    '(menu
+        ("Object"     "Predicate kind for object-local invariant.")
+        ("System"     "Predicate kind for system-wide invariant.")
+     )
+;;; MOM-Predicate-Kind-Type
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-lower-limit"
+    '(token)
+    '(description           "Define lower limit for N_Quant")
+    '(replacement
+        "lower_limit        = «text»"
+     )
+;;; MOM-Predicate-lower-limit
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-parameters"
+    '(token)
+    '(description
+        "Define parameters used by the predicate (i.e., external to the "
+        "object/link in question) used for evaluating assertion."
+     )
+    '(replacement
+        "parameters         = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Predicate-parameters
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-rank"
+    '(token)
+    '(description
+        "Define rank of predicate. `rank` defines the sequence in which "
+        "predicates are checked. If any predicate of rank `n` fails, "
+        "predicates of rank `n + 1` and higher won't be checked."
+     )
+    '(replacement
+        "rank               = «text»"
+     )
+;;; MOM-Predicate-rank
+)
+
+(lse-define-fill-in "MOM-Predicate-seq"
+    '(token)
+    '(description
+        "Define the sequence over which should be quantified"
+     )
+    '(replacement
+        "seq                = «quoted-text»"
+     )
+;;; MOM-Predicate-seq
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-severe"
+    '(token)
+    '(description
+         "Define severity of predicate (0 means warning, 1 means error)."
+     )
+    '(replacement
+        "severe             = «text»"
+     )
+;;; MOM-Predicate-severe
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-Type"
+    '(menu
+        MOM-Predicate-Type-Derived
+        "Pred.Condition"
+        "Pred.E_Quant"
+        "Pred.N_Quant"
+        "Pred.U_Quant"
+     )
+;;; MOM-Predicate-Type
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-Type-Derived"
+    '(replacement
+        "_Ancestor." & (lse-insert-replica-or-flat "py-class-name")
+     )
+;;; MOM-Predicate-Type-Derived
+)
+
+;;; 31-Jan-2010
+(lse-define-fill-in "MOM-Predicate-upper-limit"
+    '(token)
+    '(description           "Define upper limit for N_Quant")
+    '(replacement
+        "upper_limit        = «text»"
+     )
+;;; MOM-Predicate-upper-limit
+)
+
+;;; __END__ lse-templates-python-MOM.lse
