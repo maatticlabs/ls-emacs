@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1998-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -81,16 +81,7 @@
      )
     '(
         "lse-templates-python"
-        "lse-templates-python-TOM"
-        "lse-templates-python-TTA"
-        "lse-templates-python-lib"
-        "lse-templates-python-re"        ;  7-Apr-1999
-        "lse-templates-python-os"        ;  7-Apr-1999
-        "lse-templates-python-os-path"   ;  7-Apr-1999
-        "lse-templates-python-predicate" ;  7-Apr-1999
-        "lse-templates-python-string"    ;  7-Apr-1999
-        "lse-templates-python-sys"       ;  7-Apr-1999
-        ;; 25-May-1999 ;; "lse-templates-python-CTK"       ;  7-Apr-1999
+        "lse-templates-python-MOM"
      )
     137
      67
