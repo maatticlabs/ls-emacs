@@ -599,6 +599,10 @@
   '(description   "Name of user")
 )
 
+(lse-define-fill-in "value"
+   '(description   "Enter some value here")
+)
+
 (lse-define-fill-in "week-day"
   '(description   "Day of week")
   '(menu

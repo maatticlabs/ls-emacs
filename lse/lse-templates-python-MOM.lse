@@ -49,6 +49,26 @@
 ;;; MOM-Attr-Spec
 )
 
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attr-Spec-Link"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(replacement
+        "class _Attributes (_Ancestor_Essence._Attributes) : "
+        lse-indent+1
+          ""
+          "_Ancestor = _Ancestor_Essence._Attributes"
+          ""
+          "««MOM-Attribute-Link-Role»»···"
+          ""
+          "««MOM-Attribute»»···"
+        lse-indent-1
+        "# end class _Attributes"
+     )
+;;; MOM-Attr-Spec-Link
+)
+
 ;;;  31-Jan-2010
 (lse-define-fill-in "MOM-Attribute"
     '(token)
@@ -77,11 +97,14 @@
     '(description           "Attribute of a MOM.Attr.Type")
     '(menu
         MOM-Attribute-default
-        MOM-Attribute-store-default
         MOM-Attribute-explanation
+        MOM-Attribute-max-length
+        MOM-Attribute-max-value
+        MOM-Attribute-min-value
+        MOM-Attribute-method-computed
         MOM-Attribute-group
         MOM-Attribute-syntax
-        MOM-Attribute-method-computed
+        MOM-Attribute-store-default
      )
 ;;; MOM-Attribute-Attribute
 )
@@ -189,6 +212,49 @@
 ;;; MOM-Attribute-Kind-Type-Mixin
 )
 
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attribute-Link-Role"
+    '(token)
+    '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
+    '(rcompletion-trailer   delete-blank-lines lse-newline)
+    '(description
+        "Define a specific role attribute of an essential object/link"
+     )
+    '(replacement
+        "class «MOM-Link-Role-Name» (_Ancestor.«MOM-Link-Role-Name») :"
+        lse-indent+1
+          "««py-doc-string»»"
+          ""
+          "««MOM-Attribute-Role-Type»»"
+          "««MOM-Attribute-Kind»»"
+          "««MOM-Attribute-Attribute»»···"
+          ""
+        lse-indent-1
+        "# end class «MOM-Link-Role-Name»"
+     )
+;;; MOM-Attribute-Link-Role
+)
+
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attribute-max-length"
+    '(token)
+    '(description           "Maximum length of value of string-typed attribute")
+    '(replacement
+        "max_length         = «value»"
+     )
+;;; MOM-Attribute-max-length
+)
+
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attribute-max-value"
+    '(token)
+    '(description           "Maximum value of value of number-typed attribute")
+    '(replacement
+        "max_value         = «value»"
+     )
+;;; MOM-Attribute-max-value
+)
+
 ;;; 31-Jan-2010
 (lse-define-fill-in "MOM-Attribute-method-computed"
     '(token)
@@ -199,6 +265,25 @@
         "# end def computed"
      )
 ;;; MOM-Attribute-method-computed
+)
+
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attribute-min-value"
+    '(token)
+    '(description           "Minimum value of value of number-typed attribute")
+    '(replacement
+        "min_value         = «value»"
+     )
+;;; MOM-Attribute-min-value
+)
+
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Attribute-Role-Type"
+    '(description           "Type of object participating in link")
+    '(replacement
+        "role_type          = «value»"
+     )
+;;; MOM-Attribute-Role-Type
 )
 
 ;;; 31-Jan-2010
@@ -270,6 +355,18 @@
         "# end class «py-class-name»"
      )
 ;;; MOM-Link
+)
+
+;;;  3-Feb-2010
+(lse-define-fill-in "MOM-Link-Role-Name"
+    '(description           "Generic role name")
+    '(auto-replicate        2)
+    '(menu
+        "left"
+        "middle"
+        "right"
+     )
+;;; MOM-Link-Role-Name
 )
 
 ;;; 31-Jan-2010
