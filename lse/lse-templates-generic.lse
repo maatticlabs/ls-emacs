@@ -133,6 +133,9 @@
     '(separator             " ")
 )
 
+(lse-define-fill-in "expression"
+   '(description   "Enter some valid expression here")
+)
 
 (lse-define-fill-in "file-name"
   '(separator             " ")

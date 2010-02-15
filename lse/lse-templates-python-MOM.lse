@@ -95,18 +95,47 @@
 (lse-define-fill-in "MOM-Attribute-Attribute"
     '(token)
     '(description           "Attribute of a MOM.Attr.Type")
+    '(sort)
     '(menu
+        MOM-Attribute-auto-up-depends
         MOM-Attribute-default
         MOM-Attribute-explanation
+        MOM-Attribute-group
         MOM-Attribute-max-length
         MOM-Attribute-max-value
-        MOM-Attribute-min-value
         MOM-Attribute-method-computed
-        MOM-Attribute-group
-        MOM-Attribute-syntax
+        MOM-Attribute-min-value
+        MOM-Attribute-query
         MOM-Attribute-store-default
+        MOM-Attribute-syntax
+        MOM-Attribute-ui-name
      )
 ;;; MOM-Attribute-Attribute
+)
+
+;;;  9-Feb-2010
+(lse-define-fill-in "MOM-Attribute-auto-up-depends"
+    '(token)
+    '(description
+      "Attributes on which this attribute depends. Value will be recomputed "
+      "after any change of any of the attributes listed here."
+     )
+    '(replacement
+        "auto_up_depends    = («quoted-text», ««quoted-text»»)"
+     )
+;;; MOM-Attribute-auto-up-depends
+)
+
+;;;  9-Feb-2010
+(lse-define-fill-in "MOM-Attribute-computed-default"
+    '(token)
+    '(description           "Method for computing default")
+    '(replacement
+        "def computed_default (self) :"
+        @ py-function-body
+        "# end def computed_default"
+     )
+;;; MOM-Attribute-computed-default
 )
 
 ;;; 31-Jan-2010
@@ -116,6 +145,7 @@
     '(menu
         "default            = «value»"
         "raw_default        = «quoted-text»"
+        MOM-Attribute-computed-default
      )
 ;;; MOM-Attribute-default
 )
@@ -184,6 +214,7 @@
         "Required"
         "Optional"
         "Internal"
+        "Query"
         "Const"
         "Cached"
         ("Auto_Cached"
@@ -250,7 +281,7 @@
     '(token)
     '(description           "Maximum value of value of number-typed attribute")
     '(replacement
-        "max_value         = «value»"
+        "max_value          = «value»"
      )
 ;;; MOM-Attribute-max-value
 )
@@ -275,6 +306,30 @@
         "min_value         = «value»"
      )
 ;;; MOM-Attribute-min-value
+)
+
+;;;  9-Feb-2010
+(lse-define-fill-in "MOM-Attribute-query"
+    '(token)
+    '(description           "Query expression used to compute the value")
+    '(menu
+        "query              = Q.«expression»"
+        MOM-Attribute-query-fct
+     )
+;;; MOM-Attribute-query
+)
+
+;;;  9-Feb-2010
+(lse-define-fill-in "MOM-Attribute-query-fct"
+    '(description
+      "Function that computes the query expression used to compute the value"
+     )
+    '(replacement
+        "def query_fct (self) :"
+        @ py-function-body
+        "# end def query_fct"
+     )
+;;; MOM-Attribute-query-fct
 )
 
 ;;;  3-Feb-2010
@@ -334,6 +389,16 @@
         "_Ancestor." & (lse-insert-replica-or-flat "py-class-name")
      )
 ;;; MOM-Attribute-Type-Derived
+)
+
+;;;  9-Feb-2010
+(lse-define-fill-in "MOM-Attribute-ui-name"
+    '(token)
+    '(token                 "Name used to display attribute in user interface")
+    '(replacement
+        "ui_name            = «quoted-text»»"
+     )
+;;; MOM-Attribute-ui-name
 )
 
 ;;; 31-Jan-2010
@@ -571,7 +636,7 @@
     '(token)
     '(description           "Define predicate kind")
     '(replacement
-        "kind           = Pred.«MOM-Predicate-Kind-Type»"
+        "kind               = Pred.«MOM-Predicate-Kind-Type»"
      )
 ;;; MOM-Predicate-Kind
 )
