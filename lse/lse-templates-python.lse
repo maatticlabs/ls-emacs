@@ -2302,6 +2302,44 @@
 ;;; py-print
 )
 
+;;; 18-Feb-2010
+(lse-define-fill-in "py-property-getter"
+    '(token)
+    '(token                 "getter")
+    '(token                 "property")
+    '(description           "Define the getter method for a property")
+    '(replacement
+        "@property"
+        "def «py-property-name» (self) :"
+        @ py-function-body
+        "# end def «py-property-name»"
+        ""
+     )
+;;; py-property-getter
+)
+
+;;; 18-Feb-2010
+(lse-define-fill-in "py-property-name"
+    '(description           "Name of a method.")
+    '(auto-replicate        3)
+;;; py-property-name
+)
+
+;;; 18-Feb-2010
+(lse-define-fill-in "py-property-setter"
+    '(token)
+    '(token                 "setter")
+    '(description           "Define the setter method for a property")
+    '(replacement
+        "@«py-property-name».setter"
+        "def «py-property-name» (self, value) :"
+        @ py-function-body
+        "# end def «py-property-name»"
+        ""
+     )
+;;; py-property-setter
+)
+
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-raise"
     '(token)

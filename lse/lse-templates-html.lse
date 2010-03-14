@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2010 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -29,6 +29,7 @@
 ;;;; Revision Dates
 ;;;;    19-Jul-2009 (CT) Creation
 ;;;;    24-Jul-2009 (CT) Creation finished
+;;;;     8-Mar-2010 (CT) Bug fixes `>` outside `"..."` (tbody, ...)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -1783,7 +1784,7 @@
     '(token                 "tbody")
     '(description           "Define a body section of a table")
     '(replacement
-        "<tbody ««html-core-attr»»···">
+        "<tbody ««html-core-attr»»··· >"
         lse-indent+1
         "«html-tr»···"
         lse-indent-1
@@ -1858,7 +1859,7 @@
     '(token                 "tfoot")
     '(description           "Define a footer for a table")
     '(replacement
-        "<tfoot ««html-core-attr»»···">
+        "<tfoot ««html-core-attr»»···>"
         lse-indent+1
         "«html-tr»···"
         lse-indent-1
