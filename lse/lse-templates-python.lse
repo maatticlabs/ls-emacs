@@ -2286,6 +2286,15 @@
 ;;; py-pass
 )
 
+;;;  8-Apr-2010
+(lse-define-fill-in "py-pdb-break"
+    '(token)
+    '(token                 "pdb")
+    '(description           "Start pdb debugger here.")
+    '(replacement           "import pdb; pdb.set_trace ()")
+;;; py-pdb-break
+)
+
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-print"
     '(token)
