@@ -60,7 +60,11 @@
           ""
           "_Ancestor = _Ancestor_Essence._Attributes"
           ""
+          "### Primary attributes"
+          ""
           "««MOM-Attribute-Link-Role»»···"
+          ""
+          "### Non-primary attributes"
           ""
           "««MOM-Attribute»»···"
         lse-indent-1
@@ -106,6 +110,7 @@
         MOM-Attribute-method-computed
         MOM-Attribute-min-value
         MOM-Attribute-query
+        MOM-Attribute-rank
         MOM-Attribute-store-default
         MOM-Attribute-syntax
         MOM-Attribute-ui-name
@@ -257,8 +262,7 @@
           "««py-doc-string»»"
           ""
           "««MOM-Attribute-Role-Type»»"
-          "««MOM-Attribute-Kind»»"
-          "««MOM-Attribute-Attribute»»···"
+          "««MOM-Attribute-Role-Attribute»»···"
           ""
         lse-indent-1
         "# end class «MOM-Link-Role-Name»"
@@ -330,6 +334,70 @@
         "# end def query_fct"
      )
 ;;; MOM-Attribute-query-fct
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-rank"
+    '(token)
+    '(description           "Rank of attribute")
+    '(replacement
+        "rank               = «value»"
+     )
+;;; MOM-Attribute-rank
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-Role-Attribute"
+    '(token)
+    '(description           "Attribute of a link role")
+    '(sort)
+    '(menu
+        MOM-Attribute-Role-Auto-Cache
+        MOM-Attribute-Role-Max-Links
+        MOM-Attribute-Role-Name
+        MOM-Attribute-ui-name
+     )
+;;; MOM-Attribute-Role-Attribute
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-Role-Auto-Cache"
+    '(token)
+    '(description           "Auto cache this role in other roles object")
+    '(replacement
+        "auto_cache         = «MOM-Attribute-Role-Auto-Cache-Value»"
+     )
+;;; MOM-Attribute-Role-Auto-Cache
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-Role-Auto-Cache-Value"
+    '(menu
+        "True"
+        name
+        "MOM.Role_Cacher («value»···)"
+     )
+;;; MOM-Attribute-Role-Auto-Cache-Value
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-Role-Max-Links"
+    '(token)
+    '(description           "Maximum number of links allowed for this role")
+    '(replacement
+        "max_links          = «value»"
+     )
+;;; MOM-Attribute-Role-Max-Links
+)
+
+;;;  9-Apr-2010
+(lse-define-fill-in "MOM-Attribute-Role-Name"
+    '(token)
+    '(token                 "Role name used for this link role")
+    '(replacement
+        "role_name          = «quoted-text»"
+     )
+;;; MOM-Attribute-Role-Name
 )
 
 ;;;  3-Feb-2010
