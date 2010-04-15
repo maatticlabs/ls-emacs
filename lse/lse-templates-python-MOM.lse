@@ -216,6 +216,7 @@
     '(menu
         "Primary"
         "Primary_Optional"
+        "Mandatory"
         "Required"
         "Optional"
         "Internal"
@@ -307,7 +308,7 @@
     '(token)
     '(description           "Minimum value of value of number-typed attribute")
     '(replacement
-        "min_value         = «value»"
+        "min_value          = «value»"
      )
 ;;; MOM-Attribute-min-value
 )
@@ -581,6 +582,7 @@
         MOM-Predicate-attributes
         MOM-Predicate-attr-none
         MOM-Predicate-parameters
+        MOM-Predicate-bindings
         MOM-Predicate-bvar
         MOM-Predicate-bvar_attr
         MOM-Predicate-seq
@@ -630,6 +632,18 @@
         "attr_none          = («quoted-text», ««quoted-text»»)"
      )
 ;;; MOM-Predicate-attr-none
+)
+
+;;; 15-Apr-2010
+(lse-define-fill-in "MOM-Predicate-bindings"
+    '(token)
+    '(description           "Bindings for a predicate")
+    '(replacement
+        "bindings           = dict \\"
+        "    ( «name»       = «value»"
+        "    )"
+     )
+;;; MOM-Predicate-bindings
 )
 
 (lse-define-fill-in "MOM-Predicate-bvar"
