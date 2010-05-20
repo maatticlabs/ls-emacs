@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1995-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -50,6 +50,8 @@
 ;;;;    19-Jun-2008 (CT) Don't set `lse_comment_delim_char_set` to `>`
 ;;;;                     (makes `lse-kill-fill-in` remove `>` from any mail
 ;;;;                     address immediately preceeding the killed fill-in )
+;;;;    11-May-2010 (CT) `(defconst  mail-user-agent 'sendmail-user-agent)`
+;;;;                     to fix Emacs 23.2 breakage
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -174,6 +176,7 @@
 (add-hook 'mail-mode-hook  'lse-mail-mode)
 (add-hook 'mail-send-hook  'lse-mail:send-hook)
 (add-hook 'mail-setup-hook 'lse-mail-setup-hook)
+(defconst  mail-user-agent 'sendmail-user-agent)
 
 ;;; 13-Feb-1998
 (defun lse-mail:insert-if-missing (tag &rest text)
