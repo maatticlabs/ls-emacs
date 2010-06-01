@@ -2291,7 +2291,9 @@
     '(token)
     '(token                 "pdb")
     '(description           "Start pdb debugger here.")
-    '(replacement           "import pdb; pdb.set_trace ()")
+    '(replacement
+        "TFL.Environment.exec_python_startup (); import pdb; pdb.set_trace ()"
+     )
 ;;; py-pdb-break
 )
 
