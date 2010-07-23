@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -163,6 +163,8 @@
 ;;;;     8-Dec-2009 (CT) Binding for `[blue gold ?*]` changed from
 ;;;;                     `lse-show-windows` to `lse-frame:list:show`
 ;;;;     9-Dec-2009 (CT) Bindings of `[blue gold ?*]` and `[blue ?*]` swapped
+;;;;    23-Jul-2010 (CT) Binding for `[gold ?#]` to
+;;;;                     `lse-insert-date-time-comment` added
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -646,6 +648,7 @@
   (global-set-key [gold ?}]           'backward-sexp)
   (global-set-key [gold ?~]           'vt-narrow)
   (global-set-key [gold ?+]           'lse-push-window-configuration)
+  (global-set-key [gold ?#]           'lse-insert-date-time-comment); 23-Jul-2010
 
   (gset-alpha-key [gold] "A"          'occur)
   (gset-alpha-key [gold] "B"          'lse-goto-last-mark-global)

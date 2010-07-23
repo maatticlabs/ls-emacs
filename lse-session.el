@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-session:el lse_sssn:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -69,6 +69,7 @@
 ;;;;     6-Dec-2007 (CT) `lse-insert-buffer-name-plus-extension` added
 ;;;;    12-Nov-2009 (CT) `lse-new-site-info` and functions using it added
 ;;;;                     (and: site-specific function definitions removed)
+;;;;    23-Jul-2010 (CT) `lse-insert-date-time-comment` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -192,6 +193,21 @@
 (defun lse-insert-year ()
   (interactive "*")
   (lse-tpu:insert (lse-date-year))
+)
+
+;;; 23-Jul-2010
+(defun lse-insert-date-time-comment ()
+  (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
+  (dotimes (i 3) (lse-tpu:insert (or lse_comment_head_delim "#")))
+  (lse-tpu:insert " ")
+  (lse-insert-dd-mmm-yyyy+blank)
+  (lse-insert-time+blank)
+  (if lse_comment_tail_delim
+      (dotimes (i 3) (lse-tpu:insert lse_comment_tail_delim))
+  )
+  (newline-and-indent)
+; lse-insert-date-time-comment
 )
 
 (defun lse-user-name ()
