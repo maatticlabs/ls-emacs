@@ -63,6 +63,7 @@
 ;;;;                     `lse-python:update-patchlevel-one` added
 ;;;;    25-Oct-2007 (CT) `lse-python:update-patchlevel` changed to check
 ;;;;                     `verify-visited-file-modtime`
+;;;;    30-Aug-2010 (CT) `lse-python:goto-near-top-pos` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -129,6 +130,7 @@
   (local-set-smk   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
   (local-set-smk   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
   (local-set-smk   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
+  (local-set-key   [red C-home]      'lse-python:goto-near-top-pos);       30-Aug-2010
 
   (local-set-smk   [gold red ?a]     'lse-python:goto-last-position); 24-Sep-1999
   (local-set-smk   [gold red ?b]     'lse-python:goto-last-position); 24-Sep-1999
@@ -333,6 +335,41 @@
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-prev-statement-end
 )
+
+;;; 30-Aug-2010
+(defun lse-python:near-top-pos ()
+  (save-excursion
+    (save-match-data
+      (lse-tpu:move-to-beginning)
+      (re-search-forward "^#--")
+      (skip-chars-forward " \t\n")
+      (if (looking-at "\"\"\"")
+          (progn
+            (lse-tpu:forward-char 3)
+            (re-search-forward "\"\"\"")
+            (skip-chars-forward " \t\n")
+          )
+      )
+      (point)
+    )
+  )
+; lse-python:near-top-pos
+)
+
+;;; 30-Aug-2010
+(defun lse-python:goto-near-top-pos ()
+  "Goto position near the top of a Python module."
+  (interactive)
+  (let ((ntp (lse-python:near-top-pos))) (if ntp (goto-char ntp)))
+; lse-python:goto-near-top-pos
+)
+
+;;; 30-Aug-2010
+(define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
+(define-key py-mode-map [menu-bar Python Py-Near-Top]
+  '("Goto position near the top" . lse-python:goto-near-top-pos)
+)
+
 
 ;;;  4-Oct-2007
 (defconst lse-python:patchlevel-pattern

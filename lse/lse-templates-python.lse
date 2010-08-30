@@ -1860,6 +1860,29 @@
 ;;; py-function-name
 )
 
+;;; 30-Aug-2010
+(lse-define-fill-in "py-future-import"
+    '(token)
+    '(token                 "future")
+    '(description           "Future import to enable a futuristic feature")
+    '(replacement
+        "from   __future__  import «py-name-e»···"
+     )
+;;; py-future-import
+)
+
+;;; 30-Aug-2010
+(lse-define-fill-in "py-future-3"
+    '(token)
+    '(token                 "py3-future")
+    '(token                 "future-3")
+    '(description           "Future imports for Python-3 compatibility")
+    '(replacement
+        "from   __future__  import absolute_import, division, print_function, unicode_literals"
+     )
+;;; py-future-3
+)
+
 ; ««lse-define-fill-in»»···
 
 ;;;  3-Jan-1998
