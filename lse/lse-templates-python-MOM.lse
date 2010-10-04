@@ -728,6 +728,7 @@
     '(token)
     '(menu
         ("Object"     "Predicate kind for object-local invariant.")
+        ("Region"     "Predicate kind for regional invariant.")
         ("System"     "Predicate kind for system-wide invariant.")
      )
 ;;; MOM-Predicate-Kind-Type
