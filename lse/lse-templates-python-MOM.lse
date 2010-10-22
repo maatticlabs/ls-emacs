@@ -241,10 +241,13 @@
 
 ;;; 31-Jan-2010
 (lse-define-fill-in "MOM-Attribute-Kind-Type-Mixin"
+    '(replacement-leading   "Attr.")
     '(replacement-trailer   ", ")
     '(menu
-        "Attr.Computed_Mixin"
-        "Attr.Sticky_Mixin"
+        "Computed_Mixin"
+        "Computed_Set_Mixin"
+        "Init_Only_Mixin"
+        "Sticky_Mixin"
      )
 ;;; MOM-Attribute-Kind-Type-Mixin
 )
