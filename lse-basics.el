@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-basics:el lse_bscs:el
-;;;; Copyright (C) 1995-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -43,6 +43,7 @@
 ;;;;    30-Dec-1997 (CT) lse-safe        added
 ;;;;    15-Oct-2007 (CT) Cruft removed (lse-insert, ...)
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    10-Nov-2010 (CT) `string-starts-with` and `string-ends-with` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-basics)
@@ -85,3 +86,23 @@
      (error nil)
    )
 )
+
+;;; 10-Nov-2010
+(defun string-starts-with (string starter)
+  "Returns true if `string` starts with `starter`, false otherwise"
+  (let ((l (length starter)))
+    (string= (substring-no-properties string 0 l) starter)
+  )
+; string-starts-with
+)
+
+;;; 10-Nov-2010
+(defun string-ends-with (string ender)
+  "Returns true if `string` ends with `ender`, false otherwise"
+  (let ((l (length ender)))
+    (string= (substring-no-properties string (- l)) ender)
+  )
+; string-ends-with
+)
+
+;;;; __END__ lse-basics.el

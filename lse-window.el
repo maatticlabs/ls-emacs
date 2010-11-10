@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -74,6 +74,7 @@
 ;;;;                     `lse-tpu:previous-line` (which breaks
 ;;;;                     `lse-cal:plan:sync-to-view` [due to a bug in Emacs?!])
 ;;;;     3-Apr-2008 (CT) Added `lse-scroll-to-bottom`
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -83,11 +84,6 @@
       (walk-windows apply 'no-minibuf)
     ; lse-iterate-windows
     )
-  ;;  (load "saveconf" t) ; supplies 'window-list
-  ;;  (defun lse-iterate-windows (apply)
-  ;;    (mapcar apply (window-list))
-  ;;  ; lse-iterate-windows
-  ;;  )
 )
 
 ;;;+
@@ -124,13 +120,13 @@
 (setq temp-buffer-show-function 'lse-window:temp-buffer-show-function)
 
 (defun lse-window:save-temp-hidden ()
-  (mapcar
-      (function
-         (lambda (wb-assoc)
-           (lse-add-to-list lse-window:temp-hidden wb-assoc)
-         )
+  (mapc
+    (function
+      (lambda (wb-assoc)
+        (lse-add-to-list lse-window:temp-hidden wb-assoc)
       )
-      lse-window:wb-assoc
+    )
+    lse-window:wb-assoc
   )
 ; lse-window:save-temp-hidden
 )
@@ -446,11 +442,9 @@
 )
 
 (defun lse@delete@window@list ()
-  (mapcar (function (lambda (ms)
-                      (lse-delete-mark-stack (cdr ms))
-                    )
-          )
-          lse@window@list
+  (mapc
+    (function (lambda (ms) (lse-delete-mark-stack (cdr ms))))
+    lse@window@list
   )
   (setq lse@window@list nil)
 ; lse@delete@window@list

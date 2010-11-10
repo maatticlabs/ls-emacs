@@ -2,7 +2,7 @@
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
-;;;; Copyright (C) 1997-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -34,6 +34,7 @@
 ;;;;    13-Oct-2007 (CT) Complete overhaul
 ;;;;    15-Oct-2007 (CT) `lse-interactive.el` removed from `black-list`
 ;;;;    18-Oct-2007 (CT) `lse-config` added
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -104,7 +105,7 @@
   "Byte-compile all LS-Emacs files that are safe for compiling and load them
 into Emacs."
   (interactive)
-  (mapcar 'lse-byte-compile:one (or files lse-byte-compile:files))
+  (mapc 'lse-byte-compile:one (or files lse-byte-compile:files))
 ; lse-byte-compile:all
 )
 

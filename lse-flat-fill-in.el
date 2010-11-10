@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -152,6 +152,7 @@
 ;;;;    15-Oct-2007 (CT) `lse_start_replacement_if_in_fill-in` defined as
 ;;;;                     `defun` instead of as `defmacro`
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -1566,13 +1567,13 @@ This function is used as key-binding in `lse-flat-fill-in:keymap' for
 
 ;;; 13-Dec-1997
 (defun lse-flat-fill-in:define-keys (&rest arg)
-  (mapcar (function (lambda (cmd)
-                       (lse-iterate-keys-bound-to-function cmd
-                           'lse-flat-fill-in:define-key
-                       )
-                    )
-          )
-          arg
+  (mapc
+    (function
+      (lambda (cmd)
+        (lse-iterate-keys-bound-to-function cmd 'lse-flat-fill-in:define-key)
+      )
+    )
+    arg
   )
 ; lse-flat-fill-in:define-keys
 )

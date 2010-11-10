@@ -64,6 +64,7 @@
 ;;;;    25-Oct-2007 (CT) `lse-python:update-patchlevel` changed to check
 ;;;;                     `verify-visited-file-modtime`
 ;;;;    30-Aug-2010 (CT) `lse-python:goto-near-top-pos` added
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -103,8 +104,9 @@
   (local-unset-key "\177");  8-Mar-1998
   ;; revert ``extremely bad form'' of python-mode rebindings of
   ;; 'newline-and-indent
-  (mapcar #'(lambda (key) (local-unset-key key))
-          (where-is-internal 'newline-and-indent)
+  (mapc
+    #'(lambda (key) (local-unset-key key))
+    (where-is-internal 'newline-and-indent)
   );  8-Mar-1998
 
   ;; 17-Aug-2006

@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-buffer-list:el lse_blst:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -43,15 +43,16 @@
 ;;;;    14-Jun-1996 (CT) Features renamed
 ;;;;    14-Jun-1996 (CT) Optional parameter added to `lse-show-buffers'
 ;;;;                     trying (unsuccessfully) to accomodate change of
-;;;;                     `list-buffers' in Emacs 19.30 
+;;;;                     `list-buffers' in Emacs 19.30
 ;;;;     3-Oct-1996 (CT) Use post-command-hook instead of
-;;;;                     `lse_buffer_list:key-handler' 
+;;;;                     `lse_buffer_list:key-handler'
 ;;;;     3-Oct-1996 (CT) Keydef's for Emacs 18.x removed (no
 ;;;;                     post-command-hook there)
 ;;;;    16-Oct-1996 (CT) Set mouse-face
 ;;;;    16-Oct-1996 (CT) lse_buffer_list:name-length-max added
 ;;;;    17-Dec-1997 (CT) `lse-buffer-list-mouse-goto-buffer' added
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer-list)
@@ -76,7 +77,7 @@
 (defvar   lse_buffer_list:name-length-max     15)
 (defconst lse_buffer_list:name-terminator   "\t")
 
-(defvar lse_buffer_list:overlay nil); 14-Dec-1997 
+(defvar lse_buffer_list:overlay nil); 14-Dec-1997
 
 (defun lse_buffer_list:define-keys ()
   (let ((lmap (current-local-map)))
@@ -123,7 +124,7 @@
         (use-local-map   lse_buffer_list:buffer-keymap)
         (lse_buffer_list:define-keys)
         (setq tab-width 1)
-        ;; 19-Mar-1995  
+        ;; 19-Mar-1995
         (setq lse_buffer_list:overlay (make-overlay 1 1))
         (overlay-put lse_buffer_list:overlay 'face 'lse-face:completion)
       )
@@ -175,7 +176,7 @@
 ; lse-buffer-list-delete-buffer
 )
 
-;;; 17-Dec-1997 
+;;; 17-Dec-1997
 (defun lse-buffer-list-mouse-goto-buffer ()
   (interactive)
   (call-interactively 'mouse-set-point)
@@ -244,7 +245,7 @@
   (if t
       t
     (or buf (setq buf (lse_buffer_list:selected-buffer)))
-    (save-window-excursion 
+    (save-window-excursion
       (set-buffer buf)
       (vc-toggle-read-only)
     )
@@ -279,7 +280,7 @@
     (beginning-of-line)
     (setq overlay-arrow-string   "###>")
     (setq overlay-arrow-position (point-marker))
-    ;; 19-Mar-1995 
+    ;; 19-Mar-1995
     (move-overlay lse_buffer_list:overlay
                   (point-marker) (lse-tpu:line-tail-pos)
                   (current-buffer)
@@ -381,7 +382,7 @@
 
 (defun lse_buffer_list:format-buffer
            (leader buf-nam n-lines mod write jou vc-mode file)
-  (let ((opoint (point))); 11-Oct-1996 
+  (let ((opoint (point))); 11-Oct-1996
     (insert (or leader "     "))
             (indent-to lse_buffer_list:buffer-left-margin)
     (insert buf-nam lse_buffer_list:name-terminator)
@@ -415,7 +416,7 @@
        (cond ((save-excursion (set-buffer b) buffer-read-only)
               "r/o"
              )
-             (t 
+             (t
               (if (buffer-modified-p (get-buffer b)) "YES"  "no" )
              )
        )
@@ -451,27 +452,22 @@
 )
 
 (defun lse_buffer_list:show-all ()
-  (let ((n 0)
-       )
-    (mapcar
-         (function (lambda (b)
-                     (setq n (1+ n))
-                     (setq lse_buffer_list:name-length-max
-                           (max lse_buffer_list:name-length-max
-                                (length (buffer-name b))
-                           )
-                     )
-                   )
-         )
-         (buffer-list)
+  (let ((n 0))
+    (mapc
+      (function
+        (lambda (b)
+          (setq n (1+ n))
+          (setq lse_buffer_list:name-length-max
+            (max lse_buffer_list:name-length-max (length (buffer-name b)))
+          )
+        )
+      )
+      (buffer-list)
     )
     (lse_buffer_list:initialize)
-    (mapcar
-         (function (lambda (b)
-                     (if b (lse_buffer_list:show b))
-                   )
-         )
-         (buffer-list)
+    (mapc
+      (function (lambda (b) (if b (lse_buffer_list:show b))))
+      (buffer-list)
     )
     (newline)
     (narrow-to-region 1 (1- (point)))
@@ -492,9 +488,7 @@
       (setq b (lse-buffer:prev b))
       (if b
           (setq lse_buffer_list:name-length-max
-                (max lse_buffer_list:name-length-max
-                     (length (buffer-name b))
-                )
+            (max lse_buffer_list:name-length-max (length (buffer-name b)))
           )
       )
       (setq done (or (not b) (eq b main)))
@@ -515,8 +509,8 @@
 ; lse_buffer_list:show-user
 )
 
-(if (fboundp 'make-local-hook);  4-Oct-1996 
-    ;;  3-Oct-1996 
+(if (fboundp 'make-local-hook);  4-Oct-1996
+    ;;  3-Oct-1996
     (defun lse_buffer_list:driver ()
       (lse-set-last-mark-global)
       (setq lse_buffer_list:cb (current-buffer))
@@ -582,7 +576,7 @@
     (lse_buffer_list:snap-cursor)
     (lse-reverse-video-current-line)
     (if (buffer-modified-p lse_buffer_list:buffer)
-        (let (cp); 14-Dec-1997 
+        (let (cp); 14-Dec-1997
           (setq lse_buffer_list:name-length-max lse_buffer_list:name-length)
           (setq cp (point))
           (lse_buffer_list:show-function)

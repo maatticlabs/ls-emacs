@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-language:el lse_lngg:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -41,6 +41,7 @@
 ;;;;    11-Oct-1996 (CT) Comments added
 ;;;;     5-Oct-2007 (CT) Use `lse-language:call-hook` instead of `funcall`
 ;;;;                     (and try to pass `t` to each of the hooks there)
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-language)
@@ -256,25 +257,25 @@
        (lambda (lsym)
          (let (result)
            (lse-define-fill-in "$$default$$separator"
-                               '(replacement lse-newline-and-indent)
+             '(replacement lse-newline-and-indent)
            )
            (setq result
-                 (load (concat "lse-templates-generic" lse-language:source_ext)
-                       t nil t
-                 )
+             (load (concat "lse-templates-generic" lse-language:source_ext)
+               t nil t
+             )
            )
-           (mapcar
-              (function
-                 (lambda (f)
-                   (lse-define:message "Loading  `%25s'" f)
-                   (if (load (concat f lse-language:source_ext) t nil t)
-                       t                ; relax
-                     (setq result nil)
-                     (lse-define:message "Error in file %s" f)
-                   )
+           (mapc
+             (function
+               (lambda (f)
+                 (lse-define:message "Loading  `%25s'" f)
+                 (if (load (concat f lse-language:source_ext) t nil t)
+                     t ; relax
+                   (setq result nil)
+                   (lse-define:message "Error in file %s" f)
                  )
-              )
-              (get lsym 'files)
+               )
+             )
+             (get lsym 'files)
            )
            result
          )

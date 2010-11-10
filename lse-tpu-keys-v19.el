@@ -165,6 +165,7 @@
 ;;;;     9-Dec-2009 (CT) Bindings of `[blue gold ?*]` and `[blue ?*]` swapped
 ;;;;    23-Jul-2010 (CT) Binding for `[gold ?#]` to
 ;;;;                     `lse-insert-date-time-comment` added
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -328,14 +329,15 @@
 ;;; 30-Dec-1997
 (defun lse-move-keys-to-prefix (keymap prefix &rest keys)
   "Moves the definition of KEYS in KEYMAP to [PREFIX KEY]."
-  (mapcar (function (lambda (k) (lse-move-key-to-prefix keymap prefix k)))
-          keys
+  (mapc
+    (function (lambda (k) (lse-move-key-to-prefix keymap prefix k)))
+    keys
   )
 ; lse-move-keys-to-prefix
 )
 (defun lse-iterate-keys-bound-to-function (binding do)
   "Calls `do' for every key of current keymap bound to `binding'."
-  (mapcar do (where-is-internal binding))
+  (mapc do (where-is-internal binding))
 ; lse-iterate-keys-bound-to-function
 )
 ;;; example call:

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-fill-in-marks:el lse_fmar:el
-;;;; Copyright (C) 1997-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -34,6 +34,7 @@
 ;;;;                     David K}gedal <davidk@lysator.liu.se>)
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -85,18 +86,17 @@
 ;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-next (marks)
   "Jump to the next mark in `marks'."
-  (let ((next-mark (catch 'found
-		     (mapcar
-                       (function
-                         (lambda (mark)
-                           (if (< (point) mark) (throw 'found mark))
-                         )
-                       )
-		      (symbol-value marks)
-                     )
-		     ;; return nil if not found
-		     nil
-                   )
+  (let ((next-mark
+          (catch 'found
+            (mapc
+              (function
+                (lambda (mark) (if (< (point) mark) (throw 'found mark)))
+              )
+              (symbol-value marks)
+            )
+            ;; return nil if not found
+            nil
+          )
         )
        )
     (if next-mark (goto-char next-mark))
@@ -107,20 +107,21 @@
 ;;; 29-Dec-1997
 (defun lse-fill-in-marks:goto-prev (marks)
   "Jump to the prev mark in `marks'."
-  (let ((prev-mark (catch 'found
-		     (let (last)
-		       (mapcar
-                         (function
-                           (lambda (mark)
-                             (if (<= (point) mark) (throw 'found last))
-                             (setq last mark)
-                           )
-                         )
-                        (symbol-value marks)
-                       )
-		       last
-                     )
-                   )
+  (let ((prev-mark
+          (catch 'found
+            (let (last)
+              (mapc
+                (function
+                  (lambda (mark)
+                    (if (<= (point) mark) (throw 'found last))
+                    (setq last mark)
+                  )
+                )
+                (symbol-value marks)
+              )
+              last
+            )
+          )
         )
        )
     (if prev-mark (goto-char prev-mark))

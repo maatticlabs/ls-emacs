@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -52,6 +52,7 @@
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;     8-Dec-2009 (CT) `lse-frame:list:show` and `lse-show-position` added
+;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -91,6 +92,11 @@
 (define-key lse-menu:lse-menu [show-lse-position]
   '("Show Position" . lse-show-position)
 );  8-Dec-2009
+
+(define-key lse-menu:lse-menu [lse-revert-buffers-same-anchor]
+  '("Revert all buffers with same anchor" . lse-revert-buffers-same-anchor)
+); 10-Nov-2010
+(put 'lse-revert-buffers-same-anchor 'menu-enable 'lse-buffer:anchor)
 
 (define-key lse-flat-fill-in:keymap [down-mouse-3] lse-menu:fill-in)
 
@@ -287,7 +293,7 @@
         (menu-bar-make-toggle toggle-lse-split-line
                               lse-key:toggle-tab-p
                               "Tab binds to lse-tabulator"
-                              "Tab binds to lse-tabulator"
+                              "Tab binds to lse-tabulator %s"
                               "Tab binds to lse-tabulator"
                               (lse-key:toggle-tab)
         )

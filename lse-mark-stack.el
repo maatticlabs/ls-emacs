@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-mark-stack:el lse_mark:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -48,6 +48,7 @@
 ;;;;     9-Oct-1996 (CT) Replaced "'(lambda" by "(function (lambda"
 ;;;;    17-Nov-2009 (CT) `lse-global-home-mark-initialized` and
 ;;;;                     `lse-home-mark-global` added
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mark-stack)
@@ -60,7 +61,7 @@
 
 (defun lse-delete-mark-stack (lse@mark@stack)
   (let ((l (append nil lse@mark@stack)))
-    (mapcar (function (lambda (m) (if (markerp m) (setq m nil)))) l)
+    (mapc (function (lambda (m) (if (markerp m) (setq m nil)))) l)
   )
 )
 

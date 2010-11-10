@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys:el lse_tpks:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -39,6 +39,7 @@
 ;;;;                     `lse-tpu:electric-inserts-p`, and
 ;;;;                     `lse-tpu:use-control-keys-p` added
 ;;;;     3-Oct-2007 (CT) `lse-tpu:app-keypad-p` removed
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -86,8 +87,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
        )
     (with-output-to-temp-buffer bf
       (if (and arg (listp (car arg)))
-          (mapcar (function (lambda (l) (mapcar iterator l))) arg)
-        (mapcar iterator arg)
+          (mapc (function (lambda (l) (mapcar iterator l))) arg)
+        (mapc iterator arg)
       )
     )
     (save-excursion
@@ -105,10 +106,10 @@ electric `(` inserts `()` and positions point between the parentheses..."
   "Display key bindings for all sexp related keys."
   (interactive "P")
   (lse-tpu-keys:where-is show-all "%-30s"
-                         (append
-                           (lse-tpu-keys:matching-commands "defun?$")
-                           (lse-tpu-keys:matching-commands "sexps?$")
-                         )
+    (append
+      (lse-tpu-keys:matching-commands "defun?$")
+      (lse-tpu-keys:matching-commands "sexps?$")
+    )
   )
 ; lse-tpu-keys:show-sexp-keys
 )

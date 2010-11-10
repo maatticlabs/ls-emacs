@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -68,6 +68,8 @@
 ;;;;                     `lse-buffer:unique_anchored_name`
 ;;;;    29-Jul-2009 (CT) `font-lock` for `lse-face:line-too-long` added
 ;;;;     5-Aug-2009 (CT) Quote added to `lse-face:line-too-long`
+;;;;    10-Nov-2010 (CT) Optional argument `buffer` added to `lse-revert-buffer`
+;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -76,7 +78,7 @@
 
 (defun lse-buffer:alist ()
   (mapcar (function (lambda (x) (cons (buffer-name x) x)))
-          (buffer-list)
+     (buffer-list)
   )
 )
 
@@ -132,6 +134,7 @@
               )
             )
             (setq result (generate-new-buffer-name rn))
+            (setq lse-buffer:anchor a); 10-Nov-2010
             (setq anchors nil)
           )
         )
@@ -165,16 +168,19 @@
 
 (defvar lse-buffer:file-name  nil) ; Original file name of buffer
 (defvar lse-buffer:base-name  nil) ; Base name of buffer
+(defvar lse-buffer:anchor     nil) ; Relative directory anchor matching buffer
 (defvar lse-buffer:next       nil) ; Pointer to next buffer
 (defvar lse-buffer:prev       nil) ; Pointer to prev buffer
 (defvar lse-buffer:n          nil) ; Number of buffer
 (make-variable-buffer-local 'lse-buffer:file-name)
 (make-variable-buffer-local 'lse-buffer:base-name);  3-Apr-2003
+(make-variable-buffer-local 'lse-buffer:anchor); 10-Nov-2010
 (make-variable-buffer-local 'lse-buffer:next)
 (make-variable-buffer-local 'lse-buffer:prev)
 (make-variable-buffer-local 'lse-buffer:n)
 (put 'lse-buffer:file-name  'permanent-local t)
 (put 'lse-buffer:base-name  'permanent-local t);  3-Apr-2003
+(put 'lse-buffer:anchor     'permanent-local t); 10-Nov-2010
 (put 'lse-buffer:next       'permanent-local t)
 (put 'lse-buffer:prev       'permanent-local t)
 (put 'lse-buffer:n          'permanent-local t)
@@ -247,7 +253,7 @@
 (defun lse-buffer:rebuild-chain (&optional silent)
   (interactive); 28-Jan-1995
   (let* ((blist (sort (mapcar 'lse-buffer:is-lse-buffer (buffer-list))
-                      'lse-buffer:<
+                  'lse-buffer:<
                 )
          )
          (start (car blist))
@@ -380,29 +386,75 @@
   )
 )
 
-(defun lse-revert-buffer ()
+(defun lse-revert-buffer (&optional buffer)
   (interactive "*")
-  (let ((next (lse-buffer:next (current-buffer)))
-        (prev (lse-buffer:prev (current-buffer)))
-        self
-       )
-    (revert-buffer t t t)
-    (if (and (buffer-name next) (buffer-name prev))
-        t
-      (setq next (current-buffer))
-      (setq prev (current-buffer))
-    )
-    (setq lse-buffer:next next)
-    (setq lse-buffer:prev prev)
+  (let* ((buffer (or buffer (current-buffer)))
+         (next   (lse-buffer:next buffer))
+         (prev   (lse-buffer:prev buffer))
+         self
+        )
     (save-excursion
-      (setq       self            (current-buffer))
-      (set-buffer                 next)
-      (setq       lse-buffer:prev self)
-      (set-buffer                 prev)
-      (setq       lse-buffer:next self)
+      (set-buffer buffer)
+      (revert-buffer t t t)
+      (message "Buffer %s for file %s reverted"
+        (buffer-name) (buffer-file-name)
+      )
+      (if (and (buffer-name next) (buffer-name prev))
+          t
+        (setq next buffer)
+        (setq prev buffer)
+      )
+      (setq lse-buffer:next next)
+      (setq lse-buffer:prev prev)
+      (save-excursion
+        (setq       self            buffer)
+        (set-buffer                 next)
+        (setq       lse-buffer:prev self)
+        (set-buffer                 prev)
+        (setq       lse-buffer:next self)
+      )
     )
   )
 ; lse-revert-buffer
+)
+
+;;; 10-Nov-2010
+(defun lse-revert-buffers-same-anchor ()
+  "Revert all buffers with the same relative-directory-anchor as current buffer."
+  (interactive "*")
+  (let ((anchor lse-buffer:anchor)
+        unsaved
+       )
+    (mapc
+      (function
+        (lambda (b)
+          (if (lse-buffer:is-lse-buffer b)
+            (let* ((bname (buffer-file-name b))
+                   (fname (lse-file:expanded-name bname))
+                  )
+              (when (or (not anchor) (string-starts-with fname anchor))
+                (if (buffer-modified-p b)
+                    (lse-add-to-list unsaved
+                      (format "Buffer %s for file %s has unsaved changes"
+                        bname fname
+                      )
+                    )
+                  (lse-revert-buffer b)
+                )
+              )
+            )
+          )
+        )
+      )
+      (buffer-list)
+    )
+    (if unsaved
+        (display-message-or-buffer
+          (mapconcat #'(lambda (m) m) unsaved "\n") nil t
+        )
+    )
+  )
+; lse-revert-buffers-same-anchor
 )
 
 ;;;;++

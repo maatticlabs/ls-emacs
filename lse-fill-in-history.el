@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-fill-in-history:el lse_fihi:el
-;;;; Copyright (C) 1995-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -37,6 +37,7 @@
 ;;;;    17-Oct-1996 (CT) lse_fill-in_history:show_expansion changed to use
 ;;;;                     princ instead of insert
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-fill-in-history)
@@ -293,10 +294,10 @@
        )
     (with-output-to-temp-buffer " *Fill-In History*"
       (lse_fill-in_history@show_title "Deep")
-      (mapcar 'lse-fill-in:show history)
+      (mapc 'lse-fill-in:show history)
       (princ "\n\n\n")
       (lse_fill-in_history@show_title "Flat")
-      (mapcar 'lse-fill-in:show uhistory)
+      (mapc 'lse-fill-in:show uhistory)
 
       (princ "\n\n\n")
       (lse_fill-in_history@show_title "Current")

@@ -1,9 +1,9 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
- 
+
 ;;;;unix_ms_filename_correspondency lse-deep-fill-in:el lse_dpfi:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -42,8 +42,10 @@
 ;;;;                     in `lse_toggle_fill-in_expansion' when toggling into
 ;;;;                     the deep state
 ;;;;     9-Oct-1996 (CT) Added optional parameter `dont-highlight' to
-;;;;                     `lse_toggle_fill-in_expansion' 
-;;;;-- 
+;;;;                     `lse_toggle_fill-in_expansion'
+;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-deep-fill-in)
 
 ;;;++
@@ -64,14 +66,14 @@
         ;; when switching from deep to flat remove duplication if any
         (progn
           (lse-range:clean dupl-range)
-          (if (equal (lse-range:tail range)          ; 22-Jan-1995 
-                     (lse-range:head dupl-range)     ; 22-Jan-1995 
-              )                                      ; 22-Jan-1995 
-              (save-excursion                        ; 22-Jan-1995 
-                (goto-char (lse-range:tail range))   ; 22-Jan-1995 
-                (lse-tpu:delete-next-char 1)         ; 22-Jan-1995 
-              )                                      ; 22-Jan-1995 
-          )                                          ; 22-Jan-1995 
+          (if (equal (lse-range:tail range)          ; 22-Jan-1995
+                     (lse-range:head dupl-range)     ; 22-Jan-1995
+              )                                      ; 22-Jan-1995
+              (save-excursion                        ; 22-Jan-1995
+                (goto-char (lse-range:tail range))   ; 22-Jan-1995
+                (lse-tpu:delete-next-char 1)         ; 22-Jan-1995
+              )                                      ; 22-Jan-1995
+          )                                          ; 22-Jan-1995
         )
     )
     (lse-fill-in:change-state      toggle_fill-in other-state)
@@ -92,8 +94,8 @@
             )
         )
     )
-    (if (and (not dont-highlight);  9-Oct-1996 
-             (eq other-state 'lse@deep);  4-Oct-1996 
+    (if (and (not dont-highlight);  9-Oct-1996
+             (eq other-state 'lse@deep);  4-Oct-1996
         )
         (lse-flat-fill-in:open-replacement-highlight head-pos tail-pos)
     )
@@ -113,8 +115,8 @@
            (lse_toggle_fill-in_expansion last_fill-in)
       )
       (save-excursion                         ; 12-Jun-1994 auto-replication
-        (mapcar 'lse_toggle_fill-in_expansion
-                (lse-fill-in:descendants last_fill-in)
+        (mapc 'lse_toggle_fill-in_expansion
+          (lse-fill-in:descendants last_fill-in)
         )
       )
     )
