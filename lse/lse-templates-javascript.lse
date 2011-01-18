@@ -101,6 +101,41 @@
 )
 
 ;;; 18-Jan-2011
+(lse-define-fill-in "jQuery-plugin"
+    '(token)
+    '(description
+      "Define a plugin for jQuery"
+     )
+    '(replacement
+        "( function($)"
+        lse-indent+1
+        "{"
+        lse-indent+1
+        "««js-statement»»···"
+        "$.fn.«name» = function (options)"
+            lse-indent+1
+            "{"
+            lse-indent+1
+            "var options  = $.extend"
+            "  ( { «expression»"
+            "    }"
+            "  , options || {}"
+            "  );"
+            "««js-statement»»···"
+            "return this; "
+            lse-indent-1
+            "}"
+            lse-indent-1
+        "««js-statement»»···"
+        lse-indent-1
+        "}"
+        lse-indent-1
+        ") (jQuery)"
+     )
+;;; jQuery-plugin
+)
+
+;;; 18-Jan-2011
 (lse-define-fill-in "js-statement"
     '(token)
     '(separator       ";" lse-newline-and-indent)
