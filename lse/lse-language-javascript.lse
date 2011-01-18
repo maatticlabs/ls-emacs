@@ -1,0 +1,100 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This file is part of the LS-Emacs.
+;;;;
+;;;; This file is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This file is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this file. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-language-javascript
+;;;;
+;;;; Purpose
+;;;;    Define LSE language javascript
+;;;;
+;;;; Revision Dates
+;;;;    18-Jan-2011 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 18-Jan-2011
+(lse-language:define "javascript"
+    '(
+        (lse-language:initial-fill-in      "««js-root»»")
+        (lse-language:tab-increment        2)
+        (lse_comment_delim_char_set        "/*")
+        (lse_comment_head_delim            "/\\*\\|^ *\\*\\*")
+        (lse_comment_head_delim_pattern
+          "/\\*\\(\\+\\|-\\|\\*\\)* *\\|^ *\\*\\*+ *"
+        )
+        (lse_comment_tail_delim            "\\*/")
+        (lse_comment_tail_delim_pattern    " *\\*+/")
+        (lse-tpu:ident-group-chars         "$_")
+     )
+    '(
+        lse-tpu:toggle-newline-and-indent
+        auto-fill-mode
+     )
+    '(
+        "lse-templates-c-base"
+        "lse-templates-javascript"
+     )
+    137
+     67
+;;; javascript
+)
+
+(load-library "javascript")
+
+(fset 'lse:js-mode:std-js-mode (symbol-function 'javascript-mode))
+;;; 18-Jan-2011
+(defvar lse:js-mode:keymap (make-sparse-keymap))
+
+;;; 18-Jan-2011
+(defun javascript-mode ()
+  "Major mode for editing JavaScript source text."
+  (interactive)
+  (lse:js-mode:std-js-mode)
+  (use-local-map lse:js-mode:keymap)
+  ;;; XXX key bindings for functions like goto-beginning-of-def,
+  ;;;     goto-begin-of-block, ...
+  (setq mode-name "JS")
+  (setq comment-start      "/* ")
+  (setq comment-end        " */")
+  (setq comment-start-skip "/\\*+ *")
+  (make-local-variable 'require-final-newline)
+  (setq require-final-newline t)
+  (setq indent-line-function 'lse-indent-line)
+  (lse-language:use "javascript")
+; javascript-mode
+)
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+
+;;; 18-Jan-2011
+(defun lse:js:indent-line ()
+  (interactive "*")
+  (if (or (equal      (char-syntax (following-char)) ?\) )
+          (looking-at "[-+*/,]")
+      )
+       (lse-indent-line)
+    (newline-and-indent)
+  )
+; lse-python:indent-line
+)
+
+;;;; __END__ lse-language-javascript.lse

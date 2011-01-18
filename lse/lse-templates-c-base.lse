@@ -1,0 +1,398 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This template is part of the LS-Emacs.
+;;;;
+;;;; This template is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This template is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this template. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-c-base
+;;;;
+;;;; Purpose
+;;;;    Define base LSE-templates for C and C-like languages
+;;;;    ««text»»···
+;;;;
+;;;; Revision Dates
+;;;;    18-Jan-2011 (CT) Creation (factored from lse-templates-c.lse)
+;;;;    ««revision-date»»···
+;;;;--
+
+(lse-define-fill-in "actual-argument"
+  '(separator       ", ")
+  '(leading         ",")
+  '(replacement     "«expression»")
+)
+
+(lse-define-fill-in "abs"
+  '(token)
+  '(description     "the absolute value of its integer argument")
+  '(replacement     "abs («int-expression»)")
+)
+
+(lse-define-fill-in "arithmetic-operator"
+  '(menu
+        ("+"         "addition")
+        ("-"         "subtraction")
+        ("*"         "multiplication")
+        ("/"         "division")
+        ("%"         "mod")
+   )
+)
+
+(lse-define-fill-in "array-reference"
+  '(token)
+  '(description     "Reference to a single element of an array")
+  '(replacement
+      "«primary» " & @ array-subscript &  " ««array-subscript»»···"
+  )
+)
+
+(lse-define-fill-in "array-subscript"
+  '(separator       " ")
+  '(replacement     "[«expression»]")
+)
+
+(lse-define-fill-in "Assign-Operator"
+  '(menu
+      "="
+      "«arithmetic-operator»="
+      "«shift-operator»="
+      "«bitwise-operator»="
+   )
+)
+
+(lse-define-fill-in "binary-expression"
+  '(description     "Two expressions connected by a binary operator")
+  '(replacement     "«expression» " & @ binary-operator & " «expression»")
+)
+
+(lse-define-fill-in "binary-operator"
+  '(description     "arithmetic, shift, relational, bitwise or logical operator")
+  '(menu
+      arithmetic-operator
+      logical-operator
+      relational-operator
+      shift-operator
+      bitwise-operator
+   )
+)
+
+(lse-define-fill-in "bitwise-operator"
+  '(menu
+        ("&"         "bitwise AND")
+        ("|"         "bitwise OR")
+        ("^"         "bitwise exclusive OR")
+   )
+)
+
+(lse-define-fill-in "block-comment"
+  '(token)
+  '(token                 "/**")
+  '(description   "Block of comment statements")
+  '(replacement
+      "/*"
+      "** «text»···"
+      "*/"
+  )
+)
+
+(lse-define-fill-in "break"
+  '(token)
+  '(description     "Transfers control out of the smallest enclosing while,do,for,switch statement")
+  '(replacement     "break;")
+)
+
+(lse-define-fill-in "case"
+    '(token                 "case")
+    '(description           "One clause of a switch statement")
+    '(replacement
+        "case «constant-expression» :"
+        lse-indent+1
+        "«statement»···"
+        "break;"
+        lse-indent-1
+     )
+;;; case
+)
+
+(lse-define-fill-in "c-literal"
+  '(token)
+  '(description           "Literal (constant) value of primitive type")
+  '(menu
+      integer-constant
+      character-constant
+      floating-constant
+      quoted-text
+   )
+;;; c-literal
+)
+
+(lse-define-fill-in "c-primary"
+  '(menu
+      identifier
+      c-literal
+      quoted-text
+      array-reference
+      function-call
+      "(«expression»)"
+  )
+)
+
+;;; 23-Jan-2002
+(lse-define-fill-in "comment"
+  '(token)
+  '(token                 "inline-comment")
+  '(token                 "/*")
+  '(description   "Inline comment")
+  '(replacement
+      "/* «text» */"
+  )
+)
+
+(lse-define-fill-in "constant-expression"
+  '(description
+    "Expression of integer constants, character constants, and size-of expressions, "
+    "grouped by the parentheses (), connected by the"
+    "binary operators  + - * / % & | ^ :< >: == != :< >: :<= >:=  or by the"
+    "unary operators  - ~  or by the ternary operator ?:"
+  )
+  '(leading               "=");  1-Jun-1995
+)
+
+(lse-define-fill-in "continue"
+  '(token)
+  '(description     "Passes control to the bottom of the smallest enclosing while,do,for statement")
+  '(replacement     "continue;")
+)
+
+(lse-define-fill-in "declarator-and-initializer"
+  '(separator       ", ")
+  '(replacement     "«declarator» = ««initializer»»")
+)
+
+(lse-define-fill-in "default"
+    '(token                 "default")
+    '(description           "Default clause of a switch statement: executed if none of the case clauses apply")
+    '(replacement
+        "default :"
+        lse-indent+1
+        "«statement»···"
+        lse-indent-1
+     )
+;;; default
+)
+
+(lse-define-fill-in "do"
+  '(token)
+  '(token           "repeat")
+  '(description     "Executes a statement as long as a particular condition is satisfied")
+  '(replacement     "do" @ block "while («expression»);")
+)
+
+(lse-define-fill-in "else"
+  '(description     "else clause of if-statement")
+  '(token)             ; 27-Sep-1995
+  '(leading         ""); 26-Feb-1995
+  '(replacement     "else" @ block)
+)
+
+(lse-define-fill-in "elseif"
+  '(token)
+  '(description     "elseif clause of if-statement")
+  '(leading         ""); 26-Feb-1995
+  '(replacement     "else if («expression»)" @ block)
+)
+
+(lse-define-fill-in "exponent"
+  '(replacement     "E««+-»»«digit»···")
+)
+
+(lse-define-fill-in "expression"
+  '(description     "Primary, unary, binary, conditional, assignment, expression list")
+  '(menu
+      primary
+      "(«expression»)"
+      "«lvalue» «assign-operator» «expression»"
+      binary-expression
+      unary-expression
+      "«expression» ? «expression» : «expression»"
+      "«expression», «expression»"
+  )
+)
+
+(lse-define-fill-in "floating-constant"
+  '(description     "A constant that has a data type of double")
+  '(replacement     "««-»»«mantissa»««exponent»»")
+)
+
+(lse-define-fill-in "for"
+  '(token)
+  '(description   "For-Loop")
+  '(replacement
+    "for (««expression»»; ««expression»»; ««expression»»)"
+    @ block
+  )
+)
+
+(lse-define-fill-in "function-call"
+  '(token)
+  '(description   "function (argument_1, argument_2, ...)")
+  '(replacement
+    "«primary» (««actual-argument»»···)"
+  )
+)
+
+(lse-define-fill-in "function-name"
+  '(description           "Name of a function")
+)
+
+(lse-define-fill-in "if"
+  '(token)
+  '(description   "Conditional statement")
+  '(replacement
+      "if («expression»)"
+      @ block
+      "««elseif»»···"
+      "««else»»"
+  )
+)
+
+(lse-define-fill-in "initialization-item"
+  '(separator       ", ")
+  '(leading         ",")
+  '(menu            @ initializer)
+)
+
+(lse-define-fill-in "initializer"
+  '(leading         "=")
+  '(menu
+      constant-expression
+      quoted-text
+      "{ «initialization-item»··· }"
+   )
+)
+
+(lse-define-fill-in "int-expression"
+  '(description     "an expression which evaluates to integer type")
+)
+
+(lse-define-fill-in "integer-constant"
+    '(description   "A literal integer value")
+    '(menu
+        ("««-»»«digit»···"           "Integer in decimal     (base ten)     representation")
+        ("««-»»0X«hex-digit»···"     "Integer in hexadecimal (base sixteen) representation")
+        ("««-»»0«octal-digit»···"    "Integer in octal       (base eight)   representation")
+        ("««-»»«digit»···L"          "Long integer in decimal     (base ten)     representation")
+        ("««-»»0X«hex-digit»···L"    "Long integer in hexadecimal (base sixteen) representation")
+        ("««-»»0«octal-digit»···L"   "Long integer in octal       (base eight)   representation")
+     )
+;;; integer-constant
+)
+
+(lse-define-fill-in "label-name"
+    '(description   "Name of a label")
+;;; label-name
+)
+
+(lse-define-fill-in "logical-operator"
+    '(token)
+    '(menu
+        ("&&"        "logical AND (short-circuit)")
+        ("||"        "logical OR  (short-circuit)")
+     )
+;;; logical-operator
+)
+
+(lse-define-fill-in "mantissa"
+  '(description     "digits., .digits, digits.digits, digits")
+  '(replacement     "««digit»»···««.»»««digit»»···")
+)
+
+(lse-define-fill-in "primary"
+  '(menu           @ c-primary)
+;;; primary
+)
+
+(lse-define-fill-in "relational-operator"
+    '(token)
+    '(menu
+        ("=="        "is equal to")
+        ("!="        "is not equal to")
+        ("<"         "less than")
+        ("<="        "less than or equal to")
+        (">"         "greater than")
+        (">="        "greater than or equal to")
+     )
+;;; relational-operator
+)
+
+;;;  5-Apr-1995
+(lse-define-fill-in "result"
+    '(description           "Result of function returned to caller")
+    '(replacement           "result")
+;;; result
+)
+
+(lse-define-fill-in "return"
+    '(token)
+    ;;  1-Jan-1999 ;; '(kill-action           lse-kill:join-sexp-boundary-maybe); 31-Dec-1997
+    ;;  1-Jan-1999 ;; '(rcompletion-action    lse-flat:join-sexp-boundary-maybe); 31-Dec-1997
+    '(description           "Return from function to its caller")
+    '(replacement           "return ««result»»;");  5-Apr-1995 («result»)
+;;; return
+)
+
+(lse-define-fill-in "shift-operator"
+    '(token)
+    '(menu
+        ("<<"        "left shift  (also used as stream output operator)")
+        (">>"        "right shift (also used as stream input  operator)")
+     )
+;;; shift-operator
+)
+
+(lse-define-fill-in "switch"
+    '(token)
+    '(description           "Case statement: execute one of several alternatives depending on the value of an expression")
+    '(replacement
+        "switch («int-expression»)"
+        "  {"
+        lse-indent+1
+        "«case»···"
+        "««default»»"
+        lse-indent-1
+        "  }"
+     )
+;;; switch
+)
+
+(lse-define-fill-in "void"
+    '(token)
+    '(description   "The void type specifies an empty set of values")
+    '(replacement   "void")
+;;; void
+)
+
+(lse-define-fill-in "while"
+    '(token)
+    '(description   "Looping construct")
+    '(replacement   "while («expression»)" @ block)
+;;; while
+)
+
+;;;; __END__ lse-templates-c-base.lse

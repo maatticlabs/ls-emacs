@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-indent:el lse_indt:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -42,6 +42,7 @@
 ;;;;                     `lse-indent:format-defun*' added
 ;;;;     4-Jan-1998 (CT) `lse-indent:>' and `lse-indent:<' added
 ;;;;    11-Sep-2002 (CT) `lse@hanging-indent` and `lse-hang-indent` added
+;;;;    18-Jan-2011 (CT) `lse-prev-indent` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -126,11 +127,14 @@
 )
 
 ;;;  9-Jun-1995
-(defun lse-indent:goto-indent-pos ()
+(defun lse-indent:goto-indent-pos (&optional delta)
   "Moves point to indentation-point of current line"
   (interactive)
   (if (not (bolp))
       (lse-tpu:next-beginning-of-line 1)
+  )
+  (if (integerp delta)
+      (lse-tpu:next-beginning-of-line delta)
   )
   (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
 ; lse-indent:goto-indent-pos
@@ -198,6 +202,15 @@
         (max (- lse@environment-expansion-indent lse-language:tab-increment) 0)
   )
   (lse-reindent)
+)
+
+(defun lse-prev-indent (&optional shift delta)
+  (save-excursion
+    (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
+    (setq lse@current-expansion-indent (current-column))
+  )
+  (lse-reindent shift)
+; lse-prev-indent
 )
 
 (defun lse-indent+1 ()

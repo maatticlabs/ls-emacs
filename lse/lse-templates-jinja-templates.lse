@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2009-2010 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2011 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -24,7 +24,7 @@
 ;;;;    lse-templates-jinja-templates
 ;;;;
 ;;;; Purpose
-;;;;    Define lse templates of LS-Emacs language jinja-templates
+;;;;    Define LSE templates of LS-Emacs language jinja-templates
 ;;;;
 ;;;; Revision Dates
 ;;;;    26-Dec-2009 (CT) Creation

@@ -1,6 +1,6 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -17,6 +17,7 @@
 ;;;;    24-Jul-2000 (CT) Regexes for comment_*_delim* corrected (quote \'s)
 ;;;;    24-Jul-2000 (CT) Consider `^**' as start of comment, too
 ;;;;    23-Jan-2002 (CT) `c-mode` renamed to `lse-c-mode`
+;;;;    18-Jan-2011 (CT) `lse-templates-c-base` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "c"
@@ -37,6 +38,7 @@
         auto-fill-mode
      )
     '(
+        "lse-templates-c-base"
         "lse-templates-c"
      )
     137
@@ -46,7 +48,7 @@
 
 ;;;+
 ;;; Redefinition of c-mode
-;;; 
+;;;
 ;;; The function itself is redefined instead of using c-mode-hook because it
 ;;; sets too many hooks.
 ;;;-
