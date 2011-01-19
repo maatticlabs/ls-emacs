@@ -132,6 +132,41 @@
 ;;; jQuery-plugin
 )
 
+;;; 19-Jan-2011
+(lse-define-fill-in "object-literal"
+    '(token)
+    '(token                 "{")
+    '(description           "Define a new object as a literal")
+    '(replacement
+        lse-prev-indent
+        ""
+        "  { ««object-property»»···"
+        "  }"
+     )
+;;; object-literal
+)
+
+;;; 19-Jan-2011
+(lse-define-fill-in "object-property"
+    '(auto-expand)
+    '(separator             lse-newline (lse-align-to-word -1 t) ", ")
+    '(leading               ",")
+    '(replacement           "«object-property-name» : «expression»")
+;;; object-property
+)
+
+;;; 19-Jan-2011
+(lse-define-fill-in "object-property-name"
+    '(description           "Literal name of an object property")
+    '(rcompletion-trailer
+        just-one-space
+        (lse-align-to-pattern
+          ":" nil t (+ lse@current-expansion-indent 15)
+        )
+     )
+;;; object-property-name
+)
+
 ;;; 18-Jan-2011
 (lse-define-fill-in "statement"
     '(token)

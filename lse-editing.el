@@ -85,6 +85,10 @@
 ;;;;                     `lse-tpu:save-pos-before-search`
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    19-Jan-2011 (CT) `lse-close-line-down` and `lse-close-line-up` added
+;;;;    19-Jan-2011 (CT) `lse@align-search-limit` reduced from `100` to `15`
+;;;;    19-Jan-2011 (CT) `lse-find-pattern-alignment` fixed to really obey
+;;;;                     `lse@align-search-limit`
+;;;;    19-Jan-2011 (CT) `target-col` added to `lse-align-to-pattern`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -451,7 +455,7 @@ previous line"
 ; lse-align-to-previous-word-and-down
 )
 
-(defconst lse@align-search-limit 100)
+(defconst lse@align-search-limit 15)
 
 (defun lse-align-and-down ()
   (interactive "*")
@@ -797,78 +801,81 @@ previous line"
 
 ;;; 23-Sep-1994
 (defun lse-find-pattern-alignment (pat &optional dir)
-  (or (not (equal pat ?\ ))
-      (error "Cannot align blanks")
-  )
-  (or (stringp pat) (setq pat (regexp-quote (char-to-string pat))))
-  (or dir (setq dir +1))
-  (let ((cp         (point))
-        (found      nil)
-        (distance   1)
-       )
-    (while (and (< distance lse@align-search-limit)
-                (not found)
-           )
-      (lse-scroll-vertically (* distance dir))
-      ;;      (lse-untabify-line)
-      (if (setq found
-              (re-search-forward pat (save-excursion (end-of-line) (point)) t)
-          )
-          (goto-char (match-beginning 0))
+  (save-excursion
+    (or (not (equal pat ?\ ))
+        (error "Cannot align blanks")
+    )
+    (or (stringp pat) (setq pat (regexp-quote (char-to-string pat))))
+    (or dir (setq dir +1))
+    (let ((cp         (point))
+          (found      nil)
+          (distance   1)
+         )
+      (while (and (< distance lse@align-search-limit)
+                  (not found)
+             )
+        (lse-scroll-vertically dir)
+        ;;      (lse-untabify-line)
         (if (setq found
-              (re-search-backward
-                 pat (save-excursion (beginning-of-line) (point)) t
-              )
+              (re-search-forward pat (save-excursion (end-of-line) (point)) t)
             )
             (goto-char (match-beginning 0))
+          (if (setq found
+                (re-search-backward
+                   pat (save-excursion (beginning-of-line) (point)) t
+                )
+              )
+              (goto-char (match-beginning 0))
+          )
         )
+        (setq distance (1+  distance))
       )
-      (setq distance (1+  distance))
+      (and found (current-column))
     )
-    (if (not found)
-        (progn
-          (goto-char cp)
-          (error (concat "No occurence of " pat " found nearby"))
-        )
-    )
-    found
   )
 ; lse-find-pattern-alignment
 )
 
 ;;; 23-Sep-1994
-(defun lse-align-to-pattern (pat &optional dir eat-blanks)
+(defun lse-align-to-pattern (pat &optional dir eat-blanks target-col)
   ;; Align position of current word with the position of a pattern of line in direction dir (default up)"
   (or dir (setq dir -1))
-  (let ((target-pos 0)
-        (source-pos (current-column))
-        (cp         (point-marker))
-        (in-fill-in (lse_inside_fill-in))
-       )
-    (save-excursion
-      (lse-find-pattern-alignment pat dir)
-      (setq target-pos (current-column))
-    )
-    (if (= target-pos source-pos)
-        (let ((n (lse-next-indentation)))
-          (insert-char ?\  n)
-          (if overwrite-mode (delete-char n))
-        )
-      (if in-fill-in
-          (goto-char
-               (lse-range:head-pos (lse-fill-in:range lse_current_fill-in))
+  (save-match-data
+    (let* ((source-pos (current-column))
+           (target-pos (lse-find-pattern-alignment pat dir))
+           (cp         (point-marker))
+           (in-fill-in (lse_inside_fill-in))
+          )
+      (if (not (integerp target-pos))
+          (if (integerp target-col)
+              (setq target-pos target-col)
+            (goto-char cp)
+            (error (concat "No occurence of " pat " found nearby"))
           )
       )
-      (indent-to target-pos)
-      (if (and eat-blanks (looking-at " +"))
-          (delete-char (- (match-beginning 0) (match-end 0)))
+      (if (= target-pos source-pos)
+          (let ((n (lse-next-indentation)))
+            (insert-char ?\  n)
+            (if (and overwrite-mode (not in-fill-in))
+                (delete-char n)
+            )
+          )
+        (if in-fill-in
+            (goto-char
+              (lse-range:head-pos (lse-fill-in:range lse_current_fill-in))
+            )
+        )
+        (indent-to target-pos)
+        (if (and eat-blanks (looking-at " +"))
+            (delete-char (- (match-beginning 0) (match-end 0)))
+        )
+        (if (and overwrite-mode (not in-fill-in))
+            (delete-char (- target-pos source-pos))
+        )
+        (if in-fill-in (goto-char (marker-position cp)))
       )
-      (if (and overwrite-mode (not in-fill-in))
-          (delete-char (- target-pos source-pos))
-      )
-      (if in-fill-in (goto-char (marker-position cp)))
+      (setq cp nil)
     )
-    (setq cp nil)
   )
 ; lse-align-to-pattern
 )
