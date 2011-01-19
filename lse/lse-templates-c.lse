@@ -39,18 +39,22 @@
    )
 )
 
-(lse-define-fill-in "block"
-  '(token)
-  '(token                 "{")
-  '(description           "Compound statement")
+;;; 19-Jan-2011
+(lse-define-fill-in "_block_head"
   '(replacement
     "  {"
     lse-indent+1
-    "««statement»»···"
+   )
+;;; _block_head
+)
+
+;;; 19-Jan-2011
+(lse-define-fill-in "_block_tail"
+  '(replacement
     lse-indent-1
     "  }"
    )
-;;; block
+;;; _block_tail
 )
 
 (lse-define-fill-in "c-data-type"

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-define:el lse_defn:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -47,6 +47,8 @@
 ;;;;     4-Oct-2002 (CT) hang-indent added
 ;;;;     4-Oct-2002 (CT) properties  added
 ;;;;    17-Jul-2009 (CT) `lse@define-fill-in-menu` robustified
+;;;;    19-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to map `$`
+;;;;                     to `lse-auto-expand-replacement-fill-in`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-define)
@@ -290,9 +292,18 @@
              (setq body (cdr body))
              (if (symbolp tail) (setq tail (symbol-name tail)))
              (if item_sep (lse-add-to-list replacement item_sep))
+             (lse-add-to-list replacement (list 'lse-auto-expand-fill-in tail))
+             (lse-add-to-list lse-language:fill-in-refs tail)
+            )
+            ((eq next '$); 19-Jan-2011
+             (setq tail (car body))
+             (setq body (cdr body))
+             (if (symbolp tail) (setq tail (symbol-name tail)))
+             (if item_sep (lse-add-to-list replacement item_sep))
              (lse-add-to-list replacement
-                                (list 'lse-auto-expand-fill-in tail)
+               (list 'lse-auto-expand-replacement-fill-in tail)
              )
+             (setq dont-separate-next t)
              (lse-add-to-list lse-language:fill-in-refs tail)
             )
             ((eq next '&) (setq dont-separate-next t))
@@ -318,7 +329,7 @@
                          lse-environment-indent   lse-outer-environment-indent
                          delete-horizontal-space  delete-indentation
                          fixup-whitespace         just-one-space
-                         delete-blank-lines
+                         delete-blank-lines       lse-prev-indent
                         )
                  )
                  (setq dont-separate-next t)

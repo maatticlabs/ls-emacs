@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency swing-keys-v19.el swi_kv19.el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -61,6 +61,7 @@
 ;;;;    31-Aug-2002 (CT) `swing-redefine-std-emacs-keys` removed
 ;;;;    31-Aug-2002 (CT) A few key definitions changed
 ;;;;     8-Sep-2002 (CT) `gold red` bindings added
+;;;;    19-Jan-2011 (CT) [blue ?\C-i delete] defined as `lse-close-line-down`
 ;;;;    ««revision-date»»···
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
@@ -126,7 +127,8 @@
   (global-set-key [blue ?\C-i ?\(]    'lse-clean-empty-parens);   2-Jan-1998
   (global-set-key [blue ?\C-i ?\C-i]  'lse-set-tab-increment)
   (global-set-key [blue ?\C-i ?\C-m]  'delete-blank-lines)
-  (global-set-key [blue ?\C-i ?\177]  'delete-indentation)
+  (global-set-key [blue ?\C-i ?\177]  'lse-close-line-up)
+  (global-set-key [blue ?\C-i delete] 'lse-close-line-down)
 
   (global-set-key [blue ?\C-i kp-0]   'split-line)
   (global-set-key [blue ?\C-i kp-3]   'lse-tpu:trim-line-end)

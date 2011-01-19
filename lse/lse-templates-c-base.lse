@@ -25,10 +25,10 @@
 ;;;;
 ;;;; Purpose
 ;;;;    Define base LSE-templates for C and C-like languages
-;;;;    ««text»»···
 ;;;;
 ;;;; Revision Dates
 ;;;;    18-Jan-2011 (CT) Creation (factored from lse-templates-c.lse)
+;;;;    19-Jan-2011 (CT) `block` moved in here (referring to `_block_head`...)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -98,6 +98,18 @@
         ("|"         "bitwise OR")
         ("^"         "bitwise exclusive OR")
    )
+)
+
+;;; 19-Jan-2011
+(lse-define-fill-in "block"
+    '(token)
+    '(description           "Block of statements")
+    '(replacement
+        $ _block_head
+        "««statement»»···"
+        $ _block_tail
+     )
+;;; block
 )
 
 (lse-define-fill-in "block-comment"

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -84,6 +84,7 @@
 ;;;;     7-Oct-2007 (CT) `lse@select-brace-range` changed to call
 ;;;;                     `lse-tpu:save-pos-before-search`
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
+;;;;    19-Jan-2011 (CT) `lse-close-line-down` and `lse-close-line-up` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -99,6 +100,15 @@
        )
      )
   )
+)
+
+;;; 19-Jan-2011
+(defun line-empty-p ()
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "[ \t]*$")
+  )
+; line-empty-p
 )
 
 (defun lse-insert+blank-maybe (text)
@@ -709,6 +719,35 @@ previous line"
     (setq cp nil)
   )
 ; lse-open-line
+)
+
+;;; 19-Jan-2011
+(defun lse-close-line-down ()
+  (interactive "*")
+  (if (line-empty-p)
+      (let (bh bt)
+        (save-excursion
+          (while (line-empty-p) (lse-tpu:previous-line 1))
+          (lse-tpu:forward-line 1)
+          (setq bh (point-marker))
+        )
+        (save-excursion
+          (while (line-empty-p) (lse-tpu:forward-line 1))
+          (setq bt (point-marker))
+        )
+        (delete-region bh bt)
+        (skip-chars-forward " \t")
+      )
+  )
+; lse-close-line-down
+)
+
+;;; 19-Jan-2011
+(defun lse-close-line-up ()
+  (interactive "*")
+  (lse-close-line-down)
+  (lse-tpu:next-end-of-line 0)
+; lse-close-line-up
 )
 
 (defun lse-tab-increment ()

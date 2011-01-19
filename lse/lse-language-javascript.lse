@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    18-Jan-2011 (CT) Creation
+;;;;    19-Jan-2011 (CT) Creation continued
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -64,12 +65,21 @@
 ;;; 18-Jan-2011
 (defvar lse:js-mode:keymap (make-sparse-keymap))
 
+;;; 19-Jan-2011
+(defvar lse:js:mode-map (make-sparse-keymap "JS")
+  "Menu keymap for javascript-mode of LS-Emacs"
+)
+
 ;;; 18-Jan-2011
 (defun javascript-mode ()
   "Major mode for editing JavaScript source text."
   (interactive)
   (lse:js-mode:std-js-mode)
   (use-local-map lse:js-mode:keymap)
+  (local-set-key [menu-bar lse-js-mode] (cons "JS" lse:js:mode-map))
+  (local-set-smk [red ?{]  'lse:js:goto-block-head)
+  (local-set-smk [red ?}]  'lse:js:goto-block-tail)
+  (local-set-smk [red ?\;] 'lse:js:goto-semicolon)
   ;;; XXX key bindings for functions like goto-beginning-of-def,
   ;;;     goto-begin-of-block, ...
   (setq mode-name "JS")
@@ -83,18 +93,68 @@
 ; javascript-mode
 )
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-
-;;; 18-Jan-2011
-(defun lse:js:indent-line ()
-  (interactive "*")
-  (if (or (equal      (char-syntax (following-char)) ?\) )
-          (looking-at "[-+*/,]")
-      )
-       (lse-indent-line)
-    (newline-and-indent)
+;;; 19-Jan-2011
+(defun lse:js:goto-block-head (&optional limit)
+  (interactive)
+  (let ((lse-tpu:search-dir lse-tpu:search-dir-reverse))
+    (save-match-data
+      (lse-tpu:search+goto "{" limit)
+    )
   )
-; lse-python:indent-line
+; lse:js:goto-block-head
+)
+
+;;; 19-Jan-2011
+(defun lse:js:goto-block-tail (&optional limit)
+  (interactive)
+  (save-match-data
+    (lse-tpu:search+goto "}" limit)
+    (lse-tpu:forward-char 1)
+  )
+; lse:js:goto-block-tail
+)
+
+;;; 19-Jan-2011
+(defun lse:js:goto-semicolon (&optional limit)
+  "Goto next semicolon."
+  (interactive)
+  (save-match-data (lse-tpu:search+goto ";" limit))
+; lse:js:goto-semicolon
+)
+
+;;; 19-Jan-2011
+(defun lse:js:remove-semicolon ()
+  "Remove next semicolon."
+  (interactive "*")
+  (save-excursion
+    (skip-chars-forward " \t")
+    (let ((cp (point-marker)))
+      (skip-chars-forward " \t\n")
+      (if (looking-at ";")
+          (progn
+            (skip-chars-forward " \t;")
+            (delete-region cp (point))
+          )
+      )
+    )
+  )
+; lse:js:remove-semicolon
+)
+
+(define-key lse:js:mode-map [remove-semicolon]
+  '("Remove semicolon" . lse:js:remove-semicolon)
+)
+
+(define-key lse:js:mode-map [goto-semicolon]
+  '("Goto semicolon" . lse:js:goto-semicolon)
+)
+
+(define-key lse:js:mode-map [goto-block-tail]
+  '("Goto end of block" . lse:js:goto-block-tail)
+)
+
+(define-key lse:js:mode-map [goto-block-head]
+  '("Goto start of block" . lse:js:goto-block-head)
 )
 
 ;;;; __END__ lse-language-javascript.lse

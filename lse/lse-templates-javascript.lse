@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    18-Jan-2011 (CT) Creation
+;;;;    19-Jan-2011 (CT) Creation continued
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -40,7 +41,7 @@
         "**««header-comment»»"
         "*/"
         ""
-        "«js-statement»···"
+        "«statement»···"
         "/* __END__ " & lse-insert-buffer-name-plus-extension & " */"
      )
 ;;; js-root
@@ -54,21 +55,24 @@
 ;;; parameter-declaration
 )
 
-;;; 18-Jan-2011
-(lse-define-fill-in "block"
-    '(token)
-    '(token                 "{")
-    '(description           "Javascript block")
+;;; 19-Jan-2011
+(lse-define-fill-in "_block_head"
     '(replacement
-        lse-prev-indent & lse-indent+1
+        lse-indent+1
         "{"
         lse-indent+1
-        "««js-statement»»···"
+     )
+;;; _block_head
+)
+
+;;; 19-Jan-2011
+(lse-define-fill-in "_block_tail"
+    '(replacement
         lse-indent-1
         "}"
         lse-indent-1
      )
-;;; js-block
+;;; _block_tail
 )
 
 (lse-define-fill-in "declarator"
@@ -78,20 +82,21 @@
 
 ;;; 18-Jan-2011
 (lse-define-fill-in "function-expression"
-    '(token                 "fun")
     '(token)
+    '(token                 "fun")
     '(description           "Define an anonymous function")
     '(replacement
         "function (««parameter-declaration»»···)"
-        @ block
+        lse-prev-indent @ block
      )
 ;;; function
 )
 
 ;;; 18-Jan-2011
 (lse-define-fill-in "function-statement"
-    '(token                 "def")
     '(token)
+    '(token                 "def")
+    '(token                 "function")
     '(description           "Define a named function")
     '(replacement
         "function «function-name» (««parameter-declaration»»···)"
@@ -108,37 +113,28 @@
      )
     '(replacement
         "( function($)"
-        lse-indent+1
-        "{"
-        lse-indent+1
-        "««js-statement»»···"
+        $ _block_head
+        "««statement»»···"
         "$.fn.«name» = function (options)"
-            lse-indent+1
-            "{"
-            lse-indent+1
+            $ _block_head
             "var options  = $.extend"
             "  ( { «expression»"
             "    }"
             "  , options || {}"
             "  );"
-            "««js-statement»»···"
+            "««statement»»···"
             "return this; "
-            lse-indent-1
-            "}"
-            lse-indent-1
-        "««js-statement»»···"
-        lse-indent-1
-        "}"
-        lse-indent-1
-        ") (jQuery)"
+            $ _block_tail
+        "««statement»»···"
+        $ _block_tail
+        ") (jQuery);"
      )
 ;;; jQuery-plugin
 )
 
 ;;; 18-Jan-2011
-(lse-define-fill-in "js-statement"
+(lse-define-fill-in "statement"
     '(token)
-    '(separator       ";" lse-newline-and-indent)
     '(leading         "")
     '(trailing        ";")
     '(sort)
@@ -155,7 +151,7 @@
         var
         while
      )
-;;; js-statement
+;;; statement
 )
 
 (lse-define-fill-in "lvalue"

@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -153,6 +153,7 @@
 ;;;;                     `defun` instead of as `defmacro`
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    19-Jan-2011 (CT) `lse-auto-expand-replacement-fill-in` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -736,6 +737,7 @@
 
 ;;; expansion of embedded fill-in's: @ "name"
 (defun lse-auto-expand-fill-in (name)
+  ;; expansion includes effects of leading, trainling, ...
   (let* ((psym (lse_fill-in:definition name))
          (fill-in-type (get psym 'type))
         )
@@ -753,6 +755,26 @@
           )
     )
   )
+)
+
+;;; inline-expansion of embedded fill-in's: $ "name"
+;;; 19-Jan-2011
+(defun lse-auto-expand-replacement-fill-in (name)
+  ;; expansion includes only the replacement proper, but not leading, ...
+  (let* ((psym (lse_fill-in:definition name))
+         (fill-in-type (get psym 'type))
+        )
+    (cond ((eq fill-in-type 'replacement)
+           (lse-flat-fill-in:interpret-replacement psym)
+          )
+          (t
+           (lse-define:message
+                  "Fill-in $ `%25s': not a replacement; ignored" name
+             )
+          )
+    )
+  )
+; lse-auto-expand-replacement-fill-in
 )
 
 (defun lse_expand_menu:entry_list (the-entries)
