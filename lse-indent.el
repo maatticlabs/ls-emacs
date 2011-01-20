@@ -207,7 +207,14 @@
 (defun lse-prev-indent (&optional shift delta)
   (save-excursion
     (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
-    (setq lse@current-expansion-indent (current-column))
+    (if (bolp)
+        (setq lse@current-expansion-indent
+          (- lse@current-expansion-indent
+            (* (if (integerp shift) shift 1) lse-language:tab-increment)
+          )
+        )
+      (setq lse@current-expansion-indent (current-column))
+    )
   )
   (lse-reindent shift)
 ; lse-prev-indent
@@ -261,6 +268,14 @@
 (defun lse-newline-and-indent-1 (&optional shift)
   (lse-newline-and-indent -1)
 ); lse-newline-and-indent-1
+
+;;; 19-Jan-2011
+(defun lse-newline-and-indent-unless (bol-pat &optional shift)
+  (unless (lse-line-startswith bol-pat)
+    (lse-newline-and-indent shift)
+  )
+; lse-newline-and-indent-unless
+)
 
 ;;;  2-Jan-1998
 (defun lse-indent:add-end-of-defun-comment ()
