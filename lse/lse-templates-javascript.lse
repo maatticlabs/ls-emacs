@@ -56,6 +56,12 @@
 ;;; parameter-declaration
 )
 
+;;; 20-Jan-2011
+(lse-define-fill-in "array"
+    '(description           "An array")
+;;; array
+)
+
 ;;; 19-Jan-2011
 (lse-define-fill-in "_block_head"
     '(replacement
@@ -71,10 +77,16 @@
     '(replacement
         lse-indent-1
         "}"
-        & lse-js:catch-semicolon
+        & lse-js:remove-semicolon
         lse-indent:<
      )
 ;;; _block_tail
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "callback"
+    '(description           "A function be be called as callback.")
+;;; callable
 )
 
 ;;; 20-Jan-2011
@@ -83,6 +95,12 @@
     '(leading               ",")
     '(replacement           @ expression)
 ;;; call-argument
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "code"
+    '(description           "Javascript code in a string.")
+;;; code
 )
 
 (lse-define-fill-in "declarator"
@@ -130,47 +148,26 @@
 ;;; function
 )
 
-;;; 18-Jan-2011
-(lse-define-fill-in "jQuery-plugin"
-    '(token)
-    '(description
-      "Define a plugin for jQuery"
-     )
-    '(replacement
-        "( function($)"
-        $ _block_head
-        "««statement»»···"
-        "$.fn.«name» = function (options)"
-            $ _block_head
-            "var options  = $.extend"
-            "  ( { «expression»"
-            "    }"
-            "  , options || {}"
-            "  );"
-            "««statement»»···"
-            "return this; "
-            $ _block_tail
-        "««statement»»···"
-        $ _block_tail
-        ") (jQuery);"
-        & lse-js:remove-semicolon
-     )
-;;; jQuery-plugin
-)
-
 ;;; 19-Jan-2011
 (lse-define-fill-in "object-literal"
     '(token)
-    '(token                 "{")
     '(description           "Define a new object as a literal")
     '(replacement
         lse-js:indent-object-literal &
         "{ ««object-property»»···"
         lse-newline (lse-indent-to-pattern "{" 0 (lse-indent:level:environment))
         "}"
-        & lse-js:catch-semicolon
+        & lse-js:remove-semicolon
      )
 ;;; object-literal
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "_object-literal"
+    '(token                 "{")
+    '(replacement-vanguard  (if (looking-at "}") (delete-char 1)))
+    '(replacement           @ object-literal)
+;;; _object-literal
 )
 
 ;;; 19-Jan-2011
@@ -289,6 +286,12 @@
         )
      )
 ;;; unary-operator
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "value"
+    '(description           "A value")
+;;; value
 )
 
 (lse-define-fill-in "var"

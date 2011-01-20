@@ -1,0 +1,333 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This template is part of the LS-Emacs.
+;;;;
+;;;; This template is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This template is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this template. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-javascript-jquery
+;;;;
+;;;; Purpose
+;;;;    Define jQuery specific LSE templates of LSE language javascript
+;;;;
+;;;; Revision Dates
+;;;;    20-Jan-2011 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jQ-call"
+  '(token)
+  '(description           "Call a jQuery utility function")
+  '(sort)
+  '(menu
+      jq-util-data
+      jq-util-each
+      jq-util-extend
+      jq-util-global-eval
+      jq-util-grep
+      jq-util-in-array
+      jq-util-is-array
+      jq-util-is-empty-object
+      jq-util-is-function
+      jq-util-is-plain-object
+      jq-util-make-array
+      jq-util-map
+      jq-util-merge
+      jq-util-parse-json
+      jq-util-proxy
+      jq-util-remove-data
+      jq-util-trim
+      jq-util-type
+      jq-util-unique
+   )
+;;; jQ-call
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-element"
+    '(description           "A DOM element")
+;;; jq-element
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-extend-deep"
+  '(description           "Make a deep copy.")
+  '(trailer               ",")
+  '(replacement           "true")
+;;; jq-extend-deep
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-extend-target"
+  '(description           "Object to be extended.")
+  '(replacement           "{}")
+;;; jq-extend-target
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jg-grep-invert"
+    '(description
+        "Return the elements for which callback returns false."
+     )
+    '(leading               ",")
+    '(replacement           "true")
+;;; jg-grep-invert
+)
+
+;;; 18-Jan-2011
+(lse-define-fill-in "jQ-plugin"
+    '(token)
+    '(token                 "plugin")
+    '(description           "Define a plugin for jQuery")
+    '(replacement
+        "( function($)"
+        $ _block_head
+        "««statement»»···"
+        "$.fn.«name» = function (options)"
+            $ _block_head
+            "var options  = $.extend"
+            "  ( { «expression»"
+            "    }"
+            "  , options || {}"
+            "  );"
+            "««statement»»···"
+            "return this; "
+            $ _block_tail
+        "««statement»»···"
+        $ _block_tail
+        ") (jQuery);"
+        & lse-js:remove-semicolon
+     )
+;;; jQuery-plugin
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-data"
+    '(token)
+    '(token                 "$.data")
+    '(description
+        "Set or get arbitrary data associated with the specified element."
+     )
+    '(replacement           "$.data («jq-element», «name», ««jq-value»»)")
+;;; jq-util-data
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-each"
+    '(token)
+    '(token                 "$.each")
+    '(description
+        "Iterate over any collection, whether it is a object or an array."
+     )
+    '(replacement           "$.each («expression», «callback»)")
+;;; jq-util-each
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-extend"
+  '(token)
+  '(token                 "$.extend")
+  '(description
+    "Merge the contents of two or more objects together into the first object."
+   )
+  '(replacement
+    "$.extend (««jq-extend-deep»», «jq-extend-target», «argument»···)"
+   )
+;;; jq-util-extend
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-global-eval"
+    '(token)
+    '(token                 "$.globalEval")
+    '(description           "Execute some JavaScript code globally.")
+    '(replacement           "$.globalEval («code»)")
+;;; jq-util-global-eval
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-grep"
+    '(token)
+    '(token                 "$.grep")
+    '(description
+        "Finds the elements of an array which satisfy a filter function."
+     )
+    '(replacement           "$.grep («array», «callback», ««jq-grep-invert»»)")
+;;; jq-util-grep
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-in-array"
+    '(token)
+    '(token                 "$.inArray")
+    '(description
+        "Search for a specified value within an array and return its index (or -1 if not found)."
+     )
+    '(replacement           "$.inArray («value», «array»)")
+;;; jq-util-in-array
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-is-array"
+    '(token)
+    '(token                 "$.isArray")
+    '(description           "Determine whether the argument is an array.")
+    '(replacement           "$.isArray («argument»)")
+;;; jq-util-is-array
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-is-empty-object"
+    '(token)
+    '(token                 "$.isEmptyObject")
+    '(description
+        "Check to see if an object is empty (contains no properties)."
+     )
+    '(replacement           "$.isEmptyObject («argument»)")
+;;; jq-util-is-empty-object
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-is-function"
+    '(token)
+    '(token                 "$.isFunction")
+    '(description
+        "Determine if the argument passed is a Javascript function object."
+     )
+    '(replacement           "$.isFunction («argument»)")
+;;; jq-util-is-function
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-is-plain-object"
+    '(token)
+    '(token                 "$.isPlainObject")
+    '(description
+        "Check if an object is a plain object (created using '{}' or 'new Object')."
+     )
+    '(replacement           "$.isPlainObject («argument»)")
+;;; jq-util-is-plain-object
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-make-array"
+    '(token)
+    '(token                 "$.makeArray")
+    '(description
+        "Convert an array-like object into a true JavaScript array."
+     )
+    '(replacement           "$.makeArray («argument»)")
+;;; jq-util-make-array
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-map"
+    '(token)
+    '(token                 "$.map")
+    '(description
+        "Translate all items in an array or array-like object to another array of items."
+     )
+    '(replacement           "$.map («array», «callback»)")
+;;; jq-util-map
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-merge"
+    '(token)
+    '(token                 "$.merge")
+    '(description
+        "Merge the contents of second array into the first array. "
+     )
+    '(replacement           "$.merge («array», «array»)")
+;;; jq-util-merge
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-parse-json"
+    '(token)
+    '(token                 "$.parseJSON")
+    '(description
+        "Converts a well-formed JSON string into a JavaScript object."
+     )
+    '(replacement           "$.parseJSON («argument»)")
+;;; jq-util-parse-json
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-proxy"
+    '(token)
+    '(token                 "$.proxy")
+    '(description
+        "Returns a proxy of the function that always has a particular context."
+     )
+    '(replacement           "$.proxy («argument»)")
+;;; jq-util-proxy
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-remove-data"
+    '(token)
+    '(token                 "$.removeData")
+    '(description           "Remove a previously-stored piece of data.")
+    '(replacement           "$.removeData («jq-element», «name»)")
+;;; jq-util-remove-data
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-trim"
+    '(token)
+    '(token                 "$.trim")
+    '(description
+        "Remove the whitespace from the beginning and end of a string."
+     )
+    '(replacement           "$.trim («argument»)")
+;;; jq-util-trim
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-type"
+    '(token)
+    '(token                 "$.type")
+    '(description
+        "Determine the name of the type of an object."
+     )
+    '(replacement           "$.type («argument»)")
+;;; jq-util-type
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-util-unique"
+    '(token)
+    '(token                 "$.unique")
+    '(description
+        "Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers."
+     )
+    '(replacement           "$.unique («array»)")
+;;; jq-util-unique
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "jq-value"
+    '(description           "Value to set for attribute or data.")
+    '(leading               ",")
+;;; jq-value
+)
+
+;;;; __END__ lse-templates-javascript-jquery.lse
