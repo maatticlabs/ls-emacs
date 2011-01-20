@@ -29,6 +29,7 @@
 ;;;; Revision Dates
 ;;;;    18-Jan-2011 (CT) Creation
 ;;;;    19-Jan-2011 (CT) Creation continued
+;;;;    20-Jan-2011 (CT) Creation continued..
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -61,12 +62,12 @@
 
 (load-library "javascript")
 
-(fset 'lse:js-mode:std-js-mode (symbol-function 'javascript-mode))
+(fset 'lse-js:std-js-mode (symbol-function 'javascript-mode))
 ;;; 18-Jan-2011
-(defvar lse:js-mode:keymap (make-sparse-keymap))
+(defvar lse-js:keymap (make-sparse-keymap))
 
 ;;; 19-Jan-2011
-(defvar lse:js:mode-map (make-sparse-keymap "JS")
+(defvar lse-js:menu-keymap (make-sparse-keymap "JS")
   "Menu keymap for javascript-mode of LS-Emacs"
 )
 
@@ -74,12 +75,12 @@
 (defun javascript-mode ()
   "Major mode for editing JavaScript source text."
   (interactive)
-  (lse:js-mode:std-js-mode)
-  (use-local-map lse:js-mode:keymap)
-  (local-set-key [menu-bar lse-js-mode] (cons "JS" lse:js:mode-map))
-  (local-set-smk [red ?{]  'lse:js:goto-block-head)
-  (local-set-smk [red ?}]  'lse:js:goto-block-tail)
-  (local-set-smk [red ?\;] 'lse:js:goto-semicolon)
+  (lse-js:std-js-mode)
+  (use-local-map lse-js:keymap)
+  (local-set-key [menu-bar lse-js] (cons "JS" lse-js:menu-keymap))
+  (local-set-smk [red ?{]  'lse-js:goto-block-head)
+  (local-set-smk [red ?}]  'lse-js:goto-block-tail)
+  (local-set-smk [red ?\;] 'lse-js:goto-semicolon)
   ;;; XXX key bindings for functions like goto-beginning-of-def,
   ;;;     goto-begin-of-block, ...
   (setq mode-name "JS")
@@ -94,40 +95,58 @@
 )
 
 ;;; 19-Jan-2011
-(defun lse:js:goto-block-head (&optional limit)
+(defun lse-js:goto-block-head (&optional limit)
   (interactive)
   (let ((lse-tpu:search-dir lse-tpu:search-dir-reverse))
     (save-match-data
       (lse-tpu:search+goto "{" limit)
     )
   )
-; lse:js:goto-block-head
+; lse-js:goto-block-head
 )
 
 ;;; 19-Jan-2011
-(defun lse:js:goto-block-tail (&optional limit)
+(defun lse-js:goto-block-tail (&optional limit)
   (interactive)
   (save-match-data
     (lse-tpu:search+goto "}" limit)
     (lse-tpu:forward-char 1)
   )
-; lse:js:goto-block-tail
+; lse-js:goto-block-tail
 )
 
 ;;; 19-Jan-2011
-(defun lse:js:goto-semicolon (&optional limit)
+(defun lse-js:catch-semicolon ()
+  "Remove whitespace to immediately following semicolon, if any."
+  (interactive "*")
+  (save-excursion
+    (let ((cp (point-marker)))
+      (skip-chars-forward " \t\n")
+      (if (looking-at ";")
+          (progn
+            (delete-region cp (point))
+            (forward-char 1)
+            (lse-js:remove-semicolon)
+          )
+      )
+    )
+  )
+; lse-js:catch-semicolon
+)
+
+;;; 19-Jan-2011
+(defun lse-js:goto-semicolon (&optional limit)
   "Goto next semicolon."
   (interactive)
   (save-match-data (lse-tpu:search+goto ";" limit))
-; lse:js:goto-semicolon
+; lse-js:goto-semicolon
 )
 
 ;;; 19-Jan-2011
-(defun lse:js:remove-semicolon ()
+(defun lse-js:remove-semicolon ()
   "Remove next semicolon."
   (interactive "*")
   (save-excursion
-    (skip-chars-forward " \t")
     (let ((cp (point-marker)))
       (skip-chars-forward " \t\n")
       (if (looking-at ";")
@@ -138,23 +157,56 @@
       )
     )
   )
-; lse:js:remove-semicolon
+; lse-js:remove-semicolon
 )
 
-(define-key lse:js:mode-map [remove-semicolon]
-  '("Remove semicolon" . lse:js:remove-semicolon)
+(define-key lse-js:menu-keymap [remove-semicolon]
+  '("Remove semicolon" . lse-js:remove-semicolon)
 )
 
-(define-key lse:js:mode-map [goto-semicolon]
-  '("Goto semicolon" . lse:js:goto-semicolon)
+(define-key lse-js:menu-keymap [goto-semicolon]
+  '("Goto semicolon" . lse-js:goto-semicolon)
 )
 
-(define-key lse:js:mode-map [goto-block-tail]
-  '("Goto end of block" . lse:js:goto-block-tail)
+(define-key lse-js:menu-keymap [goto-block-tail]
+  '("Goto end of block" . lse-js:goto-block-tail)
 )
 
-(define-key lse:js:mode-map [goto-block-head]
-  '("Goto start of block" . lse:js:goto-block-head)
+(define-key lse-js:menu-keymap [goto-block-head]
+  '("Goto start of block" . lse-js:goto-block-head)
+)
+
+;;;; helper functions for templates
+
+;;; 20-Jan-2011
+(defun lse-js:indent-function-literal ()
+  (let* ((after-comma
+           (save-excursion
+             (lse-tpu:previous-line 1) (lse-line-startswith " *, \\w+ *: *")
+           )
+         )
+         ;; if expansion happens in a line starting with a `,`, e.g., inside an
+         ;; object literal, then increase indentation
+         (shift (if after-comma 1 0)
+        )
+       )
+    (lse-prev-indent shift)
+  )
+; lse-js:indent-function-literal
+)
+
+;;; 20-Jan-2011
+(defun lse-js:indent-object-literal ()
+  (if (lse-line-startswith " *( *$")
+      (lse-anchor-indent 2) ; don't want a newline after a `(`
+    (let ((shift (if (lse-line-startswith " *, \\w+ *: *") 2 1)))
+      ;; if expansion happens in a line starting with a `,`, e.g., inside an
+      ;; object literal, then increase indentation
+      (lse-newline)
+      (lse-prev-indent shift)
+    )
+  )
+; lse-js:indent-object-literal
 )
 
 ;;;; __END__ lse-language-javascript.lse

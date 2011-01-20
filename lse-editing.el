@@ -89,6 +89,7 @@
 ;;;;    19-Jan-2011 (CT) `lse-find-pattern-alignment` fixed to really obey
 ;;;;                     `lse@align-search-limit`
 ;;;;    19-Jan-2011 (CT) `target-col` added to `lse-align-to-pattern`
+;;;;    20-Jan-2011 (CT) `lse-line-startswith` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -107,12 +108,20 @@
 )
 
 ;;; 19-Jan-2011
-(defun line-empty-p ()
+(defun lse-line-empty-p ()
+  (lse-line-startswith "[ \t]*$")
+; lse-line-empty-p
+)
+
+;;; 20-Jan-2011
+(defun lse-line-startswith (pat)
   (save-excursion
     (beginning-of-line)
-    (looking-at "[ \t]*$")
+    (save-match-data
+      (looking-at pat)
+    )
   )
-; line-empty-p
+; lse-line-startswith
 )
 
 (defun lse-insert+blank-maybe (text)
@@ -728,15 +737,15 @@ previous line"
 ;;; 19-Jan-2011
 (defun lse-close-line-down ()
   (interactive "*")
-  (if (line-empty-p)
+  (if (lse-line-empty-p)
       (let (bh bt)
         (save-excursion
-          (while (line-empty-p) (lse-tpu:previous-line 1))
+          (while (lse-line-empty-p) (lse-tpu:previous-line 1))
           (lse-tpu:forward-line 1)
           (setq bh (point-marker))
         )
         (save-excursion
-          (while (line-empty-p) (lse-tpu:forward-line 1))
+          (while (lse-line-empty-p) (lse-tpu:forward-line 1))
           (setq bt (point-marker))
         )
         (delete-region bh bt)

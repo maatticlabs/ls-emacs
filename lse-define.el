@@ -49,6 +49,8 @@
 ;;;;    17-Jul-2009 (CT) `lse@define-fill-in-menu` robustified
 ;;;;    19-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to map `$`
 ;;;;                     to `lse-auto-expand-replacement-fill-in`
+;;;;    20-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to consider
+;;;;                     `no-sep` for `consp` elements
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-define)
@@ -276,15 +278,32 @@
       (setq next (car body))
       (setq body (cdr body))
       (cond ((consp next)
-             (if (eq (car next) 'line)
+             (setq head (car next))
+             (if (eq head 'line)
                  (setq replacement
                      (append
                         (lse@define@fill-in-replacement psym name (cdr next) t)
                         (if item_sep (cons item_sep replacement) replacement)
                      )
                  )
-               (if item_sep (lse-add-to-list replacement item_sep))
-               (lse-add-to-list replacement next)
+               (let ((no-sep
+                       (memq head
+                         '(lse-anchor-indent      lse-hang-indent
+                           lse-indent             lse-indent-to-pattern
+                           lse-prev-indent        lse-reindent
+                           lse-indent:>           lse-indent:<
+                           lse-indent:set         lse-indent:set:prev
+                           lse-newline-and-indent lse-newline-and-indent-unless
+                          )
+                       )
+                     )
+                    )
+                 (if (and item_sep (not no-sep))
+                     (lse-add-to-list replacement item_sep)
+                 )
+                 (lse-add-to-list replacement next)
+                 (if no-sep (setq dont-separate-next t))
+               )
              )
             )
             ((eq next '@)
@@ -313,6 +332,7 @@
                                  '(lse-tabulator    delete-horizontal-space
                                    fixup-whitespace just-one-space
                                    lse-indent:<     lse-indent:>
+                                   lse-newline      lse-newline-and-indent
                                   )
                            )
                       )
@@ -323,13 +343,16 @@
              (if (memq next
                        '(lse-tabulator            lse-no-indent
                          lse-newline              lse-newline-and-indent
+                         lse-reindent             lse-newline-and-indent-unless
                          lse-indent+1             lse-indent-1
                          lse-indent:<             lse-indent:>
                          lse-anchor-indent        lse-expansion-indent
                          lse-environment-indent   lse-outer-environment-indent
+                         lse-hang-indent          lse-prev-indent
+                         lse-indent:set           lse-indent:set:prev
                          delete-horizontal-space  delete-indentation
                          fixup-whitespace         just-one-space
-                         delete-blank-lines       lse-prev-indent
+                         delete-blank-lines
                         )
                  )
                  (setq dont-separate-next t)

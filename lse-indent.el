@@ -43,6 +43,9 @@
 ;;;;     4-Jan-1998 (CT) `lse-indent:>' and `lse-indent:<' added
 ;;;;    11-Sep-2002 (CT) `lse@hanging-indent` and `lse-hang-indent` added
 ;;;;    18-Jan-2011 (CT) `lse-prev-indent` added
+;;;;    20-Jan-2011 (CT) `lse-indent:level`, `lse-indent:set` and friends
+;;;;                     factored
+;;;;    20-Jan-2011 (CT) `lse-indent-to-pattern` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -81,49 +84,97 @@
 ; lse-indent:remove-leading-indentation
 )
 
-;;;  4-Jan-1998
-(defun lse-indent:> (&optional shift)
+;;; 20-Jan-2011
+(defun lse-indent@shift (shift default)
   (if (integerp shift)
-      (setq shift (* shift lse-language:tab-increment))
-    (setq shift lse-language:tab-increment)
+      (* shift lse-language:tab-increment)
+    (if (integerp default) default lse-language:tab-increment)
   )
-  (setq lse@current-expansion-indent (+ lse@current-expansion-indent shift))
+; lse-indent@shift
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level ()
+  lse@current-expansion-indent
+; lse-indent:level
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:current-column (&optional delta)
+  (+ (current-column) (if (integerp delta) delta 0))
+; lse-indent:level:current-column
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:environment ()
+  lse@environment-expansion-indent
+; lse-indent:level:environment
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:expansion ()
+  lse@original-expansion-indent
+; lse-indent:level:expansion
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:outer-environment ()
+  (max (- lse@environment-expansion-indent lse-language:tab-increment) 0)
+; lse-indent:level:outer-environment
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:of-pattern (pat &optional default dir)
+  (or dir (setq dir -1))
+  (let ((result (lse-find-pattern-alignment pat dir)))
+    (if (integerp result)
+        result
+      (if (integerp default)
+          default
+        lse@current-expansion-indent
+      )
+    )
+  )
+; lse-indent:level:of-pattern
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:prev (&optional delta)
+  (save-excursion
+    (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
+    (if (bolp)
+        (- lse@current-expansion-indent (lse-indent@shift nil nil))
+      (current-column)
+    )
+  )
+; lse-indent:level:prev
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:set (indent)
+  (setq lse@current-expansion-indent indent)
+; lse-indent:set
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:set:prev (&optional delta)
+  (lse-indent:set (lse-indent:level:prev delta))
+; lse-indent:set:prev
+)
+
+;;;  4-Jan-1998
+(defun lse-indent:> (&optional shift default)
+  (lse-indent:set
+    (+ lse@current-expansion-indent (lse-indent@shift shift default))
+  )
 ; lse-indent:>
 )
 
-(defun lse-indent:< (&optional shift)
-  (if (integerp shift)
-      (setq shift (* shift lse-language:tab-increment))
-    (setq shift lse-language:tab-increment)
+(defun lse-indent:< (&optional shift default)
+  (lse-indent:set
+    (- lse@current-expansion-indent (lse-indent@shift shift default))
   )
-  (setq lse@current-expansion-indent (- lse@current-expansion-indent shift))
 ; lse-indent:<
-)
-
-(defun lse-indent (&optional shift)
-  "Indent current line; the indentation is modified by `shift' tab-increments."
-  (interactive "P")
-  (if (integerp shift)
-      (setq shift (* shift lse-language:tab-increment))
-    (setq shift 0)
-  )
-  (cond ((integerp lse@current-expansion-indent) ; expanding a fill-in
-         (setq lse@current-expansion-indent
-               (+ lse@current-expansion-indent shift)
-         )
-         (indent-to lse@current-expansion-indent)
-        )
-        (t ; not expanding a fill-in
-         (funcall indent-line-function)
-         (let ((ci (current-indentation)))
-           (if (< shift 0)
-               (lse-indent:remove-leading-indentation)
-           )
-           (indent-to (+ ci shift))
-         )
-        )
-  )
-; lse-indent
 )
 
 ;;;  9-Jun-1995
@@ -138,6 +189,34 @@
   )
   (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
 ; lse-indent:goto-indent-pos
+)
+
+(defun lse-indent (&optional shift)
+  "Indent current line; the indentation is modified by `shift' tab-increments."
+  (interactive "P")
+  (cond ((integerp lse@current-expansion-indent) ; expanding a fill-in
+         (lse-indent:> shift 0)
+         (indent-to lse@current-expansion-indent)
+        )
+        (t ; not expanding a fill-in
+         (setq shift (lse-indent@shift shift 0))
+         (funcall indent-line-function)
+         (let ((ci (current-indentation)))
+           (if (< shift 0)
+               (lse-indent:remove-leading-indentation)
+           )
+           (indent-to (+ ci shift))
+         )
+        )
+  )
+; lse-indent
+)
+
+;;; 20-Jan-2011
+(defun lse-indent-to-pattern (pat &optional shift default dir)
+  (lse-indent:set (lse-indent:level:of-pattern pat default dir))
+  (lse-reindent)
+; lse-indent-to-pattern
 )
 
 ;;;  9-Jun-1995
@@ -158,24 +237,19 @@
 )
 
 (defun lse-no-indent ()
-  (setq lse@current-expansion-indent 0)
+  (lse-indent:set 0)
   (lse-indent:remove-leading-indentation)
 )
 
 (defun lse-anchor-indent (&optional delta)
-  (setq lse@current-expansion-indent (current-column))
-  (if delta
-      (setq lse@current-expansion-indent
-            (+ lse@current-expansion-indent delta)
-      )
-  )
+  (lse-indent:set (lse-indent:level:current-column delta))
 ; lse-anchor-indent
 )
 
 ;;; 11-Sep-2002
 (defun lse-hang-indent (&optional delta)
   (setq lse@hanging-indent (current-column))
-  (if delta
+  (if (integerp delta)
       (setq lse@hanging-indent (+ lse@hanging-indent delta))
   )
 ; lse-hang-indent
@@ -188,34 +262,22 @@
 )
 
 (defun lse-expansion-indent ()
-  (setq lse@current-expansion-indent lse@original-expansion-indent)
+  (lse-indent:set (lse-indent:level:expansion))
   (lse-reindent)
 )
 
 (defun lse-environment-indent ()
-  (setq lse@current-expansion-indent lse@environment-expansion-indent)
+  (lse-indent:set (lse-indent:level:environment))
   (lse-reindent)
 )
 
 (defun lse-outer-environment-indent ()
-  (setq lse@current-expansion-indent
-        (max (- lse@environment-expansion-indent lse-language:tab-increment) 0)
-  )
+  (lse-indent:set (lse-indent:level:outer-environment))
   (lse-reindent)
 )
 
 (defun lse-prev-indent (&optional shift delta)
-  (save-excursion
-    (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
-    (if (bolp)
-        (setq lse@current-expansion-indent
-          (- lse@current-expansion-indent
-            (* (if (integerp shift) shift 1) lse-language:tab-increment)
-          )
-        )
-      (setq lse@current-expansion-indent (current-column))
-    )
-  )
+  (lse-indent:set:prev delta)
   (lse-reindent shift)
 ; lse-prev-indent
 )
