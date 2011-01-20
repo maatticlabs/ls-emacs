@@ -77,9 +77,31 @@
 ;;; _block_tail
 )
 
+;;; 20-Jan-2011
+(lse-define-fill-in "call-argument"
+    '(separator             lse-newline-and-indent-1 ", ")
+    '(leading               ",")
+    '(replacement           @ expression)
+;;; call-argument
+)
+
 (lse-define-fill-in "declarator"
   '(separator         ", ")
   '(replacement       identifier)
+)
+
+;;; 20-Jan-2011
+(lse-define-fill-in "_function-call"
+    '(token                 "(")
+    '(replacement-vanguard  (if (looking-at ")") (delete-char 1)))
+    '(replacement
+        lse-js:indent-object-literal &
+        "( «call-argument»···"
+        lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
+        ")"
+        & lse-js:catch-semicolon
+     )
+;;; _function-call
 )
 
 ;;; 18-Jan-2011
