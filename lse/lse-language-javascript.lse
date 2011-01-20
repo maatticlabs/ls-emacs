@@ -197,8 +197,8 @@
 
 ;;; 20-Jan-2011
 (defun lse-js:indent-object-literal ()
-  (if (lse-line-startswith " *( *$")
-      (lse-anchor-indent 2) ; don't want a newline after a `(`
+  (if (lse-line-startswith " *[(,] *$")
+      (lse-anchor-indent 2) ; don't want a newline directly after a `(` or ","
     (let ((shift (if (lse-line-startswith " *, \\w+ *: *") 2 1)))
       ;; if expansion happens in a line starting with a `,`, e.g., inside an
       ;; object literal, then increase indentation
