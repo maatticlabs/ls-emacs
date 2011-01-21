@@ -154,6 +154,9 @@
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    19-Jan-2011 (CT) `lse-auto-expand-replacement-fill-in` added
+;;;;    21-Jan-2011 (CT) `lse_expand_token:try-1` factored from
+;;;;                     `lse_expand_token:try`, the later changed to also
+;;;;                     try a token without leading whitespace
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -919,21 +922,9 @@
   )
 )
 
-(defun lse_expand_token:try (token-delims word-count &optional expand-fct)
-  (let* ((lse-tpu:word-chars token-delims)
-         (bt (lse-tpu:prev-word-head-pos word-count (lse-tpu:line-head-pos)))
-         (et (point))
-         matching-tokens token expansion result lse@expansion@separator
-        )
-    (if (or
-          (bobp)
-          (not (> et bt))
-          (save-excursion (skip-chars-backward " \t") (and (bolp) (setq bt et))
-          );  4-May-2007
-        )
-        (setq token "\n"); 27-Apr-2003
-      (setq token (downcase (buffer-substring-no-properties bt et)))
-    )
+;;; 21-Jan-2011
+(defun lse_expand_token:try-1 (token expand-fct bt et)
+  (let (matching-tokens expansion result lse@expansion@separator)
     (setq matching-tokens (all-completions token lse_token_table))
     (cond ((eq (length matching-tokens) 1)
            (setq expansion (car matching-tokens))
@@ -952,11 +943,37 @@
         (if expand-fct
             (setq result (funcall expand-fct token bt et expansion))
           (setq result
-                (lse_replace_token_by_expansion token bt et expansion)
+            (lse_replace_token_by_expansion token bt et expansion)
           )
         )
     )
     result
+  )
+; lse_expand_token:try-1
+)
+(defun lse_expand_token:try (token-delims word-count &optional expand-fct)
+  (let* ((lse-tpu:word-chars token-delims)
+         (bt (lse-tpu:prev-word-head-pos word-count (lse-tpu:line-head-pos)))
+         (et (point))
+         (simple-token (downcase (buffer-substring-no-properties bt et)))
+         token
+        )
+    (if (or
+          (bobp)
+          (not (> et bt))
+          (save-excursion (skip-chars-backward " \t") (and (bolp) (setq bt et))
+          );  4-May-2007
+        )
+        (setq token "\n"); 27-Apr-2003
+      (setq token (downcase (buffer-substring-no-properties bt et)))
+    )
+    (if (lse_expand_token:try-1 token expand-fct bt et)
+        t
+      (if (and (stringp simple-token) (not (string= token simple-token)))
+          (lse_expand_token:try-1 simple-token expand-fct bt et)
+        nil
+      )
+    )
   )
 ; lse_expand_token:try
 )
