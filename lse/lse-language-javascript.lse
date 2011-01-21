@@ -150,10 +150,11 @@
   (save-excursion
     (let ((cp (point-marker)))
       (skip-chars-forward " \t\n")
-      (if (looking-at ";")
+      (while (looking-at ";")
           (progn
             (skip-chars-forward " \t;")
             (delete-region cp (point))
+            (skip-chars-forward " \t\n")
           )
       )
     )
