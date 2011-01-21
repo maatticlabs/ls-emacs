@@ -50,6 +50,24 @@
 )
 
 ;;; 21-Jan-2011
+(lse-define-fill-in "duration"
+    '(trailing              ",")
+    '(description
+        "A string or number determining how long the animation will run (milliseconds)."
+     )
+;;; duration
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "easing"
+    '(trailing              ",")
+    '(description
+        "A string indicating which easing function to use for the transition."
+     )
+;;; easing
+)
+
+;;; 21-Jan-2011
 (lse-define-fill-in "ev."
     '(token)
     '(description           "Properties of event object")
@@ -112,9 +130,14 @@
   '(description           "Call a jQuery utility function")
   '(sort)
   '(menu
+      jq-util-ajax
+      jq-util-ajax-setup
       jq-util-data
       jq-util-each
       jq-util-extend
+      jq-util-get
+      jq-util-get-json
+      jq-util-get-script
       jq-util-global-eval
       jq-util-grep
       jq-util-in-array
@@ -125,7 +148,9 @@
       jq-util-make-array
       jq-util-map
       jq-util-merge
+      jq-util-param
       jq-util-parse-json
+      jq-util-post
       jq-util-proxy
       jq-util-remove-data
       jq-util-trim
@@ -193,6 +218,38 @@
 ;;; jq-plugin
 )
 
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-ajax"
+    '(token)
+    '(token                 "$.ajax")
+    '(description           "Perform an asynchronous HTTP (Ajax) request.")
+    '(rcompletion-action    (lse-expand-future-fill-in "object-literal" 1))
+    '(replacement
+        "$.ajax"
+        & lse-js:indent-object-literal &
+        "( «object-literal»"
+        lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
+        ")"
+        & lse-js:catch-semicolon
+     )
+;;; jq-util-ajax
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-ajax-setup"
+    '(token)
+    '(token                 "$.ajaxSetup")
+    '(description           "Set default values for future Ajax requests.")
+    '(replacement
+        "$.ajaxSetup"
+        & lse-js:indent-object-literal &
+        "( «object-literal»"
+        lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
+        ")"
+        & lse-js:catch-semicolon
+     )
+;;; jq-util-ajax-setup
+)
 ;;; 20-Jan-2011
 (lse-define-fill-in "jq-util-data"
     '(token)
@@ -226,6 +283,47 @@
     "$.extend (««jq-extend-deep»», «jq-extend-target», «argument»···)"
    )
 ;;; jq-util-extend
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-get"
+    '(token)
+    '(token                 "$.get")
+    '(description
+        "Load data from the server using a HTTP GET request."
+     )
+    '(replacement
+        "$.get («url», ««req-data»», ««callback»», ««req-data-type»»)"
+        ««fill-in-item»»···
+     )
+;;; jq-util-get
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-get-json"
+    '(token)
+    '(token                 "$.getJSON")
+    '(description
+        "Load JSON-encoded data from the server using a GET HTTP request."
+     )
+    '(replacement
+        "$.getJSON («url», ««req-data»», ««callback»»)"
+     )
+;;; jq-util-get-json
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-get-script"
+    '(token)
+    '(token                 "$.getScript")
+    '(description
+        "Load a JavaScript file from the server using a GET HTTP request, "
+        "then execute it. callback is executed if the request succeeds."
+     )
+    '(replacement
+        "$.getScript («url», ««callback»»)"
+     )
+;;; jq-util-get-script
 )
 
 ;;; 20-Jan-2011
@@ -334,6 +432,28 @@
 ;;; jq-util-merge
 )
 
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-param"
+    '(token)
+    '(token                 "$.param")
+    '(description
+        "Create a serialized representation of an array or object, "
+        "suitable for use in a URL query string or Ajax request. "
+     )
+    '(replacement           "$.param («object», «jq-util-param:traditional»)")
+;;; jq-util-param
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-param:traditional"
+    '(description
+        "A Boolean indicating whether to perform a traditional "
+        "\"shallow\" serialization."
+     )
+    '(replacement @ boolean-value)
+;;; jq-util-param:traditional
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "jq-util-parse-json"
     '(token)
@@ -343,6 +463,19 @@
      )
     '(replacement           "$.parseJSON («argument»)")
 ;;; jq-util-parse-json
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-util-post"
+    '(token)
+    '(token                 "$.post")
+    '(description
+        "Load data from the server using a HTTP POST request."
+     )
+    '(replacement
+        "$.post («url», ««req-data»», ««callback»», ««req-data-type»»)"
+     )
+;;; jq-util-post
 )
 
 ;;; 20-Jan-2011
@@ -438,6 +571,10 @@
         jq-wrapper-end
         jq-wrapper-eq
         jq-wrapper-error
+        jq-wrapper-fade-in
+        jq-wrapper-fade-out
+        jq-wrapper-fade-to
+        jq-wrapper-fade-toggle
         jq-wrapper-filter
         jq-wrapper-find
         jq-wrapper-first
@@ -447,6 +584,7 @@
         jq-wrapper-has
         jq-wrapper-has-class
         jq-wrapper-height
+        jq-wrapper-hide
         jq-wrapper-hover
         jq-wrapper-html
         jq-wrapper-inner-height
@@ -459,7 +597,8 @@
         jq-wrapper-keyup
         jq-wrapper-last
         jq-wrapper-live
-        jq-wrapper-load
+        jq-wrapper-load-ajax
+        jq-wrapper-load-handler
         jq-wrapper-map
         jq-wrapper-mouse-down
         jq-wrapper-mouse-enter
@@ -496,11 +635,18 @@
         jq-wrapper-scroll-left
         jq-wrapper-scroll-top
         jq-wrapper-select
+        jq-wrapper-serialize
+        jq-wrapper-serialize-array
+        jq-wrapper-show
         jq-wrapper-siblings
         jq-wrapper-slice
+        jq-wrapper-slide-down
+        jq-wrapper-slide-toggle
+        jq-wrapper-slide-up
         jq-wrapper-submit
         jq-wrapper-text
-        jq-wrapper-toggle
+        jq-wrapper-toggle-display
+        jq-wrapper-toggle-handler
         jq-wrapper-toggle-class
         jq-wrapper-trigger
         jq-wrapper-trigger-handler
@@ -863,6 +1009,52 @@
 )
 
 ;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-fade-in"
+    '(token)
+    '(token                 ".fadeIn")
+    '(description
+        "Display the matched elements by fading them to opaque."
+     )
+    '(replacement           ".fadeIn (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-fade-in
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-fade-out"
+    '(token)
+    '(token                 ".fadeOut")
+    '(description
+        "Hide the matched elements by fading them to transparent."
+     )
+    '(replacement           ".fadeOut (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-fade-out
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-fade-to"
+    '(token)
+    '(token                 ".fadeTo")
+    '(description           "Adjust the opacity of the matched elements.")
+    '(replacement
+        ".fadeTo («duration», «opacity», ««easing»», ««callback»»)"
+     )
+;;; jq-wrapper-fade-to
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-fade-toggle"
+    '(token)
+    '(token                 ".fadeToggle")
+    '(description
+        "Display or hide the matched elements by animating their opacity."
+     )
+    '(replacement
+        ".fadeToggle (««duration»», ««easing»», ««callback»»)"
+     )
+;;; jq-wrapper-fade-toggle
+)
+
+;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-filter"
     '(token)
     '(token                 ".filter")
@@ -930,22 +1122,6 @@
 )
 
 ;;; 21-Jan-2011
-(lse-define-fill-in "jq-wrapper-hover"
-    '(token)
-    '(token                 ".hover")
-    '(description
-        "Bind two handlers to the matched elements, to be executed when "
-        "the mouse pointer enters and leaves the elements. "
-        "The .hover(«callback», «callback») method binds handlers for "
-        "both mouseenter and mouseleave events, respectively. We can use "
-        "it to simply apply behavior to an "
-        "element during the time the mouse is within the element."
-     )
-    '(replacement           ".hover («callback», «callback»)")
-;;; jq-wrapper-hover
-)
-
-;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-has"
     '(token)
     '(token                 ".has")
@@ -976,6 +1152,31 @@
      )
     '(replacement           ".height (««number»»)")
 ;;; jq-wrapper-height
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-hide"
+    '(token)
+    '(token                 ".hide")
+    '(description           "Hide the matched elements.")
+    '(replacement           ".hide (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-hide
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-hover"
+    '(token)
+    '(token                 ".hover")
+    '(description
+        "Bind two handlers to the matched elements, to be executed when "
+        "the mouse pointer enters and leaves the elements. "
+        "The .hover(«callback», «callback») method binds handlers for "
+        "both mouseenter and mouseleave events, respectively. We can use "
+        "it to simply apply behavior to an "
+        "element during the time the mouse is within the element."
+     )
+    '(replacement           ".hover («callback», «callback»)")
+;;; jq-wrapper-hover
 )
 
 ;;; 21-Jan-2011
@@ -1109,14 +1310,26 @@
 )
 
 ;;; 21-Jan-2011
-(lse-define-fill-in "jq-wrapper-load"
+(lse-define-fill-in "jq-wrapper-load-ajax"
     '(token)
-    '(token                 ".load")
+    '(token                 ".load_ajax")
+    '(description
+        "Load data from the server and place the returned HTML into the "
+        "matched element."
+     )
+    '(replacement           ".load («url», ««req-data»», ««callback»»)")
+;;; jq-wrapper-load-ajax
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-load-handler"
+    '(token)
+    '(token                 ".load_handler")
     '(description
         "This method is a shortcut for .bind('load', handler)."
      )
     '(replacement           ".load (««event-data»», «callback»)")
-;;; jq-wrapper-load
+;;; jq-wrapper-load-handler
 )
 
 ;;; 21-Jan-2011
@@ -1528,6 +1741,37 @@
 )
 
 ;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-serialize"
+    '(token)
+    '(token                 ".serialize")
+    '(description
+        "Encode a set of form elements as a string for submission."
+     )
+    '(replacement           ".serialize ()")
+;;; jq-wrapper-serialize
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-serialize-array"
+    '(token)
+    '(token                 ".serializeArray")
+    '(description
+        "Encode a set of form elements as an array of names and values."
+     )
+    '(replacement           ".serializeArray ()")
+;;; jq-wrapper-serialize-array
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-show"
+    '(token)
+    '(token                 ".show")
+    '(description           "Display the matched elements.")
+    '(replacement           ".show (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-show
+)
+
+;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-siblings"
     '(token)
     '(token                 ".siblings")
@@ -1547,6 +1791,39 @@
      )
     '(replacement           ".slice («number», ««number»»)")
 ;;; jq-wrapper-slice
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-slide-down"
+    '(token)
+    '(token                 ".slideDown")
+    '(description
+        "Display the matched elements with a sliding motion."
+     )
+    '(replacement           ".slideDown (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-slide-down
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-slide-toggle"
+    '(token)
+    '(token                 ".slideToggle")
+    '(description
+        "Display or hide the matched elements with a sliding motion."
+     )
+    '(replacement
+        ".slideToggle (««duration»», ««easing»», ««callback»»)"
+     )
+;;; jq-wrapper-slide-toggle
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-slide-up"
+    '(token)
+    '(token                 ".slideUp")
+    '(description           "Hide the matched elements with a sliding motion.")
+    '(replacement           ".slideUp (««duration»», ««easing»», ««callback»»)")
+;;; jq-wrapper-slide-up
 )
 
 ;;; 21-Jan-2011
@@ -1574,9 +1851,20 @@
 )
 
 ;;; 21-Jan-2011
-(lse-define-fill-in "jq-wrapper-toggle"
+(lse-define-fill-in "jq-wrapper-toggle-display"
     '(token)
-    '(token                 ".toggle")
+    '(token                 ".toggle_display")
+    '(description           "Display or hide the matched elements.")
+    '(replacement
+        ".toggle_display (««duration»», ««easing»», ««callback»»)"
+     )
+;;; jq-wrapper-toggle-display
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "jq-wrapper-toggle-handler"
+    '(token)
+    '(token                 ".toggle_handler")
     '(description
         "Bind two or more handlers to the matched elements, to be "
         "executed on alternate clicks. "
@@ -1586,7 +1874,7 @@
         "fourth click, the seventh click, and so on."
      )
     '(replacement           ".toggle («callback», ««callback»»···)")
-;;; jq-wrapper-toggle
+;;; jq-wrapper-toggle-handler
 )
 
 ;;; 21-Jan-2011
@@ -1748,6 +2036,40 @@
     '(leading               ",")
     '(description           "A JavaScript object")
 ;;; object
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "opacity"
+    '(description
+        "A number between 0 and 1 denoting the target opacity."
+     )
+;;; opacity
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "req-data"
+    '(trailing            ",")
+    '(description
+        "A map or string that is sent to the server with the request."
+     )
+;;; req-data
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "req-data-type"
+    '(trailing            ",")
+    '(description
+        "A map or string that is sent to the server with the request."
+     )
+  '(menu
+       "json"
+       "jsonp"
+       "html"
+       "script"
+       "text"
+       "xml"
+   )
+;;; req-data
 )
 
 ;;; 21-Jan-2011
