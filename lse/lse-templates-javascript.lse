@@ -30,6 +30,8 @@
 ;;;;    18-Jan-2011 (CT) Creation
 ;;;;    19-Jan-2011 (CT) Creation continued
 ;;;;    20-Jan-2011 (CT) Creation continued..
+;;;;    21-Jan-2011 (CT) Creation continued...
+;;;;    22-Jan-2011 (CT) Creation continued....
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -637,6 +639,16 @@
 ;;; event-type-unload
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "finally"
+    '(description           "Cleanup code that is executed in any case")
+    '(replacement
+        "finally"
+        @ block
+     )
+;;; finally
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "_function-call"
     '(token                 "(")
@@ -660,6 +672,7 @@
         "function (««parameter-declaration»»···)"
         lse-js:indent-function-literal &
         @ block
+        & ";" & lse-js:remove-semicolon
      )
 ;;; function
 )
@@ -777,6 +790,35 @@
         & lse-js:remove-semicolon
      )
 ;;; scope
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "try"
+    '(token)
+    '(description           "Exception handler")
+    '(replacement
+        "try"
+        @ block
+        "catch («name»)"
+        @ block
+        "««finally»»"
+     )
+;;; try
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "try-finally"
+    '(token)
+    '(token                 "finally")
+    '(description
+        "Specify a cleanup handler. The finally-clause is executed in any case."
+     )
+    '(replacement
+        "try"
+        @ block
+        @ finally
+     )
+;;; try-finally
 )
 
 (lse-define-fill-in "unary-expression"
