@@ -1,0 +1,727 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This template is part of the LS-Emacs.
+;;;;
+;;;; This template is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This template is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this template. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-javascript-events
+;;;;
+;;;; Purpose
+;;;;    Define LSE templates of LSE language javascript: events
+;;;;
+;;;; Revision Dates
+;;;;    22-Jan-2011 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 23-Jan-2011
+(lse-define-fill-in "button-code"
+  '(token                 ".button-code")
+  '(description           "Determine the button that triggered the event")
+  '(replacement           lse-js:remove-period & ".button == " & @ button:code)
+;;; button-code
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "button-code-left"
+  '(token)
+  '(description           "Button code of left mouse button")
+  '(replacement           "0")
+;;; button-code-left
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "button-code-middle"
+  '(token)
+  '(description           "Button code of middle mouse button")
+  '(replacement           "1")
+;;; button-code-middle
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "button-code-right"
+  '(token)
+  '(description           "Button code of right mouse button")
+  '(replacement           "2")
+;;; button-code-right
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "_event_type"
+    '(replacement-leading "\"")
+    '(replacement-trailer "\"")
+    '(sort)
+    '(menu
+        event-type-blur
+        event-type-change
+        event-type-click
+        event-type-custom
+        event-type-double-click
+        event-type-error
+        event-type-focus
+        event-type-focus-in
+        event-type-focus-out
+        event-type-key-down
+        event-type-key-press
+        event-type-key-up
+        event-type-load
+        event-type-mouse-down
+        event-type-mouse-enter
+        event-type-mouse-leave
+        event-type-mouse-move
+        event-type-mouse-out
+        event-type-mouse-over
+        event-type-mouse-up
+        event-type-resize
+        event-type-scroll
+        event-type-select
+        event-type-submit
+        event-type-unload
+     )
+;;; _event_type
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type"
+    '(token)
+    '(description
+        "Name of a Javascript event type."
+        "\n"
+        "Any string is legal for eventType; if the string is not the name "
+        "of a native JavaScript event, then the handler is bound to a "
+        "custom event. These events are never called by the browser, "
+        "but may be triggered manually from other JavaScript code "
+        "using .trigger() or .triggerHandler()."
+        "\n"
+        "If the eventType string contains a period (.) character, then "
+        "the event is namespaced. The period character separates the "
+        "event from its namespace. For example, in the call "
+        ".bind('click.name', handler), the string click is the event "
+        "type, and the string name is the namespace. Namespacing "
+        "allows us to unbind or trigger some events of a type without "
+        "affecting others. See the discussion of .unbind() for more "
+        "information."
+        "\n"
+        "When an event reaches an element, all handlers bound to that "
+        "event type for the element are fired. If there are multiple "
+        "handlers registered, they will always execute in the order in "
+        "which they were bound. After all handlers have executed, the "
+        "event continues along the normal event propagation path."
+     )
+    '(menu
+        "«_event_type».«name»"
+        @ _event_type
+     )
+;;; event-type
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-blur"
+    '(description
+        "The blur event is sent to an element when it loses focus. "
+        "Originally, this event was only applicable to form elements, "
+        "such as <input>. In recent browsers, the domain of the event has "
+        "been extended to include all element types. An element can lose "
+        "focus via keyboard commands, such as the Tab key, or by mouse "
+        "clicks elsewhere on the page."
+        "\n"
+        "The blur event does not bubble in Internet Explorer. "
+        "Therefore, scripts that rely on event delegation with the "
+        "blur event will not work consistently across browsers."
+     )
+    '(replacement           "blur")
+;;; event-type-blur
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-change"
+    '(description
+        "The change event is sent to an element when its value changes. "
+        "This event is limited to <input> elements, <textarea> boxes and "
+        "<select> elements. For select boxes, checkboxes, and radio "
+        "buttons, the event is fired immediately when the user makes a "
+        "selection with the mouse, but for the other element types the "
+        "event is deferred until the element loses focus."
+     )
+    '(replacement           "change")
+;;; event-type-change
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-click"
+    '(description
+        "The click event is sent to an element when the mouse pointer "
+        "is over the element, and the mouse button is pressed and "
+        "released. Any HTML element can receive this event."
+        "\n"
+        "The click event is only triggered after this exact series of events:\n"
+        "* The mouse button is depressed while the pointer is inside the element.\n"
+        "* The mouse button is released while the pointer is inside the element.\n"
+        "This is usually the desired sequence before taking an action. If this is not required, the mousedown or mouseup event may be more suitable."
+     )
+    '(replacement           "click")
+;;; event-type-click
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-custom"
+    '(description           "Custom event type -- choose a name.")
+    '(replacement           @ text)
+;;; event-type-custom
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-double-click"
+    '(description
+        "The dblclick event is sent to an element when the element "
+        "is double-clicked. Any HTML element can receive this event. "
+        "\n"
+        "The dblclick event is only triggered after this exact series of events:\n"
+        "* The mouse button is depressed while the pointer is inside the element.\n"
+        "* The mouse button is released while the pointer is inside the element.\n"
+        "* The mouse button is depressed again while the pointer is inside the element, within a time window that is system-dependent.\n"
+        "* The mouse button is released while the pointer is inside the element."
+        "It is inadvisable to bind handlers to both the click and dblclick events for the same element. The sequence of events triggered varies from browser to browser, with some receiving two click events before the dblclick and others only one. Double-click sensitivity (maximum time between clicks that is detected as a double click) can vary by operating system and browser, and is often user-configurable. "
+     )
+    '(replacement           "dblclick")
+;;; event-type-double-click
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-error"
+    '(description
+        "The error event is sent to elements, such as images, that "
+        "are referenced by a document and loaded by the browser. "
+        "It is called if the element was not loaded correctly."
+     )
+    '(replacement           "error")
+;;; event-type-error
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-focus"
+    '(description
+        "The focus event is sent to an element when it gains focus. "
+        "This event is implicitly applicable to a limited set of elements, "
+        "such as form elements (<input>, <select>, etc.) and links "
+        "(<a href>). In recent browser versions, the event can be "
+        "extended to include all element types by explicitly setting "
+        "the element's tabindex property. An element can gain focus "
+        "via keyboard commands, such as the Tab key, or by mouse clicks "
+        "on the element."
+        "\n"
+        "The focus event does not bubble in Internet Explorer. Therefore, "
+        "scripts that rely on event delegation with the focus event will "
+        "not work consistently across browsers."
+        "\n"
+        "Triggering the focus on hidden elements causes an error in "
+        "Internet Explorer. Take care to only call .focus() without "
+        "parameters on elements that are visible."
+     )
+    '(replacement           "focus")
+;;; event-type-focus
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-focus-in"
+    '(description
+        "The focusin event is sent to an element when it, or any "
+        "element inside of it, gains focus. This is distinct from "
+        "the focus event in that it supports detecting the focus "
+        "event on parent elements."
+     )
+    '(replacement           "focusin")
+;;; event-type-focus-in
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-focus-out"
+    '(description
+        "The focusout event is sent to an element when it, or any element "
+        "inside of it, loses focus. This is distinct from the blur event "
+        "in that it supports detecting the loss of focus from parent "
+        "elements (in other words, it supports event bubbling)."
+     )
+    '(replacement           "focusout")
+;;; event-type-focus-out
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-key-down"
+    '(description
+        "The keydown event is sent to an element when the user first "
+        "presses a key on the keyboard. It can be attached to any element, "
+        "but the event is only sent to the element that has the focus. "
+        "Focusable elements can vary between browsers, but form elements "
+        "can always get focus so are reasonable candidates for this event type."
+        "\n"
+        "If key presses anywhere need to be caught (for example, to "
+        "implement global shortcut keys on a page), it is useful to "
+        "attach this behavior to the document object. Because of event "
+        "bubbling, all key presses will make their way up the DOM to the "
+        "document object unless explicitly stopped."
+        "\n"
+        "To determine which key was pressed, we can examine the event "
+        "object that is passed to the handler function. While browsers "
+        "use differing properties to store this information, jQuery "
+        "normalizes the .which property so we can reliably use it to "
+        "retrieve the key code. This code corresponds to a key on the "
+        "keyboard, including codes for special keys such as arrows. "
+        "For catching actual text entry, .keypress() may be a better choice."
+     )
+    '(replacement           "keydown")
+;;; event-type-key-down
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-key-press"
+    '(description
+        "The keypress event is sent to an element when the browser "
+        "registers keyboard input. This is similar to the keydown event, "
+        "except in the case of key repeats. If the user presses and "
+        "holds a key, a keydown event is triggered once, but separate "
+        "keypress events are triggered for each inserted character. "
+        "In addition, modifier keys (such as Shift) cause keydown events "
+        "but not keypress events."
+        "\n"
+        "A keypress event handler can be attached to any element, "
+        "but the event is only sent to the element that has the focus. "
+        "Focusable elements can vary between browsers, but form elements "
+        "can always get focus so are reasonable candidates for this event type."
+        "\n"
+        "If key presses anywhere need to be caught (for example, to "
+        "implement global shortcut keys on a page), it is useful to "
+        "attach this behavior to the document object. Because of event "
+        "bubbling, all key presses will make their way up the DOM to the "
+        "document object unless explicitly stopped."
+        "\n"
+        "To determine which key was pressed, we can examine the event "
+        "object that is passed to the handler function. While browsers "
+        "use differing properties to store this information, jQuery "
+        "normalizes the .which property so we can reliably use it to "
+        "retrieve the key code. This code corresponds to a key on the "
+        "keyboard, including codes for special keys such as arrows. "
+        "\n"
+        "Note that keydown and keyup provide a code indicating which "
+        "key is pressed, while keypress indicates which character was "
+        "entered. For example, a lowercase 'a' will be reported as 65 "
+        "by keydown and keyup, but as 97 by keypress. An uppercase 'A' "
+        "is reported as 65 by all events. Because of this distinction, "
+        "when catching special keystrokes such as arrow keys, .keydown() "
+        "or .keyup() is a better choice."
+     )
+    '(replacement           "keypress")
+;;; event-type-key-press
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-key-up"
+    '(description
+        "The keyup event is sent to an element when the user releases "
+        "a key on the keyboard. It can be attached to any element, but "
+        "the event is only sent to the element that has the focus. "
+        "Focusable elements can vary between browsers, but form elements "
+        "can always get focus so are reasonable candidates for this event "
+        "type."
+        "\n"
+        "If key presses anywhere need to be caught (for example, to "
+        "implement global shortcut keys on a page), it is useful to "
+        "attach this behavior to the document object. Because of event "
+        "bubbling, all key presses will make their way up the DOM to the "
+        "document object unless explicitly stopped."
+        "\n"
+        "To determine which key was pressed, we can examine the event "
+        "object that is passed to the handler function. While browsers "
+        "use differing properties to store this information, jQuery "
+        "normalizes the .which property so we can reliably use it to "
+        "retrieve the key code. This code corresponds to a key on the "
+        "keyboard, including codes for special keys such as arrows. "
+        "For catching actual text entry, .keypress() may be a better choice."
+     )
+    '(replacement           "keyup")
+;;; event-type-key-up
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-load"
+    '(description
+        "The load event is sent to an element when it and all "
+        "sub-elements have been completely loaded. This event can be sent "
+        "to any element associated with a URL: images, scripts, frames, "
+        "iframes, and the window object."
+     )
+    '(replacement           "load")
+;;; event-type-load
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-down"
+    '(description
+        "The mousedown event is sent to an element when the mouse pointer "
+        "is over the element, and the mouse button is pressed. Any HTML "
+        "element can receive this event."
+     )
+    '(replacement           "mousedown")
+;;; event-type-mouse-down
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-enter"
+    '(description
+        "The mouseenter JavaScript event is proprietary to Internet "
+        "Explorer. Because of the event's general utility, jQuery "
+        "simulates this event so that it can be used regardless of "
+        "browser. This event sent to an element when the mouse pointer "
+        "enters the element. Any HTML element can receive this event."
+        "\n"
+        "The mouseenter event differs from mouseover in the way it "
+        "handles event bubbling. If mouseover were used in this example, "
+        "then when the mouse pointer moved over the Inner element, the "
+        "handler would be triggered. This is usually undesirable behavior. "
+        "The mouseenter event, on the other hand, only triggers its handler "
+        "when the mouse enters the element it is bound to, not a "
+        "descendant. So in this example, the handler is triggered when "
+        "the mouse enters the Outer element, but not the Inner element."
+     )
+    '(replacement           "mouseenter")
+;;; event-type-mouse-enter
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-leave"
+    '(description
+        "The mouseleave JavaScript event is proprietary to Internet "
+        "Explorer. Because of the event's general utility, jQuery "
+        "simulates this event so that it can be used regardless of "
+        "browser. This event is sent to an element when the mouse "
+        "pointer leaves the element. Any HTML element can receive "
+        "this event."
+        "\n"
+        "The mouseleave event differs from mouseout in the way it "
+        "handles event bubbling. If mouseout were used in this example, "
+        "then when the mouse pointer moved out of the Inner element, "
+        "the handler would be triggered. This is usually undesirable "
+        "behavior. The mouseleave event, on the other hand, only "
+        "triggers its handler when the mouse leaves the element it is "
+        "bound to, not a descendant. So in this example, the handler "
+        "is triggered when the mouse leaves the Outer element, but not "
+        "the Inner element.
+"
+     )
+    '(replacement           "mouseleave")
+;;; event-type-mouse-leave
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-move"
+    '(description
+        "The mousemove event is sent to an element when the mouse "
+        "pointer moves inside the element. Any HTML element can receive "
+        "this event."
+        "\n"
+        "When tracking mouse movement, we usually need to know the actual position of the mouse pointer. The event object that is passed to the handler contains some information about the mouse coordinates. Properties such as .clientX, .offsetX, and .pageX are available, but support for them differs between browsers. Fortunately, jQuery normalizes the .pageX and .pageY attributes so that they can be used in all browsers. These attributes provide the X and Y coordinates of the mouse pointer relative to the top-left corner of the page, as illustrated in the example output above."
+        "\n"
+        "We need to remember that the mousemove event is triggered whenever the mouse pointer moves, even for a pixel. This means that hundreds of events can be generated over a very small amount of time. If the handler has to do any significant processing, or if multiple handlers for the event exist, this can be a serious performance drain on the browser. It is important, therefore, to optimize mousemove handlers as much as possible, and to unbind them as soon as they are no longer needed."
+        "\n"
+        "A common pattern is to bind the mousemove handler from within a mousedown hander, and to unbind it from a corresponding mouseup handler. If implementing this sequence of events, remember that the mouseup event might be sent to a different HTML element than the mousemove event was. To account for this, the mouseup handler should typically be bound to an element high up in the DOM tree, such as <body>."
+     )
+    '(replacement           "mousemove")
+;;; event-type-mouse-move
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-out"
+    '(description
+        "The mouseout event is sent to an element when the mouse "
+        "pointer leaves the element. Any HTML element can receive this event."
+        "\n"
+        "This event type can cause many headaches due to event bubbling. For instance, when the mouse pointer moves out of the Inner element in this example, a mouseout event will be sent to that, then trickle up to Outer. This can trigger the bound mouseout handler at inopportune times. See the discussion for .mouseleave() for a useful alternative."
+     )
+    '(replacement           "mouseout")
+;;; event-type-mouse-out
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-over"
+    '(description
+        "The mouseover event is sent to an element when the mouse "
+        "pointer enters the element. Any HTML element can receive "
+        "this event."
+        "\n"
+        "This event type can cause many headaches due to event bubbling. For instance, when the mouse pointer moves over the Inner element in this example, a mouseover event will be sent to that, then trickle up to Outer. This can trigger our bound mouseover handler at inopportune times. See the discussion for .mouseenter() for a useful alternative."
+     )
+    '(replacement           "mouseover")
+;;; event-type-mouse-over
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-mouse-up"
+    '(description
+        "The mouseup event is sent to an element when the mouse pointer "
+        "is over the element, and the mouse button is released. Any HTML "
+        "element can receive this event."
+        "\n"
+        "If the user clicks outside an element, drags onto it, and releases the button, this is still counted as a mouseup event. This sequence of actions is not treated as a button press in most user interfaces, so it is usually better to use the click event unless we know that the mouseup event is preferable for a particular situation."
+     )
+    '(replacement           "mouseup")
+;;; event-type-mouse-up
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-resize"
+    '(description
+        "The resize event is sent to the window element when the size of "
+        "the browser window changes."
+        "\n"
+        "Code in a resize handler should never rely on the number of times the handler is called. Depending on implementation, resize events can be sent continuously as the resizing is in progress (the typical behavior in Internet Explorer and WebKit-based browsers such as Safari and Chrome), or only once at the end of the resize operation (the typical behavior in Firefox)."
+     )
+    '(replacement           "resize")
+;;; event-type-resize
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-scroll"
+    '(description
+        "The scroll event is sent to an element when the user scrolls to "
+        "a different place in the element. It applies to window objects, "
+        "but also to scrollable frames and elements with the overflow CSS "
+        "property set to scroll (or auto when the element's explicit height "
+        "is less than the height of its contents)."
+        "\n"
+        "A scroll event is sent whenever the element's scroll position changes, regardless of the cause. A mouse click or drag on the scroll bar, dragging inside the element, pressing the arrow keys, or using the mouse's scroll wheel could cause this event."
+     )
+    '(replacement           "scroll")
+;;; event-type-scroll
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-select"
+    '(description
+        "The select event is sent to an element when the user makes a "
+        "text selection inside it. This event is limited to "
+        "<input type=\"text\"> fields and <textarea> boxes."
+        "\n"
+        "The method for retrieving the current selected text differs from one browser to another. A number of jQuery plug-ins offer cross-platform solutions."
+     )
+    '(replacement           "select")
+;;; event-type-select
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-submit"
+    '(description
+        "The submit event is sent to an element when the user is attempting "
+        "to submit a form. It can only be attached to <form> elements. "
+        "Forms can be submitted either by clicking an explicit "
+        "<input type=\"submit\">, <input type=\"image\">, or "
+        "<button type=\"submit\">, or by pressing Enter when certain form "
+        "element has focus."
+        "\n"
+        "Depending on the browser, the Enter key may only cause a form submission if the form has exactly one text field, or only when there is a submit button present. The interface should not rely on a particular behavior for this key unless the issue is forced by observing the keypress event for presses of the Enter key."
+        "\n"
+        "The JavaScript submit event does not bubble in Internet Explorer. However, scripts that rely on event delegation with the submit event will work consistently across browsers as of jQuery 1.4, which has normalized the event's behavior. "
+        "\n"
+        "Forms and their child elements should not use input names or ids that conflict with properties of a form, such as submit, length, or method. Name conflicts can cause confusing failures. For a complete list of rules and to check your markup for these problems, see http://yura.thinkweb2.com/domlint/. "
+     )
+    '(replacement           "submit")
+;;; event-type-submit
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "event-type-unload"
+    '(description
+        "The unload event is sent to the window element when the user "
+        "navigates away from the page. This could mean one of many things. "
+        "The user could have clicked on a link to leave the page, or "
+        "typed in a new URL in the address bar. The forward and back "
+        "buttons will trigger the event. Closing the browser window "
+        "will cause the event to be triggered. Even a page reload will "
+        "first create an unload event."
+        "\n"
+        "The exact handling of the unload event has varied from version to version of browsers. For example, some versions of Firefox trigger the event when a link is followed, but not when the window is closed. In practical usage, behavior should be tested on all supported browsers, and contrasted with the proprietary beforeunload event."
+     )
+    '(replacement           "unload")
+;;; event-type-unload
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.button"
+  '(token)
+  '(description           "Access the code of the button triggering the event")
+  '(replacement           "ev.button")
+;;; ev.button
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.ctrl-key"
+  '(token)
+  '(description           "Was control key held down?")
+  '(replacement           "ev.ctrlKey")
+;;; ev.ctrl-key
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.key-code"
+  '(token)
+  '(description           "Access the code of the key triggering the event")
+  '(replacement           "ev.keyCode")
+;;; ev.key-code
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.prevent-default"
+  '(token)
+  '(description           "Stop browser's default action from occurring")
+  '(replacement           "ev.preventDefault ()")
+;;; ev.prevent-default
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.related-target"
+  '(token)
+  '(description           "Element that the mouse just left (if any)")
+  '(replacement           "ev.relatedTarget")
+;;; ev.related-target
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.shift-key"
+  '(token)
+  '(description           "Was shift key held down?")
+  '(replacement           "ev.shiftKey")
+;;; ev.shift-key
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.stop-propagation"
+  '(token)
+  '(description           "Stop event bubbling/capturing process")
+  '(replacement           "ev.stopPropagation ()")
+;;; ev.stop-propagation
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.target"
+  '(token)
+  '(description           "Element that fired the event")
+  '(replacement           "ev.target")
+;;; ev.target
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "ev.type"
+  '(token)
+  '(description           "Type of event")
+  '(replacement           "ev.type")
+;;; ev.type
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code"
+  '(token                 ".key-code")
+  '(description           "Determine the key that triggered the event")
+  '(replacement           lse-js:remove-period & ".keyCode == " & @ key:code)
+;;; key-code
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-backspace"
+  '(token)
+  '(description           "Key code of backspace key")
+  '(replacement           "8")
+;;; key-code-backspace
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-down-arrow"
+  '(token)
+  '(description           "Key code of arrow-down key")
+  '(replacement           "40")
+;;; key-code-down-arrow
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-enter"
+  '(token)
+  '(description           "Key code of enter/return key")
+  '(replacement           "13")
+;;; key-code-enter
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-left-arrow"
+  '(token)
+  '(description           "Key code of arrow-left key")
+  '(replacement           "37")
+;;; key-code-left-arrow
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-right-arrow"
+  '(token)
+  '(description           "Key code of arrow-right key")
+  '(replacement           "39")
+;;; key-code-right-arrow
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-space"
+  '(token)
+  '(description           "Key code of space key")
+  '(replacement           "32")
+;;; key-code-space
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-tab"
+  '(token)
+  '(description           "Key code of tab key")
+  '(replacement           "9")
+;;; key-code-tab
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key-code-up-arrow"
+  '(token)
+  '(description           "Key code of arrow-up key")
+  '(replacement           "38")
+;;; key-code-up-arrow
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "key:code"
+  '(description
+      "Number corresponding to a specific key on a keyboard"
+   )
+  '(sort)
+  '(menu
+      key-code-backspace
+      key-code-down-arrow
+      key-code-enter
+      key-code-left-arrow
+      key-code-right-arrow
+      key-code-space
+      key-code-tab
+      key-code-up-arrow
+   )
+;;; key:code
+)
+
+;;;; __END__ lse-templates-javascript.lse

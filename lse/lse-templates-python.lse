@@ -3,6 +3,7 @@
 ;;;  3-Jan-1998
 (lse-define-fill-in "python-root"
     '(description           "Root fill-in for python language.")
+    '(rcompletion-trailer   delete-blank-lines); 22-Jan-2011
     '(replacement
         "# -*- coding: iso-8859-1 -*-";  6-Aug-2003
         "#««header-comment»»"

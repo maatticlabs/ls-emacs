@@ -1,0 +1,164 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This template is part of the LS-Emacs.
+;;;;
+;;;; This template is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This template is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this template. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-javascript-array
+;;;;
+;;;; Purpose
+;;;;    Define LSE templates of LSE language javascript: array methods
+;;;;
+;;;; Revision Dates
+;;;;    22-Jan-2011 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-concat"
+  '(token)
+  '(token                 "[].concat")
+  '(description
+    "Produce new array as shallow copy of this array with argument(s) "
+    "appended. "
+    "If an argument is an array, its elements are appended individually."
+   )
+  '(replacement
+      lse-js:remove-period & ".concat («argument»···)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-concat
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-join"
+  '(token)
+  '(token                 "[].join")
+  '(description
+    "Join all elements of array with argument (default = ',')"
+   )
+  '(replacement
+      lse-js:remove-period & ".join (««argument»»)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-join
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-pop"
+  '(token)
+  '(token                 "[].pop")
+  '(description           "Remove and return last element of array")
+  '(replacement
+      lse-js:remove-period & ".pop ()"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-pop
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-push"
+  '(token)
+  '(token                 "[].push")
+  '(description           "Append argument(s) to array.")
+  '(replacement
+      lse-js:remove-period & ".push («argument»···)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-push
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-reverse"
+  '(token)
+  '(token                 "[].reverse")
+  '(description           "Reverse the array in place and return it.")
+  '(replacement
+      lse-js:remove-period & ".reverse ()"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-reverse
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-shift"
+  '(token)
+  '(token                 "[].shift")
+  '(description           "Remove the first element and return it.")
+  '(replacement
+      lse-js:remove-period & ".shift ()"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-shift
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-slice"
+  '(token)
+  '(token                 "[].slice")
+  '(description           "Return a shallow copy of a portion of the array.")
+  '(replacement
+      lse-js:remove-period & ".slice («number», ««number»»)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-slice
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-sort"
+  '(token)
+  '(token                 "[].sort")
+  '(description
+      "Sort array in place, use callback to compare "
+      "(default compare converts to string)."
+   )
+  '(replacement
+      lse-js:remove-period & ".sort (««callback»»)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-sort
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-splice"
+  '(token)
+  '(token                 "[].splice")
+  '(description           "Remove elements, replacing them with arguments.")
+  '(replacement
+      lse-js:remove-period & ".splice («number», «count», ««argument»»···)
+         & (lse-js:clean-closing "\]")
+      "
+   )
+;;; array-splice
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "array-unshift"
+  '(token)
+  '(token                 "[].unshift")
+  '(description           "Add elements at start of array.")
+  '(replacement
+      lse-js:remove-period & ".unshift («argument»···)"
+      & (lse-js:clean-closing "\]")
+   )
+;;; array-unshift
+)
+
+;;;; lse-templates-javascript-array.lse

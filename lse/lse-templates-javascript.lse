@@ -32,6 +32,7 @@
 ;;;;    20-Jan-2011 (CT) Creation continued..
 ;;;;    21-Jan-2011 (CT) Creation continued...
 ;;;;    22-Jan-2011 (CT) Creation continued....
+;;;;    23-Jan-2011 (CT) Creation continued.....
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -39,23 +40,45 @@
 (lse-define-fill-in "js-root"
     '(token)
     '(description           "Root template of LS-Emacs language javascript")
+    '(rcompletion-trailer   delete-blank-lines)
     '(replacement
-        "/*"
-        "**««header-comment»»"
-        "*/"
+        "//««header-comment»»"
         ""
         "«statement»···"
-        "/* __END__ " & lse-insert-buffer-name-plus-extension & " */"
+        ""
+        "// __END__ " & lse-insert-buffer-name-plus-extension
      )
 ;;; js-root
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "alias-this"
+    '(token)
+    '(token                 "this")
+    '(description
+        "Define an alias for 'this' that can be used in closure"
+     )
+    '(replacement           "var «name» = this")
+;;; alias-this
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "apply"
+    '(token)
+    '(token                 ".apply")
+    '(description           "Apply a method with context as this")
+    '(replacement
+        lse-js:remove-period & ".apply («context», «array»)"
+     )
+;;; apply
+)
+
 (lse-define-fill-in "argument"
-  '(description           "Argument for a function call")
-  '(separator             ", ")
-  '(leading               ",")
-  '(replacement           @ identifier)
-;;; parameter-declaration
+    '(description           "Argument for a function call")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           @ identifier)
+;;; argument
 )
 
 ;;; 21-Jan-2011
@@ -71,6 +94,23 @@
 (lse-define-fill-in "array"
     '(description           "An array")
 ;;; array
+)
+
+(lse-define-fill-in "base"
+    '(description           "Number base to use for integer conversion")
+    '(separator             ", ")
+    '(leading               ",")
+    '(replacement           "10")
+;;; base
+)
+
+(lse-define-fill-in "block-comment"
+  '(description   "Block of comment statements")
+  '(replacement
+      "//+"
+      "// «text»···"
+      "//-"
+  )
 )
 
 ;;; 19-Jan-2011
@@ -104,6 +144,17 @@
 ;;; boolean-value
 )
 
+;;; 23-Jan-2011
+(lse-define-fill-in "call"
+    '(token)
+    '(token                 ".call")
+    '(description           "Call a method with context as this")
+    '(replacement
+        lse-js:remove-period & ".call («context», ««argument»»···)"
+     )
+;;; call
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "callback"
     '(leading               ",")
@@ -126,6 +177,25 @@
 ;;; code
 )
 
+;;; 23-Jan-2002
+(lse-define-fill-in "comment"
+  '(token)
+  '(token                 "inline-comment")
+  '(token                 "//")
+  '(description           "Inline comment")
+  '(replacement
+      "// «text» "
+  )
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "constructor"
+    '(token                 ".constructor")
+    '(description           "Use constructor property of a javascript object")
+    '(replacement           lse-js:remove-period & ".constructor")
+;;; constructor
+)
+
 ;;; 21-Jan-2011
 (lse-define-fill-in "coordinates"
     '(token)
@@ -136,507 +206,33 @@
 ;;; coordinates
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "count"
+    '(description           "Number of items to process")
+;;; count
+)
+
 (lse-define-fill-in "declarator"
   '(separator         ", ")
   '(replacement       identifier)
 )
 
-;;; 21-Jan-2011
-(lse-define-fill-in "_event_type"
-    '(replacement-leading "\"")
-    '(replacement-trailer "\"")
-    '(sort)
-    '(menu
-        event-type-blur
-        event-type-change
-        event-type-click
-        event-type-custom
-        event-type-double-click
-        event-type-error
-        event-type-focus
-        event-type-focus-in
-        event-type-focus-out
-        event-type-key-down
-        event-type-key-press
-        event-type-key-up
-        event-type-load
-        event-type-mouse-down
-        event-type-mouse-enter
-        event-type-mouse-leave
-        event-type-mouse-move
-        event-type-mouse-out
-        event-type-mouse-over
-        event-type-mouse-up
-        event-type-resize
-        event-type-scroll
-        event-type-select
-        event-type-submit
-        event-type-unload
-     )
-;;; _event_type
+;;; 22-Jan-2011
+(lse-define-fill-in "delete"
+    '(token)
+    '(description           "Delete an object")
+    '(replacement           "delete «expression»")
+;;; delete
 )
 
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type"
+;;; 23-Jan-2011
+(lse-define-fill-in "Error"
     '(token)
     '(description
-        "Name of a Javascript event type."
-        "\n"
-        "Any string is legal for eventType; if the string is not the name "
-        "of a native JavaScript event, then the handler is bound to a "
-        "custom event. These events are never called by the browser, "
-        "but may be triggered manually from other JavaScript code "
-        "using .trigger() or .triggerHandler()."
-        "\n"
-        "If the eventType string contains a period (.) character, then "
-        "the event is namespaced. The period character separates the "
-        "event from its namespace. For example, in the call "
-        ".bind('click.name', handler), the string click is the event "
-        "type, and the string name is the namespace. Namespacing "
-        "allows us to unbind or trigger some events of a type without "
-        "affecting others. See the discussion of .unbind() for more "
-        "information."
-        "\n"
-        "When an event reaches an element, all handlers bound to that "
-        "event type for the element are fired. If there are multiple "
-        "handlers registered, they will always execute in the order in "
-        "which they were bound. After all handlers have executed, the "
-        "event continues along the normal event propagation path."
+        "Create an error object, argument specifies error message"
      )
-    '(menu
-        "«_event_type».«name»"
-        @ _event_type
-     )
-;;; event-type
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-blur"
-    '(description
-        "The blur event is sent to an element when it loses focus. "
-        "Originally, this event was only applicable to form elements, "
-        "such as <input>. In recent browsers, the domain of the event has "
-        "been extended to include all element types. An element can lose "
-        "focus via keyboard commands, such as the Tab key, or by mouse "
-        "clicks elsewhere on the page."
-        "\n"
-        "The blur event does not bubble in Internet Explorer. "
-        "Therefore, scripts that rely on event delegation with the "
-        "blur event will not work consistently across browsers."
-     )
-    '(replacement           "blur")
-;;; event-type-blur
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-change"
-    '(description
-        "The change event is sent to an element when its value changes. "
-        "This event is limited to <input> elements, <textarea> boxes and "
-        "<select> elements. For select boxes, checkboxes, and radio "
-        "buttons, the event is fired immediately when the user makes a "
-        "selection with the mouse, but for the other element types the "
-        "event is deferred until the element loses focus."
-     )
-    '(replacement           "change")
-;;; event-type-change
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-click"
-    '(description
-        "The click event is sent to an element when the mouse pointer "
-        "is over the element, and the mouse button is pressed and "
-        "released. Any HTML element can receive this event."
-        "\n"
-        "The click event is only triggered after this exact series of events:\n"
-        "* The mouse button is depressed while the pointer is inside the element.\n"
-        "* The mouse button is released while the pointer is inside the element.\n"
-        "This is usually the desired sequence before taking an action. If this is not required, the mousedown or mouseup event may be more suitable."
-     )
-    '(replacement           "click")
-;;; event-type-click
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-custom"
-    '(description           "Custom event type -- choose a name.")
-    '(replacement           @ text)
-;;; event-type-custom
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-double-click"
-    '(description
-        "The dblclick event is sent to an element when the element "
-        "is double-clicked. Any HTML element can receive this event. "
-        "\n"
-        "The dblclick event is only triggered after this exact series of events:\n"
-        "* The mouse button is depressed while the pointer is inside the element.\n"
-        "* The mouse button is released while the pointer is inside the element.\n"
-        "* The mouse button is depressed again while the pointer is inside the element, within a time window that is system-dependent.\n"
-        "* The mouse button is released while the pointer is inside the element."
-        "It is inadvisable to bind handlers to both the click and dblclick events for the same element. The sequence of events triggered varies from browser to browser, with some receiving two click events before the dblclick and others only one. Double-click sensitivity (maximum time between clicks that is detected as a double click) can vary by operating system and browser, and is often user-configurable. "
-     )
-    '(replacement           "dblclick")
-;;; event-type-double-click
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-error"
-    '(description
-        "The error event is sent to elements, such as images, that "
-        "are referenced by a document and loaded by the browser. "
-        "It is called if the element was not loaded correctly."
-     )
-    '(replacement           "error")
-;;; event-type-error
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-focus"
-    '(description
-        "The focus event is sent to an element when it gains focus. "
-        "This event is implicitly applicable to a limited set of elements, "
-        "such as form elements (<input>, <select>, etc.) and links "
-        "(<a href>). In recent browser versions, the event can be "
-        "extended to include all element types by explicitly setting "
-        "the element's tabindex property. An element can gain focus "
-        "via keyboard commands, such as the Tab key, or by mouse clicks "
-        "on the element."
-        "\n"
-        "The focus event does not bubble in Internet Explorer. Therefore, "
-        "scripts that rely on event delegation with the focus event will "
-        "not work consistently across browsers."
-        "\n"
-        "Triggering the focus on hidden elements causes an error in "
-        "Internet Explorer. Take care to only call .focus() without "
-        "parameters on elements that are visible."
-     )
-    '(replacement           "focus")
-;;; event-type-focus
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-focus-in"
-    '(description
-        "The focusin event is sent to an element when it, or any "
-        "element inside of it, gains focus. This is distinct from "
-        "the focus event in that it supports detecting the focus "
-        "event on parent elements."
-     )
-    '(replacement           "focusin")
-;;; event-type-focus-in
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-focus-out"
-    '(description
-        "The focusout event is sent to an element when it, or any element "
-        "inside of it, loses focus. This is distinct from the blur event "
-        "in that it supports detecting the loss of focus from parent "
-        "elements (in other words, it supports event bubbling)."
-     )
-    '(replacement           "focusout")
-;;; event-type-focus-out
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-key-down"
-    '(description
-        "The keydown event is sent to an element when the user first "
-        "presses a key on the keyboard. It can be attached to any element, "
-        "but the event is only sent to the element that has the focus. "
-        "Focusable elements can vary between browsers, but form elements "
-        "can always get focus so are reasonable candidates for this event type."
-        "\n"
-        "If key presses anywhere need to be caught (for example, to "
-        "implement global shortcut keys on a page), it is useful to "
-        "attach this behavior to the document object. Because of event "
-        "bubbling, all key presses will make their way up the DOM to the "
-        "document object unless explicitly stopped."
-        "\n"
-        "To determine which key was pressed, we can examine the event "
-        "object that is passed to the handler function. While browsers "
-        "use differing properties to store this information, jQuery "
-        "normalizes the .which property so we can reliably use it to "
-        "retrieve the key code. This code corresponds to a key on the "
-        "keyboard, including codes for special keys such as arrows. "
-        "For catching actual text entry, .keypress() may be a better choice."
-     )
-    '(replacement           "keydown")
-;;; event-type-key-down
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-key-press"
-    '(description
-        "The keypress event is sent to an element when the browser "
-        "registers keyboard input. This is similar to the keydown event, "
-        "except in the case of key repeats. If the user presses and "
-        "holds a key, a keydown event is triggered once, but separate "
-        "keypress events are triggered for each inserted character. "
-        "In addition, modifier keys (such as Shift) cause keydown events "
-        "but not keypress events."
-        "\n"
-        "A keypress event handler can be attached to any element, "
-        "but the event is only sent to the element that has the focus. "
-        "Focusable elements can vary between browsers, but form elements "
-        "can always get focus so are reasonable candidates for this event type."
-        "\n"
-        "If key presses anywhere need to be caught (for example, to "
-        "implement global shortcut keys on a page), it is useful to "
-        "attach this behavior to the document object. Because of event "
-        "bubbling, all key presses will make their way up the DOM to the "
-        "document object unless explicitly stopped."
-        "\n"
-        "To determine which key was pressed, we can examine the event "
-        "object that is passed to the handler function. While browsers "
-        "use differing properties to store this information, jQuery "
-        "normalizes the .which property so we can reliably use it to "
-        "retrieve the key code. This code corresponds to a key on the "
-        "keyboard, including codes for special keys such as arrows. "
-        "\n"
-        "Note that keydown and keyup provide a code indicating which "
-        "key is pressed, while keypress indicates which character was "
-        "entered. For example, a lowercase 'a' will be reported as 65 "
-        "by keydown and keyup, but as 97 by keypress. An uppercase 'A' "
-        "is reported as 65 by all events. Because of this distinction, "
-        "when catching special keystrokes such as arrow keys, .keydown() "
-        "or .keyup() is a better choice."
-     )
-    '(replacement           "keypress")
-;;; event-type-key-press
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-key-up"
-    '(description
-        "The keyup event is sent to an element when the user releases "
-        "a key on the keyboard. It can be attached to any element, but "
-        "the event is only sent to the element that has the focus. "
-        "Focusable elements can vary between browsers, but form elements "
-        "can always get focus so are reasonable candidates for this event "
-        "type."
-        "\n"
-        "If key presses anywhere need to be caught (for example, to "
-        "implement global shortcut keys on a page), it is useful to "
-        "attach this behavior to the document object. Because of event "
-        "bubbling, all key presses will make their way up the DOM to the "
-        "document object unless explicitly stopped."
-        "\n"
-        "To determine which key was pressed, we can examine the event "
-        "object that is passed to the handler function. While browsers "
-        "use differing properties to store this information, jQuery "
-        "normalizes the .which property so we can reliably use it to "
-        "retrieve the key code. This code corresponds to a key on the "
-        "keyboard, including codes for special keys such as arrows. "
-        "For catching actual text entry, .keypress() may be a better choice."
-     )
-    '(replacement           "keyup")
-;;; event-type-key-up
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-load"
-    '(description
-        "The load event is sent to an element when it and all "
-        "sub-elements have been completely loaded. This event can be sent "
-        "to any element associated with a URL: images, scripts, frames, "
-        "iframes, and the window object."
-     )
-    '(replacement           "load")
-;;; event-type-load
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-down"
-    '(description
-        "The mousedown event is sent to an element when the mouse pointer "
-        "is over the element, and the mouse button is pressed. Any HTML "
-        "element can receive this event."
-     )
-    '(replacement           "mousedown")
-;;; event-type-mouse-down
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-enter"
-    '(description
-        "The mouseenter JavaScript event is proprietary to Internet "
-        "Explorer. Because of the event's general utility, jQuery "
-        "simulates this event so that it can be used regardless of "
-        "browser. This event sent to an element when the mouse pointer "
-        "enters the element. Any HTML element can receive this event."
-        "\n"
-        "The mouseenter event differs from mouseover in the way it "
-        "handles event bubbling. If mouseover were used in this example, "
-        "then when the mouse pointer moved over the Inner element, the "
-        "handler would be triggered. This is usually undesirable behavior. "
-        "The mouseenter event, on the other hand, only triggers its handler "
-        "when the mouse enters the element it is bound to, not a "
-        "descendant. So in this example, the handler is triggered when "
-        "the mouse enters the Outer element, but not the Inner element."
-     )
-    '(replacement           "mouseenter")
-;;; event-type-mouse-enter
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-leave"
-    '(description
-        "The mouseleave JavaScript event is proprietary to Internet "
-        "Explorer. Because of the event's general utility, jQuery "
-        "simulates this event so that it can be used regardless of "
-        "browser. This event is sent to an element when the mouse "
-        "pointer leaves the element. Any HTML element can receive "
-        "this event."
-        "\n"
-        "The mouseleave event differs from mouseout in the way it "
-        "handles event bubbling. If mouseout were used in this example, "
-        "then when the mouse pointer moved out of the Inner element, "
-        "the handler would be triggered. This is usually undesirable "
-        "behavior. The mouseleave event, on the other hand, only "
-        "triggers its handler when the mouse leaves the element it is "
-        "bound to, not a descendant. So in this example, the handler "
-        "is triggered when the mouse leaves the Outer element, but not "
-        "the Inner element.
-"
-     )
-    '(replacement           "mouseleave")
-;;; event-type-mouse-leave
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-move"
-    '(description
-        "The mousemove event is sent to an element when the mouse "
-        "pointer moves inside the element. Any HTML element can receive "
-        "this event."
-        "\n"
-        "When tracking mouse movement, we usually need to know the actual position of the mouse pointer. The event object that is passed to the handler contains some information about the mouse coordinates. Properties such as .clientX, .offsetX, and .pageX are available, but support for them differs between browsers. Fortunately, jQuery normalizes the .pageX and .pageY attributes so that they can be used in all browsers. These attributes provide the X and Y coordinates of the mouse pointer relative to the top-left corner of the page, as illustrated in the example output above."
-        "\n"
-        "We need to remember that the mousemove event is triggered whenever the mouse pointer moves, even for a pixel. This means that hundreds of events can be generated over a very small amount of time. If the handler has to do any significant processing, or if multiple handlers for the event exist, this can be a serious performance drain on the browser. It is important, therefore, to optimize mousemove handlers as much as possible, and to unbind them as soon as they are no longer needed."
-        "\n"
-        "A common pattern is to bind the mousemove handler from within a mousedown hander, and to unbind it from a corresponding mouseup handler. If implementing this sequence of events, remember that the mouseup event might be sent to a different HTML element than the mousemove event was. To account for this, the mouseup handler should typically be bound to an element high up in the DOM tree, such as <body>."
-     )
-    '(replacement           "mousemove")
-;;; event-type-mouse-move
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-out"
-    '(description
-        "The mouseout event is sent to an element when the mouse "
-        "pointer leaves the element. Any HTML element can receive this event."
-        "\n"
-        "This event type can cause many headaches due to event bubbling. For instance, when the mouse pointer moves out of the Inner element in this example, a mouseout event will be sent to that, then trickle up to Outer. This can trigger the bound mouseout handler at inopportune times. See the discussion for .mouseleave() for a useful alternative."
-     )
-    '(replacement           "mouseout")
-;;; event-type-mouse-out
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-over"
-    '(description
-        "The mouseover event is sent to an element when the mouse "
-        "pointer enters the element. Any HTML element can receive "
-        "this event."
-        "\n"
-        "This event type can cause many headaches due to event bubbling. For instance, when the mouse pointer moves over the Inner element in this example, a mouseover event will be sent to that, then trickle up to Outer. This can trigger our bound mouseover handler at inopportune times. See the discussion for .mouseenter() for a useful alternative."
-     )
-    '(replacement           "mouseover")
-;;; event-type-mouse-over
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-mouse-up"
-    '(description
-        "The mouseup event is sent to an element when the mouse pointer "
-        "is over the element, and the mouse button is released. Any HTML "
-        "element can receive this event."
-        "\n"
-        "If the user clicks outside an element, drags onto it, and releases the button, this is still counted as a mouseup event. This sequence of actions is not treated as a button press in most user interfaces, so it is usually better to use the click event unless we know that the mouseup event is preferable for a particular situation."
-     )
-    '(replacement           "mouseup")
-;;; event-type-mouse-up
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-resize"
-    '(description
-        "The resize event is sent to the window element when the size of "
-        "the browser window changes."
-        "\n"
-        "Code in a resize handler should never rely on the number of times the handler is called. Depending on implementation, resize events can be sent continuously as the resizing is in progress (the typical behavior in Internet Explorer and WebKit-based browsers such as Safari and Chrome), or only once at the end of the resize operation (the typical behavior in Firefox)."
-     )
-    '(replacement           "resize")
-;;; event-type-resize
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-scroll"
-    '(description
-        "The scroll event is sent to an element when the user scrolls to "
-        "a different place in the element. It applies to window objects, "
-        "but also to scrollable frames and elements with the overflow CSS "
-        "property set to scroll (or auto when the element's explicit height "
-        "is less than the height of its contents)."
-        "\n"
-        "A scroll event is sent whenever the element's scroll position changes, regardless of the cause. A mouse click or drag on the scroll bar, dragging inside the element, pressing the arrow keys, or using the mouse's scroll wheel could cause this event."
-     )
-    '(replacement           "scroll")
-;;; event-type-scroll
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-select"
-    '(description
-        "The select event is sent to an element when the user makes a "
-        "text selection inside it. This event is limited to "
-        "<input type=\"text\"> fields and <textarea> boxes."
-        "\n"
-        "The method for retrieving the current selected text differs from one browser to another. A number of jQuery plug-ins offer cross-platform solutions."
-     )
-    '(replacement           "select")
-;;; event-type-select
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-submit"
-    '(description
-        "The submit event is sent to an element when the user is attempting "
-        "to submit a form. It can only be attached to <form> elements. "
-        "Forms can be submitted either by clicking an explicit "
-        "<input type=\"submit\">, <input type=\"image\">, or "
-        "<button type=\"submit\">, or by pressing Enter when certain form "
-        "element has focus."
-        "\n"
-        "Depending on the browser, the Enter key may only cause a form submission if the form has exactly one text field, or only when there is a submit button present. The interface should not rely on a particular behavior for this key unless the issue is forced by observing the keypress event for presses of the Enter key."
-        "\n"
-        "The JavaScript submit event does not bubble in Internet Explorer. However, scripts that rely on event delegation with the submit event will work consistently across browsers as of jQuery 1.4, which has normalized the event's behavior. "
-        "\n"
-        "Forms and their child elements should not use input names or ids that conflict with properties of a form, such as submit, length, or method. Name conflicts can cause confusing failures. For a complete list of rules and to check your markup for these problems, see http://yura.thinkweb2.com/domlint/. "
-     )
-    '(replacement           "submit")
-;;; event-type-submit
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-type-unload"
-    '(description
-        "The unload event is sent to the window element when the user "
-        "navigates away from the page. This could mean one of many things. "
-        "The user could have clicked on a link to leave the page, or "
-        "typed in a new URL in the address bar. The forward and back "
-        "buttons will trigger the event. Closing the browser window "
-        "will cause the event to be triggered. Even a page reload will "
-        "first create an unload event."
-        "\n"
-        "The exact handling of the unload event has varied from version to version of browsers. For example, some versions of Firefox trigger the event when a link is followed, but not when the window is closed. In practical usage, behavior should be tested on all supported browsers, and contrasted with the proprietary beforeunload event."
-     )
-    '(replacement           "unload")
-;;; event-type-unload
+    '(replacement           "new Error («argument»)")
+;;; Error
 )
 
 ;;; 22-Jan-2011
@@ -649,10 +245,24 @@
 ;;; finally
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "for-in"
+    '(token)
+    '(token         "forin")
+    '(description   "For-in loop")
+    '(replacement
+        "for («name» in «object»)"
+        $ _block_head
+        "if («object».hasOwnProperty («name»))"
+        @ block
+        $ _block_tail
+     )
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "_function-call"
     '(token                 "(")
-    '(replacement-vanguard  (if (looking-at ")") (delete-char 1)))
+    '(replacement-vanguard  (lse-js:clean-closing ")"))
     '(replacement
         lse-js:indent-object-literal &
         "( «call-argument»···"
@@ -663,13 +273,41 @@
 ;;; _function-call
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "functional-constructor"
+    '(token)
+    '(token                 "class")
+    '(description           "Define a function for constructing Objects")
+    '(replacement
+        "var «function-name» = "
+        lse-indent+1
+          "( function ()"
+          $ _block_head
+            "var proto = «object-literal»;"
+            "var fun_con = function (««parameter-declaration»»···)"
+              $ _block_head
+                "var that = «object-literal»;"
+                "that.prototype = proto;"
+                "««statement»»···"
+                "return that;"
+              $ _block_tail ""
+            "return fun_con;"
+          $ _block_tail
+        lse-newline-and-indent
+        & ") ();"
+        & lse-js:remove-semicolon
+        ""
+     )
+;;; functional-constructor
+)
+
 ;;; 18-Jan-2011
 (lse-define-fill-in "function-literal"
     '(token)
     '(token                 "fun")
     '(description           "Define an anonymous function")
     '(replacement
-        "function (««parameter-declaration»»···)"
+        "function ««function-name»» (««parameter-declaration»»···)"
         lse-js:indent-function-literal &
         @ block
         & ";" & lse-js:remove-semicolon
@@ -684,10 +322,86 @@
     '(token                 "function")
     '(description           "Define a named function")
     '(replacement
-        "function «function-name» (««parameter-declaration»»···)"
-        @ block
+        "var «function-name» = " & $ function-literal
      )
 ;;; function
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "has-own-property"
+    '(token)
+    '(token                 ".has-own-property")
+    '(description
+        "Returns true if object itself contains a with name"
+     )
+    '(replacement           lse-js:remove-period & ".hasOwnProperty («name»)")
+;;; has-own-property
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "initializer"
+    '(description           "Initialization value for variable/object")
+    '(leading               "=")
+    '(replacement           @ expression)
+;;; initializer
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "is-finite"
+    '(token)
+    '(description           "Tests whether a value is a finite number")
+    '(replacement           "isFinite («expression»)")
+;;; is-finite
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "is-nan"
+    '(token)
+    '(description           "Tests whether a value is a number or not-a-number"
+    '(replacement           "isNaN («expression»)")
+;;; is-nan
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "Math."
+    '(token)
+    '(replacement-leading   "Math.")
+    '(sort)
+    '(menu
+        ("E"                     "The constant e.")
+        ("LN10"                  "The natural logarithm of 10.")
+        ("LN2"                   "The natural logarithm of 2.")
+        ("LOG10E"                "The base-10 logarithm of e.")
+        ("LOG102"                "The base-10 logarithm of 2.")
+        ("PI"                    "The constant pi.")
+        ("abs («expression»)"    "Absolute value")
+        ("acos («expression»)"   "Arc cosine")
+        ("asin («expression»)"   "Arc sine")
+        ("atan («expression»)"   "Arc tangent")
+        ("ceil («expression»)"   "Closest integer that is greater equal the argument")
+        ("cos («expression»)"    "Cosine")
+        ("exp («expression»)"    "Power of e")
+        ("floor («expression»)"  "Closest integer that is less equal the argument")
+        ("log («expression»)"    "Natural logarithm")
+        ("max («argument»···)"   "Maximum value of arguments")
+        ("min («argument»···)"   "Minimum value of arguments")
+        ("random ()"             "Pseudo-random number between 0.0 and 1.0")
+        ("round («expression»)"  "Closest integer")
+        ("sin («expression»)"    "Sine")
+        ("srqt («expression»)"   "Square root")
+        ("tan («expression»)"    "Tangent")
+        ("atan2 («expression», «expression»)"  "Arc tangent of y/x")
+        ("pow («expression», «expression»)"    "x to the power of y")
+     )
+;;; Math.
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "null"
+    '(token)
+    '(description           "Null value")
+    '(replacement           "null")
+;;; null
 )
 
 ;;; 19-Jan-2011
@@ -707,8 +421,7 @@
 ;;; 20-Jan-2011
 (lse-define-fill-in "_object-literal"
     '(token                 "{")
-    '(replacement-vanguard  (if (looking-at "}") (delete-char 1)))
-    '(replacement           @ object-literal)
+    '(replacement           @ object-literal  & (lse-js:clean-closing "\}"))
 ;;; _object-literal
 )
 
@@ -731,6 +444,33 @@
 ;;; object-property-name
 )
 
+;;; 23-Jan-2011
+(lse-define-fill-in "parse-float"
+    '(token)
+    '(description           "Convert a string to a float value")
+    '(replacement           "parseFloat («expression»)")
+;;; parse-float
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "parse-int"
+    '(token                 ««token-name»»)
+    '(description           "Convert a string to a integer value"
+    '(replacement           "parseInt («expression», ««base»»)")
+;;; parse-int
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "property-is-enumerable"
+    '(token)
+    '(token                 ".property-is-enumerable")
+    '(description
+        "Returns true if object has a property with name that would be enumerated in for/in"
+     )
+    '(replacement           ".propertyIsEnumerable")
+;;; property-is-enumerable
+)
+
 ;;; 18-Jan-2011
 (lse-define-fill-in "statement"
     '(token)
@@ -739,14 +479,23 @@
     '(rcompletion-trailer   lse-js:catch-semicolon)
     '(sort)
     '(menu
-        block
+        break
+        case
+        default
+        delete
+        do
         elif
         else
         for
+        for-in
         function-statement
         if
         return
         scope
+        switch
+        throw
+        try
+        try-finally
         var
         while
         "«expression»;"
@@ -769,12 +518,44 @@
   )
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "operator-equal"
+    '(token)
+    '(token                 "==")
+    '(description           "Equality operator: is equal to")
+    '(replacement           "===")
+;;; operator-equal
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "operator-not-equal"
+    '(token)
+    '(token                 "!=")
+    '(description           "Inequality operator: is not equal to")
+    '(replacement           "!==")
+;;; operator-not-equal
+)
+
 (lse-define-fill-in "parameter-declaration"
   '(description           "Declaration of parameter for a function")
   '(separator             ", ")
   '(leading               ",")
   '(replacement           @ identifier)
 ;;; parameter-declaration
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "position"
+    '(description           "Position where operation should start")
+;;; position
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "prototype"
+    '(token                 ".prototype")
+    '(description           "Use prototype property of a javascript object")
+    '(replacement           lse-js:remove-period & ".prototype")
+;;; prototype
 )
 
 ;;; 18-Jan-2011
@@ -784,12 +565,30 @@
       "Use a function definition to hide objects and functions"
      )
     '(replacement
-        "( function(««parameter-declaration»»···)"
+        "( function (««parameter-declaration»»···)"
         @ block
         ") (««argument»»···);"
         & lse-js:remove-semicolon
      )
 ;;; scope
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "throw"
+    '(token)
+    '(token                 "raise")
+    '(description           "Raise an exception")
+    '(replacement           "throw «expression»;" & lse-js:remove-semicolon)
+;;; throw
+)
+
+;;; 23-Jan-2011
+(lse-define-fill-in "to-string"
+    '(token)
+    '(token                 ".to-string")
+    '(description           "Returns a string representing the object.")
+    '(replacement           lse-js:remove-period & ".toString ()")
+;;; to-string
 )
 
 ;;; 22-Jan-2011
@@ -821,6 +620,13 @@
 ;;; try-finally
 )
 
+;;; 23-Jan-2011
+(lse-define-fill-in "Type-Error"
+    '(token)
+    '(replacement           "new TypeError («argument»)")
+;;; Type-Error
+)
+
 (lse-define-fill-in "unary-expression"
   '(menu
       ("- «expression»"             "numeric negation of «expression»")
@@ -831,7 +637,6 @@
       ("«lvalue»++"                 "post-increment «lvalue»")
       ("«lvalue»--"                 "post-decrement «lvalue»")
       ("typeof «expression»"        "type of «expression»")
-      ("void «expression»"          "Evaluate «expression» and return undefined")
   )
 )
 
@@ -859,6 +664,14 @@
 ;;; unary-operator
 )
 
+;;; 23-Jan-2011
+(lse-define-fill-in "undefined"
+    '(token)
+    '(description           "Undefined value")
+    '(replacement           "undefined")
+;;; undefined
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "url"
     '(description           "A string containing a URL")
@@ -870,9 +683,7 @@
     '(leading               "")
     '(replacement
         (line
-            "var "
-            @ declarator-and-initializer
-            ";"
+            "var «name» = ««initializer»»;"
             lse-js:remove-semicolon
         )
      )

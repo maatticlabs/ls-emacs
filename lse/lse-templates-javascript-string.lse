@@ -1,0 +1,199 @@
+;-*- unibyte: t; coding: iso-8859-1; -*-
+
+;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+;;;; ****************************************************************************
+;;;; This template is part of the LS-Emacs.
+;;;;
+;;;; This template is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; This template is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this template. If not, see <http://www.gnu.org/licenses/>.
+;;;; ****************************************************************************
+;;;;
+;;;;++
+;;;; Name
+;;;;    lse-templates-javascript-string
+;;;;
+;;;; Purpose
+;;;;    Define LSE templates of LSE language javascript: string methods
+;;;;
+;;;; Revision Dates
+;;;;    22-Jan-2011 (CT) Creation
+;;;;    ««revision-date»»···
+;;;;--
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-char-at"
+    '(token)
+    '(token                 "\"\".char-at")
+    '(description           "Return the character at position.")
+    '(replacement
+        lse-js:remove-period & ".charAt («position»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-char-at
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-char-code-at"
+    '(token)
+    '(token                 "\"\".char-code-at")
+    '(description           "Return the character code (integer) at position.")
+    '(replacement
+        lse-js:remove-period & ".charCodeAt («position»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-char-code-at
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-concat"
+    '(token)
+    '(token                 "\"\".concat")
+    '(description           "Return concatenation of string with argument(s)")
+    '(replacement
+        lse-js:remove-period & ".concat («argument»···)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-concat
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-from-char-code"
+    '(token)
+    '(token                 "\"\".from-char-code")
+    '(description           "Produce a string from a series of numbers")
+    '(replacement
+        "String.fromCharCode («number»···)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-from-char-code
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-index-of"
+    '(token)
+    '(token                 "\"\".index-of")
+    '(description           "Return position of argument in string or -1")
+    '(replacement
+        lse-js:remove-period & ".indexOf («argument», ««position»»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-index-of
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-last-index-of"
+    '(token)
+    '(token                 "\"\".last-index-of")
+    '(description
+        "Return position of argument in string (searching from end) or -1"
+     )
+    '(replacement
+        lse-js:remove-period & ".lastIndexOf («argument», ««position»»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-last-index-of
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-lower-case"
+    '(token)
+    '(token                 "\"\".lower-case")
+    '(description           "Return a lowercase copy of the string.")
+    '(replacement
+        lse-js:remove-period & ".toLowerCase ()"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-lower-case
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-match"
+    '(token)
+    '(token                 "\"\".match")
+    '(description           "Match string against regular expression")
+    '(replacement
+        lse-js:remove-period & ".match («expression»)"
+         & (lse-js:clean-closing "\"")
+     )
+;;; string-match
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-replace"
+    '(token)
+    '(token                 "\"\".replace")
+    '(description
+        "Search for occurence(s) of expression and replace by second argument. "
+        "If expression is a regexp with the 'g' flag, all occurences are replaced, otherwise only the first is replaced"
+     )
+    '(replacement
+        lse-js:remove-period & ".replace («expression», «argument»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-replace
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-search"
+    '(token)
+    '(token                 "\"\".search")
+    '(description
+        "Return position of regular expression in string or -1"
+     )
+    '(replacement
+        lse-js:remove-period & ".search («expression»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-search
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-slice"
+    '(token)
+    '(token                 "\"\".slice")
+    '(description           "Return a copy of a sub string.")
+    '(replacement
+        lse-js:remove-period & ".slice («number», ««number»»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-slice
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-split"
+    '(token)
+    '(token                 "\"\".split")
+    '(description
+        "Split at separator, if number is given it specifies the maximum number of pieces."
+     )
+    '(replacement
+        lse-js:remove-period & ".split («expression», ««number»»)"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-split
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "string-upper-case"
+    '(token)
+    '(token                 "\"\".upper-case")
+    '(description           "Return a uppercase copy of the string.")
+    '(replacement
+        lse-js:remove-period & ".toUpperCase ()"
+        & (lse-js:clean-closing "\"")
+     )
+;;; string-upper-case
+)
+
+;;;; lse-templates-javascript-string.lse

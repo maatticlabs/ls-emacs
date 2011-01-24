@@ -679,7 +679,7 @@
    )
 )
 
-(lse-define-simple-token "."  "···")
+(lse-define-simple-token "..."  "···")
 ; 10-Sep-2002 (lse-define-simple-token ">"  "»"); 30-Mar-1995
 (lse-define-simple-token "<"  '(lse-tpu:enclose-selection "«"   "»"))
 (lse-define-simple-token "<<" '(lse-tpu:enclose-selection "««" "»»"))

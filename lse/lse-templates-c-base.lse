@@ -271,6 +271,7 @@
 
 (lse-define-fill-in "function-name"
   '(description           "Name of a function")
+  '(auto-replicate        1)
 )
 
 (lse-define-fill-in "if"
@@ -330,6 +331,24 @@
 ;;; logical-operator
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "operator-equal"
+    '(token)
+    '(token                 "==")
+    '(description           "Equality operator: is equal to")
+    '(replacement           "==")
+;;; operator-equal
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "operator-not-equal"
+    '(token)
+    '(token                 "!=")
+    '(description           "Inequality operator: is not equal to")
+    '(replacement           "!=")
+;;; operator-not-equal
+)
+
 (lse-define-fill-in "mantissa"
   '(description     "digits., .digits, digits.digits, digits")
   '(replacement     "««digit»»···««.»»««digit»»···")
@@ -343,8 +362,8 @@
 (lse-define-fill-in "relational-operator"
     '(token)
     '(menu
-        ("=="        "is equal to")
-        ("!="        "is not equal to")
+        operator-equal
+        operator-not-equal
         ("<"         "less than")
         ("<="        "less than or equal to")
         (">"         "greater than")

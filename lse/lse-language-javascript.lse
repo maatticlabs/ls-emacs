@@ -30,6 +30,7 @@
 ;;;;    18-Jan-2011 (CT) Creation
 ;;;;    19-Jan-2011 (CT) Creation continued
 ;;;;    20-Jan-2011 (CT) Creation continued..
+;;;;    23-Jan-2011 (CT) Creation continued...
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -39,12 +40,8 @@
         (lse-language:initial-fill-in      "««js-root»»")
         (lse-language:tab-increment        2)
         (lse_comment_delim_char_set        "/*")
-        (lse_comment_head_delim            "/\\*\\|^ *\\*\\*")
-        (lse_comment_head_delim_pattern
-          "/\\*\\(\\+\\|-\\|\\*\\)* *\\|^ *\\*\\*+ *"
-        )
-        (lse_comment_tail_delim            "\\*/")
-        (lse_comment_tail_delim_pattern    " *\\*+/")
+        (lse_comment_head_delim            "//")
+        (lse_comment_head_delim_pattern    "// *")
         (lse-tpu:ident-group-chars         "$_")
      )
     '(
@@ -54,6 +51,9 @@
     '(
         "lse-templates-c-base"
         "lse-templates-javascript"
+        "lse-templates-javascript-array"
+        "lse-templates-javascript-string"
+        "lse-templates-javascript-events"
         "lse-templates-javascript-jquery"
      )
     137
@@ -135,12 +135,35 @@
 ; lse-js:catch-semicolon
 )
 
+;;; 23-Jan-2011
+(defun lse-js:clean-closing (closer)
+  (if (looking-at closer)
+      (delete-char (length closer))
+  )
+; lse-js:clean-closing
+)
+
 ;;; 19-Jan-2011
 (defun lse-js:goto-semicolon (&optional limit)
   "Goto next semicolon."
   (interactive)
   (save-match-data (lse-tpu:search+goto ";" limit))
 ; lse-js:goto-semicolon
+)
+
+;;; 22-Jan-2011
+(defun lse-js:remove-period ()
+  "Remove prev period."
+  (interactive "*")
+  (save-excursion
+    (let ((cp (point-marker)))
+      (skip-chars-backward " \t\n")
+      (if (progn (backward-char 1) (looking-at "\\."))
+          (delete-region (point) cp)
+      )
+    )
+  )
+; lse-js:remove-period
 )
 
 ;;; 19-Jan-2011

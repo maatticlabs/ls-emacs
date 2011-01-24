@@ -541,7 +541,6 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper:call"
     '(token)
-    '(token                 ".")
     '(description           "Call a method of a jQuery wrapped set.")
     '(sort)
     '(menu
