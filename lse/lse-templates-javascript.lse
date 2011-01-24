@@ -357,7 +357,7 @@
 ;;; 23-Jan-2011
 (lse-define-fill-in "is-nan"
     '(token)
-    '(description           "Tests whether a value is a number or not-a-number"
+    '(description           "Tests whether a value is a number or not-a-number")
     '(replacement           "isNaN («expression»)")
 ;;; is-nan
 )
@@ -455,7 +455,7 @@
 ;;; 23-Jan-2011
 (lse-define-fill-in "parse-int"
     '(token                 ««token-name»»)
-    '(description           "Convert a string to a integer value"
+    '(description           "Convert a string to a integer value")
     '(replacement           "parseInt («expression», ««base»»)")
 ;;; parse-int
 )
