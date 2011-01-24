@@ -1,4 +1,15 @@
 
+;;; 24-Jan-2011
+(lse-define-fill-in "diary-file"
+    '(rcompletion-trailer   delete-blank-lines)
+    '(description           "Root fill-in of a diary file")
+    '(replacement
+        $ diary-entry
+        "### __END__" & lse-insert-buffer-name-plus-extension
+     )
+;;; diary-file
+)
+
 ;;;  9-Mar-2003
 (lse-define-fill-in "diary-entry"
     '(token)

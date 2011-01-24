@@ -107,6 +107,9 @@
 
 (lse-define-fill-in "LATEX"
   '(description   "LaTeX grammar" )
+  '(rcompletion-trailer ; 24-Jan-2011
+      "### __END__ " & lse-insert-buffer-name & delete-blank-lines
+   )
   '(menu
       Letter
       Entwicklungs-Dokument

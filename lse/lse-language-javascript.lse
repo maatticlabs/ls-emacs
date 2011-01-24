@@ -31,6 +31,7 @@
 ;;;;    19-Jan-2011 (CT) Creation continued
 ;;;;    20-Jan-2011 (CT) Creation continued..
 ;;;;    23-Jan-2011 (CT) Creation continued...
+;;;;    24-Jan-2011 (CT) Creation continued....
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -222,8 +223,11 @@
 
 ;;; 20-Jan-2011
 (defun lse-js:indent-object-literal ()
-  (if (lse-line-startswith " *[(,] *$")
-      (lse-anchor-indent 2) ; don't want a newline directly after a `(` or ","
+  (if (or
+        (lse-line-startswith " *[(,] *$")
+        (lse-line-startswith " *return *;* *$"); avoid JS's semicolon insertion
+      )
+      (lse-anchor-indent 2) ; don't want a newline directly after a `(`...
     (let ((shift
             (if (lse-line-startswith " *\\(,\\|\\(( *\\)*{\\) \\w+ *: *") 2 1)
           )

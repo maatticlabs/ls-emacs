@@ -413,7 +413,6 @@
         "{ ««object-property»»···"
         lse-newline (lse-indent-to-pattern "{" 0 (lse-indent:level:environment))
         "}"
-        & lse-js:remove-semicolon
      )
 ;;; object-literal
 )

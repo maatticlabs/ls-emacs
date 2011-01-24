@@ -1,6 +1,5 @@
 ;-*- unibyte: t; coding: iso-8859-1; -*-
 
-
 (lse-define-fill-in "+-="
   '(description           "Richtung des Geldflusses einer Buchungszeile")
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
@@ -53,11 +52,13 @@
 )
 
 (lse-define-fill-in "buchhaltung-file"
+    '(rcompletion-trailer   delete-blank-lines); 24-Jan-2011
     '(replacement
         "$vst_korrektur = 1.0;"
         "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
         & "Tools & Finanzplan-Kategorie           & Beschreibung & Person "
         "«buchhaltung»···"
+        "%%% __END__" & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file
 )
