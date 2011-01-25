@@ -168,6 +168,16 @@
 ;;; call-argument
 )
 
+;;; 25-Jan-2011
+(lse-define-fill-in "class"
+    '(token)
+    '(description           "Define a new class by extending an existing one")
+    '(replacement
+        "var «name» = «name»" & $ extend
+     )
+;;; class
+)
+
 ;;; 20-Jan-2011
 (lse-define-fill-in "code"
     '(description           "Javascript code in a string.")
@@ -244,6 +254,17 @@
 ;;; Error
 )
 
+;;; 25-Jan-2011
+(lse-define-fill-in "extend"
+    '(token)
+    '(token                 ".extend")
+    '(description           "Define a new class by extending an existing one")
+    '(replacement
+        lse-js:remove-period & ".extend (" & $ object-literal & ")"
+     )
+;;; extend
+)
+
 ;;; 22-Jan-2011
 (lse-define-fill-in "finally"
     '(description           "Cleanup code that is executed in any case")
@@ -294,7 +315,6 @@
 ;;; 22-Jan-2011
 (lse-define-fill-in "functional-constructor"
     '(token)
-    '(token                 "class")
     '(description           "Define a function for constructing Objects")
     '(replacement
         "var «function-name» = "
@@ -414,6 +434,14 @@
 ;;; Math.
 )
 
+;;; 25-Jan-2011
+(lse-define-fill-in "new"
+    '(token)
+    '(description           "Create a new object")
+    '(replacement           "new «expression»")
+;;; new
+)
+
 ;;; 23-Jan-2011
 (lse-define-fill-in "null"
     '(token)
@@ -456,7 +484,7 @@
     '(description           "Literal name of an object property")
     '(rcompletion-trailer
         just-one-space
-        (lse-align-to-pattern ":" nil t (+ lse@current-expansion-indent 15))
+        (lse-align-to-pattern ":" nil t (+ (lse-indent:level:curr) 16))
      )
 ;;; object-property-name
 )

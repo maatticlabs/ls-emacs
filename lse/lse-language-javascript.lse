@@ -215,7 +215,7 @@
         ((lse-line-startswith " *[?:] [(] ")
          (lse-indent:set (+ (lse-indent:level:prev 0) 4))
         )
-        ((lse-line-startswith " *[?:] ")
+        ((lse-line-startswith " *[?:{] ")
          (lse-indent:set (+ (lse-indent:level:prev 0) 2))
         )
         (t
@@ -238,20 +238,29 @@
 
 ;;; 20-Jan-2011
 (defun lse-js:indent-object-literal ()
-  (if (or
-        (lse-line-startswith " *[(,] *$")
-        (lse-line-startswith " *return *;* *$"); avoid JS's semicolon insertion
-      )
-      (lse-anchor-indent 2) ; don't want a newline directly after a `(`...
-    (let ((shift
-            (if (lse-line-startswith " *\\(,\\|\\(( *\\)*{\\) \\w+ *: *") 2 1)
-          )
+  (cond ((or
+           (lse-line-startswith " *[(,] *$")
+           (lse-line-startswith " *return *;* *$"); avoid JS's semicolon insertion
          )
-      ;; if expansion happens in a line starting with a `,`, e.g., inside an
-      ;; object literal, then increase indentation
-      (lse-newline)
-      (lse-prev-indent shift)
-    )
+         (lse-anchor-indent 2) ; don't want a newline directly after a `(`...
+        )
+        ((lse-line-startswith " *$")
+         (lse-indent:set (lse-indent@shift 1 nil))
+        )
+        (t
+         (let ((shift
+                 (if (lse-line-startswith " *\\(,\\|\\(( *\\)*{\\) \\w+ *: *")
+                     2
+                   1
+                 )
+               )
+              )
+           ;; if expansion happens in a line starting with a `,`, e.g.,
+           ;; inside an object literal, then increase indentation
+           (lse-newline)
+           (lse-prev-indent shift)
+         )
+        )
   )
 ; lse-js:indent-object-literal
 )

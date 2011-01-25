@@ -156,7 +156,13 @@
   (save-excursion
     (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
     (if (bolp)
-        (- lse@current-expansion-indent (lse-indent@shift nil nil))
+        (if (and
+              (integerp lse@current-expansion-indent)
+              (> lse@current-expansion-indent 0)
+            )
+            (- lse@current-expansion-indent (lse-indent@shift 1 nil))
+          0
+        )
       (current-column)
     )
   )
