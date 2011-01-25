@@ -116,8 +116,7 @@
 ;;; 19-Jan-2011
 (lse-define-fill-in "_block_head"
     '(replacement
-        lse-indent+1
-        "{"
+        " {"
         lse-indent+1
      )
 ;;; _block_head
@@ -127,9 +126,7 @@
 (lse-define-fill-in "_block_tail"
     '(replacement
         lse-indent-1
-        "}"
-        & lse-js:remove-semicolon
-        lse-indent:<
+        "} "
      )
 ;;; _block_tail
 )
@@ -225,6 +222,26 @@
 ;;; delete
 )
 
+(lse-define-fill-in "else"
+    '(description           "else clause of if-statement")
+    '(token)
+    '(leading               "")
+    '(replacement
+        "else" & (lse-indent:set:prev 0) & $ block
+     )
+)
+
+(lse-define-fill-in "elseif"
+    '(token)
+    '(description           "elseif clause of if-statement")
+    '(leading               "")
+    '(replacement
+        "else if («expression»)"
+        & (lse-indent:set:prev 0)
+        & $ block "««else-block»»"
+     )
+)
+
 ;;; 23-Jan-2011
 (lse-define-fill-in "Error"
     '(token)
@@ -240,7 +257,7 @@
     '(description           "Cleanup code that is executed in any case")
     '(replacement
         "finally"
-        @ block
+        & $ block
      )
 ;;; finally
 )
@@ -252,13 +269,22 @@
     '(description   "For-in loop")
     '(replacement
         "for («name» in «object»)"
-        $ _block_head
-        "if («object».hasOwnProperty («name»))"
-        @ block
+        & $ _block_head
+        "««for-in-guard»»"
         $ _block_tail
      )
 )
 
+;;; 25-Jan-2011
+(lse-define-fill-in "for-in-guard"
+    '(token)
+    '(replacement
+        "if (" & (lse-insert-replica-or-flat "object") &
+            ".hasOwnProperty (" & (lse-insert-replica-or-flat "name") & "))"
+        & $ block
+     )
+;;; forin-guard
+)
 ;;; 20-Jan-2011
 (lse-define-fill-in "_function-call"
     '(token                 "(")
@@ -282,10 +308,10 @@
         "var «function-name» = "
         lse-indent+1
           "( function ()"
-          $ _block_head
+          & $ _block_head
             "var proto = «object-literal»;"
             "var fun_con = function (««parameter-declaration»»···)"
-              $ _block_head
+              & $ _block_head
                 "var that = «object-literal»;"
                 "that.prototype = proto;"
                 "««statement»»···"
@@ -308,9 +334,9 @@
     '(description           "Define an anonymous function")
     '(replacement
         "function ««function-name»» (««parameter-declaration»»···)"
-        lse-js:indent-function-literal &
-        @ block
-        & ";" & lse-js:remove-semicolon
+        & lse-js:indent-function-literal &
+        $ block
+        & lse-js:catch-semicolon
      )
 ;;; function
 )
@@ -474,8 +500,8 @@
 (lse-define-fill-in "statement"
     '(token)
     '(leading               "")
-    '(separator             "; " lse-newline-and-indent)
-    '(rcompletion-trailer   lse-js:catch-semicolon)
+    '(separator             lse-newline-and-indent)
+    '(rcompletion-trailer   ";" & lse-js:remove-semicolon)
     '(sort)
     '(menu
         break
@@ -565,9 +591,9 @@
      )
     '(replacement
         "( function (««parameter-declaration»»···)"
-        @ block
-        ") (««argument»»···);"
-        & lse-js:remove-semicolon
+        & $ block
+        ""
+        ") (««argument»»···)"
      )
 ;;; scope
 )
@@ -596,10 +622,10 @@
     '(description           "Exception handler")
     '(replacement
         "try"
-        @ block
-        "catch («name»)"
-        @ block
-        "««finally»»"
+        & $ block
+        " catch («name»)"
+        & $ block
+        " ««finally»»"
      )
 ;;; try
 )
@@ -613,8 +639,8 @@
      )
     '(replacement
         "try"
-        @ block
-        @ finally
+        & $ block
+        & " " & $ finally
      )
 ;;; try-finally
 )

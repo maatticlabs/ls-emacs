@@ -39,7 +39,7 @@
 (lse-language:define "javascript"
     '(
         (lse-language:initial-fill-in      "««js-root»»")
-        (lse-language:tab-increment        2)
+        (lse-language:tab-increment        4)
         (lse_comment_delim_char_set        "/*")
         (lse_comment_head_delim            "//")
         (lse_comment_head_delim_pattern    "// *")
@@ -206,17 +206,32 @@
 
 ;;; 20-Jan-2011
 (defun lse-js:indent-function-literal ()
-  (let* ((after-comma
-           (save-excursion
-             (lse-tpu:previous-line 1) (lse-line-startswith " *, \\w+ *: *")
-           )
+  (cond ((or
+           (lse-line-startswith " *var ")
+           (lse-line-startswith " *return ")
          )
-         ;; if expansion happens in a line starting with a `,`, e.g., inside an
-         ;; object literal, then increase indentation
-         (shift (if after-comma 1 0)
+         (lse-indent:set:prev 0)
         )
-       )
-    (lse-prev-indent shift)
+        ((lse-line-startswith " *[?:] [(] ")
+         (lse-indent:set (+ (lse-indent:level:prev 0) 4))
+        )
+        ((lse-line-startswith " *[?:] ")
+         (lse-indent:set (+ (lse-indent:level:prev 0) 2))
+        )
+        (t
+         (let* ((after-comma
+                  (save-excursion
+                    (lse-tpu:previous-line 1)
+                    (lse-line-startswith " *, \\w+ *: *")
+                  )
+                )
+               )
+           (lse-indent:set (lse-indent:level:prev 0))
+           ;; if expansion happens in a line starting with a `,`, e.g.,
+           ;; inside an object literal, then increase indentation
+           (and after-comma (lse-indent:> 1))
+         )
+        )
   )
 ; lse-js:indent-function-literal
 )

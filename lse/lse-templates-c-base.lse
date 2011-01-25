@@ -213,21 +213,30 @@
   '(token)
   '(token           "repeat")
   '(description     "Executes a statement as long as a particular condition is satisfied")
-  '(replacement     "do" @ block "while («expression»);")
+  '(replacement     "do" & $ block "while («expression»);")
 )
 
 (lse-define-fill-in "else"
   '(description     "else clause of if-statement")
   '(token)             ; 27-Sep-1995
   '(leading         ""); 26-Feb-1995
-  '(replacement     "else" @ block)
+  '(replacement     "else" & $ block)
 )
 
 (lse-define-fill-in "elseif"
   '(token)
   '(description     "elseif clause of if-statement")
   '(leading         ""); 26-Feb-1995
-  '(replacement     "else if («expression»)" @ block)
+  '(replacement     "else if («expression»)" & $ block "««else-block»»")
+)
+
+;;; 25-Jan-2011
+(lse-define-fill-in "else-block"
+    '(menu
+        elseif
+        else
+     )
+;;; else-block
 )
 
 (lse-define-fill-in "exponent"
@@ -257,7 +266,7 @@
   '(description   "For-Loop")
   '(replacement
     "for (««expression»»; ««expression»»; ««expression»»)"
-    @ block
+    & $ block
   )
 )
 
@@ -279,9 +288,8 @@
   '(description   "Conditional statement")
   '(replacement
       "if («expression»)"
-      @ block
-      "««elseif»»···"
-      "««else»»"
+      & $ block
+      "««else-block»»"
   )
 )
 
@@ -422,7 +430,7 @@
 (lse-define-fill-in "while"
     '(token)
     '(description   "Looping construct")
-    '(replacement   "while («expression»)" @ block)
+    '(replacement   "while («expression»)" & $ block)
 ;;; while
 )
 
