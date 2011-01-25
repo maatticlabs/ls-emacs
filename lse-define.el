@@ -51,6 +51,8 @@
 ;;;;                     to `lse-auto-expand-replacement-fill-in`
 ;;;;    20-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to consider
 ;;;;                     `no-sep` for `consp` elements
+;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added to
+;;;;                     `lse@define@fill-in-replacement`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-define)
@@ -293,6 +295,7 @@
                            lse-prev-indent        lse-reindent
                            lse-indent:>           lse-indent:<
                            lse-indent:set         lse-indent:set:prev
+                           lse-indent:set:curr
                            lse-newline-and-indent lse-newline-and-indent-unless
                           )
                        )
@@ -329,11 +332,12 @@
             ((symbolp next)
              (if (and item_sep
                       (not (memq next
-                                 '(lse-tabulator    delete-horizontal-space
-                                   fixup-whitespace just-one-space
-                                   lse-indent:<     lse-indent:>
-                                   lse-newline      lse-newline-and-indent
-                                  )
+                             '(lse-tabulator       delete-horizontal-space
+                               fixup-whitespace    just-one-space
+                               lse-indent:<        lse-indent:>
+                               lse-indent:set:curr
+                               lse-newline         lse-newline-and-indent
+                              )
                            )
                       )
                  )
@@ -350,6 +354,7 @@
                          lse-environment-indent   lse-outer-environment-indent
                          lse-hang-indent          lse-prev-indent
                          lse-indent:set           lse-indent:set:prev
+                         lse-indent:set:curr
                          delete-horizontal-space  delete-indentation
                          fixup-whitespace         just-one-space
                          delete-blank-lines

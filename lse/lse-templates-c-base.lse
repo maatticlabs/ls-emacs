@@ -29,6 +29,7 @@
 ;;;; Revision Dates
 ;;;;    18-Jan-2011 (CT) Creation (factored from lse-templates-c.lse)
 ;;;;    19-Jan-2011 (CT) `block` moved in here (referring to `_block_head`...)
+;;;;    25-Jan-2011 (CT) `if-condition` and `else-block` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -220,22 +221,26 @@
   '(description     "else clause of if-statement")
   '(token)             ; 27-Sep-1995
   '(leading         ""); 26-Feb-1995
-  '(replacement     "else" & $ block)
+  '(replacement     "else" lse-indent:set:curr $ block)
 )
 
 (lse-define-fill-in "elseif"
   '(token)
   '(description     "elseif clause of if-statement")
   '(leading         ""); 26-Feb-1995
-  '(replacement     "else if («expression»)" & $ block "««else-block»»")
+  '(replacement
+      "else if («expression»)" lse-indent:set:curr $ block "««else-block»»"
+   )
 )
 
 ;;; 25-Jan-2011
 (lse-define-fill-in "else-block"
-    '(menu
-        elseif
-        else
-     )
+  '(description     "elseif or else clause of if-statement")
+  '(token)             ; 27-Sep-1995
+  '(leading         ""); 26-Feb-1995
+  '(replacement
+      "else ««if-condition»»" lse-indent:set:curr $ block
+   )
 ;;; else-block
 )
 
@@ -287,10 +292,19 @@
   '(token)
   '(description   "Conditional statement")
   '(replacement
-      "if («expression»)"
+      $ if-condition
       & $ block
-      "««else-block»»"
+      "««else-block»»···"
   )
+)
+
+;;; 25-Jan-2011
+(lse-define-fill-in "if-condition"
+    '(description           "Condition-clause of if-statement")
+    '(auto-expand)
+    '(kill-action           (lse-kill-future-fill-in "else-block" 1))
+    '(replacement           "if («expression»)")
+;;; if-condition
 )
 
 (lse-define-fill-in "initialization-item"

@@ -46,6 +46,7 @@
 ;;;;    20-Jan-2011 (CT) `lse-indent:level`, `lse-indent:set` and friends
 ;;;;                     factored
 ;;;;    20-Jan-2011 (CT) `lse-indent-to-pattern` added
+;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -97,6 +98,18 @@
 (defun lse-indent:level ()
   lse@current-expansion-indent
 ; lse-indent:level
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:level:curr ()
+  (save-excursion
+    (lse-indent:goto-indent-pos 0)
+    (if (and (bolp) (integerp lse@current-expansion-indent))
+        lse@current-expansion-indent
+      (current-column)
+    )
+  )
+; lse-indent:level:curr
 )
 
 ;;; 20-Jan-2011
@@ -154,6 +167,12 @@
 (defun lse-indent:set (indent)
   (setq lse@current-expansion-indent indent)
 ; lse-indent:set
+)
+
+;;; 20-Jan-2011
+(defun lse-indent:set:curr (&optional shift)
+  (lse-indent:set (+ (lse-indent:level:curr) (lse-indent@shift shift 0)))
+; lse-indent:set:curr
 )
 
 ;;; 20-Jan-2011

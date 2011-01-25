@@ -222,24 +222,16 @@
 ;;; delete
 )
 
-(lse-define-fill-in "else"
-    '(description           "else clause of if-statement")
-    '(token)
-    '(leading               "")
+;;; 25-Jan-2011
+(lse-define-fill-in "else-block"
+    '(description     "elseif or else clause of if-statement")
+    '(token)             ; 27-Sep-1995
+    '(leading         ""); 26-Feb-1995
+    '(separator       "")
     '(replacement
-        "else" & (lse-indent:set:prev 0) & $ block
+        "else ««if-condition»»" lse-indent:set:curr $ block
      )
-)
-
-(lse-define-fill-in "elseif"
-    '(token)
-    '(description           "elseif clause of if-statement")
-    '(leading               "")
-    '(replacement
-        "else if («expression»)"
-        & (lse-indent:set:prev 0)
-        & $ block "««else-block»»"
-     )
+;;; else-block
 )
 
 ;;; 23-Jan-2011
