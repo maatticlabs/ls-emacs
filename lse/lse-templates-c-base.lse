@@ -138,7 +138,7 @@
         lse-indent+1
         "«statement»···"
         "break;"
-        lse-indent-1
+        lse-indent:<
      )
 ;;; case
 )
@@ -424,12 +424,10 @@
     '(description           "Case statement: execute one of several alternatives depending on the value of an expression")
     '(replacement
         "switch («int-expression»)"
-        "  {"
-        lse-indent+1
+        & $ _block_head
         "«case»···"
         "««default»»"
-        lse-indent-1
-        "  }"
+        $ _block_tail
      )
 ;;; switch
 )

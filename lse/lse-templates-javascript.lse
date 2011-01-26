@@ -384,6 +384,17 @@
 ;;; initializer
 )
 
+;;; 26-Jan-2011
+(lse-define-fill-in "instance-of"
+    '(token)
+    '(token                 "instanceof")
+    '(description
+        "Check if the left hand side is an instance of the right hand side"
+     )
+    '(replacement           "instanceof")
+;;; instanceof
+)
+
 ;;; 23-Jan-2011
 (lse-define-fill-in "is-finite"
     '(token)
@@ -670,6 +681,15 @@
     '(token)
     '(replacement           "new TypeError («argument»)")
 ;;; Type-Error
+)
+
+;;; 26-Jan-2011
+(lse-define-fill-in "type-of"
+    '(token)
+    '(token                 "typeof")
+    '(description           "Returns the name of the type of its arguments")
+    '(replacement           "typeof («expression»)")
+;;; type-of
 )
 
 (lse-define-fill-in "unary-expression"
