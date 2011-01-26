@@ -197,11 +197,11 @@
     '(token                 "plugin")
     '(description           "Define a plugin for jQuery")
     '(replacement
-        "( function($)"
-        $ _block_head
+        "( function ($)"
+        & $ _block_head
         "««statement»»···"
         "$.fn.«name» = function (options)"
-            $ _block_head
+            & $ _block_head
             "var options  = $.extend"
             "  ( { «expression»"
             "    }"
@@ -210,8 +210,10 @@
             "««statement»»···"
             "return this; "
             $ _block_tail
+        ""
         "««statement»»···"
         $ _block_tail
+        ""
         ") (jQuery);"
         & lse-js:remove-semicolon
      )
