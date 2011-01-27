@@ -3,7 +3,7 @@
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-file:el lse_file:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -47,6 +47,8 @@
 ;;;;                     box
 ;;;;    11-Oct-2007 (CT) `lse-file:expanded-name` added and used
 ;;;;     3-Dec-2007 (CT) Guard for `filename` added to `lse-file:expanded-name`
+;;;;    27-Jan-2011 (CT) `lse-file:update-copyright`: s/if/while
+;;;;                     (i.e., update all occurences of `copyright-pattern`)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
@@ -100,7 +102,7 @@
           (file-error
            (setq error t)
            ;; Run find-file-not-found-hooks until one returns non-nil.
-           (let ((hooks find-file-not-found-hooks))
+           (let ((hooks find-file-not-found-functions))
              (while (and hooks (not (funcall (car hooks))))
                (setq hooks (cdr hooks))
              )
@@ -349,7 +351,7 @@ Doesn't overrule file protection."
   (save-excursion
     (save-match-data
       (lse-tpu:move-to-beginning)
-      (if (re-search-forward lse-file:copyright-pattern (buffer-size) t)
+      (while (re-search-forward lse-file:copyright-pattern (buffer-size) t)
           (progn
             (let* ((y   (lse-date-year))
                    (low (match-string 2))
