@@ -927,11 +927,7 @@ previous line"
   "Align first word of line to word of line in direction `dir'"
   (interactive "*")
   (or dir (setq dir -1))
-  (let (pos)
-    (save-excursion
-      (lse-tpu:forward-char 1)
-      (setq pos (point-marker))
-    )
+  (let ((pos (save-excursion (unless (eobp) (forward-char 1)) (point-marker))))
     (lse-tpu:next-beginning-of-line 1)
     ;; 25-Mar-1995 ;; (lse-tpu:goto-word-head 1) replaced by ...
     (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
