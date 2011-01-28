@@ -90,6 +90,7 @@
 ;;;;                     `lse@align-search-limit`
 ;;;;    19-Jan-2011 (CT) `target-col` added to `lse-align-to-pattern`
 ;;;;    20-Jan-2011 (CT) `lse-line-startswith` added
+;;;;    28-Jan-2011 (CT) `lse-line-endswith` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -111,6 +112,25 @@
 (defun lse-line-empty-p ()
   (lse-line-startswith "[ \t]*$")
 ; lse-line-empty-p
+)
+
+;;; 28-Jan-2011
+(defun lse-line-endswith (pat &optional len num)
+  (save-excursion
+    (if (not (integerp len)) (setq len (length pat)))
+    (if (not (integerp num)) (setq num 0))
+    (lse-tpu:previous-end-of-line num)
+    (skip-chars-backward " \t")
+    (while (and (bolp) (not (bobp)))
+      (lse-tpu:previous-end-of-line 1)
+      (skip-chars-backward " \t")
+    )
+    (backward-char len)
+    (save-match-data
+      (looking-at pat)
+    )
+  )
+; lse-line-endswith
 )
 
 ;;; 20-Jan-2011

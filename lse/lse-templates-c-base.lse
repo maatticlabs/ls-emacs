@@ -214,7 +214,7 @@
   '(token)
   '(token           "repeat")
   '(description     "Executes a statement as long as a particular condition is satisfied")
-  '(replacement     "do" & $ block "while («expression»);")
+  '(replacement     "do" & $ block "while («expression»)" $ _block_sep)
 )
 
 (lse-define-fill-in "else"

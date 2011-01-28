@@ -32,6 +32,8 @@
 ;;;;    20-Jan-2011 (CT) Creation continued..
 ;;;;    23-Jan-2011 (CT) Creation continued...
 ;;;;    24-Jan-2011 (CT) Creation continued....
+;;;;    28-Jan-2011 (CT) `lse-js:indent-line` added as `indent-line-function`
+;;;;    28-Jan-2011 (CT) `lse-js:fix-semicolon` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -80,6 +82,8 @@
   (lse-js:std-js-mode)
   (use-local-map lse-js:keymap)
   (local-set-key [menu-bar lse-js] (cons "JS" lse-js:menu-keymap))
+  (local-set-smk [M-up]    'lse-js:goto-block-head)
+  (local-set-smk [M-down]  'lse-js:goto-block-tail)
   (local-set-smk [red ?{]  'lse-js:goto-block-head)
   (local-set-smk [red ?}]  'lse-js:goto-block-tail)
   (local-set-smk [red ?\;] 'lse-js:goto-semicolon)
@@ -91,9 +95,26 @@
   (setq comment-start-skip "/\\*+ *")
   (make-local-variable 'require-final-newline)
   (setq require-final-newline t)
-  (setq indent-line-function 'lse-indent-line)
+  (setq indent-line-function 'lse-js:indent-line)
   (lse-language:use "javascript")
 ; javascript-mode
+)
+
+;;; 28-Jan-2011
+(defun lse-js:indent-line ()
+  (interactive "*")
+  (if (lse-line-endswith "(\\|{\\|\\[" 1 1)
+      (let ((shift (if (looking-at ")\\|}\\|\\]") 0 1)))
+        (indent-to
+          (+ (lse-indent:level:prev) (* shift lse-language:tab-increment))
+        )
+      )
+    (if (lse-line-endswith ":\\|=" 1 1)
+        (indent-to (+ (lse-indent:level:prev) lse-language:tab-increment))
+      (lse-indent-line)
+    )
+  )
+; lse-js:indent-line
 )
 
 ;;; 19-Jan-2011
@@ -144,6 +165,30 @@
 ; lse-js:clean-closing
 )
 
+;;; 28-Jan-2011
+(defun lse-js:fix-semicolon ()
+  (interactive "*")
+  (let ((cp (point-marker))
+        behind-brace
+       )
+    (save-excursion
+      (skip-chars-backward "; \t\n")
+      (if (progn (backward-char 1) (setq behind-brace (looking-at "}")))
+          (progn
+            (delete-region (1+ (point)) cp)
+            (lse-js:remove-semicolon)
+            (if (looking-at "\\w") (insert " "))
+          )
+      )
+    )
+    (unless behind-brace
+      (insert ";")
+      (lse-js:catch-semicolon)
+    )
+  )
+; lse-js:fix-semicolon
+)
+
 ;;; 19-Jan-2011
 (defun lse-js:goto-semicolon (&optional limit)
   "Goto next semicolon."
@@ -168,10 +213,11 @@
 )
 
 ;;; 19-Jan-2011
-(defun lse-js:remove-semicolon ()
+(defun lse-js:remove-semicolon (&optional both-directions)
   "Remove next semicolon."
   (interactive "*")
   (save-excursion
+    (if both-directions (skip-chars-backward "; \t\n"))
     (let ((cp (point-marker)))
       (skip-chars-forward " \t\n")
       (while (looking-at ";")

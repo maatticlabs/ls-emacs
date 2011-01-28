@@ -213,8 +213,8 @@
         ""
         "««statement»»···"
         $ _block_tail
-        ""
-        ") (jQuery);"
+        "(jQuery)"
+        ");"
         & lse-js:remove-semicolon
      )
 ;;; jq-plugin

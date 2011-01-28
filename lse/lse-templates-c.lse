@@ -48,6 +48,12 @@
 ;;; _block_head
 )
 
+;;; 28-Jan-2011
+(lse-define-fill-in "_block_sep"
+    '(replacement ";")
+;;; _block_sep
+)
+
 ;;; 19-Jan-2011
 (lse-define-fill-in "_block_tail"
   '(replacement

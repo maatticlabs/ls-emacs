@@ -122,11 +122,17 @@
 ;;; _block_head
 )
 
+;;; 28-Jan-2011
+(lse-define-fill-in "_block_sep"
+    ;;; don't want a semicolon after a block
+;;; _block_sep
+)
+
 ;;; 19-Jan-2011
 (lse-define-fill-in "_block_tail"
     '(replacement
         lse-indent-1
-        "} "
+        "} " & lse-js:remove-semicolon
      )
 ;;; _block_tail
 )
@@ -234,10 +240,12 @@
 
 ;;; 25-Jan-2011
 (lse-define-fill-in "else-block"
-    '(description     "elseif or else clause of if-statement")
-    '(token)             ; 27-Sep-1995
-    '(leading         ""); 26-Feb-1995
-    '(separator       "")
+    '(token); 27-Sep-1995
+    '(description           "elseif or else clause of if-statement")
+    '(leading               ""); 26-Feb-1995
+    '(separator             "")
+    '(kill-action           (lse-js:remove-semicolon t))
+    '(rcompletion-trailer   (lse-js:remove-semicolon t))
     '(replacement
         "else ««if-condition»»" lse-indent:set:curr $ block
      )
@@ -330,9 +338,9 @@
                 "return that;"
               $ _block_tail ""
             "return fun_con;"
-          $ _block_tail
-        lse-newline-and-indent
-        & ") ();"
+          $ _block_tail " ()"
+        lse-indent-1
+        & ");"
         & lse-js:remove-semicolon
         ""
      )
@@ -412,6 +420,15 @@
 )
 
 ;;; 23-Jan-2011
+(lse-define-fill-in "lvalue"
+  '(description     "An expression referring to an object")
+  '(menu
+      identifier
+      array-reference
+      @ member-reference
+  )
+)
+
 (lse-define-fill-in "Math."
     '(token)
     '(replacement-leading   "Math.")
@@ -446,6 +463,12 @@
 )
 
 ;;; 25-Jan-2011
+(lse-define-fill-in "member-reference"
+  '(replacement
+      "«lvalue».«identifier»"
+  )
+)
+
 (lse-define-fill-in "new"
     '(token)
     '(description           "Create a new object")
@@ -468,7 +491,7 @@
     '(replacement
         lse-js:indent-object-literal &
         "{ ««object-property»»···"
-        lse-newline (lse-indent-to-pattern "{" 0 (lse-indent:level:environment))
+        (lse-newline-and-indent-to "{" 0 (lse-indent:level:environment))
         "}"
      )
 ;;; object-literal
@@ -484,7 +507,9 @@
 ;;; 19-Jan-2011
 (lse-define-fill-in "object-property"
     '(auto-expand)
-    '(separator             lse-newline-and-indent-1 ", ")
+    '(separator
+        (lse-newline-and-indent-to "{" 0 (lse-indent:level:environment)) ", "
+     )
     '(leading               ",")
     '(replacement           "«object-property-name» : «expression»")
 ;;; object-property
@@ -498,6 +523,32 @@
         (lse-align-to-pattern ":" nil t (+ (lse-indent:level:curr) 16))
      )
 ;;; object-property-name
+)
+
+(lse-define-fill-in "operator-equal"
+    '(token)
+    '(token                 "==")
+    '(description           "Equality operator: is equal to")
+    '(replacement           "===")
+;;; operator-equal
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "operator-not-equal"
+    '(token)
+    '(token                 "!=")
+    '(description           "Inequality operator: is not equal to")
+    '(replacement           "!==")
+;;; operator-not-equal
+)
+
+;;; 22-Jan-2011
+(lse-define-fill-in "parameter-declaration"
+  '(description           "Declaration of parameter for a function")
+  '(separator             ", ")
+  '(leading               ",")
+  '(replacement           @ identifier)
+;;; parameter-declaration
 )
 
 ;;; 23-Jan-2011
@@ -516,6 +567,12 @@
 ;;; parse-int
 )
 
+;;; 22-Jan-2011
+(lse-define-fill-in "position"
+    '(description           "Position where operation should start")
+;;; position
+)
+
 ;;; 23-Jan-2011
 (lse-define-fill-in "property-is-enumerable"
     '(token)
@@ -527,12 +584,35 @@
 ;;; property-is-enumerable
 )
 
+;;; 23-Jan-2011
+(lse-define-fill-in "prototype"
+    '(token                 ".prototype")
+    '(description           "Use prototype property of a javascript object")
+    '(replacement           lse-js:remove-period & ".prototype")
+;;; prototype
+)
+
+;;; 18-Jan-2011
+(lse-define-fill-in "scope"
+    '(token)
+    '(description
+      "Use a function definition to hide objects and functions"
+     )
+    '(replacement
+        "( function (««parameter-declaration»»···)"
+        & $ block
+        "(««argument»»···)"
+        ");" & lse-js:remove-period
+     )
+;;; scope
+)
+
 ;;; 18-Jan-2011
 (lse-define-fill-in "statement"
     '(token)
     '(leading               "")
     '(separator             lse-newline-and-indent)
-    '(rcompletion-trailer   ";" & lse-js:remove-semicolon)
+    '(rcompletion-trailer   lse-js:fix-semicolon)
     '(sort)
     '(menu
         break
@@ -557,76 +637,6 @@
         "«expression»;"
      )
 ;;; statement
-)
-
-(lse-define-fill-in "lvalue"
-  '(description     "An expression referring to an object")
-  '(menu
-      identifier
-      array-reference
-      @ member-reference
-  )
-)
-
-(lse-define-fill-in "member-reference"
-  '(replacement
-      "«lvalue».«identifier»"
-  )
-)
-
-;;; 22-Jan-2011
-(lse-define-fill-in "operator-equal"
-    '(token)
-    '(token                 "==")
-    '(description           "Equality operator: is equal to")
-    '(replacement           "===")
-;;; operator-equal
-)
-
-;;; 22-Jan-2011
-(lse-define-fill-in "operator-not-equal"
-    '(token)
-    '(token                 "!=")
-    '(description           "Inequality operator: is not equal to")
-    '(replacement           "!==")
-;;; operator-not-equal
-)
-
-(lse-define-fill-in "parameter-declaration"
-  '(description           "Declaration of parameter for a function")
-  '(separator             ", ")
-  '(leading               ",")
-  '(replacement           @ identifier)
-;;; parameter-declaration
-)
-
-;;; 22-Jan-2011
-(lse-define-fill-in "position"
-    '(description           "Position where operation should start")
-;;; position
-)
-
-;;; 23-Jan-2011
-(lse-define-fill-in "prototype"
-    '(token                 ".prototype")
-    '(description           "Use prototype property of a javascript object")
-    '(replacement           lse-js:remove-period & ".prototype")
-;;; prototype
-)
-
-;;; 18-Jan-2011
-(lse-define-fill-in "scope"
-    '(token)
-    '(description
-      "Use a function definition to hide objects and functions"
-     )
-    '(replacement
-        "( function (««parameter-declaration»»···)"
-        & $ block
-        ""
-        ") (««argument»»···)"
-     )
-;;; scope
 )
 
 ;;; 22-Jan-2011

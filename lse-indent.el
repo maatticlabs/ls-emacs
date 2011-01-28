@@ -47,6 +47,7 @@
 ;;;;                     factored
 ;;;;    20-Jan-2011 (CT) `lse-indent-to-pattern` added
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added
+;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -355,6 +356,13 @@
 (defun lse-newline-and-indent-1 (&optional shift)
   (lse-newline-and-indent -1)
 ); lse-newline-and-indent-1
+
+;;; 28-Jan-2011
+(defun lse-newline-and-indent-to (pat &optional shift default dir)
+  (lse-newline)
+  (lse-indent-to-pattern pat shift default dir)
+; lse-newline-and-indent-to
+)
 
 ;;; 19-Jan-2011
 (defun lse-newline-and-indent-unless (bol-pat &optional shift)

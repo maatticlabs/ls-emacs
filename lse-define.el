@@ -53,6 +53,8 @@
 ;;;;                     `no-sep` for `consp` elements
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added to
 ;;;;                     `lse@define@fill-in-replacement`
+;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added to
+;;;;                     `lse@define@fill-in-replacement`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-define)
@@ -295,7 +297,7 @@
                            lse-prev-indent        lse-reindent
                            lse-indent:>           lse-indent:<
                            lse-indent:set         lse-indent:set:prev
-                           lse-indent:set:curr
+                           lse-indent:set:curr    lse-newline-and-indent-to
                            lse-newline-and-indent lse-newline-and-indent-unless
                           )
                        )
