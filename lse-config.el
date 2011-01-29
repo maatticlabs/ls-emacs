@@ -1,6 +1,6 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 
-;;;; Copyright (C) 2007-2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2011 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -30,6 +30,7 @@
 ;;;;    18-Oct-2007 (CT) Creation (factored from swing-default.el)
 ;;;;     9-Sep-2008 (CT) Add `Py-Version-Update` to Python menu in menu-bar
 ;;;;    14-May-2009 (CT) `lse-macosx` added
+;;;;    28-Jan-2011 (CT) `unibyte` and `multibyte` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -39,13 +40,6 @@
 
 ; (setq debug-on-error t)
 ; (setq debug-on-error nil)
-;;;  4-Oct-2007
-(setq safe-local-variable-values
-  (list '(unibyte . t))
-)
-
-(setq-default enable-multibyte-characters nil); 19-Dec-1999
-
 ;;; `set-language-environment` to exactly the value as specified by the
 ;;; coding directive (iso-8859-1)
 ;;; Calling `set-language-environment` with `Latin-9` lead to a mixture of

@@ -1,4 +1,4 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 
 (lse-define-fill-in "ESA-Documents" 
   '(description   "ESA PSS-05-0 1991" )

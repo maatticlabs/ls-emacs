@@ -1,4 +1,4 @@
-# (c) 1996 Swing Informationssysteme GmbH. All rights reserved.
+# Copyright (C) 1996-2011 Swing Informationssysteme GmbH. All rights reserved.
 #
 #++
 # Name
@@ -38,9 +38,9 @@
 # Customize here ##################################################
 # `-n' means do not export the variable even if export is default
 #
-export -n LSE_USER_PREFIX=/swing/system/emacs
+export -n LSE_USER_PREFIX=/swing/project/ls-emacs
 
-export EMACS_UNIBYTE=1
+unset EMACS_UNIBYTE
 export EMACSLOCKDIR=/tmp
 export EMACSLSESRC="$LSE_USER_PREFIX/lse"
 export EMACSLSEDIR="$LSE_USER_PREFIX/lsc"

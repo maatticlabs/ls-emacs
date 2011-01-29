@@ -1,9 +1,9 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -87,6 +87,8 @@
 ;;;;--
 (provide 'ls-emacs)
 
+(defconst enable-multibyte-characters t)
+
 ;;; 29-Dec-1997
 (defconst lse-version      "3.5"          "Version number of LS-Emacs.")
 (defconst lse-version-date " 5-Aug-2009 " "Date of last change of LS-Emacs.")
@@ -126,9 +128,9 @@
       (lsrc     (getenv "EMACSLSESRC"))
       (lscripts (getenv "EMACSLSESCRIPTS"))
      )
-  (defvar lse-directory     (or ldir     "/swing/dsystem/emacs/lse"))
-  (defvar lse-src-directory (or lsrc     "/swing/system/emacs/lse"))
-  (defvar lse-script-dir    (or lscripts "/swing/system/emacs/scripts"))
+  (defvar lse-directory     (or ldir     "/swing/project/ls-emacs/lsc"))
+  (defvar lse-src-directory (or lsrc     "/swing/project/ls-emacs/lse"))
+  (defvar lse-script-dir    (or lscripts "/swing/project/ls-emacs/scripts"))
 )
 (setq lse-load-path
       (append (list lse-directory lse-src-directory) load-path nil)

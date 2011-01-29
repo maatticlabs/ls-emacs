@@ -1,9 +1,9 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency swing-default.el swi_dflt.el
-;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -129,7 +129,7 @@
     )
 )
 
-; (byte-recompile-directory "/swing/system/emacs" t)
+; (byte-recompile-directory "/swing/project/ls-emacs" t)
 
 ;;; 13-Oct-2007
 (lse-add-to-list lse-byte-compile:files "swing-default")

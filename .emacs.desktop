@@ -2,22 +2,34 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Thu Oct 18 16:13:15 2007
+;; Created Sat Jan 29 16:00:07 2011
 ;; Desktop file format version 206
-;; Emacs version 22.1.1
+;; Emacs version 23.2.1
+
+;; Frame configuration section:
+(setq lse-frame:saved-config '(
+(t ((height . 69) (left . 1948) (top . 0) (visibility . t) (width . 80)) (("emacs" 391) ("editor_ini" 819)) nil)
+))
+
 
 ;; Global section:
+(setq lse-tpu:search-last-string "unibyte")
+(setq lse-tpu:search-mode 1)
+(setq lse-tpu:search-history-word nil)
+(setq lse-tpu:search-history-regexp '("unibyte" "login" "terminal" "lse-def" "lse-keys"))
+(setq lse-tpu:search-history-text nil)
 (setq desktop-missing-file-warning nil)
-(setq tags-file-name "/.swing/system/emacs/TAGS")
-(setq tags-table-list '("/.swing/system/emacs/TAGS" "/.swing/system/emacs/TAGS"))
-(setq search-ring '(""))
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
 (setq regexp-search-ring nil)
-(setq register-alist '((98 . 138) (97 . 20) (49 . 0)))
+(setq register-alist nil)
+(setq file-name-history '("/swing/project/ls-emacs/lsc/lse-language-elisp.lsc" "/swing/project/ls-emacs/lse/lse-templates-elisp.lse" "/swing/project/ls-emacs/lse/lse-templates-lse.lse" "/swing/system/Logbook/emacs" "/swing/login/editor_ini" "~/.profile" "/swing/project/ls-emacs/" "/swing/project/ls-emacs/lse-config.el" "/swing/project/ls-emacs/lse-keys-v19.el" "/swing/project/ls-emacs/lse-keys.el" "/swing/project/ls-emacs/ls-emacs.el"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 206
-  "/swing/emacs/lse/lse-language-python.lse"
-  "lse-language-python.lse"
+  "/Node/tr/.swing/system/Logbook/emacs"
+  "emacs"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
   3237
@@ -38,23 +50,22 @@
   '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode) (case-fold-search)))
 
 (desktop-create-buffer 206
-  "/swing/emacs/python-mode.el"
-  "python-mode.el"
-  'emacs-lisp-mode
-  '(auto-fill-mode eldoc-mode)
-  82888
-  '(119306 nil)
+  "/Node/tr/.swing/system/login/editor_ini"
+  "editor_ini"
+  'text-mode
   nil
+  819
+  '(775 nil)
   nil
   '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
-  "/swing/emacs/ls-emacs.el"
+  "/swing/project/ls-emacs/ls-emacs.el"
   "ls-emacs.el"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
-  6551
-  '(nil nil)
+  1
+  '(4285 nil)
   nil
   nil
   '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode) (case-fold-search)))
@@ -97,19 +108,19 @@
   "lse-templates-lse.lse"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
-  1029
+  962
   '(nil nil)
   nil
   nil
   '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
-  "/swing/emacs/lse/lse-templates-rest.lse"
-  "lse-templates-rest.lse"
+  "/swing/project/ls-emacs/lse-config.el"
+  "lse-config.el"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
-  1757
-  '(1761 nil)
+  1081
+  '(13135 nil)
   nil
   nil
   '((buffer-file-coding-system . iso-latin-1-unix)))
@@ -218,18 +229,18 @@
   "lse-keys-v19.el"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
-  14025
-  '(nil nil)
+  14336
+  '(14140 nil)
   nil
   nil
   '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
-  "/swing/emacs/lse-keys.el"
+  "/swing/project/ls-emacs/lse-keys.el"
   "lse-keys.el"
   'emacs-lisp-mode
   '(auto-fill-mode eldoc-mode)
-  1347
+  1442
   '(nil nil)
   nil
   nil

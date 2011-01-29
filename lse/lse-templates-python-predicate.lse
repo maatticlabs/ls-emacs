@@ -1,4 +1,4 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 
 (lse-define-fill-in "cartesian:s1" 
   '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")

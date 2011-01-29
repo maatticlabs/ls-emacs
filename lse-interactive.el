@@ -1,9 +1,9 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
 ;;;; for characters between \200 and \377 don't work
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -81,6 +81,7 @@
 ;;;;     7-Apr-2008 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
 ;;;;                     changed to remember `lse_last_position`
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    28-Jan-2011 (CT) `unibyte` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -798,7 +799,7 @@ trailers."
       (erase-buffer)
       (setq buffer-file-name   (concat lse-directory "/" file-name))
       (lse-language:use-loaded (lse-language:load-from-source name))
-      (princ ";-*- unibyte: t; coding: iso-8859-1; -*-" (current-buffer)); 25-May-1999
+      (princ ";-*- coding: iso-8859-1; -*-" (current-buffer)); 28-Jan-2011
       (terpri                     (current-buffer)); 25-May-1999
       (mapatoms 'lse-compile@write-one-fill-in lse_fill-in_table)
       (mapatoms 'lse-compile@write-one-token   lse_token_table)

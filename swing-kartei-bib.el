@@ -1,4 +1,4 @@
-;-*- unibyte: t; coding: iso-8859-1; -*-
+;-*- coding: iso-8859-1; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it, character ranges
 ;;;; for characters between \200 and \377 don't work
 

@@ -1,1 +1,1 @@
-(byte-recompile-directory "/swing/emacs")
+(byte-recompile-directory "/swing/project/ls-emacs")
