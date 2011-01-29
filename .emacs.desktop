@@ -24,7 +24,7 @@
   '(3671 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix)))
+  '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-tpu-keys-v19.el"
@@ -35,7 +35,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (overwrite-mode) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/python-mode.el"
@@ -46,7 +46,7 @@
   '(119306 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/ls-emacs.el"
@@ -57,7 +57,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (overwrite-mode) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-flat-fill-in.el"
@@ -68,7 +68,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-editing.el"
@@ -79,7 +79,7 @@
   '(3848 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-define.el"
@@ -90,7 +90,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse/lse-templates-lse.lse"
@@ -101,7 +101,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix)))
+  '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse/lse-templates-rest.lse"
@@ -112,7 +112,7 @@
   '(1761 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix)))
+  '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-interactive.el"
@@ -123,7 +123,7 @@
   '(16698 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in--search.el"
@@ -134,7 +134,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in-info.el"
@@ -145,7 +145,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-indent.el"
@@ -156,7 +156,7 @@
   '(6216 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in.el"
@@ -167,7 +167,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/system/X/Xmodmaprc"
@@ -178,7 +178,7 @@
   '(2236 nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix)))
+  '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-deep-fill-in.el"
@@ -189,7 +189,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-pattern.el"
@@ -200,7 +200,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-tpu.el"
@@ -211,7 +211,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-keys-v19.el"
@@ -222,7 +222,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-keys.el"
@@ -233,7 +233,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-menu.el"
@@ -244,7 +244,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (overwrite-mode)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-default.el"
@@ -255,7 +255,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (overwrite-mode) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-window.el"
@@ -266,7 +266,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix)))
+  '((buffer-file-coding-system . iso-latin-1-unix)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-mode-alist.el"
@@ -277,7 +277,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-frame.el"
@@ -288,7 +288,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-completion.el"
@@ -299,7 +299,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-command.el"
@@ -310,7 +310,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-range.el"
@@ -321,7 +321,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-language.el"
@@ -332,7 +332,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-basics.el"
@@ -343,7 +343,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-compilation.el"
@@ -354,7 +354,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-kill.el"
@@ -365,7 +365,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in-marks.el"
@@ -376,7 +376,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in-history.el"
@@ -387,7 +387,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-fill-in--delimiters.el"
@@ -398,7 +398,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-file.el"
@@ -409,7 +409,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-face.el"
@@ -420,7 +420,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-comment.el"
@@ -431,7 +431,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-byte-compile.el"
@@ -442,7 +442,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-buffer.el"
@@ -453,7 +453,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-buffer-list.el"
@@ -464,7 +464,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/tex2iso-latin1.el"
@@ -475,7 +475,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/test.el"
@@ -486,7 +486,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/t1.el"
@@ -497,7 +497,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-keys.el"
@@ -508,7 +508,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-keys-v19.el"
@@ -519,7 +519,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-keys-v18.el"
@@ -530,7 +530,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-keynames.el"
@@ -541,7 +541,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei.el"
@@ -552,7 +552,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei-telefon.el"
@@ -563,7 +563,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei-quot.el"
@@ -574,7 +574,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei-person.el"
@@ -585,7 +585,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei-firma.el"
@@ -596,7 +596,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei-bib.el"
@@ -607,7 +607,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei--summary.el"
@@ -618,7 +618,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-kartei--entry.el"
@@ -629,7 +629,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/swing-command.el"
@@ -640,7 +640,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/picture.el"
@@ -651,7 +651,7 @@
   '(nil nil)
   t
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-tpu-keys.el"
@@ -662,7 +662,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-mark-stack.el"
@@ -673,7 +673,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-list-util.el"
@@ -684,7 +684,7 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
 (desktop-create-buffer 206
   "/swing/emacs/lse-learn-key.el"
@@ -695,5 +695,5 @@
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . raw-text-unix) (case-fold-search . t)))
+  '((buffer-file-coding-system . iso-latin-1-unix) (case-fold-search . t)))
 
