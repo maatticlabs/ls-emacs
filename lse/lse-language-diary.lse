@@ -24,7 +24,7 @@
         (lse_comment_head_delim_pattern    "#+ *")
         (lse_comment_delim_char_set        "#")
         (fill-column                       60)
-        (lse-language:initial-fill-in      "««diary-file»»···")
+        (lse-language:initial-fill-in      "««diary-file»»")
      )
     '(
         lse-tpu:toggle-newline-and-indent

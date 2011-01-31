@@ -5,7 +5,10 @@
     '(description           "Root fill-in of a diary file")
     '(replacement
         $ diary-entry
-        "### __END__" & lse-insert-buffer-name-plus-extension
+        ""
+        "««diary-entry»»···"
+        ""
+        "### __END__ " & lse-insert-buffer-name-plus-extension
      )
 ;;; diary-file
 )
