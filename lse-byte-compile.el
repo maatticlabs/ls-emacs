@@ -35,6 +35,7 @@
 ;;;;    15-Oct-2007 (CT) `lse-interactive.el` removed from `black-list`
 ;;;;    18-Oct-2007 (CT) `lse-config` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    31-Jan-2011 (CT) `lse-hash` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -80,6 +81,7 @@
     "lse-fill-in"
     "lse-flat-fill-in"
     "lse-frame"
+    "lse-hash"
     "lse-indent"
     "lse-interactive"
     "lse-keys-v19"
