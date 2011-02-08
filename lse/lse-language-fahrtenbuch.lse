@@ -24,8 +24,11 @@
 ;;;
 ;;; fahrtenbuch mode
 ;;;
-(defun lse-fahrtenbuch-mode ()
-  (interactive)
+;;;  7-Feb-2011 define lse-fahrtenbuch-mode as derived mode
+(define-derived-mode lse-fahrtenbuch-mode text-mode "Fahrtenbuch"
+  "Major mode for accounting.
+\\{lse-fahrtenbuch-mode-map}"
   (lse-language:use "fahrtenbuch")
-  (local-set-key [tab] 'lse-expand-or-goto-next)
 )
+
+(define-key lse-fahrtenbuch-mode-map [tab] 'lse-expand-or-goto-next)
