@@ -1,6 +1,5 @@
 ;-*- coding: iso-8859-1; -*-
 
-
 (lse-language:define "buchhaltung"
     '(
         (lse-language:initial-fill-in      "«buchhaltung-file»")
@@ -27,12 +26,12 @@
 ;;;
 ;;; buchhaltung mode
 ;;;
-;;; 11-Oct-1996 
+;;; 11-Oct-1996
 (define-derived-mode lse-buchhaltung-mode text-mode "Buchhaltung"
   "Major mode for accounting.
 \\{lse-buchhaltung-mode-map}"
   (lse-language:use "buchhaltung")
 )
 
-;;; 11-Oct-1996 
+;;; 11-Oct-1996
 (define-key lse-buchhaltung-mode-map [tab] 'lse-expand-or-goto-next)
