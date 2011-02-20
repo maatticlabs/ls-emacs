@@ -3,6 +3,7 @@
 (lse-define-fill-in "diary-file"
     '(rcompletion-trailer   delete-blank-lines)
     '(description           "Root fill-in of a diary file")
+    '(auto-expand)
     '(replacement
         $ diary-entry
         ""
