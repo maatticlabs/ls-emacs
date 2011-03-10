@@ -33,6 +33,7 @@
 ;;;;    21-Jan-2011 (CT) Creation continued...
 ;;;;    22-Jan-2011 (CT) Creation continued....
 ;;;;    23-Jan-2011 (CT) Creation continued.....
+;;;;    10-Mar-2011 (CT) Fill-in `for-array` and friends added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -94,6 +95,13 @@
 (lse-define-fill-in "array"
     '(description           "An array")
 ;;; array
+)
+
+;;; 10-Mar-2011
+(lse-define-fill-in "array-name"
+  '(description           "Name of array to iterate over")
+  '(auto-replicate        1)
+;;; array-name
 )
 
 (lse-define-fill-in "base"
@@ -283,6 +291,25 @@
 ;;; finally
 )
 
+;;; 10-Mar-2011
+(lse-define-fill-in "for-array"
+    '(token)
+    '(token                 "for")
+    '(token                 "iterate-over-array")
+    '(description           "Iterate over the elements of an array.")
+    '(replacement
+        "for (var «loop-index» = 0, l«loop-index» = «array-name».length, «loop-item»; "
+          & "«loop-index» < l«loop-index»; "
+          & "«loop-index»++"
+          & ")"
+        & $ _block_head
+        "«loop-item» = «array-name» [«loop-index»];"
+        "«statement»···"
+        $ _block_tail
+     )
+;;; for-array
+)
+
 ;;; 22-Jan-2011
 (lse-define-fill-in "for-in"
     '(token)
@@ -429,6 +456,23 @@
   )
 )
 
+;;; 10-Mar-2011
+(lse-define-fill-in "loop-index"
+  '(description
+      "Running index used in for-loop to iterate over array."
+   )
+  '(auto-replicate        5)
+  '(replacement           "i")
+;;; loop-index
+)
+
+;;; 10-Mar-2011
+(lse-define-fill-in "loop-item"
+  '(description           "Variable name to be used for the current item")
+  '(auto-replicate        1)
+  '(replacement           "item")
+;;; loop-item
+)
 (lse-define-fill-in "Math."
     '(token)
     '(replacement-leading   "Math.")
