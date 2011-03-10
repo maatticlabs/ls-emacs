@@ -34,6 +34,8 @@
 ;;;;    24-Jan-2011 (CT) Creation continued....
 ;;;;    28-Jan-2011 (CT) `lse-js:indent-line` added as `indent-line-function`
 ;;;;    28-Jan-2011 (CT) `lse-js:fix-semicolon` added
+;;;;    10-Mar-2011 (CT) `lse-js:indent-function-literal` changed to consider
+;;;;                     `,`, too
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -261,7 +263,7 @@
         ((lse-line-startswith " *[?:] [(] ")
          (lse-indent:set (+ (lse-indent:level:prev 0) 4))
         )
-        ((lse-line-startswith " *[?:{] ")
+        ((lse-line-startswith " *[?:{,] ")
          (lse-indent:set (+ (lse-indent:level:prev 0) 2))
         )
         (t
