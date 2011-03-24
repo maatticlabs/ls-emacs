@@ -28,6 +28,8 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    26-Dec-2009 (CT) Creation
+;;;;    17-Mar-2011 (CT) `rcompletion-trailer` added to `jnj-root` to
+;;;;                     `delete-blank-lines`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -37,6 +39,7 @@
     '(description
       "Root template of LS-Emacs language jinja-templates."
      )
+    '(rcompletion-trailer   delete-blank-lines)
     '(replacement
         "««jnj-extends»»"
         "{#- jinja template: "
