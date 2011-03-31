@@ -395,7 +395,7 @@
     '(token                 "function")
     '(description           "Define a named function")
     '(replacement
-        "var «function-name» = " & $ function-literal
+        "var «function-name» = " & $ function-literal & ";"
      )
 ;;; function
 )
