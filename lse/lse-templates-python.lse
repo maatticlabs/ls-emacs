@@ -9,6 +9,8 @@
         "#««header-comment»»"
         "««py-doc-string»»"
         ""
+        "from   __future__  import unicode_literals";  7-Apr-2011
+        ""
         "««py-import»»"
         ""
         "««py-statement»»···"
