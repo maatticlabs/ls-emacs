@@ -34,6 +34,7 @@
 ;;;;    22-Jan-2011 (CT) Creation continued....
 ;;;;    23-Jan-2011 (CT) Creation continued.....
 ;;;;    10-Mar-2011 (CT) Fill-in `for-array` and friends added
+;;;;     4-May-2011 (CT) `use-strict` added and used
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -45,6 +46,7 @@
     '(replacement
         "//««header-comment»»"
         ""
+        "««use-strict»»"
         "«statement»···"
         ""
         "// __END__ " & lse-insert-buffer-name-plus-extension
@@ -795,6 +797,14 @@
 (lse-define-fill-in "url"
     '(description           "A string containing a URL")
 ;;; value
+)
+
+;;;  4-May-2011
+(lse-define-fill-in "use-strict"
+    '(token)
+    '(description           "Use strict semantics.")
+    '(replacement           "\"use strict\"; " "")
+;;; use-strict
 )
 
 (lse-define-fill-in "var"

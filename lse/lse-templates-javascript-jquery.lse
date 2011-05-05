@@ -200,13 +200,13 @@
         "( function ($)"
         & $ _block_head
         "««statement»»···"
-        "$.fn.«name» = function (options)"
+        "$.fn.«name» = function (opts)"
             & $ _block_head
             "var options  = $.extend"
-            "  ( { «expression»"
-            "    }"
-            "  , options || {}"
-            "  );"
+            "    ( { «expression»"
+            "      }"
+            "    , opts || {}"
+            "    );"
             "««statement»»···"
             "return this; "
             $ _block_tail
