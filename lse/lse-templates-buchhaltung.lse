@@ -58,7 +58,7 @@
         "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
         & "Tools & Finanzplan-Kategorie           & Beschreibung & Person "
         "«buchhaltung»···"
-        "%%% __END__" & lse-insert-buffer-name ; 24-Jan-2011
+        "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file
 )
