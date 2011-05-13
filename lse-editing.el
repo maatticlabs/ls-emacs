@@ -91,6 +91,8 @@
 ;;;;    19-Jan-2011 (CT) `target-col` added to `lse-align-to-pattern`
 ;;;;    20-Jan-2011 (CT) `lse-line-startswith` added
 ;;;;    28-Jan-2011 (CT) `lse-line-endswith` added
+;;;;    13-May-2011 (CT) `lse-indent-rigidly` changed to indent line above if
+;;;;                     at beginning of an empty line
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -689,10 +691,17 @@ previous line"
          (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
          (or amount 2)
       )
-    (indent-rigidly
-       (save-excursion (beginning-of-line 1)     (point))
-       (save-excursion (end-of-line       1) (1+ (point)))
-       (or amount 2)
+    (save-excursion
+      (move-to-left-margin)
+      (while (and (bolp) (not (bobp)) (looking-at "^\\s-*$"))
+        ;; while in empty line go up
+        (lse-tpu:next-beginning-of-line 1)
+      )
+      (indent-rigidly
+         (save-excursion (beginning-of-line 1)     (point))
+         (save-excursion (end-of-line       1) (1+ (point)))
+         (or amount 2)
+      )
     )
   )
   (setq deactivate-mark nil); 17-Mar-1995
