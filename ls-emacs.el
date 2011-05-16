@@ -83,6 +83,7 @@
 ;;;;     5-Aug-2009 (CT) `lse-version` increased
 ;;;;    17-Nov-2009 (CT) `server-start` guarded against `server-running-p`
 ;;;;    17-Nov-2009 (CT) Guard for `lse-global-home-mark-initialized` added
+;;;;    16-May-2011 (CT) `lse-version` increased
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -90,8 +91,8 @@
 (defconst enable-multibyte-characters t)
 
 ;;; 29-Dec-1997
-(defconst lse-version      "3.5"          "Version number of LS-Emacs.")
-(defconst lse-version-date " 5-Aug-2009 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.6"          "Version number of LS-Emacs.")
+(defconst lse-version-date "16-May-2011 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
