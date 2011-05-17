@@ -31,6 +31,7 @@
 ;;;;     9-Sep-2008 (CT) Add `Py-Version-Update` to Python menu in menu-bar
 ;;;;    14-May-2009 (CT) `lse-macosx` added
 ;;;;    28-Jan-2011 (CT) `unibyte` and `multibyte` removed
+;;;;    17-May-2011 (CT) Set `inhibit-field-text-motion` to `t`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -158,6 +159,7 @@
 (setq         require-final-newline        t);  8-Oct-1996
 
 (setq         adaptive-fill-mode           nil); 27-Oct-1996
+(setq         inhibit-field-text-motion    t); 17-May-2011
 
 (setq         sentence-end-double-space    nil); 17-Dec-1997
 
