@@ -1,0 +1,55 @@
+#! /swing/bin/perl
+# (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+#++
+# Name
+#    check_lse_language
+#
+# Purpose
+#    Check a LSE-language for references to undefined fill-ins
+#    
+# Usage
+#    Use the emacs command `lse-language:check'
+#    
+# Parameters
+#    $1  [file-spec]  Name of file containing names of all defined fill-ins
+#    $2  [file-spec]  Name of file containing names of references to fill-ins
+#    $3  [file-spec]  Name of file containing compiled LSE-language 
+#
+# Revision Dates
+#    13-Sep-1994 (CT) Creation
+#    12-May-1995 (CT) `push(@INC,split(/:/,$ENV{'PERLPATH'}),'/swing/perl');'
+#                     removed
+#--
+$defs = shift(@ARGV) || die "Specify file name for list of defined fill-ins\n";
+$refs = shift(@ARGV) || die "Specify file name for list of referenced fill-ins\n";
+$file = shift(@ARGV) || die "Specify file name for compiled language\n";
+#
+open(FILE, $defs) || die "Can't open $defs: $!\n";
+while ($f = <FILE>) { chop $f; $defined{"\L$f"}++; };
+close(FILE);
+open(FILE, $refs) || die "Can't open $refs: $!\n";
+while ($f = <FILE>) { chop $f; $referenced{"\L$f"}++; };
+close(FILE);
+foreach $f (sort keys(%referenced)) {
+    print "\"$f\" $referenced{$f}\n" unless $defined{"$f"} >= 1;
+}
+#
+open(FILE, $file) || die "Can't open $file: $!\n";
+while ($line = <FILE>) {
+    chop $line;
+    $line =~ tr/\\/\\/s;
+    while ($line =~ /«+¦?([^¦»]*)(.*)/) {
+        $line = $2;
+        next if $1 =~ /^"? +"?$/; # avoid empty fill-in caused by simple
+                                  # token "<"
+        $freferenced{"\L$1"}++; 
+    }
+}
+close(FILE);
+#
+foreach $f (sort keys(%freferenced)) {
+    print "«$f» $freferenced{$f}\n" unless $defined{"$f"} >= 1;
+}
+
+
+

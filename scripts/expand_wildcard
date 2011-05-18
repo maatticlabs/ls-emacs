@@ -1,0 +1,36 @@
+#! /swing/bin/perl
+# (c) 1994 Swing Informationssysteme GmbH. All rights reserved.
+#++
+# Name
+#    expand_wildcard
+#
+# Purpose
+#    Returns all files matching wildcard expression
+#     
+# Parameters
+#    $1  [text] If enclosed in back-quotes this is taken to be a
+#               shell-command and executed. Otherwise it is interpreted as a
+#               file-spec containing wildcards
+#
+# Revision Dates
+#    27-May-1994 (CT) Creation
+#--
+foreach $arg (@ARGV) {
+    if ($arg =~ /^`.*`$/) {
+        $cmd = (substr($arg, 1, length($arg) - 2)); 
+        $cmd =~ s/^ +//; 
+        if ($cmd =~ /^[aef]?grep/) {
+            substr($cmd, index($cmd, " "), 0) = " -l";
+        }
+    }
+    else {
+        $cmd = "echo $arg";
+    }
+    open(CMD, $cmd . " |");
+    while (<CMD>) {
+        chop; 
+        print $_, " "; 
+    }
+    print "\n"; 
+    close(CMD); 
+}
