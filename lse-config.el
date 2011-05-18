@@ -32,6 +32,7 @@
 ;;;;    14-May-2009 (CT) `lse-macosx` added
 ;;;;    28-Jan-2011 (CT) `unibyte` and `multibyte` removed
 ;;;;    17-May-2011 (CT) Set `inhibit-field-text-motion` to `t`
+;;;;    18-May-2011 (CT) Guard for `py-mode-map` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -386,12 +387,13 @@
 
 (global-set-key [red gold ?V] 'Py-Version-Update)
 
-;;;  9-Sep-2008
-(define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
-(define-key py-mode-map [menu-bar Python Py-Version-Update]
-  '("Py-Version-Update" . Py-Version-Update)
+(when (boundp 'py-mode-map);; 18-May-2011
+  ;;;  9-Sep-2008
+  (define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
+  (define-key py-mode-map [menu-bar Python Py-Version-Update]
+    '("Py-Version-Update" . Py-Version-Update)
+  )
 )
-
 
 ;;;  5-Feb-2008
 (font-lock-add-keywords 'python-mode '(("### XXX" 1 font-lock-warning-face)))
