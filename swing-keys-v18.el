@@ -1,6 +1,4 @@
 ;-*- coding: iso-8859-1; -*-
-;;;; the line above is needed for Emacs 20.3 -- without it,character ranges
-;;;; for characters between \200 and \377 don't work
  
 ;;;;unix_ms_filename_correspondency swing-keys-v18.el swi_kv18.el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
