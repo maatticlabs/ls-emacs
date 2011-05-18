@@ -1,0 +1,72 @@
+#! /bin/bash
+# Copyright (C) 1994-2011 1994-2009 Mag. Christian Tanzer. All rights reserved
+# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+#++
+#  Name
+#     lse_compile_language
+#
+#  Purpose
+#     Compile lse language definitions
+#
+#  Parameters
+#     $* [Language-Name] Name(s) of languages to process
+#
+#  Implicit Parameters
+#     $EMACSLSESRC     Environment variable pointing to the source directory
+#                      where the source files for the language templates are
+#                      stored
+#     $EMACSLSESCRIPTS Environment variable pointing to the directory where
+#                      the shell script ls-emacs-ini resides
+#
+#  Required Privileges
+#     None
+#
+#  Environment
+#     Linux
+#
+#  Revision dates
+#     5-Apr-1994 (CT) Creation
+#    14-May-1994 (CT) Extension of emacs lse files changed to .lse
+#    30-Sep-1994 (CT) (setq trim-versions-without-asking t)
+#     9-Jul-1995 (CT) Combine commands by `&&'
+#     4-Mar-1996 (CT) (setq delete-old-versions t) (Emacs 19.27 does it
+#                     differently)
+#     8-Oct-1996 (CT) Added (load "ls-emacs") to `emacs_cmd', removed
+#                     `-l ls-emacs' from emacs-activation
+#     5-Mar-2006 (CT) Added `load-path` to `emacs_cmd`
+#    ««revision-date»»···
+#--
+if [ -z "$EMACSLSESRC" ]
+then
+    source $EMACSLSESCRIPTS/ls-emacs-ini.bash
+fi
+#
+emacs_cmd=""
+for arg
+do
+    for file in $EMACSLSESRC/lse-language-${arg}.lse
+    do
+        f=$(echo $file | sed 's!^.*/lse-language-!!
+                             s!\.lse!!
+                            ')
+        if [ -s ${file} ]
+        then
+            emacs_cmd="${emacs_cmd}(lse-language:compile \"${f}\")  "
+            echo -n "${f} "
+        else
+            echo "Lse language ${f} does not exist"
+            exit 1
+        fi
+    done
+done
+
+echo ""
+if [ ":${emacs_cmd}:" != "::" ]
+then
+    emacs_cmd="(setq load-path (append (list \"~/.swing/system/emacs\" \"/usr/share/emacs/site-lisp/javascript\") load-path)) (load \"ls-emacs\")(setq trim-versions-without-asking t) (setq delete-old-versions t) ${emacs_cmd}"
+    cmd_file="/tmp/lse_compile_language_$$"
+    echo "${emacs_cmd}" > "${cmd_file}" \
+    && emacs -batch                     \
+             -l "${cmd_file}"           \
+    && rm   "${cmd_file}"
+fi
