@@ -33,7 +33,14 @@ then
     source $(dirname $0)/ls-emacs-ini.bash
 fi
 
-emacs_cmd="(setq load-path (append (list \"$LSE_USER_PREFIX\" \"/usr/share/emacs/site-lisp/javascript\") load-path)) (load \"ls-emacs\") (lse-byte-compile:all \"$@\")"
+emacs_cmd="(setq load-path (append (list \"$LSE_USER_PREFIX\" \"/usr/share/emacs/site-lisp/javascript\") load-path)) (load \"ls-emacs\")"
+if [ $# -gt 0 ]
+then
+    emacs_cmd="${emacs_cmd} (lse-byte-compile:all \"$@\")"
+else
+    emacs_cmd="${emacs_cmd} (lse-byte-compile:all)"
+fi
+
 cmd_file="/tmp/lse_compile_elisp_$$"
 echo "${emacs_cmd}"  > "${cmd_file}" \
     && emacs -batch -l "${cmd_file}" \
