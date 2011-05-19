@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-1; -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -127,6 +127,8 @@
 ;;;;    20-Nov-2007 (CT) `lse-tpu:search-prompt-read`: argument `dir` added
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;     7-Dec-2009 (CT) `lse-tpu:set-cursor-style` added
+;;;;    19-May-2011 (CT) `lse-tpu:search+goto` changed to `recenter` if
+;;;;                     target position is at bottom of window
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2163,7 +2165,12 @@ direction."
   (lse-tpu:adjust-search nil stay-at-bob)
   (let ((result (funcall (lse-tpu:search-function) pat limit t))
        )
-    (if result (goto-char (match-beginning 0)))
+    (when result
+      (goto-char (match-beginning 0))
+      (when (not (pos-visible-in-window-p (lse-tpu:line-head-pos 2)))
+        (recenter)
+      )
+    )
     result
   )
 ; lse-tpu:search+goto
