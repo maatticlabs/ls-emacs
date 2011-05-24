@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-# Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved
+# Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 #
 #++
@@ -11,6 +11,9 @@
 #
 # Revision Dates
 #    14-Nov-2007 (MG) Creation (ported from bash script)
+#    24-May-2011 (MG) Allow language filenames as parameter
+#                     Extract `lse_base_dir` out of the filename of the
+#                     script
 #    ««revision-date»»···
 #--
 
@@ -21,24 +24,29 @@ import re
 def compile_language (* languages, ** kw) :
     pjoin          = os.path.join
     env            = os.environ.get
-    lse_base_dir   = kw.pop ("lse_dir", None) or env ("LSE_USER_PREFIX")
+    lse_base_dir   = os.path.abspath \
+        (os.path.join (os.path.dirname (__file__), ".."))
     lse_dir        = env    ("EMACSLSESRC",  pjoin (lse_base_dir, "lse"))
     lsc_dir        = env    ("EMACSLSEDIR",  pjoin (lse_base_dir, "lse"))
     emacs_binary   = kw.pop ("emacs_binary", "emacs")
     emacs_cmd_file = os.path.abspath (kw.pop ("emacs_cmd_file", None))
     if not lse_dir :
         raise ValueError ("EMACS LSE Source dir not defined")
-    files = []
+    files   = []
     pattern = re.compile (".*lse-language-(.+)\.lse")
     for lang_pattern in languages :
-        new_files = []
-        for lse_language in glob.glob \
-            (pjoin (lse_dir, "lse-language-%s.lse" % (lang_pattern, ))) :
-            new_files.append \
-                ( ( lse_language.replace ("\\", "/")
-                  , pattern.match (lse_language).group (1)
-                  )
-                )
+        if os.path.isfile (lang_pattern) :
+            match     = pattern.match (lang_pattern)
+            if match :
+                new_files = [(lang_pattern, match.group (1))]
+        else :
+            new_files = []
+            for lse_language in glob.glob \
+                (pjoin (lse_dir, "lse-language-%s.lse" % (lang_pattern, ))) :
+                match = pattern.match (lse_language)
+                if match :
+                    new_files.append \
+                        ((lse_language.replace ("\\", "/"), match.group (1)))
         files.extend (new_files)
         if not new_files :
             print "No laguages found for pattern `%s`" % (lang_pattern, )
@@ -68,14 +76,14 @@ if __name__ == "__main__" :
     cmd = Command_Line \
         ( arg_spec    = ("language:S",)
         , option_spec =
-            ( "lse_dir:S"
-            , "emacs_binary:S=emacs"
+            ( "emacs_binary:S=emacs"
             , "emacs_cmd_file:S=lse_compile_language_cmdfile"
             )
         )
+    if len (cmd.argv) == 1 and cmd.argv [0] == None :
+        raise ValueError ("At least one languge or language-file required")
     compile_language \
-        ( lse_dir        = cmd.lse_dir
-        , emacs_binary   = cmd.emacs_binary
+        ( emacs_binary   = cmd.emacs_binary
         , emacs_cmd_file = cmd.emacs_cmd_file
         , * cmd.argv
         )
