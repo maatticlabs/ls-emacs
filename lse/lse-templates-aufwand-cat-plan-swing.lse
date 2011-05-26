@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 (lse-define-fill-in "Weiterbildung"
    '(description "Sub-Kategorien: c.l.py. Projekt-Management Qualitätssicherung Software-Engineering TeX Unix Programmiersprachen Computertechnologie Diverses Internet Security")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 (lse-define-fill-in "Compilation_Unit" 
   '(description   "Specification of compilation unit" )

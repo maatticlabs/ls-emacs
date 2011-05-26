@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 (lse-define-fill-in "this-company-name" ; 30-Mar-1995 ;  for ERCOS project
     '(description    "Name der Firma des emacs-lse Anwenders")

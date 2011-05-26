@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "python-root"

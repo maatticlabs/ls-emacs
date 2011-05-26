@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;  7-Feb-2003
 (lse-define-fill-in "TOM-Essence-Object-Class"

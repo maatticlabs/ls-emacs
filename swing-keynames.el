@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
  
 ;;;;unix_ms_filename_correspondency swing-keynames.el swi_keyn.el
 (provide 'swing-keynames)

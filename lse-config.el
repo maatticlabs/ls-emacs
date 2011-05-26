@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;; Copyright (C) 2007-2011 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -33,6 +33,7 @@
 ;;;;    28-Jan-2011 (CT) `unibyte` and `multibyte` removed
 ;;;;    17-May-2011 (CT) Set `inhibit-field-text-motion` to `t`
 ;;;;    18-May-2011 (CT) Guard for `py-mode-map` added
+;;;;    26-May-2011 (CT) `set-language-environment` removed
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -42,14 +43,6 @@
 
 ; (setq debug-on-error t)
 ; (setq debug-on-error nil)
-;;; `set-language-environment` to exactly the value as specified by the
-;;; coding directive (iso-8859-1)
-;;; Calling `set-language-environment` with `Latin-9` lead to a mixture of
-;;; unibyte and multibyte in LS-Emacs templates that resulted in a
-;;; very-hard-to-debug mess (`assq` in `lse_expand_menu` didn't work for
-;;; seemingly identical strings, one of which was unibyte, the other one was
-;;; multibyte)
-(set-language-environment "Latin-1"); 12-Oct-2007
 
 (setq vc-handled-backends nil);  1-Oct-2007
 

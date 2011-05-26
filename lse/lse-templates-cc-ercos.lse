@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;  3-May-1995
 (lse-define-fill-in "change-request-desc"

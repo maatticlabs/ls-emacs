@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 (lse-define-fill-in "SW-Tools"
    '(description "Sub-Kategorien: TTPplan-R2 TTP/A-Master TTPbuild-R2 TTPos-R2 TTPload-R3 TTPview-R4 TTPplan-R3 TTPbuild-R3 TTPos-R3 TTPload-R4 TTPview-R5 TTPview-R6 TTPverify TTPmatlink-R1 Eval-Cluster-SW TTPtools Regression-Test TTPA-PIC HW-Drivers HW-Tests")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
@@ -73,7 +73,7 @@
 ;;;;    12-Jan-1999 (CT) Added `no-indent' to `lse-split-line'
 ;;;;                     `lse-split-line-i' added and used for key bindings
 ;;;;    25-May-1999 (CT) Write `;-*- unibyte: t; -*-' as first line of lsc-file
-;;;;     2-Oct-2007 (CT) Added `coding: iso-8859-1;`  to first line of lsc-file
+;;;;     2-Oct-2007 (CT) Added `coding: iso-8859-15;`  to first line of lsc-file
 ;;;;    11-Oct-2007 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
 ;;;;                     added
 ;;;;     7-Apr-2008 (CT) `lse-goto-first-fill-in` and `lse-goto-last-fill-in`
@@ -797,7 +797,7 @@ trailers."
       (erase-buffer)
       (setq buffer-file-name   (concat lse-directory "/" file-name))
       (lse-language:use-loaded (lse-language:load-from-source name))
-      (princ ";-*- coding: iso-8859-1; -*-" (current-buffer)); 28-Jan-2011
+      (princ ";-*- coding: iso-8859-15; -*-" (current-buffer)); 28-Jan-2011
       (terpri                     (current-buffer)); 25-May-1999
       (mapatoms 'lse-compile@write-one-fill-in lse_fill-in_table)
       (mapatoms 'lse-compile@write-one-token   lse_token_table)

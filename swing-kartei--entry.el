@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency swing-kartei--entry.el swi_kntr.el
 ;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.

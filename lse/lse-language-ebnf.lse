@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 (lse-language:define "ebnf"
     '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß_")

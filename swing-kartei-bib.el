@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it, character ranges
 
 ;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved

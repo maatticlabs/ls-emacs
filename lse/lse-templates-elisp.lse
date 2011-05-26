@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 (lse-define-fill-in "and"
     '(token)
@@ -195,7 +195,7 @@
 (lse-define-fill-in "elisp-module"
     '(description           "Module of elisp functions")
     '(replacement
-        ";-*- coding: iso-8859-1; -*-" ; 22-Feb-2000
+        ";-*- coding: iso-8859-15; -*-" ; 22-Feb-2000
         ""
         ";;;;««header-comment»»"
         "««provide»»"

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-1; -*-
+;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-compilation:el lse_cmpi:el
 ;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
