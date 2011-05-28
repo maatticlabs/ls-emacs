@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-mode-alist:el lse_mode:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -69,6 +69,7 @@
 ;;;;                     lse-aufwandserfassung-mode and lse-kartei-mode
 ;;;;    12-Oct-2007 (CT) Added keybindings for `lse-cal:diary:next-day` and
 ;;;;                     `lse-cal:diary:prev-day` to `lse-diary-mode`
+;;;;    28-May-2011 (CT) `lse-git:setup-hook` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mode-alist)
@@ -336,3 +337,38 @@
   );  3-Apr-1998
 ; olt-mode
 )
+
+;;; 28-May-2011
+(defun lse-git:abort ()
+  "Abort editing a git commit message -- aborts the commit, too!"
+  (interactive)
+  (let ((kill-buffer-query-functions nil))
+    (kill-buffer)
+  )
+; lse-git:abort
+)
+
+;;; 28-May-2011
+(defun lse-git:finish ()
+  "Finish editing a git commit message"
+  (interactive)
+  (save-buffer 0)
+  (server-edit)
+; lse-git:finish
+)
+
+;;; 28-May-2011
+(defun lse-git:setup-hook ()
+  "Setup buffer for git commit messages"
+  (when (integerp (string-match ".git/COMMIT" (buffer-file-name)))
+    (local-set-key [blue gold ?e] 'lse-git:abort)
+    (local-set-key [?\C-c ?\C-c]  'lse-git:finish)
+    (local-set-key [?\C-x ?#]     'lse-git:finish)
+    (auto-fill-mode t)
+  )
+; lse-git:setup-hook
+)
+
+(add-hook 'server-switch-hook 'lse-git:setup-hook)
+
+;;;; __END__ lse-mode-alist.el
