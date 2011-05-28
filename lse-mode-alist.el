@@ -345,6 +345,7 @@
   (let ((kill-buffer-query-functions nil))
     (kill-buffer)
   )
+  (if (framep server-window) (iconify-frame server-window))
 ; lse-git:abort
 )
 
@@ -354,6 +355,7 @@
   (interactive)
   (save-buffer 0)
   (server-edit)
+  (if (framep server-window) (iconify-frame server-window))
 ; lse-git:finish
 )
 
