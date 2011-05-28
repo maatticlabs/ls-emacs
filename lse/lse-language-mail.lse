@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1995-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -52,6 +52,7 @@
 ;;;;                     address immediately preceeding the killed fill-in )
 ;;;;    11-May-2010 (CT) `(defconst  mail-user-agent 'sendmail-user-agent)`
 ;;;;                     to fix Emacs 23.2 breakage
+;;;;    28-May-2011 (CT) `visual-line-mode` added to language definition
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -67,6 +68,7 @@
     '(
         lse-tpu:toggle-newline-and-indent
         auto-fill-mode
+        visual-line-mode
      )
     '(
         "lse-templates-mail"
