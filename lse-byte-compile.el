@@ -34,6 +34,7 @@
 ;;;;    18-Oct-2007 (CT) `lse-config` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    31-Jan-2011 (CT) `lse-hash` added
+;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -96,6 +97,7 @@
     "lse-tpu-keys-v19"
     "lse-tpu-keys"
     "lse-tpu"
+    "lse-vcs"
     "lse-window"
   )
 )

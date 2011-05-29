@@ -650,6 +650,7 @@ previous line"
   )
 ; lse-select-current-bs-word
 )
+
 ;;;  7-Apr-1997
 (defun lse-select-current-line (num)
   (interactive "p")
@@ -1217,7 +1218,7 @@ previous line"
 )
           "
           i i
-        )
+        );"
       )
     ))
     (setq i (1+ i))

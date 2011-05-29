@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
- 
+
 ;;;;unix_ms_filename_correspondency lse-range:el lse_rnge:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -26,27 +26,31 @@
 ;;;;
 ;;;; Purpose
 ;;;;    Administration of ranges
-;;;; 
+;;;;
 ;;;; Description
-;;;;    A lse-range consists of two markers: head and tail. 
-;;;; 
+;;;;    A lse-range consists of two markers: head and tail.
+;;;;
 ;;;;    The functions changing ranges should be used only inside the buffer of
 ;;;;    the range.
-;;;; 
+;;;;
 ;;;;    All exported functions have names like `lse-range:foo', where foo
 ;;;;    specifies the function. Never use functions with names like
-;;;;    `lse-range@bar' or containing underscores. 
-;;;; 
+;;;;    `lse-range@bar' or containing underscores.
+;;;;
 ;;;;    Internally tail is offset by +1 to avoid collapsing of the range, when
 ;;;;    it is deleted. Therefore access to the tail-position must be done
-;;;;    using the lse-range function lse-range:tail-pos. 
+;;;;    using the lse-range function lse-range:tail-pos.
 ;;;;
 ;;;; Revision Dates
 ;;;;    24-May-1994 (CT) Creation (of comment)
 ;;;;    24-May-1994 (CT) set-marker used for change of marker
 ;;;;     7-Oct-1996 (CT) lse-insert:emacs: replaced by insert
 ;;;;    11-Oct-1996 (CT) lse-range:contents-np and lse-range:clean-np defined
-;;;;-- 
+;;;;    29-May-2011 (CT) `lse-range:new` added with guard for empty range
+;;;;    29-May-2011 (CT) `lse-range:contents` and `lse-range:contents-np`
+;;;;                     changed to return an empty string instead of `nil`
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-range)
 
 (defmacro positivep (x)
@@ -60,10 +64,19 @@
   )
 )
 
+(defun lse-range:new-x (head tail)
+  (if (and (< tail head)
+        (> (- head tail) 1); don't swap `head` and `tail` for empty ranges !
+      )
+      (lse-range@new tail head)
+    (lse-range@new head tail)
+  )
+)
+
 (defun lse-range:new-list (ranges)
   (let* (result)
     (while (and (consp ranges) (cdr ranges))
-      (setq result 
+      (setq result
             (cons (lse-range:new (car ranges) (car (cdr ranges))) result)
       )
       (setq ranges (cdr (cdr ranges)))
@@ -79,8 +92,8 @@
 )
 
 (defun lse-range:copy (range)
-  (vector (copy-marker (lse-range:head range)) 
-          (copy-marker (lse-range:tail range)) 
+  (vector (copy-marker (lse-range:head range))
+          (copy-marker (lse-range:tail range))
   )
 )
 
@@ -103,29 +116,29 @@
 )
 
 (defun lse-range:tail-pos (range)
-  (if range 
+  (if range
       (let ((result (make-marker))
             (tail   (lse-range:tail range))
            )
         (set-marker result (1- tail) (marker-buffer tail))
-        result 
+        result
       )
   )
 )
 
 (defun lse-range:contents (range)
   (if (lse-range:is-collapsed range)
-      nil
+      ""
     (buffer-substring
         (lse-range:head-pos range) (lse-range:tail-pos range)
     )
   )
 )
 
-;;; 11-Oct-1996 
+;;; 11-Oct-1996
 (defun lse-range:contents-np (range)
   (if (lse-range:is-collapsed range)
-      nil
+      ""
     (buffer-substring-no-properties
         (lse-range:head-pos range) (lse-range:tail-pos range)
     )
@@ -144,7 +157,7 @@
   (let ((head-pos (lse-range:head-pos range))
         (tail-pos (lse-range:tail-pos range))
        )
-    (and (integer-or-marker-p head-pos) 
+    (and (integer-or-marker-p head-pos)
          (integer-or-marker-p tail-pos)
          (> tail-pos head-pos)
          (not (or (> head-pos pos) (< tail-pos pos)))
@@ -162,7 +175,7 @@
   )
 )
 
-;;; 11-Oct-1996 
+;;; 11-Oct-1996
 (defun lse-range:clean-np (range)
   (if (lse-range:is-collapsed range)
       nil
@@ -180,7 +193,7 @@
       (goto-char       (lse-range:head-pos range))
       (lse-range:clean range)
       (insert          replacement)
-      (lse-range:change-tail-pos 
+      (lse-range:change-tail-pos
            range (+ (lse-range:head-pos range) (length replacement))
       )
     )

@@ -194,14 +194,17 @@
 
 (lse-define-fill-in "elisp-module"
     '(description           "Module of elisp functions")
+    '(rcompletion-trailer   delete-blank-lines)
     '(replacement
-        ";-*- coding: iso-8859-15; -*-" ; 22-Feb-2000
+        ";-*- coding: iso-8859-15; -*-"
         ""
         ";;;;««header-comment»»"
         "««provide»»"
         "««require»»···"
         ""
         "««defun»»···"
+        ""
+        ";;;; __END__ " & lse-insert-buffer-name
      )
 ;;; elisp-module
 )

@@ -82,6 +82,7 @@
 ;;;;    17-Nov-2009 (CT) `server-start` guarded against `server-running-p`
 ;;;;    17-Nov-2009 (CT) Guard for `lse-global-home-mark-initialized` added
 ;;;;    16-May-2011 (CT) `lse-version` increased
+;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -269,6 +270,7 @@
 (require 'lse-range)
 (require 'lse-session)
 (require 'lse-tpu)
+(require 'lse-vcs)
 (require 'lse-window)
 (require 'lse-tpu-keys)
 (require 'lse-cal)
@@ -290,7 +292,9 @@
      (defun server-running-p (&optional x) nil)
    )
    (unless (server-running-p) (server-start))
-   (setq server-temp-file-regexp (concat "MH/draft/[0-9]+\\|" server-temp-file-regexp))
+   (setq server-temp-file-regexp
+     (concat "MH/draft/[0-9]+\\|" server-temp-file-regexp)
+   )
   )
   (lse-define-tpu-keys)
   (lse-define-tpu-gold-keys)

@@ -34,6 +34,7 @@
 ;;;;    17-May-2011 (CT) Set `inhibit-field-text-motion` to `t`
 ;;;;    18-May-2011 (CT) Guard for `py-mode-map` added
 ;;;;    26-May-2011 (CT) `set-language-environment` removed
+;;;;    29-May-2011 (CT) Set `inhibit-field-text-motion` to `nil` (minibuffer!)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -153,7 +154,7 @@
 (setq         require-final-newline        t);  8-Oct-1996
 
 (setq         adaptive-fill-mode           nil); 27-Oct-1996
-(setq         inhibit-field-text-motion    t); 17-May-2011
+(setq         inhibit-field-text-motion    nil); 29-May-2011
 
 (setq         sentence-end-double-space    nil); 17-Dec-1997
 

@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -51,6 +51,7 @@
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;     8-Dec-2009 (CT) `lse-frame:list:show` and `lse-show-position` added
 ;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
+;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -61,12 +62,18 @@
   (require 'lse-flat-fill-in)
   (require 'lse-interactive)
   (require 'lse-tpu-keys)
+  (require 'lse-vcs)
   (require 'imenu)
 )
 
 (defvar lse-menu:lse-menu (make-sparse-keymap "LSE")
   "Menu keymap for fill-in commands of LS-Emacs"
 )
+
+(defvar lse-menu:vcs (make-sparse-keymap "VCS")
+  "Menu keymap for vc-specific commands of LS-Emacs"
+)
+(put 'lse-menu:vcs 'menu-enable '(lse-vcs:conflict:p))
 
 (defvar lse-menu:fill-in (make-sparse-keymap "Fill-In")
   "Menu keymap for fill-in commands of LS-Emacs"
@@ -95,6 +102,43 @@
   '("Revert all buffers with same anchor" . lse-revert-buffers-same-anchor)
 ); 10-Nov-2010
 (put 'lse-revert-buffers-same-anchor 'menu-enable 'lse-buffer:anchor)
+
+(define-key lse-menu:lse-menu [VCS] (cons "VCS" lse-menu:vcs))
+
+(define-key lse-menu:vcs [lse-vcs:conflict:reset]
+  '("Stop conflict management" . lse-vcs:conflict:reset)
+)
+(put 'lse-vcs:conflict:reset'menu-enable 'lse-vcs:conflict:range:a)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:resolved]
+  '("Resolve current conflict with the state of the buffer as is it" . lse-vcs:conflict:resolved)
+)
+(put 'lse-vcs:conflict:resolved 'menu-enable 'lse-vcs:conflict:range:a)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:choose-b+a]
+  '("Choose variant 'B' followed by variant 'A'" . lse-vcs:conflict:choose-b+a)
+)
+(put 'lse-vcs:conflict:choose-b+a 'menu-enable 'lse-vcs:conflict:range:a)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:choose-a+b]
+  '("Choose variant 'A' followed by variant 'B'" . lse-vcs:conflict:choose-a+b)
+)
+(put 'lse-vcs:conflict:choose-a+b 'menu-enable 'lse-vcs:conflict:range:a)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:choose-b]
+  '("Choose variant 'B'" . lse-vcs:conflict:choose-b)
+)
+(put 'lse-vcs:conflict:choose-b 'menu-enable 'lse-vcs:conflict:range:b)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:choose-a]
+  '("Choose variant 'A'" . lse-vcs:conflict:choose-a)
+)
+(put 'lse-vcs:conflict:choose-a 'menu-enable 'lse-vcs:conflict:range:a)
+
+(define-key lse-menu:vcs [lse-vcs:conflict:goto-next]
+  '("Goto next conflict" . lse-vcs:conflict:goto-next)
+)
+(put 'lse-vcs:conflict:goto-next 'menu-enable '(lse-vcs:conflict:p))
 
 (define-key lse-flat-fill-in:keymap [down-mouse-3] lse-menu:fill-in)
 

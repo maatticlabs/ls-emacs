@@ -160,7 +160,7 @@
   (lse-tpu:move-to-beginning)
   (lse-mail:insert-if-missing "Mime-version" "Mime-version: 1.0")
   (lse-mail:insert-if-missing "Content-type"
-    "Content-type: text/plain; charset=iso-8859-1"
+    "Content-type: text/plain; charset=iso-8859-15"
   )
   (lse-mail:insert-if-missing "Content-transfer-encoding"
     "Content-transfer-encoding: 8bit"
