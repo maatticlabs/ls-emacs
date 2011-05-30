@@ -26,12 +26,14 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    29-May-2011 (CT) Creation
+;;;;    30-May-2011 (CT) Buttons added
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-vcs)
 
 (eval-when-compile
+  (require 'button)
   (require 'lse-face)
   (require 'lse-fill-in)
   (require 'lse-range)
@@ -76,6 +78,7 @@
 (make-variable-buffer-local (defvar lse-vcs:conflict:range:h nil))
 (make-variable-buffer-local (defvar lse-vcs:conflict:range:m nil))
 (make-variable-buffer-local (defvar lse-vcs:conflict:range:t nil))
+(make-variable-buffer-local (defvar lse-vcs:conflict:range:Z nil))
 
 (make-variable-buffer-local (defvar lse-vcs:conflict:overlay:a nil))
 (make-variable-buffer-local (defvar lse-vcs:conflict:overlay:b nil))
@@ -88,28 +91,60 @@
 (lse-face:define 'lse-vcs:conflict:face:a "Blue"   "Yellow")
 (lse-face:define 'lse-vcs:conflict:face:b "Yellow" "Blue")
 (lse-face:define 'lse-vcs:conflict:face:x "Grey90" "Grey10")
+(lse-face:define 'lse-vcs:conflict:face:Z "Grey10" "Grey90")
+
+;;; 30-May-2011
+(defun lse-vcs:conflict:add-button (label action &optional no-trailer)
+  (insert-button label
+    'action      action
+    'face        'lse-vcs:conflict:face:Z
+    'follow-link 'mouse-face
+  )
+  (or no-trailer (insert "    "))
+; lse-vcs:conflict:add-button
+)
+
+;;; 30-May-2011
+(defun lse-vcs:conflict:add-buttons ()
+  (let ((start-pos (point)))
+    (insert "\n")
+    (lse-vcs:conflict:add-button "Use '<'"  'lse-vcs:conflict:choose-a)
+    (lse-vcs:conflict:add-button "Use '>'"  'lse-vcs:conflict:choose-b)
+    (lse-vcs:conflict:add-button "Use '><'" 'lse-vcs:conflict:choose-a+b)
+    (lse-vcs:conflict:add-button "Use '<>'" 'lse-vcs:conflict:choose-b+a)
+    (lse-vcs:conflict:add-button "Resolved" 'lse-vcs:conflict:resolved)
+    (lse-vcs:conflict:add-button " Reset  " 'lse-vcs:conflict:reset)
+    (lse-vcs:conflict:add-button "  Next  " 'lse-vcs:conflict:goto-next)
+    (setq lse-vcs:conflict:range:Z (lse-range:new-x start-pos (point)))
+  )
+; lse-vcs:conflict:add-buttons
+)
 
 ;;; 29-May-2011
 (defun lse-vcs:conflict:add-text-properties ()
-  (if lse-vcs:conflict:range:h
-      (lse-fill-in:add-text-properties
-        (lse-range:head-pos lse-vcs:conflict:range:h)
-        (lse-range:tail-pos lse-vcs:conflict:range:h)
-        lse-vcs:conflict:text-props
-      )
+  (when lse-vcs:conflict:range:h
+    (lse-fill-in:add-text-properties
+      (lse-range:head-pos lse-vcs:conflict:range:h)
+      (lse-range:tail-pos lse-vcs:conflict:range:h)
+      lse-vcs:conflict:text-props
+    )
+    (save-excursion
+      (goto-char (1- (lse-range:head-pos lse-vcs:conflict:range:h)))
+      (lse-vcs:conflict:add-buttons)
+    )
   )
-  (if lse-vcs:conflict:range:t
-      (lse-fill-in:add-text-properties
-        (lse-range:head-pos lse-vcs:conflict:range:t)
-        (lse-range:tail-pos lse-vcs:conflict:range:t)
-        lse-vcs:conflict:text-props
-      )
+  (when lse-vcs:conflict:range:t
+    (lse-fill-in:add-text-properties
+      (lse-range:head-pos lse-vcs:conflict:range:t)
+      (lse-range:tail-pos lse-vcs:conflict:range:t)
+      lse-vcs:conflict:text-props
+    )
   )
 ; lse-vcs:conflict:add-text-properties
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:choose-a ()
+(defun lse-vcs:conflict:choose-a (&optional button)
   "Choose variant 'a' of conflict"
   (interactive)
   (lse-vcs:conflict:delete-range lse-vcs:conflict:range:b 0 +1)
@@ -118,7 +153,7 @@
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:choose-a+b ()
+(defun lse-vcs:conflict:choose-a+b (&optional button)
   "Choose variant 'a' followed by variant 'b' of conflict"
   (interactive)
   (lse-vcs:conflict:resolved)
@@ -126,7 +161,7 @@
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:choose-b ()
+(defun lse-vcs:conflict:choose-b (&optional button)
   "Choose variant 'b' of conflict"
   (interactive)
   (lse-vcs:conflict:delete-range lse-vcs:conflict:range:a 0 +1)
@@ -135,7 +170,7 @@
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:choose-b+a ()
+(defun lse-vcs:conflict:choose-b+a (&optional button)
   "Choose variant 'b' followed by variant 'a' of conflict"
   (interactive)
   (unless (lse-range:is-collapsed lse-vcs:conflict:range:a)
@@ -167,6 +202,7 @@
 ;;; 29-May-2011
 (defun lse-vcs:conflict:delete-range (range &optional hd td)
   (or
+    (not range)
     (lse-range:is-empty      range)
     (lse-range:is-collapsed  range)
     (delete-region
@@ -190,7 +226,7 @@
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:goto-next ()
+(defun lse-vcs:conflict:goto-next (&optional button)
   "Goto next conflict"
   (interactive)
   (if lse-vcs:conflict:range:t
@@ -274,21 +310,26 @@
 ; lse-vcs:conflict:p
 )
 
+;;; 30-May-2011
+(defun lse-vcs:conflict:remove-buttons ()
+  (lse-vcs:conflict:delete-range lse-vcs:conflict:range:Z)
+; lse-vcs:conflict:remove-buttons
+)
+
 ;;; 29-May-2011
 (defun lse-vcs:conflict:remove-text-properties ()
-  (if lse-vcs:conflict:range:h
-      (lse-fill-in:remove-text-properties
-        (lse-range:head-pos lse-vcs:conflict:range:h)
-        (lse-range:tail-pos lse-vcs:conflict:range:t)
-        lse-vcs:conflict:text-props
-      )
-
+  (when lse-vcs:conflict:range:h
+    (lse-fill-in:remove-text-properties
+      (lse-range:head-pos lse-vcs:conflict:range:h)
+      (lse-range:tail-pos lse-vcs:conflict:range:t)
+      lse-vcs:conflict:text-props
+    )
   )
 ; lse-vcs:conflict:remove-text-properties
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:reset ()
+(defun lse-vcs:conflict:reset (&optional button)
   (interactive)
   (let ((last-pos (point-marker)))
     (lse-vcs:conflict:reset-overlays)
@@ -297,11 +338,12 @@
     (setq lse-vcs:conflict:range:h nil)
     (setq lse-vcs:conflict:range:m nil)
     (setq lse-vcs:conflict:range:t nil)
+    (setq lse-vcs:conflict:range:Z nil)
     (when lse-vcs:conflict:saved_pos
       (setq lse_last_position lse-vcs:conflict:saved_pos)
       (lse-goto-last-position)
+      (setq lse-vcs:conflict:saved_pos nil)
     )
-
   )
 ; lse-vcs:conflict:reset
 )
@@ -309,6 +351,7 @@
 ;;; 29-May-2011
 (defun lse-vcs:conflict:reset-overlays ()
   (interactive)
+  (lse-vcs:conflict:remove-buttons)
   (when (and lse-vcs:conflict:overlay:a
           (overlay-buffer lse-vcs:conflict:overlay:a)
         )
@@ -322,7 +365,7 @@
 )
 
 ;;; 29-May-2011
-(defun lse-vcs:conflict:resolved ()
+(defun lse-vcs:conflict:resolved (&optional button)
   "Resolve current conflict with the state of the buffer as is it."
   (interactive)
   (lse-vcs:conflict:delete-range lse-vcs:conflict:range:h -1)
@@ -336,6 +379,7 @@
 
 ;;; some text for testing
 (defvar test "
+Before the conflict::
 <<<<<<< HEAD
 My version
 of the
@@ -345,6 +389,7 @@ Their version
 ...
 conflicts with mine
 >>>>>>> branch
+---after the conflict
 
 non conflicting part of the file
 
