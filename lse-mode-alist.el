@@ -338,39 +338,4 @@
 ; olt-mode
 )
 
-;;; 28-May-2011
-(defun lse-git:abort ()
-  "Abort editing a git commit message -- aborts the commit, too!"
-  (interactive)
-  (let ((kill-buffer-query-functions nil))
-    (kill-buffer)
-  )
-  (if (framep server-window) (iconify-frame server-window))
-; lse-git:abort
-)
-
-;;; 28-May-2011
-(defun lse-git:finish ()
-  "Finish editing a git commit message"
-  (interactive)
-  (save-buffer 0)
-  (server-edit)
-  (if (framep server-window) (iconify-frame server-window))
-; lse-git:finish
-)
-
-;;; 28-May-2011
-(defun lse-git:setup-hook ()
-  "Setup buffer for git commit messages"
-  (when (integerp (string-match ".git/COMMIT" (buffer-file-name)))
-    (local-set-key [blue gold ?e] 'lse-git:abort)
-    (local-set-key [?\C-c ?\C-c]  'lse-git:finish)
-    (local-set-key [?\C-x ?#]     'lse-git:finish)
-    (auto-fill-mode t)
-  )
-; lse-git:setup-hook
-)
-
-(add-hook 'server-switch-hook 'lse-git:setup-hook)
-
 ;;;; __END__ lse-mode-alist.el

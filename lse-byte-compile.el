@@ -80,6 +80,7 @@
     "lse-fill-in"
     "lse-flat-fill-in"
     "lse-frame"
+    "lse-git"
     "lse-hash"
     "lse-indent"
     "lse-interactive"

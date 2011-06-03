@@ -83,14 +83,15 @@
 ;;;;    17-Nov-2009 (CT) Guard for `lse-global-home-mark-initialized` added
 ;;;;    16-May-2011 (CT) `lse-version` increased
 ;;;;    29-May-2011 (CT) `lse-vcs` added, `lse-version` increased
+;;;;     3-Jun-2011 (CT) `lse-git` added, `lse-version` increased
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
 (defconst enable-multibyte-characters t)
 
-(defconst lse-version      "3.7"          "Version number of LS-Emacs.")
-(defconst lse-version-date "29-May-2011 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.7.1"        "Version number of LS-Emacs.")
+(defconst lse-version-date " 3-Jun-2011 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
@@ -256,6 +257,7 @@
 (require 'lse-fill-in--search)
 (require 'lse-flat-fill-in)
 (require 'lse-frame); 12-Aug-1996
+(require 'lse-git)
 (require 'lse-indent)
 (require 'lse-interactive)
 (require 'lse-keys)
