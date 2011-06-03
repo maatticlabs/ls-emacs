@@ -84,6 +84,7 @@
 ;;;;    16-May-2011 (CT) `lse-version` increased
 ;;;;    29-May-2011 (CT) `lse-vcs` added, `lse-version` increased
 ;;;;     3-Jun-2011 (CT) `lse-git` added, `lse-version` increased
+;;;;     3-Jun-2011 (CT) `lse-w32` factored
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -279,14 +280,7 @@
 (lse-initialize)
 (if noninteractive       ;  20-Jul-1995
     t                    ;  20-Jul-1995 no need for defining keys
-  (if (eq system-type 'windows-nt);  6-Sep-2002
-     (progn                       ;  6-Sep-2002
-       (setq w32-scroll-lock-modifier nil)
-       (setq w32-lwindow-modifier 'super)
-       (setq w32-rwindow-modifier 'meta)
-       (setq w32-alt-is-meta nil)
-       (setq w32-apps-modifier 'meta)
-     )
+  (unless (eq system-type 'windows-nt);  6-Sep-2002
    (require 'server)
    (unless (fboundp 'server-running-p)
      ;;; 17-Nov-2009; `server-running-p` doesn't exist in 22.x

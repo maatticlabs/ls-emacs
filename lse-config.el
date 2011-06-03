@@ -38,8 +38,12 @@
 ;;;;    ««revision-date»»···
 ;;;;--
 
-(if (eq window-system 'mac)
-    (require lse-macosx)
+(when (eq window-system 'mac)
+  (require 'lse-macosx)
+)
+
+(when (eq system-type 'windows-nt)
+  (require 'lse-w32)
 )
 
 ; (setq debug-on-error t)
