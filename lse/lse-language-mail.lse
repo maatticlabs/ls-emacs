@@ -56,6 +56,7 @@
 ;;;;     1-Jun-2011 (CT) `lse-mail:send:cleanup` factored,
 ;;;;                     fix for stray `»` at eob added
 ;;;;     1-Jun-2011 (CT) `lse-mail:exit` factored
+;;;;     9-Jun-2011 (CT) `visual-line-mode` removed again
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -71,7 +72,6 @@
     '(
         lse-tpu:toggle-newline-and-indent
         auto-fill-mode
-        visual-line-mode
      )
     '(
         "lse-templates-mail"
