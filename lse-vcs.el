@@ -27,6 +27,9 @@
 ;;;; Revision Dates
 ;;;;    29-May-2011 (CT) Creation
 ;;;;    30-May-2011 (CT) Buttons added
+;;;;    17-Jun-2011 (CT) `lse-vcs:conflict:head-pattern` and
+;;;;                     `lse-vcs:conflict:tail-pattern` corrected (allow
+;;;;                     multiple words)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -43,8 +46,8 @@
   (concat
     "^"
       "<<<<<+"
-      " *"
-      "\\([^ \t\n]*\\)"
+      "[ *\t]"
+      "\\(.*\\)"
       " *"
     "$"
   )
@@ -64,7 +67,7 @@
     "^"
       ">>>>>+"
       " *"
-      "\\([^ \t\n]*\\)"
+      "\\(.*\\)"
       " *"
     "$"
   )
@@ -189,6 +192,7 @@
   (define-key lse-vcs:conflict:keymap [?<]        'lse-vcs:conflict:choose-a)
   (define-key lse-vcs:conflict:keymap [?>]        'lse-vcs:conflict:choose-b)
   (define-key lse-vcs:conflict:keymap [?c]        'lse-vcs:conflict:choose-a+b)
+  (define-key lse-vcs:conflict:keymap [?+]        'lse-vcs:conflict:choose-a+b)
   (define-key lse-vcs:conflict:keymap [?r]        'lse-vcs:conflict:resolved)
   (define-key lse-vcs:conflict:keymap [?q]        'lse-vcs:conflict:reset)
   (define-key lse-vcs:conflict:keymap [?s]        'lse-vcs:conflict:choose-b+a)
