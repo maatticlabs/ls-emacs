@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    20-Jan-2011 (CT) Creation
+;;;;    12-Oct-2011 (CT) Add `undefined` to `jq-plugin`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -197,7 +198,7 @@
     '(token                 "plugin")
     '(description           "Define a plugin for jQuery")
     '(replacement
-        "( function ($)"
+        "( function ($, undefined)"
         & $ _block_head
         "««statement»»···"
         "$.fn.«name» = function (opts)"

@@ -35,6 +35,7 @@
 ;;;;    23-Jan-2011 (CT) Creation continued.....
 ;;;;    10-Mar-2011 (CT) Fill-in `for-array` and friends added
 ;;;;     4-May-2011 (CT) `use-strict` added and used
+;;;;    12-Oct-2011 (CT) Add `undefined` to `functional-constructor`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -356,7 +357,7 @@
     '(replacement
         "var «function-name» = "
         lse-indent+1
-          "( function ()"
+          "( function (undefined)"
           & $ _block_head
             "var proto = «object-literal»;"
             "var fun_con = function (««parameter-declaration»»···)"
