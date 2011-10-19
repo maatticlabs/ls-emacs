@@ -29,6 +29,7 @@
 ;;;; Revision Dates
 ;;;;    20-Jan-2011 (CT) Creation
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `jq-plugin`
+;;;;    19-Oct-2011 (CT) Deprecated `live` and `die` (use `delegate` instead)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -948,10 +949,13 @@
     '(token)
     '(token                 ".die")
     '(description
+        "*** Use $(document).undelegate instead ***"
+        "*** http://www.cmlenz.net/archives/2011/06/jquery-event-delegation"
+        ""
         "Remove an event handler previously attached using .live() "
         "from the elements."
      )
-    '(replacement           ".die (««event-type»», ««callback»»)")
+    ; '(replacement           ".die (««event-type»», ««callback»»)")
 ;;; jq-wrapper-die
 )
 
@@ -1299,6 +1303,9 @@
     '(token)
     '(token                 ".live")
     '(description
+        "*** Use $(document).delegate instead ***"
+        "*** http://www.cmlenz.net/archives/2011/06/jquery-event-delegation"
+        ""
         "Attach a handler to the event for all elements which match the "
         "current selector, now and in the future."
         "This method is a variation on the basic .bind() method for attaching "
@@ -1307,7 +1314,7 @@
         "that get introduced later do not, so they would require another "
         ".bind() call. "
      )
-    '(replacement           ".live («event-type», ««event-data»», «callback»)")
+    ; '(replacement           ".live («event-type», ««event-data»», «callback»)")
 ;;; jq-wrapper-live
 )
 
