@@ -30,6 +30,7 @@
 ;;;;    20-Jan-2011 (CT) Creation
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `jq-plugin`
 ;;;;    19-Oct-2011 (CT) Deprecated `live` and `die` (use `delegate` instead)
+;;;;    26-Nov-2011 (CT) Factor `jq-plugin-function`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -193,15 +194,12 @@
 ;;; jg-grep-invert
 )
 
-;;; 18-Jan-2011
-(lse-define-fill-in "jq-plugin"
+;;; 26-Nov-2011
+(lse-define-fill-in "jq-plugin-function"
     '(token)
-    '(token                 "plugin")
-    '(description           "Define a plugin for jQuery")
+    '(token                 "plugin-function")
+    '(description           "Define a plugin function for jQuery")
     '(replacement
-        "( function ($, undefined)"
-        & $ _block_head
-        "««statement»»···"
         "$.fn.«name» = function (opts)"
             & $ _block_head
             "var options  = $.extend"
@@ -213,6 +211,20 @@
             "return this; "
             $ _block_tail
         ""
+     )
+;;; jq-plugin-function
+)
+
+;;; 18-Jan-2011
+(lse-define-fill-in "jq-plugin"
+    '(token)
+    '(token                 "plugin")
+    '(description           "Define a plugin for jQuery")
+    '(replacement
+        "( function ($, undefined)"
+        & $ _block_head
+        "««statement»»···"
+        "«jq-plugin-function»···"
         "««statement»»···"
         $ _block_tail
         "(jQuery)"
