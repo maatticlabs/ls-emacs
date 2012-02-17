@@ -150,11 +150,12 @@ into Emacs."
 
 ;;; 13-Oct-2007
 (defun lse-byte-compile:one (file)
-  (let* ((load-path lse-byte-compile:all-source-dirs)
-         (full-name (locate-library file))
-        )
-    (if (string-ends-with full-name ".elc")
-        (setq full-name (substring full-name 0 -1))
+  (let (full-name)
+    (let ((load-path lse-byte-compile:all-source-dirs))
+      (setq full-name (locate-library file))
+    )
+    (when (string-ends-with full-name ".elc")
+      (setq full-name (substring full-name 0 -1))
     )
     (if (member file lse-byte-compile:black-list)
         (save-excursion

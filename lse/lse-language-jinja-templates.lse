@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -28,6 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    26-Dec-2009 (CT) Creation
+;;;;    17-Feb-2012 (CT) Add support for `imenu`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -58,6 +59,17 @@
 ;;; 26-Feb-2008
 (defun lse-jinja-mode-hook ()
   (lse-language:use "jinja-templates")
+  ;; jinja-mode is dervied from sgml-mode which messes with
+  ;; imenu-create-index-function, restore to default value here
+  (setq imenu-create-index-function 'imenu-default-create-index-function)
+  (setq imenu-generic-expression
+    '( (nil       "\{\%-? *\\(\\(?:macro\\|block\\) +[-A-Za-z0-9_]+\\)" 1)
+       ("Import"  "\{\%-? *import +\\(.*\\)"                            1)
+       ("Extends" "\{\%-? *extends +\\(.*\\)"                           1)
+
+     )
+  )
+  (imenu-add-to-menubar "IM-Jinja")
 ; lse-jinja-mode-hook
 )
 

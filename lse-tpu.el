@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -129,6 +129,7 @@
 ;;;;     7-Dec-2009 (CT) `lse-tpu:set-cursor-style` added
 ;;;;    19-May-2011 (CT) `lse-tpu:search+goto` changed to `recenter` if
 ;;;;                     target position is at bottom of window
+;;;;    17-Feb-2012 (CT) Add `head` and `tail` to `lse-tpu:set-match-highlight`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -343,13 +344,14 @@
 (make-variable-buffer-local 'lse-tpu:match-overlay-bg)    ;  1-Apr-1996
 
 ;;; 22-Mar-1995
-(defun lse-tpu:set-match-highlight ()
-  (and (marker-position lse-tpu:match-beginning-mark); 19-Mar-1995
-       (marker-position lse-tpu:match-end-mark)
-       (< (lse-tpu:match-beginning) (lse-tpu:match-end))
-       (setq lse-tpu:match-overlay
-             (make-overlay (lse-tpu:match-beginning) (lse-tpu:match-end))
-       )
+(defun lse-tpu:set-match-highlight (&optional head tail)
+  (unless head (setq head (lse-tpu:match-beginning)))
+  (unless tail (setq tail (lse-tpu:match-end)))
+  (and head tail
+       (or (integerp head) (marker-position head))
+       (or (integerp tail) (marker-position tail))
+       (< head tail)
+       (setq lse-tpu:match-overlay (make-overlay head tail))
        (overlay-put lse-tpu:match-overlay 'face 'lse-face:search-match)
        (setq lse-tpu:match-overlay-bg
              (make-overlay (lse-tpu:line-head-pos) (lse-tpu:line-tail-pos))
@@ -361,11 +363,7 @@
 
 ;;; 22-Mar-1995
 (defun lse-tpu:unset-match-highlight ()
-  (if (and ; (marker-position lse-tpu:match-beginning-mark); 19-Mar-1995
-           ; (marker-position lse-tpu:match-end-mark)
-           ; (< lse-tpu:match-beginning-mark lse-tpu:match-end-mark)
-           lse-tpu:match-overlay
-      )
+  (if lse-tpu:match-overlay
       (progn
         (delete-overlay lse-tpu:match-overlay)
         (delete-overlay lse-tpu:match-overlay-bg)

@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -164,6 +164,7 @@
 ;;;;    23-Jul-2010 (CT) Binding for `[gold ?#]` to
 ;;;;                     `lse-insert-date-time-comment` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    17-Feb-2012 (CT) Bind `[mouse-3]` to `imenu`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -484,6 +485,9 @@
       (setq i (1+ i))
     )
   )
+
+  (global-set-key  [mouse-3]         'imenu)
+
   (global-set-key  [?\A-']           'lse-insert-bquotes); 10-Jun-1998
   (global-set-key  [?\A-|]           'lse-fill-range); 28-Apr-1996
   (global-set-key  [?\A-<]           'lse-set-selective-display);    8-Sep-2002
