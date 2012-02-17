@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1997-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -35,15 +35,29 @@
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    31-Jan-2011 (CT) `lse-hash` added
 ;;;;    29-May-2011 (CT) `lse-vcs` added
+;;;;    17-Feb-2012 (CT) Defvar `:source-dir` as `nil`
+;;;;    17-Feb-2012 (CT) Add and use `:setup-source-dir`, `:extra-source-dirs`
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-byte-compile)
 
-(defvar   lse-byte-compile:source-dir "/swing/project/ls-emacs/")
+(defvar   lse-byte-compile:all-source-dirs nil
+  "All source directories for ls-emacs specific files, determined automagically"
+)
+
+(defvar   lse-byte-compile:extra-source-dirs nil
+  "Additional source directories for ls-emacs specific files, set in ~/.emacs"
+)
+
+(defvar   lse-byte-compile:source-dir nil
+  "Source directory for ls-emacs specific files, determined automagically"
+)
 
 ;;; 13-Oct-2007
-(defvar   lse-byte-compile:load t)
+(defvar   lse-byte-compile:load t
+  "Load the file after compiling it?"
+)
 
 ;;; 13-Oct-2007
 (defvar lse-byte-compile:black-list
@@ -108,6 +122,7 @@
   "Byte-compile all LS-Emacs files that are safe for compiling and load them
 into Emacs."
   (interactive)
+  (lse-byte-compile:setup-source-dir)
   (mapc 'lse-byte-compile:one (or files lse-byte-compile:files))
 ; lse-byte-compile:all
 )
@@ -123,6 +138,7 @@ into Emacs."
             (if (buffer-modified-p)
                 (save-buffer)
             )
+            (lse-byte-compile:setup-source-dir)
             (lse-byte-compile:one file)
           )
         (message "Not a elisp buffer '%s'?" full-name)
@@ -134,12 +150,12 @@ into Emacs."
 
 ;;; 13-Oct-2007
 (defun lse-byte-compile:one (file)
-  (let ((full-name
-          (lse-file:expanded-name
-            (concat lse-byte-compile:source-dir file ".el")
-          )
+  (let* ((load-path lse-byte-compile:all-source-dirs)
+         (full-name (locate-library file))
         )
-       )
+    (if (string-ends-with full-name ".elc")
+        (setq full-name (substring full-name 0 -1))
+    )
     (if (member file lse-byte-compile:black-list)
         (save-excursion
           (message
@@ -167,6 +183,29 @@ into Emacs."
     result
   )
 ; lse-byte-compile:is-lse-file-p
+)
+
+;;; 17-Feb-2012
+(defun lse-byte-compile:setup-source-dir ()
+  (unless lse-byte-compile:all-source-dirs
+    (unless (stringp lse-byte-compile:source-dir)
+      (setq lse-byte-compile:source-dir
+        (file-name-directory (locate-library "lse-byte-compile"))
+      )
+    )
+    (unless (string-ends-with lse-byte-compile:source-dir "/")
+      (setq lse-byte-compile:source-dir
+        (concat lse-byte-compile:source-dir "/")
+      )
+    )
+    (setq lse-byte-compile:all-source-dirs
+      (append
+        lse-byte-compile:extra-source-dirs
+        (list lse-byte-compile:source-dir)
+      )
+    )
+  )
+; lse-byte-compile:setup-source-dir
 )
 
 ;;;  __END__ lse-byte-compile.el
