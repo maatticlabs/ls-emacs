@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -45,12 +45,10 @@
 ;;;;                     lse-flat-fill-in:*highlight-current
 ;;;;    15-Oct-2007 (CT) Cruft removed
 ;;;;     5-Aug-2009 (CT) Modernize use of backquotes
+;;;;    18-Feb-2012 (CT) Remove `lse_last_position`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-fill-in--search)
-
-(defvar                      lse_last_position nil)
-(make-variable-buffer-local 'lse_last_position)
 
 (defun lse-skip-whitespace+empty-comments-forward (&optional limit)
   (skip-chars-forward (concat lse_comment_delim_char_set " \t\n") limit)
@@ -184,18 +182,13 @@
   ;; buffer-boundary has to be either bobp or eobp
   (let (result
         (last-pos (point-marker))
-        (saved_lse_last_position lse_last_position)
        )
     (save-match-data
        (setq lse@active@in@buffer t)
-       (setq lse_last_position last-pos)
        (setq result (lse@goto_fill-in search-fct buffer-boundary name))
     )
-    ; set self-insert-command if result
-    (if result
-        t; 19-Mar-1995 ; (lse-use-lse-self-insert-command)
+    (unless result
       (goto-char last-pos)
-      (setq lse_last_position saved_lse_last_position)
     )
     result
   )

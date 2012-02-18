@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2009-2011 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -249,7 +249,6 @@
     '(replacement
         (if (eq (point) (point-min))
             t
-          (setq lse_last_position (point-marker))
           (lse-tpu:move-to-beginning)
           (lse-open-line)
         )

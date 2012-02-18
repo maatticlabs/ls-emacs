@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -85,6 +85,7 @@
 ;;;;    29-May-2011 (CT) `lse-vcs` added, `lse-version` increased
 ;;;;     3-Jun-2011 (CT) `lse-git` added, `lse-version` increased
 ;;;;     3-Jun-2011 (CT) `lse-w32` factored
+;;;;    18-Feb-2012 (CT) Move `require lse-tpu` to the front
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -237,6 +238,7 @@
 
 (require 'lse-basics)
 (require 'lse-list-util)
+(require 'lse-tpu)
 
 (require 'lse-buffer)
 (require 'lse-buffer-list)
@@ -271,7 +273,6 @@
 (require 'lse-mode-alist)
 (require 'lse-range)
 (require 'lse-session)
-(require 'lse-tpu)
 (require 'lse-vcs)
 (require 'lse-window)
 (require 'lse-tpu-keys)

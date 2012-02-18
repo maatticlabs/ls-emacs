@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency swing-keys-v19.el swi_kv19.el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -60,6 +60,7 @@
 ;;;;    31-Aug-2002 (CT) A few key definitions changed
 ;;;;     8-Sep-2002 (CT) `gold red` bindings added
 ;;;;    19-Jan-2011 (CT) [blue ?\C-i delete] defined as `lse-close-line-down`
+;;;;    18-Feb-2012 (CT) Add  and use `define-goto-last-position-keys`
 ;;;;    ««revision-date»»···
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
@@ -73,7 +74,26 @@
 ; swing-define-gold-keys
 )
 
+;;; 18-Feb-2012
+(defun define-goto-last-position-1 (key)
+  (unless (consp key) (setq key (list key)))
+  (global-set-smk (vconcat [gold red] key) 'lse-tpu:goto-last-position)
+  (global-set-smk (vconcat [red gold] key) 'lse-tpu:goto-last-position)
+; define-goto-last-position-1
+)
+
+;;; 18-Feb-2012
+(defun define-goto-last-position-keys (&rest arg)
+  (mapc 'define-goto-last-position-1 arg)
+; define-goto-last-position-keys
+)
+
 (defun swing-define-red-keys ()
+  (define-goto-last-position-keys
+    ?a ?b ?c ?d ?e ?f ?g ?i ?h ?n ?p ?r ?s ?u
+    ?\C-a ?\C-e
+    '(left) '(right) '(up) '(down)
+  )
   (global-set-smk [red      ?a]            'beginning-of-defun)
   (global-set-smk [red      ?b]            'backward-sexp)
   (global-set-smk [red      ?d]            'down-list)
@@ -85,9 +105,8 @@
   (global-set-key [red      ?t]            'transpose-sexps)
   (global-set-smk [red      ?u]            'up-list)
   (global-set-key [red      ?y]            'lse-compile-defun)
-  (global-set-key [red      ?\{]           'lse-join-sexp-boundary-maybe); 2-Jan-98
-  (global-set-key [red      ?\[]           'lse-join-sexp-boundary-maybe); 2-Jan-98
-  (global-set-key [red      ?\(]           'lse-join-sexp-boundary-maybe); 2-Jan-98
+  (global-set-key [red      ?{]            'lse-tpu:goto-prev-open-brace)
+  (global-set-key [red      ?}]            'lse-tpu:goto-next-closing-brace)
   (global-set-key [red      ?^]            'lse-tpu:add-at-bol); 17-Mar-1995
   (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001
   (global-set-key [red      ?$]            'lse-tpu:add-at-eol); 17-Mar-1995
@@ -95,6 +114,7 @@
   (global-set-key [red gold ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
   (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
   (global-set-key [gold red ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
+  (global-set-key [red      ?\;]           'lse-tpu:goto-semicolon)
   (global-set-key [red      select]        'mark-sexp)
   (global-set-key [red      kp-decimal]    'mark-sexp)
   (global-set-key [red      kp-6]          'lse-tpu:copy-current-defun)

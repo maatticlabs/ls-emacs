@@ -130,6 +130,8 @@
 ;;;;    19-May-2011 (CT) `lse-tpu:search+goto` changed to `recenter` if
 ;;;;                     target position is at bottom of window
 ;;;;    17-Feb-2012 (CT) Add `head` and `tail` to `lse-tpu:set-match-highlight`
+;;;;    18-Feb-2012 (CT) Add `save-position`, `last-position`, ...
+;;;;    18-Feb-2012 (CT) Add `stmt-block` related functions
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -453,6 +455,78 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
   )
 ; lse-tpu:show-match-markers
 )
+
+;;;
+;;; Saved position
+;;;
+(defvar lse-tpu:last-position nil)
+(defvar lse-tpu:last-position-pending nil)
+
+(make-variable-buffer-local 'lse-tpu:last-position)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-last-position ()
+  "Move point to last lse-tpu:last-position"
+  (interactive)
+  (and lse-tpu:last-position
+    (marker-position lse-tpu:last-position)
+    (goto-char       lse-tpu:last-position)
+  )
+; lse-tpu:goto-last-position
+)
+
+;;; 18-Feb-2012
+(defun lse-tpu:put-prop:auto-save-position (func)
+  "Put properties 'auto-save-position and 'save-position on function `func`"
+  (put func 'auto-save-position t)
+  (put func 'save-position      t)
+; lse-tpu:put-prop:auto-save-position
+)
+
+;;; 18-Feb-2012
+(defun lse-tpu:save-position ()
+  (unless (and (symbolp last-command) (get last-command 'save-position))
+    (setq lse-tpu:last-position-pending (point-marker))
+  )
+; lse-tpu:save-position
+)
+
+(lse-tpu:put-prop:auto-save-position 'beginning-of-defun)
+(lse-tpu:put-prop:auto-save-position 'backward-sexp)
+(lse-tpu:put-prop:auto-save-position 'down-list)
+(lse-tpu:put-prop:auto-save-position 'end-of-defun)
+(lse-tpu:put-prop:auto-save-position 'forward-sexp)
+(lse-tpu:put-prop:auto-save-position 'backward-up-list)
+(lse-tpu:put-prop:auto-save-position 'forward-list)
+(lse-tpu:put-prop:auto-save-position 'backward-list)
+(lse-tpu:put-prop:auto-save-position 'up-list)
+
+;;; 18-Feb-2012
+(defun lse-tpu:auto-save-position-hook ()
+  "Save position if the command has property 'auto-save-position"
+  (when (and (symbolp this-command) (get this-command 'auto-save-position))
+    (lse-tpu:save-position)
+  )
+; lse-tpu:auto-save-position-hook
+)
+
+(add-hook 'pre-command-hook 'lse-tpu:auto-save-position-hook)
+
+;;; 18-Feb-2012
+(defun lse-tpu:save-position-hook-post ()
+  (when lse-tpu:last-position-pending
+    (if (and
+          (marker-position lse-tpu:last-position-pending)
+          (not (= (point-marker) lse-tpu:last-position-pending))
+        )
+        (setq lse-tpu:last-position (copy-marker lse-tpu:last-position-pending))
+    )
+    (set-marker lse-tpu:last-position-pending nil)
+  )
+; lse-tpu:save-position-hook-post
+)
+
+(add-hook 'post-command-hook 'lse-tpu:save-position-hook-post)
 
 ;;;
 ;;;  Utilities
@@ -1453,6 +1527,206 @@ Accepts a prefix argument of the number of characters to invert."
     (lse-tpu:goto-prev-word-tail num limit)
   )
 )
+
+;;;++
+;;; Statement block in C like languages
+;;;--
+
+(defvar lse-tpu:function-pat "\\<function\\>")
+(make-variable-buffer-local 'lse-tpu:function-pat)
+
+(defvar lse-tpu:block-stmt-pat
+  "\\<\\(?:function\\|if\\|else\\|for\\|while\\)\\>"
+)
+(make-variable-buffer-local 'lse-tpu:block-stmt-pat)
+
+;;; 18-Feb-2012
+(defun lse-tpu:stmt-block-head-pos (&optional limit count)
+  (save-excursion
+    (when (or
+            (looking-at lse-tpu:block-stmt-pat)
+            (re-search-backward lse-tpu:block-stmt-pat limit t count)
+          )
+      (copy-marker (match-beginning 0))
+    )
+  )
+; lse-tpu:stmt-block-head-pos
+)
+
+;;; 18-Feb-2012
+(defun lse-tpu:stmt-block-tail-pos (count)
+  (save-excursion
+    (let* ((cp   (point))
+           (head (lse-tpu:stmt-block-head-pos nil count))
+           (i    count)
+          )
+      (while (and head (marker-position head))
+        (goto-char head)
+        (forward-list)
+        (unless (save-excursion (backward-char 1) (looking-at "}"))
+          (forward-list)
+        )
+        (setq i (1+ i))
+        (if (> (point) cp)
+            (set-marker head nil)
+          (goto-char cp)
+          (setq head (lse-tpu:stmt-block-head-pos nil i))
+        )
+      )
+      (if (> i count)
+        (point)
+      )
+    )
+  )
+; lse-tpu:stmt-block-tail-pos
+)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-nearest-stmt-block-head (count &optional limit)
+  "Goto nearest head of statement block"
+  (interactive "p")
+  (save-match-data
+    (let ((head (lse-tpu:stmt-block-head-pos limit count)))
+      (when (and head (marker-position head))
+        (goto-char head)
+        (lse-tpu:unset-match-highlight)
+        (lse-tpu:set-match-highlight head (copy-marker (match-end 0)))
+      )
+    )
+  )
+; lse-tpu:goto-nearest-stmt-block-head
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-nearest-stmt-block-head)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-stmt-block-head (count &optional limit)
+  "Goto head of current statement block"
+  (interactive "p")
+  (save-match-data
+    (let (tail)
+      (save-excursion
+        (unless (bobp) (backward-char 1))
+        (setq tail (lse-tpu:stmt-block-tail-pos count))
+      )
+      (when tail
+        (goto-char tail)
+        (backward-list)
+        (lse-tpu:goto-nearest-stmt-block-head 1 limit)
+      )
+    )
+  )
+; lse-tpu:goto-stmt-block-head
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-stmt-block-head)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-stmt-block-tail (count)
+  "Goto tail of current statement block"
+  (interactive "p")
+  (save-match-data
+    (let* ((tail (lse-tpu:stmt-block-tail-pos count))
+          )
+      (when tail
+        (goto-char tail)
+      )
+    )
+  )
+; lse-tpu:goto-stmt-block-tail
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-stmt-block-tail)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-nearest-function-head (count &optional limit)
+  "Goto nearest head of function"
+  (interactive "p")
+  (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
+    (lse-tpu:goto-nearest-stmt-block-head count limit)
+  )
+; lse-tpu:goto-nearest-function-head
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-nearest-function-head)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-function-head (count &optional limit)
+  "Goto head of current function"
+  (interactive "p")
+  (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
+    (lse-tpu:goto-stmt-block-head count limit)
+  )
+; lse-tpu:goto-function-head
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-head)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-function-tail (count)
+  "Goto head of current function"
+  (interactive "p")
+  (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
+    (lse-tpu:goto-stmt-block-tail count)
+  )
+; lse-tpu:goto-function-tail
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-tail)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-next-closing-brace (count &optional limit)
+  (interactive "p")
+  (save-match-data
+    (search-forward "}" limit t count)
+  )
+; lse-tpu:goto-next-closing-brace
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-next-closing-brace)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-prev-closing-brace (count &optional limit)
+  (interactive "p")
+  (save-match-data
+    (search-backward "}" limit t count)
+  )
+; lse-tpu:goto-prev-closing-brace
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-prev-closing-brace)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-next-open-brace (count &optional limit)
+  (interactive "p")
+  (save-match-data
+    (search-forward "{" limit t count)
+  )
+; lse-tpu:goto-next-open-brace
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-next-open-brace)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-prev-open-brace (count &optional limit)
+  (interactive "p")
+  (save-match-data
+    (search-backward "{" limit t count)
+  )
+; lse-tpu:goto-prev-open-brace
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-prev-open-brace)
+
+;;; 18-Feb-2012
+(defun lse-tpu:goto-semicolon (count &optional limit)
+  "Goto next semicolon."
+  (interactive "p")
+  (save-match-data (search-forward ";" limit t count))
+; lse-tpu:goto-semicolon
+)
+
+(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-semicolon)
 
 ;;;++
 ;;; Deletion/Undeletion of chars, words, and lines

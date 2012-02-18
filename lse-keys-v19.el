@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -96,6 +96,7 @@
 ;;;;    13-Nov-2009 (CT) Explicitly turn on `normal-erase-is-backspace-mode`
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
+;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -255,11 +256,11 @@
   (global-set-key [blue gold ?\A-k] 'lse-kill-all-optional-fill-ins);  2-Jan-1998
   (global-set-key [red       ?\A-k] 'lse-kill-all-optional-fill-ins-line); 1-Jan-1999
 
-  (global-set-key [          ?\A-n] 'lse-goto-next-fill-in); 11-Oct-1996
-  (global-set-key [gold      ?\A-n] 'lse-goto-last-position); 28-Dec-1997
+  (global-set-key [          ?\A-n] 'lse-goto-next-fill-in)
+  (global-set-key [gold      ?\A-n] 'lse-tpu:goto-last-position)
 
   (global-set-key [          ?\A-p] 'lse-goto-prev-fill-in); 11-Oct-1996
-  (global-set-key [gold      ?\A-p] 'lse-goto-last-position); 28-Dec-1997
+  (global-set-key [gold      ?\A-p] 'lse-tpu:goto-last-position)
 
   (global-set-key [          ?\A-r] 'lse-replace-fill-in); 17-Dec-1997 ALT
   (global-set-key [gold      ?\A-r] 'lse-unreplace-fill-in); 28-Dec-1997

@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1998-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -65,6 +65,7 @@
 ;;;;                     `verify-visited-file-modtime`
 ;;;;    30-Aug-2010 (CT) `lse-python:goto-near-top-pos` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    18-Feb-2012 (CT) Factor `last-position` to `lse-tpu`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -89,6 +90,8 @@
      67
 ;;; python
 )
+
+(require 'lse-tpu)
 
 ;;;  2-Mar-1998
 ;;; Loading python-mode introduces an error in desktop
@@ -132,37 +135,7 @@
   (local-set-smk   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
   (local-set-smk   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
   (local-set-smk   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
-  (local-set-key   [red C-home]      'lse-python:goto-near-top-pos);       30-Aug-2010
-
-  (local-set-smk   [gold red ?a]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?b]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?c]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?e]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?f]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?g]     'lse-python:goto-last-position); 24-Sep-1999
-  (local-set-smk   [gold red ?r]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [gold red ?s]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [gold red left]   'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [gold red ?\C-e]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [gold red right]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [gold red ?\C-a]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [gold red up]     'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [gold red down]   'lse-python:goto-last-position);  18-Nov-2002
-
-  (local-set-smk   [red gold ?a]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?b]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?c]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?e]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?f]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?g]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?r]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold ?s]     'lse-python:goto-last-position);  8-Sep-2002
-  (local-set-smk   [red gold left]   'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [red gold ?\C-e]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [red gold right]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [red gold ?\C-a]  'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [red gold up]     'lse-python:goto-last-position);  18-Nov-2002
-  (local-set-smk   [red gold down]   'lse-python:goto-last-position);  18-Nov-2002
+  (local-set-key   [red  C-home]     'lse-python:goto-near-top-pos);       30-Aug-2010
 
   (setq indent-line-function 'lse-python:indent-line);  9-Mar-1998
   (lse-language:use "python")
@@ -182,67 +155,50 @@
 ; lse-python:indent-line
 )
 
-;;; 24-Sep-1999
-(defvar lse-python:last-position nil)
-(make-variable-buffer-local 'lse-python:last-position)
-
-;;; 24-Sep-1999
-(defun lse-python:save-position ()
-  (or (eq (point-marker) lse-python:last-position)
-      (setq lse-python:last-position (point-marker))
-  )
-; lse-python:save-position
-)
-
-;;; 24-Sep-1999
-(defun lse-python:goto-last-position ()
-  "Move point to last lse-python:last-position"
-  (interactive)
-  (and lse-python:last-position (goto-char lse-python:last-position))
-; lse-python:goto-last-position
-)
-
 ;;; 13-Apr-1998
 (defun lse-python:goto-beginning-of-class ()
   "Move to beginning of python class."
   (interactive)
-  (lse-python:save-position)
   (py-beginning-of-def-or-class t)
 ; lse-python:goto-beginning-of-class
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-beginning-of-class)
 
 ;;; 13-Apr-1998
 (defun lse-python:goto-end-of-class ()
   "Move to end of python class."
   (interactive)
-  (lse-python:save-position)
   (py-end-of-def-or-class t)
 ; lse-python:goto-end-of-class
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-class)
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-beginning-of-def ()
   "Move to beginning of python function."
   (interactive)
-  (lse-python:save-position)
   (py-beginning-of-def-or-class)
 ; lse-python:goto-beginning-of-def
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-beginning-of-def)
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-end-of-def ()
   "Move to end of python function."
   (interactive)
-  (lse-python:save-position)
   (py-end-of-def-or-class)
 ; lse-python:goto-end-of-def
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-def)
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-begin-of-block ()
   "Goto begin of current python block"
   (interactive)
-  (lse-python:save-position)
   (if (save-excursion                      ;  6-Jun-2000
         (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
         (py-statement-opens-block-p)       ;  6-Jun-2000
@@ -256,11 +212,12 @@
 ; lse-python:goto-begin-of-block
 )
 
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-begin-of-block)
+
 ;;; 24-Sep-1999
 (defun lse-python:goto-end-of-block ()
   "Got end of current python block"
   (interactive)
-  (lse-python:save-position)
   (if (py-statement-opens-block-p)
       t
     (py-goto-block-up t)
@@ -269,6 +226,8 @@
   (back-to-indentation)            ;  18-Nov-2002
 ; lse-python:goto-end-of-block
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-block)
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-next-statement (num)
@@ -281,10 +240,11 @@
 (defun lse-python:goto-next-statement (num)
   "Goto next statement"
   (interactive "P")
-  (lse-python:save-position)
   (lse-python@goto-next-statement num)
 ; lse-python:goto-next-statement
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-next-statement)
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-end-of-last-statement ()
@@ -304,7 +264,6 @@
 (defun lse-python:goto-next-statement-end (num)
   "Goto end of current statement"
   (interactive "P")
-  (lse-python:save-position)
   (if (eolp)
       (lse-python@goto-next-statement 1)
   )
@@ -312,6 +271,8 @@
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-next-statement-end
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-next-statement-end)
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-prev-statement (num)
@@ -324,10 +285,11 @@
 (defun lse-python:goto-prev-statement (num)
   "Goto previous statement"
   (interactive "P")
-  (lse-python:save-position)
   (lse-python@goto-prev-statement num)
 ; lse-python:goto-prev-statement
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-prev-statement)
 
 ;;; 18-Nov-2002
 (defun lse-python:goto-prev-statement-end (num)
@@ -337,6 +299,8 @@
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-prev-statement-end
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-prev-statement-end)
 
 ;;; 30-Aug-2010
 (defun lse-python:near-top-pos ()
@@ -365,6 +329,8 @@
   (let ((ntp (lse-python:near-top-pos))) (if ntp (goto-char ntp)))
 ; lse-python:goto-near-top-pos
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-python:goto-near-top-pos)
 
 ;;; 30-Aug-2010
 (define-key py-mode-map [menu-bar Python separator-LSE] '("--"))

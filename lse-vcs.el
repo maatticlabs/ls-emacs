@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This library is free software; you can redistribute it and/or modify
@@ -239,8 +239,9 @@
         (lse-vcs:conflict:remove-text-properties)
         (lse-vcs:conflict:reset-overlays)
       )
-    (setq lse-vcs:conflict:saved_pos lse_last_position)
-    (setq lse_last_position (point-marker))
+    (unless lse-vcs:conflict:saved_pos
+      (setq lse-vcs:conflict:saved_pos (point-marker))
+    )
   )
   (save-match-data
     (let (p)
@@ -335,17 +336,16 @@
 ;;; 29-May-2011
 (defun lse-vcs:conflict:reset (&optional button)
   (interactive)
-  (let ((last-pos (point-marker)))
-    (lse-vcs:conflict:reset-overlays)
-    (setq lse-vcs:conflict:range:a nil)
-    (setq lse-vcs:conflict:range:b nil)
-    (setq lse-vcs:conflict:range:h nil)
-    (setq lse-vcs:conflict:range:m nil)
-    (setq lse-vcs:conflict:range:t nil)
-    (setq lse-vcs:conflict:range:Z nil)
-    (when lse-vcs:conflict:saved_pos
-      (setq lse_last_position lse-vcs:conflict:saved_pos)
-      (lse-goto-last-position)
+  (lse-vcs:conflict:reset-overlays)
+  (setq lse-vcs:conflict:range:a nil)
+  (setq lse-vcs:conflict:range:b nil)
+  (setq lse-vcs:conflict:range:h nil)
+  (setq lse-vcs:conflict:range:m nil)
+  (setq lse-vcs:conflict:range:t nil)
+  (setq lse-vcs:conflict:range:Z nil)
+  (when lse-vcs:conflict:saved_pos
+    (let ((lse-tpu:last-position lse-vcs:conflict:saved_pos))
+      (lse-tpu:goto-last-position)
       (setq lse-vcs:conflict:saved_pos nil)
     )
   )

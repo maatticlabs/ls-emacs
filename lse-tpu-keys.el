@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys:el lse_tpks:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -146,7 +146,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
                            (lse-tpu-keys:matching-commands "token")
                            '(lse-expand
                              lse-flush-replacement
-                             lse-goto-last-position
                              lse-goto-next-expansion
                              lse-goto-parent-expansion-head
                              lse-goto-prev-expansion

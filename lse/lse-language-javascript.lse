@@ -38,6 +38,7 @@
 ;;;;                     `,`, too
 ;;;;    17-Feb-2012 (CT) Add `lse-js:goto-function-head` and friends
 ;;;;    17-Feb-2012 (CT) Add `(imenu-add-to-menubar "IM-JS")`
+;;;;    18-Feb-2012 (CT) Factor `lse-js:goto-function-head...` to lse-tpu
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -88,18 +89,15 @@
   (lse-js:std-js-mode)
   (use-local-map lse-js:keymap)
   (local-set-key [menu-bar lse-js] (cons "JS" lse-js:menu-keymap))
-  (local-set-smk [M-up]      'lse-js:goto-block-head)
-  (local-set-smk [M-down]    'lse-js:goto-block-tail)
-  (local-set-smk [red ?a]    'lse-js:goto-function-head)
-  (local-set-smk [red ?e]    'lse-js:goto-function-tail)
-  (local-set-smk [red ?i]    'lse-js:goto-nearest-function-head)
-  (local-set-smk [red ?{]    'lse-js:goto-block-head)
-  (local-set-smk [red ?}]    'lse-js:goto-block-tail)
-  (local-set-smk [red left]  'backward-up-list)
-  (local-set-smk [red right] 'up-list)
-  (local-set-smk [red up]    'lse-js:goto-block-head)
-  (local-set-smk [red down]  'lse-js:goto-block-tail)
-  (local-set-smk [red ?\;]   'lse-js:goto-semicolon)
+  (local-set-smk [M-up]        'lse-tpu:goto-stmt-block-head)
+  (local-set-smk [M-down]      'lse-tpu:goto-stmt-block-tail)
+  (local-set-smk [red ?a]      'lse-tpu:goto-function-head)
+  (local-set-smk [red ?e]      'lse-tpu:goto-function-tail)
+  (local-set-smk [red ?i]      'lse-tpu:goto-nearest-function-head)
+  (local-set-smk [red up]      'lse-tpu:goto-stmt-block-head)
+  (local-set-smk [red down]    'lse-tpu:goto-stmt-block-tail)
+  (local-set-smk [red left]    'backward-up-list)
+  (local-set-smk [red right]   'up-list)
   (setq mode-name "JS")
   (setq comment-start      "/* ")
   (setq comment-end        " */")
@@ -127,117 +125,6 @@
     )
   )
 ; lse-js:indent-line
-)
-
-;;; 19-Jan-2011
-(defun lse-js:goto-block-head (&optional limit)
-  (interactive)
-  (let ((lse-tpu:search-dir lse-tpu:search-dir-reverse))
-    (save-match-data
-      (lse-tpu:search+goto "{" limit)
-    )
-  )
-; lse-js:goto-block-head
-)
-
-;;; 19-Jan-2011
-(defun lse-js:goto-block-tail (&optional limit)
-  (interactive)
-  (save-match-data
-    (lse-tpu:search+goto "}" limit)
-    (lse-tpu:forward-char 1)
-  )
-; lse-js:goto-block-tail
-)
-
-;;; 17-Feb-2012
-(defun lse-js:function-head-pos (&optional limit count)
-  (save-excursion
-    (when (or
-            (looking-at lse-js:function-pat)
-            (re-search-backward lse-js:function-pat limit t count)
-          )
-      (copy-marker (match-beginning 0))
-    )
-  )
-; lse-js:function-head-pos
-)
-
-;;; 17-Feb-2012
-(defun lse-js:function-tail-pos (count)
-  (save-excursion
-    (let* ((cp   (point))
-           (head (lse-js:function-head-pos nil count))
-           (i    count)
-          )
-      (while (and head (marker-position head))
-        (goto-char head)
-        (forward-list)
-        (forward-list)
-        (setq i (1+ i))
-        (if (> (point) cp)
-            (set-marker head nil)
-          (goto-char cp)
-          (setq head (lse-js:function-head-pos nil i))
-        )
-      )
-      (if (> i count)
-        (point)
-      )
-    )
-  )
-; lse-js:function-tail-pos
-)
-
-;;; 17-Feb-2012
-(defun lse-js:goto-nearest-function-head (count &optional limit)
-  "Goto nearest head of function"
-  (interactive "p")
-  (save-match-data
-    (let ((head (lse-js:function-head-pos limit count)))
-      (when (and head (marker-position head))
-        (goto-char head)
-        (lse-tpu:unset-match-highlight)
-        (lse-tpu:set-match-highlight head (copy-marker (match-end 0)))
-      )
-    )
-  )
-; lse-js:goto-nearest-function-head
-)
-
-;;; 17-Feb-2012
-(defun lse-js:goto-function-head (count &optional limit)
-  "Goto head of current function"
-  (interactive "p")
-  (save-match-data
-    (let (tail)
-      (save-excursion
-        (unless (bobp) (backward-char 1))
-        (setq tail (lse-js:function-tail-pos count))
-      )
-      (when tail
-        (goto-char tail)
-        (backward-list)
-        (lse-js:goto-nearest-function-head 1 limit)
-      )
-    )
-  )
-; lse-js:goto-function-head
-)
-
-;;; 17-Feb-2012
-(defun lse-js:goto-function-tail (count)
-  "Goto tail of current function"
-  (interactive "p")
-  (save-match-data
-    (let* ((tail (lse-js:function-tail-pos count))
-          )
-      (when tail
-        (goto-char tail)
-      )
-    )
-  )
-; lse-js:goto-function-tail
 )
 
 ;;; 19-Jan-2011
@@ -291,14 +178,6 @@
 ; lse-js:fix-semicolon
 )
 
-;;; 19-Jan-2011
-(defun lse-js:goto-semicolon (&optional limit)
-  "Goto next semicolon."
-  (interactive)
-  (save-match-data (lse-tpu:search+goto ";" limit))
-; lse-js:goto-semicolon
-)
-
 ;;; 22-Jan-2011
 (defun lse-js:remove-period ()
   "Remove prev period."
@@ -339,27 +218,27 @@
 )
 
 (define-key lse-js:menu-keymap [goto-semicolon]
-  '("Goto semicolon" . lse-js:goto-semicolon)
+  '("Goto semicolon" . lse-tpu:goto-semicolon)
 )
 
 (define-key lse-js:menu-keymap [goto-block-tail]
-  '("Goto end of block" . lse-js:goto-block-tail)
+  '("Goto end of block" . lse-tpu:goto-stmt-block-tail)
 )
 
 (define-key lse-js:menu-keymap [goto-block-head]
-  '("Goto start of block" . lse-js:goto-block-head)
+  '("Goto start of block" . lse-tpu:goto-stmt-block-head)
 )
 
 (define-key lse-js:menu-keymap [goto-function-tail]
-  '("Goto end of current function" . lse-js:goto-function-tail)
+  '("Goto end of current function" . lse-tpu:goto-function-tail)
 )
 
 (define-key lse-js:menu-keymap [goto-function-head]
-  '("Goto start of current function" . lse-js:goto-function-head)
+  '("Goto start of current function" . lse-tpu:goto-function-head)
 )
 
 (define-key lse-js:menu-keymap [goto-nearest-function-head]
-  '("Goto nearest start of function" . lse-js:goto-nearest-function-head)
+  '("Goto nearest start of function" . lse-tpu:goto-nearest-function-head)
 )
 
 ;;;; helper functions for templates

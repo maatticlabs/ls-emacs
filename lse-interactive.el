@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -80,6 +80,10 @@
 ;;;;                     changed to remember `lse_last_position`
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    28-Jan-2011 (CT) `unibyte` removed
+;;;;    18-Feb-2012 (CT) Use `lse-tpu:put-prop:auto-save-position` instead of
+;;;;                     home-grown code
+;;;;    18-Feb-2012 (CT) Remove `lse-goto-last-position`,
+;;;;                     use `lse-tpu:put-prop:auto-save-position`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -168,6 +172,8 @@
 ; lse-expand-token
 )
 
+(lse-tpu:put-prop:auto-save-position 'lse-expand-token)
+
 (defun lse-expand ()
   "Expand fill-in (if inside) or token (if previous word is one). "
   ;; primary expansion function for user (this is bound to the appropriate key)
@@ -222,6 +228,8 @@
 ; lse-expand
 )
 
+(lse-tpu:put-prop:auto-save-position 'lse-expand)
+
 ;;;++
 ;;; user level commands for replacement
 ;;;--
@@ -237,6 +245,8 @@
     )
   )
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-replace-fill-in)
 
 (defun lse-flush-replacement ()
   "Flush pending replacement (use in emergencies)"
@@ -262,12 +272,16 @@
 ; lse-replicate-fill-in
 )
 
+(lse-tpu:put-prop:auto-save-position 'lse-replicate-fill-in)
+
 (defun lse-replicate-fill-in-by-older ()
   "Replace current replication by next older one."
   (interactive "*")
   (lse_replicate_fill_in_by_older)
 ; lse-replicate-fill-in-by-older
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-replicate-fill-in-by-older)
 
 ;;; 10-Mar-1996
 (defun lse-replicate-menu ()
@@ -276,6 +290,8 @@
   (lse_replicate_fill_in_menu)
 ; lse-replicate-menu
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-replicate-menu)
 
 ;;;  1-Jan-1999
 (defun lse-replicate-fill-ins-line (&optional limit)
@@ -446,6 +462,8 @@
 ; lse-kill-fill-in
 )
 
+(lse-tpu:put-prop:auto-save-position 'lse-kill-fill-in)
+
 ;;;  1-Jan-1999
 (defun lse-kill-fill-in-join-sexp (&optional dont-move)
   "Kill the next fill-in and lse-join-sexp-boundary-maybe"
@@ -466,6 +484,8 @@
   )
 ; lse-kill-current-fill-in
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-kill-current-fill-in)
 
 (defun lse-unkill-fill-in ()
   "Unkill the fill-in which was killed last."
@@ -520,24 +540,24 @@
   (interactive "P")
   (let ((last-pos (point-marker)))
     (lse-tpu:move-to-beginning)
-    (if (lse-goto-next-fill-in quiet name)
-        (setq lse_last_position last-pos)
-    )
+    (lse-goto-next-fill-in quiet name)
   )
 ; lse-goto-first-fill-in
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-goto-first-fill-in)
 
 (defun lse-goto-last-fill-in (&optional quiet name)
   "Move point to last flat fill-in in buffer."
   (interactive "P")
   (let ((last-pos (point-marker)))
     (lse-tpu:move-to-end)
-    (if (lse-goto-prev-fill-in quiet name)
-        (setq lse_last_position last-pos)
-    )
+    (lse-goto-prev-fill-in quiet name)
   )
 ; lse-goto-last-fill-in
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-goto-last-fill-in)
 
 (defun lse-goto-next-fill-in (&optional quiet name)
   "Move point to next flat fill-in."
@@ -547,6 +567,8 @@
     (lse-goto-@-fill-in 'lse_search_fill-in:forward 'eobp quiet name)
   )
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-goto-next-fill-in)
 
 (defun lse-goto-prev-fill-in (&optional quiet name)
   "Move point to previous flat fill-in."
@@ -575,11 +597,7 @@
   )
 )
 
-(defun lse-goto-last-position ()
-  "Move point to position before last command to move to fill-in."
-  (interactive)
-  (if lse_last_position (goto-char lse_last_position))
-)
+(lse-tpu:put-prop:auto-save-position 'lse-goto-prev-fill-in)
 
 ;;; 11-Oct-1996
 (defun lse-goto-@-expansion (search-fct prop-sym)
@@ -590,7 +608,6 @@
         )
     (if np
         (progn
-          (set-marker lse_last_position cp)
           (goto-char  np)
           np
         )
@@ -635,7 +652,6 @@
           )
           (if np
               (progn
-                (set-marker lse_last_position cp)
                 (goto-char  np)
                 np
               )
@@ -645,6 +661,9 @@
   )
 ; lse-goto-parent-expansion-head
 )
+
+(lse-tpu:put-prop:auto-save-position 'lse-goto-parent-expansion-head)
+
 ;;;++
 ;;; lse-split-line: handle comments properly
 ;;;--

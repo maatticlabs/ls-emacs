@@ -1,5 +1,5 @@
 #! /bin/bash
-# Copyright (C) 1994-2011 1994-2009 Mag. Christian Tanzer. All rights reserved
+# Copyright (C) 1994-2012 1994-2009 Mag. Christian Tanzer. All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 #++
 #  Name
@@ -23,6 +23,7 @@
 #     5-Mar-2006 (CT) Added `load-path` to `emacs_cmd`
 #    18-May-2011 (CT) Use `$(dirname $0)` to find `ls-emacs-ini.bash`
 #    18-May-2011 (CT) Allow filenames, not only language names, as arguments
+#    18-Feb-2012 (CT) Guard for argument `*`
 #    ««revision-date»»···
 #--
 
@@ -34,9 +35,13 @@ fi
 emacs_cmd=""
 for arg
 do
-    a=$(echo $arg | sed 's!^.*lse-language-!!
-                         s!\.ls[ec]!!
-                        ')
+    a="$arg"
+    if [ "$arg" != "*" ]
+    then
+        a=$(echo $arg | sed 's!^.*lse-language-!!
+                             s!\.ls[ec]!!
+                            ')
+    fi
     for file in $EMACSLSESRC/lse-language-${a}.lse
     do
         f=$(echo $file | sed 's!^.*/lse-language-!!
