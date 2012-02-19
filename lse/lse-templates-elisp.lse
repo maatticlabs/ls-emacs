@@ -17,7 +17,6 @@
 )
 
 (lse-define-fill-in "binding"
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(menu
         ("(«name» «form»)"     "Initialize «name» with value of «form»")
         ("«name»"              "Initialize «name» with nil")
@@ -34,7 +33,6 @@
 
 (lse-define-fill-in "cleanup-form"
     '(description           "Executed by unwind-protect in all circumstances (but itself not protected!)")
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement           @ form)
 )
 
@@ -76,7 +74,6 @@
 (lse-define-fill-in "condition-handler"
     '(token)
     '(token                 "except");  5-Oct-2007
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement
         "(«condition-handler-condition»"
           @ form-list &
@@ -210,14 +207,12 @@
 )
 
 (lse-define-fill-in "else-clause"
-  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
   '(replacement @ "progn")
 )
 
 (lse-define-fill-in "form"
   '(description           "Any valid Elisp form")
   '(token)
-  '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
   '(menu
       ("«name»"     "Value of variable «name»")
       ("(«name»)"   "Value of function, macro or special form «name»")
@@ -248,7 +243,6 @@
 )
 
 (lse-define-fill-in "form-list"
-    '(kill-action           lse-kill:join-sexp-boundary-maybe);  1-Jan-1998
     '(replacement
         lse-indent+1
         "«form»···"

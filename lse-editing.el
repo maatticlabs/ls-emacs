@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -91,6 +91,9 @@
 ;;;;    28-Jan-2011 (CT) `lse-line-endswith` added
 ;;;;    13-May-2011 (CT) `lse-indent-rigidly` changed to indent line above if
 ;;;;                     at beginning of an empty line
+;;;;    19-Feb-2012 (CT) Add `lse-select-bracketed-range`,
+;;;;                     `lse-select-next-bracketed-range`,
+;;;;                     remove `lse@select-brace-range` and its callers
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -589,49 +592,38 @@ previous line"
   )
 )
 
-(defun lse@select-brace-range (starter)
-  (let (head
-        tail
+;;; 19-Feb-2012
+(defun lse-select-bracketed-range ()
+  "Select surrounding range bracketed by character"
+  (interactive)
+  (let ((starter (lse-tpu:cmd-char))
+        head tail
        )
-    (lse-tpu:save-pos-before-search)
-    (if (lse-tpu:search+goto+set-match starter nil)
-        (progn
-          (setq head (lse-tpu:match-end))
-          (lse-tpu:set-mark head)
-          (lse-tpu:update-mode-line)
-          (forward-list 1)
-          (lse-tpu:forward-char -1)
-          (setq tail (1- (point)))
-          (lse-range:new head tail)
-        )
+    (when (lse-tpu:goto-opening-char 1)
+      (setq head (1+ (point)))
+      (lse-tpu:set-mark head)
+      (lse-tpu:update-mode-line)
+      (forward-list 1)
+      (lse-tpu:forward-char -1)
+      (setq tail (1- (point)))
+      (lse-range:new head tail)
     )
   )
-; lse@select-brace-range
+; lse-select-bracketed-range
 )
 
-(defun lse-select-brace-range ()
-  (interactive)
-  (lse@select-brace-range "{")
-)
-
-(defun lse-select-paren-range ()
-  (interactive)
-  (lse@select-brace-range "(")
-)
-
-(defun lse-select-bracket-range ()
-  (interactive)
-  (lse@select-brace-range "\\[")
-)
-
-(defun lse-select-angle-range ()
-  (interactive)
-  (lse@select-brace-range "<")
-)
-
-(defun lse-select-guillemot-range ()
-  (interactive)
-  (lse@select-brace-range "«")
+;;; 19-Feb-2012
+(defun lse-select-next-bracketed-range (count)
+  "Select next range bracketed by character"
+  (interactive "p")
+  (when (lse-tpu:goto-next-char 1)
+    (lse-tpu:unselect t)
+    (lse-tpu:select t)
+    (backward-char  1)
+    (forward-list   1)
+    (backward-char  1)
+  )
+; lse-select-next-bracketed-range
 )
 
 (defun lse-select-current-word (num)

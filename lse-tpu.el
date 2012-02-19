@@ -133,6 +133,7 @@
 ;;;;    18-Feb-2012 (CT) Add `save-position`, `last-position`, ...
 ;;;;    18-Feb-2012 (CT) Add `stmt-block` related functions
 ;;;;    19-Feb-2012 (CT) Add `lse-tpu:goto-next-char`, `lse-tpu:goto-prev-char`
+;;;;    19-Feb-2012 (CT) Add `lse-tpu:goto-opening-char`, factor `lse-tpu:cmd-char`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -469,9 +470,11 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
 (defun lse-tpu:goto-last-position ()
   "Move point to last lse-tpu:last-position"
   (interactive)
-  (and lse-tpu:last-position
-    (marker-position lse-tpu:last-position)
-    (goto-char       lse-tpu:last-position)
+  (let ((cp (point-marker)))
+    (when (and lse-tpu:last-position (marker-position lse-tpu:last-position))
+      (goto-char lse-tpu:last-position)
+      (setq lse-tpu:last-position (copy-marker cp))
+    )
   )
 ; lse-tpu:goto-last-position
 )
@@ -532,6 +535,16 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
 ;;;
 ;;;  Utilities
 ;;;
+;;; 19-Feb-2012
+(defun lse-tpu:cmd-char ()
+  (let* ((keys (this-command-keys-vector))
+         (key  (aref keys (1- (length keys))))
+        )
+    (char-to-string key)
+  )
+; lse-tpu:cmd-char
+)
+
 (defun lse-tpu:mark nil
   "lse-tpu version of the mark function.
 Return the appropriate value of the mark for the current
@@ -1690,11 +1703,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-next-char (count &optional limit)
   "Goto next occurence of character"
   (interactive "p")
-  (let* ((keys (this-command-keys-vector))
-         (key  (aref keys (1- (length keys))))
-        )
-    (lse-tpu:goto_char key limit count 'search-forward)
-  )
+  (lse-tpu:goto_char (lse-tpu:cmd-char) limit count 'search-forward)
 ; lse-tpu:goto-next-char
 )
 
@@ -1702,12 +1711,36 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-prev-char (count &optional limit)
   "Goto previous occurence of character"
   (interactive "p")
-  (let* ((keys (this-command-keys-vector))
-         (key  (aref keys (1- (length keys))))
-        )
-    (lse-tpu:goto_char key limit count 'search-backward)
-  )
+  (lse-tpu:goto_char (lse-tpu:cmd-char) limit count 'search-backward)
 ; lse-tpu:goto-prev-char
+)
+
+;;; 19-Feb-2012
+(defun lse-tpu:goto-opening-char (count &optional limit)
+  "Goto opening character"
+  (interactive "p")
+  (let* ((cp   (point))
+         (head (save-excursion (lse-tpu:goto-prev-char count) (point-marker)))
+         (i    count)
+        )
+    (while (and head (marker-position head))
+      (goto-char head)
+      (forward-list)
+      (setq i (1+ i))
+      (if (> (point) cp)
+          (progn
+            (goto-char head)
+            (set-marker head nil)
+          )
+        (goto-char cp)
+        (setq head (save-excursion (lse-tpu:goto-prev-char i) (point-marker)))
+      )
+    )
+    (when (> i count)
+      t
+    )
+  )
+; lse-tpu:goto-opening-char
 )
 
 ;;;++
