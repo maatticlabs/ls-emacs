@@ -165,6 +165,7 @@
 ;;;;                     `lse-insert-date-time-comment` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    17-Feb-2012 (CT) Bind `[mouse-3]` to `imenu`
+;;;;    19-Feb-2012 (CT) Add `global-set-asp` and `local-set-asp`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -291,6 +292,22 @@
 ; global-mak-smk
 )
 
+;;; 19-Feb-2012
+(defun global-set-asp (key command)
+  "Define a global key marked for 'auto-save-position"
+  (global-set-smk key command)
+  (lse-tpu:put-prop:auto-save-position command)
+; global-set-asp
+)
+
+;;; 19-Feb-2012
+(defun local-set-asp (key command)
+  "Define a local key marked for 'auto-save-position"
+  (local-set-smk key command)
+  (lse-tpu:put-prop:auto-save-position command)
+; local-set-asp
+)
+
 (defun lse-toggle-key-with-gold (key &optional keymap)
   "Interchanges definition of KEY with that of GOLD KEY."
   (interactive "kPress key to be toggled ")
@@ -354,6 +371,7 @@
 ;;;               )
 ;;;     )
 ;;;  )
+
 (defun lse-replace-binding-for-all-keys (old-binding new-binding)
   (lse-iterate-keys-bound-to-function
      old-binding (function (lambda (k) (global-set-key k new-binding)))

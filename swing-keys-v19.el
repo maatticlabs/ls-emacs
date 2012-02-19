@@ -60,7 +60,9 @@
 ;;;;    31-Aug-2002 (CT) A few key definitions changed
 ;;;;     8-Sep-2002 (CT) `gold red` bindings added
 ;;;;    19-Jan-2011 (CT) [blue ?\C-i delete] defined as `lse-close-line-down`
-;;;;    18-Feb-2012 (CT) Add  and use `define-goto-last-position-keys`
+;;;;    18-Feb-2012 (CT) Add  and use `swing-define-goto-last-position-keys`
+;;;;    19-Feb-2012 (CT) Use `global-set-asp` instead of `global-set-smk`
+;;;;    19-Feb-2012 (CT) Add and use `swing-define-goto-char-key`
 ;;;;    ««revision-date»»···
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
@@ -75,38 +77,67 @@
 )
 
 ;;; 18-Feb-2012
-(defun define-goto-last-position-1 (key)
+(defun swing-define-goto-last-position-key (key)
   (unless (consp key) (setq key (list key)))
   (global-set-smk (vconcat [gold red] key) 'lse-tpu:goto-last-position)
   (global-set-smk (vconcat [red gold] key) 'lse-tpu:goto-last-position)
-; define-goto-last-position-1
+; swing-define-goto-last-position-key
 )
 
 ;;; 18-Feb-2012
-(defun define-goto-last-position-keys (&rest arg)
-  (mapc 'define-goto-last-position-1 arg)
-; define-goto-last-position-keys
+(defun swing-define-goto-last-position-keys (&rest arg)
+  (mapc 'swing-define-goto-last-position-key arg)
+; swing-define-goto-last-position-keys
+)
+
+;;; 19-Feb-2012
+(defun swing-define-goto-char-key (key &optional next-fct prev-fct)
+  (unless (consp key) (setq key (list key)))
+  (global-set-asp (vconcat [red]   key) (or next-fct 'lse-tpu:goto-next-char))
+  (global-set-asp (vconcat [green] key) (or prev-fct 'lse-tpu:goto-prev-char))
+; swing-define-goto-char-key
 )
 
 (defun swing-define-red-keys ()
-  (define-goto-last-position-keys
+  (swing-define-goto-last-position-keys
     ?a ?b ?c ?d ?e ?f ?g ?i ?h ?n ?p ?r ?s ?u
     ?\C-a ?\C-e
     '(left) '(right) '(up) '(down)
   )
-  (global-set-smk [red      ?a]            'beginning-of-defun)
-  (global-set-smk [red      ?b]            'backward-sexp)
-  (global-set-smk [red      ?d]            'down-list)
-  (global-set-smk [red      ?e]            'end-of-defun)
-  (global-set-smk [red      ?f]            'forward-sexp)
-  (global-set-smk [red      ?h]            'backward-up-list)
-  (global-set-smk [red      ?n]            'forward-list)
-  (global-set-smk [red      ?p]            'backward-list)
+  (mapc 'swing-define-goto-char-key
+    '( ?\; ?\: ?\. ?\, ?\_ ?\- ?\+ ?\* ?\/ ?\= ?\? ?\!
+       ?\% ?\& ?\~ ?\# ?\' ?\` ?\"
+       ?\< ?\> ?\| ?\\ ?\« ?\»
+       ?\} ?\] ?\)
+     )
+  )
+  (mapc
+      (function
+        (lambda (key)
+          (swing-define-goto-char-key key
+            'lse-tpu:goto-prev-char
+            'lse-tpu:goto-next-char
+          )
+        )
+      )
+    '( ?\{ ?\[ ?\(
+     )
+  )
+  (global-set-asp [red      ?a]            'beginning-of-defun)
+  (global-set-asp [green    ?a]            'end-of-defun)
+  (global-set-asp [red      ?b]            'backward-sexp)
+  (global-set-asp [red      ?d]            'down-list)
+  (global-set-asp [green    ?d]            'up-list)
+  (global-set-asp [red      ?e]            'end-of-defun)
+  (global-set-asp [red      ?f]            'forward-sexp)
+  (global-set-asp [green    ?f]            'backward-sexp)
+  (global-set-asp [red      ?h]            'backward-up-list)
+  (global-set-asp [red      ?n]            'forward-list)
+  (global-set-asp [green    ?n]            'backward-list)
+  (global-set-asp [red      ?p]            'backward-list)
   (global-set-key [red      ?t]            'transpose-sexps)
-  (global-set-smk [red      ?u]            'up-list)
+  (global-set-asp [red      ?u]            'up-list)
   (global-set-key [red      ?y]            'lse-compile-defun)
-  (global-set-key [red      ?{]            'lse-tpu:goto-prev-open-brace)
-  (global-set-key [red      ?}]            'lse-tpu:goto-next-closing-brace)
   (global-set-key [red      ?^]            'lse-tpu:add-at-bol); 17-Mar-1995
   (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001
   (global-set-key [red      ?$]            'lse-tpu:add-at-eol); 17-Mar-1995
@@ -114,7 +145,6 @@
   (global-set-key [red gold ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
   (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
   (global-set-key [gold red ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
-  (global-set-key [red      ?\;]           'lse-tpu:goto-semicolon)
   (global-set-key [red      select]        'mark-sexp)
   (global-set-key [red      kp-decimal]    'mark-sexp)
   (global-set-key [red      kp-6]          'lse-tpu:copy-current-defun)
@@ -154,3 +184,5 @@
   (global-set-key [blue ?\C-i home]   'back-to-indentation)
 ; swing-define-blue-tab-keys
 )
+
+;;; __END__ swing-keys-v19.el

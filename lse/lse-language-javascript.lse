@@ -39,6 +39,7 @@
 ;;;;    17-Feb-2012 (CT) Add `lse-js:goto-function-head` and friends
 ;;;;    17-Feb-2012 (CT) Add `(imenu-add-to-menubar "IM-JS")`
 ;;;;    18-Feb-2012 (CT) Factor `lse-js:goto-function-head...` to lse-tpu
+;;;;    19-Feb-2012 (CT) Use `local-set-asp` instead of `local-set-smk`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -89,15 +90,17 @@
   (lse-js:std-js-mode)
   (use-local-map lse-js:keymap)
   (local-set-key [menu-bar lse-js] (cons "JS" lse-js:menu-keymap))
-  (local-set-smk [M-up]        'lse-tpu:goto-stmt-block-head)
-  (local-set-smk [M-down]      'lse-tpu:goto-stmt-block-tail)
-  (local-set-smk [red ?a]      'lse-tpu:goto-function-head)
-  (local-set-smk [red ?e]      'lse-tpu:goto-function-tail)
-  (local-set-smk [red ?i]      'lse-tpu:goto-nearest-function-head)
-  (local-set-smk [red up]      'lse-tpu:goto-stmt-block-head)
-  (local-set-smk [red down]    'lse-tpu:goto-stmt-block-tail)
-  (local-set-smk [red left]    'backward-up-list)
-  (local-set-smk [red right]   'up-list)
+  (local-set-asp [M-up]          'lse-tpu:goto-stmt-block-head)
+  (local-set-asp [M-down]        'lse-tpu:goto-stmt-block-tail)
+  (local-set-asp [red   ?a]      'lse-tpu:goto-function-head)
+  (local-set-asp [green ?a]      'lse-tpu:goto-function-tail)
+  (local-set-asp [red   ?e]      'lse-tpu:goto-function-tail)
+  (local-set-asp [red   ?i]      'lse-tpu:goto-nearest-function-head)
+  (local-set-asp [red   up]      'lse-tpu:goto-stmt-block-head)
+  (local-set-asp [green up]      'lse-tpu:goto-stmt-block-tail)
+  (local-set-asp [red   down]    'lse-tpu:goto-stmt-block-tail)
+  (local-set-asp [red   left]    'backward-up-list)
+  (local-set-asp [red   right]   'up-list)
   (setq mode-name "JS")
   (setq comment-start      "/* ")
   (setq comment-end        " */")
@@ -215,10 +218,6 @@
 
 (define-key lse-js:menu-keymap [remove-semicolon]
   '("Remove semicolon" . lse-js:remove-semicolon)
-)
-
-(define-key lse-js:menu-keymap [goto-semicolon]
-  '("Goto semicolon" . lse-tpu:goto-semicolon)
 )
 
 (define-key lse-js:menu-keymap [goto-block-tail]

@@ -116,24 +116,6 @@
   keybindings defined by standard Emacs to be globally unset."
 )
 
-;;;  3-Oct-2007
-(defvar lse-keys:function-key-map-bindings
-    '( ;; if you change this, please update the copy in swing-default.el, too
-       ([scroll]        [blue]); Windows NT
-       ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
-       ([f12]           [do])
-       ([pause]         [gold])
-       ([s-pause]       [gray])
-       ([s-print]       [green])
-       ([f11]           [help])
-       ([s-scroll]      [pink])
-       ([s-scroll_lock] [pink])
-       ([print]         [red])
-     )
-  "Override this in your .emacs file to define which keys to use for [gold],
-  [blue], [red], ..."
-)
-
 ;;; 29-Sep-2008
 (defvar lse-key:toggle-tab-p nil)
 (make-variable-buffer-local 'lse-key:toggle-tab-p)
@@ -297,10 +279,6 @@
   (lse-flat-fill-in:define-key [gold ?\ ]        'lse-flat-fill-in:align-to-next-word)
   (lse-flat-fill-in:define-key [gold ?\A-o]      'lse-help-fill-in);  2-Jan-1998
   (lse-flat-fill-in:define-key [mouse-2]         'lse-flat-fill-in:replace-and-mouse-yank)
-  ;; (lse-flat-fill-in:define-key [right]        'lse-goto-next-fill-in)
-  ;; (lse-flat-fill-in:define-key [down]         'lse-goto-next-fill-in)
-  ;; (lse-flat-fill-in:define-key [left]         'lse-goto-prev-fill-in)
-  ;; (lse-flat-fill-in:define-key [up]           'lse-goto-prev-fill-in)
 ; lse-define-std-keys
 )
 

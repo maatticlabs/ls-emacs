@@ -86,14 +86,15 @@
 ;;;;     3-Jun-2011 (CT) `lse-git` added, `lse-version` increased
 ;;;;     3-Jun-2011 (CT) `lse-w32` factored
 ;;;;    18-Feb-2012 (CT) Move `require lse-tpu` to the front
+;;;;    19-Feb-2012 (CT) `lse-version` increased
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
 (defconst enable-multibyte-characters t)
 
-(defconst lse-version      "3.7.1"        "Version number of LS-Emacs.")
-(defconst lse-version-date " 3-Jun-2011 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.8"        "Version number of LS-Emacs.")
+(defconst lse-version-date "19-Feb-2012 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
@@ -185,9 +186,6 @@
     (lse-language:pre-load "rest");
     (lse-language:pre-load "sed")
     (lse-language:pre-load "texinfo")
-    ; (lse-language:pre-load "ttp_issue"); 13-Aug-1999
-    ;; 29-Sep-1996 ;; (lse-lingo:load        "german"); 30-Mar-1996
-    ;; 29-Sep-1996 ;; (lse-lingo:load        "english"); 30-Mar-1996
   )
 )
 
@@ -267,7 +265,6 @@
 (require 'lse-kill)
 (require 'lse-language)
 (require 'lse-learn-key)
-;;; 29-Sep-1996 ;;; (require 'lse-lingo); 30-Mar-1996
 (require 'lse-mark-stack)
 (require 'lse-menu); 16-Oct-1996
 (require 'lse-mode-alist)

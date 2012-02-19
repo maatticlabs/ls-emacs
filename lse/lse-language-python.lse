@@ -66,6 +66,7 @@
 ;;;;    30-Aug-2010 (CT) `lse-python:goto-near-top-pos` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    18-Feb-2012 (CT) Factor `last-position` to `lse-tpu`
+;;;;    19-Feb-2012 (CT) Use `local-set-asp` instead of `local-set-smk`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -120,22 +121,26 @@
   ;; 9-Apr-1998
   (local-unset-key [?:]); cannot move to [\C-c] because that's already bound
 
-  (local-set-smk   [red      ?a]     'lse-python:goto-beginning-of-def);   24-Sep-1999
-  (local-set-smk   [red      ?b]     'lse-python:goto-begin-of-block);     24-Sep-1999
-  (local-set-smk   [red      ?c]     'lse-python:goto-beginning-of-class); 13-Apr-1998
-  (local-set-smk   [red      ?e]     'lse-python:goto-end-of-def);         24-Sep-1999
-  (local-set-smk   [red      ?f]     'lse-python:goto-end-of-block);       24-Sep-1999
-  (local-set-smk   [red      ?g]     'lse-python:goto-end-of-class);       13-Apr-1998
-  (local-set-smk   [red      ?r]     'lse-python:goto-prev-statement);      8-Sep-2002
-  (local-set-smk   [red      ?s]     'lse-python:goto-next-statement);      8-Sep-2002
-  (local-set-smk   [red      ?v]     'lse-python:update-patchlevel);        4-Oct-2007
-  (local-set-smk   [red   right]     'lse-python:goto-next-statement);     18-Nov-2002
-  (local-set-smk   [red   ?\C-e]     'lse-python:goto-next-statement-end); 18-Nov-2002
-  (local-set-smk   [red    left]     'lse-python:goto-prev-statement);     18-Nov-2002
-  (local-set-smk   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
-  (local-set-smk   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
-  (local-set-smk   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
-  (local-set-key   [red  C-home]     'lse-python:goto-near-top-pos);       30-Aug-2010
+  (local-set-asp   [red      ?a]     'lse-python:goto-beginning-of-def);   24-Sep-1999
+  (local-set-asp   [green    ?a]     'lse-python:goto-end-of-def)
+  (local-set-asp   [red      ?b]     'lse-python:goto-begin-of-block);     24-Sep-1999
+  (local-set-asp   [green    ?b]     'lse-python:goto-end-of-block)
+  (local-set-asp   [red      ?c]     'lse-python:goto-beginning-of-class); 13-Apr-1998
+  (local-set-asp   [green    ?c]     'lse-python:goto-end-of-class)
+  (local-set-asp   [red      ?e]     'lse-python:goto-end-of-def);         24-Sep-1999
+  (local-set-asp   [red      ?f]     'lse-python:goto-end-of-block);       24-Sep-1999
+  (local-set-asp   [red      ?g]     'lse-python:goto-end-of-class);       13-Apr-1998
+  (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement);      8-Sep-2002
+  (local-set-asp   [red      ?s]     'lse-python:goto-next-statement);      8-Sep-2002
+  (local-set-asp   [green    ?s]     'lse-python:goto-prev-statement)
+  (local-set-asp   [red      ?v]     'lse-python:update-patchlevel);        4-Oct-2007
+  (local-set-asp   [red   right]     'lse-python:goto-next-statement);     18-Nov-2002
+  (local-set-asp   [red   ?\C-e]     'lse-python:goto-next-statement-end); 18-Nov-2002
+  (local-set-asp   [red    left]     'lse-python:goto-prev-statement);     18-Nov-2002
+  (local-set-asp   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
+  (local-set-asp   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
+  (local-set-asp   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
+  (local-set-asp   [red  C-home]     'lse-python:goto-near-top-pos);       30-Aug-2010
 
   (setq indent-line-function 'lse-python:indent-line);  9-Mar-1998
   (lse-language:use "python")
@@ -163,8 +168,6 @@
 ; lse-python:goto-beginning-of-class
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-beginning-of-class)
-
 ;;; 13-Apr-1998
 (defun lse-python:goto-end-of-class ()
   "Move to end of python class."
@@ -172,8 +175,6 @@
   (py-end-of-def-or-class t)
 ; lse-python:goto-end-of-class
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-class)
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-beginning-of-def ()
@@ -183,8 +184,6 @@
 ; lse-python:goto-beginning-of-def
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-beginning-of-def)
-
 ;;; 24-Sep-1999
 (defun lse-python:goto-end-of-def ()
   "Move to end of python function."
@@ -192,8 +191,6 @@
   (py-end-of-def-or-class)
 ; lse-python:goto-end-of-def
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-def)
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-begin-of-block ()
@@ -212,8 +209,6 @@
 ; lse-python:goto-begin-of-block
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-begin-of-block)
-
 ;;; 24-Sep-1999
 (defun lse-python:goto-end-of-block ()
   "Got end of current python block"
@@ -226,8 +221,6 @@
   (back-to-indentation)            ;  18-Nov-2002
 ; lse-python:goto-end-of-block
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-end-of-block)
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-next-statement (num)
@@ -243,8 +236,6 @@
   (lse-python@goto-next-statement num)
 ; lse-python:goto-next-statement
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-next-statement)
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-end-of-last-statement ()
@@ -272,8 +263,6 @@
 ; lse-python:goto-next-statement-end
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-next-statement-end)
-
 ;;; 18-Nov-2002
 (defun lse-python@goto-prev-statement (num)
   (py-previous-statement (or num (if (py-continuation-line-p) 0 1)))
@@ -289,8 +278,6 @@
 ; lse-python:goto-prev-statement
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-prev-statement)
-
 ;;; 18-Nov-2002
 (defun lse-python:goto-prev-statement-end (num)
   "Goto end of previous statement"
@@ -299,8 +286,6 @@
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-prev-statement-end
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-prev-statement-end)
 
 ;;; 30-Aug-2010
 (defun lse-python:near-top-pos ()
@@ -329,8 +314,6 @@
   (let ((ntp (lse-python:near-top-pos))) (if ntp (goto-char ntp)))
 ; lse-python:goto-near-top-pos
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-python:goto-near-top-pos)
 
 ;;; 30-Aug-2010
 (define-key py-mode-map [menu-bar Python separator-LSE] '("--"))

@@ -132,6 +132,7 @@
 ;;;;    17-Feb-2012 (CT) Add `head` and `tail` to `lse-tpu:set-match-highlight`
 ;;;;    18-Feb-2012 (CT) Add `save-position`, `last-position`, ...
 ;;;;    18-Feb-2012 (CT) Add `stmt-block` related functions
+;;;;    19-Feb-2012 (CT) Add `lse-tpu:goto-next-char`, `lse-tpu:goto-prev-char`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1674,59 +1675,40 @@ Accepts a prefix argument of the number of characters to invert."
 
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-tail)
 
-;;; 18-Feb-2012
-(defun lse-tpu:goto-next-closing-brace (count &optional limit)
-  (interactive "p")
-  (save-match-data
-    (search-forward "}" limit t count)
+;;; 19-Feb-2012
+(defun lse-tpu:goto_char (key limit count search-fct)
+  (when (integerp key)
+    (setq key (char-to-string key))
   )
-; lse-tpu:goto-next-closing-brace
-)
-
-(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-next-closing-brace)
-
-;;; 18-Feb-2012
-(defun lse-tpu:goto-prev-closing-brace (count &optional limit)
-  (interactive "p")
   (save-match-data
-    (search-backward "}" limit t count)
+    (funcall search-fct key limit t count)
   )
-; lse-tpu:goto-prev-closing-brace
+; lse-tpu:goto_char
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-prev-closing-brace)
-
-;;; 18-Feb-2012
-(defun lse-tpu:goto-next-open-brace (count &optional limit)
+;;; 19-Feb-2012
+(defun lse-tpu:goto-next-char (count &optional limit)
+  "Goto next occurence of character"
   (interactive "p")
-  (save-match-data
-    (search-forward "{" limit t count)
+  (let* ((keys (this-command-keys-vector))
+         (key  (aref keys (1- (length keys))))
+        )
+    (lse-tpu:goto_char key limit count 'search-forward)
   )
-; lse-tpu:goto-next-open-brace
+; lse-tpu:goto-next-char
 )
 
-(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-next-open-brace)
-
-;;; 18-Feb-2012
-(defun lse-tpu:goto-prev-open-brace (count &optional limit)
+;;; 19-Feb-2012
+(defun lse-tpu:goto-prev-char (count &optional limit)
+  "Goto previous occurence of character"
   (interactive "p")
-  (save-match-data
-    (search-backward "{" limit t count)
+  (let* ((keys (this-command-keys-vector))
+         (key  (aref keys (1- (length keys))))
+        )
+    (lse-tpu:goto_char key limit count 'search-backward)
   )
-; lse-tpu:goto-prev-open-brace
+; lse-tpu:goto-prev-char
 )
-
-(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-prev-open-brace)
-
-;;; 18-Feb-2012
-(defun lse-tpu:goto-semicolon (count &optional limit)
-  "Goto next semicolon."
-  (interactive "p")
-  (save-match-data (search-forward ";" limit t count))
-; lse-tpu:goto-semicolon
-)
-
-(lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-semicolon)
 
 ;;;++
 ;;; Deletion/Undeletion of chars, words, and lines
