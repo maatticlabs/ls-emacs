@@ -116,6 +116,24 @@
   keybindings defined by standard Emacs to be globally unset."
 )
 
+;;;  3-Oct-2007
+(defvar lse-keys:function-key-map-bindings
+    '( ;; if you change this, please update the copy in swing-default.el, too
+       ([scroll]        [blue]); Windows NT
+       ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
+       ([f12]           [do])
+       ([pause]         [gold])
+       ([s-pause]       [gray])
+       ([s-print]       [green])
+       ([f11]           [help])
+       ([s-scroll]      [pink])
+       ([s-scroll_lock] [pink])
+       ([print]         [red])
+     )
+  "Override this in your .emacs file to define which keys to use for [gold],
+  [blue], [red], ..."
+)
+
 ;;; 29-Sep-2008
 (defvar lse-key:toggle-tab-p nil)
 (make-variable-buffer-local 'lse-key:toggle-tab-p)
