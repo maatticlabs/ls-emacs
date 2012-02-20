@@ -63,7 +63,8 @@
 ;;;;    18-Feb-2012 (CT) Add  and use `swing-define-goto-last-position-keys`
 ;;;;    19-Feb-2012 (CT) Use `global-set-asp` instead of `global-set-smk`
 ;;;;    19-Feb-2012 (CT) Add and use `swing-define-goto-char-key`
-;;;;    19-Feb-2012 (CT) Add bindins for `lse-tpu:goto-opening-char`
+;;;;    19-Feb-2012 (CT) Bind `lse-tpu:goto-opening-char`
+;;;;    20-Feb-2012 (CT) Bind `lse-tpu:goto-next-occurrence-current-word`
 ;;;;    ««revision-date»»···
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
@@ -138,6 +139,8 @@
   (global-set-asp [red      ?p]            'backward-list)
   (global-set-key [red      ?t]            'transpose-sexps)
   (global-set-asp [red      ?u]            'up-list)
+  (global-set-asp [red      ?w]            'lse-tpu:goto-next-occurrence-current-word)
+  (global-set-asp [green    ?w]            'lse-tpu:goto-prev-occurrence-current-word)
   (global-set-key [red      ?y]            'lse-compile-defun)
   (global-set-key [red      ?^]            'lse-tpu:add-at-bol); 17-Mar-1995
   (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001

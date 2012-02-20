@@ -94,6 +94,8 @@
 ;;;;    19-Feb-2012 (CT) Add `lse-select-bracketed-range`,
 ;;;;                     `lse-select-next-bracketed-range`,
 ;;;;                     remove `lse@select-brace-range` and its callers
+;;;;    20-Feb-2012 (CT) Change `lse-select-current-word` to use
+;;;;                     `lse-tpu:curr-word-tail-pos`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -626,12 +628,17 @@ previous line"
 ; lse-select-next-bracketed-range
 )
 
+;;; 20-Feb-2012
 (defun lse-select-current-word (num)
   (interactive "p")
-  (lse-tpu:unselect t)
-  (goto-char        (lse-tpu:curr-word-head-pos))
-  (lse-tpu:select   t)
-  (goto-char        (lse-tpu:next-word-tail-pos num))
+  (let* ((head (lse-tpu:curr-word-head-pos))
+         (tail (lse-tpu:curr-word-tail-pos))
+        )
+    (lse-tpu:unselect t)
+    (goto-char head)
+    (lse-tpu:select   t)
+    (goto-char tail)
+  )
 ; lse-select-current-word
 )
 

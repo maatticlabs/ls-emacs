@@ -134,6 +134,9 @@
 ;;;;    18-Feb-2012 (CT) Add `stmt-block` related functions
 ;;;;    19-Feb-2012 (CT) Add `lse-tpu:goto-next-char`, `lse-tpu:goto-prev-char`
 ;;;;    19-Feb-2012 (CT) Add `lse-tpu:goto-opening-char`, factor `lse-tpu:cmd-char`
+;;;;    20-Feb-2012 (CT) Add `lse-tpu:goto-next-occurrence-current-word` and
+;;;;                         `lse-tpu:goto-prev-occurrence-current-word`
+;;;;    20-Feb-2012 (CT) Add `looking-behind-at`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -535,6 +538,21 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
 ;;;
 ;;;  Utilities
 ;;;
+;;; 20-Feb-2012
+(defun looking-behind-at (pat &optional len)
+  "Return t if text before point matches regular expression `pat`. Specify
+   `len` if `pat` contains regexp quotes.
+  "
+  (save-match-data
+    (save-excursion
+      (or len (setq len (length pat)))
+      (backward-char len)
+      (looking-at pat)
+    )
+  )
+; looking-behind-at
+)
+
 ;;; 19-Feb-2012
 (defun lse-tpu:cmd-char ()
   (let* ((keys (this-command-keys-vector))
@@ -1372,25 +1390,42 @@ Accepts a prefix argument of the number of characters to invert."
 
 
 (defun lse-tpu:curr-word-head-pos ()
-  (let ((result (point)))
+  (let (result)
     (save-match-data
       (save-excursion
         (if (looking-at (concat "[" lse-tpu:word-chars "]"))
-            (skip-chars-backward lse-tpu:word-chars)
-          (skip-chars-backward lse-tpu:word-whitespace-chars)
-          (lse-tpu:forward-char -1)
-          (if (looking-at (concat "[" (lse-tpu:punctuation-chars) "]"))
-                t
-              (lse-tpu:forward-char 1)
+            (progn
               (skip-chars-backward lse-tpu:word-chars)
+              (setq result (point))
             )
-          (setq result (point))
+          (setq result (lse-tpu:prev-word-head-pos 1))
         )
       )
-    result
     )
+    result
   )
 ; lse-tpu:curr-word-head-pos
+)
+
+;;; 20-Feb-2012
+(defun lse-tpu:curr-word-tail-pos ()
+  (let (result
+        (word-pat (concat "[" lse-tpu:word-chars "]"))
+       )
+    (save-match-data
+      (save-excursion
+        (when (looking-at lse-tpu:word-whitespace-chars)
+          (skip-chars-backward lse-tpu:word-whitespace-chars)
+        )
+        (if (and (not (looking-at word-pat)) (looking-behind-at word-pat 1))
+            (setq result (point))
+          (setq result (lse-tpu:next-word-tail-pos 1))
+        )
+      )
+    )
+    result
+  )
+; lse-tpu:curr-word-tail-pos
 )
 
 (defun lse-tpu:next-word-head-pos (num &optional limit)
@@ -1577,7 +1612,7 @@ Accepts a prefix argument of the number of characters to invert."
       (while (and head (marker-position head))
         (goto-char head)
         (forward-list)
-        (unless (save-excursion (backward-char 1) (looking-at "}"))
+        (unless (looking-behind-at "}")
           (forward-list)
         )
         (setq i (1+ i))
@@ -1689,21 +1724,37 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-tail)
 
 ;;; 19-Feb-2012
-(defun lse-tpu:goto_char (key limit count search-fct)
-  (when (integerp key)
-    (setq key (char-to-string key))
+(defun lse-tpu:goto_occurrence (key limit count search-fct &optional at-head)
+  (let (result
+        (cp (point))
+       )
+    (when (integerp key)
+      (setq key (char-to-string key))
+    )
+    (save-match-data
+      (and at-head
+        (looking-at key)
+        (forward-char 1)
+      )
+      (setq result (funcall search-fct key limit t count))
+      (if result
+          (when at-head
+            (goto-char (match-beginning 0))
+          )
+        (message "'%s' not found [%s]" key search-fct)
+        (goto-char cp)
+      )
+    )
+    result
   )
-  (save-match-data
-    (funcall search-fct key limit t count)
-  )
-; lse-tpu:goto_char
+; lse-tpu:goto_occurrence
 )
 
 ;;; 19-Feb-2012
 (defun lse-tpu:goto-next-char (count &optional limit)
   "Goto next occurence of character"
   (interactive "p")
-  (lse-tpu:goto_char (lse-tpu:cmd-char) limit count 'search-forward)
+  (lse-tpu:goto_occurrence (lse-tpu:cmd-char) limit count 'search-forward)
 ; lse-tpu:goto-next-char
 )
 
@@ -1711,7 +1762,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-prev-char (count &optional limit)
   "Goto previous occurence of character"
   (interactive "p")
-  (lse-tpu:goto_char (lse-tpu:cmd-char) limit count 'search-backward)
+  (lse-tpu:goto_occurrence (lse-tpu:cmd-char) limit count 'search-backward)
 ; lse-tpu:goto-prev-char
 )
 
@@ -1741,6 +1792,34 @@ Accepts a prefix argument of the number of characters to invert."
     )
   )
 ; lse-tpu:goto-opening-char
+)
+
+;;; 20-Feb-2012
+(defun lse-tpu:goto_occurence_current_word
+    (count limit search-fct &optional at-head)
+  (let* ((head (lse-tpu:curr-word-head-pos))
+         (tail (lse-tpu:curr-word-tail-pos))
+         (word (buffer-substring-no-properties head tail))
+        )
+    (lse-tpu:goto_occurrence word limit count search-fct at-head)
+  )
+; lse-tpu:goto_occurence_current_word
+)
+
+;;; 20-Feb-2012
+(defun lse-tpu:goto-next-occurrence-current-word (count &optional limit)
+  "Goto next occurence of current word"
+  (interactive "p")
+  (lse-tpu:goto_occurence_current_word count limit 'search-forward t)
+; lse-tpu:goto-next-occurrence-current-word
+)
+
+;;; 20-Feb-2012
+(defun lse-tpu:goto-prev-occurrence-current-word (count &optional limit)
+  "Goto previous occurence of current word"
+  (interactive "p")
+  (lse-tpu:goto_occurence_current_word count limit 'search-backward)
+; lse-tpu:goto-prev-occurrence-current-word
 )
 
 ;;;++

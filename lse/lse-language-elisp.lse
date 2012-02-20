@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -13,11 +13,12 @@
 ;;;;    14-Jun-1994 (CT) Creation (of comment)
 ;;;;    14-Jun-1994 (CT) lse-elisp-mode put in here
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to
-;;;;                     `emacs-lisp-mode-hook' 
+;;;;                     `emacs-lisp-mode-hook'
+;;;;    20-Feb-2012 (CT) Add `:` to `lse-tpu:ident-group-chars`
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (lse-language:define "elisp"
-  '((lse-tpu:ident-group-chars         "-_@*+")
+  '((lse-tpu:ident-group-chars         "-_@*+:")
     (lse-language:tab-increment        2)
     (lse_comment_head_delim            ";")
     (lse_comment_head_delim_pattern    ";+ *")
@@ -38,11 +39,11 @@
 ;  137
 )
 
-;;; 
+;;;
 ;;; elisp mode
-;;; 
+;;;
 (add-hook 'emacs-lisp-mode-hook 'lse-elisp-mode)
-(add-hook 'emacs-lisp-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000 
+(add-hook 'emacs-lisp-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 
 (defun lse-elisp-mode ()
   (lse-language:use "elisp")
