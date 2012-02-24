@@ -69,6 +69,9 @@
 ;;;;    19-Feb-2012 (CT) Use `local-set-asp` instead of `local-set-smk`
 ;;;;    24-Feb-2012 (CT) Redefine `py-imenu-class-regexp` and
 ;;;;                     `py-imenu-method-regexp` to support continuation lines
+;;;;    24-Feb-2012 (CT) Rename `goto-beginning-of-class` to
+;;;;                     `goto-nearest-class-head`...
+;;;;    24-Feb-2012 (CT) Add `lse-python:goto-class-head` and friends
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -135,19 +138,19 @@
 (defun python-mode ()
   (interactive)
   (lse:python-mode:std-python-mode)
-  (setq comment-start      "#+ " );  3-Aug-1998
-  (setq comment-start-skip "#+ *");  3-Aug-1998
-  (local-unset-key "\177");  8-Mar-1998
+  (setq comment-start      "#+ " )
+  (setq comment-start-skip "#+ *")
+  (local-unset-key "\177")
   ;; revert ``extremely bad form'' of python-mode rebindings of
   ;; 'newline-and-indent and 'py-newline-and-indent
   (mapc
     #'(lambda (key) (local-unset-key key))
     (where-is-internal 'newline-and-indent)
-  );  8-Mar-1998
+  )
   (mapc
     #'(lambda (key) (local-unset-key key))
     (where-is-internal 'py-newline-and-indent)
-  );  24-Feb-2012
+  )
 
   ;; 17-Aug-2006
   (local-unset-key [f1]); disable broken py-doc binding
@@ -157,32 +160,37 @@
   ;; 9-Apr-1998
   (local-unset-key [?:]); cannot move to [\C-c] because that's already bound
 
-  (local-set-asp   [red      ?a]     'lse-python:goto-beginning-of-def);   24-Sep-1999
-  (local-set-asp   [green    ?a]     'lse-python:goto-end-of-def)
-  (local-set-asp   [red      ?b]     'lse-python:goto-begin-of-block);     24-Sep-1999
+  (local-set-asp   [red      ?a]     'lse-python:goto-function-head)
+  (local-set-asp   [pink     ?a]     'lse-python:goto-next-function-head)
+  (local-set-asp   [green    ?a]     'lse-python:goto-function-tail)
+  (local-set-asp   [red      ?b]     'lse-python:goto-begin-of-block)
   (local-set-asp   [green    ?b]     'lse-python:goto-end-of-block)
-  (local-set-asp   [red      ?c]     'lse-python:goto-beginning-of-class); 13-Apr-1998
-  (local-set-asp   [green    ?c]     'lse-python:goto-end-of-class)
-  (local-set-asp   [red      ?e]     'lse-python:goto-end-of-def);         24-Sep-1999
-  (local-set-asp   [red      ?f]     'lse-python:goto-end-of-block);       24-Sep-1999
-  (local-set-asp   [red      ?g]     'lse-python:goto-end-of-class);       13-Apr-1998
-  (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement);      8-Sep-2002
-  (local-set-asp   [red      ?s]     'lse-python:goto-next-statement);      8-Sep-2002
+  (local-set-asp   [red      ?c]     'lse-python:goto-class-head)
+  (local-set-asp   [pink     ?c]     'lse-python:goto-next-class-head)
+  (local-set-asp   [green    ?c]     'lse-python:goto-class-tail)
+  (local-set-asp   [red      ?e]     'lse-python:goto-function-tail)
+  (local-set-asp   [red      ?f]     'lse-python:goto-end-of-block)
+  (local-set-asp   [red      ?g]     'lse-python:goto-class-tail)
+  (local-set-asp   [red      ?i]     'lse-python:goto-nearest-function-head)
+  (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement)
+  (local-set-asp   [red      ?s]     'lse-python:goto-next-statement)
   (local-set-asp   [green    ?s]     'lse-python:goto-prev-statement)
-  (local-set-asp   [red      ?v]     'lse-python:update-patchlevel);        4-Oct-2007
-  (local-set-asp   [red   right]     'lse-python:goto-next-statement);     18-Nov-2002
-  (local-set-asp   [red   ?\C-e]     'lse-python:goto-next-statement-end); 18-Nov-2002
-  (local-set-asp   [red    left]     'lse-python:goto-prev-statement);     18-Nov-2002
-  (local-set-asp   [red   ?\C-a]     'lse-python:goto-prev-statement-end); 18-Nov-2002
-  (local-set-asp   [red      up]     'lse-python:goto-begin-of-block);     18-Nov-2002
-  (local-set-asp   [red    down]     'lse-python:goto-end-of-block);       18-Nov-2002
-  (local-set-asp   [red  C-home]     'lse-python:goto-near-top-pos);       30-Aug-2010
+  (local-set-asp   [red      ?v]     'lse-python:update-patchlevel)
+  (local-set-asp   [red   right]     'lse-python:goto-next-statement)
+  (local-set-asp   [red   ?\C-e]     'lse-python:goto-next-statement-end)
+  (local-set-asp   [red    left]     'lse-python:goto-prev-statement)
+  (local-set-asp   [red   ?\C-a]     'lse-python:goto-prev-statement-end)
+  (local-set-asp   [red      up]     'lse-python:goto-begin-of-block)
+  (local-set-asp   [red    down]     'lse-python:goto-end-of-block)
+  (local-set-asp   [red  C-home]     'lse-python:goto-near-top-pos)
 
-  (setq indent-line-function 'lse-python:indent-line);  9-Mar-1998
+  (setq indent-line-function 'lse-python:indent-line)
   (lse-language:use "python")
   (turn-on-font-lock)
 ; python-mode
 )
+
+;;; py-in-literal: returns "string" or "comment" if (point) is inside either
 
 ;;;  9-Mar-1998
 (defun lse-python:indent-line ()
@@ -196,51 +204,149 @@
 ; lse-python:indent-line
 )
 
+;;; 24-Feb-2012
+(defun lse-python:goto_block_head (name)
+  (let ((cp (point))
+        result
+       )
+    (beginning-of-line)
+    (while (and
+            (not (bobp))
+            (or
+              (looking-at (concat " *" name " "))
+              (looking-at (concat " *# end " name))
+              (looking-at " *[#@]")
+              (looking-at "^ *$")
+            )
+          )
+      (forward-line -1)
+    )
+    (setq result (py-go-up-tree-to-keyword name))
+    (unless result
+      (message "No %s statement around point found" name)
+      (goto-char cp)
+    )
+    result
+  )
+; lse-python:goto_block_head
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto_block_tail (name)
+  (let ((cp (point))
+        block-indent
+       )
+    (beginning-of-line)
+    (if (looking-at (concat " *" name " "))
+        (forward-line 1)
+      (when (looking-at (concat " *# end " name))
+        (forward-line 1)
+      )
+      (while (looking-at "^ *$")
+        (forward-line 1)
+      )
+    )
+    (when (lse-python:goto_block_head name)
+      (setq block-indent (current-indentation))
+      (py-goto-beyond-block)
+      (while (and
+               (not (eobp))
+               (or
+                 (looking-at "^ *$")
+                 (> (current-indentation) block-indent)
+               )
+             )
+        (forward-line 1)
+      )
+    )
+  )
+; lse-python:goto_block_tail
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-class-head ()
+  "Goto head of containing class"
+  (interactive)
+  (lse-python:goto_block_head "class")
+; lse-python:goto-class-head
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-class-tail ()
+  "Goto tail of containing class"
+  (interactive)
+  (lse-python:goto_block_tail "class")
+; lse-python:goto-class-tail
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-function-head ()
+  "Goto head of containing function"
+  (interactive)
+  (lse-python:goto_block_head "def")
+; lse-python:goto-function-head
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-function-tail ()
+  "Goto tail of containing function"
+  (interactive)
+  (lse-python:goto_block_tail "def")
+; lse-python:goto-function-tail
+)
+
 ;;; 13-Apr-1998
-(defun lse-python:goto-beginning-of-class ()
-  "Move to beginning of python class."
+(defun lse-python:goto-nearest-class-head ()
+  "Goto nearest head of class."
   (interactive)
   (py-beginning-of-def-or-class t)
-; lse-python:goto-beginning-of-class
+; lse-python:goto-nearest-class-head
 )
 
 ;;; 13-Apr-1998
-(defun lse-python:goto-end-of-class ()
-  "Move to end of python class."
+(defun lse-python:goto-nearest-class-tail ()
+  "Goto to nearest tail of class."
   (interactive)
   (py-end-of-def-or-class t)
-; lse-python:goto-end-of-class
+; lse-python:goto-nearest-class-tail
 )
 
 ;;; 24-Sep-1999
-(defun lse-python:goto-beginning-of-def ()
-  "Move to beginning of python function."
+(defun lse-python:goto-nearest-function-head ()
+  "Goto nearest head of function."
   (interactive)
   (py-beginning-of-def-or-class)
-; lse-python:goto-beginning-of-def
+; lse-python:goto-nearest-function-head
 )
 
 ;;; 24-Sep-1999
-(defun lse-python:goto-end-of-def ()
-  "Move to end of python function."
+(defun lse-python:goto-nearest-function-tail ()
+  "Goto to nearest tail of function."
   (interactive)
   (py-end-of-def-or-class)
-; lse-python:goto-end-of-def
+; lse-python:goto-nearest-function-tail
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-next-class-head (count &optional limit)
+  "Goto next head of class."
+  (interactive "p")
+  (lse-tpu:goto_occurrence "^ *class " limit count 're-search-forward t)
+; lse-python:goto-next-class-head
+)
+
+;;; 24-Feb-2012
+(defun lse-python:goto-next-function-head (count &optional limit)
+  "Goto next head of function."
+  (interactive "p")
+  (lse-tpu:goto_occurrence "^ *def " limit count 're-search-forward t)
+; lse-python:goto-next-function-head
 )
 
 ;;; 24-Sep-1999
 (defun lse-python:goto-begin-of-block ()
   "Goto begin of current python block"
   (interactive)
-  (if (save-excursion                      ;  6-Jun-2000
-        (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
-        (py-statement-opens-block-p)       ;  6-Jun-2000
-      )                                    ;  6-Jun-2000
-      (progn                               ;  6-Jun-2000
-        (lse-tpu:next-beginning-of-line 1) ;  6-Jun-2000
-        (lse-tpu:next-end-of-line 0)       ;  4-Oct-2007 ; 6-Jun-2000
-      )                                    ;  6-Jun-2000
-  )                                        ;  6-Jun-2000
   (py-goto-block-up t)
 ; lse-python:goto-begin-of-block
 )
