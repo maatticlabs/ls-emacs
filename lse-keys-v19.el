@@ -97,6 +97,8 @@
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
+;;;;    24-Feb-2012 (CT) Add `[modeline ...mouse...]` to
+;;;;                     `lse-keys:emacs-bindings-to-unset`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -111,6 +113,9 @@
       [f10] [f11] [f12] [f13] [f14] [f15] [f16] [f17] [f18] [f19] [f20]
       [?\C-x ?4] [?\C-x ?4] [?\C-x ?6]
       [M-home] [M-end]
+      [modeline C-mouse-2]
+      [modeline mouse-2]
+      [modeline mouse-3]
      )
   "Override this in your .emacs file, if you want a different set of
   keybindings defined by standard Emacs to be globally unset."

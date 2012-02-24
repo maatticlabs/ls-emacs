@@ -102,8 +102,6 @@
 
 (defun swing-define-red-keys ()
   (swing-define-goto-last-position-keys
-    ?a ?b ?c ?d ?e ?f ?g ?i ?h ?n ?p ?r ?s ?u
-    ?\C-a ?\C-e
     '(left) '(right) '(up) '(down)
   )
   (mapc 'swing-define-goto-char-key
@@ -139,8 +137,8 @@
   (global-set-asp [red      ?p]            'backward-list)
   (global-set-key [red      ?t]            'transpose-sexps)
   (global-set-asp [red      ?u]            'up-list)
-  (global-set-asp [red      ?w]            'lse-tpu:goto-next-occurrence-current-word)
-  (global-set-asp [green    ?w]            'lse-tpu:goto-prev-occurrence-current-word)
+  (global-set-asp [red   ?\C-n]            'lse-tpu:goto-next-occurrence-current-word)
+  (global-set-asp [red   ?\C-p]            'lse-tpu:goto-prev-occurrence-current-word)
   (global-set-key [red      ?y]            'lse-compile-defun)
   (global-set-key [red      ?^]            'lse-tpu:add-at-bol); 17-Mar-1995
   (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001
@@ -154,19 +152,16 @@
   (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
   (global-set-key [gold red ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
   (global-set-key [red      select]        'mark-sexp)
-  (global-set-key [red      kp-decimal]    'mark-sexp)
   (global-set-key [red      kp-6]          'lse-tpu:copy-current-defun)
   (global-set-key [red      kp-7]          'lse-show-length);  5-Mar-1997
   (global-set-key [red      pf4]           'lse-tpu:copy-current-line)
   (global-set-key [red      insert]        'lse-tpu:copy-current-line); 31-Aug-2002
   (global-set-key [red gold select]        'mark-defun)
-  (global-set-key [red gold kp-decimal]    'mark-defun)
   (global-set-key [gold red select]        'mark-defun)
-  (global-set-key [gold red kp-decimal]    'mark-defun)
   (global-set-key [red      ?\A-i]         'indent-sexp)
-  (global-set-key [red      ?\A-k]         'kill-sexp)
-  (global-set-key [red gold ?\A-k]         'yank)
-  (global-set-key [gold red ?\A-k]         'yank)
+  (global-set-key [red      ?\C-k]         'kill-sexp)
+  (global-set-key [red gold ?\C-k]         'yank)
+  (global-set-key [gold red ?\C-k]         'yank)
   (global-set-key [red      ?\C-l]         'lse-show-length); 31-Aug-2002
   (global-set-key [blue     red]           'ps-print-region-with-faces); 27-Sep-2000
   (global-set-key [green    red]           'ps-print-buffer-with-faces); 10-Oct-2000
@@ -187,7 +182,6 @@
   (global-set-key [blue ?\C-i delete] 'lse-close-line-down)
 
   (global-set-key [blue ?\C-i kp-0]   'split-line)
-  (global-set-key [blue ?\C-i kp-3]   'lse-tpu:trim-line-end)
   ;; 25-Feb-1998 ;; `home' instead of `insert'
   (global-set-key [blue ?\C-i home]   'back-to-indentation)
 ; swing-define-blue-tab-keys

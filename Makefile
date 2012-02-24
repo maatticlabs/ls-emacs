@@ -8,7 +8,7 @@ LSC_FILES    = $(wildcard lsc/*.lsc)
 SWING_FILES  = $(wildcard swing-*.el)
 LS_EMACS     = $(DOC_FILES) $(SCRIPT_FILES) $(EL_FILES) $(ELC_FILES) $(LSE_FILES) $(LSC_FILES)
 
-.PHONY       : lsc
+.PHONY       : elc lsc
 
 ls_emacs.tbz : $(LS_EMACS)
 	rm -rf /tmp/ls-emacs
@@ -30,7 +30,7 @@ lse-new.tbz : $(EL_FILES) $(ELC_FILES) $(LSE_FILES)
 	scripts/lse_compile_elisp $(basename $?)
 
 elc         : $(ELC_FILES)
-	echo $(basename $?)
+	@echo $?
 
 lsc         : $(LSC_FILES)
 	scripts/lse_compile_language $?

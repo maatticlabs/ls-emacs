@@ -600,33 +600,29 @@
 )
 
 (defun lse-replace-std-emacs-bindings ()
-  (fset 'Replace-Binding 'lse-replace-binding-for-all-keys)
+  (lse-replace-binding-for-all-keys 'delete-backward-char      'lse-tpu:delete-prev-char)
+  (lse-replace-binding-for-all-keys 'backward-kill-word        'lse-tpu:delete-prev-word);  6-Jan-2002
+  (lse-replace-binding-for-all-keys 'delete-char               'lse-tpu:delete-next-char)
+  (lse-replace-binding-for-all-keys 'delete-other-windows      'lse-delete-other-windows)
+  (lse-replace-binding-for-all-keys 'delete-window             'lse-delete-window)
+  (lse-replace-binding-for-all-keys 'find-alternate-file       'lse-visit-alternate-file)
+  (lse-replace-binding-for-all-keys 'find-file                 'lse-visit-file)
+  (lse-replace-binding-for-all-keys 'find-file-other-window    'lse-visit-file-other-window)
+  (lse-replace-binding-for-all-keys 'kill-buffer               'lse-kill-buffer)
+  ;;(lse-replace-binding-for-all-keys 'list-buffers              'lse-show-buffers)
+  (lse-replace-binding-for-all-keys 'revert-buffer             'lse-revert-buffer)
+  (lse-replace-binding-for-all-keys 'set-visited-file-name     'lse-change-output-file)
+  (lse-replace-binding-for-all-keys 'shell-command             'lse-shell-command)
+  (lse-replace-binding-for-all-keys 'split-window              'lse-split-window)
+  (lse-replace-binding-for-all-keys 'split-window-horizontally 'lse-split-window-horizontally)
+  (lse-replace-binding-for-all-keys 'split-window-vertically   'lse-split-window)
+  (lse-replace-binding-for-all-keys 'switch-to-buffer          'lse-goto-buffer)
+  (lse-replace-binding-for-all-keys 'switch-to-buffer-other-window
+                                                               'lse-goto-buffer-other-window)
+  (lse-replace-binding-for-all-keys 'toggle-read-only          'lse-set-buffer-nowrite)
 
-  (Replace-Binding 'delete-backward-char      'lse-tpu:delete-prev-char)
-  (Replace-Binding 'backward-kill-word        'lse-tpu:delete-prev-word);  6-Jan-2002
-  (Replace-Binding 'delete-char               'lse-tpu:delete-next-char)
-  (Replace-Binding 'delete-other-windows      'lse-delete-other-windows)
-  (Replace-Binding 'delete-window             'lse-delete-window)
-  (Replace-Binding 'find-alternate-file       'lse-visit-alternate-file)
-  (Replace-Binding 'find-file                 'lse-visit-file)
-  (Replace-Binding 'find-file-other-window    'lse-visit-file-other-window)
-  (Replace-Binding 'kill-buffer               'lse-kill-buffer)
-  ;;(Replace-Binding 'list-buffers              'lse-show-buffers)
-  (Replace-Binding 'revert-buffer             'lse-revert-buffer)
-  (Replace-Binding 'set-visited-file-name     'lse-change-output-file)
-  (Replace-Binding 'shell-command             'lse-shell-command)
-  (Replace-Binding 'split-window              'lse-split-window)
-  (Replace-Binding 'split-window-horizontally 'lse-split-window-horizontally)
-  (Replace-Binding 'split-window-vertically   'lse-split-window)
-  (Replace-Binding 'switch-to-buffer          'lse-goto-buffer)
-  (Replace-Binding 'switch-to-buffer-other-window
-                                              'lse-goto-buffer-other-window)
-  (Replace-Binding 'toggle-read-only          'lse-set-buffer-nowrite)
-
-  (Replace-Binding 'print-buffer              'lpr-buffer); 29-Apr-1998
-  (Replace-Binding 'print-region              'lpr-region); 29-Apr-1998
-
-  (fmakunbound 'Replace-Binding)
+  (lse-replace-binding-for-all-keys 'print-buffer              'lpr-buffer); 29-Apr-1998
+  (lse-replace-binding-for-all-keys 'print-region              'lpr-region); 29-Apr-1998
 
   ;;  1-Sep-2002
   ;; Define [?\M-<i>] as 'negative-digit-argument
@@ -841,7 +837,7 @@
   (global-set-key [blue gold ?:]     'lse-frame:set-height:48);  8-Sep-2002
   (global-set-key [blue      ?']     'lse-insert-backquote-quote); 26-Apr-1996
   (global-set-key [blue      ?\"]    'lse-insert-double-backquote-quote); 26-Apr-1996
-  (global-set-key [blue      ?~]     'lse-tpu:trim-line-ends)
+  (global-set-key [blue      ?~]     'delete-trailing-whitespace)
   (global-set-key [blue gold ?-]     'lse-delete-other-windows)
   (global-set-key [blue gold ?=]     'lse-delete-window)
   (global-set-key [blue gold ?\ ]    'set-fill-column)

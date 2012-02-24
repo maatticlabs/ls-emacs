@@ -67,6 +67,8 @@
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    18-Feb-2012 (CT) Factor `last-position` to `lse-tpu`
 ;;;;    19-Feb-2012 (CT) Use `local-set-asp` instead of `local-set-smk`
+;;;;    24-Feb-2012 (CT) Redefine `py-imenu-class-regexp` and
+;;;;                     `py-imenu-method-regexp` to support continuation lines
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -94,8 +96,38 @@
 
 (require 'lse-tpu)
 
-;;;  2-Mar-1998
-;;; Loading python-mode introduces an error in desktop
+(defvar py-imenu-class-regexp
+  (concat                               ; <<classes>>
+   "\\("                                ;
+   "^[ \t]*"                            ; newline and maybe whitespace
+   "\\(class[ \t]+[a-zA-Z0-9_]+\\)"     ; class name
+
+   ;; CT: elide detail here that breaks in case of continuation lines
+   ;; "\\([ \t]*\\((\\([a-zA-Z0-9_,. \t\n]\\)*)\\)?\\)" ; this is from python-mode 5.2.0
+   "\\(\\(\\([^:#]*\\)\\)\\)"
+
+   "\\)"                                ; >>classes<<
+   )
+  "Regexp for Python classes for use with the Imenu package."
+  )
+
+(defvar py-imenu-method-regexp
+  (concat                               ; <<methods and functions>>
+   "\\("                                ;
+   "^[ \t]*"                            ; new line and maybe whitespace
+   "\\(def[ \t]+"                       ; function definitions start with def
+   "\\([a-zA-Z0-9_]+\\)"                ;   name is here
+
+   ;; CT: elide detail here that breaks in case of continuation lines
+   ;; "[ \t]*(\\([^:#]*\\))"            ; this is from python-mode 5.2.0
+   "[ \t]*\\([^:#]*\\))"
+
+   "\\)"                                ; end of def
+   "\\)"                                ; >>methods and functions<<
+   )
+  "Regexp for Python methods/functions for use with the Imenu package."
+  )
+
 (require 'python-mode)
 
 (fset 'lse:python-mode:std-python-mode (symbol-function 'python-mode))
@@ -107,11 +139,15 @@
   (setq comment-start-skip "#+ *");  3-Aug-1998
   (local-unset-key "\177");  8-Mar-1998
   ;; revert ``extremely bad form'' of python-mode rebindings of
-  ;; 'newline-and-indent
+  ;; 'newline-and-indent and 'py-newline-and-indent
   (mapc
     #'(lambda (key) (local-unset-key key))
     (where-is-internal 'newline-and-indent)
   );  8-Mar-1998
+  (mapc
+    #'(lambda (key) (local-unset-key key))
+    (where-is-internal 'py-newline-and-indent)
+  );  24-Feb-2012
 
   ;; 17-Aug-2006
   (local-unset-key [f1]); disable broken py-doc binding

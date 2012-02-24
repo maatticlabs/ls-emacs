@@ -706,10 +706,10 @@ Accepts a prefix argument of the number of characters to invert."
         )
         (t
          (if (lse-tpu:mark)
-             (spell-region  (lse-tpu:selection-head-pos)
-                            (lse-tpu:selection-tail-pos)
+             (ispell-region
+               (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
              )
-           (spell-buffer)
+           (ispell-buffer)
          )
         )
   )
@@ -3002,14 +3002,6 @@ or from the current line if no region is selected."
   )
   (setq deactivate-mark nil); 17-Mar-1995
 ; lse-tpu:remove-from-eol
-)
-
-(defun lse-tpu:trim-line-ends nil
-  "Removes trailing whitespace from every line in the buffer."
-  (interactive)
-  (picture-clean)
-  (setq deactivate-mark nil); 17-Mar-1995
-; lse-tpu:trim-line-ends
 )
 
 ;;;

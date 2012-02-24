@@ -198,8 +198,8 @@
   (define-key lse-vcs:conflict:keymap [?s]        'lse-vcs:conflict:choose-b+a)
   (define-key lse-vcs:conflict:keymap [?\A-n]     'lse-vcs:conflict:goto-next)
   (define-key lse-vcs:conflict:keymap [?\C-n]     'lse-vcs:conflict:goto-next)
-  (global-set-key                     [red ?\A-n] 'lse-vcs:conflict:goto-next)
-  (global-set-key                     [red ?\C-n] 'lse-vcs:conflict:goto-next)
+  (global-set-key                     [red ?\A-c] 'lse-vcs:conflict:goto-next)
+  (global-set-key                     [red ?\C-c] 'lse-vcs:conflict:goto-next)
 ; lse-vcs:conflict:define-keys
 )
 
