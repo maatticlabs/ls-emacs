@@ -72,6 +72,7 @@
 ;;;;    24-Feb-2012 (CT) Rename `goto-beginning-of-class` to
 ;;;;                     `goto-nearest-class-head`...
 ;;;;    24-Feb-2012 (CT) Add `lse-python:goto-class-head` and friends
+;;;;    24-Feb-2012 (CT) Revamp py-menu (to put in lse-python definitions)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -168,10 +169,13 @@
   (local-set-asp   [red      ?c]     'lse-python:goto-class-head)
   (local-set-asp   [pink     ?c]     'lse-python:goto-next-class-head)
   (local-set-asp   [green    ?c]     'lse-python:goto-class-tail)
+  (local-set-asp   [red      ?d]     'lse-python:goto-nearest-class-head)
+  (local-set-asp   [green    ?d]     'lse-python:goto-nearest-class-tail)
   (local-set-asp   [red      ?e]     'lse-python:goto-function-tail)
   (local-set-asp   [red      ?f]     'lse-python:goto-end-of-block)
   (local-set-asp   [red      ?g]     'lse-python:goto-class-tail)
   (local-set-asp   [red      ?i]     'lse-python:goto-nearest-function-head)
+  (local-set-asp   [green    ?i]     'lse-python:goto-nearest-function-tail)
   (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement)
   (local-set-asp   [red      ?s]     'lse-python:goto-next-statement)
   (local-set-asp   [green    ?s]     'lse-python:goto-prev-statement)
@@ -457,13 +461,6 @@
 ; lse-python:goto-near-top-pos
 )
 
-;;; 30-Aug-2010
-(define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
-(define-key py-mode-map [menu-bar Python Py-Near-Top]
-  '("Goto position near the top" . lse-python:goto-near-top-pos)
-)
-
-
 ;;;  4-Oct-2007
 (defconst lse-python:patchlevel-pattern
   (concat
@@ -563,4 +560,69 @@
 ; lse-python:update-patchlevel-one
 )
 
+;;; Setup python menu for menu bar
+
+;; remove Python menu defined by std-python-mode
+(define-key py-mode-map [menu-bar Python] nil)
+
+;; define Python menu with bindings to lse-python functions
+;;; 24-Feb-2012
+(defvar lse-python:menu:class-spec
+  ( list
+    "-"
+    ["Goto start of containing class"  lse-python:goto-class-head            t]
+    ["Goto end of containing class"    lse-python:goto-class-tail            t]
+    ["Go up to start of nearest class" lse-python:goto-nearest-class-head    t]
+    ["Goto to end of nearest class"    lse-python:goto-nearest-class-tail    t]
+    ["Goto start of next class"        lse-python:goto-next-class-head       t]
+  )
+  "Specification for class-specific Python menu"
+)
+
+;;; 24-Feb-2012
+(defvar lse-python:menu:function-spec
+  ( list
+    "-"
+    ["Goto start of containing def"    lse-python:goto-function-head         t]
+    ["Goto end of containing def"      lse-python:goto-function-tail         t]
+    ["Go up to start of nearest def"   lse-python:goto-nearest-function-head t]
+    ["Goto to end of nearest def"      lse-python:goto-nearest-function-tail t]
+    ["Goto start of next def"          lse-python:goto-next-function-head    t]
+  )
+  "Specification for function-specific Python menu"
+)
+
+;;; 24-Feb-2012
+(defvar lse-python:menu:block-spec
+  ( list
+    "-"
+    ["Go up to start of block"         lse-python:goto-begin-of-block        t]
+    ["Go to end of block"              lse-python:goto-end-of-block          t]
+    ["Goto next statement"             lse-python:goto-next-statement        t]
+    ["Goto end of next statement"      lse-python:goto-next-statement-end    t]
+    ["Goto previous statement"         lse-python:goto-prev-statement        t]
+    ["Goto end of previous statement"  lse-python:goto-prev-statement-end    t]
+
+  )
+  "Specification for block-specific Python menu"
+)
+
+(require 'easymenu)
+(easy-menu-define py-menu py-mode-map "Python Mode menu"
+  ( append
+    ( list "Python"
+      ["Goto position near the top" lse-python:goto-near-top-pos t]
+      ["Indent current line"        lse-python:indent-line       t]
+      "-"
+      ["Comment Out Region"   py-comment-region  '(mark)]
+      ["Uncomment Region"     (py-comment-region (point) (mark) '(4)) '(mark)]
+   )
+   lse-python:menu:class-spec
+   lse-python:menu:function-spec
+   lse-python:menu:block-spec
+   nil
+  )
+)
+
 ;;; __END__ lse-language-python.lse
+
