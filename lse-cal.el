@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2003-2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -67,6 +67,8 @@
 ;;;;                     `lse-cal:plan:sync-to-view`
 ;;;;    17-Nov-2009 (CT) `lse-cal:setup-year-frame` factored
 ;;;;                     (and used for `frame-setup` frame property)
+;;;;    25-Feb-2012 (CT) Use `lse-tpu:next-line-internal` instead of
+;;;;                     `next-line-internal`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -447,7 +449,7 @@
        )
     (while (> num 0)
       (let ((op (point)))
-        (next-line-internal 1)
+        (lse-tpu:next-line-internal 1)
         (if (eobp)
             (progn
               (goto-char op)
@@ -472,7 +474,7 @@
        )
     (while (> num 0)
       (let ((op (point)))
-        (next-line-internal -1)
+        (lse-tpu:next-line-internal -1)
         (if (bobp)
             (progn
               (goto-char op)

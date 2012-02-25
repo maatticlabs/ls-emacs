@@ -96,6 +96,7 @@
 ;;;;                     remove `lse@select-brace-range` and its callers
 ;;;;    20-Feb-2012 (CT) Change `lse-select-current-word` to use
 ;;;;                     `lse-tpu:curr-word-tail-pos`
+;;;;    25-Feb-2012 (CT) Change `lse-indent-line-by-word` slightly
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -429,7 +430,7 @@
   (if (not (eolp))
       (cond ((looking-at "\"\"\"") (lse-tpu:forward-char 3));  1-Feb-2001
             (t                     (lse-tpu:goto-next-bs-word-head 1))
-      )
+            )
   )
 ; lse-find-word-alignment
 )
@@ -935,8 +936,7 @@ previous line"
   (interactive "*")
   (or dir (setq dir -1))
   (let ((pos (save-excursion (unless (eobp) (forward-char 1)) (point-marker))))
-    (lse-tpu:next-beginning-of-line 1)
-    ;; 25-Mar-1995 ;; (lse-tpu:goto-word-head 1) replaced by ...
+    (beginning-of-line)
     (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
     (lse-align-to-word              dir)
     (goto-char                      (1- pos))

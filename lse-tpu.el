@@ -137,6 +137,8 @@
 ;;;;    20-Feb-2012 (CT) Add `lse-tpu:goto-next-occurrence-current-word` and
 ;;;;                         `lse-tpu:goto-prev-occurrence-current-word`
 ;;;;    20-Feb-2012 (CT) Add `looking-behind-at`
+;;;;    25-Feb-2012 (CT) Fix `lse-tpu:next-line-internal` that sometimes
+;;;;                     moved to the wrong column (since Emacs 23)
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -821,12 +823,6 @@ Accepts a prefix argument of the number of characters to invert."
 
 (fset 'spell 'lse-tpu:spell-check)
 (fset 'SPELL 'lse-tpu:spell-check)
-
-;; Around emacs version 18.57, function line-move was renamed to
-;; next-line-internal.  If we're running under an older emacs,
-;; make next-line-internal equivalent to line-move.
-
-(if (not (fboundp 'next-line-internal)) (fset 'next-line-internal 'line-move))
 
 (defun lse-tpu:insert-formfeed nil
   "Inserts a formfeed character."
@@ -3030,10 +3026,22 @@ or from the current line if no region is selected."
 ;;;
 ;;;  Movement by line
 ;;;
+;; 25-Feb-2012
+;; Since Emacs 23.0, `lse-tpu:next-line-internal` sometimes moved
+;; to the wrong column, thus breaking 'lse-indent-line-by-word (and possibly
+;; others)
+;; * Using 'line-move-1 instead of 'next-line-internal fixes that
+(defalias 'lse-tpu:std:line-move
+  (cond ((fboundp 'line-move-1) 'line-move-1)
+        ((fboundp 'line-move)   'line-move)
+        (t                      'next-line-internal)
+  )
+)
+
 (defun lse-tpu:next-line-internal (num &optional command)
   (condition-case nil
-      (progn
-        (next-line-internal num)
+      (let (line-move-visual auto-window-vscroll)
+        (lse-tpu:std:line-move num)
         (and command (setq this-command command))
       )
     (error (lse-message ""))
