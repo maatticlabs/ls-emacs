@@ -139,6 +139,7 @@
 ;;;;    20-Feb-2012 (CT) Add `looking-behind-at`
 ;;;;    25-Feb-2012 (CT) Fix `lse-tpu:next-line-internal` that sometimes
 ;;;;                     moved to the wrong column (since Emacs 23)
+;;;;    26-Feb-2012 (CT) Add and use `lse-tpu:search:smart-case`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -240,6 +241,12 @@
 (defvar lse-tpu:search-mode lse-tpu:search-mode-regexp
   "Currently selected mode for searching."
 )
+
+;;; 26-Feb-2012
+(defvar lse-tpu:search:smart-case t
+  "Don't ignore case if search string contains upper case"
+)
+(make-variable-buffer-local 'lse-tpu:search:smart-case)
 
 ;;;  9-Oct-2007
 (defsubst lse-tpu:search-function (&optional dir mode)
@@ -2452,6 +2459,18 @@ With argument reinserts the text that many times."
 ; lse-tpu:change-search-mode
 )
 
+;;; 26-Feb-2012
+(defun lse-tpu:search:toggle-smart-case ()
+  "Toggle smart-case for search"
+  (interactive)
+  (setq lse-tpu:search:smart-case (not lse-tpu:search:smart-case))
+  (message "Smart case for searching turned %s"
+    (if lse-tpu:search:smart-case "on" "off")
+  )
+  lse-tpu:search:smart-case
+; lse-tpu:search:toggle-smart-case
+)
+
 (defun lse-tpu:search-prompt-read (prompt &optional show_dir dir)
   "Read a search string with a prompt appropriate to `mode` and `dir`."
   (let ((re-prompt
@@ -2561,6 +2580,12 @@ direction."
         (lse-tpu:search-dir  dir)
         (lse-tpu:search-mode mode)
         (pat lse-tpu:search-last-string)
+        (case-fold-search
+          (if lse-tpu:search:smart-case
+              (not (string-mixed-case-p lse-tpu:search-last-string))
+            case-fold-search
+          )
+        )
        )
     (lse-tpu:save-pos-before-search)
     (cond ((lse-tpu:search+goto+set-match pat limit stay-at-bob)

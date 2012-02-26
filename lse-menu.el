@@ -53,6 +53,7 @@
 ;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
 ;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
+;;;;    26-Feb-2012 (CT) Add `lse-tpu:search:smart-case`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -281,17 +282,13 @@
     ;; menu-bar-make-toggle should be provided by the standard library
     ;; menu-bar.el
     (progn
-      (defvar lse-menu:options         (make-sparse-keymap "Options"))
-      (defvar lse-menu:options:search  (make-sparse-keymap "Search Options"))
       (defvar lse-menu:options:editing (make-sparse-keymap "Editing Options"))
-      (define-key lse-menu:lse-menu [options]
-        (cons "Options" lse-menu:options)
+      (defvar lse-menu:options:search  (make-sparse-keymap "Search Options"))
+      (define-key lse-menu:lse-menu [editing-options]
+        (cons "Edit options" lse-menu:options:editing)
       )
-      (define-key lse-menu:options [search-options]
-        (cons "Search" lse-menu:options:search)
-      )
-      (define-key lse-menu:options [editing-options]
-        (cons "Editing" lse-menu:options:editing)
+      (define-key lse-menu:lse-menu [search-options]
+        (cons "Search options" lse-menu:options:search)
       )
       (define-key lse-menu:options:search [change-search-mode]
          '("Search mode" . lse-tpu:change-search-mode)
@@ -305,9 +302,24 @@
       )
       (define-key lse-menu:options:search [case-fold-search]
         (menu-bar-make-toggle toggle-case-fold-search case-fold-search
-                        "Case folding in searches"
-                        "Case folding in searches %s"
+                        "Search ignoring case"
+                        "Search ignoring case %s"
                         "Case insensitive searches"
+        )
+      )
+      (define-key lse-menu:options:search [smart-case-search-local]
+        (list
+          'menu-item "Use smart case for search in current buffer"
+          'lse-tpu:search:toggle-smart-case
+          :help "Case insensitive searches in current buffer unless search string is mixed case"
+          :button '(:toggle . lse-tpu:search:smart-case)
+        )
+      )
+      (define-key lse-menu:options:search [smart-case-search]
+        (menu-bar-make-toggle toggle-smart-case-search lse-tpu:search:smart-case
+                        "Use smart case for search"
+                        "Use smart case for search %s"
+                        "Case insensitive searches unless search string is mixed case"
         )
       )
       (define-key lse-menu:options:editing [rectangular-mode]
