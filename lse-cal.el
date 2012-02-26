@@ -815,7 +815,7 @@
                   )
                 )
                 (progn
-                  (save-excursion
+                  (save-current-buffer
                     (set-buffer dbuf)
                     (setq new_d (buffer-substring 1 (1- (point))))
                   )

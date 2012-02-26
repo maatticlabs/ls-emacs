@@ -506,7 +506,7 @@
          )
       (if lse_command:initialized
           t
-        (save-excursion
+        (save-current-buffer
           (set-buffer (lse_completion:buffer "LSE command"))
           (lse_completion:show "" lse_command:cmd_list nil)
           (setq lse_command:completion_buffer (current-buffer))
@@ -891,7 +891,7 @@ trailers."
   (interactive)
   (setq name (lse-language:read-name name))
   (lse-language:compile name)
-  (save-excursion
+  (save-current-buffer
     (set-buffer (get-buffer " $LSE-fill-in:refs$"))
     (write-region (point-min) (point-max) (concat "/tmp/" name ".refs") nil 1)
     (set-buffer (get-buffer " $LSE-fill-in:defs$"))

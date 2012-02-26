@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it, character ranges
 
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;;++
 ;;;; Name
@@ -23,7 +23,7 @@
 ;;;;--
 (provide       'swing-kartei-bib)
 
-(defconst swing-kartei:bib:directory      swing-kartei:directory)
+(defvar   swing-kartei:bib:directory      swing-kartei:directory)
 (defconst swing-kartei:bib:file-name      "bib")
 (defconst swing-kartei:bib:file-directory "/swing/bib/")
 (defconst swing-kartei:bib:language       "bib-kartei")

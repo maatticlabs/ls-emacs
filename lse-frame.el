@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
-;;;; Copyright (C) 1996-2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1996-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -653,7 +653,7 @@
     (setq lse-frame:list:buffer  (get-buffer-create lse-frame:list:buffer-name))
     (setq lse-frame:list:keymap  (make-sparse-keymap))
     (setq lse-frame:list:overlay (make-overlay 1 1))
-    (save-excursion
+    (save-current-buffer
       (set-buffer      lse-frame:list:buffer)
       (use-local-map   lse-frame:list:keymap)
       (overlay-put     lse-frame:list:overlay 'face 'lse-face:completion)

@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-compilation:el lse_cmpi:el
-;;;; Copyright (C) 1995-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -125,7 +125,7 @@
          (lse-language:compile)
         )
         ((equal mode-name "Emacs-Lisp")
-         (eval-current-buffer)
+         (eval-buffer)
         )
         (t
          (let (lse-window:wb-assoc)

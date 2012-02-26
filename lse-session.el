@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-session:el lse_sssn:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -280,11 +280,6 @@ This is correct only if the locally used domain is a valid internet domain.
 (defun lse-insert-user-full-name ()
   (interactive "*")
   (lse-tpu:insert (lse-user-full-name))
-)
-
-(defun lse-insert-user-abbr-name ();  3-May-1995
-  (interactive "*")
-  (lse-tpu:insert (lse-user-abbr-name))
 )
 
 (defun lse-insert-user-initials ()

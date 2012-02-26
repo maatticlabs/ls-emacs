@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
- 
+
 ;;;;unix_ms_filename_correspondency lse-fill-in-info:el lse_finf:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -32,25 +32,25 @@
 ;;;;    information about a single occurrence of the fill-in, with
 ;;;;    the car:
 ;;;;        symbol      : the symbol defining the fill-in (used as key in
-;;;;                      association lists) 
+;;;;                      association lists)
 ;;;;    the cdr of the fill-in_info is a vector with the elements:
 ;;;;        name        : the name of the fill-in as found in the fill-in
 ;;;;        state       : - 'lse@flat if fill-in is in buffer
 ;;;;                      - 'lse@deep if fill-in was filled by an expansion
-;;;;                        or by a replacement typed by the user  
-;;;;                      - 'lse@dead for a killed fill-in 
+;;;;                        or by a replacement typed by the user
+;;;;                      - 'lse@dead for a killed fill-in
 ;;;;        fill-type   : 'lse@expanded or 'lse@replaced, if fill-in was
-;;;;                      already filled 
+;;;;                      already filled
 ;;;;        range       : range of fill-in       (of type lse-range)
 ;;;;        inner-range : inner range of fill-in (of type lse-range)
 ;;;;                      - for state=flat, range of fill-in's name (of type
 ;;;;                        lse-range) this is only interesting as long as the
-;;;;                        fill-in was never expanded 
+;;;;                        fill-in was never expanded
 ;;;;                      - for state=deep, range of replacement without
 ;;;;                        replacement-leading and replacement-trailer
-;;;;        complement  : fill-in's value in the complementary state, i.e. 
+;;;;        complement  : fill-in's value in the complementary state, i.e.
 ;;;;                      - for state = deep, complement contains the flat
-;;;;                        value 
+;;;;                        value
 ;;;;                      - for state = flat, complement contains the fill-in's
 ;;;;                        value before the last execution of the
 ;;;;                        lse-unexpand-fill-in command (nil, if never filled)
@@ -58,32 +58,32 @@
 ;;;;                      nil for non-list-fill-in's)
 ;;;;        enclosure   : surroundings of killed fill-in
 ;;;;        ancestor    : head-pos of fill-in which supplied value for
-;;;;                      replication  
+;;;;                      replication
 ;;;;        descendants : list of fill-in-infos which were auto-replicated
 ;;;;                      from this one
 ;;;;        id          : surrogate id (unambiguous)
 ;;;;        parent-id   : surrogate id (unambiguous) of parent fill-in
-;;;; 
+;;;;
 ;;;; Revision Dates
 ;;;;    24-May-1994 (CT) Creation (of comment)
-;;;;    24-May-1994 (CT) lse-range:name-range renamed to lse-range:inner-range 
+;;;;    24-May-1994 (CT) lse-range:name-range renamed to lse-range:inner-range
 ;;;;    12-Jun-1994 (CT) descendants added
 ;;;;    11-Oct-1996 (CT) `id' added
 ;;;;    17-Oct-1996 (CT) lse-fill-in:show changed to use princ instead of
-;;;;                     insert 
+;;;;                     insert
 ;;;;    17-Oct-1996 (CT) `parent-id' added
-;;;;-- 
+;;;;--
 (provide 'lse-fill-in-info)
 
-(defconst                    lse-fill-in:id_last 0); 11-Oct-1996 
-(make-variable-buffer-local 'lse-fill-in:id_last)  ; 11-Oct-1996 
+(defvar                      lse-fill-in:id_last 0); 11-Oct-1996
+(make-variable-buffer-local 'lse-fill-in:id_last)  ; 11-Oct-1996
 
-(defun lse-fill-in:new 
-    (psym name state fill-type range 
-     &optional inner-range complement duplicate enclosure ancestor descendants 
-     
+(defun lse-fill-in:new
+    (psym name state fill-type range
+     &optional inner-range complement duplicate enclosure ancestor descendants
+
     )
-  (cons psym (vector name state fill-type range 
+  (cons psym (vector name state fill-type range
               inner-range complement duplicate enclosure ancestor descendants
               nil nil
              )
@@ -136,13 +136,13 @@
   (and fill-in_info (aref (cdr fill-in_info) 9))
 )
 
-;;; 11-Oct-1996 
+;;; 11-Oct-1996
 (defun lse-fill-in:id (fill-in_info)
   (and fill-in_info (aref (cdr fill-in_info) 10))
 ; lse-fill-in:id
 )
 
-;;; 17-Oct-1996 
+;;; 17-Oct-1996
 (defun lse-fill-in:parent-id (fill-in_info)
   (and fill-in_info (aref (cdr fill-in_info) 11))
 ; lse-fill-in:id
@@ -194,7 +194,7 @@
   (aset (cdr fill-in_info) 9 to-value)
 )
 
-;;; 17-Oct-1996 
+;;; 17-Oct-1996
 (defun lse-fill-in:set-id (fill-in_info)
   (or (lse-fill-in:id fill-in_info)
       (aset (cdr fill-in_info) 10
@@ -204,7 +204,7 @@
 ; lse-fill-in:set-id
 )
 
-;;; 17-Oct-1996 
+;;; 17-Oct-1996
 (defun lse-fill-in:set-parent-id (fill-in_info to-value)
   (aset (cdr fill-in_info) 11 to-value)
 ; lse-fill-in:set-id
@@ -216,7 +216,7 @@
         ((equal state 'lse@dead) 'lse@flat)
   )
 ; lse-fill-in:other-state
-) 
+)
 
 (defun lse-fill-in:equal (fill-in_info psym head tail)
   (and fill-in_info
@@ -233,7 +233,7 @@
            )
         (princ "\n")
         (princ (format "%-25s" (lse-fill-in:name fill-in_info)))
-        (princ (format " %4d %5d %5d" 
+        (princ (format " %4d %5d %5d"
                        (or (lse-fill-in:id fill-in_info) -1)
                        (if hp (marker-position hp) 0)
                        (if tp (marker-position tp) 0)
@@ -244,4 +244,4 @@
       )
   )
 ; lse-fill-in:show
-) 
+)

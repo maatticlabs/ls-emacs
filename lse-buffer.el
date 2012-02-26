@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -186,7 +186,7 @@
 (defun lse-buffer:next (&optional buf)
   (or buf (setq buf (current-buffer)))
   (let (result)
-    (save-excursion
+    (save-current-buffer
       (set-buffer buf)
       (setq result lse-buffer:next)
     )
@@ -199,7 +199,7 @@
 (defun lse-buffer:prev (&optional buf)
   (or buf (setq buf (current-buffer)))
   (let (result)
-    (save-excursion
+    (save-current-buffer
       (set-buffer buf)
       (setq result lse-buffer:prev)
     )
@@ -218,14 +218,14 @@
 )
 
 (defun lse-buffer:is-lse-buffer (b)
-  (if (buffer-name b) (save-excursion (set-buffer b) (if lse-buffer:n b)))
+  (if (buffer-name b) (save-current-buffer (set-buffer b) (if lse-buffer:n b)))
 ; lse-buffer:is-lse-buffer
 )
 
 ;;;  3-Apr-2003
 (defun lse-buffer:base-name (b)
   (if (buffer-name b)
-    (save-excursion
+    (save-current-buffer
       (set-buffer b)
       (or
         lse-buffer:base-name
@@ -238,8 +238,8 @@
 
 (defun lse-buffer:< (a b)
   (cond ((and a b)
-         (< (save-excursion (set-buffer a) lse-buffer:n)
-            (save-excursion (set-buffer b) lse-buffer:n)
+         (< (save-current-buffer (set-buffer a) lse-buffer:n)
+            (save-current-buffer (set-buffer b) lse-buffer:n)
          )
         )
         (a)
@@ -259,7 +259,7 @@
          next
        )
     (if start
-        (save-excursion
+        (save-current-buffer
           (or silent (message "Rebuilding buffer chain..."))
           (set-buffer start)
           (setq lse-buffer:next start)
@@ -329,12 +329,12 @@
            )
         (setq lse-buffer:new_n 0)
         (if (and main self)
-            (save-excursion
+            (save-current-buffer
               (set-buffer self)
               (or lse-buffer:next; 28-Jan-1995
                   (progn
                     (setq lse-buffer:next main)
-                    (save-excursion
+                    (save-current-buffer
                       (set-buffer           main)
                       (setq prev lse-buffer:prev)
                       (setq lse-buffer:prev self)
@@ -366,7 +366,7 @@
         (prev (lse-buffer:prev buf))
        )
     (cond ((and next prev)
-           (save-excursion
+           (save-current-buffer
              (set-buffer                 next)
              (setq       lse-buffer:prev prev)
              (set-buffer                 prev)
@@ -391,7 +391,7 @@
          (prev   (lse-buffer:prev buffer))
          self
         )
-    (save-excursion
+    (save-current-buffer
       (set-buffer buffer)
       (revert-buffer t t t)
       (message "Buffer %s for file %s reverted"
@@ -404,7 +404,7 @@
       )
       (setq lse-buffer:next next)
       (setq lse-buffer:prev prev)
-      (save-excursion
+      (save-current-buffer
         (setq       self            buffer)
         (set-buffer                 next)
         (setq       lse-buffer:prev self)
@@ -485,7 +485,7 @@
 (defun lse-write-buffer (buf)
   "Write buffer to output file."
   (interactive "bBuffer to write: ")
-  (save-excursion
+  (save-current-buffer
     (set-buffer (get-buffer buf))
     (set-buffer-modified-p t)
     (let ((inhibit-point-motion-hooks t); 18-May-2003
@@ -523,7 +523,7 @@ Optional argument (the prefix) non-nil means save all with no questions."
   "Set buffer nowrite (remove output file)."
   (interactive "bBuffer to set nowrite: ")
   (lse-change-output-file buf "")
-  (save-excursion
+  (save-current-buffer
     (set-buffer buf)
     (auto-save-mode -1)
   )
@@ -532,7 +532,7 @@ Optional argument (the prefix) non-nil means save all with no questions."
 (defun lse-set-buffer-write (buf)
   "Set buffer write (define output file)."
   (interactive "bBuffer to set write: ")
-  (save-excursion
+  (save-current-buffer
     (set-buffer (get-buffer buf))
     (lse-change-output-file buf lse-buffer:file-name)
     (auto-save-mode 300)
@@ -545,7 +545,7 @@ Optional argument (the prefix) non-nil means save all with no questions."
   (if (not new-name)
       (setq new-name (lse-buffer:read-name "New name: " buf))
   )
-  (save-excursion
+  (save-current-buffer
     (set-buffer (get-buffer buf))
     (rename-buffer new-name)
   )

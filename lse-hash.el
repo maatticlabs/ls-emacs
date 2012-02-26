@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2009 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2009-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -32,7 +32,10 @@
 ;;;;--
 
 (provide 'lse-hash)
-(require 'cl)
+
+(eval-when-compile
+  (require 'cl)
+)
 
 ;;;  9-Dec-2009
 (defun lse-hash:clear (hash)

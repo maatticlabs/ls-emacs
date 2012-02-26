@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer-list:el lse_blst:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -70,7 +70,7 @@
           )
 )
 (defconst lse_buffer_list:buffer-left-margin   6)
-(defconst lse_buffer_list:buffer-top-line      3)
+(defvar   lse_buffer_list:buffer-top-line      3)
 (defvar   lse_buffer_list:name-length         15)
 (defvar   lse_buffer_list:name-length-max     15)
 (defconst lse_buffer_list:name-terminator   "\t")
@@ -183,7 +183,7 @@
 )
 (defun lse-buffer-list-goto-buffer ()
   (interactive)
-  (save-excursion
+  (save-current-buffer
      (set-buffer lse_buffer_list:cb)
      (lse-set-last-mark-all)
   )
@@ -230,7 +230,7 @@
 (defun lse-buffer-list-toggle-save (&optional buf)
   (interactive)
   (or buf (setq buf (lse_buffer_list:selected-buffer)))
-  (save-excursion
+  (save-current-buffer
     (set-buffer buf)
     (auto-save-mode nil)
   )
@@ -267,7 +267,7 @@
     (beginning-of-line)
     (lse-tpu:delete-next-line 1)
     (lse_buffer_list:show (get-buffer buf))
-    (previous-line 1)
+    (forward-line -1)
     (set-buffer-modified-p nil)
     (goto-char cp)
   )
@@ -289,7 +289,8 @@
 
 (defun lse-buffer-list-goto-begin ()
   (interactive)
-  (goto-line lse_buffer_list:buffer-top-line)
+  (goto-char (point-min))
+  (forward-line (1- lse_buffer_list:buffer-top-line))
 ; lse-buffer-list-goto-begin
 )
 
@@ -411,7 +412,7 @@
        )
        (buffer-name b)
        (format "%d" (lse-lines-in-buffer (get-buffer b)))
-       (cond ((save-excursion (set-buffer b) buffer-read-only)
+       (cond ((save-current-buffer (set-buffer b) buffer-read-only)
               "r/o"
              )
              (t
@@ -419,11 +420,14 @@
              )
        )
        (if (buffer-file-name  (get-buffer b)) "YES " "no ")
-       (if (save-excursion (set-buffer b) buffer-auto-save-file-name)
+       (if (save-current-buffer (set-buffer b) buffer-auto-save-file-name)
            "YES"
          "no"
        )
-       (save-excursion (set-buffer b) (if (stringp vc-mode) vc-mode "   ---"))
+       (save-current-buffer
+         (set-buffer b)
+         (if (stringp vc-mode) vc-mode "   ---")
+       )
        (or (buffer-file-name (get-buffer b))
            lse-buffer:file-name
            "no file"

@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-completion:el lse_cmpl:el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -348,7 +348,7 @@
         )
         (princ "\n")
       )
-      (save-excursion
+      (save-current-buffer
         (set-buffer " $lse help$")
         (fill-individual-paragraphs (point-min) (point-max))
       )
@@ -429,7 +429,7 @@
 )
 
 (defun lse_completion:initialize_buffer (buf-nam)
-  (save-excursion
+  (save-current-buffer
     (set-buffer lse_completion_buffer)
     (use-local-map lse_completion_keymap)
     (lse_completion:define_keys)
@@ -448,7 +448,7 @@
 
 (defun lse_completion:buffer (buf-nam)
   (if (not (bufferp lse_completion_buffer))
-      (save-excursion
+      (save-current-buffer
         (set-buffer (setq lse_completion_buffer
                           (get-buffer-create (concat " $" buf-nam " buffer$"))
                     )

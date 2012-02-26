@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-file:el lse_file:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -251,7 +251,7 @@
     )
     (or new-name (setq new-name ""))
     ;; here should go a completion of new-name with fields taken from old-name
-    (save-excursion
+    (save-current-buffer
       (set-buffer (get-buffer buf))
       (set-visited-file-name new-name)
       (lse-buffer:rename-unique-anchored-name);  5-Oct-2007
@@ -269,7 +269,7 @@
   (let (expander-result
         bp
        )
-    (save-excursion
+    (save-current-buffer
       (set-buffer (get-buffer-create " $swing expander filter$"))
       (erase-buffer)
       (if (call-process (concat lse-script-dir "/expand_wildcard")

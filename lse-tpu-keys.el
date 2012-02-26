@@ -89,7 +89,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
         (mapc iterator arg)
       )
     )
-    (save-excursion
+    (save-current-buffer
       (set-buffer (get-buffer-create bf))
       (lse-tpu:replace-all "menu-bar[-a-zA-Z0-9 ]*" "Menu")
       (lse-tpu:replace-all "down-mouse-3[-a-zA-Z0-9 ]*" "Mouse-Menu")

@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2007-2011 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -148,7 +148,7 @@
 (setq         case-replace nil)         ; do not change case of replacement
 (setq-default case-replace nil)         ; do not change case of replacement
 
-(setq         default-major-mode          'text-mode); 30-May-1996 taken from suse default.el
+(setq         major-mode                  'text-mode)
 
 (setq         initial-major-mode          'emacs-lisp-mode)
 (setq         inhibit-startup-message      t)
@@ -175,46 +175,12 @@
 (setq vc-mistrust-permissions nil)      ; use file permissions to decide if
                                         ; file is currently locked
 
-;;; 25-May-1997
-;;; change vc-lock-from-permissions to allow editing if group has write
-;;; permission
-(defun vc-lock-from-permissions (file)
-  ;; If the permissions can be trusted for this file, determine the
-  ;; locking state from them.  Returns (user-login-name), `none', or nil.
-   ;;   This implementation assumes that any file which is under version
-  ;; control and has -rw-r--r-- is locked by its owner.  This is true
-  ;; for both RCS and SCCS, which keep unlocked files at -r--r--r--.
-  ;; We have to be careful not to exclude files with execute bits on;
-  ;; scripts can be under version control too.  Also, we must ignore the
-  ;; group-read and other-read bits, since paranoid users turn them off.
-  ;;   This hack wins because calls to the somewhat expensive
-  ;; `vc-fetch-master-properties' function only have to be made if
-  ;; (a) the file is locked by someone other than the current user,
-  ;; or (b) some untoward manipulation behind vc's back has changed
-  ;; the owner or the `group' or `other' write bits.
-  (let ((attributes (file-attributes file)))
-    (if (not (vc-mistrust-permissions file))
-	(cond ((string-match ".r-..-..-." (nth 8 attributes))
-	       (vc-file-setprop file 'vc-locking-user 'none))
-              ((string-match ".rw..w..[-w]." (nth 8 attributes));; 25-May-1997 Swing
-	       (vc-file-setprop file 'vc-locking-user 'none))   ;; 25-May-1997 Swing
-	      ((and (= (nth 2 attributes) (user-uid))
-		    (string-match ".rw..-..-." (nth 8 attributes))
-               )
-	       ; (vc-file-setprop file 'vc-locking-user (user-login-name))
-               (vc-file-setprop file 'vc-locking-user 'none);; 10-Sep-2001 CT
-              )
-	      (nil)))))
-
 ;;; 13-Dec-1997
 (setq dabbrev-case-fold-search nil); don't ignore case for dynamic abbreviations
 
 ;;;  2-Jan-1998
 (setq ediff-use-long-help-message  nil); don't start with big ediff control-frame
 (setq ediff-ignore-similar-regions t); ignore whitespace
-
-; (setq ispell-command-options "-a -s -t -p /swing/kartei/.ispell_words")
-; (setq ispell-command-options nil)
 
 (defun swing-terminal-setup ()
   (if lse-emacs19-p
@@ -224,7 +190,6 @@
   (auto-fill-mode 1)
   (add-hook 'pre-command-hook 'lse-tpu:shift-mark-hook); 29-Dec-1997
 )
-; (debug-on-entry (quote swing-terminal-setup))
 
 (put     'minibuffer-history 'hist-ignore "self-insert-command")
 (put     'minibuffer-history 'cursor-end  t)
@@ -254,12 +219,7 @@
          (set-mouse-color "RoyalBlue")
        (set-mouse-color (cdr (assq 'mouse-color (frame-parameters))))
       )
-      ;; 30-May-1996 taken from suse default.el
-      ;;
-      ;; Show corresponding braces
-      ;; -------------------------
-      ;;  2-Oct-1996 replaced stig-paren by paren
-      ;;             stig-paren doesn't work with 19.34
+
       (require 'paren)
       (setq show-paren-face 'highlight)
       (setq blink-matching-paren nil)
@@ -269,29 +229,15 @@
             (setq show-paren-style 'expression)
           )
       )
-      (show-paren-mode t);  4-Dec-1997 added this to support Emacs 20.n
-      ;;        (require 'stig-paren)
-      ;;        (setq paren-dingaling-mode t)
-      ;;        (global-set-key [?\C-\(] 'stig-paren-toggle-dingaling-mode)
-      ;;        (global-set-key [?\C-\)] 'stig-paren-toggle-sexp-mode)
+      (show-paren-mode t)
 
       (setq x-display-name "Emacs")
 
       (setq mark-even-if-inactive t);; ???
       (setq highlight-nonselected-windows nil);  3-Jan-1998
-      ;;
-      ;;   Automatically replacing of fore- and background.
-      ;; (set-face-background 'region (cdr (assq 'foreground-color (frame-parameters ))))
-      ;; (set-face-foreground 'region (cdr (assq 'background-color (frame-parameters ))))
 
       ;; 13-Dec-1997 ;; enabled font-lock-mode
       (global-font-lock-mode t)
-      (if (not lse-emacs22-p);  1-Oct-2007
-          (progn
-            (setq font-lock-support-mode 'lazy-lock-mode); 17-Dec-1997
-            (setq lazy-lock-minimum-size 1024); 19-Dec-1999
-          )
-      )
     )
 )
 
@@ -302,9 +248,9 @@
 (if (fboundp 'hscroll-global-mode); 17-Dec-1997
     (progn
       (hscroll-global-mode 1)
-      (setq hscroll-mode-name " <>")
       (setq hscroll-margin 1)
-      (setq hscroll-step-percent 5)
+      (when (boundp 'hscroll-mode-name)    (setq hscroll-mode-name    " <>"))
+      (when (boundp 'hscroll-step-percent) (setq hscroll-step-percent 5))
     )
 )
 
@@ -357,8 +303,8 @@
 (setq     lpr-command      "a2ps")
 
 ;;;  1-Oct-2007
-(setq default-indicate-buffer-boundaries 'right)
-(setq default-indicate-empty-lines t)
+(setq indicate-buffer-boundaries 'right)
+(setq indicate-empty-lines t)
 
 (defconst ps-zebra-stripes nil); 23-Feb-2000
 
