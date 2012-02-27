@@ -504,7 +504,11 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
 
 ;;; 18-Feb-2012
 (defun lse-tpu:save-position ()
-  (unless (and (symbolp last-command) (get last-command 'save-position))
+  (unless (and
+            lse-tpu:last-position
+            (symbolp last-command)
+            (get last-command 'save-position)
+          )
     (setq lse-tpu:last-position-pending (point-marker))
   )
 ; lse-tpu:save-position
