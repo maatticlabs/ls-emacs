@@ -140,6 +140,9 @@
 ;;;;    25-Feb-2012 (CT) Fix `lse-tpu:next-line-internal` that sometimes
 ;;;;                     moved to the wrong column (since Emacs 23)
 ;;;;    26-Feb-2012 (CT) Add and use `lse-tpu:search:smart-case`
+;;;;    27-Feb-2012 (CT) Remove `lse-tpu:remove-char-from-string`
+;;;;                     (-> compilation warning),
+;;;;                     `lse-tpu:char-in-string` (unused)
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1278,20 +1281,6 @@ Accepts a prefix argument of the number of characters to invert."
      lse-tpu:word-whitespace-chars
   )
 ; lse-tpu:punctuation-chars
-)
-
-(defmacro lse-tpu:char-in-string (c s)
-  `(memq ,c (mapcar (function identity) ,s))
-; lse-tpu:char-in-string
-)
-
-(defmacro lse-tpu:remove-char-from-string  (c s)
-  `(setq s
-     (mapconcat (function char-to-string)
-       (delq ,c (mapcar (function identity) ,s)) ""
-     )
-   )
-; lse-tpu:remove-char-from-string
 )
 
 (defun lse-tpu:current-word-range ()

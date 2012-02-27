@@ -51,6 +51,7 @@
 ;;;;    17-Dec-1997 (CT) `lse-buffer-list-mouse-goto-buffer' added
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;    27-Feb-2012 (CT) Add `eval-when-compile` for `fset` (compile warning)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer-list)
@@ -549,6 +550,10 @@
     )
   ; lse_buffer_list:driver
   )
+)
+
+(eval-when-compile
+  (fset 'lse_buffer_list:show-function 'lse_buffer_list:show-user)
 )
 
 (defun lse-show-buffers (&optional files-only)

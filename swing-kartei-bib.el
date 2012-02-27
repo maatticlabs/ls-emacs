@@ -30,6 +30,11 @@
 
 (defvar   swing-kartei:bib-history        nil)
 
+;; just to slince compilation warnings about `src-buf` and `dst-buf`
+;; (that are passed by lexical scoping)
+(defvar src-buf nil)
+(defvar dst-buf nil)
+
 (defun swing-kartei:bib:make-entry-summary (limit)
   ;; completion uses entry field
   (swing-kartei:copy-field src-buf dst-buf limit "entry"           "\t" 15)

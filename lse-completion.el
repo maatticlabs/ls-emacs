@@ -60,6 +60,9 @@
 ;;;;                     added to `lse_completion:widen`,
 ;;;;                     `lse-completion:narrow`, `lse_completion:key_handler`
 ;;;;    12-Oct-2007 (CT) Bindings for `[mouse-4]` and `[mouse-5]` added
+;;;;    27-Feb-2012 (CT) Use `replace-regexp-in-string` instead of
+;;;;                     `lse-tpu:remove-char-from-string`
+;;;;                     (that macro gave a very obscure compilation warning)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
@@ -463,7 +466,9 @@
 )
 
 (defun lse_completion:show_entry (entry description &optional head)
-  (let ((opoint (point))); 11-Oct-1996
+  (let ((opoint (point))
+        desc
+       )
     (if (not head)
         (lse-indent)
       (lse-fill-in-insert (propertize head 'face 'fringe))
@@ -472,13 +477,17 @@
     (lse-fill-in-insert entry "\C-i")
     (indent-to 25)
     (add-text-properties opoint (point) '(mouse-face lse-face:completion-m))
-    (if (stringp description)
-        (lse-fill-in-insert (lse-tpu:remove-char-from-string ?\n description))
-      (if (and (consp description) (stringp (car description)))
-          (lse-fill-in-insert
-               (lse-tpu:remove-char-from-string ?\n (car description))
-          )
+    (setq desc
+      (if (stringp description)
+          description
+        (if (and (consp description) (stringp (car description)))
+            (car description)
+          nil
+        )
       )
+    )
+    (when desc
+      (lse-fill-in-insert (replace-regexp-in-string "\n *" " " desc))
     )
     ;; 11-Oct-1996
   )
