@@ -143,6 +143,8 @@
 ;;;;    27-Feb-2012 (CT) Remove `lse-tpu:remove-char-from-string`
 ;;;;                     (-> compilation warning),
 ;;;;                     `lse-tpu:char-in-string` (unused)
+;;;;     1-Mar-2012 (CT) Change `lse-tpu:goto_occurence_current_word` to use
+;;;;                     `lse-tpu:search-forward` or `lse-tpu:search-reverse`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1791,13 +1793,18 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 20-Feb-2012
-(defun lse-tpu:goto_occurence_current_word
-    (count limit search-fct &optional at-head)
+(defun lse-tpu:goto_occurence_current_word (count limit search-fct)
   (let* ((head (lse-tpu:curr-word-head-pos))
          (tail (lse-tpu:curr-word-tail-pos))
          (word (buffer-substring-no-properties head tail))
         )
-    (lse-tpu:goto_occurrence word limit count search-fct at-head)
+    (setq search-fct
+      (if (eq search-fct 'search-forward)
+          'lse-tpu:search-forward
+        'lse-tpu:search-reverse
+      )
+    )
+    (funcall search-fct (regexp-quote word))
   )
 ; lse-tpu:goto_occurence_current_word
 )
@@ -1806,7 +1813,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-next-occurrence-current-word (count &optional limit)
   "Goto next occurence of current word"
   (interactive "p")
-  (lse-tpu:goto_occurence_current_word count limit 'search-forward t)
+  (lse-tpu:goto_occurence_current_word count limit 'search-forward)
 ; lse-tpu:goto-next-occurrence-current-word
 )
 
