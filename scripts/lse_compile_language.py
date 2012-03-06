@@ -14,12 +14,15 @@
 #    24-May-2011 (MG) Allow language filenames as parameter
 #                     Extract `lse_base_dir` out of the filename of the
 #                     script
+#     6-Mar-2012 (MG) Use `subprocess` instead of `os.system` to call
+#                     emacs binary
 #    ««revision-date»»···
 #--
 
 import glob
 import os
 import re
+import subprocess
 
 def compile_language (* languages, ** kw) :
     pjoin          = os.path.join
@@ -65,7 +68,11 @@ def compile_language (* languages, ** kw) :
         open (emacs_cmd_file, "w").write (" ".join (emacs_cmd))
         for k, v in ( ("EMACSLSESRC", lse_dir), ("EMACSLSEDIR", lsc_dir)) :
             os.environ [k] = v
-        os.system ('%s -batch -l "%s"' % (emacs_binary, emacs_cmd_file))
+        try :
+            subprocess.check_call \
+                ([emacs_binary,  "-batch",  "-l", emacs_cmd_file])
+        except :
+            print "Error compiling language"
         if os.path.isfile (emacs_cmd_file) :
             os.unlink (emacs_cmd_file)
 # end def compile_language
