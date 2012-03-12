@@ -65,6 +65,7 @@
 ;;;;    19-Feb-2012 (CT) Add and use `swing-define-goto-char-key`
 ;;;;    19-Feb-2012 (CT) Bind `lse-tpu:goto-opening-char`
 ;;;;    20-Feb-2012 (CT) Bind `lse-tpu:goto-next-occurrence-current-word`
+;;;;    12-Mar-2012 (CT) Bind `lse-tpu:goto-closing-char`
 ;;;;    ««revision-date»»···
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
@@ -144,9 +145,14 @@
   (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001
   (global-set-key [red      ?$]            'lse-tpu:add-at-eol); 17-Mar-1995
   (global-set-asp [gray     ?\(]           'lse-tpu:goto-opening-char)
+  (global-set-asp [gray     ?\)]           'lse-tpu:goto-closing-char)
   (global-set-asp [gray     ?\<]           'lse-tpu:goto-opening-char)
+  (global-set-asp [gray     ?\>]           'lse-tpu:goto-closing-char)
   (global-set-asp [gray     ?\[]           'lse-tpu:goto-opening-char)
+  (global-set-asp [gray     ?\]]           'lse-tpu:goto-closing-char)
   (global-set-asp [gray     ?\{]           'lse-tpu:goto-opening-char)
+  (global-set-asp [gray     ?\}]           'lse-tpu:goto-closing-char)
+  (global-set-asp [gray     ?\«]           'lse-tpu:goto-opening-char)
   (global-set-key [red gold ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
   (global-set-key [red gold ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
   (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995

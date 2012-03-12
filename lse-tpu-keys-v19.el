@@ -168,6 +168,10 @@
 ;;;;    19-Feb-2012 (CT) Add `global-set-asp` and `local-set-asp`
 ;;;;    19-Feb-2012 (CT) Add bindings for `lse-select-next-bracketed-range`
 ;;;;    19-Feb-2012 (CT) Use `global-set-asp` where appropriate
+;;;;    12-Mar-2012 (CT) Bind `forward-list`, `backward-list`,
+;;;;                     `lse-tpu:goto-opening-char`,
+;;;;                     `lse-tpu:goto-closing-char`, and
+;;;;                     `lse-tpu:goto-next-occurrence-current-char`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -558,8 +562,20 @@
   (global-set-key  [?\s-\#]          'lse-increment-register);  1-Jan-2000
   (global-set-key  [?\M-\#]          'lse-increment-register);  1-Jan-2000
   (global-set-key  [?\A-\#]          'lse-insert-register);     1-Jan-2000
+  (global-set-asp  [?\A-\(]          'lse-tpu:goto-opening-char)
+  (global-set-asp  [?\A-\)]          'lse-tpu:goto-closing-char)
+  (global-set-asp  [?\A-<]           'lse-tpu:goto-opening-char)
+  (global-set-asp  [?\A->]           'lse-tpu:goto-closing-char)
+  (global-set-asp  [?\A-\[]          'lse-tpu:goto-opening-char)
+  (global-set-asp  [?\A-\]]          'lse-tpu:goto-closing-char)
+  (global-set-asp  [?\A-\{]          'lse-tpu:goto-opening-char)
+  (global-set-asp  [?\A-\}]          'lse-tpu:goto-closing-char)
   (global-set-key  [?\s-|]           'lse-insert-bars); 20-Jan-2000
   (global-set-key  [?\s-<]           'lse-insert-angles); 20-Jan-2000
+  (global-set-asp  [?\C-<]           'lse-tpu:goto-next-occurrence-current-char)
+  (global-set-asp  [?\C->]           'lse-tpu:goto-prev-occurrence-current-char)
+  (global-set-asp  [?\C-\(]          'forward-list)
+  (global-set-asp  [?\C-\)]          'backward-list)
   (global-set-key  [?\A-:]           'lse-tpu:replace-all); 30-Aug-2002
   (global-set-key  [?\A-\ ]          'lse-tabulator); 13-Sep-2002
   (local-unset-key [?\C-i])
