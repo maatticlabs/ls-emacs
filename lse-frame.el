@@ -58,15 +58,21 @@
 ;;;;                     explicitly act on `visibility`
 ;;;;     9-Dec-2009 (CT) `lse-frame:list:restrict` added
 ;;;;    15-Mar-2012 (CT) Factor `lse-frame:title-prefix`, LSE_FRAME_TITLE_PREFIX
+;;;;    15-Mar-2012 (CT) Append `lse-system-name` to default `:title-prefix`
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-frame)
 (require 'lse-face)
 (require 'lse-hash)
+(require 'lse-session)
 
 ;;; 15-Mar-2012
-(defvar lse-frame:title-prefix (or (getenv "LSE_FRAME_TITLE_PREFIX") "LSE")
+(defvar lse-frame:title-prefix
+    (or
+      (getenv "LSE_FRAME_TITLE_PREFIX")
+      (concat "LSE@" (lse-system-name))
+    )
   "Prefix for frame title"
 )
 
