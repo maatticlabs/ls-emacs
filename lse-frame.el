@@ -57,12 +57,18 @@
 ;;;;     9-Dec-2009 (CT) `lse-frame:restore-saved-config` changed to
 ;;;;                     explicitly act on `visibility`
 ;;;;     9-Dec-2009 (CT) `lse-frame:list:restrict` added
+;;;;    15-Mar-2012 (CT) Factor `lse-frame:title-prefix`, LSE_FRAME_TITLE_PREFIX
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-frame)
 (require 'lse-face)
 (require 'lse-hash)
+
+;;; 15-Mar-2012
+(defvar lse-frame:title-prefix (or (getenv "LSE_FRAME_TITLE_PREFIX") "LSE")
+  "Prefix for frame title"
+)
 
 ;;;  8-Sep-2002
 (defvar lse-frame:std-width 80
@@ -111,7 +117,7 @@
 ;;; 12-Aug-1996
 (defun lse-set-hosted-frame-title (&optional nam fram)
   (interactive)
-  (or nam (setq nam "LSE"))
+  (or nam (setq nam lse-frame:title-prefix))
   (lse-set-frame-title
       (concat nam " " (lse-system-name) "::" (lse-user-initials-r))
       fram
@@ -122,7 +128,7 @@
 ;;; 12-Aug-1996
 (defun lse-set-shorthosted-frame-title (&optional nam fram)
   (interactive)
-  (or nam (setq nam "LSE"))
+  (or nam (setq nam lse-frame:title-prefix))
   (lse-set-frame-title
       (concat nam
               " "
@@ -163,8 +169,8 @@
 ; lse-frame:make-small
 )
 
-(setq frame-title-format (list "LSE %b"))
-(setq icon-title-format  (list "LSE %b")); 11-Oct-1996
+(setq frame-title-format (list (concat lse-frame:title-prefix " %b")))
+(setq icon-title-format  (list (concat lse-frame:title-prefix " %b")))
 
 ;;;  5-Mar-1997
 (defun lse-frame:parameter (nsym &optional fram)

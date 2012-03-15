@@ -87,14 +87,15 @@
 ;;;;     3-Jun-2011 (CT) `lse-w32` factored
 ;;;;    18-Feb-2012 (CT) Move `require lse-tpu` to the front
 ;;;;    19-Feb-2012 (CT) `lse-version` increased
+;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix`, increase `lse-version`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
 (defconst enable-multibyte-characters t)
 
-(defconst lse-version      "3.8"        "Version number of LS-Emacs.")
-(defconst lse-version-date "19-Feb-2012 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.8.1"        "Version number of LS-Emacs.")
+(defconst lse-version-date "15-Mar-2012 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
           "Non-NIL if we are running Lucid or GNU Emacs version 19."
@@ -198,7 +199,7 @@
       (lse-set-home-mark-global (point-marker))
     )
     (lse@initialize@window@mark@stack)
-    (lse-set-hosted-frame-title "LSE")
+    (lse-set-hosted-frame-title lse-frame:title-prefix)
     (lse-ring-bell)
   )
 )
