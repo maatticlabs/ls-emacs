@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This template is part of the LS-Emacs.
@@ -31,6 +31,7 @@
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `jq-plugin`
 ;;;;    19-Oct-2011 (CT) Deprecated `live` and `die` (use `delegate` instead)
 ;;;;    26-Nov-2011 (CT) Factor `jq-plugin-function`
+;;;;    28-Mar-2012 (CT) Add `use-strict` to `jq-plugin`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -221,15 +222,15 @@
     '(token                 "plugin")
     '(description           "Define a plugin for jQuery")
     '(replacement
-        "( function ($, undefined)"
-        & $ _block_head
+        ";( function ($, undefined)" &
+        $ _block_head
+        "««use-strict»»"
         "««statement»»···"
         "«jq-plugin-function»···"
         "««statement»»···"
         $ _block_tail
         "(jQuery)"
         ");"
-        & lse-js:remove-semicolon
      )
 ;;; jq-plugin
 )

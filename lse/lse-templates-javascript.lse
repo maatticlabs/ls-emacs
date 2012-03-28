@@ -36,6 +36,7 @@
 ;;;;    10-Mar-2011 (CT) Fill-in `for-array` and friends added
 ;;;;     4-May-2011 (CT) `use-strict` added and used
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `functional-constructor`
+;;;;    28-Mar-2012 (CT) Move `use-strict` to `scope`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -47,7 +48,6 @@
     '(replacement
         "//««header-comment»»"
         ""
-        "««use-strict»»"
         "«statement»···"
         ""
         "// __END__ " & lse-insert-buffer-name-plus-extension
@@ -646,8 +646,11 @@
       "Use a function definition to hide objects and functions"
      )
     '(replacement
-        "( function (««parameter-declaration»»···)"
-        & $ block
+        ";( function (««parameter-declaration»»···)" &
+        $ _block_head
+        "««use-strict»»"
+        "««statement»»···"
+        $ _block_tail
         "(««argument»»···)"
         ");" & lse-js:remove-period
      )
