@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This library is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;     3-Jun-2011 (CT) Creation
+;;;;    12-May-2012 (CT) Add `set-fill-column` to `72` to `:setup-hook`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-git)
@@ -58,7 +59,8 @@
     (local-set-key [blue gold ?e] 'lse-git:abort)
     (local-set-key [?\C-c ?\C-c]  'lse-git:finish)
     (local-set-key [?\C-x ?#]     'lse-git:finish)
-    (auto-fill-mode t)
+    (auto-fill-mode  t)
+    (set-fill-column 72)
   )
 ; lse-git:setup-hook
 )
