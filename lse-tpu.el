@@ -151,6 +151,9 @@
 ;;;;    12-Mar-2012 (CT) Factor `lse-tpu:goto_occurence`,
 ;;;;                     `lse-tpu:closing-char`, and `lse-tpu:opening-char`
 ;;;;    12-Mar-2012 (CT) Change `lse-tpu:cmd-char` to use `event-basic-type`
+;;;;    28-Jun-2012 (CT) Change `lse-tpu:exchange-point-and-mark` to toggle
+;;;;                     between `lse-tpu:match-beginning` and
+;;;;                     `lse-tpu:match-end` if there is no selection
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1133,7 +1136,29 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:exchange-point-and-mark ()
   "Put the mark where point is now, and point where the mark is now."
   (interactive)
-  (exchange-point-and-mark)
+  (cond ((lse-tpu:mark)
+         (exchange-point-and-mark)
+        )
+        (t
+         (let ((p (point))
+               (head (lse-tpu:match-beginning))
+               (tail (lse-tpu:match-end))
+              )
+           (cond ((= p head)
+                  (goto-char tail)
+                 )
+                 ((= p tail)
+                  (goto-char head)
+                 )
+                 (t
+                  (message
+                    "No mark set in this buffer and not at start or end of search match"
+                  )
+                 )
+           )
+         )
+        )
+  )
 ; lse-tpu:exchange-point-and-mark
 )
 
