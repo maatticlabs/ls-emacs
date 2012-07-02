@@ -172,6 +172,8 @@
 ;;;;                     `lse-tpu:goto-opening-char`,
 ;;;;                     `lse-tpu:goto-closing-char`, and
 ;;;;                     `lse-tpu:goto-next-occurrence-current-char`
+;;;;     2-Jul-2012 (CT) Bind `lse-copy-current-word`,
+;;;;                     `lse-copy-current-bs-word`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -910,10 +912,14 @@
   (global-set-asp [gold M-left]     'lse-select-current-line)
   (global-set-asp [gold C-left]     'lse-select-current-bs-word)
   (global-set-asp [gold s-left]     'lse-select-current-word)
+  (global-set-asp [blue C-left]     'lse-copy-current-bs-word)
+  (global-set-asp [blue s-left]     'lse-copy-current-word)
 
   (global-set-asp [gold M-right]    'lse-select-current-line)
   (global-set-asp [gold C-right]    'lse-select-current-word)
   (global-set-asp [gold s-right]    'lse-select-current-bs-word)
+  (global-set-asp [blue C-right]    'lse-copy-current-word)
+  (global-set-asp [blue s-right]    'lse-copy-current-bs-word)
 
   (global-set-asp [A-end]           'lse-goto-last-fill-in);     11-Oct-2007
   (global-set-asp [C-end]           'lse-tpu:move-to-end);       31-Aug-2002

@@ -97,6 +97,7 @@
 ;;;;    20-Feb-2012 (CT) Change `lse-select-current-word` to use
 ;;;;                     `lse-tpu:curr-word-tail-pos`
 ;;;;    25-Feb-2012 (CT) Change `lse-indent-line-by-word` slightly
+;;;;     2-Jul-2012 (CT) Add `lse-copy-current-word`, `lse-copy-current-bs-word`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -593,6 +594,29 @@ previous line"
       (error "No selection active")
     )
   )
+)
+
+;;;  2-Jul-2012
+(defun lse-copy-current-word (count)
+  "Copy the word under cursor to the paste buffer without deleting it."
+  (interactive "p")
+  (save-excursion
+    (lse-select-current-word count)
+    (lse-tpu:copy-region)
+    (message "Copied '%s' to paste buffer" lse-tpu:pasted-region)
+  )
+; lse-copy-current-word
+)
+
+(defun lse-copy-current-bs-word (count)
+  "Copy the blank-separated word under cursor to the paste buffer without deleting it."
+  (interactive "p")
+  (save-excursion
+    (lse-select-current-bs-word count)
+    (lse-tpu:copy-region)
+    (message "Copied to paste buffer")
+  )
+; lse-copy-current-bs-word
 )
 
 ;;; 19-Feb-2012
