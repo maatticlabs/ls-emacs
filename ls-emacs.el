@@ -88,11 +88,10 @@
 ;;;;    18-Feb-2012 (CT) Move `require lse-tpu` to the front
 ;;;;    19-Feb-2012 (CT) `lse-version` increased
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix`, increase `lse-version`
+;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
-
-(defconst enable-multibyte-characters t)
 
 (defconst lse-version      "3.8.1"        "Version number of LS-Emacs.")
 (defconst lse-version-date "15-Mar-2012 " "Date of last change of LS-Emacs.")
