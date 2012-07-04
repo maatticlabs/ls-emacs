@@ -136,7 +136,6 @@
   (global-set-asp [red      ?n]            'forward-list)
   (global-set-asp [green    ?n]            'backward-list)
   (global-set-asp [red      ?p]            'backward-list)
-  (global-set-key [red      ?t]            'transpose-sexps)
   (global-set-asp [red      ?u]            'up-list)
   (global-set-asp [red   ?\C-n]            'lse-tpu:goto-next-occurrence-current-word)
   (global-set-asp [red   ?\C-p]            'lse-tpu:goto-prev-occurrence-current-word)

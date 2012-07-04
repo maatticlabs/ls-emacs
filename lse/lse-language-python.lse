@@ -73,6 +73,8 @@
 ;;;;                     `goto-nearest-class-head`...
 ;;;;    24-Feb-2012 (CT) Add `lse-python:goto-class-head` and friends
 ;;;;    24-Feb-2012 (CT) Revamp py-menu (to put in lse-python definitions)
+;;;;     4-Jul-2012 (CT) Add and bind `lse-python:goto-next-var`,
+;;;;                     `lse-python:goto-next-doctest`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -179,7 +181,10 @@
   (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement)
   (local-set-asp   [red      ?s]     'lse-python:goto-next-statement)
   (local-set-asp   [green    ?s]     'lse-python:goto-prev-statement)
-  (local-set-asp   [red      ?v]     'lse-python:update-patchlevel)
+  (local-set-asp   [red      ?t]     'lse-python:goto-next-doctest)
+  (local-set-asp   [green    ?t]     'lse-python:goto-prev-doctest)
+  (local-set-asp   [red      ?v]     'lse-python:goto-next-var-g)
+  (local-set-asp   [green    ?v]     'lse-python:goto-prev-var-g)
   (local-set-asp   [red   right]     'lse-python:goto-next-statement)
   (local-set-asp   [red   ?\C-e]     'lse-python:goto-next-statement-end)
   (local-set-asp   [red    left]     'lse-python:goto-prev-statement)
@@ -315,6 +320,22 @@
 ; lse-python:goto-nearest-class-tail
 )
 
+;;;  4-Jul-2012
+(defun lse-python:goto-next-doctest (count &optional limit)
+  "Goto next doctest"
+  (interactive "p")
+  (lse-tpu:goto_occurrence "^ +>>> " limit count 're-search-forward t)
+; lse-python:goto-next-doctest
+)
+
+;;;  4-Jul-2012
+(defun lse-python:goto-prev-doctest (count &optional limit)
+  "Goto previous doctest"
+  (interactive "p")
+  (lse-tpu:goto_occurrence "^ +>>> " limit count 're-search-backward t)
+; lse-python:goto-prev-doctest
+)
+
 ;;; 24-Sep-1999
 (defun lse-python:goto-nearest-function-head ()
   "Goto nearest head of function."
@@ -431,6 +452,50 @@
   (lse-python:goto-prev-statement num)
   (lse-python@goto-end-of-last-statement)
 ; lse-python:goto-prev-statement-end
+)
+
+;;;  4-Jul-2012
+(defvar lse-python:var-def-pattern "^ *[a-zA-Z_0-9]+ *=")
+(defvar lse-python:var-def-pattern-g "^[a-zA-Z_0-9]+ *=")
+
+;;;  4-Jul-2012
+(defun lse-python:goto-next-var (count &optional limit)
+  "Got next variable definition"
+  (interactive "p")
+  (lse-tpu:goto_occurrence
+     lse-python:var-def-pattern limit count 're-search-forward t
+  )
+; lse-python:goto-next-var
+)
+
+;;;  4-Jul-2012
+(defun lse-python:goto-prev-var (count &optional limit)
+  "Got previous variable definition"
+  (interactive "p")
+  (lse-tpu:goto_occurrence
+     lse-python:var-def-pattern limit count 're-search-backward t
+  )
+; lse-python:goto-next-var
+)
+
+;;;  4-Jul-2012
+(defun lse-python:goto-next-var-g (count &optional limit)
+  "Got next global variable definition"
+  (interactive "p")
+  (lse-tpu:goto_occurrence
+     lse-python:var-def-pattern-g limit count 're-search-forward t
+  )
+; lse-python:goto-next-var
+)
+
+;;;  4-Jul-2012
+(defun lse-python:goto-prev-var-g (count &optional limit)
+  "Got previous global variable definition"
+  (interactive "p")
+  (lse-tpu:goto_occurrence
+     lse-python:var-def-pattern-g limit count 're-search-backward t
+  )
+; lse-python:goto-next-var
 )
 
 ;;; 30-Aug-2010
@@ -596,13 +661,16 @@
 (defvar lse-python:menu:block-spec
   ( list
     "-"
-    ["Go up to start of block"         lse-python:goto-begin-of-block        t]
-    ["Go to end of block"              lse-python:goto-end-of-block          t]
-    ["Goto next statement"             lse-python:goto-next-statement        t]
-    ["Goto end of next statement"      lse-python:goto-next-statement-end    t]
-    ["Goto previous statement"         lse-python:goto-prev-statement        t]
-    ["Goto end of previous statement"  lse-python:goto-prev-statement-end    t]
-
+    ["Go up to start of block"           lse-python:goto-begin-of-block       t]
+    ["Go to end of block"                lse-python:goto-end-of-block         t]
+    ["Goto next statement"               lse-python:goto-next-statement       t]
+    ["Goto end of next statement"        lse-python:goto-next-statement-end   t]
+    ["Goto previous statement"           lse-python:goto-prev-statement       t]
+    ["Goto end of previous statement"    lse-python:goto-prev-statement-end   t]
+    ["Goto next global variable def"     lse-python:goto-next-var-g           t]
+    ["Goto previous global variable def" lse-python:goto-prev-var-g           t]
+    ["Goto next doctest"                 lse-python:goto-next-doctest         t]
+    ["Goto previous doctest"             lse-python:goto-prev-doctest         t]
   )
   "Specification for block-specific Python menu"
 )
@@ -625,4 +693,3 @@
 )
 
 ;;; __END__ lse-language-python.lse
-
