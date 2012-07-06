@@ -9,7 +9,7 @@
         "#««header-comment»»"
         "««py-doc-string»»"
         ""
-        "from   __future__  import absolute_import, division, print_function, unicode_literals"; 30-Jan-2012 ; 7-Apr-2011
+        "from   __future__ import absolute_import, division, print_function, unicode_literals"; 30-Jan-2012 ; 7-Apr-2011
         ""
         "««py-import»»"
         ""
