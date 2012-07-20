@@ -43,6 +43,7 @@
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    10-Nov-2010 (CT) `string-starts-with` and `string-ends-with` added
 ;;;;    26-Feb-2012 (CT) Add `string-has-upper-case-p` and `string-mixed-case-p`
+;;;;    20-Jul-2012 (CT) Guard `string-*` functions with `lse-safe`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-basics)
@@ -89,8 +90,10 @@
 ;;; 10-Nov-2010
 (defun string-starts-with (string starter)
   "Returns true if `string` starts with `starter`, false otherwise"
-  (let ((l (length starter)))
-    (string= (substring-no-properties string 0 l) starter)
+  (lse-safe
+    (let ((l (length starter)))
+      (string= (substring-no-properties string 0 l) starter)
+    )
   )
 ; string-starts-with
 )
@@ -98,8 +101,10 @@
 ;;; 10-Nov-2010
 (defun string-ends-with (string ender)
   "Returns true if `string` ends with `ender`, false otherwise"
-  (let ((l (length ender)))
-    (string= (substring-no-properties string (- l)) ender)
+  (lse-safe
+    (let ((l (length ender)))
+      (string= (substring-no-properties string (- l)) ender)
+    )
   )
 ; string-ends-with
 )
@@ -107,10 +112,12 @@
 ;;; 26-Feb-2012
 (defun string-has-upper-case-p (s)
   "Returns true if `s` contains both some upper case characters"
-  (let ((case-fold-search nil)
-       )
-    (save-match-data
-      (integerp (string-match "[A-Z]" s))
+  (lse-safe
+    (let ((case-fold-search nil)
+         )
+      (save-match-data
+        (integerp (string-match "[A-Z]" s))
+      )
     )
   )
 ; string-has-upper-case-p
@@ -119,10 +126,12 @@
 ;;; 26-Feb-2012
 (defun string-mixed-case-p (s)
   "Returns true if `s` contains both upper and lower case characters"
-  (let ((case-fold-search nil)
-       )
-    (save-match-data
-      (integerp (string-match "[A-Z].*[a-z]\\|[a-z].*[A-Z]" s))
+  (lse-safe
+    (let ((case-fold-search nil)
+         )
+      (save-match-data
+        (integerp (string-match "[A-Z].*[a-z]\\|[a-z].*[A-Z]" s))
+      )
     )
   )
 ; string-mixed-case-p
