@@ -89,6 +89,7 @@
 ;;;;    19-Feb-2012 (CT) `lse-version` increased
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix`, increase `lse-version`
 ;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
+;;;;    23-Nov-2012 (CT) Add `lse-emacs24-p`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -119,6 +120,10 @@
 (defconst lse-emacs23-p (not (string-lessp emacs-version "23"))
           "Non-NIL if we are running GNU Emacs version 23."
 );   5-Aug-2009
+
+(defconst lse-emacs24-p (not (string-lessp emacs-version "24"))
+          "Non-NIL if we are running GNU Emacs version 24."
+); 23-Nov-2012
 
 (defconst lse-emacsX-p window-system;  3-Oct-1996 ; (boundp 'x-no-window-manager); 18-Mar-1995
           "Non-NIL if running under X"
