@@ -69,6 +69,7 @@
 ;;;;                     (and used for `frame-setup` frame property)
 ;;;;    25-Feb-2012 (CT) Use `lse-tpu:next-line-internal` instead of
 ;;;;                     `next-line-internal`
+;;;;    26-Nov-2012 (CT) Change `mode-line-format` of `lse-cal:view:mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -674,11 +675,7 @@
   (local-set-key [up]     'lse-cal:view:goto-prev-week)
   (local-set-key [?\A-e]  'lse-cal:view:add-appointment)
   ; XXX setup key bindings for calendar navigation
-  (setq mode-line-format
-          (list (purecopy (lse-buffer:base-name (current-buffer)))
-                (purecopy "Wk Mo Tu We Th Fr Sa Su")
-          )
-  )
+  (setq mode-line-format (list (purecopy " Wk  Mo Tu We Th Fr Sa Su Month")))
   (set-buffer-modified-p nil)
   (lse-cal:view:goto-month)
 )
