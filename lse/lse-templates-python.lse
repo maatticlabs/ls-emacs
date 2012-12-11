@@ -737,6 +737,22 @@
 ;;; py-class-imul
 )
 
+;;; 11-Dec-2012
+(lse-define-fill-in "py-class-instancecheck"
+    '(token)
+    '(token                 "__instancecheck__")
+    '(description
+      "Called by `isinstance`; needs to be defined in metaclass"
+     )
+    '(replacement
+        "def __instancecheck__ (cls, instance) :"
+        @ py-function-body
+        "# end def __instancecheck__"
+        ""
+     )
+;;; py-class-instancecheck
+)
+
 ;;;  4-Sep-2001
 (lse-define-fill-in "py-class-int"
     '(token)
@@ -991,6 +1007,7 @@
         py-class-imod
         py-class-imul
         py-class-init
+        py-class-instancecheck
         py-class-int
         py-class-invert
         py-class-ior
@@ -1031,6 +1048,7 @@
         py-class-setitem
         py-class-str
         py-class-sub
+        py-class-subclasscheck
         py-class-xor
      )
 ;;; py-class-magic
@@ -1561,6 +1579,22 @@
         ""
      )
 ;;; py-class-sub
+)
+
+;;; 11-Dec-2012
+(lse-define-fill-in "py-class-subclasscheck"
+    '(token)
+    '(token                 "__subclasscheck__")
+    '(description
+      "Called by `issubclass`; needs to be defined in metaclass"
+     )
+    '(replacement
+        "def __subclasscheck__ (cls, subclass) :"
+        @ py-function-body
+        "# end def __subclasscheck__"
+        ""
+     )
+;;; py-class-subclasscheck
 )
 
 ;;;  7-Jan-1998
