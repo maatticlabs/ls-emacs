@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
-;;;; Copyright (C) 1996-2012 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1996-2013 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -59,6 +59,9 @@
 ;;;;     9-Dec-2009 (CT) `lse-frame:list:restrict` added
 ;;;;    15-Mar-2012 (CT) Factor `lse-frame:title-prefix`, LSE_FRAME_TITLE_PREFIX
 ;;;;    15-Mar-2012 (CT) Append `lse-system-name` to default `:title-prefix`
+;;;;    20-Mar-2013 (CT) Remove `(lse-previous-window)` from
+;;;;                     `lse-frame:restore-saved-config`
+;;;;    20-Mar-2013 (CT) Save/restore `window-start` and `frame-selected-window`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -456,7 +459,7 @@
                (frame-setup  (nth 3 frame-infos))
                (visibility   (cdr (assoc 'visibility frame-params)))
                (first t)
-               frame
+               frame active-window
              )
           (save-window-excursion
             (if root-p
@@ -470,16 +473,30 @@
               (if frame-setup
                   (eval frame-setup)
                 (dolist (window-info window-infos)
-                  (unless first
-                    (lse-split-window)
-                    (lse-previous-window)
+                  (let ((b-nam (nth 0 window-info))
+                        (b-pos (nth 1 window-info))
+                        (w-pos (nth 2 window-info))
+                        (w-act (nth 3 window-info))
+                       )
+                    (unless first
+                      (lse-split-window)
+                    )
+                    (lse-goto-buffer+maybe-create (nth 0 window-info))
+                    (goto-char                    (nth 1 window-info))
+                    (when w-pos
+                      (set-window-start (selected-window) w-pos)
+                    )
+                    (when w-act
+                      (setq active-window (selected-window))
+                    )
+                    (when (and root-p first)
+                      (lse-set-home-mark-global (point-marker))
+                    )
+                    (setq first nil)
                   )
-                  (lse-goto-buffer+maybe-create (nth 0 window-info))
-                  (goto-char                    (nth 1 window-info))
-                  (when (and root-p first)
-                    (lse-set-home-mark-global (point-marker))
-                  )
-                  (setq first nil)
+                )
+                (when active-window
+                  (set-frame-selected-window frame active-window 'norecord)
                 )
               )
               (cond ((equal visibility 'icon) (iconify-frame))
@@ -509,6 +526,7 @@
          (top         (cdr (assoc 'top         params)))
          (visibility  (cdr (assoc 'visibility  params)))
          (width       (cdr (assoc 'width       params)))
+         (active-wdw  (frame-selected-window   frame))
          buffer
          buffer-name
          window-infos
@@ -522,6 +540,8 @@
             (cons
               (list buffer-name
                 (save-window-excursion (select-window window) (point))
+                (window-start window)
+                (eq active-wdw window)
               )
               window-infos
             )
