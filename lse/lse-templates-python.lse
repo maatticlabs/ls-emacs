@@ -1070,6 +1070,22 @@
 ;;; py-class-method
 )
 
+;;; 26-Mar-2013
+(lse-define-fill-in "py-class-and-instance-method"
+    '(token)
+    '(token                 "cimdef")
+    '(token                 "def-class-and-instance-method")
+    '(description           "Define a class method inside the class itself.")
+    '(replacement
+        "@TFL.Meta.Class_and_Instance_Method"
+        "def «py-function-name» (soc, ««py-parameter-declaration»»···) :"
+        @ py-function-body
+        "# end def «py-function-name»"
+        ""
+     )
+;;; py-class-and-instance-method
+)
+
 ;;; 28-Dec-1998
 (lse-define-fill-in "py-class-mod"
     '(token)
