@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 2007-2012 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2013 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -35,6 +35,7 @@
 ;;;;    18-May-2011 (CT) Guard for `py-mode-map` added
 ;;;;    26-May-2011 (CT) `set-language-environment` removed
 ;;;;    29-May-2011 (CT) Set `inhibit-field-text-motion` to `nil` (minibuffer!)
+;;;;     4-Apr-2013 (CT) Change `show-paren-style` from `expression` to `mixed`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -225,8 +226,10 @@
       (setq blink-matching-paren nil)
       (if lse-emacs20-p ;  4-Dec-1997
           (progn
-            ;; show the entire expression enclosed by the paren
-            (setq show-paren-style 'expression)
+            ;; 'expression  : show the entire expression enclosed by the paren
+            ;; 'mixed       : show parens if both are visible else expression
+            ;; 'parenthesis : highlight the matching parentheses
+            (setq show-paren-style 'mixed)
           )
       )
       (show-paren-mode t)
