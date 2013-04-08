@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1998-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -75,6 +75,7 @@
 ;;;;    24-Feb-2012 (CT) Revamp py-menu (to put in lse-python definitions)
 ;;;;     4-Jul-2012 (CT) Add and bind `lse-python:goto-next-var`,
 ;;;;                     `lse-python:goto-next-doctest`
+;;;;     8-Apr-2013 (CT) Add `condition-case` to `lse-python:indent-line`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -208,7 +209,10 @@
           (looking-at "[-+*/,]")
       )
        (lse-indent-line)
-    (py-indent-line)
+    (condition-case nil
+        (py-indent-line)
+      (error (lse-indent-line))
+    )
   )
 ; lse-python:indent-line
 )
