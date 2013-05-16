@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -46,6 +46,7 @@
 ;;;;    15-Oct-2007 (CT) Cruft removed
 ;;;;     5-Aug-2009 (CT) Modernize use of backquotes
 ;;;;    18-Feb-2012 (CT) Remove `lse_last_position`
+;;;;    16-May-2013 (CT) Change `defmacro` to `defun`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-fill-in--search)
@@ -85,10 +86,10 @@
   (lse-fill-in:is-list lse_current_fill-in)
 )
 
-(defmacro lse_search_fill-in:backward_once (&optional name)
+(defun lse_search_fill-in:backward_once (&optional name)
   (skip-chars-backward lse_fill-in-not_head_start_chars)
   (skip-chars-backward lse_fill-in_head_delim_chars)
-  `(lse_looking_at_fill-in ,name)
+  (lse_looking_at_fill-in name)
 )
 
 (defun lse_search_fill-in:backward (&optional name)
@@ -101,10 +102,10 @@
    )
 )
 
-(defmacro lse_search_fill-in:forward_once (&optional name)
+(defun lse_search_fill-in:forward_once (&optional name)
   (skip-chars-forward  lse_fill-in-not_head_start_chars)
   (skip-chars-backward lse_fill-in_head_delim_chars)
-  `(lse_looking_at_fill-in ,name)
+  (lse_looking_at_fill-in name)
 )
 
 (defun lse_search_fill-in:forward (&optional name)
@@ -307,4 +308,4 @@
   )
 )
 
-
+;;; __END__ lse-fill-in--search.el

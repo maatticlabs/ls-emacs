@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-face:el lse_face:el
-;;;; Copyright (C) 1995-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -56,6 +56,9 @@
 ;;;;     5-Aug-2009 (CT) `lse-face:line-too-long` made less conspicuous
 ;;;;     8-Dec-2009 (CT) `lse-face:fl:` faces added
 ;;;;                     (`:frame`, `:buffer`, and `:current`)
+;;;;    16-May-2013 (CT) Use 'mode-line, not 'modeline
+;;;;                     (the latter gives error in emacs-24.3-r1)
+;;;;    16-May-2013 (CT) Set background of 'region to "lightgoldenrod2"
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -113,8 +116,13 @@
   (lse-face:define 'lse-face:fl:buffer      "Gray88"        "Gray30")
   (lse-face:define 'lse-face:fl:current     "Yellow"        "Red")
 
-  (set-face-background 'modeline            "Grey")         ; 28-Dec-1997
-  (set-face-foreground 'modeline            "Light Yellow") ; 28-Dec-1997
+  (set-face-background 'mode-line            "Grey")           ; 28-Dec-1997
+  (set-face-foreground 'mode-line            "Light Yellow")   ; 28-Dec-1997
 
-  (set-face-background 'trailing-whitespace "Gray80")       ;  3-Mar-2008
+  (set-face-background 'region               "lightgoldenrod2"); 16-May-2013
+
+  (set-face-background 'trailing-whitespace "Gray80")          ;  3-Mar-2008
 )
+
+
+;;; __END__ lse-face.el

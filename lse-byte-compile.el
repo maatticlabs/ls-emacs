@@ -1,6 +1,6 @@
 ;-*- coding: iso-8859-15; -*-
 
-;;;; Copyright (C) 1997-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -37,6 +37,7 @@
 ;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    17-Feb-2012 (CT) Defvar `:source-dir` as `nil`
 ;;;;    17-Feb-2012 (CT) Add and use `:setup-source-dir`, `:extra-source-dirs`
+;;;;    16-May-2013 (CT) Remove `lse-fill-in--search` from `black-list`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -62,8 +63,6 @@
 ;;; 13-Oct-2007
 (defvar lse-byte-compile:black-list
   (list
-    ;;; compilation of lse-fill-in--search.el goes into a endless loop
-    "lse-fill-in--search"
   )
   "Files that can't be compiled without breaking LS-Emacs"
 )
@@ -88,6 +87,7 @@
     "lse-face"
     "lse-file"
     "lse-fill-in--delimiters"
+    "lse-fill-in--search"
     "lse-fill-in-history"
     "lse-fill-in-info"
     "lse-fill-in-marks"
