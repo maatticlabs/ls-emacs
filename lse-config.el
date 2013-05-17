@@ -36,6 +36,8 @@
 ;;;;    26-May-2011 (CT) `set-language-environment` removed
 ;;;;    29-May-2011 (CT) Set `inhibit-field-text-motion` to `nil` (minibuffer!)
 ;;;;     4-Apr-2013 (CT) Change `show-paren-style` from `expression` to `mixed`
+;;;;    17-May-2013 (CT) Use `whitespace-cleanup`, whitespace-mode;
+;;;;                     set `whitespace-style`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -258,14 +260,22 @@
 )
 
 ;;; 11-Nov-2001
-(if (fboundp 'tool-bar-mode)
-    (tool-bar-mode 0)
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode 0)
 )
-(if (fboundp 'delete-trailing-whitespace)
-    (add-hook 'write-file-hooks 'delete-trailing-whitespace)
+(if (fboundp 'whitespace-cleanup)
+    (progn
+      (setq whitespace-style
+        '(face tabs trailing lines-tail space-before-tab empty)
+      )
+      (add-hook 'before-save-hook 'whitespace-cleanup)
+    )
+  (when (fboundp 'delete-trailing-whitespace)
+    (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  )
 )
-(if (boundp 'x-stretch-cursor)
-    (setq x-stretch-cursor t)
+(when (boundp 'x-stretch-cursor)
+  (setq x-stretch-cursor t)
 )
 
 ;;; 29-Dec-1997
@@ -346,6 +356,9 @@
 (font-lock-add-keywords 'python-mode '(("### XXX" 1 font-lock-warning-face)))
 
 ;;;  5-Feb-2008
-(setq-default show-trailing-whitespace 1)
+(if (fboundp 'whitespace-mode)
+    (whitespace-mode t)
+  (setq-default show-trailing-whitespace nil)
+)
 
 ;;;; __END__ lse-config.el
