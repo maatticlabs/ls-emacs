@@ -2565,6 +2565,7 @@
 (lse-define-fill-in "py-script-cmd"
     '(token)
     '(token                 "Command")
+    '(token                 "CAO")
     '(description
       "Definition of command/argument/option and command handler (main)"
      )
