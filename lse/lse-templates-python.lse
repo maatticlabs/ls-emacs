@@ -169,6 +169,24 @@
 ;;; py-class-and
 )
 
+;;; 26-Jun-2013
+(lse-define-fill-in "py-class-bool"
+    '(token)
+    '(token                 "__bool__")
+    '(description
+        "Return truth value (should return 0 or 1)."
+        "If neither __n__ nor __len__ are defined, all instances "
+        "of the class are considered true"
+     )
+    '(replacement
+        "def __bool__ (self) :"
+        @ py-function-body
+        "# end def __bool__"
+        ""
+     )
+;;; py-class-bool
+)
+
 ;;;  7-Jan-1998
 (lse-define-fill-in "py-class-call"
     '(token)
@@ -983,6 +1001,7 @@
         py-class-abs
         py-class-add
         py-class-and
+        py-class-bool
         py-class-call
         py-class-cmp
         py-class-coerce
