@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -90,43 +90,48 @@
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix`, increase `lse-version`
 ;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
 ;;;;    23-Nov-2012 (CT) Add `lse-emacs24-p`
+;;;;     5-Sep-2013 (CT) Use `version<` instead of `string-lessp`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
-(defconst lse-version      "3.8.1"        "Version number of LS-Emacs.")
-(defconst lse-version-date "15-Mar-2012 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "3.8.2"        "Version number of LS-Emacs.")
+(defconst lse-version-date " 5-Sep-2013 " "Date of last change of LS-Emacs.")
 
-(defconst lse-emacs19-p (not (string-lessp emacs-version "19"))
-          "Non-NIL if we are running Lucid or GNU Emacs version 19."
+(defconst lse-emacs19-p (not (version< emacs-version "19"))
+  "Non-NIL if we are running GNU Emacs version 19."
 )
 
-(defconst lse-emacs20-p (not (string-lessp emacs-version "20"))
-          "Non-NIL if we are running GNU Emacs version 20."
+(defconst lse-emacs20-p (not (version< emacs-version "20"))
+  "Non-NIL if we are running GNU Emacs version 20."
 );  4-Dec-1997
 
-(defconst lse-emacs20.3-p (not (string-lessp emacs-version "20.3"))
-          "Non-NIL if we are running GNU Emacs version 20.3."
+(defconst lse-emacs20.3-p (not (version< emacs-version "20.3"))
+  "Non-NIL if we are running GNU Emacs version 20.3."
 ); 24-May-1999
 
-(defconst lse-emacs21-p (not (string-lessp emacs-version "21"))
-          "Non-NIL if we are running GNU Emacs version 21."
+(defconst lse-emacs21-p (not (version< emacs-version "21"))
+  "Non-NIL if we are running GNU Emacs version 21."
 ); 24-Mar-2002
 
-(defconst lse-emacs22-p (not (string-lessp emacs-version "22"))
-          "Non-NIL if we are running GNU Emacs version 22."
+(defconst lse-emacs22-p (not (version< emacs-version "22"))
+  "Non-NIL if we are running GNU Emacs version 22."
 );  1-Oct-2007
 
-(defconst lse-emacs23-p (not (string-lessp emacs-version "23"))
-          "Non-NIL if we are running GNU Emacs version 23."
+(defconst lse-emacs23-p (not (version< emacs-version "23"))
+  "Non-NIL if we are running GNU Emacs version 23."
 );   5-Aug-2009
 
-(defconst lse-emacs24-p (not (string-lessp emacs-version "24"))
-          "Non-NIL if we are running GNU Emacs version 24."
+(defconst lse-emacs24-p (not (version< emacs-version "24"))
+  "Non-NIL if we are running GNU Emacs version 24."
 ); 23-Nov-2012
 
+(defconst lse-emacs24.4-p (not (version< emacs-version "24.4"))
+  "Non-NIL if we are running GNU Emacs version 24.4."
+);  5-Sep-2013
+
 (defconst lse-emacsX-p window-system;  3-Oct-1996 ; (boundp 'x-no-window-manager); 18-Mar-1995
-          "Non-NIL if running under X"
+  "Non-NIL if running under X"
 )
 
 (setq default-load-path load-path)
