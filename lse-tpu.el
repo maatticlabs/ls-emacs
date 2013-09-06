@@ -1,7 +1,7 @@
 ;-*- coding: iso-8859-15; -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -154,6 +154,8 @@
 ;;;;    28-Jun-2012 (CT) Change `lse-tpu:exchange-point-and-mark` to toggle
 ;;;;                     between `lse-tpu:match-beginning` and
 ;;;;                     `lse-tpu:match-end` if there is no selection
+;;;;     6-Sep-2013 (CT) Advise `mouse-yank-primary` to cancel tpu selection
+;;;;     6-Sep-2013 (CT) Replace `interactive-p` by optional "p"-argument
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -718,9 +720,9 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:version
 )
 
-(defun lse-tpu:toggle-newline-and-indent nil
+(defun lse-tpu:toggle-newline-and-indent (&optional print-message)
   "Toggle between 'newline and indent' and 'simple newline'."
-  (interactive)
+  (interactive "p")
   (cond (lse-tpu:newline-and-indent-p
          (setq lse-tpu:newline-and-indent-string "")
          (setq lse-tpu:newline-and-indent-p      nil)
@@ -737,10 +739,10 @@ Accepts a prefix argument of the number of characters to invert."
         )
   )
   (lse-tpu:update-mode-line)
-  (and (interactive-p)
-       (message "The <return> key inserts a newline%s"
-                (if lse-tpu:newline-and-indent-p " and indents." ".")
-       )
+  (when print-message
+    (message "The <return> key inserts a newline%s"
+      (if lse-tpu:newline-and-indent-p " and indents." ".")
+    )
   )
   lse-tpu:newline-and-indent-p
 ; lse-tpu:toggle-newline-and-indent
@@ -1131,6 +1133,15 @@ Accepts a prefix argument of the number of characters to invert."
   (remove-hook 'post-command-hook 'lse-tpu:mark-active-hook)
   (or quiet (message "Selection canceled."))
 ; lse-tpu:unselect
+)
+
+(defadvice mouse-yank-primary
+    (before lse-tpu:cancel-selection activate compile preactivate)
+  "Cancel tpu selection before mouse-yank-primary"
+  ; Without this, Emacs 24 is terminally broken: Double clicking in one
+  ; window and then middle clicking in another window showing the same
+  ; buffer extends the selection before yanking. Un-fucking-believably stupid!
+  (when (lse-tpu:mark) (lse-tpu:unselect 't))
 )
 
 (defun lse-tpu:exchange-point-and-mark ()
@@ -2252,16 +2263,16 @@ Accepts a prefix argument of the number of characters to invert."
 ;;;++
 ;;; Selection cut/paste
 ;;;--
-(defun lse-tpu:toggle-rectangle nil
+(defun lse-tpu:toggle-rectangle (&optional print-message)
   "Toggle rectangular mode for remove and insert."
-  (interactive)
+  (interactive "p")
   (setq lse-tpu:rectangular-p    (not lse-tpu:rectangular-p))
   (setq lse-tpu:rectangle-string (if  lse-tpu:rectangular-p " []" ""))
   (lse-tpu:update-mode-line)
-  (and (interactive-p)
-       (message "Rectangular cut and paste %sabled."
-                (if lse-tpu:rectangular-p "en" "dis")
-       )
+  (when print-message
+    (message "Rectangular cut and paste %sabled."
+      (if lse-tpu:rectangular-p "en" "dis")
+    )
   )
   lse-tpu:rectangular-p
 ; lse-tpu:toggle-rectangle
@@ -3466,3 +3477,5 @@ A repeat count means scroll that many sections."
 (put 'lse-tpu:paste-region        'delete-selection 'kill)
 
 (provide 'lse-tpu)
+
+;;  LocalWords:  tpu
