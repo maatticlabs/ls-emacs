@@ -1,9 +1,9 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "kassabuch-file"
     '(replacement
         "%command   day description      kategorie-planung        betrag mwst person"
-        "«kassabuch»···"
+        "Â«kassabuchÂ»Â·Â·Â·"
      )
 ;;; kassabuch-file
 )
@@ -22,12 +22,12 @@
   '(token)
   '(replacement 
       "\\A"                   & lse-tabulator 
-      "«Tag» "                &
-      "«Description» "        &
-      "«Ausgaben-Kategorie» " &
-      "«Betrag» "             &
-      "(««MWSt»»)"            & lse-tabulator 
-      "««Person»»"
+      "Â«TagÂ» "                &
+      "Â«DescriptionÂ» "        &
+      "Â«Ausgaben-KategorieÂ» " &
+      "Â«BetragÂ» "             &
+      "(Â«Â«MWStÂ»Â»)"            & lse-tabulator 
+      "Â«Â«PersonÂ»Â»"
    )
 )   
 
@@ -35,9 +35,9 @@
   '(token)
   '(replacement 
       "\\E"             & lse-tabulator 
-      "«Tag» "          &
-      "«Description» "  &
-      "«Betrag»"
+      "Â«TagÂ» "          &
+      "Â«DescriptionÂ» "  &
+      "Â«BetragÂ»"
     )
 )
 
@@ -45,12 +45,12 @@
   '(token)
   '(replacement 
       "\\EE"                  & lse-tabulator 
-      "«Tag» "                &
-      "«Description» "        &
-      "«Einnahmen-Kategorie»" & 
-      "«Betrag» "             &
-      "(««MWSt»»)"            & lse-tabulator 
-      "««Person»»"
+      "Â«TagÂ» "                &
+      "Â«DescriptionÂ» "        &
+      "Â«Einnahmen-KategorieÂ»" & 
+      "Â«BetragÂ» "             &
+      "(Â«Â«MWStÂ»Â»)"            & lse-tabulator 
+      "Â«Â«PersonÂ»Â»"
    )
 )   
 
@@ -58,11 +58,11 @@
   '(token)
   '(replacement 
       "\\Entnahme"           & lse-tabulator 
-      "«Tag» "               &
-      "«Description» "       &
-      "«Entnahme-Kategorie»" & 
-      "«Betrag» "            &
-      "(««MWSt»»)"
+      "Â«TagÂ» "               &
+      "Â«DescriptionÂ» "       &
+      "Â«Entnahme-KategorieÂ»" & 
+      "Â«BetragÂ» "            &
+      "(Â«Â«MWStÂ»Â»)"
    )
 )
 
@@ -89,9 +89,9 @@
   '(token)
   '(replacement 
       "\\KtoP"          & lse-tabulator 
-      "«Tag» "          &
-      "«Description» "  &
-      "«Betrag»"
+      "Â«TagÂ» "          &
+      "Â«DescriptionÂ» "  &
+      "Â«BetragÂ»"
    )
 )
 

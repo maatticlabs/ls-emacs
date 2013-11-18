@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.cluster
@@ -31,7 +31,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    12-Nov-2009 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 12-Nov-2009

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -37,7 +37,7 @@
 ;;;;     4-May-2011 (CT) `use-strict` added and used
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `functional-constructor`
 ;;;;    28-Mar-2012 (CT) Move `use-strict` to `scope`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 18-Jan-2011
@@ -46,9 +46,9 @@
     '(description           "Root template of LS-Emacs language javascript")
     '(rcompletion-trailer   delete-blank-lines)
     '(replacement
-        "//««header-comment»»"
+        "//Â«Â«header-commentÂ»Â»"
         ""
-        "«statement»···"
+        "Â«statementÂ»Â·Â·Â·"
         ""
         "// __END__ " & lse-insert-buffer-name-plus-extension
      )
@@ -62,7 +62,7 @@
     '(description
         "Define an alias for 'this' that can be used in closure"
      )
-    '(replacement           "var «name» = this")
+    '(replacement           "var Â«nameÂ» = this")
 ;;; alias-this
 )
 
@@ -72,7 +72,7 @@
     '(token                 ".apply")
     '(description           "Apply a method with context as this")
     '(replacement
-        lse-js:remove-period & ".apply («context», «array»)"
+        lse-js:remove-period & ".apply (Â«contextÂ», Â«arrayÂ»)"
      )
 ;;; apply
 )
@@ -119,7 +119,7 @@
   '(description   "Block of comment statements")
   '(replacement
       "//+"
-      "// «text»···"
+      "// Â«textÂ»Â·Â·Â·"
       "//-"
   )
 )
@@ -164,7 +164,7 @@
     '(token                 ".call")
     '(description           "Call a method with context as this")
     '(replacement
-        lse-js:remove-period & ".call («context», ««argument»»···)"
+        lse-js:remove-period & ".call (Â«contextÂ», Â«Â«argumentÂ»Â»Â·Â·Â·)"
      )
 ;;; call
 )
@@ -190,7 +190,7 @@
     '(token)
     '(description           "Define a new class by extending an existing one")
     '(replacement
-        "var «name» = «name»" & $ extend & ";"
+        "var Â«nameÂ» = Â«nameÂ»" & $ extend & ";"
      )
 ;;; class
 )
@@ -208,7 +208,7 @@
   '(token                 "//")
   '(description           "Inline comment")
   '(replacement
-      "// «text» "
+      "// Â«textÂ» "
   )
 )
 
@@ -226,7 +226,7 @@
     '(description
         "An object containing the properties top and left, which are integers indicating the new top and left coordinates for the elements."
      )
-    '(replacement           "{ top : «number», left : «number» }")
+    '(replacement           "{ top : Â«numberÂ», left : Â«numberÂ» }")
 ;;; coordinates
 )
 
@@ -245,7 +245,7 @@
 (lse-define-fill-in "delete"
     '(token)
     '(description           "Delete an object")
-    '(replacement           "delete «expression»")
+    '(replacement           "delete Â«expressionÂ»")
 ;;; delete
 )
 
@@ -258,7 +258,7 @@
     '(kill-action           (lse-js:remove-semicolon t))
     '(rcompletion-trailer   (lse-js:remove-semicolon t))
     '(replacement
-        "else ««if-condition»»" lse-indent:set:curr $ block
+        "else Â«Â«if-conditionÂ»Â»" lse-indent:set:curr $ block
      )
 ;;; else-block
 )
@@ -269,7 +269,7 @@
     '(description
         "Create an error object, argument specifies error message"
      )
-    '(replacement           "new Error («argument»)")
+    '(replacement           "new Error (Â«argumentÂ»)")
 ;;; Error
 )
 
@@ -301,13 +301,13 @@
     '(token                 "iterate-over-array")
     '(description           "Iterate over the elements of an array.")
     '(replacement
-        "for (var «loop-index» = 0, l«loop-index» = «array-name».length, «loop-item»; "
-          & "«loop-index» < l«loop-index»; "
-          & "«loop-index»++"
+        "for (var Â«loop-indexÂ» = 0, lÂ«loop-indexÂ» = Â«array-nameÂ».length, Â«loop-itemÂ»; "
+          & "Â«loop-indexÂ» < lÂ«loop-indexÂ»; "
+          & "Â«loop-indexÂ»++"
           & ")"
         & $ _block_head
-        "«loop-item» = «array-name» [«loop-index»];"
-        "«statement»···"
+        "Â«loop-itemÂ» = Â«array-nameÂ» [Â«loop-indexÂ»];"
+        "Â«statementÂ»Â·Â·Â·"
         $ _block_tail
      )
 ;;; for-array
@@ -319,9 +319,9 @@
     '(token         "forin")
     '(description   "For-in loop")
     '(replacement
-        "for («name» in «object»)"
+        "for (Â«nameÂ» in Â«objectÂ»)"
         & $ _block_head
-        "««for-in-guard»»"
+        "Â«Â«for-in-guardÂ»Â»"
         $ _block_tail
      )
 )
@@ -342,7 +342,7 @@
     '(replacement-vanguard  (lse-js:clean-closing ")"))
     '(replacement
         lse-js:indent-object-literal &
-        "( «call-argument»···"
+        "( Â«call-argumentÂ»Â·Â·Â·"
         lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
         ")"
         & lse-js:catch-semicolon
@@ -355,16 +355,16 @@
     '(token)
     '(description           "Define a function for constructing Objects")
     '(replacement
-        "var «function-name» = "
+        "var Â«function-nameÂ» = "
         lse-indent+1
           "( function (undefined)"
           & $ _block_head
-            "var proto = «object-literal»;"
-            "var fun_con = function (««parameter-declaration»»···)"
+            "var proto = Â«object-literalÂ»;"
+            "var fun_con = function (Â«Â«parameter-declarationÂ»Â»Â·Â·Â·)"
               & $ _block_head
-                "var that = «object-literal»;"
+                "var that = Â«object-literalÂ»;"
                 "that.prototype = proto;"
-                "««statement»»···"
+                "Â«Â«statementÂ»Â»Â·Â·Â·"
                 "return that;"
               $ _block_tail ""
             "return fun_con;"
@@ -383,7 +383,7 @@
     '(token                 "fun")
     '(description           "Define an anonymous function")
     '(replacement
-        "function ««function-name»» (««parameter-declaration»»···)"
+        "function Â«Â«function-nameÂ»Â» (Â«Â«parameter-declarationÂ»Â»Â·Â·Â·)"
         & lse-js:indent-function-literal &
         $ block
         & lse-js:catch-semicolon
@@ -398,7 +398,7 @@
     '(token                 "function")
     '(description           "Define a named function")
     '(replacement
-        "var «function-name» = " & $ function-literal & ";"
+        "var Â«function-nameÂ» = " & $ function-literal & ";"
      )
 ;;; function
 )
@@ -410,7 +410,7 @@
     '(description
         "Returns true if object itself contains a with name"
      )
-    '(replacement           lse-js:remove-period & ".hasOwnProperty («name»)")
+    '(replacement           lse-js:remove-period & ".hasOwnProperty (Â«nameÂ»)")
 ;;; has-own-property
 )
 
@@ -437,7 +437,7 @@
 (lse-define-fill-in "is-finite"
     '(token)
     '(description           "Tests whether a value is a finite number")
-    '(replacement           "isFinite («expression»)")
+    '(replacement           "isFinite (Â«expressionÂ»)")
 ;;; is-finite
 )
 
@@ -445,7 +445,7 @@
 (lse-define-fill-in "is-nan"
     '(token)
     '(description           "Tests whether a value is a number or not-a-number")
-    '(replacement           "isNaN («expression»)")
+    '(replacement           "isNaN (Â«expressionÂ»)")
 ;;; is-nan
 )
 
@@ -487,24 +487,24 @@
         ("LOG10E"                "The base-10 logarithm of e.")
         ("LOG102"                "The base-10 logarithm of 2.")
         ("PI"                    "The constant pi.")
-        ("abs («expression»)"    "Absolute value")
-        ("acos («expression»)"   "Arc cosine")
-        ("asin («expression»)"   "Arc sine")
-        ("atan («expression»)"   "Arc tangent")
-        ("ceil («expression»)"   "Closest integer that is greater equal the argument")
-        ("cos («expression»)"    "Cosine")
-        ("exp («expression»)"    "Power of e")
-        ("floor («expression»)"  "Closest integer that is less equal the argument")
-        ("log («expression»)"    "Natural logarithm")
-        ("max («argument»···)"   "Maximum value of arguments")
-        ("min («argument»···)"   "Minimum value of arguments")
+        ("abs (Â«expressionÂ»)"    "Absolute value")
+        ("acos (Â«expressionÂ»)"   "Arc cosine")
+        ("asin (Â«expressionÂ»)"   "Arc sine")
+        ("atan (Â«expressionÂ»)"   "Arc tangent")
+        ("ceil (Â«expressionÂ»)"   "Closest integer that is greater equal the argument")
+        ("cos (Â«expressionÂ»)"    "Cosine")
+        ("exp (Â«expressionÂ»)"    "Power of e")
+        ("floor (Â«expressionÂ»)"  "Closest integer that is less equal the argument")
+        ("log (Â«expressionÂ»)"    "Natural logarithm")
+        ("max (Â«argumentÂ»Â·Â·Â·)"   "Maximum value of arguments")
+        ("min (Â«argumentÂ»Â·Â·Â·)"   "Minimum value of arguments")
         ("random ()"             "Pseudo-random number between 0.0 and 1.0")
-        ("round («expression»)"  "Closest integer")
-        ("sin («expression»)"    "Sine")
-        ("srqt («expression»)"   "Square root")
-        ("tan («expression»)"    "Tangent")
-        ("atan2 («expression», «expression»)"  "Arc tangent of y/x")
-        ("pow («expression», «expression»)"    "x to the power of y")
+        ("round (Â«expressionÂ»)"  "Closest integer")
+        ("sin (Â«expressionÂ»)"    "Sine")
+        ("srqt (Â«expressionÂ»)"   "Square root")
+        ("tan (Â«expressionÂ»)"    "Tangent")
+        ("atan2 (Â«expressionÂ», Â«expressionÂ»)"  "Arc tangent of y/x")
+        ("pow (Â«expressionÂ», Â«expressionÂ»)"    "x to the power of y")
      )
 ;;; Math.
 )
@@ -512,14 +512,14 @@
 ;;; 25-Jan-2011
 (lse-define-fill-in "member-reference"
   '(replacement
-      "«lvalue».«identifier»"
+      "Â«lvalueÂ».Â«identifierÂ»"
   )
 )
 
 (lse-define-fill-in "new"
     '(token)
     '(description           "Create a new object")
-    '(replacement           "new «expression»")
+    '(replacement           "new Â«expressionÂ»")
 ;;; new
 )
 
@@ -537,7 +537,7 @@
     '(description           "Define a new object as a literal")
     '(replacement
         lse-js:indent-object-literal &
-        "{ ««object-property»»···"
+        "{ Â«Â«object-propertyÂ»Â»Â·Â·Â·"
         (lse-newline-and-indent-to "{" 0 (lse-indent:level:environment))
         "}"
      )
@@ -558,7 +558,7 @@
         (lse-newline-and-indent-to "{" 0 (lse-indent:level:environment)) ", "
      )
     '(leading               ",")
-    '(replacement           "«object-property-name» : «expression»")
+    '(replacement           "Â«object-property-nameÂ» : Â«expressionÂ»")
 ;;; object-property
 )
 
@@ -602,15 +602,15 @@
 (lse-define-fill-in "parse-float"
     '(token)
     '(description           "Convert a string to a float value")
-    '(replacement           "parseFloat («expression»)")
+    '(replacement           "parseFloat (Â«expressionÂ»)")
 ;;; parse-float
 )
 
 ;;; 23-Jan-2011
 (lse-define-fill-in "parse-int"
-    '(token                 ««token-name»»)
+    '(token                 Â«Â«token-nameÂ»Â»)
     '(description           "Convert a string to a integer value")
-    '(replacement           "parseInt («expression», ««base»»)")
+    '(replacement           "parseInt (Â«expressionÂ», Â«Â«baseÂ»Â»)")
 ;;; parse-int
 )
 
@@ -646,12 +646,12 @@
       "Use a function definition to hide objects and functions"
      )
     '(replacement
-        ";( function (««parameter-declaration»»···)" &
+        ";( function (Â«Â«parameter-declarationÂ»Â»Â·Â·Â·)" &
         $ _block_head
-        "««use-strict»»"
-        "««statement»»···"
+        "Â«Â«use-strictÂ»Â»"
+        "Â«Â«statementÂ»Â»Â·Â·Â·"
         $ _block_tail
-        "(««argument»»···)"
+        "(Â«Â«argumentÂ»Â»Â·Â·Â·)"
         ");" & lse-js:remove-period
      )
 ;;; scope
@@ -684,7 +684,7 @@
         try-finally
         var
         while
-        "«expression»;"
+        "Â«expressionÂ»;"
      )
 ;;; statement
 )
@@ -694,7 +694,7 @@
     '(token)
     '(token                 "raise")
     '(description           "Raise an exception")
-    '(replacement           "throw «expression»;" & lse-js:remove-semicolon)
+    '(replacement           "throw Â«expressionÂ»;" & lse-js:remove-semicolon)
 ;;; throw
 )
 
@@ -714,9 +714,9 @@
     '(replacement
         "try"
         & $ block
-        " catch («name»)"
+        " catch (Â«nameÂ»)"
         & $ block
-        " ««finally»»"
+        " Â«Â«finallyÂ»Â»"
      )
 ;;; try
 )
@@ -739,7 +739,7 @@
 ;;; 23-Jan-2011
 (lse-define-fill-in "Type-Error"
     '(token)
-    '(replacement           "new TypeError («argument»)")
+    '(replacement           "new TypeError (Â«argumentÂ»)")
 ;;; Type-Error
 )
 
@@ -748,20 +748,20 @@
     '(token)
     '(token                 "typeof")
     '(description           "Returns the name of the type of its arguments")
-    '(replacement           "typeof («expression»)")
+    '(replacement           "typeof (Â«expressionÂ»)")
 ;;; type-of
 )
 
 (lse-define-fill-in "unary-expression"
   '(menu
-      ("- «expression»"             "numeric negation of «expression»")
-      ("! «expression»"             "logical negation of «expression»")
-      ("~ «expression»"             "bitwise negation of «expression»")
-      ("++«lvalue»"                 "pre-increment  «lvalue»")
-      ("--«lvalue»"                 "pre-decrement  «lvalue»")
-      ("«lvalue»++"                 "post-increment «lvalue»")
-      ("«lvalue»--"                 "post-decrement «lvalue»")
-      ("typeof «expression»"        "type of «expression»")
+      ("- Â«expressionÂ»"             "numeric negation of Â«expressionÂ»")
+      ("! Â«expressionÂ»"             "logical negation of Â«expressionÂ»")
+      ("~ Â«expressionÂ»"             "bitwise negation of Â«expressionÂ»")
+      ("++Â«lvalueÂ»"                 "pre-increment  Â«lvalueÂ»")
+      ("--Â«lvalueÂ»"                 "pre-decrement  Â«lvalueÂ»")
+      ("Â«lvalueÂ»++"                 "post-increment Â«lvalueÂ»")
+      ("Â«lvalueÂ»--"                 "post-decrement Â«lvalueÂ»")
+      ("typeof Â«expressionÂ»"        "type of Â«expressionÂ»")
   )
 )
 
@@ -816,7 +816,7 @@
     '(leading               "")
     '(replacement
         (line
-            "var «name» = ««initializer»»;"
+            "var Â«nameÂ» = Â«Â«initializerÂ»Â»;"
             lse-js:remove-semicolon
         )
      )

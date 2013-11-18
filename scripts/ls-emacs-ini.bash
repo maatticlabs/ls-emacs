@@ -27,7 +27,7 @@
 #     4-Dec-2005 (CT) `EMACSPROGRAM`, `EMACSVERSION` and `LSE_SYSTEM_PREFIX`
 #                     removed
 #     4-Dec-2005 (CT) Alias `emacs` removed
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 ### Prepend the following code to your .emacs
 #(setq load-path

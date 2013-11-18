@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-indent:el lse_indt:el
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
@@ -46,7 +46,7 @@
 ;;;;    20-Jan-2011 (CT) `lse-indent-to-pattern` added
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added
 ;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-indent)
 

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
 ;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
@@ -73,7 +73,7 @@
 ;;;;                     `lse-cal:plan:sync-to-view` [due to a bug in Emacs?!])
 ;;;;     3-Apr-2008 (CT) Added `lse-scroll-to-bottom`
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-window)
 

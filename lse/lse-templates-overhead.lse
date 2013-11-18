@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 
 (lse-define-fill-in "gfolie"
@@ -14,10 +14,10 @@
 (lse-define-fill-in "Folie"
   '(token)
   '(replacement
-      "\\begin{folie}{«folien_title»}"
-      "    ««folien_label»»"
+      "\\begin{folie}{Â«folien_titleÂ»}"
+      "    Â«Â«folien_labelÂ»Â»"
       ""
-      "    ««folien_inhalt»»"
+      "    Â«Â«folien_inhaltÂ»Â»"
       ""
       "\\end{folie}"
       ""
@@ -27,14 +27,14 @@
 (lse-define-fill-in "folien_chapter"
   '(token           "\\folienchapter")
   '(replacement
-      "\\folienchapter{«text»}««folien_chapter_zeit»»"
+      "\\folienchapter{Â«textÂ»}Â«Â«folien_chapter_zeitÂ»Â»"
    )
 )
 
 (lse-define-fill-in "folien_chapter_zeit"
   '(description   "Uhrzeit, zu welcher das Kapitel beginnt" )
   '(replacement
-      "[«text»:«text»]"
+      "[Â«textÂ»:Â«textÂ»]"
    )
 )
 
@@ -44,15 +44,15 @@
 )
 
 (lse-define-fill-in "folien_label"
-    '(description           "Label für Cross-Referenzen und Trainermanual")
-    '(replacement           "\\label{«Folien-Label»}")
+    '(description           "Label fÃ¼r Cross-Referenzen und Trainermanual")
+    '(replacement           "\\label{Â«Folien-LabelÂ»}")
 ;;; folien_label
 )
 
 (lse-define-fill-in "folien_section"
   '(token           "\\foliensection")
   '(replacement
-      "\\foliensection{«text»}"
+      "\\foliensection{Â«textÂ»}"
    )
 )
 
@@ -66,7 +66,7 @@
     '(description           "Mark material to be ignored by trainer manual")
     '(replacement
         "\\begin{notrainermanual}"
-        "  «text»···"
+        "  Â«textÂ»Â·Â·Â·"
         "\\end{notrainermanual}"
      )
 ;;; notrainermanual
@@ -75,7 +75,7 @@
 (lse-define-fill-in "Overhead"
   '(replacement
       "\\ifx\\folienptsize\\undefined\\def\\folienptsize{12pt}\\fi"
-      "\\documentclass[\folienptsize,swing_bib,idioms,««options»»···]{overhead}"
+      "\\documentclass[\folienptsize,swing_bib,idioms,Â«Â«optionsÂ»Â»Â·Â·Â·]{overhead}"
       ""
       "\\usepackage{t1enc}"
       "\\usepackage[german]{babel}"
@@ -90,7 +90,7 @@
       "%\\def\\insertindex{\\addtocontents{toc}{\\protect\\contentsline{section}{\\protect\\numberline{~}Index}{I--i}}}"
       "%\\includeonly%"
       "  {%"
-      "  %«text»,%"
+      "  %Â«textÂ»,%"
       "  %bib,%"
       "  }"
       ""
@@ -114,10 +114,10 @@
     '(replacement
         "\\sidebyside"
         "  {"
-        "   «text»"
+        "   Â«textÂ»"
         "  }"
         "  {"
-        "   «text»"
+        "   Â«textÂ»"
         "  }"
      )
 ;;; \\sidebyside
@@ -130,7 +130,7 @@
     '(description           "Use full page for folie")
     '(replacement
         "\\begin{UseFullPage}"
-        "  ««text»»"
+        "  Â«Â«textÂ»Â»"
         "\\end{UseFullPage}"
      )
 ;;; UseFullPage

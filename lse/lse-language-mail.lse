@@ -1,6 +1,6 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -54,15 +54,15 @@
 ;;;;                     to fix Emacs 23.2 breakage
 ;;;;    28-May-2011 (CT) `visual-line-mode` added to language definition
 ;;;;     1-Jun-2011 (CT) `lse-mail:send:cleanup` factored,
-;;;;                     fix for stray `»` at eob added
+;;;;                     fix for stray `Â»` at eob added
 ;;;;     1-Jun-2011 (CT) `lse-mail:exit` factored
 ;;;;     9-Jun-2011 (CT) `visual-line-mode` removed again
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (lse-language:define "mail"
     '(
         (lse-language:tab-increment        4)
-        (lse-tpu:ident-chars               "A-Za-z0-9äöüßÄÖÜ")
+        (lse-tpu:ident-chars               "A-Za-z0-9Ã¤Ã¶Ã¼ÃŸÃ„Ã–Ãœ")
         ;;; breaks mail addresses ending in `>` when next fill-in is killed
         ;;; (lse_comment_delim_char_set    ">")
         (lse_comment_head_delim            ">")
@@ -101,7 +101,7 @@
     (if (lse-tpu:search+goto "^To: *$" nil t)
         (progn
           (lse-tpu:forward-char 3)
-          (lse-tpu:insert "          «text»")
+          (lse-tpu:insert "          Â«textÂ»")
         )
       (if (lse-tpu:search+goto "^To: *.*+$" nil t)
           (progn
@@ -114,7 +114,7 @@
     (if (lse-tpu:search+goto "^Subject: *$" nil t)
         (progn
           (lse-tpu:forward-char 8)
-          (lse-tpu:insert "     «text»")
+          (lse-tpu:insert "     Â«textÂ»")
         )
       (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
           (progn
@@ -132,15 +132,15 @@
     )
     (if (lse-tpu:search+goto "^--text follows this line--" nil t)
         (progn
-          (lse-tpu:insert "««mail-cc»»\n"
-            "««mail-bcc»»\n"
-            "««mail-from»»\n"
+          (lse-tpu:insert "Â«Â«mail-ccÂ»Â»\n"
+            "Â«Â«mail-bccÂ»Â»\n"
+            "Â«Â«mail-fromÂ»Â»\n"
           )
           (lse-mail:insert-if-missing "^Reply-To: "
             "Reply-to:    " (lse-user-e-mail-address)
           )
           (lse-tpu:forward-line 1)
-          (lse-tpu:insert "\n«text»")
+          (lse-tpu:insert "\nÂ«textÂ»")
         )
     )
     (lse-tpu:unselect)
@@ -158,15 +158,15 @@
   (if (lse-goto-next-fill-in t)
       (error
         (concat
-          "Fill in «"
+          "Fill in Â«"
             (lse-fill-in:name lse_current_fill-in)
-          "» before sending the mail"
+          "Â» before sending the mail"
         )
       )
     (lse-tpu:move-to-end)
     (skip-chars-backward " \t\n")
     (lse-tpu:backward-char 1)
-    (when (looking-at "»")
+    (when (looking-at "Â»")
       (lse-tpu:delete-next-char 1)
     )
   )
@@ -200,7 +200,7 @@
   (lse-tpu:replace-all "^DCC: " "BCC: ")
   (lse-mail:insert-if-missing "Mime-version" "Mime-version: 1.0")
   (lse-mail:insert-if-missing "Content-type"
-    "Content-type: text/plain; charset=iso-8859-15"
+    "Content-type: text/plain; charset=utf-8"
   )
   (lse-mail:insert-if-missing "Content-transfer-encoding"
     "Content-transfer-encoding: 8bit"
@@ -242,7 +242,7 @@
     (if (lse-tpu:search+goto  "^To: *$" nil t)
         (progn
           (lse-tpu:forward-char 3)
-          (lse-tpu:insert "          «text»")
+          (lse-tpu:insert "          Â«textÂ»")
         )
       (if (lse-tpu:search+goto "^To: *.+$" nil t)
           (progn
@@ -255,7 +255,7 @@
     (if (lse-tpu:search+goto "^Subject: *$" nil t)
         (progn
           (lse-tpu:forward-char 8)
-          (lse-tpu:insert "     «text»")
+          (lse-tpu:insert "     Â«textÂ»")
         )
       (if (lse-tpu:search+goto "^Subject: *.+$" nil t)
           (progn
@@ -280,9 +280,9 @@
           (lse-mail:insert-if-missing "^DCC: "
             "DCC:         " (lse-user-e-mail-address)
           )
-          (lse-tpu:insert "««mail-cc»»\n" "««mail-bcc»»\n")
+          (lse-tpu:insert "Â«Â«mail-ccÂ»Â»\n" "Â«Â«mail-bccÂ»Â»\n")
           (lse-tpu:forward-line 1)
-          (lse-tpu:insert "\n«text»\n")
+          (lse-tpu:insert "\nÂ«textÂ»\n")
         )
     )
     (lse-tpu:unselect)

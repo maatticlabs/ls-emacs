@@ -1,9 +1,9 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Ausfertigung"
   '(description   "Ausfertigung eines Briefes: Original oder Kopie ..." )
   '(replacement
-      "[«text»]"
+      "[Â«textÂ»]"
    )
 )
 
@@ -18,7 +18,7 @@
 (lse-define-fill-in "BEILAGEN"
   '(description   "Beilagen zu Brief" )
   '(replacement
-      "\\beilagen{«text»}"
+      "\\beilagen{Â«textÂ»}"
    )
 )
 
@@ -32,11 +32,11 @@
   '(description   "Thema des Briefes" )
   '(menu
         \\betrifft
-        "\\bestellung{«text»}"; 17-Oct-1995
+        "\\bestellung{Â«textÂ»}"; 17-Oct-1995
         "\\Bestellung"        ; 17-Oct-1995
-        "\\auftragsbestaetigung{«text»}"
+        "\\auftragsbestaetigung{Â«textÂ»}"
         "\\Auftragsbestaetigung"
-        "\\anmeldebestaetigung{«text»}"
+        "\\anmeldebestaetigung{Â«textÂ»}"
         "\\Anmeldebestaetigung"
    )
 )
@@ -45,7 +45,7 @@
   '(token)
   '(description   "Betrifft - Klausel fuer letter style" )
   '(replacement
-      "\\betrifft{«text»}"
+      "\\betrifft{Â«textÂ»}"
    )
 )
 
@@ -53,7 +53,7 @@
   '(token)
   '(replacement
       (line "\\briefdatum " @ "current-date-dd-mm-yyyy")
-      ;; "\\briefdatum «tag.monat.jahr»"
+      ;; "\\briefdatum Â«tag.monat.jahrÂ»"
    )
 )
 
@@ -71,8 +71,8 @@
       "\\documentstyle[12pt,german,swing,e-mail]{business}"
       ""
       lse-indent+1
-      "\\briefautor{«Initialen»}"
-      "««\\briefdatum»»"
+      "\\briefautor{Â«InitialenÂ»}"
+      "Â«Â«\\briefdatumÂ»Â»"
       "\\autosignature"
       lse-indent-1
       ""
@@ -82,22 +82,22 @@
       "\\defletter%"
       lse-indent+1
       "{"
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\TheAdressat[\\TheKey]"
       ""
-      "««betrifft»»"
+      "Â«Â«betrifftÂ»Â»"
       ""
       "\\Anrede"
       ""
-      "«text»···"
+      "Â«textÂ»Â·Â·Â·"
       ""
-      "«gruesse»"
+      "Â«gruesseÂ»"
       ""
       "}"
       lse-indent-1
       ""
-      "«\\printletter»"
+      "Â«\\printletterÂ»"
       ""
       lse-indent-1
       "\\end{document}"
@@ -186,16 +186,16 @@
   '(description   "Latex letter document style" )
   '(replacement
       ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       lse-indent+1
-      "\\briefautor{«Initialen»}"
-      "««\\briefdatum»»"
-      "««\\nofoldmark»»"
-      "««\\autosignature»»"
-      "««ShowFaxnumber»»"; 17-Oct-1995
+      "\\briefautor{Â«InitialenÂ»}"
+      "Â«Â«\\briefdatumÂ»Â»"
+      "Â«Â«\\nofoldmarkÂ»Â»"
+      "Â«Â«\\autosignatureÂ»Â»"
+      "Â«Â«ShowFaxnumberÂ»Â»"; 17-Oct-1995
       ""
-      "««Include-Projekt-Letter-Definition»»"
+      "Â«Â«Include-Projekt-Letter-DefinitionÂ»Â»"
       ""
       lse-indent-1
       "\\begin{document}"
@@ -204,30 +204,30 @@
       "\\defletter%"
       lse-indent+1
       "{"
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\TheAdressat[\\TheKey]"
       ""
-      "««betrifft»»"
+      "Â«Â«betrifftÂ»Â»"
       ""
       "\\Anrede"
       ""
-      "«text»···"
+      "Â«textÂ»Â·Â·Â·"
       ""
-      "«gruesse»"
+      "Â«gruesseÂ»"
       ""
-      "««ps»»"
+      "Â«Â«psÂ»Â»"
       ""
       "\\vfill"
       ""
-      "««cc»»"
+      "Â«Â«ccÂ»Â»"
       ""
-      "««beilagen»»"
+      "Â«Â«beilagenÂ»Â»"
       "}"
       lse-indent-1
       ""
-      "«\\printletter»"
-      "««\\printletter[Duplikat]»»"
+      "Â«\\printletterÂ»"
+      "Â«Â«\\printletter[Duplikat]Â»Â»"
       ""
       lse-indent-1
       "\\end{document}"
@@ -249,9 +249,9 @@
   '(description   "\\printletter command for different cases" )
   '(token)
   '(menu
-        "\\printletterperson{«Kartei_Person_Name»}[««Kartei-Key»»]"
-        "\\printletterfirma{«Kartei_Firma_Name»}[««Kartei-Key»»]"
-        "\\printletterspecial{«text»}{«text»}"
+        "\\printletterperson{Â«Kartei_Person_NameÂ»}[Â«Â«Kartei-KeyÂ»Â»]"
+        "\\printletterfirma{Â«Kartei_Firma_NameÂ»}[Â«Â«Kartei-KeyÂ»Â»]"
+        "\\printletterspecial{Â«textÂ»}{Â«textÂ»}"
     )
 )
 
@@ -265,18 +265,18 @@
 (lse-define-fill-in "\\Printletterausfertigung"
   '(token)
   '(replacement
-      "\\printletterausfertigung«Ausfertigung»"
+      "\\printletterausfertigungÂ«AusfertigungÂ»"
    )
 )
 
 (lse-define-fill-in "Serien-Brief"
   '(replacement
-      ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter,««options»»]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter,Â«Â«optionsÂ»Â»]{business}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       lse-indent+1
-      "\\briefautor{«text»}"
-      @ "\\briefdatum" ; "  \\briefdatum «tag.monat.jahr»"
+      "\\briefautor{Â«textÂ»}"
+      @ "\\briefdatum" ; "  \\briefdatum Â«tag.monat.jahrÂ»"
       ""
       "\\makeatletter"
       lse-indent+1
@@ -294,19 +294,19 @@
       "\\defletter%"
       lse-indent+1
       "{"
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\TheAdressat[\\TheKey]"
       ""
       "\\Anrede"
       ""
-      "«text»···"
+      "Â«textÂ»Â·Â·Â·"
       ""
       "\\Gruesse"
       ""
       "\\vfill"
       ""
-      "\\beilagen{«text»}"
+      "\\beilagen{Â«textÂ»}"
       "}"
       lse-indent-1
       ""
@@ -330,7 +330,7 @@
     '(token)
     '(token                 "\\ShowFaxnumberFirma")
     '(description           "Display fax number of recipient below address of letter")
-    '(replacement           "\\ShowFaxnumberFirma[«Kartei-Key»]")
+    '(replacement           "\\ShowFaxnumberFirma[Â«Kartei-KeyÂ»]")
 ;;; ShowFaxnummerFirma
 )
 
@@ -338,7 +338,7 @@
     '(token)
     '(token                 "\\ShowFaxnumberPerson")
     '(description           "Display fax number of recipient below address of letter")
-    '(replacement           "\\ShowFaxnumberPerson[«Kartei-Key»]")
+    '(replacement           "\\ShowFaxnumberPerson[Â«Kartei-KeyÂ»]")
 ;;; ShowFaxnummerPerson
 )
 
@@ -348,7 +348,7 @@
 
 (lse-define-fill-in "tag.monat.jahr"
   '(replacement
-      "«tag».«monat».«jahr»"
+      "Â«tagÂ».Â«monatÂ».Â«jahrÂ»"
    )
 )
 
@@ -358,6 +358,6 @@
       "[11]"
       "[12]"
       "[13]"
-      "[««text»»]"
+      "[Â«Â«textÂ»Â»]"
    )
 )

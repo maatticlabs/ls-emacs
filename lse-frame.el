@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
 ;;;; Copyright (C) 1996-2013 Mag. Christian Tanzer. All rights reserved
@@ -62,7 +62,7 @@
 ;;;;    20-Mar-2013 (CT) Remove `(lse-previous-window)` from
 ;;;;                     `lse-frame:restore-saved-config`
 ;;;;    20-Mar-2013 (CT) Save/restore `window-start` and `frame-selected-window`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (provide 'lse-frame)

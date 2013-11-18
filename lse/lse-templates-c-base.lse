@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -30,19 +30,19 @@
 ;;;;    18-Jan-2011 (CT) Creation (factored from lse-templates-c.lse)
 ;;;;    19-Jan-2011 (CT) `block` moved in here (referring to `_block_head`...)
 ;;;;    25-Jan-2011 (CT) `if-condition` and `else-block` factored
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (lse-define-fill-in "actual-argument"
   '(separator       ", ")
   '(leading         ",")
-  '(replacement     "«expression»")
+  '(replacement     "Â«expressionÂ»")
 )
 
 (lse-define-fill-in "abs"
   '(token)
   '(description     "the absolute value of its integer argument")
-  '(replacement     "abs («int-expression»)")
+  '(replacement     "abs (Â«int-expressionÂ»)")
 )
 
 (lse-define-fill-in "arithmetic-operator"
@@ -59,27 +59,27 @@
   '(token)
   '(description     "Reference to a single element of an array")
   '(replacement
-      "«primary» " & @ array-subscript &  " ««array-subscript»»···"
+      "Â«primaryÂ» " & @ array-subscript &  " Â«Â«array-subscriptÂ»Â»Â·Â·Â·"
   )
 )
 
 (lse-define-fill-in "array-subscript"
   '(separator       " ")
-  '(replacement     "[«expression»]")
+  '(replacement     "[Â«expressionÂ»]")
 )
 
 (lse-define-fill-in "Assign-Operator"
   '(menu
       "="
-      "«arithmetic-operator»="
-      "«shift-operator»="
-      "«bitwise-operator»="
+      "Â«arithmetic-operatorÂ»="
+      "Â«shift-operatorÂ»="
+      "Â«bitwise-operatorÂ»="
    )
 )
 
 (lse-define-fill-in "binary-expression"
   '(description     "Two expressions connected by a binary operator")
-  '(replacement     "«expression» " & @ binary-operator & " «expression»")
+  '(replacement     "Â«expressionÂ» " & @ binary-operator & " Â«expressionÂ»")
 )
 
 (lse-define-fill-in "binary-operator"
@@ -107,7 +107,7 @@
     '(description           "Block of statements")
     '(replacement
         $ _block_head
-        "««statement»»···"
+        "Â«Â«statementÂ»Â»Â·Â·Â·"
         $ _block_tail
      )
 ;;; block
@@ -119,7 +119,7 @@
   '(description   "Block of comment statements")
   '(replacement
       "/*"
-      "** «text»···"
+      "** Â«textÂ»Â·Â·Â·"
       "*/"
   )
 )
@@ -134,9 +134,9 @@
     '(token                 "case")
     '(description           "One clause of a switch statement")
     '(replacement
-        "case «constant-expression» :"
+        "case Â«constant-expressionÂ» :"
         lse-indent+1
-        "«statement»···"
+        "Â«statementÂ»Â·Â·Â·"
         "break;"
         lse-indent:<
      )
@@ -162,7 +162,7 @@
       quoted-text
       array-reference
       function-call
-      "(«expression»)"
+      "(Â«expressionÂ»)"
   )
 )
 
@@ -173,7 +173,7 @@
   '(token                 "/*")
   '(description   "Inline comment")
   '(replacement
-      "/* «text» */"
+      "/* Â«textÂ» */"
   )
 )
 
@@ -195,7 +195,7 @@
 
 (lse-define-fill-in "declarator-and-initializer"
   '(separator       ", ")
-  '(replacement     "«declarator» = ««initializer»»")
+  '(replacement     "Â«declaratorÂ» = Â«Â«initializerÂ»Â»")
 )
 
 (lse-define-fill-in "default"
@@ -204,7 +204,7 @@
     '(replacement
         "default :"
         lse-indent+1
-        "«statement»···"
+        "Â«statementÂ»Â·Â·Â·"
         lse-indent-1
      )
 ;;; default
@@ -214,7 +214,7 @@
   '(token)
   '(token           "repeat")
   '(description     "Executes a statement as long as a particular condition is satisfied")
-  '(replacement     "do" & $ block "while («expression»)" $ _block_sep)
+  '(replacement     "do" & $ block "while (Â«expressionÂ»)" $ _block_sep)
 )
 
 (lse-define-fill-in "else"
@@ -229,7 +229,7 @@
   '(description     "elseif clause of if-statement")
   '(leading         ""); 26-Feb-1995
   '(replacement
-      "else if («expression»)" lse-indent:set:curr $ block "««else-block»»"
+      "else if (Â«expressionÂ»)" lse-indent:set:curr $ block "Â«Â«else-blockÂ»Â»"
    )
 )
 
@@ -239,38 +239,38 @@
   '(token)             ; 27-Sep-1995
   '(leading         ""); 26-Feb-1995
   '(replacement
-      "else ««if-condition»»" lse-indent:set:curr $ block
+      "else Â«Â«if-conditionÂ»Â»" lse-indent:set:curr $ block
    )
 ;;; else-block
 )
 
 (lse-define-fill-in "exponent"
-  '(replacement     "E««+-»»«digit»···")
+  '(replacement     "EÂ«Â«+-Â»Â»Â«digitÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "expression"
   '(description     "Primary, unary, binary, conditional, assignment, expression list")
   '(menu
       primary
-      "(«expression»)"
-      "«lvalue» «assign-operator» «expression»"
+      "(Â«expressionÂ»)"
+      "Â«lvalueÂ» Â«assign-operatorÂ» Â«expressionÂ»"
       binary-expression
       unary-expression
-      "«expression» ? «expression» : «expression»"
-      "«expression», «expression»"
+      "Â«expressionÂ» ? Â«expressionÂ» : Â«expressionÂ»"
+      "Â«expressionÂ», Â«expressionÂ»"
   )
 )
 
 (lse-define-fill-in "floating-constant"
   '(description     "A constant that has a data type of double")
-  '(replacement     "««-»»«mantissa»««exponent»»")
+  '(replacement     "Â«Â«-Â»Â»Â«mantissaÂ»Â«Â«exponentÂ»Â»")
 )
 
 (lse-define-fill-in "for"
   '(token)
   '(description   "For-Loop")
   '(replacement
-    "for (««expression»»; ««expression»»; ««expression»»)"
+    "for (Â«Â«expressionÂ»Â»; Â«Â«expressionÂ»Â»; Â«Â«expressionÂ»Â»)"
     & $ block
   )
 )
@@ -279,7 +279,7 @@
   '(token)
   '(description   "function (argument_1, argument_2, ...)")
   '(replacement
-    "«primary» (««actual-argument»»···)"
+    "Â«primaryÂ» (Â«Â«actual-argumentÂ»Â»Â·Â·Â·)"
   )
 )
 
@@ -294,7 +294,7 @@
   '(replacement
       $ if-condition
       & $ block
-      "««else-block»»···"
+      "Â«Â«else-blockÂ»Â»Â·Â·Â·"
   )
 )
 
@@ -303,7 +303,7 @@
     '(description           "Condition-clause of if-statement")
     '(auto-expand)
     '(kill-action           (lse-kill-future-fill-in "else-block" 1))
-    '(replacement           "if («expression»)")
+    '(replacement           "if (Â«expressionÂ»)")
 ;;; if-condition
 )
 
@@ -318,7 +318,7 @@
   '(menu
       constant-expression
       quoted-text
-      "{ «initialization-item»··· }"
+      "{ Â«initialization-itemÂ»Â·Â·Â· }"
    )
 )
 
@@ -329,12 +329,12 @@
 (lse-define-fill-in "integer-constant"
     '(description   "A literal integer value")
     '(menu
-        ("««-»»«digit»···"           "Integer in decimal     (base ten)     representation")
-        ("««-»»0X«hex-digit»···"     "Integer in hexadecimal (base sixteen) representation")
-        ("««-»»0«octal-digit»···"    "Integer in octal       (base eight)   representation")
-        ("««-»»«digit»···L"          "Long integer in decimal     (base ten)     representation")
-        ("««-»»0X«hex-digit»···L"    "Long integer in hexadecimal (base sixteen) representation")
-        ("««-»»0«octal-digit»···L"   "Long integer in octal       (base eight)   representation")
+        ("Â«Â«-Â»Â»Â«digitÂ»Â·Â·Â·"           "Integer in decimal     (base ten)     representation")
+        ("Â«Â«-Â»Â»0XÂ«hex-digitÂ»Â·Â·Â·"     "Integer in hexadecimal (base sixteen) representation")
+        ("Â«Â«-Â»Â»0Â«octal-digitÂ»Â·Â·Â·"    "Integer in octal       (base eight)   representation")
+        ("Â«Â«-Â»Â»Â«digitÂ»Â·Â·Â·L"          "Long integer in decimal     (base ten)     representation")
+        ("Â«Â«-Â»Â»0XÂ«hex-digitÂ»Â·Â·Â·L"    "Long integer in hexadecimal (base sixteen) representation")
+        ("Â«Â«-Â»Â»0Â«octal-digitÂ»Â·Â·Â·L"   "Long integer in octal       (base eight)   representation")
      )
 ;;; integer-constant
 )
@@ -373,7 +373,7 @@
 
 (lse-define-fill-in "mantissa"
   '(description     "digits., .digits, digits.digits, digits")
-  '(replacement     "««digit»»···««.»»««digit»»···")
+  '(replacement     "Â«Â«digitÂ»Â»Â·Â·Â·Â«Â«.Â»Â»Â«Â«digitÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "primary"
@@ -406,7 +406,7 @@
     ;;  1-Jan-1999 ;; '(kill-action           lse-kill:join-sexp-boundary-maybe); 31-Dec-1997
     ;;  1-Jan-1999 ;; '(rcompletion-action    lse-flat:join-sexp-boundary-maybe); 31-Dec-1997
     '(description           "Return from function to its caller")
-    '(replacement           "return ««result»»;");  5-Apr-1995 («result»)
+    '(replacement           "return Â«Â«resultÂ»Â»;");  5-Apr-1995 (Â«resultÂ»)
 ;;; return
 )
 
@@ -423,10 +423,10 @@
     '(token)
     '(description           "Case statement: execute one of several alternatives depending on the value of an expression")
     '(replacement
-        "switch («int-expression»)"
+        "switch (Â«int-expressionÂ»)"
         & $ _block_head
-        "«case»···"
-        "««default»»"
+        "Â«caseÂ»Â·Â·Â·"
+        "Â«Â«defaultÂ»Â»"
         $ _block_tail
      )
 ;;; switch
@@ -442,7 +442,7 @@
 (lse-define-fill-in "while"
     '(token)
     '(description   "Looping construct")
-    '(replacement   "while («expression»)" & $ block)
+    '(replacement   "while (Â«expressionÂ»)" & $ block)
 ;;; while
 )
 

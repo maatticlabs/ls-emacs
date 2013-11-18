@@ -1,10 +1,10 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "AKTENNOTIZ"
   '(description   "Latex letter document style for Aktennotizen" )
   '(replacement
       ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       "\\begin{document}"
       ""
@@ -15,13 +15,13 @@
       ""
       "\\begin{center}"
       lse-indent+1
-      "\\larger \\bf Aktennotiz «text» \\\\[3\\bigskipamount]"
-      "\\larger \\bf «text»      \\\\[3\\bigskipamount]"
+      "\\larger \\bf Aktennotiz Â«textÂ» \\\\[3\\bigskipamount]"
+      "\\larger \\bf Â«textÂ»      \\\\[3\\bigskipamount]"
       lse-indent-1
       "\\end{center}"
       ""
       "\\raggedright"
-      "«text»"
+      "Â«textÂ»"
       lse-indent-1
       ""
       "\\end{document}"
@@ -30,12 +30,12 @@
 
 (lse-define-fill-in "Etiketten"
   '(replacement
-      ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,«Etiketten-Layout»]{label}"
-      "\\documentclass[german,««options»»···,«Etiketten-Layout»]{label}"
+      ; 4-Feb-2008 ; "\\documentstyle[12pt,german,swing,Â«Etiketten-LayoutÂ»]{label}"
+      "\\documentclass[german,Â«Â«optionsÂ»Â»Â·Â·Â·,Â«Etiketten-LayoutÂ»]{label}"
       ""
       "\\begin{document}"
       lse-indent+1
-      "««put_label»»···"
+      "Â«Â«put_labelÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{document}"
    )

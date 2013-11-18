@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-face:el lse_face:el
 ;;;; Copyright (C) 1995-2013 Mag. Christian Tanzer. All rights reserved.
@@ -41,7 +41,7 @@
 ;;;;    27-Sep-1996 (CT) Check for color display
 ;;;;     2-Oct-1996 (CT) lse-face:search-match changed from `light blue' to
 ;;;;                     `cyan'
-;;;;    13-Oct-1996 (CT) lse-face:current-fill-in-«type» added
+;;;;    13-Oct-1996 (CT) lse-face:current-fill-in-Â«typeÂ» added
 ;;;;    16-Oct-1996 (CT) lse-face:completion-m added
 ;;;;    28-Dec-1997 (CT) Background color for modeline changed (from default
 ;;;;                     `black' to `Grey')
@@ -59,7 +59,7 @@
 ;;;;    16-May-2013 (CT) Use 'mode-line, not 'modeline
 ;;;;                     (the latter gives error in emacs-24.3-r1)
 ;;;;    16-May-2013 (CT) Set background of 'region to "lightgoldenrod2"
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-face)
 

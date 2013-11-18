@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer-list:el lse_blst:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -52,7 +52,7 @@
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    27-Feb-2012 (CT) Add `eval-when-compile` for `fset` (compile warning)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-buffer-list)
 

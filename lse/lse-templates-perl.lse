@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "define-perl-path"
     '(description           "Define path used for required library-files. Do not include in library-files themselves")
@@ -18,9 +18,9 @@
     '(description           "Root fill-in for perl language")
     '(replacement
         "#! /swing/bin/perl" ;;; 11-Feb-1997 /swing/bin/perl for /usr/bin/perl
-        "#««header-comment»»"
-        "««define-perl-path»»"
-        "««perl-statement»»···"
+        "#Â«Â«header-commentÂ»Â»"
+        "Â«Â«define-perl-pathÂ»Â»"
+        "Â«Â«perl-statementÂ»Â»Â·Â·Â·"
         ""
         "1; # just to make require happy"
      )
@@ -30,13 +30,13 @@
 (lse-define-fill-in "perl-accept"
     '(description           "Corresponds to unix's accept(2)")
     '(token                 "accept")
-    '(replacement           "accept(«name», «name»)")
+    '(replacement           "accept(Â«nameÂ», Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-alarm"
-    '(description           "Causes the script to be signalled with a SIGALARM after «perl-expression» seconds")
+    '(description           "Causes the script to be signalled with a SIGALARM after Â«perl-expressionÂ» seconds")
     '(token                 "alarm")
-    '(replacement           "alarm(«perl-expression»)")
+    '(replacement           "alarm(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-arithmetic-functions"
@@ -97,7 +97,7 @@
 
 (lse-define-fill-in "perl-assignment"
     '(description   "Assign the value of an expression to a variable")
-    '(replacement   "«perl-lvalue» «perl-assignment-operator»")
+    '(replacement   "Â«perl-lvalueÂ» Â«perl-assignment-operatorÂ»")
 )
 
 (lse-define-fill-in "perl-assignment-operator"
@@ -123,7 +123,7 @@
 (lse-define-fill-in "perl-atan2"
     '(description           "Returns the arctangent of X/Y in the range -pi to pi")
     '(token                 "atan2")
-    '(replacement           "atan2(«number», «number»)")
+    '(replacement           "atan2(Â«numberÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-binary-operator"
@@ -147,13 +147,13 @@
 (lse-define-fill-in "perl-bind"
     '(description           "Corresponds to unix's bind(2)")
     '(token                 "bind")
-    '(replacement           "bind(«name», $«name»)")
+    '(replacement           "bind(Â«nameÂ», $Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-binmode"
     '(description           "Arrange for a file to be read in binary mode")
     '(token                 "binmode")
-    '(replacement           "binmode(«name»)")
+    '(replacement           "binmode(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-bit-operator"
@@ -174,7 +174,7 @@
     '(replacement
         "{"
         lse-environment-indent lse-indent+1
-        "«perl-statement»···"
+        "Â«perl-statementÂ»Â·Â·Â·"
         lse-indent-1
         "}"
      )
@@ -186,56 +186,56 @@
     '(token                 "caller")
     '(menu
         ("caller"           "Returns information about currently executing subroutine")
-        ("caller «number»"  "Number of stack frames to go back beyond the current one")
+        ("caller Â«numberÂ»"  "Number of stack frames to go back beyond the current one")
      )
 ;;; perl-caller
 )
 
 (lse-define-fill-in "perl-chdir"
-    '(description           "Changes the working directory to «perl-expression», if possible. If omitted, changes to home directory")
+    '(description           "Changes the working directory to Â«perl-expressionÂ», if possible. If omitted, changes to home directory")
     '(token                 "chdir")
-    '(replacement           "chdir(««perl-expression»»)")
+    '(replacement           "chdir(Â«Â«perl-expressionÂ»Â»)")
 )
 
 (lse-define-fill-in "perl-chmod"
-    '(description           "Change the protection of a «list» of files: first element of list must be the numerical code")
+    '(description           "Change the protection of a Â«listÂ» of files: first element of list must be the numerical code")
     '(token                 "chmod")
-    '(replacement           "chmod(«perl-list»)")
+    '(replacement           "chmod(Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-chop"
     '(description           "Chops of the last character of a string: returns the character chopped")
     '(token                 "chop")
     '(menu
-        ("chop(«perl-variable»)"     "Chop variable")
-        ("chop(@«name»)"             "Chop each string in list «name»")
+        ("chop(Â«perl-variableÂ»)"     "Chop variable")
+        ("chop(@Â«nameÂ»)"             "Chop each string in list Â«nameÂ»")
         ("chop"                      "Chop $_")
      )
 ;;; perl-chop
 )
 
 (lse-define-fill-in "perl-chown"
-    '(description           "Change owner and group of a «list» of files: first two elements of the list must be the numerical uid and guid")
+    '(description           "Change owner and group of a Â«listÂ» of files: first two elements of the list must be the numerical uid and guid")
     '(token                 "chown")
-    '(replacement           "chown(«perl-list»)")
+    '(replacement           "chown(Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-chroot"
     '(description           "Corresponds to unix's chroot(2)")
     '(token                 "chroot")
-    '(replacement           "chroot(«file-name»)")
+    '(replacement           "chroot(Â«file-nameÂ»)")
 )
 
 (lse-define-fill-in "perl-close"
-    '(description           "Close file, socket, or pipe associated with filehandle «name»")
+    '(description           "Close file, socket, or pipe associated with filehandle Â«nameÂ»")
     '(token                 "close")
-    '(replacement           "close(«name»)")
+    '(replacement           "close(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-closedir"
     '(description           "Close a directory opened by OPENDIR")
     '(token                 "closedir")
-    '(replacement           "closedir(«name»)")
+    '(replacement           "closedir(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-command"
@@ -282,7 +282,7 @@
 (lse-define-fill-in "perl-connect"
     '(description           "Corresponds to unix's connect(2)")
     '(token                 "connect")
-    '(replacement           "connect(«name», $«name»)")
+    '(replacement           "connect(Â«nameÂ», $Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-continue"
@@ -307,27 +307,27 @@
 )
 
 (lse-define-fill-in "perl-cos"
-    '(description           "Returns the cosine of «perl-expression» (expressed in radians)")
+    '(description           "Returns the cosine of Â«perl-expressionÂ» (expressed in radians)")
     '(token                 "cos")
-    '(replacement           "cos(«perl-expression»)")
+    '(replacement           "cos(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-crypt"
     '(description           "Encrypt a string exactly like C-library crypt(3)")
     '(token                 "crypt")
-    '(replacement           "crypt(«text», «text»)")
+    '(replacement           "crypt(Â«textÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-dbmclose"
     '(description           "Breaks binding between a DBM file and an associative array")
     '(token                 "dbmclose")
-    '(replacement           "dbmclose(%«name»)")
+    '(replacement           "dbmclose(%Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-dbmopen"
     '(description           "Bind a DBM file to an associative array")
     '(token                 "dbmopen")
-    '(replacement           "dbmopen(%«name», «file-name», «dbmopen-mode»)")
+    '(replacement           "dbmopen(%Â«nameÂ», Â«file-nameÂ», Â«dbmopen-modeÂ»)")
 )
 
 (lse-define-fill-in "dbmopen-mode"
@@ -335,15 +335,15 @@
 )
 
 (lse-define-fill-in "perl-defined"
-    '(description           "Returns a boolean value saying if the lvalue «perl-expression» has a defined value")
+    '(description           "Returns a boolean value saying if the lvalue Â«perl-expressionÂ» has a defined value")
     '(token                 "defined")
-    '(replacement           "defined(«perl-expression»)")
+    '(replacement           "defined(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-delete"
     '(description   "Delete the specified value from an associative array")
     '(token         "delete")
-    '(replacement   "delete $«name»{«perl-variable»}")
+    '(replacement   "delete $Â«nameÂ»{Â«perl-variableÂ»}")
 )
 
 (lse-define-fill-in "perl-die"
@@ -371,8 +371,8 @@
     '(description           "Perl inverted loop statements")
     '(token                 "do-compound")
     '(menu
-        "do " & @ perl-block & " while «perl-expression»"
-        "do " & @ perl-block & " until «perl-expression»"
+        "do " & @ perl-block & " while Â«perl-expressionÂ»"
+        "do " & @ perl-block & " until Â«perl-expressionÂ»"
      )
 ;;; perl-do-compound
 )
@@ -380,13 +380,13 @@
 (lse-define-fill-in "perl-do-statement"
     '(description           "Execute a subroutine")
     '(token                 "do-statement")
-    '(replacement           "do «name» (««perl-list»»)")
+    '(replacement           "do Â«nameÂ» (Â«Â«perl-listÂ»Â»)")
 )
 
 (lse-define-fill-in "perl-each"
     '(description   "Returns a two-element array consisting of key/value for the next value of an associative array")
     '(token         "each")
-    '(replacement   "each(%«name»)")
+    '(replacement   "each(%Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-elsif"
@@ -394,7 +394,7 @@
     '(token                 "elsif")
     '(trailer               ";")
     '(replacement
-        "elsif («perl-expression») " & @ perl-block
+        "elsif (Â«perl-expressionÂ») " & @ perl-block
      )
 ;;; perl-elsif
 )
@@ -445,13 +445,13 @@
 (lse-define-fill-in "perl-eof"
     '(description           "Returns 1 if next read will return end-of-file or if file is not open")
     '(token                 "eof")     
-    '(replacement           "eof(««name»»)")
+    '(replacement           "eof(Â«Â«nameÂ»Â»)")
 )
 
 (lse-define-fill-in "perl-eval"
-    '(description           "Execute «perl-expression» as if it were a little perl program in the current context")
+    '(description           "Execute Â«perl-expressionÂ» as if it were a little perl program in the current context")
     '(token                 "eval")
-    '(replacement           "eval(«perl-expression»)")
+    '(replacement           "eval(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-exec"
@@ -461,29 +461,29 @@
 )
 
 (lse-define-fill-in "perl-exit"
-    '(description           "Evaluates «perl-expression» and exits immediately with that value")
+    '(description           "Evaluates Â«perl-expressionÂ» and exits immediately with that value")
     '(token                 "exit")
-    '(replacement           "exit(«perl-expression»)")
+    '(replacement           "exit(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-exp"
-    '(description           "Returns e to the power of «perl-expression»")
+    '(description           "Returns e to the power of Â«perl-expressionÂ»")
     '(token                 "exp")
-    '(replacement           "exp(«perl-expression»)")
+    '(replacement           "exp(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-expression"
     '(menu
-        "«perl-command» ««perl-operator+expression»»···"
-        "«perl-unary-operator+expression» ««perl-expression»»"
-        "«perl-expression» ? «perl-expression» : «perl-expression»"
+        "Â«perl-commandÂ» Â«Â«perl-operator+expressionÂ»Â»Â·Â·Â·"
+        "Â«perl-unary-operator+expressionÂ» Â«Â«perl-expressionÂ»Â»"
+        "Â«perl-expressionÂ» ? Â«perl-expressionÂ» : Â«perl-expressionÂ»"
      )
 )
 
 (lse-define-fill-in "perl-fcntl"
     '(description           "Call unix's fcntl(2) function")
     '(token                 "fcntl")
-    '(replacement           "fcntl(«name», «name», «number»)")
+    '(replacement           "fcntl(Â«nameÂ», Â«nameÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-file-operations"
@@ -545,15 +545,15 @@
 )
 
 (lse-define-fill-in "perl-fileno"
-    '(description           "Returns file descriptor for filehandle «name»")
+    '(description           "Returns file descriptor for filehandle Â«nameÂ»")
     '(token                 "fileno")
-    '(replacement           "fileno(«name»)")
+    '(replacement           "fileno(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-flock"
-    '(description           "Calls unix's flock(2) on filehandle «name»")
+    '(description           "Calls unix's flock(2) on filehandle Â«nameÂ»")
     '(token                 "flock")
-    '(replacement           "flock(«name», «number»)")
+    '(replacement           "flock(Â«nameÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-flow-control-statements"
@@ -574,9 +574,9 @@
     '(description           "for-statement")
     '(trailer               ";")
     '(replacement
-        "for (««perl-expression»»; ««perl-expression»»; ««perl-expression»») "
+        "for (Â«Â«perl-expressionÂ»Â»; Â«Â«perl-expressionÂ»Â»; Â«Â«perl-expressionÂ»Â») "
              & @ perl-block
-        "««perl-continue»»"
+        "Â«Â«perl-continueÂ»Â»"
      )
 ;;; perl-for
 )
@@ -585,8 +585,8 @@
     '(description           "Perl loop statement: iterator over array")
     '(token                 "foreach")
     '(replacement
-        "foreach $«name» («perl-list») " & @ perl-block
-        "««perl-continue»»"
+        "foreach $Â«nameÂ» (Â«perl-listÂ») " & @ perl-block
+        "Â«Â«perl-continueÂ»Â»"
      )
 ;;; perl-foreach
 )
@@ -601,8 +601,8 @@
     '(description   "Define output record format of a file for use by the write operator")
     '(token         "format")
     '(replacement
-        "format ««name»» = "
-        "«text»···"
+        "format Â«Â«nameÂ»Â» = "
+        "Â«textÂ»Â·Â·Â·"
         lse-no-indent
         "."
      )
@@ -610,27 +610,27 @@
 )
 
 (lse-define-fill-in "perl-getc"
-    '(description           "Returns next character from input file attached to «name»")
+    '(description           "Returns next character from input file attached to Â«nameÂ»")
     '(token                 "getc")
-    '(replacement           "getc(«name»)")
+    '(replacement           "getc(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getgrnam"
     '(description           "Looks up a group-file entry by group name")
     '(token                 "getgrnam")
-    '(replacement           "««gr-return-array = »»getgrnam(«name»)")
+    '(replacement           "Â«Â«gr-return-array = Â»Â»getgrnam(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getgrgid"
     '(description           "Looks up a group-file entry by group number")
     '(token                 "getgrgid")
-    '(replacement           "««gr-return-array = »»getgrgid(«number»)")
+    '(replacement           "Â«Â«gr-return-array = Â»Â»getgrgid(Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-getgrent"
     '(description           "Returns next entry of /etc/group file")
     '(token                 "getgrent")
-    '(replacement           "««gr-return-array = »»getgrent")
+    '(replacement           "Â«Â«gr-return-array = Â»Â»getgrent")
 )
 
 (lse-define-fill-in "gr-return-array = "
@@ -642,19 +642,19 @@
 (lse-define-fill-in "perl-gethostbyname"
     '(token                 "Translates a network hostname to its correponding addresses")
     '(token                 "gethostbyname")
-    '(replacement           "««host-return-array = »»gethostbyname(«name»)")
+    '(replacement           "Â«Â«host-return-array = Â»Â»gethostbyname(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-gethostbyaddr"
     '(description           "Translates a network address to its correponding name (and alternate addresses)")
     '(token                 "gethostbyaddr")
-    '(replacement           "««host-return-array = »»gethostbyaddr(«text», «text»)")
+    '(replacement           "Â«Â«host-return-array = Â»Â»gethostbyaddr(Â«textÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-gethostent"
     '(description           "Returns next entry of /etc/hosts")
     '(token                 "gethostent")
-    '(replacement           "««host-return-array = »»gethostent")
+    '(replacement           "Â«Â«host-return-array = Â»Â»gethostent")
 )
 
 (lse-define-fill-in "host-return-array = "
@@ -666,19 +666,19 @@
 (lse-define-fill-in "perl-getnetbyname"
     '(token                 "Translates a network name to its correponding address")
     '(token                 "getnetbyname")
-    '(replacement           "««net-return-array = »»getnetbyname(«name»)")
+    '(replacement           "Â«Â«net-return-array = Â»Â»getnetbyname(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getnetbyaddr"
     '(description           "Translates a network address to its correponding name or names")
     '(token                 "getnetbyaddr")
-    '(replacement           "««net-return-array = »»getnetbyaddr(«text», «text»)")
+    '(replacement           "Â«Â«net-return-array = Â»Â»getnetbyaddr(Â«textÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-getnetent"
     '(description           "Returns next entry of /etc/networks")
     '(token                 "getnetent")
-    '(replacement           "««net-return-array = »»getnetent")
+    '(replacement           "Â«Â«net-return-array = Â»Â»getnetent")
 )
 
 (lse-define-fill-in "net-return-array = "
@@ -696,13 +696,13 @@
 (lse-define-fill-in "perl-getpeername"
     '(description           "Returns the packed sockaddr address of other end of socket connection")
     '(token                 "getpeername")
-    '(replacement           "getpeername(«name»)")
+    '(replacement           "getpeername(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getpgrp"
-    '(description           "Returns the current process group for PID «number» (use 0 for current process)")
+    '(description           "Returns the current process group for PID Â«numberÂ» (use 0 for current process)")
     '(token                 "getpgrp")
-    '(replacement           "getpgrp(«number»)")
+    '(replacement           "getpgrp(Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-getppid"
@@ -714,25 +714,25 @@
 (lse-define-fill-in "perl-getpriority"
     '(description           "Returns the current priority for a process, a process group or a user (see getpriority(2))")
     '(token                 "getpriority")
-    '(replacement           "getpriority(«number», «number»)")
+    '(replacement           "getpriority(Â«numberÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-getprotobyname"
     '(token                 "Translates a protocol name to its correponding number")
     '(token                 "getprotobyname")
-    '(replacement           "««proto-return-array = »»getprotobyname(«name»)")
+    '(replacement           "Â«Â«proto-return-array = Â»Â»getprotobyname(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getprotobynumber"
     '(description           "Translates a protocol number to its correponding name")
     '(token                 "getprotobynumber")
-    '(replacement           "««proto-return-array = »»getprotobynumber(«number»)")
+    '(replacement           "Â«Â«proto-return-array = Â»Â»getprotobynumber(Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-getprotoent"
     '(description           "Returns next entry of /etc/protocols")
     '(token                 "getprotoent")
-    '(replacement           "««proto-return-array = »»getprotoent")
+    '(replacement           "Â«Â«proto-return-array = Â»Â»getprotoent")
 )
 
 (lse-define-fill-in "proto-return-array = "
@@ -744,19 +744,19 @@
 (lse-define-fill-in "perl-getpwnam"
     '(description           "Translates a username to the corresponding passwd-file entry")
     '(token                 "getpwnam")
-    '(replacement           "««pw-result-array = »»getpwnam(«name»)")
+    '(replacement           "Â«Â«pw-result-array = Â»Â»getpwnam(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getpwuid"
     '(description           "Translates a numeric UID to the corresponding passwd-file entry")
     '(token                 "getpwuid")
-    '(replacement           "««pw-result-array = »»getpwuid(«number»)")
+    '(replacement           "Â«Â«pw-result-array = Â»Â»getpwuid(Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-getpwent"
     '(description           "Get next entry from passwd-file (must be preceded by setpwent)")
     '(token                 "getpwent")
-    '(replacement           "««pw-result-array = »»getpwend")
+    '(replacement           "Â«Â«pw-result-array = Â»Â»getpwend")
 )
 
 (lse-define-fill-in "pw-result-array = "
@@ -770,19 +770,19 @@
 (lse-define-fill-in "perl-getservbyname"
     '(token                 "Translates a service (port) name to its correponding port number")
     '(token                 "getservbyname")
-    '(replacement           "««serv-return-array = »»getservbyname(«name», «text»)")
+    '(replacement           "Â«Â«serv-return-array = Â»Â»getservbyname(Â«nameÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-getservbyport"
     '(description           "Translates a service (port) number to its correponding port name")
     '(token                 "getservbyaddr")
-    '(replacement           "««serv-return-array = »»getservbyaddr(«number», «text»)")
+    '(replacement           "Â«Â«serv-return-array = Â»Â»getservbyaddr(Â«numberÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-getservent"
     '(description           "Returns next entry of /etc/services")
     '(token                 "getservent")
-    '(replacement           "««serv-return-array = »»getservent")
+    '(replacement           "Â«Â«serv-return-array = Â»Â»getservent")
 )
 
 (lse-define-fill-in "serv-return-array = "
@@ -794,19 +794,19 @@
 (lse-define-fill-in "perl-getsockname"
     '(description           "Returns the packed sockaddr address of this end of socket connection")
     '(token                 "getsockname")
-    '(replacement           "getsockname(«name»)")
+    '(replacement           "getsockname(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-getsockopt"
     '(description           "Returns the socket option requested or undefined if there is an error")
     '(token                 "getsockopt")
-    '(replacement           "getsockopt(«name», «number», «name»)")
+    '(replacement           "getsockopt(Â«nameÂ», Â«numberÂ», Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-gmtime"
     '(description           "Concerts a time as returned by the time function to a 9-element array in greenwich time")
     '(token                 "gmtime")
-    '(replacement           "««time-array = »»gmtime(«perl-expression»)")
+    '(replacement           "Â«Â«time-array = Â»Â»gmtime(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "time-array = "
@@ -820,9 +820,9 @@
 )
 
 (lse-define-fill-in "perl-grep"
-    '(description   "Evaluate «perl-expression» for each element of list «name» and return array of values for which «perl-expression» was true")
+    '(description   "Evaluate Â«perl-expressionÂ» for each element of list Â«nameÂ» and return array of values for which Â«perl-expressionÂ» was true")
     '(token         "grep")
-    '(replacement   "grep(«perl-expression», «name»)")
+    '(replacement   "grep(Â«perl-expressionÂ», Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-group-file-functions"
@@ -838,9 +838,9 @@
 )
 
 (lse-define-fill-in "perl-hex"
-    '(description           "Returns the decimal value of «perl-expression» interpreted as an hex string (to do the inverse, use sprintf)")
+    '(description           "Returns the decimal value of Â«perl-expressionÂ» interpreted as an hex string (to do the inverse, use sprintf)")
     '(token                 "hex")
-    '(replacement           "hex(«perl-expression»)")
+    '(replacement           "hex(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-hosts-file-functions"
@@ -860,9 +860,9 @@
     '(token                 "if")
     '(trailer               ";")
     '(replacement
-        "if («perl-expression») " & @ perl-block
-        "««perl-elsif»»···"
-        "««perl-else»»"
+        "if (Â«perl-expressionÂ») " & @ perl-block
+        "Â«Â«perl-elsifÂ»Â»Â·Â·Â·"
+        "Â«Â«perl-elseÂ»Â»"
      )
 ;;; perl-if
 )
@@ -871,7 +871,7 @@
     '(description           "Returns the position of the first occurence of a substring")
     '(token                 "index")
     '(replacement
-        "index(«index-string», «index-substring», ««index-position»»)"
+        "index(Â«index-stringÂ», Â«index-substringÂ», Â«Â«index-positionÂ»Â»)"
      )
 ;;; perl-index
 )
@@ -920,27 +920,27 @@
 )
 
 (lse-define-fill-in "perl-int"
-    '(description           "Returns the integer portion of «perl-expression»")
+    '(description           "Returns the integer portion of Â«perl-expressionÂ»")
     '(token                 "int")
-    '(replacement           "int(«perl-expression»)")
+    '(replacement           "int(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-ioctl"
     '(description           "Implements unix's ioctl(2) function")
     '(token                 "ioctl")
-    '(replacement           "ioctl(«name», «text», «number»)")
+    '(replacement           "ioctl(Â«nameÂ», Â«textÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-join"
-    '(description   "Join the elements of «perl-list» into a single string separated by the value of «perl-expression»")
+    '(description   "Join the elements of Â«perl-listÂ» into a single string separated by the value of Â«perl-expressionÂ»")
     '(token         "join")
-    '(replacement   "join(«perl-expression», «perl-list»)")
+    '(replacement   "join(Â«perl-expressionÂ», Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-keys"
-    '(description          "Returns a normal array containing all keys of the associative array «name»")
+    '(description          "Returns a normal array containing all keys of the associative array Â«nameÂ»")
     '(token                "keys")
-    '(replacement          "keys(%«name»)")
+    '(replacement          "keys(%Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-kill"
@@ -952,32 +952,32 @@
 (lse-define-fill-in "perl-label"
     '(description           "Perl statement label")
     '(token                 "label")
-    '(replacement         "«name» : ««perl-compound-statement»»")
+    '(replacement         "Â«nameÂ» : Â«Â«perl-compound-statementÂ»Â»")
 )
 
 (lse-define-fill-in "perl-last"
-    '(description           "Immediately exit loop «name» (skips continue block)")
+    '(description           "Immediately exit loop Â«nameÂ» (skips continue block)")
     '(token                 "last")
-    '(replacement           "last ««name»»")
+    '(replacement           "last Â«Â«nameÂ»Â»")
 )
 
 (lse-define-fill-in "perl-length"
-    '(description           "Returns the length in characters of «perl-expression»")
+    '(description           "Returns the length in characters of Â«perl-expressionÂ»")
     '(token                 "length")
-    '(replacement           "length(«perl-expression»)")
+    '(replacement           "length(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-link"
     '(description           "Create a new filename (hard) linked to the old filename. Returns 1 for success, 0 otherwise")
     '(token                 "link")
-    '(replacement           "link(«old-file», «new-file»)")
+    '(replacement           "link(Â«old-fileÂ», Â«new-fileÂ»)")
 )
 
 (lse-define-fill-in "perl-list"
     '(description          "Literal list or reference to list")
     '(leading              ",")
     '(menu
-        ("@«name»"       "Reference to list «name»")
+        ("@Â«nameÂ»"       "Reference to list Â«nameÂ»")
         perl-list-literal
      )
 ;;; perl-list
@@ -992,13 +992,13 @@
 
 (lse-define-fill-in "perl-list-literal"
     '(description   "Literal list")
-    '(replacement   "«perl-list-element»···")
+    '(replacement   "Â«perl-list-elementÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "perl-listen"
     '(description           "Corresponds to unix's listen(2)")
     '(token                 "listen")
-    '(replacement           "listen(«name», «number»)")
+    '(replacement           "listen(Â«nameÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-local"
@@ -1011,13 +1011,13 @@
     '(description           "Converts a time as returned by the time function to a 9-element array for the local timezone")
     '(token                 "localtime")
     '(token                 "timelocal")
-    '(replacement           "localtime(«perl-expression»)")
+    '(replacement           "localtime(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-log"
-    '(description           "Returns the logarithm (base e) of «perl-expression»")
+    '(description           "Returns the logarithm (base e) of Â«perl-expressionÂ»")
     '(token                 "log")
-    '(replacement           "log(«perl-expression»)")
+    '(replacement           "log(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-logical-operator"
@@ -1032,7 +1032,7 @@
 (lse-define-fill-in "perl-lstat"
     '(description           "Return a 13-element array with statistics on a symbolic link")
     '(token                 "lstat")
-    '(replacement           "lstat(«perl-expression»)")
+    '(replacement           "lstat(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-lvalue"
@@ -1041,7 +1041,7 @@
     '(separator             " ")
     '(menu
         perl-variable
-        "(«perl-assignment»)"
+        "(Â«perl-assignmentÂ»)"
         perl-local-lvalue
         perl-lvalue-list
      )
@@ -1052,7 +1052,7 @@
     '(description   "lvalue for array assignment")
     '(separator     ", ")
     '(leading       ",")
-    '(replacement   "(«perl-lvalue»···)")
+    '(replacement   "(Â«perl-lvalueÂ»Â·Â·Â·)")
 )
 
 (lse-define-fill-in "perl-miscellaneous-functions"
@@ -1075,7 +1075,7 @@
 (lse-define-fill-in "perl-mkdir"
     '(description           "Create a directory with given protection")
     '(token                 "mkdir")
-    '(replacement           "mkdir(«name», «perl-mkdir-mode»)")
+    '(replacement           "mkdir(Â«nameÂ», Â«perl-mkdir-modeÂ»)")
 )
 
 (lse-define-fill-in "perl-mkdir-mode"
@@ -1116,9 +1116,9 @@
 )
 
 (lse-define-fill-in "perl-next"
-    '(description           "Starts the next iteration of the loop «name»")
+    '(description           "Starts the next iteration of the loop Â«nameÂ»")
     '(token                 "next")
-    '(replacement           "next ««name»»")
+    '(replacement           "next Â«Â«nameÂ»Â»")
 )
 
 (lse-define-fill-in "perl-numeric-relation"
@@ -1136,50 +1136,50 @@
 )
 
 (lse-define-fill-in "perl-oct"
-    '(description           "Returns the decimal value of «perl-expression» interpreted as an octal string")
+    '(description           "Returns the decimal value of Â«perl-expressionÂ» interpreted as an octal string")
     '(token                 "oct")
-    '(replacement           "oct(«perl-expression»)")
+    '(replacement           "oct(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-open"
-    '(description           "Open file with name «perl-expression» and associate it with filehandle «name»")
+    '(description           "Open file with name Â«perl-expressionÂ» and associate it with filehandle Â«nameÂ»")
     '(token                 "open")
-    '(replacement           "open(«name», «perl-expression»)")
+    '(replacement           "open(Â«nameÂ», Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-opendir"
-    '(description           "Open directory «perl-expression» for processing by READDIR and friends")
+    '(description           "Open directory Â«perl-expressionÂ» for processing by READDIR and friends")
     '(token                 "opendir")
-    '(replacement           "opendir(«name», «perl-expression»)")
+    '(replacement           "opendir(Â«nameÂ», Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-operator+expression"
     '(separator             " ")
-    '(replacement           @ perl-binary-operator & "«perl-expression»")
+    '(replacement           @ perl-binary-operator & "Â«perl-expressionÂ»")
 )
 
 (lse-define-fill-in "perl-ord"
-    '(description           "Returns the ascii value of the first character of «perl-expression»")
+    '(description           "Returns the ascii value of the first character of Â«perl-expressionÂ»")
     '(token                 "ord")
-    '(replacement           "ord(«perl-expression»)")
+    '(replacement           "ord(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-pack"
     '(description           "Packs an array or list into string containing a binary structure, returning that")
     '(token                 "bpack"); avoid clash with package
-    '(replacement           "pack(«pack-template», «perl-list»)")
+    '(replacement           "pack(Â«pack-templateÂ», Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "pack-template"
     '(replacement-leading   "\"")
     '(replacement-trailer   "\"")
-    '(replacement               "«pack-template-item»···")
+    '(replacement               "Â«pack-template-itemÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "pack-template-item"
-    '(description           "«number» gives a repeat count for the field")
+    '(description           "Â«numberÂ» gives a repeat count for the field")
     '(separator             " ")
-    '(replacement           "«pack-template-item-code»««number»»")
+    '(replacement           "Â«pack-template-item-codeÂ»Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "pack-template-item-code"
@@ -1214,7 +1214,7 @@
 (lse-define-fill-in "perl-package"
     '(description           "Designates the remainer of the current block as part of a package")
     '(token                 "package")
-    '(replacement           "package «name»")
+    '(replacement           "package Â«nameÂ»")
 )
 
 (lse-define-fill-in "perl-passwd-file-functions"
@@ -1232,7 +1232,7 @@
 (lse-define-fill-in "perl-pattern"
     '(description           "Regular expression")
     '(token                 "regexp")
-    '(replacement           "«regexp-item»···")
+    '(replacement           "Â«regexp-itemÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "pattern-delimiter"
@@ -1242,7 +1242,7 @@
 (lse-define-fill-in "perl-pipe"
     '(description           "Opens a pair of connected pipes")
     '(token                 "pipe")
-    '(replacement           "pipe(«pipe-read-handle», «pipe-write-handle»)")
+    '(replacement           "pipe(Â«pipe-read-handleÂ», Â«pipe-write-handleÂ»)")
 )
 
 (lse-define-fill-in "pipe-read-handle"
@@ -1254,20 +1254,20 @@
 (lse-define-fill-in "perl-pop"
     '(description           "Pops and returns the last value of an array")
     '(token                 "pop")
-    '(replacement           "pop(@«name»)")
+    '(replacement           "pop(@Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-print"
     '(description           "Prints a string or comma-spearated list of strings: returns 1 if successful, 0 otherwise")
     '(token                 "print")
-    '(replacement           "print(««name»» " & @ perl-list-literal & ")")
+    '(replacement           "print(Â«Â«nameÂ»Â» " & @ perl-list-literal & ")")
 )
 
 (lse-define-fill-in "perl-printf"
     '(description           "Formatted print")
     '(token                 "printf")
     '(replacement
-        "printf(««name»» «print-format», " & @ perl-list-literal ")"
+        "printf(Â«Â«nameÂ»Â» Â«print-formatÂ», " & @ perl-list-literal ")"
      )
 ;;; perl-printf
 )
@@ -1285,22 +1285,22 @@
 )
 
 (lse-define-fill-in "perl-push"
-    '(description           "Pushes the value of «perl-list» onto the end of an array")
+    '(description           "Pushes the value of Â«perl-listÂ» onto the end of an array")
     '(token                 "push")
-    '(replacement           "push(@«name», «perl-list»)")
+    '(replacement           "push(@Â«nameÂ», Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-rand"
-    '(description           "Returns a random fractional number between 0 and the value of «perl-expression» (default = 1)")
+    '(description           "Returns a random fractional number between 0 and the value of Â«perl-expressionÂ» (default = 1)")
     '(token                 "rand")
-    '(replacement           "rand(««perl-expression»»)")
+    '(replacement           "rand(Â«Â«perl-expressionÂ»Â»)")
 )
 
 (lse-define-fill-in "perl-read"
-    '(description           "Read a «number» of bytes from file attached to filehandle «name»")
+    '(description           "Read a Â«numberÂ» of bytes from file attached to filehandle Â«nameÂ»")
     '(token                 "read")
     '(replacement           
-        "read(«name», $«name», «number», ««read-offset»»)"
+        "read(Â«nameÂ», $Â«nameÂ», Â«numberÂ», Â«Â«read-offsetÂ»Â»)"
      )
 )
 
@@ -1312,33 +1312,33 @@
 (lse-define-fill-in "perl-readdir"
     '(description           "Return next entry (in scalar context) or all rest of the entries (in array context) of the directory")
     '(token                 "readdir")
-    '(replacement           "readdir(«name»)")
+    '(replacement           "readdir(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-readlink"
-    '(description           "Returns the value of a symbolic link «perl-expression»")
+    '(description           "Returns the value of a symbolic link Â«perl-expressionÂ»")
     '(token                 "readlink")
-    '(replacement           "readlink(«perl-expression»)")
+    '(replacement           "readlink(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-recv"
     '(description           "Receives a message on a socket")
     '(token                 "recv")
     '(replacement
-        "recv(«name», «number», «number», «text»)"
+        "recv(Â«nameÂ», Â«numberÂ», Â«numberÂ», Â«textÂ»)"
      )
 )
 
 (lse-define-fill-in "perl-redo"
-    '(description           "Restart the loop «name» without evaluating the loop-condition again")
+    '(description           "Restart the loop Â«nameÂ» without evaluating the loop-condition again")
     '(token                 "redo")
-    '(replacement           "redo ««name»»")
+    '(replacement           "redo Â«Â«nameÂ»Â»")
 )
 
 (lse-define-fill-in "regexp-group"
     '(description           "Groups a series of pattern elements into a single element")
     '(token)
-    '(replacement           "(«regexp-item»···)")
+    '(replacement           "(Â«regexp-itemÂ»Â·Â·Â·)")
 )
 
 (lse-define-fill-in "regexp-non-numeric"
@@ -1357,9 +1357,9 @@
     '(description           "Match a range of instances of preceding pattern element")
     '(token)
     '(menu
-        ("{«number»}"          "Match the preceeding pattern element exactly  «number» times")
-        ("{«number»,}"         "Match the preceeding pattern element at least «number» times")
-        ("{«number»,«number»}" "Match the preceeding pattern element at least «number»-1, at most «number»-2 times")
+        ("{Â«numberÂ»}"          "Match the preceeding pattern element exactly  Â«numberÂ» times")
+        ("{Â«numberÂ»,}"         "Match the preceeding pattern element at least Â«numberÂ» times")
+        ("{Â«numberÂ»,Â«numberÂ»}" "Match the preceeding pattern element at least Â«numberÂ»-1, at most Â«numberÂ»-2 times")
      )
 ;;; regexp-range
 )
@@ -1379,16 +1379,16 @@
 (lse-define-fill-in "perl-rename"
     '(description           "Change the name of a file: returns 1 for success, 0 otherwise")
     '(token                 "rename")
-    '(replacement           "rename(«old-file», «new-file»)")
+    '(replacement           "rename(Â«old-fileÂ», Â«new-fileÂ»)")
 )
 
 (lse-define-fill-in "perl-replace"
-    '(description           "Replace in a string a pattern by the replacement «text»: returns number of substitutions made")
+    '(description           "Replace in a string a pattern by the replacement Â«textÂ»: returns number of substitutions made")
     '(token                 "replace")
     '(token                 "substitute")
     '(menu
-        "s/«perl-pattern»/«text»/««replacement-option»»···"
-        "s«pattern-delimiter»«perl-pattern»«pattern-delimiter»«text»«pattern-delimiter»««replacement-option»»···"
+        "s/Â«perl-patternÂ»/Â«textÂ»/Â«Â«replacement-optionÂ»Â»Â·Â·Â·"
+        "sÂ«pattern-delimiterÂ»Â«perl-patternÂ»Â«pattern-delimiterÂ»Â«textÂ»Â«pattern-delimiterÂ»Â«Â«replacement-optionÂ»Â»Â·Â·Â·"
      )
 ;;; perl-replace
 )
@@ -1397,23 +1397,23 @@
     '(sort)
     '(separator             "")
     '(menu
-        ("e"     "Replacement «text» is to be evaluated as an expression rather than just a double-quoted string")
+        ("e"     "Replacement Â«textÂ» is to be evaluated as an expression rather than just a double-quoted string")
         @ search-option
      )
 ;;; replacement-option
 )
 
 (lse-define-fill-in "perl-require"
-    '(description           "Includes and executes any perl code froma separate file given by «perl-expression»")
+    '(description           "Includes and executes any perl code froma separate file given by Â«perl-expressionÂ»")
     '(token                 "require")
-    '(replacement           "require «perl-expression»")
+    '(replacement           "require Â«perl-expressionÂ»")
 )
 
 (lse-define-fill-in "perl-reset"
     '(description           "Clears variables or ?? searches (use at top of loop or in continue-block) ")
     '(token                 "reset")
     '(menu
-        ("reset «reset-arg»"     "Reset variables")
+        ("reset Â«reset-argÂ»"     "Reset variables")
         ("reset-arg"             "Reset one-match (?pattern?) searches to match again")
      )
 ;;; perl-reset
@@ -1426,14 +1426,14 @@
 (lse-define-fill-in "perl-return"
     '(description           "Return from a subroutine with the specified value")
     '(token                 "return")
-    '(replacement           "return «perl-expression»")
+    '(replacement           "return Â«perl-expressionÂ»")
 )
 
 (lse-define-fill-in "perl-rindex"
     '(description           "Like index but returns position of last occurence")
     '(token                 "rindex")
     '(replacement
-        "rindex(«index-string», «index-substring», ««index-position»»)"
+        "rindex(Â«index-stringÂ», Â«index-substringÂ», Â«Â«index-positionÂ»Â»)"
      )
 ;;; perl-rindex
 )
@@ -1441,25 +1441,25 @@
 (lse-define-fill-in "perl-reverse"
     '(description           "Returns an array consisting of the elements of a list in reverse order (in arry context)")
     '(token                 "reverse")
-    '(replacement           "replacement(«perl-list»)")
+    '(replacement           "replacement(Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-rewinddir"
-    '(description           "Set current position of directory «name» to the beginning")
+    '(description           "Set current position of directory Â«nameÂ» to the beginning")
     '(description           "rewinddir")
-    '(replacement           "rewinddir(«name»)")
+    '(replacement           "rewinddir(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-rmdir"
-    '(description           "Delete directory «file-name» if is empty")
+    '(description           "Delete directory Â«file-nameÂ» if is empty")
     '(token                 "rmdir")
-    '(replacement           "rmdir(«file-name»)")
+    '(replacement           "rmdir(Â«file-nameÂ»)")
 )
 
 (lse-define-fill-in "perl-scalar"
-    '(description           "Force «perl-expression» to be evaluated in a scalar context")
+    '(description           "Force Â«perl-expressionÂ» to be evaluated in a scalar context")
     '(description           "scalar")
-    '(replacement           "scalar(«perl-expression»)")
+    '(replacement           "scalar(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-search"
@@ -1467,8 +1467,8 @@
     '(token                 "search")
     '(token                 "~")
     '(menu
-        "/«perl-pattern»/««search-option»»···"
-        "m«pattern-delimiter»«perl-pattern»«pattern-delimiter»««search-option»»···"
+        "/Â«perl-patternÂ»/Â«Â«search-optionÂ»Â»Â·Â·Â·"
+        "mÂ«pattern-delimiterÂ»Â«perl-patternÂ»Â«pattern-delimiterÂ»Â«Â«search-optionÂ»Â»Â·Â·Â·"
      )
 ;;; perl-search
 )
@@ -1477,7 +1477,7 @@
     '(description           "Match only once between calls to the reset operator")
     '(token                 "search-once")
     '(replacement
-        "?«perl-pattern»?««search-once-option»»···"
+        "?Â«perl-patternÂ»?Â«Â«search-once-optionÂ»Â»Â·Â·Â·"
      )
 )
 
@@ -1513,9 +1513,9 @@
 )
 
 (lse-define-fill-in "perl-seek"
-    '(description           "Position the file pointer of file «name» to position «number»")
+    '(description           "Position the file pointer of file Â«nameÂ» to position Â«numberÂ»")
     '(token                 "seek")
-    '(replacement           "seek(«name», «number», «seek-whence»)")
+    '(replacement           "seek(Â«nameÂ», Â«numberÂ», Â«seek-whenceÂ»)")
 )
 
 (lse-define-fill-in "seek-whence"
@@ -1523,9 +1523,9 @@
 )
 
 (lse-define-fill-in "perl-seekdir"
-    '(description           "Sets the current position of directory «name» to a position returned from TELLDIR")
+    '(description           "Sets the current position of directory Â«nameÂ» to a position returned from TELLDIR")
     '(token                 "seekdir")
-    '(replacement           "seekdir(«name», «seekdir-position»)")
+    '(replacement           "seekdir(Â«nameÂ», Â«seekdir-positionÂ»)")
 )
 
 (lse-define-fill-in "seekdir-position"
@@ -1535,9 +1535,9 @@
 (lse-define-fill-in "perl-select"
     '(token                 "select")
     '(menu
-        ("select(«name»)"     "Returns current   default filehandle for output")
+        ("select(Â«nameÂ»)"     "Returns current   default filehandle for output")
         ("select"             "Returns currently selected filehandle for output")
-        ("select(«text»)"     "Calls unix's select(2): needs 4 parameters")
+        ("select(Â«textÂ»)"     "Calls unix's select(2): needs 4 parameters")
      )
 ;;; perl-select
 )
@@ -1545,7 +1545,7 @@
 (lse-define-fill-in "perl-send"
     '(description           "Sends a message on a socket")
     '(token                 "send")
-    '(replacement           "send(«text»)")
+    '(replacement           "send(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-services-file-functions"
@@ -1569,31 +1569,31 @@
 (lse-define-fill-in "perl-sethostent"
     '(description           "Start iteration through /etc/hosts file")
     '(token                 "sethostent")
-    '(replacement           "sethostent(«text»)")
+    '(replacement           "sethostent(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-setnetent"
     '(description           "Start iteration through /etc/networks file")
     '(token                 "setnetent")
-    '(replacement           "sethostent(«text»)")
+    '(replacement           "sethostent(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-setpgrp"
-    '(description           "Sets the current process group (second «number») for the specified PID (first «number»)")
+    '(description           "Sets the current process group (second Â«numberÂ») for the specified PID (first Â«numberÂ»)")
     '(token                 "setpgrp")
-    '(replacement           "setpgrp(«number», «number»)")
+    '(replacement           "setpgrp(Â«numberÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-setpriority"
     '(description           "Sets the current priority for a process, a process group, or a user")
     '(token                 "setpriority")
-    '(replacement           "setpriority(«number», «number», «number»)")
+    '(replacement           "setpriority(Â«numberÂ», Â«numberÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-setprotoent"
     '(description           "Start iteration through /etc/protocols file")
     '(token                 "setprotoent")
-    '(replacement           "setprotoent(«text»)")
+    '(replacement           "setprotoent(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-setpwent"
@@ -1605,19 +1605,19 @@
 (lse-define-fill-in "perl-setsockopt"
     '(description           "Sets the socket option requested")
     '(token                 "setsockopt")
-    '(replacement           "setsockopt(«text»)")
+    '(replacement           "setsockopt(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-shift"
     '(description           "Return and remove the first value from an array")
     '(token                 "shift")
-    '(replacement           "shift(@«name»)")
+    '(replacement           "shift(@Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-shutdown"
     '(description           "Shutds down a socket connection")
     '(token                 "shutdown")
-    '(replacement           "shutdown(«name», «number»)")
+    '(replacement           "shutdown(Â«nameÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-simple-statement"
@@ -1625,44 +1625,44 @@
     '(token)
     '(replacement-trailer "; ")
     '(replacement
-        @ perl-expression & "««perl-statement-modifier»»"
+        @ perl-expression & "Â«Â«perl-statement-modifierÂ»Â»"
      )
 )
 
 (lse-define-fill-in "perl-sin"
-    '(description           "Returns the sine of «perl-expression» (expressed in radians)")
+    '(description           "Returns the sine of Â«perl-expressionÂ» (expressed in radians)")
     '(token                 "sin")
-    '(replacement           "sin(«perl-expression»)")
+    '(replacement           "sin(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-sleep"
-    '(description           "Causes the script to sleep for «perl-expression» seconds")
+    '(description           "Causes the script to sleep for Â«perl-expressionÂ» seconds")
     '(token                 "sleep")
-    '(replacement           "sleep(«perl-expression»)")
+    '(replacement           "sleep(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-socket"
-    '(description           "Opens a socket of the specified kind and attaches it to filehandle «name»")
+    '(description           "Opens a socket of the specified kind and attaches it to filehandle Â«nameÂ»")
     '(token                 "socket")
-    '(replacement           "socket(«name», «text»)")
+    '(replacement           "socket(Â«nameÂ», Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-socketpair"
     '(description           "Creates an unnamed pair of sockets in the specified domain, of the specified type")
     '(token                 "socketpair")
-    '(replacement           "socketpair(«text»)")
+    '(replacement           "socketpair(Â«textÂ»)")
 )
 
 (lse-define-fill-in "perl-sort"
     '(description           "Returns the sorted value of an array")
     '(token                 "sort")
-    '(replacement           "sort(«list»)")
+    '(replacement           "sort(Â«listÂ»)")
 )
 
 (lse-define-fill-in "perl-sort-s"
-    '(description           "Returns the sorted value of an array ordered by «sort-subroutine»")
+    '(description           "Returns the sorted value of an array ordered by Â«sort-subroutineÂ»")
     '(token                 "sort-s")
-    '(replacement           "sort(«sort-subroutine» «list»)")
+    '(replacement           "sort(Â«sort-subroutineÂ» Â«listÂ»)")
 )
 
 (lse-define-fill-in "perl-special-variable"
@@ -1726,7 +1726,7 @@
         ("$`"        "string preceding what was matched by the last pattern match")
         ("$'"        "string following what was matched by the last pattern match")
         ("$+"        "last bracket (search group) matched by the last search pattern")
-        ("$«number»" "subpattern from the correponding set of parentheses in the last pattern matched")
+        ("$Â«numberÂ»" "subpattern from the correponding set of parentheses in the last pattern matched")
      )
 ;;; perl-special-variable-local
 )
@@ -1745,10 +1745,10 @@
 )
 
 (lse-define-fill-in "perl-splice"
-    '(description           "Remove elements specified by «splice-offset» and «splice-length» from an array, replacing them with «list», if any. Returns the removed elements.")
+    '(description           "Remove elements specified by Â«splice-offsetÂ» and Â«splice-lengthÂ» from an array, replacing them with Â«listÂ», if any. Returns the removed elements.")
     '(token                 "splice")
     '(replacement
-        "splice(@«name», «splice-offset», ««splice-length»», ««perl-list»»)"
+        "splice(@Â«nameÂ», Â«splice-offsetÂ», Â«Â«splice-lengthÂ»Â», Â«Â«perl-listÂ»Â»)"
      )
 ;;; perl-splice
 )
@@ -1766,7 +1766,7 @@
     '(description           "Splits a string into an array of strings, returning the array")
     '(token                 "split")
     '(replacement
-        "split(/«perl-pattern»/, «perl-expression», ««split-limit»»)"
+        "split(/Â«perl-patternÂ»/, Â«perl-expressionÂ», Â«Â«split-limitÂ»Â»)"
      )
 )
 
@@ -1778,29 +1778,29 @@
     '(description           "Returns a string formatted to the usual printf conventions")
     '(token                 "sprintf")
     '(replacement
-        "sprintf(«print-format», " & @ perl-list-literal & ")"
+        "sprintf(Â«print-formatÂ», " & @ perl-list-literal & ")"
      )
 ;;; perl-sprintf
 )
 
 (lse-define-fill-in "perl-sqrt"
-    '(description           "Returns the square root of «perl-expression»")
+    '(description           "Returns the square root of Â«perl-expressionÂ»")
     '(token                 "sqrt")
-    '(replacement           "sqrt(«perl-expression»)")
+    '(replacement           "sqrt(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-srand"
     '(description           "Sets the random number seed for the rand operator (good arg is `(time|$$)' )")
     '(token                 "srand")
-    '(replacement           "srand(«perl-expression»)")
+    '(replacement           "srand(Â«perl-expressionÂ»)")
 )
 
 (lse-define-fill-in "perl-stat"
     '(description           "Return 13-element statistics for a file")
     '(token                 "stat")
     '(menu
-        ("««stat-array = »» stat(«name»)"      "Return statistics for file-handle «name»")
-        ("««stat-array = »» stat(«file-name»)" "Return statistics for file «file-name»")
+        ("Â«Â«stat-array = Â»Â» stat(Â«nameÂ»)"      "Return statistics for file-handle Â«nameÂ»")
+        ("Â«Â«stat-array = Â»Â» stat(Â«file-nameÂ»)" "Return statistics for file Â«file-nameÂ»")
      )
 ;;; perl-stat
 )
@@ -1830,7 +1830,7 @@
 (lse-define-fill-in "perl-statement-modifier"
     '(description   "Conditional deciding upon execution of preceeding expression")
     '(token         "Modifier")
-    '(replacement   "«perl-statement-modifier-operator» «perl-expression»")
+    '(replacement   "Â«perl-statement-modifier-operatorÂ» Â«perl-expressionÂ»")
 )
 
 (lse-define-fill-in "perl-statement-modifier-operator"
@@ -1895,20 +1895,20 @@
 )
 
 (lse-define-fill-in "perl-study"
-    '(description           "Study $«name» in anticipation of doing many pattern matches on the string before it is modified")
+    '(description           "Study $Â«nameÂ» in anticipation of doing many pattern matches on the string before it is modified")
     '(token                 "study")
-    '(replacement           "study($«name»)")
+    '(replacement           "study($Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-subroutine-declaration"
-    '(description           "Declare subroutine «name»")
+    '(description           "Declare subroutine Â«nameÂ»")
     '(token                 "subroutine")
     '(replacement
         lse-no-indent
-        "sub «name» {"
+        "sub Â«nameÂ» {"
         lse-indent+1
-        "««perl-local»»···"
-        "«perl-statement»···"
+        "Â«Â«perl-localÂ»Â»Â·Â·Â·"
+        "Â«perl-statementÂ»Â·Â·Â·"
         lse-indent-1
         "}"
      )
@@ -1916,10 +1916,10 @@
 )
 
 (lse-define-fill-in "perl-substr"
-    '(description           "Returns a substring of «perl-expression»")
+    '(description           "Returns a substring of Â«perl-expressionÂ»")
     '(token                 "substring")
     '(replacement
-        "substr(«perl-expression», «substr-offset», ««substr-length»»)"
+        "substr(Â«perl-expressionÂ», Â«substr-offsetÂ», Â«Â«substr-lengthÂ»Â»)"
      )
 ;;; perl-substr
 )
@@ -1936,7 +1936,7 @@
 (lse-define-fill-in "perl-symlink"
     '(description           "Create a new filename symbolically linked to the old filename")
     '(token                 "symlink")
-    '(replacement           "symlink(«old-file», «new-file»)")
+    '(replacement           "symlink(Â«old-fileÂ», Â«new-fileÂ»)")
 )
 
 (lse-define-fill-in "perl-syscall"
@@ -1946,10 +1946,10 @@
 )
 
 (lse-define-fill-in "perl-sysread"
-    '(description           "Attempts to read «number» bytes into variable $«name» from file «name»")
+    '(description           "Attempts to read Â«numberÂ» bytes into variable $Â«nameÂ» from file Â«nameÂ»")
     '(token                 "sysread")
     '(replacement
-        "sysread(«name», $«name», «number», ««read-offset»»)"
+        "sysread(Â«nameÂ», $Â«nameÂ», Â«numberÂ», Â«Â«read-offsetÂ»Â»)"
      )
 ;;; perl-sysread
 )
@@ -2005,10 +2005,10 @@
 )
 
 (lse-define-fill-in "perl-syswrite"
-    '(description           "Attempts to write «number» bytes from variable $«name» into file «name»")
+    '(description           "Attempts to write Â«numberÂ» bytes from variable $Â«nameÂ» into file Â«nameÂ»")
     '(token                 "syswrite")
     '(replacement
-        "syswrite(«name», $«name», «number», ««write-offset»»)"
+        "syswrite(Â«nameÂ», $Â«nameÂ», Â«numberÂ», Â«Â«write-offsetÂ»Â»)"
      )
 ;;; perl-syswrite
 )
@@ -2019,15 +2019,15 @@
 )
 
 (lse-define-fill-in "perl-tell"
-    '(description           "Returns the current file position (in bytes) for file attached to filehandle «name»")
+    '(description           "Returns the current file position (in bytes) for file attached to filehandle Â«nameÂ»")
     '(token                 "tell")
-    '(replacement           "tell(«name»)")
+    '(replacement           "tell(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-telldir"
-    '(description           "Returns the current position of directory «name»")
+    '(description           "Returns the current position of directory Â«nameÂ»")
     '(token                 "telldir")
-    '(replacement           "telldir(«name»)")
+    '(replacement           "telldir(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-time"
@@ -2039,7 +2039,7 @@
 (lse-define-fill-in "perl-times"
     '(description           "Returns a four-element array with user and system CPU times, in seconds for process and its children")
     '(token                 "ptimes")
-    '(replacement           "««times-return-array = »»times")
+    '(replacement           "Â«Â«times-return-array = Â»Â»times")
 )
 
 (lse-define-fill-in "times-return-array = "
@@ -2051,10 +2051,10 @@
 )
 
 (lse-define-fill-in "perl-translate"
-    '(description           "Translates all occurences of the characters found in the «search-list» to the corresponding one in the «replacement-list»")
+    '(description           "Translates all occurences of the characters found in the Â«search-listÂ» to the corresponding one in the Â«replacement-listÂ»")
     '(token                 "translate")
     '(replacement
-        "tr/«tr-search-list»/«tr-replacement-list»/««tr-option»»···"
+        "tr/Â«tr-search-listÂ»/Â«tr-replacement-listÂ»/Â«Â«tr-optionÂ»Â»Â·Â·Â·"
      )
 ;;; perl-translate
 )
@@ -2062,15 +2062,15 @@
 (lse-define-fill-in "tr-option"
     '(separator             "")
     '(menu
-        ("c"     "complement «tr-search-list»")
-        ("d"     "delete all characters from «tr-search-list» not in «tr-replacement-list»")
+        ("c"     "complement Â«tr-search-listÂ»")
+        ("d"     "delete all characters from Â«tr-search-listÂ» not in Â«tr-replacement-listÂ»")
         ("s"     "squeeze: replace multiple occurences of characters into a single one")
      )
 ;;; tr-option
 )
 
 (lse-define-fill-in "tr-replacement-list"
-    '(description   "Characters to use for replacement (if shorter than «tr-search-list», the last one is replicated; if empty, «tr-search-list» is used)")
+    '(description   "Characters to use for replacement (if shorter than Â«tr-search-listÂ», the last one is replicated; if empty, Â«tr-search-listÂ» is used)")
 )
 
 (lse-define-fill-in "tr-search-list"
@@ -2081,38 +2081,38 @@
     '(description           "Truncate a file to specified length")
     '(token                 "truncate")
     '(menu
-        ("truncate(«name», «number»)"          "Truncate file opened on handle «name» to length «number»")
-        ("truncate(«file-name», «number»)"     "Truncate file named «file-name» to length «number»")
+        ("truncate(Â«nameÂ», Â«numberÂ»)"          "Truncate file opened on handle Â«nameÂ» to length Â«numberÂ»")
+        ("truncate(Â«file-nameÂ», Â«numberÂ»)"     "Truncate file named Â«file-nameÂ» to length Â«numberÂ»")
      )
 ;;; perl-truncate
 )
 
 (lse-define-fill-in "perl-umask"
-    '(description           "Sets the process's umask (if «perl-expression» is given) and returns the old one")
+    '(description           "Sets the process's umask (if Â«perl-expressionÂ» is given) and returns the old one")
     '(token                 "umask")
-    '(replacement           "umask(««perl-expression»»)")
+    '(replacement           "umask(Â«Â«perl-expressionÂ»Â»)")
 )
 
 (lse-define-fill-in "perl-unary-operator+expression"
     '(token                 "unary-operator+expression")
     '(menu
-        ("$«name»++"     "Autoincrement and return value prior to increment")
-        ("$«name»--"     "Autodecrement and return value prior to decrement")
-        ("++$«name»"     "Autoincrement and return value after increment")
-        ("--$«name»"     "Autodecrement and return value after decrement")
-        ("- $«name»"     "Unary minus")
-        ("! $«name»"     "Unary logical negation")
-        ("~ $«name»"     "Bit negation")
+        ("$Â«nameÂ»++"     "Autoincrement and return value prior to increment")
+        ("$Â«nameÂ»--"     "Autodecrement and return value prior to decrement")
+        ("++$Â«nameÂ»"     "Autoincrement and return value after increment")
+        ("--$Â«nameÂ»"     "Autodecrement and return value after decrement")
+        ("- $Â«nameÂ»"     "Unary minus")
+        ("! $Â«nameÂ»"     "Unary logical negation")
+        ("~ $Â«nameÂ»"     "Bit negation")
         @ perl-file-test-operator
      )
 ;;; perl-unary-operator+expression
 )
 
 (lse-define-fill-in "perl-undef"
-    '(description           "Undefines the value of the lvalue «perl-variable»")
+    '(description           "Undefines the value of the lvalue Â«perl-variableÂ»")
     '(token                 "undef")
     '(menu
-        ("undef «perl-variable»"     "Undef «perl-variable»")
+        ("undef Â«perl-variableÂ»"     "Undef Â«perl-variableÂ»")
         ("undef"                     "Return undefined value")
      )
 ;;; perl-undef
@@ -2122,9 +2122,9 @@
     '(description           "Perl unless statement")
     '(token                 "unless")
     '(replacement
-        "unless («perl-expression») " & @ perl-block
-        "««perl-elsif»»···"
-        "««perl-else»»"
+        "unless (Â«perl-expressionÂ») " & @ perl-block
+        "Â«Â«perl-elsifÂ»Â»Â·Â·Â·"
+        "Â«Â«perl-elseÂ»Â»"
      )
 ;;; perl-unless
 )
@@ -2133,30 +2133,30 @@
     '(description           "Delete a list of files")
     '(token                 "unlink")
     '(token                 "fdelete")
-    '(replacement           "unlink(«perl-list»)")
+    '(replacement           "unlink(Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-unpack"
     '(description           "Reverse of pack: unpack a string containing binary structure and return array")
     '(token                 "unpack")
     '(replacement
-        "unpack(«pack-template», «perl-list»)"
+        "unpack(Â«pack-templateÂ», Â«perl-listÂ»)"
      )
 ;;; perl-unpack
 )
 
 (lse-define-fill-in "perl-unshift"
-    '(description           "Prepend «perl-list» to array and returns number of elements in the new array")
+    '(description           "Prepend Â«perl-listÂ» to array and returns number of elements in the new array")
     '(token                 "unshift")
-    '(replacement           "unshift(@«name», «perl-list»)")
+    '(replacement           "unshift(@Â«nameÂ», Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-until"
     '(description           "Perl loop statement")
     '(token                 "until")
     '(replacement
-        "until («perl-expression») " & @ block
-        "««perl-continue»»"
+        "until (Â«perl-expressionÂ») " & @ block
+        "Â«Â«perl-continueÂ»Â»"
      )
 ;;; perl-until
 )
@@ -2164,35 +2164,35 @@
 (lse-define-fill-in "perl-utime"
     '(description           "Change access and modification time of list of files: first two elements must be numerical access and modification times")
     '(token                 "utime")
-    '(replacement           "utime(«perl-list»)")
+    '(replacement           "utime(Â«perl-listÂ»)")
 )
 
 (lse-define-fill-in "perl-values"
-    '(description           "Returns a normal array containing all values of associative array «name»")
+    '(description           "Returns a normal array containing all values of associative array Â«nameÂ»")
     '(token                 "values")
-    '(replacement           "values(%«name»)")
+    '(replacement           "values(%Â«nameÂ»)")
 )
 
 (lse-define-fill-in "perl-variable"
     '(token                 "variable")
     '(menu
-        ("$«name»"                        "A simple scalar variable")
-        ("${«name»}"                      "A simple scalar variable")
-        ("$«name»[«perl-expression»]"     "Element of array")
-        ("$«name»{«perl-expression»}"     "Element of associative array")
-        ("@«name»"                        "Entire array (in scalar context: number of elements)")
-        ("%«name»"                        "Entire associative array (in scalar context: TRUE if array has elements)")
-        ("*«name»"                        "Refers to all objects represented by «name»")
-        ("$#«name»"                       "Last index of array @«name»")
+        ("$Â«nameÂ»"                        "A simple scalar variable")
+        ("${Â«nameÂ»}"                      "A simple scalar variable")
+        ("$Â«nameÂ»[Â«perl-expressionÂ»]"     "Element of array")
+        ("$Â«nameÂ»{Â«perl-expressionÂ»}"     "Element of associative array")
+        ("@Â«nameÂ»"                        "Entire array (in scalar context: number of elements)")
+        ("%Â«nameÂ»"                        "Entire associative array (in scalar context: TRUE if array has elements)")
+        ("*Â«nameÂ»"                        "Refers to all objects represented by Â«nameÂ»")
+        ("$#Â«nameÂ»"                       "Last index of array @Â«nameÂ»")
         perl-special-variable
      )
 ;;; perl-variable
 )
 
 (lse-define-fill-in "perl-vec"
-    '(description           "Returns the bit «vec-offset» in «perl-expression» interpreted as string of unsigned ints (may bes used as lvalue)")
+    '(description           "Returns the bit Â«vec-offsetÂ» in Â«perl-expressionÂ» interpreted as string of unsigned ints (may bes used as lvalue)")
     '(token                 "vec")
-    '(replacement           "vec(«perl-expression», «vec-offset», «vec-bits»)")
+    '(replacement           "vec(Â«perl-expressionÂ», Â«vec-offsetÂ», Â«vec-bitsÂ»)")
 )
 
 (lse-define-fill-in "vec-bits"
@@ -2210,9 +2210,9 @@
 )
 
 (lse-define-fill-in "perl-waitpid"
-    '(description           "Waits for a particular child process with PID «number» to terminate")
+    '(description           "Waits for a particular child process with PID Â«numberÂ» to terminate")
     '(token                 "waitpid")
-    '(replacement           "waitpid(«number», «number»)")
+    '(replacement           "waitpid(Â«numberÂ», Â«numberÂ»)")
 )
 
 (lse-define-fill-in "perl-wantarray"
@@ -2231,8 +2231,8 @@
     '(description           "Perl loop statement")
     '(token                 "while")
     '(replacement
-        "while (««perl-expression»») " & @ perl-block
-        "««perl-continue»»"
+        "while (Â«Â«perl-expressionÂ»Â») " & @ perl-block
+        "Â«Â«perl-continueÂ»Â»"
      )
 ;;; perl-while
 )
@@ -2240,7 +2240,7 @@
 (lse-define-fill-in "perl-write"
     '(description           "Write a formatted record to the specified file using the associated format")
     '(token                 "write")
-    '(replacement           "write(«name»)")
+    '(replacement           "write(Â«nameÂ»)")
 )
 
 (lse-define-fill-in "sort-subroutine"

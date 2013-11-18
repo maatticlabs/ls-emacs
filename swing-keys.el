@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-keys.el swi_keys.el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -35,7 +35,7 @@
 ;;;;    11-Jun-1994 (CT) swing-describe-key-briefly  added
 ;;;;    12-Jun-1994 (CT) swing-insert-key-definition added
 ;;;;    31-Aug-2002 (CT) `swing-redefine-std-emacs-keys` removed
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (if lse-emacs19-p

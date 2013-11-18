@@ -1,25 +1,25 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Compilation_Unit" 
   '(description   "Specification of compilation unit" )
   '(replacement 
       "\\begin{CompilationUnit}%"
-      "  {«Compilation_Unit_Name»}%"
-      "  {«Compilation_Unit_Type»}"
+      "  {Â«Compilation_Unit_NameÂ»}%"
+      "  {Â«Compilation_Unit_TypeÂ»}"
       ""                 
-      "  «Unit_Abstract»"                  
+      "  Â«Unit_AbstractÂ»"                  
       "  "
-      "  «Imports»"
+      "  Â«ImportsÂ»"
       ""
-      "  «Exports»"        
+      "  Â«ExportsÂ»"        
       ""                             
-      "  ««Return_Value»»"     
+      "  Â«Â«Return_ValueÂ»Â»"     
       "  "
-      "  ««Restrictions»»"
+      "  Â«Â«RestrictionsÂ»Â»"
       ""                 
-      "  ««Class_Axioms»»"                 
+      "  Â«Â«Class_AxiomsÂ»Â»"                 
       ""                 
-      "  ««Class_Invariants»»"
+      "  Â«Â«Class_InvariantsÂ»Â»"
       ""
       "\\end{CompilationUnit}"
     )                              
@@ -37,7 +37,7 @@
   '(description   "Abstract for program unit" )
   '(replacement 
       "  \\begin{UnitAbstract}"
-      "    «text»"
+      "    Â«textÂ»"
       "  \\end{UnitAbstract}"             
    )
 )
@@ -46,7 +46,7 @@
   '(description   "List of compilation units imported into compilation unit" )
   '(replacement 
       "  \\begin{Imports}"
-      "  «Import_From_Unit»···"
+      "  Â«Import_From_UnitÂ»Â·Â·Â·"
       "  \\end{Imports}"                  
    )
 )
@@ -54,8 +54,8 @@
 (lse-define-fill-in "Import_From_Unit" 
   '(description   "Name of unit from which items are imported" )
   '(replacement 
-      "\\unit {«Compilation_Unit_Name»} ««text»»"
-      "      ««Entities_Imported»»"        
+      "\\unit {Â«Compilation_Unit_NameÂ»} Â«Â«textÂ»Â»"
+      "      Â«Â«Entities_ImportedÂ»Â»"        
    )
 )
 
@@ -63,7 +63,7 @@
   '(description   "List of entities imported from a compilation unit" )
   '(replacement 
       "\\begin{imported}"
-      "«entity_imported»···"
+      "Â«entity_importedÂ»Â·Â·Â·"
       "\\end{imported}"
     )                              
 )
@@ -71,8 +71,8 @@
 (lse-define-fill-in "Entity_Imported" 
   '(description   "Name and of an imported entity and type of access" )
   '(replacement 
-      "\\entity {«Name_Of_Entity»} {«Access_to_Entity»}"
-      "      ««Optional_Description»»"
+      "\\entity {Â«Name_Of_EntityÂ»} {Â«Access_to_EntityÂ»}"
+      "      Â«Â«Optional_DescriptionÂ»Â»"
    )
 )
 
@@ -91,7 +91,7 @@
 
 (lse-define-fill-in "Optional_Description" 
   '(replacement 
-      "[««text»»]"
+      "[Â«Â«textÂ»Â»]"
    )
 )                               
 
@@ -99,13 +99,13 @@
   '(description   "List of entitites exported by compilation unit" )
   '(replacement 
       "\\begin{Exports}"
-      "««Exported_Data_Types»»"
+      "Â«Â«Exported_Data_TypesÂ»Â»"
       ""                           
-      "««Exported_Attributes»»"
+      "Â«Â«Exported_AttributesÂ»Â»"
       ""
-      "««Exported_Package»»···"
+      "Â«Â«Exported_PackageÂ»Â»Â·Â·Â·"
       ""          
-      "««Exported_Subprogram»»···"            
+      "Â«Â«Exported_SubprogramÂ»Â»Â·Â·Â·"            
       "\\end{Exports}"
     )        
 )
@@ -114,7 +114,7 @@
   '(description   "Data types exported by compilation unit" )
   '(replacement 
       "\\begin{Exportedtypes}"
-      "«Type_Exported»···"
+      "Â«Type_ExportedÂ»Â·Â·Â·"
       "\\end{Exportedtypes}"              
    )
 )                
@@ -122,7 +122,7 @@
 (lse-define-fill-in "Type_Exported" 
   '(description   "Name and description of a type exported by compilation unit" )
   '(replacement 
-      "\\datatype {«Name»} ««text»»"
+      "\\datatype {Â«NameÂ»} Â«Â«textÂ»Â»"
     )           
 )                         
 
@@ -130,7 +130,7 @@
   '(description   "List of constants, variables, parameterless functions exported" )
   '(replacement 
       "\\begin{Exportedattributes}"         
-      "«Attribute_Exported»···"
+      "Â«Attribute_ExportedÂ»Â·Â·Â·"
       "\\end{Exportedattributes}"
    )
 )
@@ -138,8 +138,8 @@
 (lse-define-fill-in "Attribute_Exported" 
   '(description   "Name, type and description of an exported attribute" )
   '(replacement 
-      "\\attribute {«Name»} {«Data_Type»}"
-      "         ««Optional_Description»»"
+      "\\attribute {Â«NameÂ»} {Â«Data_TypeÂ»}"
+      "         Â«Â«Optional_DescriptionÂ»Â»"
    )                 
 )
 
@@ -150,17 +150,17 @@
 (lse-define-fill-in "Exported_Package" 
   '(description   "Description of ADA-package, PASCAL-module or EIFFEL-class exported" )
   '(replacement 
-      "\\begin{ExportedPackage}{«name»}"
+      "\\begin{ExportedPackage}{Â«nameÂ»}"
       ""
-      "  «Unit_Abstract»"
+      "  Â«Unit_AbstractÂ»"
       ""
-      "  «Exports»"
+      "  Â«ExportsÂ»"
       ""
-      "  ««Restrictions»»"
+      "  Â«Â«RestrictionsÂ»Â»"
       ""
-      "  ««Class_Axioms»»"
+      "  Â«Â«Class_AxiomsÂ»Â»"
       ""
-      "  ««Class_Invariants»»"
+      "  Â«Â«Class_InvariantsÂ»Â»"
       ""
       "\\end{ExportedPackage}"
    )
@@ -169,17 +169,17 @@
 (lse-define-fill-in "EXPORTED_SUBPROGRAM" 
   '(description   "Description of exported function or procedure" )
   '(replacement 
-        "\\begin{ExportedSubprogram}{«Name»}{«Subprogram_Type»}"
+        "\\begin{ExportedSubprogram}{Â«NameÂ»}{Â«Subprogram_TypeÂ»}"
         ""
-        "  «Unit_Abstract»"
+        "  Â«Unit_AbstractÂ»"
         ""
-        "  ««Return_Value»»"
+        "  Â«Â«Return_ValueÂ»Â»"
         ""
-        "  «Arguments»"
+        "  Â«ArgumentsÂ»"
         ""
-        "  «Pre_Conditions»"
+        "  Â«Pre_ConditionsÂ»"
         ""
-        "  «Post_Conditions»"
+        "  Â«Post_ConditionsÂ»"
         "\\end{ExportedSubprogram}"
    )
 )
@@ -188,7 +188,7 @@
   '(description   "List of arguments" )
   '(replacement 
       "\\begin{Arguments}"
-      "«argument_description»···"
+      "Â«argument_descriptionÂ»Â·Â·Â·"
       "\\end{Arguments}"
    )
 )
@@ -196,8 +196,8 @@
 (lse-define-fill-in "Argument_Description" 
   '(description   "Name, Type and description of argument of a subprogram" )
   '(replacement 
-      "\\argument {«Name»} {«Data_Type»} {«Access_Type»}%" 
-      "        ««Optional_Description»»"
+      "\\argument {Â«NameÂ»} {Â«Data_TypeÂ»} {Â«Access_TypeÂ»}%" 
+      "        Â«Â«Optional_DescriptionÂ»Â»"
    )
 ) 
 
@@ -213,7 +213,7 @@
 (lse-define-fill-in "Return_Value" 
   '(description   "Description of return value" )
   '(replacement 
-      "\\returnvalue {«Data_Type»} ««Optional_Description»»"
+      "\\returnvalue {Â«Data_TypeÂ»} Â«Â«Optional_DescriptionÂ»Â»"
    )
 )
 
@@ -221,7 +221,7 @@
   '(description   "Preconditions of a subprogram" )
   '(replacement 
       "\\begin{preconditions}"
-      "«Assertion»···"
+      "Â«AssertionÂ»Â·Â·Â·"
       "\\end{preconditions}"
    )
 ) 
@@ -230,7 +230,7 @@
   '(description   "Postconditions of a subprogram" )
   '(replacement 
       "\\begin{postconditions}"
-      "«Assertion»···  "
+      "Â«AssertionÂ»Â·Â·Â·  "
       "\\end{postconditions}"
    )
 ) 
@@ -238,7 +238,7 @@
 (lse-define-fill-in "Assertion" 
   '(description   "Assertion which must be true at a given point of program execution" )
   '(replacement 
-      "\\assertion «text»"
+      "\\assertion Â«textÂ»"
    )
 ) 
 
@@ -246,7 +246,7 @@
   '(description   "Restrictions applying to a compilation unit" )
   '(replacement 
       "\\begin{restrictions}"
-      "«another_item»···"
+      "Â«another_itemÂ»Â·Â·Â·"
       "\\end{restrictions}"
    )
 )
@@ -255,7 +255,7 @@
   '(description   "Axioms describing the behaviour of the class" )
   '(replacement 
       "\\begin{classaxioms}"
-      "«axiom»···"
+      "Â«axiomÂ»Â·Â·Â·"
       "\\end{classaxioms}"
    )
 )
@@ -263,7 +263,7 @@
 (lse-define-fill-in "Axiom" 
   '(description   "Axiom applying to a class" )
   '(replacement 
-      "\\axiom «text»"
+      "\\axiom Â«textÂ»"
     )   
 )       
 
@@ -271,7 +271,7 @@
   '(description   "Invariants of the class: conditions valid at stable ANY time" )
   '(replacement 
       "\\begin{classinvariants}"         
-      "«invariant»···"    
+      "Â«invariantÂ»Â·Â·Â·"    
       "\\end{classinvariants}"
    )
 )
@@ -279,6 +279,6 @@
 (lse-define-fill-in "Invariant" 
   '(description   "Invariant applying to a class")
   '(replacement 
-      "\invariant «text»"
+      "\invariant Â«textÂ»"
     )   
 )       

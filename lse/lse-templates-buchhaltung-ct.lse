@@ -1,20 +1,20 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "buchhaltung"
     '(token)
     '(auto-expand); 17-Aug-2000
     '(replacement
-        " «Tag». & "
-        & "«Beleg-Zahl» & "
-        & "«MWSt» & "
-        & "«Betrag» & "
-        & "«Brutto/Netto» & "
-        & "«Soll-Konto» & "
-        & "«Haben-Konto» & "
-        & "«+-=» & "
-        & "«Tools» & "
+        " Â«TagÂ». & "
+        & "Â«Beleg-ZahlÂ» & "
+        & "Â«MWStÂ» & "
+        & "Â«BetragÂ» & "
+        & "Â«Brutto/NettoÂ» & "
+        & "Â«Soll-KontoÂ» & "
+        & "Â«Haben-KontoÂ» & "
+        & "Â«+-=Â» & "
+        & "Â«ToolsÂ» & "
         & " & "
-        & "«Beschreibung»  "
+        & "Â«BeschreibungÂ»  "
         & ""
      )
 ;;; buchhaltung
@@ -27,7 +27,7 @@
         "$source_currency = \"eur\";";  1-Jan-2002 eur instead of ats
         "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
                   & "Tools   &  & Beschreibung  "
-        "«buchhaltung»···"
+        "Â«buchhaltungÂ»Â·Â·Â·"
         "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file

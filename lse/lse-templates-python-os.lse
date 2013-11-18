@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Exception:args" 
   '(description           "Argument 1 of Exception")
@@ -10,7 +10,7 @@
 (lse-define-fill-in "Exception(args)" 
   '(description           "Create a Exception object")
   '(token                 "os.Exception")
-  '(replacement           "os.Exception (««Exception:args»»···)")
+  '(replacement           "os.Exception (Â«Â«Exception:argsÂ»Â»Â·Â·Â·)")
 ;;; Exception(args)
 )
 
@@ -89,7 +89,7 @@
 
 (lse-define-fill-in "os.execl" 
   '(token)
-  '(replacement           "os.execl («os.execl:file», ««os.execl:args»»···)")
+  '(replacement           "os.execl (Â«os.execl:fileÂ», Â«Â«os.execl:argsÂ»Â»Â·Â·Â·)")
 ;;; os.execl
 )
 
@@ -108,7 +108,7 @@
 
 (lse-define-fill-in "os.execle" 
   '(token)
-  '(replacement           "os.execle («os.execle:file», ««os.execle:args»»···)")
+  '(replacement           "os.execle (Â«os.execle:fileÂ», Â«Â«os.execle:argsÂ»Â»Â·Â·Â·)")
 ;;; os.execle
 )
 
@@ -127,7 +127,7 @@
 
 (lse-define-fill-in "os.execlp" 
   '(token)
-  '(replacement           "os.execlp («os.execlp:file», ««os.execlp:args»»···)")
+  '(replacement           "os.execlp (Â«os.execlp:fileÂ», Â«Â«os.execlp:argsÂ»Â»Â·Â·Â·)")
 ;;; os.execlp
 )
 
@@ -146,7 +146,7 @@
 
 (lse-define-fill-in "os.execlpe" 
   '(token)
-  '(replacement           "os.execlpe («os.execlpe:file», ««os.execlpe:args»»···)")
+  '(replacement           "os.execlpe (Â«os.execlpe:fileÂ», Â«Â«os.execlpe:argsÂ»Â»Â·Â·Â·)")
 ;;; os.execlpe
 )
 
@@ -191,7 +191,7 @@
 
 (lse-define-fill-in "os.execvp" 
   '(token)
-  '(replacement           "os.execvp («os.execvp:file», «os.execvp:args»)")
+  '(replacement           "os.execvp (Â«os.execvp:fileÂ», Â«os.execvp:argsÂ»)")
 ;;; os.execvp
 )
 
@@ -215,7 +215,7 @@
 
 (lse-define-fill-in "os.execvpe" 
   '(token)
-  '(replacement           "os.execvpe («os.execvpe:file», «os.execvpe:args», «os.execvpe:env»)")
+  '(replacement           "os.execvpe (Â«os.execvpe:fileÂ», Â«os.execvpe:argsÂ», Â«os.execvpe:envÂ»)")
 ;;; os.execvpe
 )
 

@@ -1,10 +1,10 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-language:define "buchhaltung"
     '(
-        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:initial-fill-in      "Â«buchhaltung-fileÂ»")
         (lse-language:tab-increment        2)
-        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-chars               "A-Za-z0-9Ã¤Ã¡Ã Ã¢Ã¶Ã³Ã²Ã´Ã¼ÃºÃ¹Ã»Ã„Ã–ÃœÃŸ")
         (lse-tpu:ident-group-chars         "-\@_")
         (lse_comment_head_delim            "%")
         (lse_comment_head_delim_pattern    "%+ *")

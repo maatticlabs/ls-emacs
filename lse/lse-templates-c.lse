@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "abort"
   '(token)
@@ -11,23 +11,23 @@
   '(separator     " ")
   '(leading       "[")
   '(trailing      "]")
-  '(replacement   "[«constant-expression»]")
+  '(replacement   "[Â«constant-expressionÂ»]")
 )
 
 (lse-define-fill-in "Array-Bounds"
   '(description   "The number of elements in each dimension")
-  '(replacement   "[««constant-expression»»]««array-bound»»···")
+  '(replacement   "[Â«Â«constant-expressionÂ»Â»]Â«Â«array-boundÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "Array-Declarator"
   '(description   "Declares an array of objects of the specified type")
-  '(replacement   "«declarator» «Array-Bounds»")
+  '(replacement   "Â«declaratorÂ» Â«Array-BoundsÂ»")
 )
 
 (lse-define-fill-in "assert"
   '(token)
   '(description     "Assert a logical condition which must hold at this point")
-  '(replacement     "assert («int-expression»);")
+  '(replacement     "assert (Â«int-expressionÂ»);")
 )
 
 (lse-define-fill-in "BASE_ACCESS"
@@ -95,16 +95,16 @@
     '(description   "LSE-Template for C header file")
     '(replacement
         "/*"
-        "**««header-comment»»"
+        "**Â«Â«header-commentÂ»Â»"
         "*/"
         ""
         "#ifndef _" & lse-insert-buffer-name & "_h"
         "#define _" & lse-insert-buffer-name & "_h 1"
         ""
         @ c-standard-includes
-        "««#include»»···"
+        "Â«Â«#includeÂ»Â»Â·Â·Â·"
         ""
-        "««c-declaration»»···"
+        "Â«Â«c-declarationÂ»Â»Â·Â·Â·"
         ""
         "#endif"
      )
@@ -177,13 +177,13 @@
     '(description           "LSE-Template for C source-file")
     '(replacement
         "/*"
-        "**««header-comment»»"
+        "**Â«Â«header-commentÂ»Â»"
         "*/"
         ""
         "#include \"" & lse-insert-buffer-name & ".h\""
-        "««#include»»···"
+        "Â«Â«#includeÂ»Â»Â·Â·Â·"
         ""
-        "««c-declaration»»···"
+        "Â«Â«c-declarationÂ»Â»Â·Â·Â·"
      )
 ;;; c-source-file
 )
@@ -191,7 +191,7 @@
 (lse-define-fill-in "char"
   '(token)
   '(description     "Declare a character object")
-  '(replacement     "char «declarator-and-initializer»")
+  '(replacement     "char Â«declarator-and-initializerÂ»")
 )
 
 (lse-define-fill-in "character-constant"
@@ -228,7 +228,7 @@
   '(separator ", ")
   '(menu
       identifier
-      "(«declarator»)"
+      "(Â«declaratorÂ»)"
       pointer-declarator
       function-declarator
       array-declarator
@@ -238,7 +238,7 @@
 (lse-define-fill-in "Double"
   '(token)
   '(description     "64 bits Double-precision floating-point variable")
-  '(replacement     "double «declarator-and-initializer»")
+  '(replacement     "double Â«declarator-and-initializerÂ»")
 )
 
 (lse-define-fill-in "Ellipsis"
@@ -251,9 +251,9 @@
   '(token)
   '(description     "Declaration of an enumeration type")
   '(replacement
-      "enum ««enum-name»»"
+      "enum Â«Â«enum-nameÂ»Â»"
       lse-indent+1
-      "{ ««enumerator-and-value»»···"
+      "{ Â«Â«enumerator-and-valueÂ»Â»Â·Â·Â·"
       "}"
       lse-indent-1
    )
@@ -273,13 +273,13 @@
   '(separator       lse-newline lse-environment-indent ", ")
   '(leading         ",")
   '(kill-action     lse-kill:join-sexp-boundary-maybe); 31-Dec-1997
-  '(replacement     "«enumerator» = ««constant-expression»»")
+  '(replacement     "Â«enumeratorÂ» = Â«Â«constant-expressionÂ»Â»")
 )
 
 (lse-define-fill-in "Exit"
   '(token)
   '(description     "terminates the invoking process, flushes and closes all files")
-  '(replacement     "exit (««int-expression»»)")
+  '(replacement     "exit (Â«Â«int-expressionÂ»Â»)")
 )
 
 (lse-define-fill-in "Extern"
@@ -293,13 +293,13 @@
 (lse-define-fill-in "Float"
   '(token)
   '(description     "single-precision floating-point variable")
-  '(replacement     "float «declarator-and-initializer»")
+  '(replacement     "float Â«declarator-and-initializerÂ»")
 )
 
 (lse-define-fill-in "function-declarator"
   '(description     "Declares a function returning the specified type")
   '(replacement
-    "«declarator» (««parameter-declaration»»···)"
+    "Â«declaratorÂ» (Â«Â«parameter-declarationÂ»Â»Â·Â·Â·)"
   )
 )
 
@@ -310,7 +310,7 @@
 
 (lse-define-fill-in "function-name-declaration"
   '(replacement
-    "««static-or-extern»» " & @ object-type-declaration & " «function-name» "
+    "Â«Â«static-or-externÂ»Â» " & @ object-type-declaration & " Â«function-nameÂ» "
    )
 ;;; function-name-declaration
 )
@@ -321,8 +321,8 @@
   '(replacement
     "{" ;  1-Jan-1998 ; removed leading '  '
     lse-indent+1
-    "««statement»»···"
-    "««return»»"
+    "Â«Â«statementÂ»Â»Â·Â·Â·"
+    "Â«Â«returnÂ»Â»"
     lse-indent-1
     "}" ;  1-Jan-1998 ; removed leading '  '
    )
@@ -335,7 +335,7 @@
   '(description     "Defines a function")
   '(replacement
       ""
-      @ function-name-declaration & "(««parameter-declaration»»···)"
+      @ function-name-declaration & "(Â«Â«parameter-declarationÂ»Â»Â·Â·Â·)"
       @ function-block ;  5-Apr-1995 `function-block' instead of `block'
       ""
   )
@@ -348,7 +348,7 @@
   '(description     "Declares a function prototype")
   '(replacement
       ""
-      @ function-name-declaration & "(«proto-parameter-list»);"
+      @ function-name-declaration & "(Â«proto-parameter-listÂ»);"
       ""
   )
 )
@@ -356,13 +356,13 @@
 (lse-define-fill-in "GOTO"
   '(token)
   '(description     "Transfers control unconditionally to a labeled statement")
-  '(replacement     "goto «label-name»;")
+  '(replacement     "goto Â«label-nameÂ»;")
 )
 
 (lse-define-fill-in "int"
   '(token)
   '(description     "integer of default size")
-  '(replacement     "int «declarator-and-initializer»")
+  '(replacement     "int Â«declarator-and-initializerÂ»")
 )
 
 (lse-define-fill-in "keyword"
@@ -385,9 +385,9 @@
     '(description           "Statement identified by a label")
     '(replacement
         lse-indent-1
-        "  «label-name» : "
+        "  Â«label-nameÂ» : "
         lse-indent+1
-        "«statement»;"
+        "Â«statementÂ»;"
      )
 ;;; labeled-statement
 )
@@ -395,7 +395,7 @@
 (lse-define-fill-in "long"
   '(token)
   '(description     "long integer")
-  '(replacement     "long «declarator-and-initializer»")
+  '(replacement     "long Â«declarator-and-initializerÂ»")
 )
 
 (lse-define-fill-in "LVALUE"
@@ -404,30 +404,30 @@
       identifier
       array-reference
       @ member-reference
-      "* «expression»"
-      "(«lvalue»)"
+      "* Â«expressionÂ»"
+      "(Â«lvalueÂ»)"
   )
 )
 
 (lse-define-fill-in "member-reference"
   '(menu
-      "«primary» -> «identifier»"
-      "«lvalue».«identifier»"
+      "Â«primaryÂ» -> Â«identifierÂ»"
+      "Â«lvalueÂ».Â«identifierÂ»"
   )
 )
 
 (lse-define-fill-in "object-declaration"
     '(token)
     '(replacement
-        "««static-or-extern»» "
+        "Â«Â«static-or-externÂ»Â» "
            & @ object-type-declaration
-           & "«declarator-and-initializer»;"
+           & "Â«declarator-and-initializerÂ»;"
      )
 ;;; object-declaration
 )
 
 (lse-define-fill-in "object-type-declaration"
-    '(replacement   "««object-type-modifier»» «data-type» ««pointer-or-reference»»")
+    '(replacement   "Â«Â«object-type-modifierÂ»Â» Â«data-typeÂ» Â«Â«pointer-or-referenceÂ»Â»")
 ;;; object-type-declaration
 )
 
@@ -449,7 +449,7 @@
 
 (lse-define-fill-in "pointer-declarator"
   '(description     "Declares a pointer to an object of the specified type")
-  '(replacement     "* ««Object-Type-Modifier»»··· «declarator»")
+  '(replacement     "* Â«Â«Object-Type-ModifierÂ»Â»Â·Â·Â· Â«declaratorÂ»")
 )
 
 (lse-define-fill-in "pointer-or-reference"
@@ -480,7 +480,7 @@
 (lse-define-fill-in "proto-parameter-list"
   '(description     "Declaration of parameter list for function prototype")
   '(menu
-      "«parameter-declaration»···, ««ellipsis»»"
+      "Â«parameter-declarationÂ»Â·Â·Â·, Â«Â«ellipsisÂ»Â»"
       "void"
    )
 ;;; proto-parameter-list
@@ -489,15 +489,15 @@
 (lse-define-fill-in "short"
     '(token)
     '(description     "Short integer")
-    '(replacement     "short «declarator-and-initializer»")
+    '(replacement     "short Â«declarator-and-initializerÂ»")
 ;;; short
 )
 
 (lse-define-fill-in "sizeof"
   '(description     "The size, in bytes, of some object")
   '(menu
-      "sizeof «expression»"
-      "sizeof («type-name»)"
+      "sizeof Â«expressionÂ»"
+      "sizeof (Â«type-nameÂ»)"
   )
 )
 
@@ -508,7 +508,7 @@
   '(trailing        ";")
   ;;  1-Jan-1999 ;; '(kill-action     lse-kill:join-sexp-boundary-maybe); 31-Dec-1997
   '(menu
-      "«expression»;"
+      "Â«expressionÂ»;"
       break
       continue
       do
@@ -539,9 +539,9 @@
     '(token)
     '(description   "Define a record type")
     '(replacement
-        "struct ««identifier»» "
-          & "««struct-member-declaration»» "
-          & "««declarator-and-initializer»»;"
+        "struct Â«Â«identifierÂ»Â» "
+          & "Â«Â«struct-member-declarationÂ»Â» "
+          & "Â«Â«declarator-and-initializerÂ»Â»;"
      )
 ;;; struct
 )
@@ -552,7 +552,7 @@
         ""
         "  {"
         lse-indent+1
-        "««data-member-definition»»···"
+        "Â«Â«data-member-definitionÂ»Â»Â·Â·Â·"
         lse-indent-1
         "  } "
      )
@@ -560,7 +560,7 @@
 )
 
 (lse-define-fill-in "type-definition"
-    '(replacement   @ object-type-declaration & " «declarator»")
+    '(replacement   @ object-type-declaration & " Â«declaratorÂ»")
 ;;; type-definition
 )
 
@@ -583,16 +583,16 @@
 
 (lse-define-fill-in "unary-expression"
   '(menu
-      ("* «expression»"             "dereference value of «expression»")
-      ("& «lvalue»"                 "address of «lvalue»")
-      ("- «expression»"             "numeric negation of «expression»")
-      ("! «expression»"             "logical negation of «expression»")
-      ("~ «expression»"             "bitwise negation of «expression»")
-      ("++«lvalue»"                 "pre-increment  «lvalue»")
-      ("--«lvalue»"                 "pre-decrement  «lvalue»")
-      ("«lvalue»++"                 "post-increment «lvalue»")
-      ("«lvalue»--"                 "post-decrement «lvalue»")
-      ("(«type-name») «expression»" "type-cast «expression» to «type-name»")
+      ("* Â«expressionÂ»"             "dereference value of Â«expressionÂ»")
+      ("& Â«lvalueÂ»"                 "address of Â«lvalueÂ»")
+      ("- Â«expressionÂ»"             "numeric negation of Â«expressionÂ»")
+      ("! Â«expressionÂ»"             "logical negation of Â«expressionÂ»")
+      ("~ Â«expressionÂ»"             "bitwise negation of Â«expressionÂ»")
+      ("++Â«lvalueÂ»"                 "pre-increment  Â«lvalueÂ»")
+      ("--Â«lvalueÂ»"                 "pre-decrement  Â«lvalueÂ»")
+      ("Â«lvalueÂ»++"                 "post-increment Â«lvalueÂ»")
+      ("Â«lvalueÂ»--"                 "post-decrement Â«lvalueÂ»")
+      ("(Â«type-nameÂ») Â«expressionÂ»" "type-cast Â«expressionÂ» to Â«type-nameÂ»")
       @ sizeof
   )
 )
@@ -627,9 +627,9 @@
     '(token)
     '(description   "Define a union type. The members of the union all occupy the same memory area, i.e., they overlay each other.")
     '(replacement
-        "union «identifier» "
-          & "««union-member-declaration»» "
-          & "««declarator-and-initializer»»;"
+        "union Â«identifierÂ» "
+          & "Â«Â«union-member-declarationÂ»Â» "
+          & "Â«Â«declarator-and-initializerÂ»Â»;"
      )
 ;;; union
 )
@@ -661,7 +661,7 @@
 (lse-define-fill-in "#define"
     '(token                 "#define")
     '(description           "Define a preprocessor macro")
-    '(replacement           "#define «identifier» ««text»»")
+    '(replacement           "#define Â«identifierÂ» Â«Â«textÂ»Â»")
 ;;; #define
 )
 
@@ -670,8 +670,8 @@
   '(description           "Elseif-clause of #if construction")
   '(replacement
       lse-no-indent
-      "#elif «constant-expression»"
-      "««text»»"
+      "#elif Â«constant-expressionÂ»"
+      "Â«Â«textÂ»Â»"
    )
 ;;; #elif
 )
@@ -682,7 +682,7 @@
   '(replacement
       lse-no-indent
       "#else"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 ;;; #else
 )
@@ -692,11 +692,11 @@
     '(description           "Conditional compilation")
     '(replacement
         lse-no-indent
-        "#if «constant-expression»"
-        "««text»»"
-        "««#elif»»"
-        "««#else»»"
-        "#endif // «constant-expression»"
+        "#if Â«constant-expressionÂ»"
+        "Â«Â«textÂ»Â»"
+        "Â«Â«#elifÂ»Â»"
+        "Â«Â«#elseÂ»Â»"
+        "#endif // Â«constant-expressionÂ»"
      )
 ;;; #if
 )
@@ -706,10 +706,10 @@
   '(description     "Compile conditionally depending on existence of identifier")
   '(replacement
       lse-no-indent
-      "#ifdef «identifier-a»"
-      "««text»»"
-      "««#else»»"
-      "#endif // «identifier-a»"
+      "#ifdef Â«identifier-aÂ»"
+      "Â«Â«textÂ»Â»"
+      "Â«Â«#elseÂ»Â»"
+      "#endif // Â«identifier-aÂ»"
   )
 )
 
@@ -718,10 +718,10 @@
   '(description     "Compile conditionally depending on non-existence of identifier")
   '(replacement
       lse-no-indent
-      "#ifndef «identifier-a»"
-      "««text»»"
-      "««#else»»"
-      "#endif // «identifier-a»"
+      "#ifndef Â«identifier-aÂ»"
+      "Â«Â«textÂ»Â»"
+      "Â«Â«#elseÂ»Â»"
+      "#endif // Â«identifier-aÂ»"
   )
 )
 
@@ -730,15 +730,15 @@
   '(description           "Include a header file")
   '(replacement
       lse-no-indent
-      "#include «#include-file»"
+      "#include Â«#include-fileÂ»"
    )
 ;;; #include
 )
 
 (lse-define-fill-in "#include-file"
   '(menu
-      ("\"«file-name».h\""     "Include file «file-name» from source directories")
-      ("<«file-name».h>"       "Include file «file-name» from library directories")
+      ("\"Â«file-nameÂ».h\""     "Include file Â«file-nameÂ» from source directories")
+      ("<Â«file-nameÂ».h>"       "Include file Â«file-nameÂ» from library directories")
    )
 ;;; #include-file
 )
@@ -748,8 +748,8 @@
   '(description     "Undefine a preprocessor macro")
   '(replacement
       lse-no-indent
-      "#undef «identifier»"
+      "#undef Â«identifierÂ»"
    )
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·

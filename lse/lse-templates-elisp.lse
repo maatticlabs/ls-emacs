@@ -1,33 +1,33 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "and"
     '(token)
     '(description           "Evaluate embedded forms in order until one forms returns nil or return value of last form")
-    '(replacement           "(and «form»···)")
+    '(replacement           "(and Â«formÂ»Â·Â·Â·)")
 )
 
 (lse-define-fill-in "arg"
     '(description           "Arguments of lisp form (blank separated)")
     '(separator             " ")
     '(menu
-        "«name»"
-        "&optional «arg»"
+        "Â«nameÂ»"
+        "&optional Â«argÂ»"
         "&rest arg"
      )
 )
 
 (lse-define-fill-in "binding"
     '(menu
-        ("(«name» «form»)"     "Initialize «name» with value of «form»")
-        ("«name»"              "Initialize «name» with nil")
+        ("(Â«nameÂ» Â«formÂ»)"     "Initialize Â«nameÂ» with value of Â«formÂ»")
+        ("Â«nameÂ»"              "Initialize Â«nameÂ» with nil")
      )
 ;;; binding
 )
 
 (lse-define-fill-in "catch"
     '(token)
-    '(description           "Establish return point «symbol» for the throw function for the embedded forms")
-    '(replacement           "(catch «symbol»" @ form-list & ")")
+    '(description           "Establish return point Â«symbolÂ» for the throw function for the embedded forms")
+    '(replacement           "(catch Â«symbolÂ»" @ form-list & ")")
 ;;; catch
 )
 
@@ -41,7 +41,7 @@
   '(token                 "case")
   '(description           "Choose among an arbitrary number of alternatives in textual order")
   '(replacement
-      "(cond «cond-clause»···"
+      "(cond Â«cond-clauseÂ»Â·Â·Â·"
       ")"
    )
 )
@@ -49,8 +49,8 @@
 (lse-define-fill-in "cond-clause"
   '(token)
   '(replacement
-      "(«form»"
-      " ««form»»···"
+      "(Â«formÂ»"
+      " Â«Â«formÂ»Â»Â·Â·Â·"
       ")"
    )
 )
@@ -58,13 +58,13 @@
 (lse-define-fill-in "condition-case"
     '(token)
     '(token                 "try");  5-Oct-2007
-    '(description           "Establish the error handlers «condition-handler»··· around the execution of «form»")
+    '(description           "Establish the error handlers Â«condition-handlerÂ»Â·Â·Â· around the execution of Â«formÂ»")
     '(replacement
-        "(condition-case «condition-var»"
+        "(condition-case Â«condition-varÂ»"
           lse-indent+1 lse-indent+1
-          "«form»"
+          "Â«formÂ»"
           lse-indent-1
-          "«condition-handler»···"
+          "Â«condition-handlerÂ»Â·Â·Â·"
           lse-indent-1
         ")"
      )
@@ -75,7 +75,7 @@
     '(token)
     '(token                 "except");  5-Oct-2007
     '(replacement
-        "(«condition-handler-condition»"
+        "(Â«condition-handler-conditionÂ»"
           @ form-list &
         ")"
      )
@@ -86,7 +86,7 @@
     '(description           "(List of) error condition name(s)")
     '(menu
         condition-handler-error-symbol
-        ("(«condition-handler-error-symbol»···)"
+        ("(Â«condition-handler-error-symbolÂ»Â·Â·Â·)"
            "Condition handler handles all conditions in list of error-symbols"
         )
      )
@@ -117,7 +117,7 @@
     '(description           "Variable bound to a list (error-symbol   data) in case of error for use by condition-handler")
     '(menu
         ("nil"              "Error symbol and associated data are not made available to the condition handler")
-        ("«name»"           "Error symbol and associated data are made available in variable «name» to the condition handler")
+        ("Â«nameÂ»"           "Error symbol and associated data are made available in variable Â«nameÂ» to the condition handler")
      )
 ;;; condition-var
 )
@@ -142,7 +142,7 @@
     '(description           "Define a lisp constant")
     '(replacement
         @ date-of-def
-        "(defconst «def-name» «form» ««quoted-text»»)"
+        "(defconst Â«def-nameÂ» Â«formÂ» Â«Â«quoted-textÂ»Â»)"
      )
 ;;; defconst
 )
@@ -184,7 +184,7 @@
     '(description           "Define a lisp variable")
     '(replacement
         @ date-of-def
-        "(defvar «def-name» «form» ««quoted-text»»)"
+        "(defvar Â«def-nameÂ» Â«formÂ» Â«Â«quoted-textÂ»Â»)"
      )
 ;;; defvar
 )
@@ -193,13 +193,13 @@
     '(description           "Module of elisp functions")
     '(rcompletion-trailer   delete-blank-lines)
     '(replacement
-        ";-*- coding: iso-8859-15; -*-"
+        ";-*- coding: utf-8; -*-"
         ""
-        ";;;;««header-comment»»"
-        "««provide»»"
-        "««require»»···"
+        ";;;;Â«Â«header-commentÂ»Â»"
+        "Â«Â«provideÂ»Â»"
+        "Â«Â«requireÂ»Â»Â·Â·Â·"
         ""
-        "««defun»»···"
+        "Â«Â«defunÂ»Â»Â·Â·Â·"
         ""
         ";;;; __END__ " & lse-insert-buffer-name
      )
@@ -214,8 +214,8 @@
   '(description           "Any valid Elisp form")
   '(token)
   '(menu
-      ("«name»"     "Value of variable «name»")
-      ("(«name»)"   "Value of function, macro or special form «name»")
+      ("Â«nameÂ»"     "Value of variable Â«nameÂ»")
+      ("(Â«nameÂ»)"   "Value of function, macro or special form Â«nameÂ»")
       and
       catch
       cond
@@ -245,7 +245,7 @@
 (lse-define-fill-in "form-list"
     '(replacement
         lse-indent+1
-        "«form»···"
+        "Â«formÂ»Â·Â·Â·"
         lse-indent-1
      )
 ;;; form-list
@@ -263,11 +263,11 @@
 )
 
 (lse-define-fill-in "function-definition"
-    '(replacement "(««arg»»···)"
+    '(replacement "(Â«Â«argÂ»Â»Â·Â·Â·)"
         lse-environment-indent lse-indent+1
-        "««quoted-text»»"
-        "««interactive»»"
-        "«form»···"
+        "Â«Â«quoted-textÂ»Â»"
+        "Â«Â«interactiveÂ»Â»"
+        "Â«formÂ»Â·Â·Â·"
         lse-indent-1
      )
 ;;; function-definition
@@ -276,11 +276,11 @@
 (lse-define-fill-in "if"
   '(token)
   '(replacement
-      "(if «form»"
+      "(if Â«formÂ»"
         lse-indent+1 lse-indent+1
-        "«then-clause»"
+        "Â«then-clauseÂ»"
         lse-indent-1
-        "««else-clause»»"
+        "Â«Â«else-clauseÂ»Â»"
         lse-indent-1
       ")"
    )
@@ -289,13 +289,13 @@
 (lse-define-fill-in "interactive"
   '(token)
   '(description             "Specifies that lisp function is callable interactively")
-  '(replacement             "(interactive ««interactive-arg-descriptor»»)")
+  '(replacement             "(interactive Â«Â«interactive-arg-descriptorÂ»Â»)")
 )
 
 (lse-define-fill-in "interactive-arg"
     '(description           "Description of a single argumment to an interactive lisp function")
     '(separator             "")
-    '(replacement           @ interactive-arg-code & "««interactive-arg-prompt»»")
+    '(replacement           @ interactive-arg-code & "Â«Â«interactive-arg-promptÂ»Â»")
 )
 
 (lse-define-fill-in "interactive-arg-code"
@@ -332,7 +332,7 @@
     '(description           "Specification of the arguments to an interactive function ('*' means function changes the buffer)")
     '(replacement-leading   "\"")
     '(replacement-trailer   "\"")
-    '(replacement           "««*»»««interactive-arg»»···")
+    '(replacement           "Â«Â«*Â»Â»Â«Â«interactive-argÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "interactive-arg-prompt"
@@ -348,20 +348,20 @@
 
 (lse-define-fill-in "let"
     '(token)
-    '(description           "Binds variables according to «binding»··· and the evaluate all of the «form»··· in textual order returning the value of the last")
-    '(replacement           "(let («binding»···" "     )" @ form-list & ")")
+    '(description           "Binds variables according to Â«bindingÂ»Â·Â·Â· and the evaluate all of the Â«formÂ»Â·Â·Â· in textual order returning the value of the last")
+    '(replacement           "(let (Â«bindingÂ»Â·Â·Â·" "     )" @ form-list & ")")
 )
 
 (lse-define-fill-in "let*"
     '(token)
-    '(description           "Like let, except that each symbol in «binding»··· is bound as soon as its new value is computed")
-    '(replacement           "(let* («binding»···" "      )" @ form-list & ")")
+    '(description           "Like let, except that each symbol in Â«bindingÂ»Â·Â·Â· is bound as soon as its new value is computed")
+    '(replacement           "(let* (Â«bindingÂ»Â·Â·Â·" "      )" @ form-list & ")")
 )
 
 ;;; 12-Oct-2007
 (lse-define-fill-in "named-function-definition"
-    '(replacement " «def-name» " & @ function-definition &
-      "; «def-name»"
+    '(replacement " Â«def-nameÂ» " & @ function-definition &
+      "; Â«def-nameÂ»"
      )
 ;;; named-function-definition
 )
@@ -369,13 +369,13 @@
 (lse-define-fill-in "not"
     '(token)
     '(description           "negate value of form")
-    '(replacement           "(not «form»)")
+    '(replacement           "(not Â«formÂ»)")
 )
 
 (lse-define-fill-in "or"
     '(token)
     '(description           "Evaluate embedded forms in order until one forms returns non-nil or return nil")
-    '(replacement           "(or «form»···)")
+    '(replacement           "(or Â«formÂ»Â·Â·Â·)")
 )
 
 (lse-define-fill-in "prog1"
@@ -415,8 +415,8 @@
         ("\\`"              "Match empty string at the beginning of buffer or string")
         ("\\'"              "Match empty string at the end       of buffer or string")
         ("\\="              "Match empty string, provided it is at point")
-        ("\\s«syntax-code»" "Match any character whose syntax is «syntax-code»")
-        ("\\S«syntax-code»" "Match any character whose syntax is not «syntax-code»")
+        ("\\sÂ«syntax-codeÂ»" "Match any character whose syntax is Â«syntax-codeÂ»")
+        ("\\SÂ«syntax-codeÂ»" "Match any character whose syntax is not Â«syntax-codeÂ»")
         @ regexp-item-escaped
      )
 ;;; regexp-special-item
@@ -424,31 +424,31 @@
 
 (lse-define-fill-in "require"
     '(token)
-    '(description           "Checks whether «symbol» is present; if not then loads the corresponding module (default for ««file-name»» is «symbol»)")
-    '(replacement           "(require «symbol» ««file-name»»)")
+    '(description           "Checks whether Â«symbolÂ» is present; if not then loads the corresponding module (default for Â«Â«file-nameÂ»Â» is Â«symbolÂ»)")
+    '(replacement           "(require Â«symbolÂ» Â«Â«file-nameÂ»Â»)")
 )
 
 (lse-define-fill-in "save-excursion"
     '(token)
-    '(description           "Executes «form»··· in sequence, preserving the current buffer and its values of point and mark, but not window-buffer correspondeces")
+    '(description           "Executes Â«formÂ»Â·Â·Â· in sequence, preserving the current buffer and its values of point and mark, but not window-buffer correspondeces")
     '(replacement           "(save-excursion " @ form-list & ")")
 )
 
 (lse-define-fill-in "save-match-data"
     '(token)
-    '(description           "Execute «form»··· in sequence, preserving the current match data")
+    '(description           "Execute Â«formÂ»Â·Â·Â· in sequence, preserving the current match data")
     '(replacement           "(save-match-data " @ form-list & ")")
 )
 
 (lse-define-fill-in "save-restriction"
     '(token)
-    '(description           "Executes «form»··· in sequence, preserving the narrowing bounds currently in effect (use inside save-excursion if both are necessary)")
+    '(description           "Executes Â«formÂ»Â·Â·Â· in sequence, preserving the narrowing bounds currently in effect (use inside save-excursion if both are necessary)")
     '(replacement           "(save-restriction " @form-list ")")
 )
 
 (lse-define-fill-in "save-window-excursion"
     '(token)
-    '(description           "Executes «form»··· in sequence, preserving window sizes and contents, but not the value of ppoint in the current buffer")
+    '(description           "Executes Â«formÂ»Â·Â·Â· in sequence, preserving window sizes and contents, but not the value of ppoint in the current buffer")
     '(replacement           "(save-window-excursion " @ form-list ")")
 )
 
@@ -485,8 +485,8 @@
 
 (lse-define-fill-in "throw"
     '(token)
-    '(description           "Return from the (innermost) return point «symbol» prevously established with catch returning the value of «form»")
-    '(replacement           "throw «symbol» «form»")
+    '(description           "Return from the (innermost) return point Â«symbolÂ» prevously established with catch returning the value of Â«formÂ»")
+    '(replacement           "throw Â«symbolÂ» Â«formÂ»")
 )
 
 ;;; 12-Oct-2007
@@ -495,19 +495,19 @@
     '(description
       "Evaluate embedded forms unless first form returns true"
      )
-    '(replacement           "(unless «form»" @ form-list & ")")
+    '(replacement           "(unless Â«formÂ»" @ form-list & ")")
 )
 
 (lse-define-fill-in "unwind-protect"
     '(token)
     '(token                 "finally")
-    '(description           "Execute «form» with a guarantee that «cleanup-form»··· are executed, if control leaves «form», no matter how that happens")
+    '(description           "Execute Â«formÂ» with a guarantee that Â«cleanup-formÂ»Â·Â·Â· are executed, if control leaves Â«formÂ», no matter how that happens")
     '(replacement
         "(unwind-protect"
           lse-indent+1 lse-indent+1
-          "«form»"
+          "Â«formÂ»"
           lse-indent-1
-          "«cleanup-form»···"
+          "Â«cleanup-formÂ»Â·Â·Â·"
           lse-indent-1
         ")"
      )
@@ -518,23 +518,22 @@
 (lse-define-fill-in "when"
     '(token)
     '(description           "Evaluate embedded forms if first form returns true")
-    '(replacement           "(when «form»" @ form-list & ")")
+    '(replacement           "(when Â«formÂ»" @ form-list & ")")
 )
 
 (lse-define-fill-in "while"
     '(token)
     '(description           "Evaluate embedded forms as long as first form returns true")
-    '(replacement           "(while «form»" @ form-list & ")")
+    '(replacement           "(while Â«formÂ»" @ form-list & ")")
 )
 
 (lse-define-fill-in "with-output-to-temp-buffer"
     '(token)
-    '(description           "Execute «form»··· while arranging to insert any output they print into the buffer «name»")
+    '(description           "Execute Â«formÂ»Â·Â·Â· while arranging to insert any output they print into the buffer Â«nameÂ»")
     '(replacement
-        "(with-output-to-temp-buffer «name»"
+        "(with-output-to-temp-buffer Â«nameÂ»"
           @ form-list &
         ")"
      )
 ;;; with-output-to-temp-buffer
 )
-

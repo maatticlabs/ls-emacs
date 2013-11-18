@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;; 31-Mar-1999 
 (lse-define-fill-in "Formatted_C_Stream:header_file"
@@ -9,8 +9,8 @@
      )
     '(replacement
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
-            & ".begin_header_file («name»)"
-        "«py-statement»···"
+            & ".begin_header_file (Â«nameÂ»)"
+        "Â«py-statementÂ»Â·Â·Â·"
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
             & ".end_header_file ()"
      )
@@ -34,8 +34,8 @@
      )
     '(replacement
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
-            & ".begin_function («return-type», «name», ««arg»»···)"
-        "«py-statement»···"
+            & ".begin_function (Â«return-typeÂ», Â«nameÂ», Â«Â«argÂ»Â»Â·Â·Â·)"
+        "Â«py-statementÂ»Â·Â·Â·"
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
             & ".end_function   ()"
      )
@@ -63,8 +63,8 @@
      )
     '(replacement
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
-            & ".begin_task     («name»)"
-        "«py-statement»···"
+            & ".begin_task     (Â«nameÂ»)"
+        "Â«py-statementÂ»Â·Â·Â·"
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
             & ".end_task       ()"
      )
@@ -79,8 +79,8 @@
     '(description           "Write an if statement to the formatted c-stream.")
     '(replacement
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
-            & ".begin_if       («condition»)"
-        "«py-statement»···"
+            & ".begin_if       (Â«conditionÂ»)"
+        "Â«py-statementÂ»Â·Â·Â·"
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
             & ".end_if         ()"
      )
@@ -101,14 +101,14 @@
     '(description           "Write a for statement to the formatted c-stream.")
     '(replacement
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
-            & ".begin_for      («condition»)"
-        "«py-statement»···"
+            & ".begin_for      (Â«conditionÂ»)"
+        "Â«py-statementÂ»Â·Â·Â·"
         (lse-insert-replica-or-flat "Formatted_C_Stream:name")
             & ".end_for        ()"
      )
 ;;; Formatted_C_Stream:for
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 

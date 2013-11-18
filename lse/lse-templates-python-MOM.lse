@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2010-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -28,7 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    31-Jan-2010 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 31-Jan-2010
@@ -42,7 +42,7 @@
           ""
           "_Ancestor = _Ancestor_Essence._Attributes"
           ""
-          "««MOM-Attribute»»···"
+          "Â«Â«MOM-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _Attributes"
      )
@@ -62,11 +62,11 @@
           ""
           "### Primary attributes"
           ""
-          "««MOM-Attribute-Link-Role»»···"
+          "Â«Â«MOM-Attribute-Link-RoleÂ»Â»Â·Â·Â·"
           ""
           "### Non-primary attributes"
           ""
-          "««MOM-Attribute»»···"
+          "Â«Â«MOM-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _Attributes"
      )
@@ -82,15 +82,15 @@
         "Define a specific attribute of an essential object/link"
      )
     '(replacement
-        "class «py-class-name» («MOM-Attribute-Type») :"
+        "class Â«py-class-nameÂ» (Â«MOM-Attribute-TypeÂ») :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "««MOM-Attribute-Kind»»"
-          "««MOM-Attribute-Attribute»»···"
+          "Â«Â«MOM-Attribute-KindÂ»Â»"
+          "Â«Â«MOM-Attribute-AttributeÂ»Â»Â·Â·Â·"
           ""
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; MOM-Attribute
 )
@@ -126,7 +126,7 @@
       "after any change of any of the attributes listed here."
      )
     '(replacement
-        "auto_up_depends    = («quoted-text», ««quoted-text»»)"
+        "auto_up_depends    = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Attribute-auto-up-depends
 )
@@ -148,8 +148,8 @@
     '(token)
     '(description           "Default value of a MOM attribute")
     '(menu
-        "default            = «value»"
-        "raw_default        = «quoted-text»"
+        "default            = Â«valueÂ»"
+        "raw_default        = Â«quoted-textÂ»"
         MOM-Attribute-computed-default
      )
 ;;; MOM-Attribute-default
@@ -173,7 +173,7 @@
     '(description           "Further explanation for a MOM attribute")
     '(replacement
         "explanation        = \"\"\" "
-        "  «text»"
+        "  Â«textÂ»"
         "  \"\"\" "
      )
 ;;; MOM-Attribute-explanation
@@ -184,7 +184,7 @@
     '(token)
     '(description           "Sort group of a MOM attribute")
     '(replacement
-        "group              = «text»"
+        "group              = Â«textÂ»"
      )
 ;;; MOM-Attribute-group
 )
@@ -194,8 +194,8 @@
     '(token)
     '(description           "Define attribute Kind")
     '(replacement
-        "kind               = Attr.«MOM-Attribute-Kind-Type»"
-        "««MOM-Attribute-Kind-Mixins»»"
+        "kind               = Attr.Â«MOM-Attribute-Kind-TypeÂ»"
+        "Â«Â«MOM-Attribute-Kind-MixinsÂ»Â»"
      )
 ;;; MOM-Attribute-Kind
 )
@@ -205,7 +205,7 @@
     '(token)
     '(description           "Define additional mixins for attribute kind")
     '(replacement
-        "Kind_Mixins        = («MOM-Attribute-Kind-Type-Mixin»···)"
+        "Kind_Mixins        = (Â«MOM-Attribute-Kind-Type-MixinÂ»Â·Â·Â·)"
      )
 ;;; MOM-Attribute-Kind-Mixins
 )
@@ -265,15 +265,15 @@
         "Define a specific role attribute of an essential object/link"
      )
     '(replacement
-        "class «MOM-Link-Role-Name» (_Ancestor.«MOM-Link-Role-Name») :"
+        "class Â«MOM-Link-Role-NameÂ» (_Ancestor.Â«MOM-Link-Role-NameÂ») :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "««MOM-Attribute-Role-Type»»"
-          "««MOM-Attribute-Role-Attribute»»···"
+          "Â«Â«MOM-Attribute-Role-TypeÂ»Â»"
+          "Â«Â«MOM-Attribute-Role-AttributeÂ»Â»Â·Â·Â·"
           ""
         lse-indent-1
-        "# end class «MOM-Link-Role-Name»"
+        "# end class Â«MOM-Link-Role-NameÂ»"
      )
 ;;; MOM-Attribute-Link-Role
 )
@@ -283,7 +283,7 @@
     '(token)
     '(description           "Maximum length of value of string-typed attribute")
     '(replacement
-        "max_length         = «value»"
+        "max_length         = Â«valueÂ»"
      )
 ;;; MOM-Attribute-max-length
 )
@@ -293,7 +293,7 @@
     '(token)
     '(description           "Maximum value of value of number-typed attribute")
     '(replacement
-        "max_value          = «value»"
+        "max_value          = Â«valueÂ»"
      )
 ;;; MOM-Attribute-max-value
 )
@@ -315,7 +315,7 @@
     '(token)
     '(description           "Minimum value of value of number-typed attribute")
     '(replacement
-        "min_value          = «value»"
+        "min_value          = Â«valueÂ»"
      )
 ;;; MOM-Attribute-min-value
 )
@@ -325,7 +325,7 @@
     '(token)
     '(description           "Query expression used to compute the value")
     '(menu
-        "query              = Q.«expression»"
+        "query              = Q.Â«expressionÂ»"
         MOM-Attribute-query-fct
      )
 ;;; MOM-Attribute-query
@@ -349,7 +349,7 @@
     '(token)
     '(description           "Rank of attribute")
     '(replacement
-        "rank               = «value»"
+        "rank               = Â«valueÂ»"
      )
 ;;; MOM-Attribute-rank
 )
@@ -373,7 +373,7 @@
     '(token)
     '(description           "Auto cache this role in other roles object")
     '(replacement
-        "auto_cache         = «MOM-Attribute-Role-Auto-Cache-Value»"
+        "auto_cache         = Â«MOM-Attribute-Role-Auto-Cache-ValueÂ»"
      )
 ;;; MOM-Attribute-Role-Auto-Cache
 )
@@ -383,7 +383,7 @@
     '(menu
         "True"
         name
-        "MOM.Role_Cacher («value»···)"
+        "MOM.Role_Cacher (Â«valueÂ»Â·Â·Â·)"
      )
 ;;; MOM-Attribute-Role-Auto-Cache-Value
 )
@@ -393,7 +393,7 @@
     '(token)
     '(description           "Maximum number of links allowed for this role")
     '(replacement
-        "max_links          = «value»"
+        "max_links          = Â«valueÂ»"
      )
 ;;; MOM-Attribute-Role-Max-Links
 )
@@ -403,7 +403,7 @@
     '(token)
     '(token                 "Role name used for this link role")
     '(replacement
-        "role_name          = «quoted-text»"
+        "role_name          = Â«quoted-textÂ»"
      )
 ;;; MOM-Attribute-Role-Name
 )
@@ -412,7 +412,7 @@
 (lse-define-fill-in "MOM-Attribute-Role-Type"
     '(description           "Type of object participating in link")
     '(replacement
-        "role_type          = «value»"
+        "role_type          = Â«valueÂ»"
      )
 ;;; MOM-Attribute-Role-Type
 )
@@ -433,7 +433,7 @@
     '(description           "Type of attribute")
     '(menu
         MOM-Attribute-Type-Derived
-        "A_«MOM-Attribute-Type-1»"
+        "A_Â«MOM-Attribute-Type-1Â»"
      )
 ;;; MOM-Attribute-Type
 )
@@ -472,7 +472,7 @@
     '(token)
     '(token                 "Name used to display attribute in user interface")
     '(replacement
-        "ui_name            = «quoted-text»»"
+        "ui_name            = Â«quoted-textÂ»Â»"
      )
 ;;; MOM-Attribute-ui-name
 )
@@ -482,18 +482,18 @@
     '(token)
     '(description           "Define an essential link type")
     '(replacement
-        "_Ancestor_Essence = «name»"
+        "_Ancestor_Essence = Â«nameÂ»"
         ""
-        "class «py-class-name» (_Ancestor_Essence) :"
+        "class Â«py-class-nameÂ» (_Ancestor_Essence) :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "««MOM-Attr-Spec-Link»»"
-          "««MOM-Pred-Spec»»"
-          "««py-class-init»»"
-          "««py-statement»»···"
+          "Â«Â«MOM-Attr-Spec-LinkÂ»Â»"
+          "Â«Â«MOM-Pred-SpecÂ»Â»"
+          "Â«Â«py-class-initÂ»Â»"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; MOM-Link
 )
@@ -513,7 +513,7 @@
 ;;; 31-Jan-2010
 (lse-define-fill-in "MOM-multi-line-text-assignment"
     '(replacement
-        "  ( «quoted-text»···"
+        "  ( Â«quoted-textÂ»Â·Â·Â·"
         "  )"
      )
 ;;; MOM-multi-line-text-assignment
@@ -524,18 +524,18 @@
     '(token)
     '(description           "Define an essential object type")
     '(replacement
-        "_Ancestor_Essence = «name»"
+        "_Ancestor_Essence = Â«nameÂ»"
         ""
-        "class «py-class-name» (_Ancestor_Essence) :"
+        "class Â«py-class-nameÂ» (_Ancestor_Essence) :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "««MOM-Attr-Spec»»"
-          "««MOM-Pred-Spec»»"
-          "««py-class-init»»"
-          "««py-statement»»···"
+          "Â«Â«MOM-Attr-SpecÂ»Â»"
+          "Â«Â«MOM-Pred-SpecÂ»Â»"
+          "Â«Â«py-class-initÂ»Â»"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; MOM-Object
 )
@@ -551,7 +551,7 @@
           ""
           "_Ancestor = _Ancestor_Essence._Predicates"
           ""
-          "««MOM-Predicate»»···"
+          "Â«Â«MOM-PredicateÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _Predicates"
      )
@@ -568,13 +568,13 @@
         "Define a specific predicate of an essential object/link"
      )
     '(replacement
-        "class «py-class-name» («MOM-Predicate-Type») :"
+        "class Â«py-class-nameÂ» (Â«MOM-Predicate-TypeÂ») :"
         lse-indent+1
-          "««py-doc-string»»"
-          "««MOM-Predicate-Kind»»"
-          "««MOM-Predicate-Attribute»»···"
+          "Â«Â«py-doc-stringÂ»Â»"
+          "Â«Â«MOM-Predicate-KindÂ»Â»"
+          "Â«Â«MOM-Predicate-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; MOM-Predicate
 )
@@ -610,7 +610,7 @@
     '(token                 "assertion")
     '(description           "Define assertion describing the predicate")
     '(replacement
-        "assertion          = «quoted-text»"
+        "assertion          = Â«quoted-textÂ»"
      )
 ;;; MOM-Predicate-assertion
 )
@@ -623,7 +623,7 @@
         "checked if all `attributes` have a non-None value."
      )
     '(replacement
-        "attributes         = («quoted-text», ««quoted-text»»)"
+        "attributes         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-attributes
 )
@@ -636,7 +636,7 @@
         "checked even if some `attr-none` have a None value."
      )
     '(replacement
-        "attr_none          = («quoted-text», ««quoted-text»»)"
+        "attr_none          = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-attr-none
 )
@@ -647,7 +647,7 @@
     '(description           "Bindings for a predicate")
     '(replacement
         "bindings           = dict \\"
-        "    ( «name»       = «value»"
+        "    ( Â«nameÂ»       = Â«valueÂ»"
         "    )"
      )
 ;;; MOM-Predicate-bindings
@@ -659,7 +659,7 @@
         "Define bounded variables used by this predicate"
      )
     '(replacement
-        "bvar               = «quoted-text»"
+        "bvar               = Â«quoted-textÂ»"
      )
 ;;; MOM-Predicate-bvar
 )
@@ -670,7 +670,7 @@
         "Define bounded variable attributes used by this predicate"
      )
     '(replacement
-        "bvar_attr          = («quoted-text», ««quoted-text»»)"
+        "bvar_attr          = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-bvar_attr
 )
@@ -689,7 +689,7 @@
     '(token)
     '(description           "Define additional hyperlinks for error widget")
     '(replacement
-        "_extra_links_s     = («quoted-text», ««quoted-text»»)"
+        "_extra_links_s     = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-extralinks
 )
@@ -702,7 +702,7 @@
         "guard is true."
      )
     '(replacement
-        "guard              = «quoted-text»"
+        "guard              = Â«quoted-textÂ»"
      )
 ;;; MOM-Predicate-guard
 )
@@ -715,7 +715,7 @@
         "guard is true."
      )
     '(replacement
-        "guard_attr         = («quoted-text», ««quoted-text»»)"
+        "guard_attr         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-guard-attr
 )
@@ -725,7 +725,7 @@
     '(token)
     '(description           "Define predicate kind")
     '(replacement
-        "kind               = Pred.«MOM-Predicate-Kind-Type»"
+        "kind               = Pred.Â«MOM-Predicate-Kind-TypeÂ»"
      )
 ;;; MOM-Predicate-Kind
 )
@@ -746,7 +746,7 @@
     '(token)
     '(description           "Define lower limit for N_Quant")
     '(replacement
-        "lower_limit        = «text»"
+        "lower_limit        = Â«textÂ»"
      )
 ;;; MOM-Predicate-lower-limit
 )
@@ -759,7 +759,7 @@
         "object/link in question) used for evaluating assertion."
      )
     '(replacement
-        "parameters         = («quoted-text», ««quoted-text»»)"
+        "parameters         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; MOM-Predicate-parameters
 )
@@ -773,7 +773,7 @@
         "predicates of rank `n + 1` and higher won't be checked."
      )
     '(replacement
-        "rank               = «text»"
+        "rank               = Â«textÂ»"
      )
 ;;; MOM-Predicate-rank
 )
@@ -784,7 +784,7 @@
         "Define the sequence over which should be quantified"
      )
     '(replacement
-        "seq                = «quoted-text»"
+        "seq                = Â«quoted-textÂ»"
      )
 ;;; MOM-Predicate-seq
 )
@@ -796,7 +796,7 @@
          "Define severity of predicate (0 means warning, 1 means error)."
      )
     '(replacement
-        "severe             = «text»"
+        "severe             = Â«textÂ»"
      )
 ;;; MOM-Predicate-severe
 )
@@ -826,7 +826,7 @@
     '(token)
     '(description           "Define upper limit for N_Quant")
     '(replacement
-        "upper_limit        = «text»"
+        "upper_limit        = Â«textÂ»"
      )
 ;;; MOM-Predicate-upper-limit
 )

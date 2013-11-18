@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-language:el lse_lngg:el
 ;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
@@ -40,7 +40,7 @@
 ;;;;     5-Oct-2007 (CT) Use `lse-language:call-hook` instead of `funcall`
 ;;;;                     (and try to pass `t` to each of the hooks there)
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-language)
 

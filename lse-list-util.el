@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-list-util:el lse_lstu:el
 ;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
@@ -31,7 +31,7 @@
 ;;;;    18-Jun-1994 (CT) Creation (of comment)
 ;;;;     9-Oct-1996 (CT) Define add-to-list if (not fboundp)
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (provide 'lse-list-util)

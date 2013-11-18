@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Description" 
   '(replacement-leading   "[")
@@ -10,7 +10,7 @@
 (lse-define-fill-in "finanzplanung-file"
     '(replacement
         "%command   kategorie               monat  betrag     mwst  description"
-        "«finanzplanung»···"
+        "Â«finanzplanungÂ»Â·Â·Â·"
      )
 ;;; finanzplanung-file
 )
@@ -33,11 +33,11 @@
   '(token)
   '(replacement 
       "\\A"                   & lse-tabulator 
-      "«Ausgaben-Kategorie» " &
-      "«Monat» "              &
-      "«Betrag» "             &
-      "(««MWSt»») "           & 
-      "««Description»»"
+      "Â«Ausgaben-KategorieÂ» " &
+      "Â«MonatÂ» "              &
+      "Â«BetragÂ» "             &
+      "(Â«Â«MWStÂ»Â») "           & 
+      "Â«Â«DescriptionÂ»Â»"
     )
 )
 
@@ -46,11 +46,11 @@
   '(token)
   '(replacement 
      "\\E"                   & lse-tabulator 
-     "«Einnahmen-Kategorie»" & 
-     "«Monat» "              &
-     "«Betrag» "             &
-     "(««MWSt»») "           & 
-     "««Description»»"
+     "Â«Einnahmen-KategorieÂ»" & 
+     "Â«MonatÂ» "              &
+     "Â«BetragÂ» "             &
+     "(Â«Â«MWStÂ»Â») "           & 
+     "Â«Â«DescriptionÂ»Â»"
    )
 )
 
@@ -59,10 +59,10 @@
   '(token)
   '(replacement 
      "\\Entnahme"       & lse-tabulator 
-     "«Gesellschafter»" & 
-     "«Monat» "         &
-     "«Betrag» "        &
-     "(««MWSt»»)"
+     "Â«GesellschafterÂ»" & 
+     "Â«MonatÂ» "         &
+     "Â«BetragÂ» "        &
+     "(Â«Â«MWStÂ»Â»)"
    )
 )
 
@@ -71,11 +71,11 @@
   '(token)
   '(replacement 
      "\\An"                      & lse-tabulator 
-     "«Ausgaben-Kategorie» "     &
-     "«Monat:Monat:Monat»"       &
-     "«Betrag» "                 &
-     "(««MWSt»») "               &
-     "««Description»»"
+     "Â«Ausgaben-KategorieÂ» "     &
+     "Â«Monat:Monat:MonatÂ»"       &
+     "Â«BetragÂ» "                 &
+     "(Â«Â«MWStÂ»Â») "               &
+     "Â«Â«DescriptionÂ»Â»"
    )
 )
 
@@ -84,11 +84,11 @@
   '(token)
   '(replacement 
      "\\En"                      & lse-tabulator 
-     "«Einnahmen-Kategorie»"     & 
-     "«Monat:Monat:Monat»"       &
-     "«Betrag» "                 &
-     "(««MWSt»») "               &
-     "««Description»»"
+     "Â«Einnahmen-KategorieÂ»"     & 
+     "Â«Monat:Monat:MonatÂ»"       &
+     "Â«BetragÂ» "                 &
+     "(Â«Â«MWStÂ»Â») "               &
+     "Â«Â«DescriptionÂ»Â»"
    )
 )    
 
@@ -97,10 +97,10 @@
   '(token)
   '(replacement 
      "\\Entnahmen"               & lse-tabulator 
-     "«Gesellschafter»"          & 
-     "«Monat:Monat:Monat»"       &
-     "«Betrag» "                 &
-     "(««MWSt»»)"
+     "Â«GesellschafterÂ»"          & 
+     "Â«Monat:Monat:MonatÂ»"       &
+     "Â«BetragÂ» "                 &
+     "(Â«Â«MWStÂ»Â»)"
    )
 )
 
@@ -109,9 +109,9 @@
   '(token)
   '(replacement 
      "\\Konto"            & lse-tabulator 
-     "«Konten-Kategorie»" & 
-     "«Monat» "           &
-     "«Betrag»"
+     "Â«Konten-KategorieÂ»" & 
+     "Â«MonatÂ» "           &
+     "Â«BetragÂ»"
    )
 )
 
@@ -120,8 +120,8 @@
   '(token)
   '(replacement 
      "\\StartKonto"       & lse-tabulator 
-     "«Konten-Kategorie»" &
-     "«Betrag»"
+     "Â«Konten-KategorieÂ»" &
+     "Â«BetragÂ»"
    )
 )
 

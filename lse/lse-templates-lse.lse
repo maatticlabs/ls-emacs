@@ -1,9 +1,9 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "fill-in-auto-replicate"
     '(token                 "auto-replicate")
     '(description           "Defines how many occurences of the fill-in will be replicated automatically")
-    '(replacement           "'(auto-replicate        «number»)")
+    '(replacement           "'(auto-replicate        Â«numberÂ»)")
 ;;; fill-in-auto-replicate
 )
 
@@ -25,7 +25,7 @@
                             "by the command lse-help-fill-in (\"GOLD C-o\")."
     )
    '(auto-expand)
-   '(replacement            "'(description           «quoted-text»)")
+   '(replacement            "'(description           Â«quoted-textÂ»)")
 )
 
 (lse-define-fill-in "fill-in-expansion"
@@ -45,7 +45,7 @@
    )
   '(replacement
       "'(function"
-      "    ««fill-in-function-item»»···"
+      "    Â«Â«fill-in-function-itemÂ»Â»Â·Â·Â·"
       " )"
    )
 )
@@ -61,7 +61,7 @@
       "Specify hanging indentation for the replacement of this fill-in"
      )
     '(replacement
-        "'(hang-indent «number»)";  4-Oct-2002
+        "'(hang-indent Â«numberÂ»)";  4-Oct-2002
       )
 ;;; fill-in-hang-indent
 )
@@ -69,8 +69,8 @@
 (lse-define-fill-in "fill-in-item"
   '(description   "Part of the expansion of the fill-in.")
   '(menu
-      ("««quoted-text»»"               "Put «quoted-text» into expansion literally")
-      ("@ «name»"                      "Auto-expand fill-in «name»")
+      ("Â«Â«quoted-textÂ»Â»"               "Put Â«quoted-textÂ» into expansion literally")
+      ("@ Â«nameÂ»"                      "Auto-expand fill-in Â«nameÂ»")
       ("& "                            "Do not separate surrounding items (implicit `line')")
       replica-or-flat
       ("lse-tabulator"                 "Indent to next indent position or by tab-increment")
@@ -92,7 +92,7 @@
       ("delete-blank-lines"            "Delete blank lines around current position")
       ("lse-newline-and-indent"        "Start new line and indent to current indentation")
       ("lse-newline"                   "Start new line without indentation")
-      ("(«text»)"                      "Execute «text» as emacs code")
+      ("(Â«textÂ»)"                      "Execute Â«textÂ» as emacs code")
    )
 )
 
@@ -103,18 +103,18 @@
    )
   '(token         "kill-action")
   '(token         "kaction")
-  '(replacement   "'(kill-action    ««fill-in-item»»)")
+  '(replacement   "'(kill-action    Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-leading"
   '(description
      "Specifies leading text killed along with the fill-in. "
-     "If you use dotted pair notation the «quoted-text» will be interpreted"
+     "If you use dotted pair notation the Â«quoted-textÂ» will be interpreted"
      "as regular expression. If you use normal list notation, it will be "
      "interpreted literally."
    )
   '(token                   "leading")
-  '(replacement             "'(leading               «quoted-text»)")
+  '(replacement             "'(leading               Â«quoted-textÂ»)")
 )
 
 (lse-define-fill-in "fill-in-max-line-move"
@@ -122,7 +122,7 @@
     '(description           "Defines how many lines emacs-lse will consider when going to the next fill-in after completion of expansion (default 1)"
                             "Don't use too large values or the user will likely be confused!"
      )
-    '(replacement           "'(max-line-move         «number»)")
+    '(replacement           "'(max-line-move         Â«numberÂ»)")
 ;;; fill-in-max-line-move
 )
 
@@ -131,9 +131,9 @@
     "On expansion the menu is displayed and the entry choosen by the user expanded."
    )
   '(replacement
-      "««sort»»"
+      "Â«Â«sortÂ»Â»"
       "'(menu"
-      "    ««fill-in-menu-item»»···"
+      "    Â«Â«fill-in-menu-itemÂ»Â»Â·Â·Â·"
       " )"
    )
 )
@@ -141,10 +141,10 @@
 (lse-define-fill-in "fill-in-menu-item"
   '(description   "One menu entry of the fill-in.")
   '(menu
-      "(«quoted-text»     «quoted-text»)"
+      "(Â«quoted-textÂ»     Â«quoted-textÂ»)"
       name
       quoted-text
-      ("@ «name»"         "Include entries from menu «name» here")
+      ("@ Â«nameÂ»"         "Include entries from menu Â«nameÂ» here")
    )
 )
 
@@ -193,7 +193,7 @@
     '(description
         "Specify properties used by the fill-in's expansion"
      )
-    '(replacement           "'(properties «text»)")
+    '(replacement           "'(properties Â«textÂ»)")
 ;;; fill-in-properties
 )
 
@@ -205,7 +205,7 @@
    )
   '(token         "rcompletion-action")
   '(token         "rcaction")
-  '(replacement   "'(rcompletion-action    ««fill-in-item»»)")
+  '(replacement   "'(rcompletion-action    Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-rcompletion-leading"
@@ -215,7 +215,7 @@
    )
   '(token         "rcompletion-leading")
   '(token         "rcleading")
-  '(replacement   "'(rcompletion-leading   ««fill-in-item»»)")
+  '(replacement   "'(rcompletion-leading   Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-rcompletion-trailer"
@@ -225,7 +225,7 @@
    )
   '(token         "rcompletion-trailer")
   '(token         "rctrailer")
-  '(replacement   "'(rcompletion-trailer   ««fill-in-item»»)")
+  '(replacement   "'(rcompletion-trailer   Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-replacement"
@@ -237,7 +237,7 @@
       "'(replacement"
       lse-indent+1
       @ fill-in-item
-      "««fill-in-item»»···"
+      "Â«Â«fill-in-itemÂ»Â»Â·Â·Â·"
       lse-indent-1
       " )"
    )
@@ -255,7 +255,7 @@
    )
   '(token         "replacement-leading")
   '(token         "rleading")
-  '(replacement   "'(replacement-leading   ««fill-in-item»»)")
+  '(replacement   "'(replacement-leading   Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-replacement-trailer"
@@ -264,7 +264,7 @@
    )
   '(token         "replacement-trailer")
   '(token         "rtrailer")
-  '(replacement   "'(replacement-trailer   ««fill-in-item»»)")
+  '(replacement   "'(replacement-trailer   Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-replacement-vanguard"
@@ -274,7 +274,7 @@
    )
   '(token         "replacement-vanguard")
   '(token         "rvanguard")
-  '(replacement   "'(replacement-vanguard  ««fill-in-item»»)")
+  '(replacement   "'(replacement-vanguard  Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-separator"
@@ -282,7 +282,7 @@
     "Specifies the pattern which separates the fill-in and its duplication."
    )
   '(token         "separator")
-  '(replacement   "'(separator             ««fill-in-item»»)")
+  '(replacement   "'(separator             Â«Â«fill-in-itemÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-terminal"
@@ -294,18 +294,18 @@
   '(token)
   '(token         "token")
   '(auto-expand)
-  '(replacement   "'(token                 ««token-name»»)")
+  '(replacement   "'(token                 Â«Â«token-nameÂ»Â»)")
 )
 
 (lse-define-fill-in "fill-in-trailer"
   '(description
     "Specifies trailer text killed along with the fill-in. "
-     "If you use dotted pair notation the «quoted-text» will be interpreted"
+     "If you use dotted pair notation the Â«quoted-textÂ» will be interpreted"
      "as regular expression. If you use normal list notation, it will be "
      "interpreted literally."
    )
   '(token         "trailer")
-  '(replacement   "'(trailer             «quoted-text»)")
+  '(replacement   "'(trailer             Â«quoted-textÂ»)")
 )
 
 (lse-define-fill-in "lse-define-fill-in"
@@ -316,14 +316,14 @@
   '(rcompletion-trailer    delete-blank-lines lse-newline)
   '(replacement
       ";;; " & lse-insert-dd-mmm-yyyy+blank       ; 12-Apr-1995
-      "(lse-define-fill-in \"«fill-in-name»\""
+      "(lse-define-fill-in \"Â«fill-in-nameÂ»\""
       lse-indent+1
-      "««fill-in-token»»···"
-      "««fill-in-description»»"
-      "««fill-in-option»»···"
-      "««fill-in-expansion»»"
+      "Â«Â«fill-in-tokenÂ»Â»Â·Â·Â·"
+      "Â«Â«fill-in-descriptionÂ»Â»"
+      "Â«Â«fill-in-optionÂ»Â»Â·Â·Â·"
+      "Â«Â«fill-in-expansionÂ»Â»"
       lse-indent-1
-      ";;; ««fill-in-name»»"
+      ";;; Â«Â«fill-in-nameÂ»Â»"
       ")"
     )
 )
@@ -333,7 +333,7 @@
     '(token                 "ftoken")
     '(description           "Define a token associated to a fill-in. Expansion of the token is expansion of fill-in.")
     '(replacement
-        "(lse-define-fill-in-token «token-name» \"«fill-in-name»\")"
+        "(lse-define-fill-in-token Â«token-nameÂ» \"Â«fill-in-nameÂ»\")"
      )
 ;;; lse-define-fill-in-token
 )
@@ -343,28 +343,28 @@
   '(token)
   '(token         "language")
   '(replacement
-      "(lse-language:define \"«lse-language-name»\""
+      "(lse-language:define \"Â«lse-language-nameÂ»\""
       lse-indent+1
       "'("
       lse-indent+1
-      "««lse-language-property»»···"
+      "Â«Â«lse-language-propertyÂ»Â»Â·Â·Â·"
       lse-indent-1
       " )"
       "'("
       lse-indent+1
-      "««lse-language-hook»»···"
+      "Â«Â«lse-language-hookÂ»Â»Â·Â·Â·"
       lse-indent-1
       " )"
       "'("
       lse-indent+1
-      "««lse-language-template-file»»···"
-      "\"lse-templates-«lse-language-name»\""
+      "Â«Â«lse-language-template-fileÂ»Â»Â·Â·Â·"
+      "\"lse-templates-Â«lse-language-nameÂ»\""
       lse-indent-1
       " )"
       "137"                        ; size of fill-in table (should be prime)
       " 67"                        ; size of token   table (should be prime)
       lse-indent-1
-      ";;; ««lse-language-name»»"
+      ";;; Â«Â«lse-language-nameÂ»Â»"
       ")"
    )
 )
@@ -375,7 +375,7 @@
     '(token                 "simple-token")
     '(description           "Expands to text or lisp-code directly (no expansion history, no expansion environment)")
     '(replacement
-         "(lse-define-simple-token «token-name» «simple-token-value»)"
+         "(lse-define-simple-token Â«token-nameÂ» Â«simple-token-valueÂ»)"
      )
 ;;; lse-define-simple-token
 )
@@ -397,16 +397,16 @@
     '(sort)
     '(menu
         ("(lse-language:expand-initial       t)"             "If true, LS-Emacs will automatically expand the initial fill-in")
-        ("(lse-language:initial-fill-in      «quoted-text»)" "Fill-in inserted into new buffer")
-        ("(lse-language:tab-increment        «number»)"      "Amount of indentation per indentation-level default 2")
-        ("(lse-tpu:ident-chars               «quoted-text»)" "Set of primary   characters occurring in words (default `A-Za-z0-9')")
-        ("(lse-tpu:ident-group-chars         «quoted-text»)" "Set of secondary characters occurring in words (default `-_*@+')")
-        ("(lse_comment_delim_char_set        «quoted-text»)" "Set of characters used for introducing a comment")
-        ("(lse_comment_head_delim            «quoted-text»)" "String which starts a comment")
-        ("(lse_comment_head_delim_pattern    «quoted-text»)" "Pattern matching all strings which start a comment")
-        ("(lse_comment_tail_delim            «quoted-text»)" "String which terminates a comment (default: none)")
-        ("(lse_comment_tail_delim_pattern    «quoted-text»)" "Pattern matching all strings which terminate a comment")
-        ("(«name» «text»)"                                   "Set variable «name» to value «text»")
+        ("(lse-language:initial-fill-in      Â«quoted-textÂ»)" "Fill-in inserted into new buffer")
+        ("(lse-language:tab-increment        Â«numberÂ»)"      "Amount of indentation per indentation-level default 2")
+        ("(lse-tpu:ident-chars               Â«quoted-textÂ»)" "Set of primary   characters occurring in words (default `A-Za-z0-9')")
+        ("(lse-tpu:ident-group-chars         Â«quoted-textÂ»)" "Set of secondary characters occurring in words (default `-_*@+')")
+        ("(lse_comment_delim_char_set        Â«quoted-textÂ»)" "Set of characters used for introducing a comment")
+        ("(lse_comment_head_delim            Â«quoted-textÂ»)" "String which starts a comment")
+        ("(lse_comment_head_delim_pattern    Â«quoted-textÂ»)" "Pattern matching all strings which start a comment")
+        ("(lse_comment_tail_delim            Â«quoted-textÂ»)" "String which terminates a comment (default: none)")
+        ("(lse_comment_tail_delim_pattern    Â«quoted-textÂ»)" "Pattern matching all strings which terminate a comment")
+        ("(Â«nameÂ» Â«textÂ»)"                                   "Set variable Â«nameÂ» to value Â«textÂ»")
      )
 ;;; lse-language-property
 )
@@ -415,19 +415,19 @@
   '(description           "List of files containing definitions of language templates")
   '(replacement-leading   "\"")
   '(replacement-trailer   "\"")
-  '(replacement           "lse-templates-«name»")
+  '(replacement           "lse-templates-Â«nameÂ»")
 )
 
 (lse-define-fill-in "replica-or-flat"
-    '(description           "Insert a replica of fill-in «name» into expansion, if present, otherwise insert the fill-in in flat form")
-    '(replacement           "(lse-insert-replica-or-flat \"«name»\")")
+    '(description           "Insert a replica of fill-in Â«nameÂ» into expansion, if present, otherwise insert the fill-in in flat form")
+    '(replacement           "(lse-insert-replica-or-flat \"Â«nameÂ»\")")
 ;;; replica-or-flat
 )
 
 (lse-define-fill-in "simple-token-value"
     '(menu
-        ("«quoted-text»"     "Expand into «quoted-text»")
-        ("'(«text»)"         "Execute «text» as lisp code")
+        ("Â«quoted-textÂ»"     "Expand into Â«quoted-textÂ»")
+        ("'(Â«textÂ»)"         "Execute Â«textÂ» as lisp code")
      )
 ;;; simple-token-value
 )

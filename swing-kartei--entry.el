@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-kartei--entry.el swi_kntr.el
 ;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
@@ -19,7 +19,7 @@
 ;;;;                     swing-kartei:entry:create+goto-buffer
 ;;;;    23-Dec-2007 (CT) `(lse_completion:left_margin 3)` added to
 ;;;;                     `swing-kartei:entry:complete-name`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide                    'swing-kartei--entry)
 
@@ -63,7 +63,7 @@
 (defconst swing-kartei:entry:tail-pattern
   (concat "\\(^%?"                        ; \\1 the entire tail
             "\\\\endentry.*\n"            ;
-            "\\(·+ *\n\\)"                ; \\2 filler between entries
+            "\\(Â·+ *\n\\)"                ; \\2 filler between entries
           "\\)"
   )
 )
@@ -176,7 +176,7 @@
   (if kartei-language (lse-language:use kartei-language))
   (save-excursion
     (goto-char 1)
-    (insert (make-string 79 ?·) "\n")
+    (insert (make-string 79 ?Â·) "\n")
     (goto-char (point-max))
     (insert lse_req_fill-in_head_delim
             lse_no_replacement_fill-in_marker

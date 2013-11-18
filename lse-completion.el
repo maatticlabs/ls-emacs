@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-completion:el lse_cmpl:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -63,7 +63,7 @@
 ;;;;    27-Feb-2012 (CT) Use `replace-regexp-in-string` instead of
 ;;;;                     `lse-tpu:remove-char-from-string`
 ;;;;                     (that macro gave a very obscure compilation warning)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-completion)
 

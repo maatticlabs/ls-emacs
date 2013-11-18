@@ -1,19 +1,19 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 
 (lse-define-fill-in "Class"
   '(token)
   '(description . "Declaration of Eiffel class"           )
   '(replacement
-        "««DEFERRED»» CLASS «Class_Name» [««Formal_Generic»»···]"
+        "Â«Â«DEFERREDÂ»Â» CLASS Â«Class_NameÂ» [Â«Â«Formal_GenericÂ»Â»Â·Â·Â·]"
         lse-indent+1
-        "-- ««class_comment»»···"
-        "««Exports»»"
-        "««Parents»»"
-        "««Features»»"
+        "-- Â«Â«class_commentÂ»Â»Â·Â·Â·"
+        "Â«Â«ExportsÂ»Â»"
+        "Â«Â«ParentsÂ»Â»"
+        "Â«Â«FeaturesÂ»Â»"
         lse-indent-1
-        "««Class_Invariant»»"
-        "END; -- CLASS «Class_Name»"
+        "Â«Â«Class_InvariantÂ»Â»"
+        "END; -- CLASS Â«Class_NameÂ»"
    )
 )
 
@@ -42,7 +42,7 @@
   '(separator       ", ")
   '(trailer         "]" )
   '(replacement
-      "«Identifier»"
+      "Â«IdentifierÂ»"
    )
 )
 
@@ -50,7 +50,7 @@
   '(token)
   '(description . "Export clause of Eiffel class")
   '(replacement
-      "EXPORT    «Exported_Feature»···"
+      "EXPORT    Â«Exported_FeatureÂ»Â·Â·Â·"
    )
 )
 
@@ -58,7 +58,7 @@
   '(separator       ", " )
   '(leading         ", " )
   '(replacement
-      "«Feature_Name» [««Export_Restriction»»···]"
+      "Â«Feature_NameÂ» [Â«Â«Export_RestrictionÂ»Â»Â·Â·Â·]"
    )
 )
 
@@ -70,43 +70,43 @@
   '(leading       "[" )
   '(separator     ", " )
   '(trailer       "]" )
-  '(replacement   "«Identifier»")
+  '(replacement   "Â«IdentifierÂ»")
 )
 
 (lse-define-fill-in "Class_List"
   '(leading       "[" )
   '(separator     ", " )
   '(trailer       "]" )
-  '(replacement   "«Identifier»")
+  '(replacement   "Â«IdentifierÂ»")
 )
 
 (lse-define-fill-in "Parents"
   '(token         "INHERIT")
   '(description . "Inheritance clause for Eiffel class" )
-  '(replacement "INHERIT   «Parent»···;")
+  '(replacement "INHERIT   Â«ParentÂ»Â·Â·Â·;")
 )
 
 (lse-define-fill-in "Parent"
   '(separator     "; " )
   '(leading     . ";" )
   '(replacement
-      "«Class_Type»"
+      "Â«Class_TypeÂ»"
       lse-indent+1
-      "««Rename_Clause»»"      
-      "««Redefine_Clause»»"
+      "Â«Â«Rename_ClauseÂ»Â»"      
+      "Â«Â«Redefine_ClauseÂ»Â»"
       lse-indent-1
    )
 )
 
 (lse-define-fill-in "Class_Type"
-  '(replacement "«Class_Name» [««Actual_Generic»»···]")
+  '(replacement "Â«Class_NameÂ» [Â«Â«Actual_GenericÂ»Â»Â·Â·Â·]")
 )
 
 (lse-define-fill-in "Actual_Generic"
   '(leading     . ",\\|\\[" )
   '(separator     ", " )
   '(trailer     . "\\]" )
-  '(replacement "«Type»")
+  '(replacement "Â«TypeÂ»")
 )
 
 (lse-define-fill-in "Type"
@@ -123,8 +123,8 @@
 
 (lse-define-fill-in "Association"
   '(token           "LIKE")
-  '(description "LIKE «Anchor»")
-  '(replacement "LIKE «Anchor»")
+  '(description "LIKE Â«AnchorÂ»")
+  '(replacement "LIKE Â«AnchorÂ»")
 )
 
 (lse-define-fill-in "Anchor"
@@ -136,25 +136,25 @@
 
 (lse-define-fill-in "Rename_Clause"
   '(token)
-  '(replacement     "RENAME    «Rename_Pair»···")
+  '(replacement     "RENAME    Â«Rename_PairÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "Rename_Pair"
   '(separator       ", " )
   '(leading         "," )
-  '(replacement     "«Feature_Name» AS «Feature_Name»")
+  '(replacement     "Â«Feature_NameÂ» AS Â«Feature_NameÂ»")
 )
 
 (lse-define-fill-in "Redefine_Clause"
   '(token)
-  '(replacement     "REDEFINE  «Feature_Name»···")
+  '(replacement     "REDEFINE  Â«Feature_NameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "Features"
   '(replacement
       "FEATURE"
       lse-indent+1
-      "«Feature_Declaration»···"
+      "Â«Feature_DeclarationÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
@@ -167,21 +167,21 @@
 )
 
 (lse-define-fill-in "Attribute_Declaration"
-  '(replacement "«Feature_Name»: «Type» ««Feature_Value_Mark»»;")
+  '(replacement "Â«Feature_NameÂ»: Â«TypeÂ» Â«Â«Feature_Value_MarkÂ»Â»;")
 )
 
 (lse-define-fill-in "Routine_Declaration"
   '(token)
   '(replacement
-      "«Routine_Name» «Formal_Arguments»: ««Type_Mark»» IS"
-      "  -- ««Routine_Comment»»"  
-      "«Precondition»"
-      "«Externals»"
-      "«Local_Variables»"
-      "«Body»"
-      "«Postcondition»"
-      "«Rescue»"
-      "END; -- «Routine_Name»"
+      "Â«Routine_NameÂ» Â«Formal_ArgumentsÂ»: Â«Â«Type_MarkÂ»Â» IS"
+      "  -- Â«Â«Routine_CommentÂ»Â»"  
+      "Â«PreconditionÂ»"
+      "Â«ExternalsÂ»"
+      "Â«Local_VariablesÂ»"
+      "Â«BodyÂ»"
+      "Â«PostconditionÂ»"
+      "Â«RescueÂ»"
+      "END; -- Â«Routine_NameÂ»"
    )
 )
 
@@ -190,23 +190,23 @@
 )
 
 (lse-define-fill-in "Formal_Arguments"
-  '(replacement     "( «Formal_Argument»···)")
+  '(replacement     "( Â«Formal_ArgumentÂ»Â·Â·Â·)")
 )
 
 (lse-define-fill-in "Formal_Argument"
   '(leading     . "(|;" )
   '(separator     "; ")
   '(trailer     . ")" )
-  '(replacement "«Identifier»: «Type»")
+  '(replacement "Â«IdentifierÂ»: Â«TypeÂ»")
 )
 
 (lse-define-fill-in "Type_Mark"
   '(leading     ":" )
-  '(replacement "«Type»")
+  '(replacement "Â«TypeÂ»")
 )
 
 (lse-define-fill-in "Feature_Value_Mark"
-  '(replacement "IS «Constant»")
+  '(replacement "IS Â«ConstantÂ»")
 )
 
 (lse-define-fill-in "Constant"
@@ -227,7 +227,7 @@
 )
 
 (lse-define-fill-in "Character_Constant"
-  '(replacement     "'«Character»'")
+  '(replacement     "'Â«CharacterÂ»'")
 )
 
 (lse-define-fill-in "Integer_Constant"
@@ -239,7 +239,7 @@
 )
 
 (lse-define-fill-in "String_Constant"
-  '(replacement     "«String»")
+  '(replacement     "Â«StringÂ»")
 )
 
 (lse-define-fill-in "Character"
@@ -256,7 +256,7 @@
   '(replacement
       "REQUIRE"
       lse-indent+1
-      "«Assertion_Clause»···"
+      "Â«Assertion_ClauseÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
@@ -267,14 +267,14 @@
   '(replacement
       "ENSURE"
       lse-indent+1
-      "«Assertion_Clause»···"
+      "Â«Assertion_ClauseÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
 
 (lse-define-fill-in "Assertion_Clause"
   '(trailer     . ";" )
-  '(replacement "««Assertion_Label»»: «Assertion»;")
+  '(replacement "Â«Â«Assertion_LabelÂ»Â»: Â«AssertionÂ»;")
 )
 
 (lse-define-fill-in "Assertion_Label"
@@ -284,7 +284,7 @@
 
 (lse-define-fill-in "Assertion"
   '(menu
-        "-- «line_comment»···"
+        "-- Â«line_commentÂ»Â·Â·Â·"
         Boolean_Expression
    )
 )
@@ -299,7 +299,7 @@
   '(replacement
       "EXTERNAL"
       lse-indent+1
-      "«External_Declaration»···"
+      "Â«External_DeclarationÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
@@ -307,16 +307,16 @@
 (lse-define-fill-in "External_Declaration"
   '(trailer     . ";" )
   '(replacement
-     "«Feature_Name» «Formal_Arguments»: ««Type_Mark»» «External_Name» «Language»;"
+     "Â«Feature_NameÂ» Â«Formal_ArgumentsÂ»: Â«Â«Type_MarkÂ»Â» Â«External_NameÂ» Â«LanguageÂ»;"
    )
 )
 
 (lse-define-fill-in "External_Name"
-  '(replacement "NAME «quoted-text»")
+  '(replacement "NAME Â«quoted-textÂ»")
 )
 
 (lse-define-fill-in "Language"
-  '(replacement "LANGUAGE «quoted-text»")
+  '(replacement "LANGUAGE Â«quoted-textÂ»")
 )
 
 (lse-define-fill-in "Local_Variables"
@@ -324,14 +324,14 @@
   '(replacement
       "LOCAL"
       lse-indent+1
-      "«Entity_Declaration»···"
+      "Â«Entity_DeclarationÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
 
 (lse-define-fill-in "Entity_Declaration"
   '(trailer     . ";" )
-  '(replacement "«Identifier»: «Type»;")
+  '(replacement "Â«IdentifierÂ»: Â«TypeÂ»;")
 )
 
 (lse-define-fill-in "Body"
@@ -345,18 +345,18 @@
 
 (lse-define-fill-in "Normal_Body"
   '(replacement
-      "DO  -- «Routine_Name»"
+      "DO  -- Â«Routine_NameÂ»"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
 
 (lse-define-fill-in "Once_Body"
   '(replacement
-      "ONCE -- «Routine_Name»"
+      "ONCE -- Â«Routine_NameÂ»"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
@@ -374,14 +374,14 @@
 )
 
 (lse-define-fill-in "Call_Statement"
-  '(replacement "««Qualifier»».«Feature_Name» («Actual_Arguments»···);")
+  '(replacement "Â«Â«QualifierÂ»Â».Â«Feature_NameÂ» (Â«Actual_ArgumentsÂ»Â·Â·Â·);")
 )
 
 (lse-define-fill-in "Actual_Arguments"
   '(leading       "(\\|," )
   '(separator     ", " )
   '(trailer       ")" )
-  '(replacement   "«Expression»")
+  '(replacement   "Â«ExpressionÂ»")
 )
 
 (lse-define-fill-in "Qualifier"
@@ -393,7 +393,7 @@
 )
 
 (lse-define-fill-in "Assignment"
-  '(replacement  "«Entity» := «Expression»;")
+  '(replacement  "Â«EntityÂ» := Â«ExpressionÂ»;")
 )
 (lse-define-fill-in "Entity"
   '(menu
@@ -404,16 +404,16 @@
 
 (lse-define-fill-in "Expression"
   '(leading       "." )
-  '(replacement   "«Unqualified_Expression».««Expression»»")
+  '(replacement   "Â«Unqualified_ExpressionÂ».Â«Â«ExpressionÂ»Â»")
 )
 
 (lse-define-fill-in "Unqualified_Expression"
   '(menu
         "Current"
         "Result"
-        "OLD «Expression»"
+        "OLD Â«ExpressionÂ»"
         "NOCHANGE"
-        ("«Feature_Name» (««Actual_Arguments»»···)" "Unqualified call")
+        ("Â«Feature_NameÂ» (Â«Â«Actual_ArgumentsÂ»Â»Â·Â·Â·)" "Unqualified call")
         Operator_Expression
         Constant
         Identifier
@@ -427,12 +427,12 @@
 (lse-define-fill-in "IF_Statement"
   '(token)
   '(replacement
-      "IF «Boolean_Expression» THEN"
+      "IF Â«Boolean_ExpressionÂ» THEN"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
-      "««ELSIF_Part»»···"
-      "««ELSE_Part»»"
+      "Â«Â«ELSIF_PartÂ»Â»Â·Â·Â·"
+      "Â«Â«ELSE_PartÂ»Â»"
       "END; -- IF"
    )
 )
@@ -440,9 +440,9 @@
 (lse-define-fill-in "ELSIF_Part"
   '(token)
   '(replacement
-      "ELSIF «Boolean_Expression» THEN"
+      "ELSIF Â«Boolean_ExpressionÂ» THEN"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
   )
 )
@@ -452,7 +452,7 @@
   '(replacement
       "ELSE"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
    )
 )
@@ -460,15 +460,15 @@
 (lse-define-fill-in "LOOP_Statement"
   '(token)
   '(replacement
-      "FROM «Instruction»···"
+      "FROM Â«InstructionÂ»Â·Â·Â·"
       lse-indent+1
-      "««Loop_Invariant»»"
-      "««Loop_Variant»»"
+      "Â«Â«Loop_InvariantÂ»Â»"
+      "Â«Â«Loop_VariantÂ»Â»"
       lse-indent-1
-      "UNTIL «Boolean_Expression»"
+      "UNTIL Â«Boolean_ExpressionÂ»"
       "LOOP"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
       "END; -- LOOP"
    )
@@ -481,7 +481,7 @@
 
 (lse-define-fill-in "Loop_Variant"
   '(token           "VARIANT")
-  '(replacement     "VARIANT «Integer_Expression»")
+  '(replacement     "VARIANT Â«Integer_ExpressionÂ»")
 )
 
 (lse-define-fill-in "Integer_Expression"
@@ -494,7 +494,7 @@
   '(replacement
       "CHECK"
       lse-indent+1
-      "«Assertion_Clause»···"
+      "Â«Assertion_ClauseÂ»Â·Â·Â·"
       lse-indent-1
       "END; -- CHECK"
   )
@@ -505,7 +505,7 @@
   '(replacement
       "DEBUG"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
       "END; -- DEBUG"
   )
@@ -516,7 +516,7 @@
   '(replacement
       "RESCUE"
       lse-indent+1
-      "«Instruction»···"
+      "Â«InstructionÂ»Â·Â·Â·"
       lse-indent-1
   )
 )
@@ -526,7 +526,7 @@
   '(replacement
       "INVARIANT"
       lse-indent+1
-      "«Assertion_Clause»···"
+      "Â«Assertion_ClauseÂ»Â·Â·Â·"
       lse-indent-1
   )
 )

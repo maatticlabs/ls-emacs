@@ -7,7 +7,7 @@
     '(replacement
         $ diary-entry
         ""
-        "««diary-entry»»···"
+        "Â«Â«diary-entryÂ»Â»Â·Â·Â·"
         ""
         "### __END__ " & lse-insert-buffer-name-plus-extension
      )
@@ -22,7 +22,7 @@
     '(description           "One entry of diary")
     '(auto-expand);  9-Apr-2003
     '(replacement
-        "«diary-time» «diary-activity»"
+        "Â«diary-timeÂ» Â«diary-activityÂ»"
      )
 ;;; diary-entry
 )
@@ -47,6 +47,6 @@
 ;;; diary-time
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ; __END__ lse-templates-diary.lse

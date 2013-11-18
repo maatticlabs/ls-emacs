@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "regexp-1-or-more"
     '(description           "not supported by sed")
@@ -27,9 +27,9 @@
     '(separator             ",")
     '(leading               ",")
     '(menu
-        ("«number»"                    "Apply sed-command to line «number»")
-        ("/«sed-pattern»/"             "Apply sed-command to all lines matching «sed-pattern»")
-        ("«sed-address»,«sed-address»" "Apply sed-command to all lines between the first and the second «sed-address»")
+        ("Â«numberÂ»"                    "Apply sed-command to line Â«numberÂ»")
+        ("/Â«sed-patternÂ»/"             "Apply sed-command to all lines matching Â«sed-patternÂ»")
+        ("Â«sed-addressÂ»,Â«sed-addressÂ»" "Apply sed-command to all lines between the first and the second Â«sed-addressÂ»")
      )
 ;;; sed-address
 )
@@ -39,21 +39,21 @@
     '(token)
     '(replacement
         "a\\"
-        "«text»"
+        "Â«textÂ»"
      )
 ;;; sed-append-text
 )
 
 (lse-define-fill-in "sed-command"
-    '(replacement           "««sed-address»»««!»»«sed_command»")
+    '(replacement           "Â«Â«sed-addressÂ»Â»Â«Â«!Â»Â»Â«sed_commandÂ»")
 )
 
 (lse-define-fill-in "sed_command"
     '(menu
         ("="            "Write to standard output the line number of the addressed line")
-        (":«name»"      "Label current line in the script with «name» (up to seven characters long)")
+        (":Â«nameÂ»"      "Label current line in the script with Â«nameÂ» (up to seven characters long)")
         sed-append-text
-        ("b ««name»»"   "Transfer control unconditionally to the line labeled :«name» or to end of script if none given")
+        ("b Â«Â«nameÂ»Â»"   "Transfer control unconditionally to the line labeled :Â«nameÂ» or to end of script if none given")
         sed-replace-lines
         ("d"            "Delete line(s) selected by the address")
         ("D"            "Delete first part of multi-line pattern space created by the N command and resume editing with the first line in script")
@@ -68,12 +68,12 @@
         ("p"            "Print the addressed line(s) to standard output. Unless the -n command line option is used this results in duplicate output lines")
         ("P"            "Print first part of multi-line pattern space created by N command")
         ("q"            "Quit when address is encountered. that line is written to standard output before quitting")
-        ("r «file-name»" "Read contents of «file-name» and append after the contents of pattern space")
+        ("r Â«file-nameÂ»" "Read contents of Â«file-nameÂ» and append after the contents of pattern space")
         sed-replace
-        ("t ««name»»"    "If successful substitutions have been made on the addressed line, branch to the line labeled by «name»")
-        ("w «file-name»" "Append contents of pattern space to file «file-name» (creates the file if it does not exist)")
+        ("t Â«Â«nameÂ»Â»"    "If successful substitutions have been made on the addressed line, branch to the line labeled by Â«nameÂ»")
+        ("w Â«file-nameÂ»" "Append contents of pattern space to file Â«file-nameÂ» (creates the file if it does not exist)")
         ("x"             "Exchange contents of pattern space with that of the hold space")
-        ("y/«text»/«text»/" "Transfrom each character in first «text» to its equivalent in the second «text» (like tr)")
+        ("y/Â«textÂ»/Â«textÂ»/" "Transfrom each character in first Â«textÂ» to its equivalent in the second Â«textÂ» (like tr)")
      )
 ;;; sed_command
 )
@@ -83,7 +83,7 @@
     '(token)
     '(replacement
         "i\\"
-        "«text»"
+        "Â«textÂ»"
      )
 ;;; sed-append-text
 )
@@ -91,7 +91,7 @@
 (lse-define-fill-in "sed-pattern"
     '(description           "Regular expression")
     '(token                 "regexp")
-    '(replacement           "«regexp-item»···")
+    '(replacement           "Â«regexp-itemÂ»Â·Â·Â·")
 )
 
 
@@ -100,18 +100,18 @@
     '(token)
     '(replacement
         "c\\"
-        "«text»"
+        "Â«textÂ»"
      )
 ;;; sed-replace-lines
 )
 
 
 (lse-define-fill-in "sed-replace"
-    '(description           "Substitute «sed-replacement» for «regexp» on each addressed line")
+    '(description           "Substitute Â«sed-replacementÂ» for Â«regexpÂ» on each addressed line")
     '(token)
     '(token                 "sed-replace-pattern")
     '(replacement
-        "s/«regexp»/««sed-replacement-item»»···/««sed-replace-flag»»···"
+        "s/Â«regexpÂ»/Â«Â«sed-replacement-itemÂ»Â»Â·Â·Â·/Â«Â«sed-replace-flagÂ»Â»Â·Â·Â·"
      )
 ;;; sed-replace
 )
@@ -120,10 +120,10 @@
     '(separator             "")
     '(sort)
     '(menu
-        ("«number»"      "Replace instance «number» of «regexp» on each addressed line (1 <= «number» <= 512, default = 1)")
-        ("g"             "Replace all instances of «regexp» on each addressed line, not just the first")
+        ("Â«numberÂ»"      "Replace instance Â«numberÂ» of Â«regexpÂ» on each addressed line (1 <= Â«numberÂ» <= 512, default = 1)")
+        ("g"             "Replace all instances of Â«regexpÂ» on each addressed line, not just the first")
         ("p"             "Print the line if a successful substitution is done (multiple copies are printed if multiple substitutions CT<are done)")
-        ("w «file-name»" "Write the line to «file-name» if a replacement was done")
+        ("w Â«file-nameÂ»" "Write the line to Â«file-nameÂ» if a replacement was done")
      )
 ;;; sed-replace-flag
 )
@@ -131,8 +131,8 @@
 (lse-define-fill-in "sed-replacement-item"
     '(separator             "")
     '(menu
-        "«text»"
-        ("\\«number»"     "Value of group «number» of match")
+        "Â«textÂ»"
+        ("\\Â«numberÂ»"     "Value of group Â«numberÂ» of match")
         ("\\&"            "Entire search pattern")
      )
 ;;; sed-replacement-item

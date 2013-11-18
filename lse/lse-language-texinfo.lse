@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -20,7 +20,7 @@
         (lse_comment_head_delim            "@c")
         (lse_comment_head_delim_pattern    "@c *")
         (lse_comment_delim_char_set        "@c")
-        (lse-language:initial-fill-in      "««texinfo-file»»")
+        (lse-language:initial-fill-in      "Â«Â«texinfo-fileÂ»Â»")
         (lse-language:expand-initial       nil)
      )
     '(

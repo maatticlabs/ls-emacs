@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1998-2008 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -30,7 +30,7 @@
 ;;;; Revision Dates
 ;;;;    26-Aug-1998 (CT) Creation
 ;;;;     5-Sep-1998 (CT) Creation continued
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 
@@ -99,7 +99,7 @@
 (lse-define-fill-in "code-block"
     '(replacement
         lse-indent+1
-        "{«code»···%"
+        "{Â«codeÂ»Â·Â·Â·%"
         "}"
         lse-indent-1
      )
@@ -120,7 +120,7 @@
     '(token)
     '(description           "Declares an option of a LaTeX2e class or package")
     '(replacement
-        "\\DeclareOption{«name»}%"
+        "\\DeclareOption{Â«nameÂ»}%"
         @ code-block
      )
 ;;; \\DeclareOption
@@ -143,8 +143,8 @@
     '(token)
     '(description           "Define a LaTeX2e class")
     '(replacement
-        "%««header-comment»»"
-        "««\\NeedsTeXFormat»»"
+        "%Â«Â«header-commentÂ»Â»"
+        "Â«Â«\\NeedsTeXFormatÂ»Â»"
         @ \\ProvidesClass
      )
 ;;; latex-class
@@ -156,8 +156,8 @@
     '(token)
     '(description           "Define a LaTeX2e package")
     '(replacement
-        "%%%%««header-comment»»"
-        "««\\NeedsTeXFormat»»"
+        "%%%%Â«Â«header-commentÂ»Â»"
+        "Â«Â«\\NeedsTeXFormatÂ»Â»"
         @ \\ProvidesPackage
      )
 ;;; latex-package
@@ -167,7 +167,7 @@
 (lse-define-fill-in "\\LoadClass"
     '(token)
     '(description           "Load another class")
-    '(replacement           "\\LoadClass««optionlist»»{«name»}[««v-date»»]")
+    '(replacement           "\\LoadClassÂ«Â«optionlistÂ»Â»{Â«nameÂ»}[Â«Â«v-dateÂ»Â»]")
 ;;; \\LoadClass
 )
 
@@ -175,7 +175,7 @@
 (lse-define-fill-in "\\LoadClassWithOptions"
     '(token)
     '(description           "Load another class with the options specified for the current class")
-    '(replacement           "\\LoadClassWithOptions{«name»}[««v-date»»]")
+    '(replacement           "\\LoadClassWithOptions{Â«nameÂ»}[Â«Â«v-dateÂ»Â»]")
 ;;; \\LoadClassWithOptions
 )
 
@@ -227,16 +227,16 @@
 ;;; 26-Aug-1998
 (lse-define-fill-in "\\PassOptionsToClass"
     '(token)
-    '(description           "Pass `«option»···' to class «name»")
-    '(replacement           "\\PassOptionsToClass{«option»···}{«name»}")
+    '(description           "Pass `Â«optionÂ»Â·Â·Â·' to class Â«nameÂ»")
+    '(replacement           "\\PassOptionsToClass{Â«optionÂ»Â·Â·Â·}{Â«nameÂ»}")
 ;;; PassOptionsToClass
 )
 
 ;;; 26-Aug-1998
 (lse-define-fill-in "\\PassOptionsToPackage"
     '(token)
-    '(description           "Pass `«option»···' to package «name»")
-    '(replacement           "\\PassOptionsToPackage{«option»···}{«name»}")
+    '(description           "Pass `Â«optionÂ»Â·Â·Â·' to package Â«nameÂ»")
+    '(replacement           "\\PassOptionsToPackage{Â«optionÂ»Â·Â·Â·}{Â«nameÂ»}")
 ;;; PassOptionsToPackage
 )
 
@@ -253,7 +253,7 @@
     '(token)
     '(description           "Identify class")
     '(replacement
-        "\\ProvidesClass{«class-name»}[«v-date» ««text»»]"
+        "\\ProvidesClass{Â«class-nameÂ»}[Â«v-dateÂ» Â«Â«textÂ»Â»]"
      )
 ;;; \\ProvidesClass
 )
@@ -263,7 +263,7 @@
     '(token)
     '(description           "Identify class option file")
     '(replacement
-        "\\ProvidesFile{«file-name»}[«v-date» ««text»»]"
+        "\\ProvidesFile{Â«file-nameÂ»}[Â«v-dateÂ» Â«Â«textÂ»Â»]"
      )
 ;;; \\ProvidesFile
 )
@@ -273,7 +273,7 @@
     '(token)
     '(description           "Identify package")
     '(replacement
-        "\\ProvidesPackage{«package-name»}[«v-date» ««text»»]"
+        "\\ProvidesPackage{Â«package-nameÂ»}[Â«v-dateÂ» Â«Â«textÂ»Â»]"
      )
 ;;; \\ProvidesPackage
 )
@@ -282,7 +282,7 @@
 (lse-define-fill-in "\\RequirePackage"
     '(token)
     '(description           "Require a package")
-    '(replacement           "\\RequirePackage««optionlist»»{«name»}[««v-date»»]")
+    '(replacement           "\\RequirePackageÂ«Â«optionlistÂ»Â»{Â«nameÂ»}[Â«Â«v-dateÂ»Â»]")
 ;;; \\RequirePackage
 )
 
@@ -290,7 +290,7 @@
 (lse-define-fill-in "\\RequirePackageWithOptions"
     '(token)
     '(description           "Require a package with the options specified for the current class")
-    '(replacement           "\\RequirePackageWithOptions{«name»}[««v-date»»]")
+    '(replacement           "\\RequirePackageWithOptions{Â«nameÂ»}[Â«Â«v-dateÂ»Â»]")
 ;;; \\RequirePackageWithOptions
 )
 

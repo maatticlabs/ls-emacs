@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-command:el lse_cmd:el
 ;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
@@ -42,7 +42,7 @@
 ;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
 ;;;;                     `lse-tpu:change-search-mode`
 ;;;;    13-Oct-2007 (CT) Byte compile commands added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-command)
 

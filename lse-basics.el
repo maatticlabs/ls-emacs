@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-basics:el lse_bscs:el
 ;;;; Copyright (C) 1995-2012 Mag. Christian Tanzer. All rights reserved.
@@ -44,7 +44,7 @@
 ;;;;    10-Nov-2010 (CT) `string-starts-with` and `string-ends-with` added
 ;;;;    26-Feb-2012 (CT) Add `string-has-upper-case-p` and `string-mixed-case-p`
 ;;;;    20-Jul-2012 (CT) Guard `string-*` functions with `lse-safe`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-basics)
 

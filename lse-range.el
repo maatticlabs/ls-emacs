@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-range:el lse_rnge:el
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
@@ -49,7 +49,7 @@
 ;;;;    29-May-2011 (CT) `lse-range:new` added with guard for empty range
 ;;;;    29-May-2011 (CT) `lse-range:contents` and `lse-range:contents-np`
 ;;;;                     changed to return an empty string instead of `nil`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-range)
 

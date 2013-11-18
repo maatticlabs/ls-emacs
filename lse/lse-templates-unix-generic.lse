@@ -1,17 +1,17 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "input-redirection"
   '(description   "Redirect standard input to file")
   '(token)
-  '(replacement   "<  «file-name»")
+  '(replacement   "<  Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "output-redirection"
   '(description   "Redirect output from standard output into file")
   '(token)
   '(menu
-      (">  «file-name»"     "Overwrite «file-name» if existing")
-      (">> «file-name»"     "Append to «file-name» if existing")
+      (">  Â«file-nameÂ»"     "Overwrite Â«file-nameÂ» if existing")
+      (">> Â«file-nameÂ»"     "Append to Â«file-nameÂ» if existing")
    )
 )
 
@@ -19,14 +19,14 @@
     '(description           "Format for s?printf")
     '(replacement-leading   "\"")
     '(replacement-trailer   "\"")
-    '(replacement           "«print-format-item»···")
+    '(replacement           "Â«print-format-itemÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "print-format-item"
     '(separator             "")
     '(menu 
-        "%««number»»««.number»»«print-format-code»"
-        ("«text»"           "text printed literally")
+        "%Â«Â«numberÂ»Â»Â«Â«.numberÂ»Â»Â«print-format-codeÂ»"
+        ("Â«textÂ»"           "text printed literally")
      )
 )
 

@@ -6,7 +6,7 @@
     '(token                 "\n")
     '(description           "Appointment in calendar")
     '(replacement
-        "> ««cal-time-range»» ««cal-prio»» < ««text»»"
+        "> Â«Â«cal-time-rangeÂ»Â» Â«Â«cal-prioÂ»Â» < Â«Â«textÂ»Â»"
      )
 ;;; cal-appointment
 )
@@ -18,7 +18,7 @@
     '(auto-expand)
     '(kill-action           "            ")
     '(replacement
-        "«hh»:«mm»-««cal-end-time»»"
+        "Â«hhÂ»:Â«mmÂ»-Â«Â«cal-end-timeÂ»Â»"
      )
 ;;; cal-time-range
 )
@@ -32,7 +32,7 @@
     '(auto-expand)
     '(rcompletion-action    (lse-tpu:goto-next-word-head 1) (indent-to 14 0))
     '(replacement
-        "«hh»:«mm»"
+        "Â«hhÂ»:Â«mmÂ»"
      )
 ;;; cal-end-time
 )

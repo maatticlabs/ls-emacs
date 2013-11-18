@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -18,11 +18,11 @@
 ;;;;    24-Jul-2000 (CT) Consider `^**' as start of comment, too
 ;;;;    23-Jan-2002 (CT) `c-mode` renamed to `lse-c-mode`
 ;;;;    18-Jan-2011 (CT) `lse-templates-c-base` factored
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (lse-language:define "c"
     '(
-        (lse-language:initial-fill-in      "««c-root»»")
+        (lse-language:initial-fill-in      "Â«Â«c-rootÂ»Â»")
         (lse-language:tab-increment        4)
         (lse_comment_delim_char_set        "/*")
         (lse_comment_head_delim            "/\\*\\|^ *\\*\\*")

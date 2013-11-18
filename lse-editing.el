@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -98,7 +98,7 @@
 ;;;;                     `lse-tpu:curr-word-tail-pos`
 ;;;;    25-Feb-2012 (CT) Change `lse-indent-line-by-word` slightly
 ;;;;     2-Jul-2012 (CT) Add `lse-copy-current-word`, `lse-copy-current-bs-word`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-editing)
 
@@ -301,7 +301,7 @@
 (defun lse-remove-guillemots ()
   "Remove a guillemot pair"
   (interactive "*")
-  (lse-tpu:de-enclose-selection "«" "»")
+  (lse-tpu:de-enclose-selection "Â«" "Â»")
 ; lse-remove-guillemots
 )
 

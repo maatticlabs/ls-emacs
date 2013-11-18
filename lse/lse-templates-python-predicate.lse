@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "cartesian:s1" 
   '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")
@@ -21,7 +21,7 @@
 (lse-define-fill-in "cartesian" 
   '(description           "Returns the cartesian product of the sequences `s1' and `s2'.")
   '(token)
-  '(replacement           "cartesian («cartesian:s1», «cartesian:s2», ««cartesian:combiner»»)")
+  '(replacement           "cartesian (Â«cartesian:s1Â», Â«cartesian:s2Â», Â«Â«cartesian:combinerÂ»Â»)")
 ;;; cartesian
 )
 
@@ -47,7 +47,7 @@
 (lse-define-fill-in "cartesian_n" 
   '(description           "Returns the cartesian product of all the sequences given.")
   '(token)
-  '(replacement           "cartesian_n («cartesian_n:s1», «cartesian_n:s2», ««cartesian_n:si»»···)")
+  '(replacement           "cartesian_n (Â«cartesian_n:s1Â», Â«cartesian_n:s2Â», Â«Â«cartesian_n:siÂ»Â»Â·Â·Â·)")
 ;;; cartesian_n
 )
 
@@ -60,7 +60,7 @@
 (lse-define-fill-in "common_head" 
   '(description           "Return common head of all strings in `list'.")
   '(token)
-  '(replacement           "common_head («common_head:list»)")
+  '(replacement           "common_head (Â«common_head:listÂ»)")
 ;;; common_head
 )
 
@@ -109,7 +109,7 @@
     ""
    )
   '(token)
-  '(replacement           "exists_q («exists_q:seq», «exists_q:bvar», «exists_q:condition»)")
+  '(replacement           "exists_q (Â«exists_q:seqÂ», Â«exists_q:bvarÂ», Â«exists_q:conditionÂ»)")
 ;;; exists_q
 )
 
@@ -123,7 +123,7 @@
 (lse-define-fill-in "flattened" 
   '(description           "Returns a list containing all the elements in `lists'.")
   '(token)
-  '(replacement           "flattened (««flattened:lists»»···)")
+  '(replacement           "flattened (Â«Â«flattened:listsÂ»Â»Â·Â·Â·)")
 ;;; flattened
 )
 
@@ -172,7 +172,7 @@
     ""
    )
   '(token)
-  '(replacement           "forall_q («forall_q:seq», «forall_q:bvar», «forall_q:condition»)")
+  '(replacement           "forall_q (Â«forall_q:seqÂ», Â«forall_q:bvarÂ», Â«forall_q:conditionÂ»)")
 ;;; forall_q
 )
 
@@ -191,7 +191,7 @@
 (lse-define-fill-in "intersection" 
   '(description           "Compute intersection of lists `l' and `r'.")
   '(token)
-  '(replacement           "intersection («intersection:l», «intersection:r»)")
+  '(replacement           "intersection (Â«intersection:lÂ», Â«intersection:rÂ»)")
 ;;; intersection
 )
 
@@ -248,7 +248,7 @@
     ""
    )
   '(token)
-  '(replacement           "matches («matches:list», «matches:txt», ««matches:prefix»»)")
+  '(replacement           "matches (Â«matches:listÂ», Â«matches:txtÂ», Â«Â«matches:prefixÂ»Â»)")
 ;;; matches
 )
 
@@ -297,7 +297,7 @@
     ""
    )
   '(token)
-  '(replacement           "number_q («number_q:seq», «number_q:bvar», «number_q:condition»)")
+  '(replacement           "number_q (Â«number_q:seqÂ», Â«number_q:bvarÂ», Â«number_q:conditionÂ»)")
 ;;; number_q
 )
 
@@ -316,7 +316,7 @@
 (lse-define-fill-in "paired" 
   '(description           "Returns a list of pairs `((s1 [0], s2 [0]), ... (s1 [n-1], s2 [n-1]))'.")
   '(token)
-  '(replacement           "paired («paired:s1», «paired:s2»)")
+  '(replacement           "paired (Â«paired:s1Â», Â«paired:s2Â»)")
 ;;; paired
 )
 
@@ -329,7 +329,7 @@
 (lse-define-fill-in "pairwise" 
   '(description           "Returns a list of pairs `(seq [0:1], seq [1:2], ..., seq [n-1:n])'.")
   '(token)
-  '(replacement           "pairwise («pairwise:seq»)")
+  '(replacement           "pairwise (Â«pairwise:seqÂ»)")
 ;;; pairwise
 )
 
@@ -363,7 +363,7 @@
     ""
    )
   '(token)
-  '(replacement           "re_matches («re_matches:list», «re_matches:pat»)")
+  '(replacement           "re_matches (Â«re_matches:listÂ», Â«re_matches:patÂ»)")
 ;;; re_matches
 )
 
@@ -376,7 +376,7 @@
 (lse-define-fill-in "reversed" 
   '(description           "Returns a reversed copy of `seq'.")
   '(token)
-  '(replacement           "reversed («reversed:seq»)")
+  '(replacement           "reversed (Â«reversed:seqÂ»)")
 ;;; reversed
 )
 
@@ -395,7 +395,7 @@
 (lse-define-fill-in "sorted" 
   '(description           "Returns a sorted copy of `seq'.")
   '(token)
-  '(replacement           "sorted («sorted:seq», ««sorted:pred»»)")
+  '(replacement           "sorted (Â«sorted:seqÂ», Â«Â«sorted:predÂ»Â»)")
 ;;; sorted
 )
 
@@ -432,7 +432,7 @@
     ""
    )
   '(token)
-  '(replacement           "split_by_key («split_by_key:seq», «split_by_key:key_cmp»)")
+  '(replacement           "split_by_key (Â«split_by_key:seqÂ», Â«split_by_key:key_cmpÂ»)")
 ;;; split_by_key
 )
 
@@ -446,7 +446,7 @@
 (lse-define-fill-in "tupled" 
   '(description           "Returns a list of tuples of corresponding elements of each of `seqs'.")
   '(token)
-  '(replacement           "tupled (««tupled:seqs»»···)")
+  '(replacement           "tupled (Â«Â«tupled:seqsÂ»Â»Â·Â·Â·)")
 ;;; tupled
 )
 
@@ -457,14 +457,14 @@
 )
 
 (lse-define-fill-in "xored_string:salt" 
-  '(description           "Argument 2 of xored_string (default = ß)")
+  '(description           "Argument 2 of xored_string (default = ÃŸ)")
   '(leading               ",")
 ;;; xored_string:salt
 )
 
 (lse-define-fill-in "xored_string" 
   '(token)
-  '(replacement           "xored_string («xored_string:source», ««xored_string:salt»»)")
+  '(replacement           "xored_string (Â«xored_string:sourceÂ», Â«Â«xored_string:saltÂ»Â»)")
 ;;; xored_string
 )
 

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-comment:el lse_cmnt:el
 ;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
@@ -30,7 +30,7 @@
 ;;;; Revision Dates
 ;;;;     9-Jul-1995 (CT) Creation (of header comment)
 ;;;;     2-Jan-1998 (CT) `lse-comment:insidep' added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-comment)
 

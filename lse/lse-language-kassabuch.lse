@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -15,13 +15,13 @@
 ;;;;-- 
 (lse-language:define "kassabuch"
   '(
-    (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+    (lse-tpu:ident-chars               "A-Za-z0-9Ã¤Ã¡Ã Ã¢Ã¶Ã³Ã²Ã´Ã¼ÃºÃ¹Ã»Ã„Ã–ÃœÃŸ")
     (lse-tpu:ident-group-chars         "-\@_")
     (lse-language:tab-increment        2)
     (lse_comment_head_delim            "%")
     (lse_comment_head_delim_pattern    "%+ *")
     (lse_comment_delim_char_set        "%")
-    (lse-language:initial-fill-in      "««kassabuch-file»»")
+    (lse-language:initial-fill-in      "Â«Â«kassabuch-fileÂ»Â»")
     (lse-language:expand-initial       t)
    )
   '(

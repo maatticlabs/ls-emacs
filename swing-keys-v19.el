@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-keys-v19.el swi_kv19.el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -66,7 +66,7 @@
 ;;;;    19-Feb-2012 (CT) Bind `lse-tpu:goto-opening-char`
 ;;;;    20-Feb-2012 (CT) Bind `lse-tpu:goto-next-occurrence-current-word`
 ;;;;    12-Mar-2012 (CT) Bind `lse-tpu:goto-closing-char`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (fset 'key-cmd 'lse-key-cmd)
 
@@ -108,7 +108,7 @@
   (mapc 'swing-define-goto-char-key
     '( ?\; ?\: ?\. ?\, ?\_ ?\- ?\+ ?\* ?\/ ?\= ?\? ?\!
        ?\% ?\& ?\~ ?\# ?\' ?\` ?\"
-       ?\< ?\> ?\| ?\\ ?\« ?\»
+       ?\< ?\> ?\| ?\\ ?\Â« ?\Â»
        ?\} ?\] ?\)
      )
   )
@@ -151,7 +151,7 @@
   (global-set-asp [gray     ?\]]           'lse-tpu:goto-closing-char)
   (global-set-asp [gray     ?\{]           'lse-tpu:goto-opening-char)
   (global-set-asp [gray     ?\}]           'lse-tpu:goto-closing-char)
-  (global-set-asp [gray     ?\«]           'lse-tpu:goto-opening-char)
+  (global-set-asp [gray     ?\Â«]           'lse-tpu:goto-opening-char)
   (global-set-key [red gold ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
   (global-set-key [red gold ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
   (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995

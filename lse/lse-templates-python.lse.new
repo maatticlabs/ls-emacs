@@ -5,15 +5,15 @@
     '(description           "Root fill-in for python language.")
     '(replacement
         "#! /usr/bin/python"
-        "#««header-comment»»"
-        "««py-doc-string»»"
+        "#Â«Â«header-commentÂ»Â»"
+        "Â«Â«py-doc-stringÂ»Â»"
         ""
-        "««py-import»»"
+        "Â«Â«py-importÂ»Â»"
         ""
-        "««py-statement»»···"
+        "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         ""
-        "««py-test-def»»···"
-        "««py-script-code»»"
+        "Â«Â«py-test-defÂ»Â»Â·Â·Â·"
+        "Â«Â«py-script-codeÂ»Â»"
         "### __END__ " & lse-insert-buffer-name
      )
 ;;; python-root
@@ -46,14 +46,14 @@
         "value and can therefore not be used where an expression is needed."
      )
     '(menu
-        "«py-name» = «py-expression»"
-        "(«py-name-e»···) = «py-expression»"
-        "(«py-name-e»···) = «py-assignment»···"
+        "Â«py-nameÂ» = Â«py-expressionÂ»"
+        "(Â«py-name-eÂ»Â·Â·Â·) = Â«py-expressionÂ»"
+        "(Â«py-name-eÂ»Â·Â·Â·) = Â«py-assignmentÂ»Â·Â·Â·"
      )
 ;;; py-assignment
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-block"
@@ -62,7 +62,7 @@
     '(description           "A block of python statements homogeneously indented.")
     '(replacement
         lse-indent+1
-          "«py-statement»···"
+          "Â«py-statementÂ»Â·Â·Â·"
         lse-indent:<
      )
 ;;; py-block
@@ -96,13 +96,13 @@
         "A class definition is an executable statement."
      )
     '(replacement
-        "class «py-class-name» ««py-inherit»» :"
+        "class Â«py-class-nameÂ» Â«Â«py-inheritÂ»Â» :"
         lse-indent+1
-          "««py-doc-string»»"
-          "««py-class-init»»"
-          "«py-statement»···"
+          "Â«Â«py-doc-stringÂ»Â»"
+          "Â«Â«py-class-initÂ»Â»"
+          "Â«py-statementÂ»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
         ""
      )
 ;;; py-class
@@ -169,7 +169,7 @@
         "The return value may be of any type."
      )
     '(replacement
-        "def __call__ (self, ««py-parameter-declaration»»···) :"
+        "def __call__ (self, Â«Â«py-parameter-declarationÂ»Â»Â·Â·Â·) :"
         @ py-function-body
         "# end def __call__"
         ""
@@ -534,11 +534,11 @@
     '(token                 "constructor")
     '(description
         "Create and initialize a new instance of enclosing class."
-        "This method is used automagically for calls of «py-class-name» (...)."
+        "This method is used automagically for calls of Â«py-class-nameÂ» (...)."
         "The return value is ignored."
      )
     '(replacement
-        "def __init__ (self, ««py-parameter-declaration»»···) :"
+        "def __init__ (self, Â«Â«py-parameter-declarationÂ»Â»Â·Â·Â·) :"
         @ py-function-body
         "# end def __init__"
         ""
@@ -1243,7 +1243,7 @@
 ;;; py-compound-statement
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-continue"
@@ -1258,7 +1258,7 @@
 ;;; py-continue
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-delete"
@@ -1268,7 +1268,7 @@
         "Delete attributes, entries, items, and slices from objects of appropriate types."
         "Delete ``undefines'' a local variable or removes a global variable."
      )
-    '(replacement           "del «py-expression-e»···")
+    '(replacement           "del Â«py-expression-eÂ»Â·Â·Â·")
 ;;; py-delete
 )
 
@@ -1281,7 +1281,7 @@
      )
     '(replacement-leading   "{")
     '(replacement-trailer   "}")
-    '(replacement           "««py-dict-entry»»···")
+    '(replacement           "Â«Â«py-dict-entryÂ»Â»Â·Â·Â·")
 ;;; py-dictionary
 )
 
@@ -1291,7 +1291,7 @@
     '(description           "Dictionary entry.")
     '(separator             ", ")
     '(leading               ",")
-    '(replacement           "«py-expression» : «py-expression»")
+    '(replacement           "Â«py-expressionÂ» : Â«py-expressionÂ»")
 ;;; py-dict-entry
 )
 
@@ -1306,12 +1306,12 @@
 ;;; py-doc-string
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-dotted-name"
     '(description           "Name of a python object in another name space.")
-    '(replacement           "«py-name-d»···")
+    '(replacement           "Â«py-name-dÂ»Â·Â·Â·")
 ;;; py-dotted-name
 )
 
@@ -1321,7 +1321,7 @@
     '(token                 "elif")
     '(description           "Else-if clause of if statement.")
     '(replacement
-        "elif «py-expression» :"
+        "elif Â«py-expressionÂ» :"
         @ py-block
      )
 ;;; py-elif
@@ -1344,11 +1344,11 @@
     '(token                 "except")
     '(description
         "Specify one except clause for a try-statement."
-        "An except clause without «py-except-condition» must be last and matches "
+        "An except clause without Â«py-except-conditionÂ» must be last and matches "
         "any exception."
      )
     '(replacement
-        "except ««py-except-condition»» :"
+        "except Â«Â«py-except-conditionÂ»Â» :"
         @ py-block
      )
 ;;; py-except
@@ -1357,10 +1357,10 @@
 ;;;  4-Jan-1998
 (lse-define-fill-in "py-except-condition"
     '(description
-        "Handle all exceptions matched by «py-expression»-list. "
-        "The exception is assigned to the «py-except-target», if present."
+        "Handle all exceptions matched by Â«py-expressionÂ»-list. "
+        "The exception is assigned to the Â«py-except-targetÂ», if present."
      )
-    '(replacement           "(«py-expression-e»···) ««py-except-target»»")
+    '(replacement           "(Â«py-expression-eÂ»Â·Â·Â·) Â«Â«py-except-targetÂ»Â»")
 ;;; py-except-condition
 )
 
@@ -1371,7 +1371,7 @@
 ;;; py-except-target
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-exec"
@@ -1389,7 +1389,7 @@
         ""
         "A code object is simply executed."
      )
-    '(replacement           "exec «py-expression» ««py-exec-namespace»»")
+    '(replacement           "exec Â«py-expressionÂ» Â«Â«py-exec-namespaceÂ»Â»")
 ;;; py-exec
 )
 
@@ -1405,16 +1405,16 @@
         "The second expression, if specified, is used as dictionary for the "
         "local variables."
      )
-    '(replacement           "in «py-expression», ««py-expression-e»»")
+    '(replacement           "in Â«py-expressionÂ», Â«Â«py-expression-eÂ»Â»")
 ;;; py-exec-namespace
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-expression"
     '(description           "Python expression.")
-;    ««fill-in-expansion»»
+;    Â«Â«fill-in-expansionÂ»Â»
 ;;; py-expression
 )
 
@@ -1449,9 +1449,9 @@
         "Iterate over the elements of a sequence (string, tuple, or list)."
      )
     '(replacement
-        "for «py-name-e»··· in «py-expression-e»··· :"
+        "for Â«py-name-eÂ»Â·Â·Â· in Â«py-expression-eÂ»Â·Â·Â· :"
         @ py-block
-        "««py-else»»"
+        "Â«Â«py-elseÂ»Â»"
      )
 ;;; py-for
 )
@@ -1465,9 +1465,9 @@
     '(token                 "def-function")
     '(description           "Define a user-defined function object.")
     '(replacement
-        "def «py-function-name» (««py-parameter-declaration»»···) :"
+        "def Â«py-function-nameÂ» (Â«Â«py-parameter-declarationÂ»Â»Â·Â·Â·) :"
         @ py-function-body
-        "««py-function-end-comment»»"
+        "Â«Â«py-function-end-commentÂ»Â»"
         ""
      )
 ;;; py-function
@@ -1477,8 +1477,8 @@
 (lse-define-fill-in "py-function-body"
     '(replacement
         lse-indent+1
-          "««py-doc-string»»"
-          "«py-statement»···"
+          "Â«Â«py-doc-stringÂ»Â»"
+          "Â«py-statementÂ»Â·Â·Â·"
         lse-indent:<
      )
 ;;; py-function-body
@@ -1505,7 +1505,7 @@
 ;;; py-function-name
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-global"
@@ -1520,7 +1520,7 @@
         "this statement is executed."
         ""
      )
-    '(replacement           "global «py-name-e»···")
+    '(replacement           "global Â«py-name-eÂ»Â·Â·Â·")
 ;;; py-global
 )
 
@@ -1530,15 +1530,15 @@
     '(token                 "if")
     '(description           "Conditional execution.")
     '(replacement
-        "if   «py-expression» :"
+        "if   Â«py-expressionÂ» :"
         @ py-block
-        "««py-elif»»···"
-        "««py-else»»"
+        "Â«Â«py-elifÂ»Â»Â·Â·Â·"
+        "Â«Â«py-elseÂ»Â»"
      )
 ;;; py-if
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-import"
@@ -1562,7 +1562,7 @@
         "Import a sequence of names from a module as local names in the current name space."
         "The module will only by loaded if this wasn't already done before."
      )
-    '(replacement           "from «py-module-name» import «py-name-e»···")
+    '(replacement           "from Â«py-module-nameÂ» import Â«py-name-eÂ»Â·Â·Â·")
 ;;; py-import-from-module
 )
 
@@ -1572,7 +1572,7 @@
         "Import a module as a name in the current name space."
         "The module will only by loaded if this wasn't already done before."
      )
-    '(replacement           "import «py-module-name»")
+    '(replacement           "import Â«py-module-nameÂ»")
 ;;; py-import-module
 )
 
@@ -1582,7 +1582,7 @@
         "Import a module named by a dynamic string."
      )
     '(replacement
-        "«py-module-name» = __import__ (\"«py-module-name»\")"
+        "Â«py-module-nameÂ» = __import__ (\"Â«py-module-nameÂ»\")"
      )
 ;;; py-import-module-dynamically
 )
@@ -1591,11 +1591,11 @@
 (lse-define-fill-in "py-inherit"
     '(description
         "Declare ancestor classes of newly defined class."
-        "Each «py-expression» must evaluate to a class object."
+        "Each Â«py-expressionÂ» must evaluate to a class object."
      )
     '(replacement-leading   "(")
     '(replacement-trailer   ")")
-    '(replacement           "«py-expression-e»···")
+    '(replacement           "Â«py-expression-eÂ»Â·Â·Â·")
 ;;; py-inherit
 )
 
@@ -1608,12 +1608,12 @@
         "A lambda from must not contain statements."
      )
     '(replacement
-        "lambda ««py-parameter-declaration»» : «py-expression»"
+        "lambda Â«Â«py-parameter-declarationÂ»Â» : Â«py-expressionÂ»"
      )
 ;;; py-lambda
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  4-Jan-1998
 (lse-define-fill-in "py-list"
@@ -1622,7 +1622,7 @@
     '(description           "Mutable sequence of python objects.")
     '(replacement-leading   "[")
     '(replacement-trailer   "]")
-    '(replacement           "««py-expression-e»»···")
+    '(replacement           "Â«Â«py-expression-eÂ»Â»Â·Â·Â·")
 ;;; py-list
 )
 
@@ -1634,9 +1634,9 @@
     '(token                 "def-method")
     '(description           "Define a method of a class.")
     '(replacement
-        "def «py-function-name» (self, ««py-parameter-declaration»»···) :"
+        "def Â«py-function-nameÂ» (self, Â«Â«py-parameter-declarationÂ»Â»Â·Â·Â·) :"
         @ py-function-body
-        "««py-function-end-comment»»"
+        "Â«Â«py-function-end-commentÂ»Â»"
         ""
      )
 ;;; py-function
@@ -1650,7 +1650,7 @@
 ;;; py-kieselack
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-module-name"
@@ -1689,7 +1689,7 @@
     '(description           "Named argument (of funtion call).")
     '(separator             ", ")
     '(leading               ",")
-    '(replacement           "«py-name» = «py-expression»")
+    '(replacement           "Â«py-nameÂ» = Â«py-expressionÂ»")
 ;;; py-dict-entry
 )
 
@@ -1721,7 +1721,7 @@
         "Declaration of a compound parameter."
      )
     '(leading               ",")
-    '(replacement           "(«py-name-e»···) ««py-parameter-default»»")
+    '(replacement           "(Â«py-name-eÂ»Â·Â·Â·) Â«Â«py-parameter-defaultÂ»Â»")
 ;;; py-parameter-compound
 )
 
@@ -1735,14 +1735,14 @@
         "If the function is called without a value for this parameter, the"
         "default value is used instead."
      )
-    '(replacement           "= «py-expression»")
+    '(replacement           "= Â«py-expressionÂ»")
 ;;; py-parameter-default
 )
 
 ;;;  4-Jan-1998
 (lse-define-fill-in "py-parameter-rest"
     '(description
-        "Allow variable number of arguments. «py-name» is assigned a tuple."
+        "Allow variable number of arguments. Â«py-nameÂ» is assigned a tuple."
         "This must be the last parameter."
      )
     '(leading               ",")
@@ -1760,20 +1760,20 @@
     '(description
         "Accept an unrestricted set of keyword/argument pairs and pass as dictionary."
         "All keyword pairs not associated with another parameter of the calling"
-        "sequence will show up in the dictionary passed to «py-name»."
+        "sequence will show up in the dictionary passed to Â«py-nameÂ»."
         "This must be the very last argument."
      )
-    '(replacement           "** «py-name»")
+    '(replacement           "** Â«py-nameÂ»")
 ;;; py-parameter-rest-key
 )
 
 ;;;  7-Jan-1998 
 (lse-define-fill-in "py-parameter-rest-var"
     '(description
-        "Accept an argument list of arbitrary length and pass as tuple to «py-name»."
+        "Accept an argument list of arbitrary length and pass as tuple to Â«py-nameÂ»."
         "This must follow all other parameters except a kexword catch-all argument."
      )
-    '(replacement           "* «py-name»")
+    '(replacement           "* Â«py-nameÂ»")
 ;;; py-parameter-rest-var
 )
 
@@ -1788,11 +1788,11 @@
 (lse-define-fill-in "py-parameter-simple"
     '(description           "Declaration of a single simple parameter of a function.")
     '(leading               ",")
-    '(replacement           "«py-name» ««py-parameter-default»»")
+    '(replacement           "Â«py-nameÂ» Â«Â«py-parameter-defaultÂ»Â»")
 ;;; py-parameter-simple
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-pass"
@@ -1819,7 +1819,7 @@
         ""
         "A single print writes a \\n."
      )
-    '(replacement           "print ««py-expression-e»»···««,»»")
+    '(replacement           "print Â«Â«py-expression-eÂ»Â»Â·Â·Â·Â«Â«,Â»Â»")
 ;;; py-print
 )
 
@@ -1841,10 +1841,10 @@
 (lse-define-fill-in "py-raise-class"
     '(description
         "Raises an exception identified by a class and an instance of this class."
-        "The first «py-expression» must yield a class, the second an instance of that"
+        "The first Â«py-expressionÂ» must yield a class, the second an instance of that"
         "class or of one of its derivatives."
      )
-    '(replacement           "raise «py-expression», «py-expression», ««py-traceback»»")
+    '(replacement           "raise Â«py-expressionÂ», Â«py-expressionÂ», Â«Â«py-tracebackÂ»Â»")
 ;;; py-raise-class
 )
 
@@ -1853,7 +1853,7 @@
     '(description
         "Raises an exception identified by an instance object."
      )
-    '(replacement           "raise «py-expression», «py-none», ««py-traceback»»")
+    '(replacement           "raise Â«py-expressionÂ», Â«py-noneÂ», Â«Â«py-tracebackÂ»Â»")
 ;;; py-raise-instance
 )
 
@@ -1861,9 +1861,9 @@
 (lse-define-fill-in "py-raise-string"
     '(description
         "Raises an exception identified by a string."
-        "The first «py-expression» must yield a string."
+        "The first Â«py-expressionÂ» must yield a string."
      )
-    '(replacement           "raise «py-expression», «py-expression», ««py-traceback»»")
+    '(replacement           "raise Â«py-expressionÂ», Â«py-expressionÂ», Â«Â«py-tracebackÂ»Â»")
 ;;; py-raise-string
 )
 
@@ -1879,11 +1879,11 @@
         "When return passes control out of a try statement with a finally clause, that"
         "finally clause is executed before really leaving the function."
      )
-    '(replacement           "return ««py-expression-e»»")
+    '(replacement           "return Â«Â«py-expression-eÂ»Â»")
 ;;; py-return
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-script-code"
@@ -1943,12 +1943,12 @@
         "sequences."
      )
     '(replacement
-        "«py-name» [««py-expression»» : ««py-expression»»]"
+        "Â«py-nameÂ» [Â«Â«py-expressionÂ»Â» : Â«Â«py-expressionÂ»Â»]"
      )
 ;;; py-slicing
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-statement"
@@ -1980,7 +1980,7 @@
     '(token)
     '(token                 "subscript")
     '(description           "Select an item of a sequence or mapping object.")
-    '(replacement           "«py-name» [«py-expression»]")
+    '(replacement           "Â«py-nameÂ» [Â«py-expressionÂ»]")
 ;;; py-subscription
 )
 
@@ -1990,7 +1990,7 @@
     '(token                 "swap")
     '(description           "Swap the values of two variables.")
     '(replacement
-        "(«py-swap-var-1», «py-swap-var-2») = "
+        "(Â«py-swap-var-1Â», Â«py-swap-var-2Â») = "
         & "("
         & (lse-insert-replica-or-flat "py-swap-var-1")
         & ", "
@@ -2048,7 +2048,7 @@
         "            ### Each test case is implemented by a method "
         "            ### starting with `check_'"
         ""
-        "            ««py-method»»···"
+        "            Â«Â«py-methodÂ»Â»Â·Â·Â·"
         ""
         "        # end class Test_Case"
         ""
@@ -2073,7 +2073,7 @@
 ;;; py-test-def
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  4-Jan-1998
 (lse-define-fill-in "py-tuple"
@@ -2082,11 +2082,11 @@
     '(description           "Immutable sequence of python objects.")
     '(replacement-leading   "(")
     '(replacement-trailer   ")")
-    '(replacement           "««py-expression-e»»···, ")
+    '(replacement           "Â«Â«py-expression-eÂ»Â»Â·Â·Â·, ")
 ;;; py-tuple
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  4-Jan-1998
 (lse-define-fill-in "py-traceback"
@@ -2119,8 +2119,8 @@
     '(replacement
         "try :"
         @ py-block
-        "«py-except»···"
-        "««py-else»»"
+        "Â«py-exceptÂ»Â·Â·Â·"
+        "Â«Â«py-elseÂ»Â»"
      )
 ;;; py-try-exc
 )
@@ -2141,7 +2141,7 @@
 ;;; py-try-fin
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  3-Jan-1998
 (lse-define-fill-in "py-while"
@@ -2149,13 +2149,13 @@
     '(token                 "while")
     '(description           "Loop statement.")
     '(replacement
-        "while «py-expression» :"
+        "while Â«py-expressionÂ» :"
         @ py-block
-        "««py-else»»"
+        "Â«Â«py-elseÂ»Â»"
      )
 ;;; py-while
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·

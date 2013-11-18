@@ -1,6 +1,6 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 ;;;; Copyright (C) 2000 TTTech Computertechnik AG. All rights reserved
-;;;; Schönbrunnerstraße 7, A--1040 Wien, Austria. office@tttech.com
+;;;; SchÃ¶nbrunnerstraÃŸe 7, A--1040 Wien, Austria. office@tttech.com
 ;;;;
 ;;;;++
 ;;;; Name
@@ -15,7 +15,7 @@
 ;;;;                     `gnats-pr-synopsis' auto-replicating
 ;;;;    30-Aug-2001 (CT) `gnats-pr-composed-of` and `gnats-pr-part-of` added
 ;;;;    24-Sep-2001 (CT) `gnats-pr-responsible` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 
@@ -25,26 +25,26 @@
     '(description           "Root fill-in for GNATS problem report")
     '(replacement
         "To:            bugs@tttech.com"; 28-Aug-2001 `@tttech.com`
-        "Subject:       «gnats-pr-synopsis»";  6-Sep-2000 ; was «text»
+        "Subject:       Â«gnats-pr-synopsisÂ»";  6-Sep-2000 ; was Â«textÂ»
         "From:          " & (insert (lse-user-e-mail-address))
         "Reply-To:      " & (insert (lse-user-e-mail-address))
         ""
         ">Submitter-Id: TTTech"
         ">Originator:   " & lse-insert-user-full-name
         ">Organization: TTTech Computertechnik AG"
-        ">Confidential: «yes/no»"
-        ">Synopsis:     «gnats-pr-synopsis»"
-        ">Severity:     «gnats-pr-severity»"
-        ">Priority:     «gnats-pr-priority»"
-        ">Category:     «gnats-pr-category»"
-        ">Class:        «gnats-pr-class»"
-        "««gnats-pr-responsible»»"; 24-Sep-2001 
-        "««gnats-pr-release»»"
-        "««gnats-pr-description»»"
-        "««gnats-pr-environment»»"
-        "««gnats-pr-repeat»»"
-        "««gnats-pr-fix»»"
-        "«¦gnats-pr-submit¦»"
+        ">Confidential: Â«yes/noÂ»"
+        ">Synopsis:     Â«gnats-pr-synopsisÂ»"
+        ">Severity:     Â«gnats-pr-severityÂ»"
+        ">Priority:     Â«gnats-pr-priorityÂ»"
+        ">Category:     Â«gnats-pr-categoryÂ»"
+        ">Class:        Â«gnats-pr-classÂ»"
+        "Â«Â«gnats-pr-responsibleÂ»Â»"; 24-Sep-2001 
+        "Â«Â«gnats-pr-releaseÂ»Â»"
+        "Â«Â«gnats-pr-descriptionÂ»Â»"
+        "Â«Â«gnats-pr-environmentÂ»Â»"
+        "Â«Â«gnats-pr-repeatÂ»Â»"
+        "Â«Â«gnats-pr-fixÂ»Â»"
+        "Â«Å gnats-pr-submitÅ Â»"
      )
 ;;; gnats-pr
 )
@@ -137,7 +137,7 @@
     '(token                 "Release")
     '(auto-expand) ; 26-Jan-2001 
     '(description           "Release of product which shows problem")
-    '(replacement           ">Release:      «text»")
+    '(replacement           ">Release:      Â«textÂ»")
 ;;; gnats-pr-release
 )
 
@@ -147,7 +147,7 @@
     '(token                 "Responsible")
     '(auto-expand) ; 26-Jan-2001 
     '(description           "Person responsible for working on problem")
-    '(replacement           ">Responsible:  «text»")
+    '(replacement           ">Responsible:  Â«textÂ»")
 ;;; gnats-pr-responsible
 )
 
@@ -162,7 +162,7 @@
      )
     '(replacement
         ">Environment:"
-        "«text»···"
+        "Â«textÂ»Â·Â·Â·"
      )
 ;;; gnats-pr-environment
 )
@@ -175,12 +175,12 @@
     '(auto-expand) ; 26-Jan-2001 
     '(replacement
         ">Description:"
-        "«text»···"
+        "Â«textÂ»Â·Â·Â·"
         "--"
-        "««gnats-pr-effort»»"
-        "««gnats-pr-depends»»"
-        "««gnats-pr-composed-of»»" ; 30-Aug-2001 
-        "««gnats-pr-part-of»»"     ; 30-Aug-2001 
+        "Â«Â«gnats-pr-effortÂ»Â»"
+        "Â«Â«gnats-pr-dependsÂ»Â»"
+        "Â«Â«gnats-pr-composed-ofÂ»Â»" ; 30-Aug-2001 
+        "Â«Â«gnats-pr-part-ofÂ»Â»"     ; 30-Aug-2001 
      )
 ;;; gnats-pr-description
 )
@@ -197,7 +197,7 @@
      )
     '(replacement
         ">How-To-Repeat:"
-        "«text»···"
+        "Â«textÂ»Â·Â·Â·"
      )
 ;;; gnats-pr-repeat
 )
@@ -213,7 +213,7 @@
      )
     '(replacement
         ">Fix:"
-        "«text»···"
+        "Â«textÂ»Â·Â·Â·"
      )
 ;;; gnats-pr-fix
 )
@@ -236,7 +236,7 @@
     '(auto-expand) ; 26-Jan-2001 
     '(description           "Estimated effort for implementation of fix")
     '(replacement
-        "Effort:        «gnats-pr-effort-time» («gnats-pr-effort-person»)"
+        "Effort:        Â«gnats-pr-effort-timeÂ» (Â«gnats-pr-effort-personÂ»)"
      )
 ;;; gnats-pr-effort
 )
@@ -245,8 +245,8 @@
 (lse-define-fill-in "gnats-pr-effort-time"
     '(description           "Person days or person weeks estimated")
     '(menu
-        ("«text» PD"     "person days")
-        ("«text» PW"     "person weeks")
+        ("Â«textÂ» PD"     "person days")
+        ("Â«textÂ» PW"     "person weeks")
      )
 ;;; gnats-pr-effort-time
 )
@@ -260,7 +260,7 @@
      )
     '(auto-expand)
     '(replacement
-        "Composed_of:   «number»···"
+        "Composed_of:   Â«numberÂ»Â·Â·Â·"
      )
 ;;; gnats-pr-composed-of
 )
@@ -271,7 +271,7 @@
     '(token                 "part-of")
     '(description           "Lists the gnats issue this issue is a part of")
     '(auto-expand)
-    '(replacement           "Part_of:       «number»")
+    '(replacement           "Part_of:       Â«numberÂ»")
 ;;; gnats-pr-part-of
 )
 
@@ -287,7 +287,7 @@
     '(token)
     '(token                 "depends")
     '(description           "Other problem report this one depends one")
-    '(replacement           "Depends:       «number»")
+    '(replacement           "Depends:       Â«numberÂ»")
 ;;; gnats-pr-depends
 )
 

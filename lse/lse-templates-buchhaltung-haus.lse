@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "buchhaltung-file"
     '(rcompletion-trailer   delete-blank-lines); 24-Jan-2011
@@ -7,7 +7,7 @@
         "$source_currency = \"eur\";";  1-Jan-2002
         "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
                   & "Tools   &  & Beschreibung  "
-        "玝uchhaltung环贩"
+        "芦buchhaltung禄路路路"
         "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file

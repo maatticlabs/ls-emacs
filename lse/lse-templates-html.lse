@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2009-2010 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -30,7 +30,7 @@
 ;;;;    19-Jul-2009 (CT) Creation
 ;;;;    24-Jul-2009 (CT) Creation finished
 ;;;;     8-Mar-2010 (CT) Bug fixes `>` outside `"..."` (tbody, ...)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 20-Jul-2009
@@ -39,7 +39,7 @@
     '(token                 "a")
     '(description           "Hyperlink")
     '(replacement
-        "<a "  & @ html-attr-href & " ««html-a-attr»»··· >"
+        "<a "  & @ html-attr-href & " Â«Â«html-a-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</a>"
      )
@@ -67,7 +67,7 @@
         "Abbreviation or acronym with the expansion given by the `title`."
      )
     '(replacement
-        "<abbr " & @ html-attr-title " ««html-core-attr»»··· >«text»</abbr>"
+        "<abbr " & @ html-attr-title " Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</abbr>"
      )
 ;;; html-abbr
 )
@@ -92,7 +92,7 @@
     '(token)
     '(token                 "attr-abbr")
     '(description           "Abbreviated form of element's content.")
-    '(replacement           "abbr=«quoted-text»")
+    '(replacement           "abbr=Â«quoted-textÂ»")
 ;;; html-attr-abbr
 )
 
@@ -102,7 +102,7 @@
     '(token                 "attr-accept")
     '(leading               " ")
     '(description           "Define what file types are accepted")
-    '(replacement           "accept=\"«html-attr-accept-value»···\"")
+    '(replacement           "accept=\"Â«html-attr-accept-valueÂ»Â·Â·Â·\"")
 ;;; html-attr-accept
 )
 
@@ -127,7 +127,7 @@
     '(description
         "URI to send the form data to when form is submitted."
      )
-    '(replacement           "action=«quoted-text»")
+    '(replacement           "action=Â«quoted-textÂ»")
 ;;; html-attr-action
 )
 
@@ -136,7 +136,7 @@
     '(token)
     '(token                 "attr-align")
     '(description           "Specify alignment of element")
-    '(replacement           "align=\"«html-attr-align-value»\"")
+    '(replacement           "align=\"Â«html-attr-align-valueÂ»\"")
 ;;; html-attr-align
 )
 
@@ -158,7 +158,7 @@
     '(token                 "attr-alt")
     '(leading               " ")
     '(description           "Alternative information about image")
-    '(replacement           "alt=«quoted-text»")
+    '(replacement           "alt=Â«quoted-textÂ»")
 ;;; html-attr-alt
 )
 
@@ -167,7 +167,7 @@
     '(token)
     '(token                 "attr-char")
     '(description           "Specify character on which to align")
-    '(replacement           "char=«quoted-char» ««html-attr-charoff»»")
+    '(replacement           "char=Â«quoted-charÂ» Â«Â«html-attr-charoffÂ»Â»")
 ;;; html-attr-char
 )
 
@@ -178,7 +178,7 @@
     '(description
         "Specify character offset for char on which to align"
      )
-    '(replacement           "charoff=«quoted-number»")
+    '(replacement           "charoff=Â«quoted-numberÂ»")
 ;;; html-attr-char
 )
 
@@ -188,7 +188,7 @@
     '(token                 "attr-charset")
     '(leading               " ")
     '(description           "Identify the character set used")
-    '(replacement           "charset=«quoted-text»")
+    '(replacement           "charset=Â«quoted-textÂ»")
 ;;; html-attr-charset
 )
 
@@ -210,7 +210,7 @@
     '(description
         "Identify the online source for the quotation in the form of an URI."
      )
-    '(replacement           "cite=«quoted-text»")
+    '(replacement           "cite=Â«quoted-textÂ»")
 ;;; html-attr-cite
 )
 
@@ -222,7 +222,7 @@
     '(description
         "One of more class names specifying style or semantics."
      )
-    '(replacement           "class=«quoted-text»")
+    '(replacement           "class=Â«quoted-textÂ»")
 ;;; html-attr-class
 )
 
@@ -231,7 +231,7 @@
     '(token)
     '(token                 "attr-cols")
     '(description           "Specify number of cols to be visible")
-    '(replacement           "cols=«quoted-number»")
+    '(replacement           "cols=Â«quoted-numberÂ»")
 ;;; html-attr-cols
 )
 
@@ -240,7 +240,7 @@
     '(token)
     '(token                 "attr-colspan")
     '(description           "Specify how many columns the element applies to")
-    '(replacement           "colspan=«quoted-number»")
+    '(replacement           "colspan=Â«quoted-numberÂ»")
 ;;; html-attr-colspan
 )
 
@@ -249,7 +249,7 @@
     '(token)
     '(token                 "attr-data")
     '(description           "URL specifying the address of the resource")
-    '(replacement           "data=«quoted-text»")
+    '(replacement           "data=Â«quoted-textÂ»")
 ;;; html-attr-data
 )
 
@@ -270,7 +270,7 @@
     '(description
         "Encoding to be used for transmitting the form data."
      )
-    '(replacement           "enctype=\"«html-attr-enctype-value»\"")
+    '(replacement           "enctype=\"Â«html-attr-enctype-valueÂ»\"")
 ;;; html-attr-enctype
 )
 
@@ -294,7 +294,7 @@
     '(description
         "Reference to another element's id that this element refers to"
      )
-    '(replacement           "for=«quoted-text»")
+    '(replacement           "for=Â«quoted-textÂ»")
 ;;; html-attr-for
 )
 
@@ -306,7 +306,7 @@
         "Specifies the list of header cells that provide header "
         "information for the current data cell."
      )
-    '(replacement           "headers=«quoted-text»")
+    '(replacement           "headers=Â«quoted-textÂ»")
 ;;; html-attr-headers
 )
 
@@ -318,7 +318,7 @@
         "Specifies the height in pixels or as a percentage of the height "
         "of the containing element"
      )
-    '(replacement           "height=«quoted-number»")
+    '(replacement           "height=Â«quoted-numberÂ»")
 ;;; html-attr-height
 )
 
@@ -330,7 +330,7 @@
     '(description
         "Reference to another document or another place in the same document"
      )
-    '(replacement           "href=«quoted-text»")
+    '(replacement           "href=Â«quoted-textÂ»")
 ;;; html-attr-href
 )
 
@@ -340,7 +340,7 @@
     '(token                 "attr-id")
     '(leading               " ")
     '(description           "Unique identifier for element")
-    '(replacement           "id=«quoted-text»")
+    '(replacement           "id=Â«quoted-textÂ»")
 ;;; html-attr-id
 )
 
@@ -349,7 +349,7 @@
     '(token)
     '(token                 "attr-label")
     '(description           "Label to identify the contents of the element")
-    '(replacement           "label=«quoted-text»")
+    '(replacement           "label=Â«quoted-textÂ»")
 ;;; html-attr-label
 )
 
@@ -361,7 +361,7 @@
     '(description
         "Identify the language of the contents of the element."
      )
-    '(replacement           "lang=«quoted-text» xml:lang=«quoted-text»")
+    '(replacement           "lang=Â«quoted-textÂ» xml:lang=Â«quoted-textÂ»")
 ;;; html-attr-lang
 )
 
@@ -373,7 +373,7 @@
     '(description
         "Restrict total number of characters allowed for an element."
      )
-    '(replacement           "maxlength=«quoted-number»")
+    '(replacement           "maxlength=Â«quoted-numberÂ»")
 ;;; html-attr-maxlength
 )
 
@@ -383,7 +383,7 @@
     '(token                 "attr-media")
     '(description           "Identify the media this element applies to")
     '(leading               " ")
-    '(replacement           "media=\"«html-attr-media-value»···\"")
+    '(replacement           "media=\"Â«html-attr-media-valueÂ»Â·Â·Â·\"")
 ;;; html-attr-media
 )
 
@@ -413,7 +413,7 @@
     '(token                 "attr-method")
     '(leading               " ")
     '(description           "HTTP method to use for submission")
-    '(replacement           "method=\"«html-attr-method-value»\"")
+    '(replacement           "method=\"Â«html-attr-method-valueÂ»\"")
 ;;; html-attr-method
 )
 
@@ -444,7 +444,7 @@
     '(token                 "attr-name")
     '(leading               " ")
     '(description           "Name of the element")
-    '(replacement           "name=«quoted-text»")
+    '(replacement           "name=Â«quoted-textÂ»")
 ;;; html-attr-name
 )
 
@@ -456,7 +456,7 @@
     '(description
         "Define document profile (most likely in XML format)."
      )
-    '(replacement           "profile=«quoted-text»")
+    '(replacement           "profile=Â«quoted-textÂ»")
 ;;; html-attr-profile
 )
 
@@ -478,7 +478,7 @@
     '(token                 "attr-rel")
     '(leading               " ")
     '(description           "Define relationship to linked resource")
-    '(replacement           "rel=\"«html-attr-rel-value»···\"")
+    '(replacement           "rel=\"Â«html-attr-rel-valueÂ»Â·Â·Â·\"")
 ;;; html-attr-rel
 )
 
@@ -501,7 +501,7 @@
     '(token                 "attr-rev")
     '(leading               " ")
     '(description           "Define reverse relationship to linked resource")
-    '(replacement           "rev=\"«html-attr-rev-value»···\"")
+    '(replacement           "rev=\"Â«html-attr-rev-valueÂ»Â·Â·Â·\"")
 ;;; html-attr-rev
 )
 
@@ -534,7 +534,7 @@
     '(token)
     '(token                 "attr-rows")
     '(description           "Specify number of rows to be visible")
-    '(replacement           "rows=«quoted-number»")
+    '(replacement           "rows=Â«quoted-numberÂ»")
 ;;; html-attr-rows
 )
 
@@ -543,7 +543,7 @@
     '(token)
     '(token                 "attr-rowspan")
     '(description           "Specify how many rows the element applies to")
-    '(replacement           "rowspan=«quoted-number»")
+    '(replacement           "rowspan=Â«quoted-numberÂ»")
 ;;; html-attr-span
 )
 
@@ -562,7 +562,7 @@
     '(token                 "attr-size")
     '(leading               " ")
     '(description           "Set the width (in characters) of the element")
-    '(replacement           "size=«quoted-number»")
+    '(replacement           "size=Â«quoted-numberÂ»")
 ;;; html-attr-size
 )
 
@@ -574,7 +574,7 @@
     '(description
         "Set the the number of elements of a <select> to display"
      )
-    '(replacement           "size=«quoted-number»")
+    '(replacement           "size=Â«quoted-numberÂ»")
 ;;; html-attr-size-select
 )
 
@@ -583,7 +583,7 @@
     '(token)
     '(token                 "attr-span")
     '(description           "Specify how many columns the element applies to")
-    '(replacement           "span=«quoted-number»")
+    '(replacement           "span=Â«quoted-numberÂ»")
 ;;; html-attr-span
 )
 
@@ -593,7 +593,7 @@
     '(token                 "attr-src")
     '(leading               " ")
     '(description           "Location of document referred to by element")
-    '(replacement           "src=«quoted-text»")
+    '(replacement           "src=Â«quoted-textÂ»")
 ;;; html-attr-src
 )
 
@@ -605,7 +605,7 @@
     '(description
         "Specify the style of the element (**bad** practice -- use CSS instead)."
      )
-    '(replacement           "style=«quoted-text»")
+    '(replacement           "style=Â«quoted-textÂ»")
 ;;; html-attr-style
 )
 
@@ -615,7 +615,7 @@
     '(token                 "attr-tabindex")
     '(leading               " ")
     '(description           "Define place in tabbing order")
-    '(replacement           "tabindex=«quoted-number»")
+    '(replacement           "tabindex=Â«quoted-numberÂ»")
 ;;; html-attr-tabindex
 )
 
@@ -625,7 +625,7 @@
     '(token                 "attr-title")
     '(leading               " ")
     '(description           "Provides a short description of the element.")
-    '(replacement           "title=«quoted-text»")
+    '(replacement           "title=Â«quoted-textÂ»")
 ;;; html-attr-title
 )
 
@@ -635,7 +635,7 @@
     '(token                 "attr-type")
     '(leading               " ")
     '(description           "MIME type of an element")
-    '(replacement           "type=«quoted-text»")
+    '(replacement           "type=Â«quoted-textÂ»")
 ;;; html-attr-type
 )
 
@@ -645,7 +645,7 @@
     '(token                 "attr-type-button")
     '(leading               " ")
     '(description           "Type of a button")
-    '(replacement           "type=«html-attr-type-button-value»")
+    '(replacement           "type=Â«html-attr-type-button-valueÂ»")
 ;;; html-attr-type-button
 )
 
@@ -665,7 +665,7 @@
     '(token                 "attr-type-input")
     '(leading               " ")
     '(description           "Type of an input element")
-    '(replacement           "type=«html-attr-type-input-value»")
+    '(replacement           "type=Â«html-attr-type-input-valueÂ»")
 ;;; html-attr-type-input
 )
 
@@ -692,7 +692,7 @@
     '(token)
     '(token                 "attr-valign")
     '(description           "Specify vertical alignment of element")
-    '(replacement           "valign=«html-attr-valign-value»")
+    '(replacement           "valign=Â«html-attr-valign-valueÂ»")
 ;;; html-attr-valign
 )
 
@@ -716,7 +716,7 @@
         "Specify the element's value for the purposes of "
         "form display or submission."
      )
-    '(replacement           "value=«quoted-text»")
+    '(replacement           "value=Â«quoted-textÂ»")
 ;;; html-attr-value
 )
 
@@ -728,7 +728,7 @@
         "Specify width in pixels or as percentage of the width of the "
         "containing element"
      )
-    '(replacement           "width=«quoted-number»")
+    '(replacement           "width=Â«quoted-numberÂ»")
 ;;; html-attr-width
 )
 ;;; 19-Jul-2009
@@ -744,7 +744,7 @@
 (lse-define-fill-in "html_be_block"
     '(replacement
           lse-indent+1
-          "««html-body-element»»···"
+          "Â«Â«html-body-elementÂ»Â»Â·Â·Â·"
           lse-indent-1
      )
 ;;; html_be_block
@@ -756,7 +756,7 @@
     '(token                 "blockquote")
     '(description           "HTML blockquote element")
     '(replacement
-        "<blockquote ««html-quote-attr»»··· >"
+        "<blockquote Â«Â«html-quote-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</blockquote>"
      )
@@ -769,7 +769,7 @@
     '(token                 "body")
     '(description           "Body")
     '(replacement
-        "<body ««html-core-attr»»··· >"
+        "<body Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</body>"
      )
@@ -816,7 +816,7 @@
         html-sup
         html-table
         html-var
-        ; ««fill-in-menu-item»»···
+        ; Â«Â«fill-in-menu-itemÂ»Â»Â·Â·Â·
      )
 ;;; html-body-element
 )
@@ -826,7 +826,7 @@
     '(token)
     '(token                 "br")
     '(description           "Line break")
-    '(replacement           "<br ««html-core-attr»»··· />")
+    '(replacement           "<br Â«Â«html-core-attrÂ»Â»Â·Â·Â· />")
 ;;; html-br
 )
 
@@ -836,8 +836,8 @@
     '(token                 "button")
     '(description           "Button for submitting or resetting a form")
     '(replacement
-        "<button ««html-button-attr»»··· >"
-        "«html-body-element»···"
+        "<button Â«Â«html-button-attrÂ»Â»Â·Â·Â· >"
+        "Â«html-body-elementÂ»Â·Â·Â·"
         "</button>"
      )
 ;;; html-button
@@ -866,7 +866,7 @@
     '(token                 "caption")
     '(description           "Describe the table's contents")
     '(replacement
-        "<caption ««html-core-attr»»··· >"
+        "<caption Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</caption>"
      )
@@ -881,7 +881,7 @@
         "Represents just the title of a work (book, paper, movie...). "
         "Don't use for author's name, quotations, etc."
      )
-    '(replacement           "<cite>«text»</cite>")
+    '(replacement           "<cite>Â«textÂ»</cite>")
 ;;; html-cite
 )
 
@@ -894,7 +894,7 @@
         "A block of code should be encapsulated inside "
         "<pre><code>...</code></pre>."
      )
-    '(replacement           "<code «html-code-attr»··· >«text»</code>")
+    '(replacement           "<code Â«html-code-attrÂ»Â·Â·Â· >Â«textÂ»</code>")
 ;;; html-code
 )
 
@@ -913,7 +913,7 @@
 ;;; 20-Jul-2009
 (lse-define-fill-in "html-code-language"
     '(description           "Language of a code fragment")
-    '(replacement           "class=\"language-«text»\"")
+    '(replacement           "class=\"language-Â«textÂ»\"")
 ;;; html-code-language
 )
 
@@ -922,7 +922,7 @@
     '(token)
     '(token                 "col")
     '(description           "Define properties of a single column of a table")
-    '(replacement           "<col ««html-col-attr»»··· />")
+    '(replacement           "<col Â«Â«html-col-attrÂ»Â»Â·Â·Â· />")
 ;;; html-col
 )
 
@@ -934,9 +934,9 @@
         "Define properties of a group of columns of a table"
      )
     '(replacement
-        "<colgroup ««html-col-attr»»··· >"
+        "<colgroup Â«Â«html-col-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "««html-col»»···"
+        "Â«Â«html-colÂ»Â»Â·Â·Â·"
         lse-indent-1
         "</colgroup>"
      )
@@ -983,7 +983,7 @@
     '(token                 "dd")
     '(description           "Definition description")
     '(replacement
-        "<dd ««html-core-attr»»··· >"
+        "<dd Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</dd>"
      )
@@ -996,7 +996,7 @@
     '(token                 "dfn")
     '(description           "Identify the defining instance of a term.")
     '(replacement
-        "<dfn ««html-core-attr»»··· >«text»</dfn>"
+        "<dfn Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</dfn>"
      )
 ;;; html-dfn
 )
@@ -1007,7 +1007,7 @@
     '(token                 "div")
     '(description           "Generic block level element")
     '(replacement
-        "<div ««html-core-attr»»··· >"
+        "<div Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</div>"
      )
@@ -1020,9 +1020,9 @@
     '(token                 "dl")
     '(description           "Definition list")
     '(replacement
-        "<dl ««html-core-attr»»··· >"
+        "<dl Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-dl-element»···"
+        "Â«html-dl-elementÂ»Â·Â·Â·"
         lse-indent-1
         "</dl>"
      )
@@ -1036,7 +1036,7 @@
     '(description           "Single element of a definition list")
     '(replacement
         @ html-dt
-        "«html-dd»···"
+        "Â«html-ddÂ»Â·Â·Â·"
      )
 ;;; html-dl-element
 )
@@ -1046,7 +1046,7 @@
     '(token)
     '(token                 "dt")
     '(description           "Definition term")
-    '(replacement           "<dt ««html-core-attr»»··· >«text»</dt>")
+    '(replacement           "<dt Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</dt>")
 ;;; html-dt
 )
 
@@ -1055,7 +1055,7 @@
     '(token)
     '(token                 "em")
     '(description           "Emphasize contents")
-    '(replacement           "<em ««html-core-attr»»··· >«text»</em>")
+    '(replacement           "<em Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</em>")
 ;;; html-em
 )
 
@@ -1067,10 +1067,10 @@
         "Set of form controls grouped under a common name."
      )
     '(replacement
-        "<fieldset ««html-core-attr»»··· >"
+        "<fieldset Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "««html-legend»»"
-        "«html-fieldset-element»···"
+        "Â«Â«html-legendÂ»Â»"
+        "Â«html-fieldset-elementÂ»Â·Â·Â·"
         lse-indent-1
         "</fieldset>"
      )
@@ -1098,9 +1098,9 @@
     '(token                 "form")
     '(description           "Form accepting user input")
     '(replacement
-        "<form «html-form-attr»··· >"
+        "<form Â«html-form-attrÂ»Â·Â·Â· >"
         lse-indent+1
-        "«html-form-element»···"
+        "Â«html-form-elementÂ»Â·Â·Â·"
         lse-indent-1
         "</form>"
      )
@@ -1140,7 +1140,7 @@
     '(token                 "h1")
     '(description           "Highest heading level")
     '(replacement
-        "<h1 ««html-core-attr»»··· >"
+        "<h1 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h1>"
      )
@@ -1153,7 +1153,7 @@
     '(token                 "h2")
     '(description           "Second highest heading level")
     '(replacement
-        "<h2 ««html-core-attr»»··· >"
+        "<h2 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h2>"
      )
@@ -1166,7 +1166,7 @@
     '(token                 "h3")
     '(description           "Third highest heading level")
     '(replacement
-        "<h3 ««html-core-attr»»··· >"
+        "<h3 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h3>"
      )
@@ -1179,7 +1179,7 @@
     '(token                 "h4")
     '(description           "Fourth highest heading level")
     '(replacement
-        "<h4 ««html-core-attr»»··· >"
+        "<h4 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h4>"
      )
@@ -1192,7 +1192,7 @@
     '(token                 "h5")
     '(description           "Fifth highest heading level")
     '(replacement
-        "<h5 ««html-core-attr»»··· >"
+        "<h5 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h5>"
      )
@@ -1206,7 +1206,7 @@
     '(token                 "h6")
     '(description           "Sixth highest heading level")
     '(replacement
-        "<h6 ««html-core-attr»»··· >"
+        "<h6 Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</h6>"
      )
@@ -1219,10 +1219,10 @@
     '(token                 "head")
     '(description           "Head element")
     '(replacement
-        "<head ««html-head-attr»»··· >"
+        "<head Â«Â«html-head-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-title»"
-        "««html-head-element»»···"
+        "Â«html-titleÂ»"
+        "Â«Â«html-head-elementÂ»Â»Â·Â·Â·"
         lse-indent-1
         "</head>"
      )
@@ -1252,7 +1252,7 @@
         html-meta
         html-script
         html-style
-        ; ««fill-in-menu-item»»···
+        ; Â«Â«fill-in-menu-itemÂ»Â»Â·Â·Â·
      )
 ;;; html-head-element
 )
@@ -1262,7 +1262,7 @@
     '(token)
     '(token                 "hr")
     '(description           "Highly visible break")
-    '(replacement           "<hr ««html-core-attr»»··· />")
+    '(replacement           "<hr Â«Â«html-core-attrÂ»Â»Â·Â·Â· />")
 ;;; html-hr
 )
 
@@ -1271,7 +1271,7 @@
     '(token)
     '(description           "Outermost element")
     '(replacement
-        "<html xmlns=\"http://www.w3.org/1999/xhtml\" ««html-core-attr»»··· >"
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\" Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
         @ html-head
         @ html-body
@@ -1287,7 +1287,7 @@
     '(token                 "img")
     '(description           "Embed an image")
     '(replacement
-        "<img «html-attr-alt» «html-attr-src» ««html-img-attr»»··· />"
+        "<img Â«html-attr-altÂ» Â«html-attr-srcÂ» Â«Â«html-img-attrÂ»Â»Â·Â·Â· />"
      )
 ;;; html-img
 )
@@ -1311,7 +1311,7 @@
     '(token)
     '(token                 "input")
     '(description           "Input element of a form")
-    '(replacement           "<input «html-input-attr»··· />")
+    '(replacement           "<input Â«html-input-attrÂ»Â·Â·Â· />")
 ;;; html-input
 )
 
@@ -1343,7 +1343,7 @@
     '(token)
     '(token                 "kbd")
     '(description           "Identify user input (typically via keyboard).")
-    '(replacement           "<kdb>«text»</kbd>")
+    '(replacement           "<kdb>Â«textÂ»</kbd>")
 ;;; html-kbd
 )
 
@@ -1352,7 +1352,7 @@
     '(token)
     '(token                 "label")
     '(description           "Caption in a user interface.")
-    '(replacement           "<label «html-label-attr»··· >««text»»</label>")
+    '(replacement           "<label Â«html-label-attrÂ»Â·Â·Â· >Â«Â«textÂ»Â»</label>")
 ;;; html-label
 )
 
@@ -1377,7 +1377,7 @@
         "parent element."
      )
     '(replacement
-        "<legend ««html-core-attr»»··· >"
+        "<legend Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</legend>"
      )
@@ -1390,7 +1390,7 @@
     '(token                 "li")
     '(description           "List element")
     '(replacement
-        "<li ««html-core-attr»»··· >"
+        "<li Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</li>"
      )
@@ -1405,7 +1405,7 @@
         "<link "
         & @ html-attr-href & " "
         & @ html-attr-rel  & " "
-        & "««html-link-attr»»··· />"
+        & "Â«Â«html-link-attrÂ»Â»Â·Â·Â· />"
      )
 ;;; html-link
 )
@@ -1429,7 +1429,7 @@
     '(token                 "meta")
     '(description           "Meta element")
     '(replacement
-        "<meta " & @ html-meta-type & " content=«quoted-text»>"
+        "<meta " & @ html-meta-type & " content=Â«quoted-textÂ»>"
      )
 ;;; html-meta
 )
@@ -1437,14 +1437,14 @@
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-meta-http-equiv"
     '(description           "Simulate value for http response header")
-    '(replacement           "http-equiv=«quoted-text»")
+    '(replacement           "http-equiv=Â«quoted-textÂ»")
 ;;; html-meta-http-equiv
 )
 
 ;;; 19-Jul-2009
 (lse-define-fill-in "html-meta-name"
     '(description           "Meta element with name/content pair")
-    '(replacement           "name=«quoted-text» ««html-meta-scheme»»")
+    '(replacement           "name=Â«quoted-textÂ» Â«Â«html-meta-schemeÂ»Â»")
 ;;; html-meta-name
 )
 
@@ -1455,7 +1455,7 @@
         "(used with `profile` attribute of <head>)."
      )
     '(leading               " ")
-    '(replacement           "scheme=«quoted-text»")
+    '(replacement           "scheme=Â«quoted-textÂ»")
 ;;; html-meta-scheme
 )
 
@@ -1491,9 +1491,9 @@
         "Embedd an external resource (image, video, plugin, ...)"
      )
     '(replacement
-        "<object «html-object-attr»··· >"
+        "<object Â«html-object-attrÂ»Â·Â·Â· >"
         lse-indent+1
-        "««html-param»»···"
+        "Â«Â«html-paramÂ»Â»Â·Â·Â·"
         lse-indent-1
         "</object>"
      )
@@ -1524,9 +1524,9 @@
     '(token                 "ol")
     '(description           "Ordered list")
     '(replacement
-        "<ol ««html-core-attr»»··· >"
+        "<ol Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-li»···"
+        "Â«html-liÂ»Â·Â·Â·"
         lse-indent-1
         "</ol>"
      )
@@ -1539,9 +1539,9 @@
     '(token                 "optgroup")
     '(description           "Group of `option`s with a common label")
     '(replacement
-        "<optgroup «html-attr-label» ««html-core-attr»»··· >"
+        "<optgroup Â«html-attr-labelÂ» Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-option»···"
+        "Â«html-optionÂ»Â·Â·Â·"
         lse-indent-1
         "</optgroup>"
      )
@@ -1553,7 +1553,7 @@
     '(token)
     '(token                 "option")
     '(description           "One option that the user can choose")
-    '(replacement           "<option «html-option-attr»··· >«text»</option>")
+    '(replacement           "<option Â«html-option-attrÂ»Â·Â·Â· >Â«textÂ»</option>")
 ;;; html-option
 )
 
@@ -1578,7 +1578,7 @@
     '(token                 "p")
     '(description           "Paragraph")
     '(replacement
-        "<p ««html-core-attr»»··· >"
+        "<p Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ html_be_block &
         "</p>"
      )
@@ -1590,7 +1590,7 @@
     '(token)
     '(token                 "param")
     '(description           "Provide parameter to parent element")
-    '(replacement           "<param «html-attr-name» «html-attr-value»/>")
+    '(replacement           "<param Â«html-attr-nameÂ» Â«html-attr-valueÂ»/>")
 ;;; html-param
 )
 
@@ -1600,7 +1600,7 @@
     '(token                 "pre")
     '(description           "Block of preformatted text")
     '(replacement
-        "<pre ««html-core-attr»»··· >"
+        "<pre Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</pre>"
      )
@@ -1612,7 +1612,7 @@
     '(token)
     '(token                 "q")
     '(description           "(Inline) quotation.")
-    '(replacement           "<q ««html-quote-attr»»··· >«text»</q>")
+    '(replacement           "<q Â«Â«html-quote-attrÂ»Â»Â·Â·Â· >Â«textÂ»</q>")
 ;;; html-q
 )
 
@@ -1636,7 +1636,7 @@
     '(description
         "Identify output froma program or computing system."
      )
-    '(replacement           "<samp ««html-core-attr»»··· >«text»</samp>")
+    '(replacement           "<samp Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</samp>")
 ;;; html-samp
 )
 
@@ -1646,7 +1646,7 @@
     '(token                 "script")
     '(description           "Client side script")
     '(replacement
-        "<script ««html-attr-src»» ««html-attr-charset»» «html-attr-type»>"
+        "<script Â«Â«html-attr-srcÂ»Â» Â«Â«html-attr-charsetÂ»Â» Â«html-attr-typeÂ»>"
         @ text-block &
         "</script>"
      )
@@ -1659,9 +1659,9 @@
     '(token                 "select")
     '(description           "Set of options to choose from")
     '(replacement
-        "<select ««html-select-attr»»··· >"
+        "<select Â«Â«html-select-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-select-element»···"
+        "Â«html-select-elementÂ»Â·Â·Â·"
         lse-indent-1
         "</select>"
      )
@@ -1700,7 +1700,7 @@
     '(token                 "small")
     '(description           "Identify small print or side comments.")
     '(replacement
-        "<small ««html-core-attr»»··· >«html-body-element»</small>"
+        "<small Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«html-body-elementÂ»</small>"
      )
 ;;; html-small
 )
@@ -1711,7 +1711,7 @@
     '(token                 "span")
     '(description           "Generic inline element")
     '(replacement
-        "<span ««html-core-attr»»··· >«html-body-element»</span>"
+        "<span Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«html-body-elementÂ»</span>"
      )
 ;;; html-span
 )
@@ -1722,7 +1722,7 @@
     '(token                 "strong")
     '(description           "Strongly emphasize contents.")
     '(replacement
-        "<strong ««html-core-attr»»··· >«text»</strong>"
+        "<strong Â«Â«html-core-attrÂ»Â»Â·Â·Â· >Â«textÂ»</strong>"
      )
 ;;; html-strong
 )
@@ -1733,7 +1733,7 @@
     '(token                 "style")
     '(description           "Style element (use external style sheets instead)")
     '(replacement
-        "<style ««html-attr-media»» «html-attr-type»>"
+        "<style Â«Â«html-attr-mediaÂ»Â» Â«html-attr-typeÂ»>"
         @ text-block &
         "</style>"
      )
@@ -1745,7 +1745,7 @@
     '(token)
     '(token                 "sub")
     '(description           "Subscript")
-    '(replacement           "<sub>«text»</sub>")
+    '(replacement           "<sub>Â«textÂ»</sub>")
 ;;; html-sub
 )
 
@@ -1754,7 +1754,7 @@
     '(token)
     '(token                 "sup")
     '(description           "Superscript")
-    '(replacement           "<sup>«text»</sup>")
+    '(replacement           "<sup>Â«textÂ»</sup>")
 ;;; html-sup
 )
 
@@ -1764,14 +1764,14 @@
     '(token                 "table")
     '(description           "Present data in a grid-like representation")
     '(replacement
-        "<table ««html-core-attr»»··· >"
+        "<table Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "««html-caption»»"
-        "««html-colgroup»»···"
-        "««html-col»»···"
-        "««html-thead»»"
-        "««html-tfoot»»"
-        "«html-tbody»···"
+        "Â«Â«html-captionÂ»Â»"
+        "Â«Â«html-colgroupÂ»Â»Â·Â·Â·"
+        "Â«Â«html-colÂ»Â»Â·Â·Â·"
+        "Â«Â«html-theadÂ»Â»"
+        "Â«Â«html-tfootÂ»Â»"
+        "Â«html-tbodyÂ»Â·Â·Â·"
         lse-indent-1
         "</table>"
      )
@@ -1784,9 +1784,9 @@
     '(token                 "tbody")
     '(description           "Define a body section of a table")
     '(replacement
-        "<tbody ««html-core-attr»»··· >"
+        "<tbody Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-tr»···"
+        "Â«html-trÂ»Â·Â·Â·"
         lse-indent-1
         "</tbody>"
      )
@@ -1799,7 +1799,7 @@
     '(token                 "td")
     '(description           "Data cell of a table")
     '(replacement
-        "<td ««html-td-attr»»··· >"
+        "<td Â«Â«html-td-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</td>"
      )
@@ -1831,7 +1831,7 @@
     '(token                 "textarea")
     '(description           "Multiline plain text edit control")
     '(replacement
-        "<textarea «html-attr-cols» «html-attr-rows» ««html-textarea-attr»»··· >"
+        "<textarea Â«html-attr-colsÂ» Â«html-attr-rowsÂ» Â«Â«html-textarea-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</textarea>"
      )
@@ -1859,9 +1859,9 @@
     '(token                 "tfoot")
     '(description           "Define a footer for a table")
     '(replacement
-        "<tfoot ««html-core-attr»»···>"
+        "<tfoot Â«Â«html-core-attrÂ»Â»Â·Â·Â·>"
         lse-indent+1
-        "«html-tr»···"
+        "Â«html-trÂ»Â·Â·Â·"
         lse-indent-1
         "</tfoot>"
      )
@@ -1874,7 +1874,7 @@
     '(token                 "th")
     '(description           "Header cell of a table")
     '(replacement
-        "<th ««html-td-attr»»··· >"
+        "<th Â«Â«html-td-attrÂ»Â»Â·Â·Â· >"
         @ text-block &
         "</th>"
      )
@@ -1887,9 +1887,9 @@
     '(token                 "thead")
     '(description           "Define a header for a table")
     '(replacement
-        "<thead ««html-core-attr»»···>"
+        "<thead Â«Â«html-core-attrÂ»Â»Â·Â·Â·>"
         lse-indent+1
-        "«html-trh»···"
+        "Â«html-trhÂ»Â·Â·Â·"
         lse-indent-1
         "</thead>"
      )
@@ -1915,9 +1915,9 @@
     '(token                 "tr")
     '(description           "Define a row of a table")
     '(replacement
-        "<tr ««html-tr-attr»»··· >"
+        "<tr Â«Â«html-tr-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-td»···"
+        "Â«html-tdÂ»Â·Â·Â·"
         lse-indent-1
         "</tr>"
      )
@@ -1946,9 +1946,9 @@
     '(token                 "trh")
     '(description           "Define a header row of a table")
     '(replacement
-        "<tr ««html-tr-attr»»··· >"
+        "<tr Â«Â«html-tr-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-th»···"
+        "Â«html-thÂ»Â·Â·Â·"
         lse-indent-1
         "</tr>"
      )
@@ -1961,9 +1961,9 @@
     '(token                 "ul")
     '(description           "Unordered list")
     '(replacement
-        "<ul ««html-core-attr»»··· >"
+        "<ul Â«Â«html-core-attrÂ»Â»Â·Â·Â· >"
         lse-indent+1
-        "«html-li»···"
+        "Â«html-liÂ»Â·Â·Â·"
         lse-indent-1
         "</ul>"
      )
@@ -1975,7 +1975,7 @@
     '(token)
     '(token                 "var")
     '(description           "Indicate a variable")
-    '(replacement           "<var>«text»</var>")
+    '(replacement           "<var>Â«textÂ»</var>")
 ;;; html-var
 )
 

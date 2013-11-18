@@ -1,32 +1,32 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Bib-File"
   '(description   "Definition of a single bibliographic reference")
   '(replacement
       @ "entry-head"
-      "\\entryflag{autobib=:««text»»:}"
-      "\\DefBibLabel/{«entry-name»}"
-      "\\DefBibAuthor/{«text»}"
-      "\\DefBibYear/{«text»}"
+      "\\entryflag{autobib=:Â«Â«textÂ»Â»:}"
+      "\\DefBibLabel/{Â«entry-nameÂ»}"
+      "\\DefBibAuthor/{Â«textÂ»}"
+      "\\DefBibYear/{Â«textÂ»}"
       "\\DefBibTitle/%"
-      "  {«text»}"
-      "««\\DefBibSubtitle/»»"
-      "««\\DefBibEdition/»»"
+      "  {Â«textÂ»}"
+      "Â«Â«\\DefBibSubtitle/Â»Â»"
+      "Â«Â«\\DefBibEdition/Â»Â»"
       "\\DefBibPublisher/%"
-      "  {«Publisher»}"
-      "««\\DefBibISBN/»»"
+      "  {Â«PublisherÂ»}"
+      "Â«Â«\\DefBibISBN/Â»Â»"
       "\\BibOptional"
-      "««\\DefBibCitedBy/»»"
-      "««\\DefBibRequestedBy/»»"
-      "««\\DefBibOwner/»»"
-      "««\\DefBibPrice/»»"
-      "««\\DefBibSupplier/»»"
-      "««\\DefBibDeliveryDate/»»"
-      "««\\DefBibLocation/»»"
-      "««\\DefBibForeignOwner/»»"
-      "««\\DefBibKeywords/»»"
-      "««\\DefBibReviewSummary/»»"
-      "««\\DefBibAnnotation/»»"
+      "Â«Â«\\DefBibCitedBy/Â»Â»"
+      "Â«Â«\\DefBibRequestedBy/Â»Â»"
+      "Â«Â«\\DefBibOwner/Â»Â»"
+      "Â«Â«\\DefBibPrice/Â»Â»"
+      "Â«Â«\\DefBibSupplier/Â»Â»"
+      "Â«Â«\\DefBibDeliveryDate/Â»Â»"
+      "Â«Â«\\DefBibLocation/Â»Â»"
+      "Â«Â«\\DefBibForeignOwner/Â»Â»"
+      "Â«Â«\\DefBibKeywords/Â»Â»"
+      "Â«Â«\\DefBibReviewSummary/Â»Â»"
+      "Â«Â«\\DefBibAnnotation/Â»Â»"
       @ "entry-tail"
   )
 )
@@ -52,7 +52,7 @@
   '(description   "Annotation for inclusion in annotated bibliography")
   '(replacement
       "\\DefBibAnnotation/%"
-      "  {«text»"
+      "  {Â«textÂ»"
       "  }"
   )
 )
@@ -63,7 +63,7 @@
   '(token         "borrowedby")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Name of Borrower")
-  '(replacement   "\\DefBibBorrowedBy/{«text»}")
+  '(replacement   "\\DefBibBorrowedBy/{Â«textÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibCitedBy/"
@@ -71,7 +71,7 @@
   '(token         "bibcitedby")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Reference of book or article where this reference is cited")
-  '(replacement   "\\DefBibCitedBy/{«text»}")
+  '(replacement   "\\DefBibCitedBy/{Â«textÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibDeliveryDate/"
@@ -79,7 +79,7 @@
   '(token         "bibdeliverydate")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Date of delivery to Swing")
-  '(replacement   "\\DefBibDeliveryDate/{«current-date» ««(Ansicht)»»}")
+  '(replacement   "\\DefBibDeliveryDate/{Â«current-dateÂ» Â«Â«(Ansicht)Â»Â»}")
 )
 
 (lse-define-fill-in "(Ansicht)"
@@ -90,7 +90,7 @@
   '(token)
   '(token         "bibedition")
   '(auto-expand)  ; 17-Aug-2000
-  '(replacement   "\\DefBibEdition/{«text»}")
+  '(replacement   "\\DefBibEdition/{Â«textÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibForeignOwner/"
@@ -98,7 +98,7 @@
   '(token         "bibforeignowner")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Owner of book (owner outside \\swing/)")
-  '(replacement   "\\DefBibForeignOwner/{«text»}")
+  '(replacement   "\\DefBibForeignOwner/{Â«textÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibISBN/"
@@ -106,7 +106,7 @@
   '(token         "bibisbn")
   '(token         "bib-isbn"); 21-Nov-2000
   '(auto-expand)  ;  7-Sep-2000
-  '(replacement   "\\DefBibISBN/{«BibISBN»}")
+  '(replacement   "\\DefBibISBN/{Â«BibISBNÂ»}")
 )
 
 (lse-define-fill-in "BibISBN"
@@ -144,7 +144,7 @@
   '(description   "Keywords describing contents of book or article")
   '(replacement
       "\\DefBibKeywords/%"
-      "  {«text»"
+      "  {Â«textÂ»"
       "  }"
   )
 )
@@ -160,7 +160,7 @@
   '(token         "biblocation")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Location(s) of reference")
-  '(replacement   "\\DefBibLocation/{«text»}")
+  '(replacement   "\\DefBibLocation/{Â«textÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibOwner/"
@@ -168,7 +168,7 @@
   '(token         "bibowner")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Owner of book (\\swing/ or one of the partners os swing)")
-  '(replacement   "\\DefBibOwner/{«Owner»}")
+  '(replacement   "\\DefBibOwner/{Â«OwnerÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibPrice/"
@@ -176,17 +176,17 @@
   '(token         "bibprice")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Price of book")
-  '(replacement   "\\DefBibPrice/{«price»}")
+  '(replacement   "\\DefBibPrice/{Â«priceÂ»}")
 )
 
 (lse-define-fill-in "Price"
   '(menu
-      "\\eur{«text»}"   ; 11-Feb-2002
-      "\\usd{«text»}"   ; 24-Nov-1995
-      "\\sfr{«text»}"
-      "\\pound{«text»}" ; 24-Nov-1995
-      "\\oes{«text»}"
-      "\\dm{«text»}"
+      "\\eur{Â«textÂ»}"   ; 11-Feb-2002
+      "\\usd{Â«textÂ»}"   ; 24-Nov-1995
+      "\\sfr{Â«textÂ»}"
+      "\\pound{Â«textÂ»}" ; 24-Nov-1995
+      "\\oes{Â«textÂ»}"
+      "\\dm{Â«textÂ»}"
   )
 )
 
@@ -196,7 +196,7 @@
   '(auto-expand)  ; 17-Aug-2000
   '(replacement
       "\\DefBibPublisher/%"
-      "  {«Publisher»}"
+      "  {Â«PublisherÂ»}"
   )
 )
 
@@ -205,7 +205,7 @@
   '(token         "bibrequestedby")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Name of person who wants to buy (and pay) this book")
-  '(replacement   "\\DefBibRequestedBy/{«Person»}")
+  '(replacement   "\\DefBibRequestedBy/{Â«PersonÂ»}")
 )
 
 (lse-define-fill-in "\\DefBibReviewSummary/"
@@ -215,7 +215,7 @@
   '(description   "Assessment of quality and relevance of cited book or article")
   '(replacement
       "\\DefBibReviewSummary/%"
-      "  {«text»"
+      "  {Â«textÂ»"
       "  }"
   )
 )
@@ -226,7 +226,7 @@
   '(auto-expand)  ; 17-Aug-2000
   '(replacement
       "\\DefBibSubtitle/"
-      "  {«text»}"
+      "  {Â«textÂ»}"
   )
 )
 
@@ -235,7 +235,7 @@
   '(token         "bibsupplier")
   '(auto-expand)  ; 17-Aug-2000
   '(description   "Name of company or library which can supply this book")
-  '(replacement   "\\DefBibSupplier/{«Supplier»}")
+  '(replacement   "\\DefBibSupplier/{Â«SupplierÂ»}")
 )
 
 (lse-define-fill-in "Supplier"
@@ -624,133 +624,133 @@
 
 (lse-define-fill-in "\\ACMcompSurveys/"
   '(token)
-  '(replacement "\\ACMcompSurveys/, «Volume»")
+  '(replacement "\\ACMcompSurveys/, Â«VolumeÂ»")
   '(description   "ACM Computing Surveys")
 )
 
 (lse-define-fill-in "\\ACMseNotes/"
   '(token)
-  '(replacement "\\ACMseNotes/, «Volume»")
+  '(replacement "\\ACMseNotes/, Â«VolumeÂ»")
   '(description   "ACM SIGSOFT Software Engineering Notes")
 )
 
 (lse-define-fill-in "\\ACMsigplan/"
   '(token)
-  '(replacement "\\ACMsigplan/, «Volume»")
+  '(replacement "\\ACMsigplan/, Â«VolumeÂ»")
   '(description   "ACM SIGPLAN Notices")
 )
 
 (lse-define-fill-in "\\ACMtransPLaS/"
   '(token)
-  '(replacement "\\ACMtransPLaS/, «Volume»")
+  '(replacement "\\ACMtransPLaS/, Â«VolumeÂ»")
   '(description   "ACM Transactions on Programming Languages and Systems")
 )
 
 (lse-define-fill-in "\\byte/"
   '(token)
-  '(replacement "\\Byte/, «Volume»")
+  '(replacement "\\Byte/, Â«VolumeÂ»")
   '(description   "Byte")
 )
 
 (lse-define-fill-in "\\CommACM/"
   '(token)
-  '(replacement "\\CommACM/, «Volume»")
+  '(replacement "\\CommACM/, Â«VolumeÂ»")
   '(description   "Communications of the ACM")
 )
 
 (lse-define-fill-in "\\CppReport/"
   '(token)
-  '(replacement "\\CppReport/, «Volume»")
+  '(replacement "\\CppReport/, Â«VolumeÂ»")
   '(description   "\\cpplus/ Report, SIGS Publications, Inc., New York")
 )
 
 (lse-define-fill-in "\\DDJ/"
   '(token)
-  '(replacement "\\DDJ/, «Volume»")
+  '(replacement "\\DDJ/, Â«VolumeÂ»")
   '(description   "Dr. Dobb's Journal")
 )
 
 (lse-define-fill-in "\\HOOT/"
   '(token)
-  '(replacement "\\HOOT/, «Volume»")
+  '(replacement "\\HOOT/, Â«VolumeÂ»")
   '(description   "Hotline on Object-Oriented Technology")
 )
 
 (lse-define-fill-in "\\IEEEcomp/"
   '(token)
-  '(replacement "\\IEEEcomp/, «Volume»")
+  '(replacement "\\IEEEcomp/, Â«VolumeÂ»")
   '(description   "IEEE Computer")
 )
 
 (lse-define-fill-in "\\IEEEsoft/"
   '(token)
-  '(replacement "\\IEEEsoft/, «Volume»")
+  '(replacement "\\IEEEsoft/, Â«VolumeÂ»")
   '(description   "IEEE Software")
 )
 
 (lse-define-fill-in "\\IEEEtransSE/"
   '(token)
-  '(replacement "\\IEEEtransSE/, \\vol{SE--«text»}(««Number»»), ««text»»")
+  '(replacement "\\IEEEtransSE/, \\vol{SE--Â«textÂ»}(Â«Â«NumberÂ»Â»), Â«Â«textÂ»Â»")
   '(description   "IEEE Transactions on Software Engineering")
 )
 
 (lse-define-fill-in "\\JOOP/"
   '(token)
-  '(replacement "\\JOOP/, «Volume»")
+  '(replacement "\\JOOP/, Â«VolumeÂ»")
   '(description   "Journal of Object-Oriented Programming")
 )
 
 (lse-define-fill-in "\\JouPAM/"
   '(token)
-  '(replacement "\\JouPAM/, «Volume»")
+  '(replacement "\\JouPAM/, Â«VolumeÂ»")
   '(description   "Journal of Pascal, Ada, and Modula--2")
 )
 
 (lse-define-fill-in "\\ObjectMagazine/"
   '(token)
-  '(replacement "\\ObjectMagazine/, «Volume»")
+  '(replacement "\\ObjectMagazine/, Â«VolumeÂ»")
   '(description   "Object Magazine")
 )
 
 (lse-define-fill-in "\\ObjektSpektrum/"
   '(token)
-  '(replacement "\\ObjektSpektrum/, «Volume»")
+  '(replacement "\\ObjektSpektrum/, Â«VolumeÂ»")
   '(description   "Objekt Spektrum")
 )
 
 (lse-define-fill-in "\\ProcACMooPLA/"
   '(token)
-  '(replacement "\\ProcACMooPLA/, «Volume»")
+  '(replacement "\\ProcACMooPLA/, Â«VolumeÂ»")
   '(description   "Proceedings of the ACM Conference on OO Programming Systems, Languages and Applications")
 )
 
 (lse-define-fill-in "\\ProcIEEEsrs/"
   '(token)
-  '(replacement "\\ProcIEEEsrs/, «Volume»")
+  '(replacement "\\ProcIEEEsrs/, Â«VolumeÂ»")
   '(description   "Proceedings of the IEEE Conference on Specfications of Reliable Software")
 )
 
 (lse-define-fill-in "\\ROAD/"
   '(token)
-  '(replacement "\\ROAD/, «Volume»")
+  '(replacement "\\ROAD/, Â«VolumeÂ»")
   '(description   "Report on Object Analysis & Design")
 )
 
 (lse-define-fill-in "\\SEJ/"
   '(token)
-  '(replacement "\\SEJ/, «Volume»")
+  '(replacement "\\SEJ/, Â«VolumeÂ»")
   '(description   "Software Engineering Journal")
 )
 
 (lse-define-fill-in "\\SWPaE/"
   '(token)
-  '(replacement "\\SWPaE/, «Volume»")
+  '(replacement "\\SWPaE/, Â«VolumeÂ»")
   '(description   "Software --- Practice and Experience")
 )
 
 (lse-define-fill-in "\\tugboat/"
   '(token)
-  '(replacement "\\BibTugboat/, «Volume»")
+  '(replacement "\\BibTugboat/, Â«VolumeÂ»")
   '(description   "TUGboat")
 )
 
@@ -777,7 +777,7 @@
     '(token)
     '(description           "Specifies pages occupied by an article")
     '(leading               ",")
-    '(replacement           "pp\\.««text»»")
+    '(replacement           "pp\\.Â«Â«textÂ»Â»")
 ;;; Pages
 )
 
@@ -790,6 +790,6 @@
 (lse-define-fill-in "Volume"
   '(token)
   '(replacement
-      "\\vol{«text»}(««Number»»), ««text»», ««Pages»»"
+      "\\vol{Â«textÂ»}(Â«Â«NumberÂ»Â»), Â«Â«textÂ»Â», Â«Â«PagesÂ»Â»"
   )
 )

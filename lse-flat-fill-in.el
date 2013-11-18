@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -160,7 +160,7 @@
 ;;;;     4-Jul-2012 (CT) Use `let`, not `setq`, to temporarily change
 ;;;;                     `lse@expansion@separator` in
 ;;;;                     `lse-flat-fill-in:expand-menu`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-flat-fill-in)
 
@@ -1092,7 +1092,7 @@
     (setq lse_replaced_fill-in
           (lse-flat-fill-in:open-replacement psym name 'lse@replaced)
     )
-    (setq lse-fill-in:currently-replaced (concat " «" name "»"))
+    (setq lse-fill-in:currently-replaced (concat " Â«" name "Â»"))
     (lse-tpu:update-mode-line)
     (setq lse_current_fill-in nil)
   )

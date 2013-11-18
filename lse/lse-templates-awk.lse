@@ -1,21 +1,21 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 
 (lse-define-fill-in "arithmetic-expression"
     '(token)
     '(description           "Numeric expression using common arithmetic operators")
     '(menu
-        ("«number»"     "Constant value")
+        ("Â«numberÂ»"     "Constant value")
         numeric-assignment
         numeric-function
-        "- «arithmetic-expression»"
-        "«arithmetic-expression» + «arithmetic-expression»"
-        "«arithmetic-expression» - «arithmetic-expression»"
-        "«arithmetic-expression» * «arithmetic-expression»"
-        "«arithmetic-expression» / «arithmetic-expression»"
-        "«arithmetic-expression» % «arithmetic-expression»"
-        "«arithmetic-expression» ^ «arithmetic-expression»"
-        "(«arithmetic-expression»)"     
+        "- Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» + Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» - Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» * Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» / Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» % Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» ^ Â«arithmetic-expressionÂ»"
+        "(Â«arithmetic-expressionÂ»)"     
      )
 ;;; arithmetic-expression
 )
@@ -23,7 +23,7 @@
 (lse-define-fill-in "awk-action"
     '(replacement
         "{"
-        "  ««awk-statement»»···"
+        "  Â«Â«awk-statementÂ»Â»Â·Â·Â·"
         "}"
      )
 ;;; awk-action
@@ -32,7 +32,7 @@
 (lse-define-fill-in "awk-atan2"
     '(token                 "atan2")
     '(description           "Returns the arctangent of y/x in radians")
-    '(replacement           "atan2(«arithmetic-expression», «arithmetic-expression»)")
+    '(replacement           "atan2(Â«arithmetic-expressionÂ», Â«arithmetic-expressionÂ»)")
 ;;; awk-atan2
 )
 
@@ -69,22 +69,22 @@
 
 (lse-define-fill-in "awk-cos"
     '(token)
-    '(description           "Returns cosine of «arithmetic-expression»")
-    '(replacement           "cos(«arithmetic-expression»)")
+    '(description           "Returns cosine of Â«arithmetic-expressionÂ»")
+    '(replacement           "cos(Â«arithmetic-expressionÂ»)")
 ;;; awk-cos
 )
 
 (lse-define-fill-in "awk-close"
     '(token                 "close")
-    '(description           "Close a file or pipe («string-expression» is the same that opened it)")
-    '(replacement           "close(«string-expression»)")
+    '(description           "Close a file or pipe (Â«string-expressionÂ» is the same that opened it)")
+    '(replacement           "close(Â«string-expressionÂ»)")
 ;;; awk-close
 )
 
 (lse-define-fill-in "awk-delete"
     '(token                 "delete")
-    '(description           "Delete element «awk-expression» from array «name»")
-    '(replacement           "delete(«name»[«awk-expression»])")
+    '(description           "Delete element Â«awk-expressionÂ» from array Â«nameÂ»")
+    '(replacement           "delete(Â«nameÂ»[Â«awk-expressionÂ»])")
 ;;; awk-delete
 )
 
@@ -94,7 +94,7 @@
     '(replacement           
         "do"
         & @ awk-action
-        & "while («boolean-expression»)" 
+        & "while (Â«boolean-expressionÂ»)" 
      )
 ;;; awk-do-while
 )
@@ -121,8 +121,8 @@
 
 (lse-define-fill-in "awk-exp"
     '(token)
-    '(description           "Return exponent of «arithmetic-expression»")
-    '(replacement           "exp(«arithmetic-expression»)")
+    '(description           "Return exponent of Â«arithmetic-expressionÂ»")
+    '(replacement           "exp(Â«arithmetic-expressionÂ»)")
 ;;; awk-exp
 )
 
@@ -143,7 +143,7 @@
     '(token                 "for")
     '(description           "For loop")
     '(replacement
-        "for («numeric-assignment»; «boolean-expression»; «numeric-assignment»)"
+        "for (Â«numeric-assignmentÂ»; Â«boolean-expressionÂ»; Â«numeric-assignmentÂ»)"
         & @ awk-action
      )
 ;;; awk-for
@@ -152,25 +152,25 @@
 (lse-define-fill-in "awk-foreach"
     '(token                 "foreach")
     '(description           "For loop iterating over all indices of an array")
-    '(replacement           "for («name» in «name»)" & @ awk-action)
+    '(replacement           "for (Â«nameÂ» in Â«nameÂ»)" & @ awk-action)
 ;;; awk-foreach
 )
 
 (lse-define-fill-in "awk-getline"
     '(token                 "getline")
-    '(description           "Read next line of input, assigning the value to «name», if given, or $0")
+    '(description           "Read next line of input, assigning the value to Â«nameÂ», if given, or $0")
     '(menu
-        ("getline ««name»»"                           "Read from standard input and put result into «name» or $0")
-        ("getline ««name»» < «string-expression»"     "Read from file «string-expression»")
-        ("«string-expression» | getline «name»"       "Read from output-pipe of command «string-expression»")
+        ("getline Â«Â«nameÂ»Â»"                           "Read from standard input and put result into Â«nameÂ» or $0")
+        ("getline Â«Â«nameÂ»Â» < Â«string-expressionÂ»"     "Read from file Â«string-expressionÂ»")
+        ("Â«string-expressionÂ» | getline Â«nameÂ»"       "Read from output-pipe of command Â«string-expressionÂ»")
      )
 ;;; awk-getline
 )
 
 (lse-define-fill-in "awk-gsub"
     '(token                 "gsub")
-    '(description           "Globally substitute «string-expression» for each match of «regexp-constant» in string «name» (returns number of substitutions)")
-    '(replacement           "gsub(«regexp-constant», «string-expression», ««name»»)")
+    '(description           "Globally substitute Â«string-expressionÂ» for each match of Â«regexp-constantÂ» in string Â«nameÂ» (returns number of substitutions)")
+    '(replacement           "gsub(Â«regexp-constantÂ», Â«string-expressionÂ», Â«Â«nameÂ»Â»)")
 ;;; awk-gsub
 )
 
@@ -178,8 +178,8 @@
     '(token                 "if")
     '(description           "Conditional statement")
     '(replacement
-        "if («boolean-expression»)" & @ awk-action
-        ««awk-else»»
+        "if (Â«boolean-expressionÂ»)" & @ awk-action
+        Â«Â«awk-elseÂ»Â»
      )
 ;;; awk-if
 )
@@ -187,35 +187,35 @@
 (lse-define-fill-in "awk-index"
     '(token                 "index")
     '(description           "Returns position of substring (2. arg) in string (1. arg)")
-    '(replacement           "index(«string-expression», «string-expression»)")
+    '(replacement           "index(Â«string-expressionÂ», Â«string-expressionÂ»)")
 ;;; awk-index
 )
 
 (lse-define-fill-in "awk-int"
     '(token                 "int")
-    '(description           "Returns integer value of «arithmetic-expression» by truncating any digits following a decimal point")
-    '(replacement           "int(«arithmetic-expression»)")
+    '(description           "Returns integer value of Â«arithmetic-expressionÂ» by truncating any digits following a decimal point")
+    '(replacement           "int(Â«arithmetic-expressionÂ»)")
 ;;; awk-int
 )
 
 (lse-define-fill-in "awk-length"
     '(token                 "length")
     '(description           "Returns length of string")
-    '(replacement           "length(«string-expression»)")
+    '(replacement           "length(Â«string-expressionÂ»)")
 ;;; awk-length
 )
 
 (lse-define-fill-in "awk-log"
     '(token                 "log")
-    '(description           "Returns logarithm of «arithmetic-expression»")
-    '(replacement           "log(«arithmetic-expression»)")
+    '(description           "Returns logarithm of Â«arithmetic-expressionÂ»")
+    '(replacement           "log(Â«arithmetic-expressionÂ»)")
 ;;; awk-log
 )
 
 (lse-define-fill-in "awk-match"
     '(token                 "match")
-    '(description           "Returns the position in «string-expression» where «regexp-constant» matches or 0 if no match")
-    '(replacement           "match(«string-expression», «regexp-constant»)")
+    '(description           "Returns the position in Â«string-expressionÂ» where Â«regexp-constantÂ» matches or 0 if no match")
+    '(replacement           "match(Â«string-expressionÂ», Â«regexp-constantÂ»)")
 ;;; awk-match
 )
 
@@ -230,12 +230,12 @@
     '(token)
     '(menu
         regexp-constant
-        ("«awk-expression»"                   "Matches if the value of «awk-expression» is non-zero number or non-null string")
-        ("«awk-pattern» && «awk-pattern»"     "Logical and (short-circuit) of two pattern matches")
-        ("«awk-pattern» || «awk-pattern»"     "Logical or  (short-circuit) of two pattern matches")
-        ("! «awk-pattern»"                    "Negate match")
-        ("(«awk-pattern»)"                    "Change order of evaluation")
-        ("«awk-pattern» ? «awk-pattern» : «awk-pattern»"     "If the first pattern matches then the second is tried, otherwise the third")
+        ("Â«awk-expressionÂ»"                   "Matches if the value of Â«awk-expressionÂ» is non-zero number or non-null string")
+        ("Â«awk-patternÂ» && Â«awk-patternÂ»"     "Logical and (short-circuit) of two pattern matches")
+        ("Â«awk-patternÂ» || Â«awk-patternÂ»"     "Logical or  (short-circuit) of two pattern matches")
+        ("! Â«awk-patternÂ»"                    "Negate match")
+        ("(Â«awk-patternÂ»)"                    "Change order of evaluation")
+        ("Â«awk-patternÂ» ? Â«awk-patternÂ» : Â«awk-patternÂ»"     "If the first pattern matches then the second is tried, otherwise the third")
      )
 ;;; awk-pattern
 )
@@ -244,15 +244,15 @@
     '(token)
     '(menu
         @ awk-pattern
-        ("«awk-pattern», «awk-pattern»"     "Matches all input lines starting with a line matching the first pattern to a line matching the second")
+        ("Â«awk-patternÂ», Â«awk-patternÂ»"     "Matches all input lines starting with a line matching the first pattern to a line matching the second")
      )
 ;;; awk-pattern-complex
 )
 
 (lse-define-fill-in "awk-pattern+action"
     '(token                 "pattern+action")
-    '(description           "««awk-action»» (default: print line) will be performed on all input lines matching ««awk-pattern-complex»» (for all lines if none is given)")
-    '(replacement           "««awk-pattern-complex»» " & @ awk-action)
+    '(description           "Â«Â«awk-actionÂ»Â» (default: print line) will be performed on all input lines matching Â«Â«awk-pattern-complexÂ»Â» (for all lines if none is given)")
+    '(replacement           "Â«Â«awk-pattern-complexÂ»Â» " & @ awk-action)
 )
 
 (lse-define-fill-in "awk-print"
@@ -260,7 +260,7 @@
     '(description           "Print to standard output or file")
     '(menu
         ("print"                                            "Prints current record   to standard output")
-        ("print «awk-expression»··· ««output-redirection»»" "Prints «awk-expression» to standard output or file")
+        ("print Â«awk-expressionÂ»Â·Â·Â· Â«Â«output-redirectionÂ»Â»" "Prints Â«awk-expressionÂ» to standard output or file")
      )
 ;;; awk-print
 )
@@ -268,7 +268,7 @@
 (lse-define-fill-in "awk-printf"
     '(token                 "printf")
     '(description           "Print formatted to standard output or file")
-    '(replacement           "printf «print-format», «awk-expression»···")
+    '(replacement           "printf Â«print-formatÂ», Â«awk-expressionÂ»Â·Â·Â·")
 ;;; awk-printf
 )
 
@@ -282,46 +282,46 @@
 (lse-define-fill-in "awk-return"
     '(token                 "return")
     '(description           "Return from user-defined function")
-    '(replacement           "return ««awk-expression»»")
+    '(replacement           "return Â«Â«awk-expressionÂ»Â»")
 ;;; awk-return
 )
 
 (lse-define-fill-in "awk-script"
     '(description           "Root fill-in for awk language")
     '(replacement
-        "#««header-comment»»"
-        "««awk-begin-pattern»»"
-        "««awk-pattern+action»»···"
-        "««awk-end-pattern»»"
+        "#Â«Â«header-commentÂ»Â»"
+        "Â«Â«awk-begin-patternÂ»Â»"
+        "Â«Â«awk-pattern+actionÂ»Â»Â·Â·Â·"
+        "Â«Â«awk-end-patternÂ»Â»"
      )
 ;;; awk-script
 )
 
 (lse-define-fill-in "awk-sin"
     '(token                 "sin")
-    '(description           "Returns sine of «arithmetic-expression»")
-    '(replacement           "sin(«arithmetic-expression»)")
+    '(description           "Returns sine of Â«arithmetic-expressionÂ»")
+    '(replacement           "sin(Â«arithmetic-expressionÂ»)")
 ;;; awk-sin
 )
 
 (lse-define-fill-in "awk-split"
     '(token                 "split")
     '(description           "Parses string into elements of array using third parameter as separator (default FS), returns number of elements")
-    '(replacement           "split(«string-expression», «name», ««regexp-constant»»)")
+    '(replacement           "split(Â«string-expressionÂ», Â«nameÂ», Â«Â«regexp-constantÂ»Â»)")
 ;;; awk-split
 )
 
 (lse-define-fill-in "awk-sqrt"
     '(token                 "sqrt")
-    '(description           "Returns the square root of «arithmetic-expression»")
-    '(replacement           "sqrt(«arithmetic-expression»)")
+    '(description           "Returns the square root of Â«arithmetic-expressionÂ»")
+    '(replacement           "sqrt(Â«arithmetic-expressionÂ»)")
 ;;; awk-sqrt
 )
 
 (lse-define-fill-in "awk-srand"
     '(token                 "srand")
-    '(description           "Use «arithmetic-expression» to set a new seed for random number generator (default: time of day)")
-    '(replacement           "srand(««arithmetic-expression»»)")
+    '(description           "Use Â«arithmetic-expressionÂ» to set a new seed for random number generator (default: time of day)")
+    '(replacement           "srand(Â«Â«arithmetic-expressionÂ»Â»)")
 ;;; awk-srand
 )
 
@@ -357,35 +357,35 @@
 (lse-define-fill-in "awk-sub"
     '(token                 "sub")
     '(description           "Substitute first match")
-    '(replacement           "sub(«regexp-constant», «string-expression», ««name»»)")
+    '(replacement           "sub(Â«regexp-constantÂ», Â«string-expressionÂ», Â«Â«nameÂ»Â»)")
 ;;; awk-sub
 )
 
 (lse-define-fill-in "awk-substr"
     '(token                 "substr")
     '(description           "Return a substring of string from begin-position (2. arg) with given length (3. arg)")
-    '(replacement           "substr(«string-expression», «arithmetic-expression», «arithmetic-expression»)")
+    '(replacement           "substr(Â«string-expressionÂ», Â«arithmetic-expressionÂ», Â«arithmetic-expressionÂ»)")
 ;;; awk-substr
 )
 
 (lse-define-fill-in "awk-system"
     '(token                 "system")
     '(description           "Execute operating system command (in subprocess) and return its status")
-    '(replacement           "system(«string-expression»)")
+    '(replacement           "system(Â«string-expressionÂ»)")
 ;;; awk-system
 )
 
 (lse-define-fill-in "awk-tolower"
     '(token                 "tolower")
-    '(description           "Translate all uppercase characters in «string-expression» to lowercase and return result")
-    '(replacement           "tolower(«string-expression»)")
+    '(description           "Translate all uppercase characters in Â«string-expressionÂ» to lowercase and return result")
+    '(replacement           "tolower(Â«string-expressionÂ»)")
 ;;; awk-tolower
 )
 
 (lse-define-fill-in "awk-toupper"
     '(token                 "toupper")
-    '(description           "Translate all lowercase characters in «string-expression» to uppercase and return result")
-    '(replacement           "toupper(«string-expression»)")
+    '(description           "Translate all lowercase characters in Â«string-expressionÂ» to uppercase and return result")
+    '(replacement           "toupper(Â«string-expressionÂ»)")
 ;;; awk-tolower
 )
 
@@ -393,7 +393,7 @@
     '(token                 "while")
     '(description           "Loop statement")
     '(replacement           
-        "while («boolean-expression»)" & @ awk-action
+        "while (Â«boolean-expressionÂ»)" & @ awk-action
      )
 ;;; awk-while
 )
@@ -402,10 +402,10 @@
     '(token)
     '(description           "Combination of comparison expressions")
     '(menu
-        "(«comparison-expression»)"
-        "! «comparison-expression»"
-        "«comparison-expression» && «comparison-expression»"
-        "«comparison-expression» || «comparison-expression»"
+        "(Â«comparison-expressionÂ»)"
+        "! Â«comparison-expressionÂ»"
+        "Â«comparison-expressionÂ» && Â«comparison-expressionÂ»"
+        "Â«comparison-expressionÂ» || Â«comparison-expressionÂ»"
      )
 ;;; boolean-expression
 )
@@ -414,20 +414,20 @@
     '(token)
     '(description           "Comparison of strings or numbers")
     '(menu
-        "«arithmetic-expression» <  «arithmetic-expression»"
-        "«arithmetic-expression» <= «arithmetic-expression»"
-        "«arithmetic-expression» >  «arithmetic-expression»"
-        "«arithmetic-expression» >= «arithmetic-expression»"
-        "«arithmetic-expression» == «arithmetic-expression»"
-        "«arithmetic-expression» != «arithmetic-expression»"
-        "«string-expression» <  «string-expression»"
-        "«string-expression» <= «string-expression»"
-        "«string-expression» >  «string-expression»"
-        "«string-expression» >= «string-expression»"
-        "«string-expression» == «string-expression»"
-        "«string-expression» != «string-expression»"
-        "«string-expression» ~  «string-expression»"
-        "«string-expression» !~ «string-expression»"
+        "Â«arithmetic-expressionÂ» <  Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» <= Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» >  Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» >= Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» == Â«arithmetic-expressionÂ»"
+        "Â«arithmetic-expressionÂ» != Â«arithmetic-expressionÂ»"
+        "Â«string-expressionÂ» <  Â«string-expressionÂ»"
+        "Â«string-expressionÂ» <= Â«string-expressionÂ»"
+        "Â«string-expressionÂ» >  Â«string-expressionÂ»"
+        "Â«string-expressionÂ» >= Â«string-expressionÂ»"
+        "Â«string-expressionÂ» == Â«string-expressionÂ»"
+        "Â«string-expressionÂ» != Â«string-expressionÂ»"
+        "Â«string-expressionÂ» ~  Â«string-expressionÂ»"
+        "Â«string-expressionÂ» !~ Â«string-expressionÂ»"
      )
 ;;; comparison-expression
 )
@@ -436,7 +436,7 @@
     '(token                 "assignment")
     '(token                 "=")
     '(description           "Expression that stores a new value into a variable and returns the stored value")
-    '(replacement           "«name» «numeric-assignment-operator» «arithmetic-expression»")
+    '(replacement           "Â«nameÂ» Â«numeric-assignment-operatorÂ» Â«arithmetic-expressionÂ»")
 ;;; numeric-assignment
 )
 
@@ -492,7 +492,7 @@
     '(token)
     '(description           "String-valued expression")
     '(menu
-        ("««text»» ««string-expression»»···"    "Concenation of strings")
+        ("Â«Â«textÂ»Â» Â«Â«string-expressionÂ»Â»Â·Â·Â·"    "Concenation of strings")
         @ string-function
      )
 ;;; string-expression

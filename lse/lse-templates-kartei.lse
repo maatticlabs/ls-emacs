@@ -1,9 +1,9 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "entry-head"
   '(description   "Header of entry")
   '(replacement
-      "\\entry{«entry-name»}"
+      "\\entry{Â«entry-nameÂ»}"
       "\\entrystate{~PPreliminary~}"
    )
 )
@@ -17,8 +17,8 @@
 (lse-define-fill-in "entry-tail"
   '(description   "Trailer of entry")
   '(replacement
-      "\\endentry{«entry-name»}"
-      "···············································································"
+      "\\endentry{Â«entry-nameÂ»}"
+      "Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·"
    )
 )
 

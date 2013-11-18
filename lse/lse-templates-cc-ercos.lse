@@ -1,11 +1,11 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;  3-May-1995
 (lse-define-fill-in "change-request-desc"
     '(token)
     '(description           "Description of change reqest")
     '(replacement
-        @ current-date & "  «number»  -  «change-request-title» "
+        @ current-date & "  Â«numberÂ»  -  Â«change-request-titleÂ» "
         & lse-insert-user-name
      )
 ;;; change-request-desc
@@ -48,7 +48,7 @@
          " *                   ERCOS/OLT Change Request History                       *"
          " ****************************************************************************"
          "    Date         CRN    -  Title                                    Author   "
-         "    «change-request-desc»···"
+         "    Â«change-request-descÂ»Â·Â·Â·"
          " ****************************************************************************"
          ""
      )
@@ -70,7 +70,7 @@
         "#include \"DFR_Object_OLT.h\""
         ""
         @ OLT-class-header
-        "««OLT-class-definition-body»»"
+        "Â«Â«OLT-class-definition-bodyÂ»Â»"
      )
 ;;; OLT-class-definition
 )
@@ -93,25 +93,25 @@
         @ OLT-class-bin-ifstream-constructor
         @ OLT-class-destructor
         @ OLT-Object_OLT-Properties
-        "««attribute-function-member-clause»»"
-        "««OLT-class-invariant»»"
+        "Â«Â«attribute-function-member-clauseÂ»Â»"
+        "Â«Â«OLT-class-invariantÂ»Â»"
         ""
-        "««query-function-member-clause»»"
-        "««modifier-function-member-clause»»"
+        "Â«Â«query-function-member-clauseÂ»Â»"
+        "Â«Â«modifier-function-member-clauseÂ»Â»"
         ""
         @ OLT-Object_OLT-protected-Properties
         ""
-        "««data-member-definition-clause»»"
+        "Â«Â«data-member-definition-clauseÂ»Â»"
         ""
         "BOOLEAN representation_invariant () const"
         "  {"
         lse-indent+1
-        "««assert»»···"
+        "Â«Â«assertÂ»Â»Â·Â·Â·"
         "return TRUE;"
         lse-indent-1
         "  };"
         @ OLT-class-default-constructor
-        "««protected-member-declaration»»···"
+        "Â«Â«protected-member-declarationÂ»Â»Â·Â·Â·"
         ""
         @ OLT-class-private-functions
         lse-indent-1
@@ -124,7 +124,7 @@
 (lse-define-fill-in "OLT-class-header"
     '(description           "Header of class definition")
     '(replacement
-        "class «class-name» : public DFR_Object_OLT"
+        "class Â«class-nameÂ» : public DFR_Object_OLT"
      )
 ;;; OLT-class-header
 )
@@ -137,7 +137,7 @@
               "(const Identifier_OLT & ident)"
             lse-expansion-indent
             "  : Ancestor (ident)"
-            "  , ««member_initialization»»···"
+            "  , Â«Â«member_initializationÂ»Â»Â·Â·Â·"
             "  {};"
             ""
      )
@@ -150,7 +150,7 @@
         (lse-insert-replica-or-flat "class-name") & "  " &
             "(BIN_IFSTREAM & s)"
             "  : Ancestor (s)"
-            "  , ««member_initialization»»···"
+            "  , Â«Â«member_initializationÂ»Â»Â·Â·Â·"
             "  {};"
             ""
      )
@@ -161,7 +161,7 @@
 (lse-define-fill-in "OLT-class-destructor"
     '(replacement
         "virtual" & " ~" & (lse-insert-replica-or-flat "class-name")
-            & " () ««inline-function-body»»;"
+            & " () Â«Â«inline-function-bodyÂ»Â»;"
         ""
      )
 ;;; OLT-class-destructor
@@ -194,7 +194,7 @@
         lse-indent+1
         "if (definition_read ())"
         "  {"
-        "    ««assert»»···"
+        "    Â«Â«assertÂ»Â»Â·Â·Â·"
         "  };"
         "return " & (lse-insert-replica-or-flat "class-name")
                   & "::representation_invariant () "
@@ -244,7 +244,7 @@
         "virtual BIN_OFSTREAM   & write (BIN_OFSTREAM & s) const"
         "  {"
         "    Ancestor::write (s);"
-        "    return s << ««OLT-attribute-to-write»»;"
+        "    return s << Â«Â«OLT-attribute-to-writeÂ»Â»;"
         "  };"
         ""
      )
@@ -269,17 +269,17 @@
     '(replacement
         "virtual void define "
             & lse-anchor-indent &
-              "(«parameter-declaration»···"
+              "(Â«parameter-declarationÂ»Â·Â·Â·"
               ")"
             lse-expansion-indent
         "  {"
         lse-indent+1
-        "««preconditions»»"
+        "Â«Â«preconditionsÂ»Â»"
         lse-indent+1
-        "Ancestor::define («text», «text», «text»);"
-        "««statement»»···"
+        "Ancestor::define (Â«textÂ», Â«textÂ», Â«textÂ»);"
+        "Â«Â«statementÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "««postconditions»»"
+        "Â«Â«postconditionsÂ»Â»"
         lse-indent-1
         "  };"
         ""
@@ -291,7 +291,7 @@
 (lse-define-fill-in "OLT-class-usage-allowed"
     '(replacement
         "virtual BOOLEAN usage_allowed (const Source_Context_OLT & s) const"
-        "  { return «text»; }; "
+        "  { return Â«textÂ»; }; "
      )
 ;;; OLT-class-usage-allowed
 )
@@ -352,7 +352,7 @@
           ""
           "const Type_OLT " & (lse-insert-replica-or-flat "class-name")
                             &  "::Type ="
-          "      Type_OLT («quoted-text», sizeof ("
+          "      Type_OLT (Â«quoted-textÂ», sizeof ("
                             & (lse-insert-replica-or-flat "class-name")
                             &  ")"
                             & ", new_"
@@ -361,7 +361,7 @@
                             & ", new_"
                             & lse-insert-buffer-name
                             & lse-tpu:change-case-lower
-                            & ", ««OLT-ancestors»»"
+                            & ", Â«Â«OLT-ancestorsÂ»Â»"
                             & ");"
      )
 ;;; OLT-Type-initialization
@@ -405,7 +405,7 @@
         "#include \"Property_OLT.h\""
         ""
         @ OLT-property-class-header
-        "««OLT-property-class-definition-body»»"
+        "Â«Â«OLT-property-class-definition-bodyÂ»Â»"
      )
 ;;; OLT-property-class-definition
 )
@@ -432,25 +432,25 @@
         lse-indent+1
         "virtual BOOLEAN       exportable () const { return TRUE; };"
         ""
-        "««attribute-function-member»»···"
-        "««OLT-class-invariant»»"
+        "Â«Â«attribute-function-memberÂ»Â»Â·Â·Â·"
+        "Â«Â«OLT-class-invariantÂ»Â»"
         ""
-        "««query-function-member-clause»»"
-        "««modifier-function-member-clause»»"
+        "Â«Â«query-function-member-clauseÂ»Â»"
+        "Â«Â«modifier-function-member-clauseÂ»Â»"
         ""
         @ OLT-Object_OLT-protected-Properties
         ""
-        "««data-member-definition-clause»»"
+        "Â«Â«data-member-definition-clauseÂ»Â»"
         ""
         "BOOLEAN representation_invariant () const"
         "  {"
         lse-indent+1
-        "««assert»»···"
+        "Â«Â«assertÂ»Â»Â·Â·Â·"
         "return TRUE;"
         lse-indent-1
         "  };"
         @ OLT-class-default-constructor
-        "««protected-member-declaration»»···"
+        "Â«Â«protected-member-declarationÂ»Â»Â·Â·Â·"
         ""
         @ OLT-class-private-functions
         lse-indent-1
@@ -463,7 +463,7 @@
 (lse-define-fill-in "OLT-property-class-header"
     '(description           "Header of class definition")
     '(replacement
-        "class «class-name» : public Property_OLT"
+        "class Â«class-nameÂ» : public Property_OLT"
      )
 ;;; OLT-property-class-header
 )
@@ -478,11 +478,11 @@
         "//#define NO_PRECONDITION_CHECKING 1"
         ""
         "#include <iostream.h>"
-        "««#include»»···"
+        "Â«Â«#includeÂ»Â»Â·Â·Â·"
         ""
         "void test ()"
         "{"
-        "  ««statement»»···"
+        "  Â«Â«statementÂ»Â»Â·Â·Â·"
         "};"
         ""
         "int main ()"
@@ -520,8 +520,8 @@
         "Target OS;           DOS/Windows"
         "Hardware:            i486/66, 20 MB RAM"
         ""
-        "Severity of bug:     «watcom-bug-severity»"
-        "Description of bug:  «text»"
+        "Severity of bug:     Â«watcom-bug-severityÂ»"
+        "Description of bug:  Â«textÂ»"
         ""
         ""
         ""
@@ -529,7 +529,7 @@
         ""
         "Name:                 " & lse-insert-user-full-name
         "Company:              Mag. Christian Tanzer, Vienna, Austria"
-        "E-mail address:       «your-e-mail»"
+        "E-mail address:       Â«your-e-mailÂ»"
         "Daytime phone number: +43 (1) 876 62 36"
         "Fax number:           +43 (1) 877 66 92"
      )

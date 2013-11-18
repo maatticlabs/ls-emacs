@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in ":."
   '(menu
@@ -83,7 +83,7 @@
         " "               & @ this-company-address;  9-Nov-1995
                           & ". "
                           & @ this-company-e-mail;  2-Mar-1998
-        " ««license»»";  7-Oct-1996
+        " Â«Â«licenseÂ»Â»";  7-Oct-1996
      )
 ;;; copyright-notice
 )
@@ -141,9 +141,9 @@
      )
     '(replacement
       $ license:head
-        "This «license:entity» is licensed under the terms of either the"
-        "«license:name:1» or the «license:name:2»."
-        "««text»»···"
+        "This Â«license:entityÂ» is licensed under the terms of either the"
+        "Â«license:name:1Â» or the Â«license:name:2Â»."
+        "Â«Â«textÂ»Â»Â·Â·Â·"
       $ license:tail
      )
 ;;; Dual-License
@@ -157,10 +157,10 @@
      )
     '(replacement
       $ license:head
-        "This «license:entity» is licensed under the terms of either the"
+        "This Â«license:entityÂ» is licensed under the terms of either the"
         "MIT License or the GNU Affero General Public License (AGPL) Version 3."
         "http://www.c-tanzer.at/license/mit_or_agpl.html"
-        "««text»»···"
+        "Â«Â«textÂ»Â»Â·Â·Â·"
       $ license:tail
      )
 ;;; Dual-License-MIT+AGPL
@@ -184,18 +184,18 @@
      )
     '(replacement
       $ license:head
-      "This «license:entity» is free software: you can redistribute it and/or modify"
+      "This Â«license:entityÂ» is free software: you can redistribute it and/or modify"
       "it under the terms of the GNU Affero General Public License as published by"
       "the Free Software Foundation, either version 3 of the License, or"
       "(at your option) any later version."
       ""
-      "This «license:entity» is distributed in the hope that it will be useful,"
+      "This Â«license:entityÂ» is distributed in the hope that it will be useful,"
       "but WITHOUT ANY WARRANTY; without even the implied warranty of"
       "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
       "GNU Affero General Public License for more details."
       ""
       "You should have received a copy of the GNU Affero General Public License"
-      "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+      "along with this Â«license:entityÂ». If not, see <http://www.gnu.org/licenses/>."
       $ license:tail
      )
 ;;; GNU-Affero-General-Public-License-3
@@ -208,18 +208,18 @@
     '(description           "Text of GPL for inclusion into source file")
     '(replacement
       $ license:head
-        "This «license:entity» is free software; you can redistribute it and/or modify"
+        "This Â«license:entityÂ» is free software; you can redistribute it and/or modify"
         "it under the terms of the GNU General Public License as published by"
         "the Free Software Foundation; either version 2 of the License, or"
         "(at your option) any later version."
         ""
-        "This «license:entity» is distributed in the hope that it will be useful,"
+        "This Â«license:entityÂ» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
         "GNU General Public License for more details."
         ""
         "You should have received a copy of the GNU General Public License"
-        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+        "along with this Â«license:entityÂ». If not, see <http://www.gnu.org/licenses/>."
       $ license:tail
      )
 ;;; GNU-General-Public-License-2
@@ -232,18 +232,18 @@
     '(description           "Text of GPL for inclusion into source file")
     '(replacement
       $ license:head
-        "This «license:entity» is free software; you can redistribute it and/or modify"
+        "This Â«license:entityÂ» is free software; you can redistribute it and/or modify"
         "it under the terms of the GNU General Public License as published by"
         "the Free Software Foundation; either version 3 of the License, or"
         "(at your option) any later version."
         ""
-        "This «license:entity» is distributed in the hope that it will be useful,"
+        "This Â«license:entityÂ» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
         "GNU General Public License for more details."
         ""
         "You should have received a copy of the GNU General Public License"
-        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+        "along with this Â«license:entityÂ». If not, see <http://www.gnu.org/licenses/>."
       $ license:tail
      )
 ;;; GNU-General-Public-License-3
@@ -256,18 +256,18 @@
     '(description           "Text of Library-GPL for inclusion into source file")
     '(replacement
       $ license:head
-        "This «license:entity» is free software; you can redistribute it and/or"
+        "This Â«license:entityÂ» is free software; you can redistribute it and/or"
         "modify it under the terms of the GNU Library General Public"
         "License as published by the Free Software Foundation; either"
         "version 2 of the License, or (at your option) any later version."
         ""
-        "This «license:entity» is distributed in the hope that it will be useful,"
+        "This Â«license:entityÂ» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU"
         "Library General Public License for more details."
         ""
         "You should have received a copy of the GNU Library General Public License"
-        "along with this «license:entity»; if not, see <http://www.gnu.org/licenses/>."
+        "along with this Â«license:entityÂ»; if not, see <http://www.gnu.org/licenses/>."
       $ license:tail
      )
 ;;; GNU-Library-General-Public-License-2
@@ -280,18 +280,18 @@
     '(description           "Text of LGPL for inclusion into source file")
     '(replacement
       $ license:head
-        "This «license:entity» is free software; you can redistribute it and/or modify"
+        "This Â«license:entityÂ» is free software; you can redistribute it and/or modify"
         "it under the terms of the GNU Lesser General Public License as published by"
         "the Free Software Foundation; either version 3 of the License, or"
         "(at your option) any later version."
         ""
-        "This «license:entity» is distributed in the hope that it will be useful,"
+        "This Â«license:entityÂ» is distributed in the hope that it will be useful,"
         "but WITHOUT ANY WARRANTY; without even the implied warranty of"
         "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
         "GNU Lesser General Public License for more details."
         ""
         "You should have received a copy of the GNU Lesser General Public License"
-        "along with this «license:entity». If not, see <http://www.gnu.org/licenses/>."
+        "along with this Â«license:entityÂ». If not, see <http://www.gnu.org/licenses/>."
       $ license:tail
      )
 ;;; GNU-Lesser-General-Public-License-3
@@ -314,7 +314,7 @@
         "    "  & lse-insert-buffer-name
         ""
         " Purpose"
-        "    «text»···"
+        "    Â«textÂ»Â·Â·Â·"
         ""
         & @ header-comment-language-specific
         " Revision Dates"
@@ -322,7 +322,7 @@
                 & " ("
                 & @ initialen
                 & ") Creation"
-        "    ««revision-date»»···"
+        "    Â«Â«revision-dateÂ»Â»Â·Â·Â·"
         "--"
         & @ header-comment-postamble  ;  3-May-1995
      )
@@ -445,7 +445,7 @@
 (lse-define-fill-in "license:head"
     '(replacement
       "#*** <License> ************************************************************#"
-      "««license:part-of»»"
+      "Â«Â«license:part-ofÂ»Â»"
       ""
      )
 ;;; license:head
@@ -488,7 +488,7 @@
     '(description           "Description of entity to which this file belongs")
     '(leading               "")
     '(replacement
-        "This «license:entity» is part of the «license:d» «text»."
+        "This Â«license:entityÂ» is part of the Â«license:dÂ» Â«textÂ»."
         ""
      )
 ;;; license:part-of
@@ -564,7 +564,7 @@
 
 (lse-define-fill-in "number-list"
   '(description   "List of numbers: elements are either single numbers or ranges, separated by commas")
-  '(replacement   "«number-or-range»···")
+  '(replacement   "Â«number-or-rangeÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "number-or-letter"
@@ -575,8 +575,8 @@
   '(separator ", ")
   '(leading   ",")
   '(menu
-      ("«number»"           "Single number")
-      ("«number»-«number»"  "Number range")
+      ("Â«numberÂ»"           "Single number")
+      ("Â«numberÂ»-Â«numberÂ»"  "Number range")
    )
 )
 
@@ -593,7 +593,7 @@
    '(description         "Character quoted by double quotes")
    '(replacement-leading "\"")
    '(replacement-trailer "\"")
-   '(replacement         "«char»")
+   '(replacement         "Â«charÂ»")
 )
 
 ;;; 23-Jul-2009
@@ -601,7 +601,7 @@
    '(description         "Number quoted by double quotes")
    '(replacement-leading "\"")
    '(replacement-trailer "\"")
-   '(replacement         "«number»")
+   '(replacement         "Â«numberÂ»")
 )
 
 (lse-define-fill-in "quoted-text"
@@ -609,7 +609,7 @@
    '(replacement-leading "\"")
    '(replacement-trailer "\"")
    ;  6-Dec-2007 ; '(replacement         @ "text")
-   '(replacement         "«text»")
+   '(replacement         "Â«textÂ»")
 )
 
 (lse-define-fill-in "quoted-text-s"
@@ -617,7 +617,7 @@
    '(replacement-leading "'")
    '(replacement-trailer "'")
    ;  6-Dec-2007 ; '(replacement         @ "text")
-   '(replacement         "«text»")
+   '(replacement         "Â«textÂ»")
 )
 
 ;;; maybe *** site-specific ***
@@ -630,7 +630,7 @@
        @ "current-date"
        " ("
        @ "initialen"
-       ") ««text»»"
+       ") Â«Â«textÂ»Â»"
      )
    )
 )
@@ -657,7 +657,7 @@
 (lse-define-fill-in "text-block"
     '(replacement
         lse-indent+1
-        "«text»···"
+        "Â«textÂ»Â·Â·Â·"
         lse-indent-1
      )
 ;;; text-block
@@ -787,10 +787,10 @@
    )
 )
 
-(lse-define-simple-token "..."  "···")
-; 10-Sep-2002 (lse-define-simple-token ">"  "»"); 30-Mar-1995
-(lse-define-simple-token "<"  '(lse-tpu:enclose-selection "«"   "»"))
-(lse-define-simple-token "<<" '(lse-tpu:enclose-selection "««" "»»"))
-(lse-define-simple-token "|"  '(lse-tpu:enclose-selection "¦"   "¦"))
+(lse-define-simple-token "..."  "Â·Â·Â·")
+; 10-Sep-2002 (lse-define-simple-token ">"  "Â»"); 30-Mar-1995
+(lse-define-simple-token "<"  '(lse-tpu:enclose-selection "Â«"   "Â»"))
+(lse-define-simple-token "<<" '(lse-tpu:enclose-selection "Â«Â«" "Â»Â»"))
+(lse-define-simple-token "|"  '(lse-tpu:enclose-selection "Å "   "Å "))
 
 ;;; __END__ lse-templates-generic.lse

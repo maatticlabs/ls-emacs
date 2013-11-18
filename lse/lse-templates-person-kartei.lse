@@ -1,61 +1,61 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "\\DefAdresse"
   '(token)
   '(replacement
-      "««\\DefStrasse»»"
-      "««\\DefOrt»»"
-      "««\\DefLand»»"
+      "Â«Â«\\DefStrasseÂ»Â»"
+      "Â«Â«\\DefOrtÂ»Â»"
+      "Â«Â«\\DefLandÂ»Â»"
    )
 )
 
 (lse-define-fill-in "\\DefFirma"
   '(token)
   '(replacement
-      "\\DefFirma[««Kartei_Key»»]{«Kartei_Firmenkurztitel»}[««Kartei_Abteilung»»]"
+      "\\DefFirma[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_FirmenkurztitelÂ»}[Â«Â«Kartei_AbteilungÂ»Â»]"
    )
 )
 
 (lse-define-fill-in "\\DefFunktion"
   '(token)
   '(replacement
-      "\\DefFunktion[««Kartei_Key»»]{«Kartei_Funktion»}"
+      "\\DefFunktion[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_FunktionÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefIndex"
   '(token)
-  '(description   "`Quelle: «text»' oder `TN: «seminar/termin»' oder `Interessent: «text»'" )
+  '(description   "`Quelle: Â«textÂ»' oder `TN: Â«seminar/terminÂ»' oder `Interessent: Â«textÂ»'" )
   '(replacement
-      "\\DefIndex{«text»}"
+      "\\DefIndex{Â«textÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefLand"
   '(token)
   '(replacement
-      "\\DefLand[««Kartei_Key»»]{«Kartei_Land»}"
+      "\\DefLand[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_LandÂ»}"
     )
 )
 
 (lse-define-fill-in "\\DefOrt"
   '(token)
   '(replacement
-      "\\DefOrt[««Kartei_Key»»]{«Kartei_PLZ» «Kartei_Ort»}"
+      "\\DefOrt[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_PLZÂ» Â«Kartei_OrtÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefStrasse"
   '(token)
   '(replacement
-      "\\DefStrasse[««Kartei_Key»»]{«Kartei_Strasse» «Kartei_Nummer»}"
+      "\\DefStrasse[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_StrasseÂ» Â«Kartei_NummerÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefTelefon"
   '(token)
   '(replacement
-      "\\DefTelefon[««Kartei_Key»»]{«Kartei_Vorwahl» «Kartei_Wahl»--««Kartei_Durchwahl»»}"
+      "\\DefTelefon[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_VorwahlÂ» Â«Kartei_WahlÂ»--Â«Â«Kartei_DurchwahlÂ»Â»}"
    )
 )
 
@@ -63,7 +63,7 @@
   '(token)
   '(description   "Options for telefon register" )
   '(replacement
-      "\\DefTRcmd[««kartei_key»»]{«text»}"
+      "\\DefTRcmd[Â«Â«kartei_keyÂ»Â»]{Â«textÂ»}"
     )
 )
 
@@ -71,8 +71,8 @@
 (lse-define-fill-in "Kartei_Anrede"
     '(description           "Anrede der Person im Brief")
     '(menu
-        "Sehr geehrte««text»»  \\UseTitel/\\ \\UseName/"
-        "Liebe««text»»  \\UseVorname/"
+        "Sehr geehrteÂ«Â«textÂ»Â»  \\UseTitel/\\ \\UseName/"
+        "LiebeÂ«Â«textÂ»Â»  \\UseVorname/"
      )
 ;;; Kartei_Anrede
 )
@@ -80,7 +80,7 @@
 (lse-define-fill-in "Kartei_Anredeprefix"
   '(description   "Beginn der Anrede" )
   '(replacement
-        "Sehr geehrte««text»»"
+        "Sehr geehrteÂ«Â«textÂ»Â»"
    )
 )
 
@@ -116,22 +116,22 @@
   '(token)
   '(replacement
       @ "entry-head"
-      "\\entryflag{«Kartei_Mail_Flag»}"
-      "\\DefName{«Kartei_Zuname»}"
-      "\\DefVorname{«Kartei_Vorname»}"
-      "\\DefTitel{«Kartei_Titel»}"
-      "\\DefAnredeBrief{«Kartei_Anrede»}"
-      "««\\DefFunktion»»"
-      "««\\DefTelefon»»"
-      "««\\DefFirma»»"
+      "\\entryflag{Â«Kartei_Mail_FlagÂ»}"
+      "\\DefName{Â«Kartei_ZunameÂ»}"
+      "\\DefVorname{Â«Kartei_VornameÂ»}"
+      "\\DefTitel{Â«Kartei_TitelÂ»}"
+      "\\DefAnredeBrief{Â«Kartei_AnredeÂ»}"
+      "Â«Â«\\DefFunktionÂ»Â»"
+      "Â«Â«\\DefTelefonÂ»Â»"
+      "Â«Â«\\DefFirmaÂ»Â»"
       "%"
-      "««\\DefTelefon»»"
-      "««\\DefAdresse»»"
+      "Â«Â«\\DefTelefonÂ»Â»"
+      "Â«Â«\\DefAdresseÂ»Â»"
       "%"
-      "««\\DefIndex»»"
-      "««\\DefExtraInfo»»"
-      "««\\DefPreLetterCommands{\\foreignletter}»»"
-      "««\\DefTRcmd»»"
+      "Â«Â«\\DefIndexÂ»Â»"
+      "Â«Â«\\DefExtraInfoÂ»Â»"
+      "Â«Â«\\DefPreLetterCommands{\\foreignletter}Â»Â»"
+      "Â«Â«\\DefTRcmdÂ»Â»"
       @ "entry-tail"
    )
 )

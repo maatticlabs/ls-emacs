@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
  
 ;;;;unix_ms_filename_correspondency swing-kartei-firma.el swi_kfrm.el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -13,7 +13,7 @@
 ;;;; Revision Dates
 ;;;;    26-Aug-1994 (CT) Creation (of comment)
 ;;;;    26-Aug-1994 (CT) swing-kartei-firma:change-directory added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;-- 
 (provide       'swing-kartei-firma)
 

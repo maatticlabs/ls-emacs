@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-kill:el lse_kill:el
 ;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
@@ -51,7 +51,7 @@
 ;;;;    31-Dec-1997 (CT) `lse-kill:join-sexp-boundary-maybe' added
 ;;;;     5-Aug-2009 (CT) Guards against nil `lse_comment_head_delim_pattern`
 ;;;;     5-Aug-2009 (CT) Use `mapc` instead of `mapcar` in `lse_unkill_fill_in`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-kill)
 

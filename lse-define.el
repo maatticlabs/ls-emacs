@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-define:el lse_defn:el
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
@@ -53,7 +53,7 @@
 ;;;;                     `lse@define@fill-in-replacement`
 ;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added to
 ;;;;                     `lse@define@fill-in-replacement`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-define)
 

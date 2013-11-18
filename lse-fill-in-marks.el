@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in-marks:el lse_fmar:el
 ;;;; Copyright (C) 1997-2010 Mag. Christian Tanzer. All rights reserved.
@@ -33,7 +33,7 @@
 ;;;;    18-Nov-2009 (CT) `lse-fill-in-marks:goto-open-head` and
 ;;;;                     `lse-fill-in-marks:goto-open-tail` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 29-Dec-1997

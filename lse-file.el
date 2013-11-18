@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-file:el lse_file:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -47,7 +47,7 @@
 ;;;;     3-Dec-2007 (CT) Guard for `filename` added to `lse-file:expanded-name`
 ;;;;    27-Jan-2011 (CT) `lse-file:update-copyright`: s/if/while
 ;;;;                     (i.e., update all occurences of `copyright-pattern`)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-file)
 

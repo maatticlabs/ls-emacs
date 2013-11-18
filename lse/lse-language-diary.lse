@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2003-2011 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -15,17 +15,17 @@
 ;;;;    10-Apr-2003 (CT) `fill-column` and `auto-fill-mode` added
 ;;;;    24-Jan-2011 (CT) Use `diary-file` as `initial-fill-in`
 ;;;;    12-Dec-2011 (CT) Set `fill-column` to `120` (was `60`)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (lse-language:define "diary"
     '(
-        (lse-tpu:ident-group-chars         "-A-Za-z0-9äáàâöóòôüúùûÄÖÜß\@_")
+        (lse-tpu:ident-group-chars         "-A-Za-z0-9Ã¤Ã¡Ã Ã¢Ã¶Ã³Ã²Ã´Ã¼ÃºÃ¹Ã»Ã„Ã–ÃœÃŸ\@_")
         (lse-language:tab-increment        2)
         (lse_comment_head_delim            "#")
         (lse_comment_head_delim_pattern    "#+ *")
         (lse_comment_delim_char_set        "#")
         (fill-column                       120)
-        (lse-language:initial-fill-in      "««diary-file»»")
+        (lse-language:initial-fill-in      "Â«Â«diary-fileÂ»Â»")
      )
     '(
         lse-tpu:toggle-newline-and-indent

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2007-2013 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -38,7 +38,7 @@
 ;;;;     4-Apr-2013 (CT) Change `show-paren-style` from `expression` to `mixed`
 ;;;;    17-May-2013 (CT) Use `whitespace-cleanup`, whitespace-mode;
 ;;;;                     set `whitespace-style`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (when (eq window-system 'mac)

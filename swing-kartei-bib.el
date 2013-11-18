@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 ;;;; the line above is needed for Emacs 20.3 -- without it, character ranges
 
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved
@@ -19,7 +19,7 @@
 ;;;;    21-May-2007 (CT) swing-kartei:bib:check-isbn changed to use
 ;;;;                     `/swing/python/isbn.py` instead of
 ;;;;                     `/swing/local/bin/isbn`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide       'swing-kartei-bib)
 

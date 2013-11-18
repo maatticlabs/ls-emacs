@@ -1,9 +1,9 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "\\DefExtraInfo"
   '(token)
   '(replacement
-      "\\DefExtraInfo[««Kartei_Key»»]{«text»}"
+      "\\DefExtraInfo[Â«Â«Kartei_KeyÂ»Â»]{Â«textÂ»}"
    )
 )
 
@@ -20,7 +20,7 @@
 (lse-define-fill-in "\\DefVerteilerKategorie"
   '(token)
   '(replacement
-      "\\DefVerteilerKategorie{«Verteiler-Kategorie»}"
+      "\\DefVerteilerKategorie{Â«Verteiler-KategorieÂ»}"
    )
 )
 
@@ -81,7 +81,7 @@
   '(max-line-move         2)
   '(menu
       "nomail"
-      "mail=[««kartei-key»»]"
+      "mail=[Â«Â«kartei-keyÂ»Â»]"
    )
 )
 
@@ -96,12 +96,12 @@
 (lse-define-fill-in "Kartei_Plz"
   '(description   "Postleitzahl" )
   '(menu
-        "A--«text»"       
-        "D--«text»"       
-        "CH--«text»"      
-        "F--«text»"       
-        "«text»--«text»"
-        "«text»"      
+        "A--Â«textÂ»"       
+        "D--Â«textÂ»"       
+        "CH--Â«textÂ»"      
+        "F--Â«textÂ»"       
+        "Â«textÂ»--Â«textÂ»"
+        "Â«textÂ»"      
    )
 )
 
@@ -113,18 +113,18 @@
   '(description   "Vorwahl" )
   '(menu
         "\\viennaphonecode/"
-        "\\austriaphonecode/ («text»)"
-        "\\germanphonecode/ («text»)"   
-        "\\swissphonecode/ («text»)"    
+        "\\austriaphonecode/ (Â«textÂ»)"
+        "\\germanphonecode/ (Â«textÂ»)"   
+        "\\swissphonecode/ (Â«textÂ»)"    
         "\\francephonecode/"   
-        "\\englandphonecode/ («text»)"
-        "\\usphonecode/ («text»)"
+        "\\englandphonecode/ (Â«textÂ»)"
+        "\\usphonecode/ (Â«textÂ»)"
         "\\denmarkphonecode/"
-        "\\belgiumphonecode/ («text»)"
-        "\\italyphonecode/ («text»)"
-        "\\japanphonecode/ («text»)"
-        "\\irelandphonecode/ («text»)"
-        "««text»» («text»)"
+        "\\belgiumphonecode/ (Â«textÂ»)"
+        "\\italyphonecode/ (Â«textÂ»)"
+        "\\japanphonecode/ (Â«textÂ»)"
+        "\\irelandphonecode/ (Â«textÂ»)"
+        "Â«Â«textÂ»Â» (Â«textÂ»)"
    )
 )
 

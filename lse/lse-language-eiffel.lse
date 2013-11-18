@@ -1,10 +1,10 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-language:define "eiffel"
     '(
         (lse-tpu:ident-chars               "a-zA-Z$0-9")
         (lse-tpu:ident-group-chars         "_")
-        (lse-language:initial-fill-in      "««class»»")
+        (lse-language:initial-fill-in      "Â«Â«classÂ»Â»")
         (lse-language:tab-increment        4)
         (lse_comment_head_delim            "--")
         (lse_comment_head_delim_pattern    "--\** *")

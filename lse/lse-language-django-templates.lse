@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2007-2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -31,14 +31,14 @@
 ;;;;    26-Feb-2008 (CT) `lse-django-mode-hook` added
 ;;;;    17-Jul-2009 (CT) Comment delimiters changed to avoid LS-Emacs bugs
 ;;;;    17-Jul-2009 (CT) `lse-templates-djo-templates` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (require 'django-mode)
 
 (lse-language:define "django-templates"
     '(
-        (lse-language:initial-fill-in      "««djt-root»»")
+        (lse-language:initial-fill-in      "Â«Â«djt-rootÂ»Â»")
         (lse-language:tab-increment        2)
         (lse_comment_delim_char_set        "#")
         (lse_comment_head_delim            "#")

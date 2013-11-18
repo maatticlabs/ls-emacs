@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Extra_Folien_Refs"
   '(description   "References to additional folien")
@@ -20,14 +20,14 @@
 (lse-define-fill-in "\\HandwrittenTerm"
     '(token)
     '(description           "Term to be written by hand on empty transparency")
-    '(replacement           "\\HandwrittenTerm{«text»}")
+    '(replacement           "\\HandwrittenTerm{Â«textÂ»}")
 ;;; \\HandwrittenTerm
 )
 
 (lse-define-fill-in "\\inputfolienmanual"
   '(token)
   '(replacement
-        "\\inputfolienmanual «text» (««time_weight»») [««extra_folien_refs»»]"
+        "\\inputfolienmanual Â«textÂ» (Â«Â«time_weightÂ»Â») [Â«Â«extra_folien_refsÂ»Â»]"
     )
 )
 
@@ -35,7 +35,7 @@
 (lse-define-fill-in "kaffeepause"
     '(token)
     '(token                 "\\kaffeepause")
-    '(replacement           "\\kaffeepause[«lern-dauer»]")
+    '(replacement           "\\kaffeepause[Â«lern-dauerÂ»]")
 ;;; kaffeepause
 )
 
@@ -64,14 +64,14 @@
   '(leading               "\\\\")
   '(description           "Hilfsmittel, mit denen der Lernschritt bearbeitet wird")
   '(menu
-       ("\\OHF/{«Folien-Label»}"   '(description   "Overhead-Folie"))
+       ("\\OHF/{Â«Folien-LabelÂ»}"   '(description   "Overhead-Folie"))
        ("\\lohf/"                  '(description   "Leerfolie"))
        ("\\fc/"                    '(description   "Flip-Chart"))
        ("\\stafel/"                '(description   "Schreib-Tafel"))
        ("\\mb/"                    '(description   "Manualblatt (fuer Lernziele, fuer deren Feinziele es eigene Blaetter gibt)"))
-       ("\\trul/ ««text»»"         '(description   "Trainer-Unterlage"))
-       ("\\teul/ ««text»»"         '(description   "Teilnehmer-Unterlage"))
-       ("\\uul/ ««text»»"          '(description   "Uebungs-Unterlage (muessen wieder abgegeben werden)"))
+       ("\\trul/ Â«Â«textÂ»Â»"         '(description   "Trainer-Unterlage"))
+       ("\\teul/ Â«Â«textÂ»Â»"         '(description   "Teilnehmer-Unterlage"))
+       ("\\uul/ Â«Â«textÂ»Â»"          '(description   "Uebungs-Unterlage (muessen wieder abgegeben werden)"))
        ("\\kp/"                    '(description   "Klebepunkte"))
        ("\\mk/"                    '(description   "Moderations-Kaertchen"))
    )
@@ -82,21 +82,21 @@
   '(leading               "\\hline")
   '(replacement
       "\\inhalt"
-      "   {««Folien_Inhalt»»"
+      "   {Â«Â«Folien_InhaltÂ»Â»"
       "   }"
-      "   {««Lern-Hilfsmittel»»}"
-      "   {««Lern-Durchfuehrung»»}"
-      "   {««Lern-Dauer»»}"
-      "««hline»»"
+      "   {Â«Â«Lern-HilfsmittelÂ»Â»}"
+      "   {Â«Â«Lern-DurchfuehrungÂ»Â»}"
+      "   {Â«Â«Lern-DauerÂ»Â»}"
+      "Â«Â«hlineÂ»Â»"
     )
 )
 
 (lse-define-fill-in "Lern-Ziel"
   '(token)
   '(replacement
-      "\\begin{ziel}««Ziel: »»"
-      "   {«Lern_Ziel_Menu»}"
-      "«Lern-Inhalt»···"
+      "\\begin{ziel}Â«Â«Ziel: Â»Â»"
+      "   {Â«Lern_Ziel_MenuÂ»}"
+      "Â«Lern-InhaltÂ»Â·Â·Â·"
       "\\end{ziel}"
       ""
     )
@@ -104,10 +104,10 @@
 
 (lse-define-fill-in "Lern_Ziel_Menu"
   '(menu
-        "«text» anwenden können"
-        "«text» erklären können"
-        "«text» nennen können"
-        "«text» aufzählen können"
+        "Â«textÂ» anwenden kÃ¶nnen"
+        "Â«textÂ» erklÃ¤ren kÃ¶nnen"
+        "Â«textÂ» nennen kÃ¶nnen"
+        "Â«textÂ» aufzÃ¤hlen kÃ¶nnen"
     )
 )
 
@@ -115,7 +115,7 @@
 (lse-define-fill-in "mittagspause"
     '(token)
     '(token                 "\\mittagspause")
-    '(replacement           "\\mittagspause[«lern-dauer»]")
+    '(replacement           "\\mittagspause[Â«lern-dauerÂ»]")
 ;;; mittagspause
 )
 
@@ -123,7 +123,7 @@
   '(token)
   '(description   "Overhead-Folie")
   '(replacement
-      "\\OHF/{«Folien-Label»}"
+      "\\OHF/{Â«Folien-LabelÂ»}"
    )
 )
 
@@ -131,7 +131,7 @@
   '(token)
   '(description   "Overhead-Folie")
   '(replacement
-       "\\OHF/{«Folien-Label»}"
+       "\\OHF/{Â«Folien-LabelÂ»}"
     )
 )
 
@@ -151,22 +151,22 @@
       "\\documentstyle[1%"
       "0pt,% 4 = Trainer-Manual, 0 = Draft"
       "   german,swing,idioms,multicol,trainer_manual]{business}"
-      "\\documentclass[\\folienptsize,german,idioms,««options»»···]{trainer_manual}"
+      "\\documentclass[\\folienptsize,german,idioms,Â«Â«optionsÂ»Â»Â·Â·Â·]{trainer_manual}"
       "\\def\\tableofcontents{}"
       "\\GenerateTimeTable"
       "%\\includeonly"
       "  {%"
       "  %manual_zeitstruktur,%"
       "  %manual_einleitung,%"
-      "  %«text»,%"
+      "  %Â«textÂ»,%"
       "  }"
       ""
       "  \\input{seminar.def}"
       "  \\inputfolieninfo{master}"
       ""
-      "  \\def\\dayi{\\DATE.dow/«SeminarDatum»\\ \\DATE.ddmmyy/«SeminarDatum»}"
-      "  \\def\\dayii{{\\DATE.inc/«SeminarDatum»[1]\\dayi}}"
-      "  \\def\\dayiii{{\\DATE.inc/«SeminarDatum»[2]\\dayi}}"
+      "  \\def\\dayi{\\DATE.dow/Â«SeminarDatumÂ»\\ \\DATE.ddmmyy/Â«SeminarDatumÂ»}"
+      "  \\def\\dayii{{\\DATE.inc/Â«SeminarDatumÂ»[1]\\dayi}}"
+      "  \\def\\dayiii{{\\DATE.inc/Â«SeminarDatumÂ»[2]\\dayi}}"
       ""
       "\\begin{document}"
       "  \\pagenumbering{roman}"
@@ -185,7 +185,7 @@
   '(token)
   '(replacement
       "\\begin{trainermanual}"
-      "  «lern-ziel»···"
+      "  Â«lern-zielÂ»Â·Â·Â·"
       "\\end{trainermanual}"
    )
 )

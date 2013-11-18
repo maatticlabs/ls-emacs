@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
  
 ;;;;unix_ms_filename_correspondency swing-command.el swi_cmd.el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.

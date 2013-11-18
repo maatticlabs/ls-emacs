@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2009-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -29,14 +29,14 @@
 ;;;; Revision Dates
 ;;;;    26-Dec-2009 (CT) Creation
 ;;;;    17-Feb-2012 (CT) Add support for `imenu`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (require 'jinja-mode)
 
 (lse-language:define "jinja-templates"
     '(
-        (lse-language:initial-fill-in      "««jnj-root»»")
+        (lse-language:initial-fill-in      "Â«Â«jnj-rootÂ»Â»")
         (lse-language:tab-increment        2)
         (lse_comment_delim_char_set        "#")
         (lse_comment_head_delim            "#")

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-mark-stack:el lse_mark:el
 ;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
@@ -47,7 +47,7 @@
 ;;;;    17-Nov-2009 (CT) `lse-global-home-mark-initialized` and
 ;;;;                     `lse-home-mark-global` added
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-mark-stack)
 

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in-info:el lse_finf:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.

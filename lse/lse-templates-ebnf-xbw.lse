@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;+
 ;;; Templates for XbW
@@ -12,7 +12,7 @@
     '(max-line-move         3)
     '(replacement-vanguard  xbw-ebnf-add-prev-eof-comment)
     '(replacement
-        "\\XbW«=" & xbw-ebnf-insert-leader & ":«ebnf-token»=»"
+        "\\XbWÂ«=" & xbw-ebnf-insert-leader & ":Â«ebnf-tokenÂ»=Â»"
      )
 ;;; XbW-token
 )
@@ -22,7 +22,7 @@
     '(token                 "Chapter")
     '(description           "Begins a new chapter")
     '(max-line-move         3)
-    '(replacement           "\\XbWChapter«:«text»:»")
+    '(replacement           "\\XbWChapterÂ«:Â«textÂ»:Â»")
 ;;; XbW-chapter
 )
 
@@ -32,9 +32,9 @@
     '(description           "Define an EBNF production")
     '(max-line-move         3)
     '(replacement
-        "\\begin{XbWProduction} «name» : "
+        "\\begin{XbWProduction} Â«nameÂ» : "
         lse-indent+1
-        "«ebnf-token»···"
+        "Â«ebnf-tokenÂ»Â·Â·Â·"
         lse-indent-1
         "\\end{XbWProduction} "
         ""
@@ -47,7 +47,7 @@
     '(token                 "Section")
     '(description           "Begins a new section")
     '(max-line-move         3)
-    '(replacement           "\\XbWSection«:«text»:»")
+    '(replacement           "\\XbWSectionÂ«:Â«textÂ»:Â»")
 ;;; XbW-section
 )
 
@@ -56,7 +56,7 @@
     '(token                 "Subsection")
     '(description           "Begins a new subsection")
     '(max-line-move         3)
-    '(replacement           "\\XbWSubsection«:«text»:»")
+    '(replacement           "\\XbWSubsectionÂ«:Â«textÂ»:Â»")
 ;;; XbW-sub-section
 )
 
@@ -65,7 +65,7 @@
     '(token                 "Subsubsection")
     '(description           "Begins a new subsubsection")
     '(max-line-move         3)
-    '(replacement           "\\XbWSubsubsection«:«text»:»")
+    '(replacement           "\\XbWSubsubsectionÂ«:Â«textÂ»:Â»")
 ;;; XbW-sub-sub-section
 )
 

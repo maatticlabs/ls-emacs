@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;++
 ;;;; Name
@@ -11,7 +11,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    13-May-2002 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 (provide 'pyoutline)

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -28,7 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    22-Jan-2011 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 22-Jan-2011
@@ -41,7 +41,7 @@
     "If an argument is an array, its elements are appended individually."
    )
   '(replacement
-      lse-js:remove-period & ".concat («argument»···)"
+      lse-js:remove-period & ".concat (Â«argumentÂ»Â·Â·Â·)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-concat
@@ -55,7 +55,7 @@
     "Join all elements of array with argument (default = ',')"
    )
   '(replacement
-      lse-js:remove-period & ".join (««argument»»)"
+      lse-js:remove-period & ".join (Â«Â«argumentÂ»Â»)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-join
@@ -79,7 +79,7 @@
   '(token                 "[].push")
   '(description           "Append argument(s) to array.")
   '(replacement
-      lse-js:remove-period & ".push («argument»···)"
+      lse-js:remove-period & ".push (Â«argumentÂ»Â·Â·Â·)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-push
@@ -115,7 +115,7 @@
   '(token                 "[].slice")
   '(description           "Return a shallow copy of a portion of the array.")
   '(replacement
-      lse-js:remove-period & ".slice («number», ««number»»)"
+      lse-js:remove-period & ".slice (Â«numberÂ», Â«Â«numberÂ»Â»)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-slice
@@ -130,7 +130,7 @@
       "(default compare converts to string)."
    )
   '(replacement
-      lse-js:remove-period & ".sort (««callback»»)"
+      lse-js:remove-period & ".sort (Â«Â«callbackÂ»Â»)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-sort
@@ -142,7 +142,7 @@
   '(token                 "[].splice")
   '(description           "Remove elements, replacing them with arguments.")
   '(replacement
-      lse-js:remove-period & ".splice («number», «count», ««argument»»···)
+      lse-js:remove-period & ".splice (Â«numberÂ», Â«countÂ», Â«Â«argumentÂ»Â»Â·Â·Â·)
          & (lse-js:clean-closing "\]")
       "
    )
@@ -155,7 +155,7 @@
   '(token                 "[].unshift")
   '(description           "Add elements at start of array.")
   '(replacement
-      lse-js:remove-period & ".unshift («argument»···)"
+      lse-js:remove-period & ".unshift (Â«argumentÂ»Â·Â·Â·)"
       & (lse-js:clean-closing "\]")
    )
 ;;; array-unshift

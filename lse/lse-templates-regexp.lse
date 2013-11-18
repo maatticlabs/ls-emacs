@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -45,7 +45,7 @@
 (lse-define-fill-in "regexp"
     '(description           "Regular expression")
     '(token)
-    '(replacement           "««regexp-bol»»«regexp-item»···««regexp-eol»»")
+    '(replacement           "Â«Â«regexp-bolÂ»Â»Â«regexp-itemÂ»Â·Â·Â·Â«Â«regexp-eolÂ»Â»")
 )
 
 (lse-define-fill-in "regexp-0-or-more"
@@ -92,7 +92,7 @@
 (lse-define-fill-in "regexp-char-set"
     '(description           "Matches any of the class of characters enclosed inside the brackets")
     '(token)
-    '(replacement           "[««^»»«text»]")
+    '(replacement           "[Â«Â«^Â»Â»Â«textÂ»]")
 )
 
 (lse-define-fill-in "regexp-eol"
@@ -103,7 +103,7 @@
 (lse-define-fill-in "regexp-group"
     '(description           "Groups a series of pattern elements into a single element")
     '(token)
-    '(replacement           "\\(«regexp-item»···\\)")
+    '(replacement           "\\(Â«regexp-itemÂ»Â·Â·Â·\\)")
 )
 
 (lse-define-fill-in "regexp-item"
@@ -130,7 +130,7 @@
         regexp-whitespace
         regexp-non-whitespace
         @ regexp-special-item
-        ("«text»"     "Literal text to match (beware of special characters!)")
+        ("Â«textÂ»"     "Literal text to match (beware of special characters!)")
      )
 ;;; regexp-item
 )
@@ -182,9 +182,9 @@
     '(description           "Match a range of instances of preceding pattern element")
     '(token)
     '(menu
-        ("\\{«number»\\}"          "Match the preceeding pattern element exactly  «number» times")
-        ("\\{«number»,\\}"         "Match the preceeding pattern element at least «number» times")
-        ("\\{«number»,«number»\\}" "Match the preceeding pattern element at least «number»-1, at most «number»-2 times")
+        ("\\{Â«numberÂ»\\}"          "Match the preceeding pattern element exactly  Â«numberÂ» times")
+        ("\\{Â«numberÂ»,\\}"         "Match the preceeding pattern element at least Â«numberÂ» times")
+        ("\\{Â«numberÂ»,Â«numberÂ»\\}" "Match the preceeding pattern element at least Â«numberÂ»-1, at most Â«numberÂ»-2 times")
      )
 ;;; regexp-range
 )
@@ -192,7 +192,7 @@
 (lse-define-fill-in "regexp-repeat"
     '(description           "Match repeat of previously matched group")
     '(token)
-    '(replacement           "\\«number»")
+    '(replacement           "\\Â«numberÂ»")
 )
 
 (lse-define-fill-in "regexp-special-item"

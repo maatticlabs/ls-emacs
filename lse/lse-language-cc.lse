@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -39,11 +39,11 @@
 ;;;;    24-May-2000 (CT) Removed [?(] and [?)] from local key map
 ;;;;    27-May-2008 (CT) s/c-guess-basic-syntax/c-guess-basic-syntax-hide!/
 ;;;;                     (broken in Emacs 22.2 or earlier)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (lse-language:define "cc"
     '(
-        (lse-language:initial-fill-in      "««c++-root»»")
+        (lse-language:initial-fill-in      "Â«Â«c++-rootÂ»Â»")
         (lse-language:tab-increment        4)
         (lse_comment_delim_char_set        "/*")
         (lse_comment_head_delim            "//")

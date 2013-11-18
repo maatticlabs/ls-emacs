@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-default.el swi_dflt.el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -77,7 +77,7 @@
 ;;;;    18-Oct-2007 (CT) `lse-config.el` factored out
 ;;;;     3-Dec-2007 (CT) Remove `vc-find-file-hook` from `find-file-hook`
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix` for `-Server` frame
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (load "lse-config")

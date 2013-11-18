@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1998-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -76,12 +76,12 @@
 ;;;;     4-Jul-2012 (CT) Add and bind `lse-python:goto-next-var`,
 ;;;;                     `lse-python:goto-next-doctest`
 ;;;;     8-Apr-2013 (CT) Add `condition-case` to `lse-python:indent-line`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (lse-language:define "python"
     '(
-        (lse-language:initial-fill-in      "««python-root»»")
+        (lse-language:initial-fill-in      "Â«Â«python-rootÂ»Â»")
         (lse-language:tab-increment        4)
         (lse_comment_delim_char_set        "#")
         (lse_comment_head_delim            "#")
@@ -589,7 +589,7 @@
                 )
             )
             (if (re-search-forward
-                  "^#\\( +««revision-date»»···\\|--\\)"(buffer-size) t
+                  "^#\\( +Â«Â«revision-dateÂ»Â»Â·Â·Â·\\|--\\)"(buffer-size) t
                 )
                 (replace-match
                   (concat

@@ -1,14 +1,14 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 (lse-define-fill-in "Weiterbildung"
-   '(description "Sub-Kategorien: c.l.py. Projekt-Management Qualitätssicherung Software-Engineering TeX Unix Programmiersprachen Computertechnologie Diverses Internet Security")
+   '(description "Sub-Kategorien: c.l.py. Projekt-Management QualitÃ¤tssicherung Software-Engineering TeX Unix Programmiersprachen Computertechnologie Diverses Internet Security")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Weiterbildung " & (lse-align-to-pattern "&") & "& «Weiterbildung-Kategorie»")
+   '(replacement "Weiterbildung " & (lse-align-to-pattern "&") & "& Â«Weiterbildung-KategorieÂ»")
 )
 (lse-define-fill-in "Weiterbildung-Kategorie"
    '(sort)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(menu  
-       c.l.py. Projekt-Management Qualitätssicherung Software-Engineering TeX Unix Programmiersprachen Computertechnologie Diverses Internet Security 
+       c.l.py. Projekt-Management QualitÃ¤tssicherung Software-Engineering TeX Unix Programmiersprachen Computertechnologie Diverses Internet Security 
     )
 )
 (lse-define-fill-in "c.l.py."
@@ -21,10 +21,10 @@
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(replacement "Projekt-Management ")
 )
-(lse-define-fill-in "Qualitätssicherung"
+(lse-define-fill-in "QualitÃ¤tssicherung"
    '(token)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Qualitätssicherung ")
+   '(replacement "QualitÃ¤tssicherung ")
 )
 (lse-define-fill-in "Software-Engineering"
    '(token)
@@ -67,15 +67,15 @@
    '(replacement "Security ")
 )
 (lse-define-fill-in "Vertrieb"
-   '(description "Sub-Kategorien: Seminare Verträge Kundenbesprechungen Diverses")
+   '(description "Sub-Kategorien: Seminare VertrÃ¤ge Kundenbesprechungen Diverses")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Vertrieb " & (lse-align-to-pattern "&") & "& «Vertrieb-Kategorie»")
+   '(replacement "Vertrieb " & (lse-align-to-pattern "&") & "& Â«Vertrieb-KategorieÂ»")
 )
 (lse-define-fill-in "Vertrieb-Kategorie"
    '(sort)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(menu  
-       Seminare Verträge Kundenbesprechungen Diverses 
+       Seminare VertrÃ¤ge Kundenbesprechungen Diverses 
     )
 )
 (lse-define-fill-in "Seminare"
@@ -83,10 +83,10 @@
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(replacement "Seminare ")
 )
-(lse-define-fill-in "Verträge"
+(lse-define-fill-in "VertrÃ¤ge"
    '(token)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Verträge ")
+   '(replacement "VertrÃ¤ge ")
 )
 (lse-define-fill-in "Kundenbesprechungen"
    '(token)
@@ -101,7 +101,7 @@
 (lse-define-fill-in "Rechner_Support"
    '(description "Sub-Kategorien: Thinkpad LSE-Styles LaTeX-Styles Emacs Scripts Make Dokumentation Software-Service Hardware-Service Diverses Systemmanagement")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Rechner_Support " & (lse-align-to-pattern "&") & "& «Rechner_Support-Kategorie»")
+   '(replacement "Rechner_Support " & (lse-align-to-pattern "&") & "& Â«Rechner_Support-KategorieÂ»")
 )
 (lse-define-fill-in "Rechner_Support-Kategorie"
    '(sort)
@@ -166,15 +166,15 @@
    '(replacement "Systemmanagement ")
 )
 (lse-define-fill-in "Laufender_Betrieb"
-   '(description "Sub-Kategorien: Besprechungen Posteingang Finanzplanung Buchhaltung Aufwandserfassung Zeitplanung Diverses Repräsentative-Unterlagen Büro Beschaffung Technische-Projektabwicklung Kaufmännische-Projektabwicklung Adress-Kartei Bib-Kartei Quot-Kartei")
+   '(description "Sub-Kategorien: Besprechungen Posteingang Finanzplanung Buchhaltung Aufwandserfassung Zeitplanung Diverses ReprÃ¤sentative-Unterlagen BÃ¼ro Beschaffung Technische-Projektabwicklung KaufmÃ¤nnische-Projektabwicklung Adress-Kartei Bib-Kartei Quot-Kartei")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Laufender_Betrieb " & (lse-align-to-pattern "&") & "& «Laufender_Betrieb-Kategorie»")
+   '(replacement "Laufender_Betrieb " & (lse-align-to-pattern "&") & "& Â«Laufender_Betrieb-KategorieÂ»")
 )
 (lse-define-fill-in "Laufender_Betrieb-Kategorie"
    '(sort)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(menu  
-       Besprechungen Posteingang Finanzplanung Buchhaltung Aufwandserfassung Zeitplanung Diverses Repräsentative-Unterlagen Büro Beschaffung Technische-Projektabwicklung Kaufmännische-Projektabwicklung Adress-Kartei Bib-Kartei Quot-Kartei 
+       Besprechungen Posteingang Finanzplanung Buchhaltung Aufwandserfassung Zeitplanung Diverses ReprÃ¤sentative-Unterlagen BÃ¼ro Beschaffung Technische-Projektabwicklung KaufmÃ¤nnische-Projektabwicklung Adress-Kartei Bib-Kartei Quot-Kartei 
     )
 )
 (lse-define-fill-in "Besprechungen"
@@ -212,15 +212,15 @@
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(replacement "Diverses ")
 )
-(lse-define-fill-in "Repräsentative-Unterlagen"
+(lse-define-fill-in "ReprÃ¤sentative-Unterlagen"
    '(token)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Repräsentative-Unterlagen ")
+   '(replacement "ReprÃ¤sentative-Unterlagen ")
 )
-(lse-define-fill-in "Büro"
+(lse-define-fill-in "BÃ¼ro"
    '(token)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Büro ")
+   '(replacement "BÃ¼ro ")
 )
 (lse-define-fill-in "Beschaffung"
    '(token)
@@ -232,10 +232,10 @@
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(replacement "Technische-Projektabwicklung ")
 )
-(lse-define-fill-in "Kaufmännische-Projektabwicklung"
+(lse-define-fill-in "KaufmÃ¤nnische-Projektabwicklung"
    '(token)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Kaufmännische-Projektabwicklung ")
+   '(replacement "KaufmÃ¤nnische-Projektabwicklung ")
 )
 (lse-define-fill-in "Adress-Kartei"
    '(token)
@@ -255,7 +255,7 @@
 (lse-define-fill-in "Projekte"
    '(description "Sub-Kategorien: Bosch Ercos Bosch XBW TTTech")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Projekte " & (lse-align-to-pattern "&") & "& «Projekte-Kategorie»")
+   '(replacement "Projekte " & (lse-align-to-pattern "&") & "& Â«Projekte-KategorieÂ»")
 )
 (lse-define-fill-in "Projekte-Kategorie"
    '(sort)
@@ -281,7 +281,7 @@
 )
 (lse-define-fill-in "Aufwands-Kategorie"
    '(token)
-   '(description "Geleistete Tätigkeit")
+   '(description "Geleistete TÃ¤tigkeit")
    '(sort)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(menu 

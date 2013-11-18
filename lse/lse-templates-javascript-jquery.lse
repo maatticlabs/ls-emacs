@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -32,7 +32,7 @@
 ;;;;    19-Oct-2011 (CT) Deprecated `live` and `die` (use `delegate` instead)
 ;;;;    26-Nov-2011 (CT) Factor `jq-plugin-function`
 ;;;;    28-Mar-2012 (CT) Add `use-strict` to `jq-plugin`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 21-Jan-2011
@@ -124,7 +124,7 @@
     '(description
         "Specify a function to execute when the DOM is fully loaded."
      )
-    '(replacement           "$(document).ready («callback»)")
+    '(replacement           "$(document).ready (Â«callbackÂ»)")
 ;;; jq-ready
 )
 
@@ -201,14 +201,14 @@
     '(token                 "plugin-function")
     '(description           "Define a plugin function for jQuery")
     '(replacement
-        "$.fn.«name» = function (opts)"
+        "$.fn.Â«nameÂ» = function (opts)"
             & $ _block_head
             "var options  = $.extend"
-            "    ( { «expression»"
+            "    ( { Â«expressionÂ»"
             "      }"
             "    , opts || {}"
             "    );"
-            "««statement»»···"
+            "Â«Â«statementÂ»Â»Â·Â·Â·"
             "return this; "
             $ _block_tail
         ""
@@ -224,10 +224,10 @@
     '(replacement
         ";( function ($, undefined)" &
         $ _block_head
-        "««use-strict»»"
-        "««statement»»···"
-        "«jq-plugin-function»···"
-        "««statement»»···"
+        "Â«Â«use-strictÂ»Â»"
+        "Â«Â«statementÂ»Â»Â·Â·Â·"
+        "Â«jq-plugin-functionÂ»Â·Â·Â·"
+        "Â«Â«statementÂ»Â»Â·Â·Â·"
         $ _block_tail
         "(jQuery)"
         ");"
@@ -244,7 +244,7 @@
     '(replacement
         "$.ajax"
         & lse-js:indent-object-literal &
-        "( «object-literal»"
+        "( Â«object-literalÂ»"
         lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
         ")"
         & lse-js:catch-semicolon
@@ -260,7 +260,7 @@
     '(replacement
         "$.ajaxSetup"
         & lse-js:indent-object-literal &
-        "( «object-literal»"
+        "( Â«object-literalÂ»"
         lse-newline (lse-indent-to-pattern "(" 0 (lse-indent:level:environment))
         ")"
         & lse-js:catch-semicolon
@@ -274,7 +274,7 @@
     '(description
         "Set or get arbitrary data associated with the specified element."
      )
-    '(replacement           "$.data («jq-element», «name», ««jq-value»»)")
+    '(replacement           "$.data (Â«jq-elementÂ», Â«nameÂ», Â«Â«jq-valueÂ»Â»)")
 ;;; jq-util-data
 )
 
@@ -285,7 +285,7 @@
     '(description
         "Iterate over any collection, whether it is a object or an array."
      )
-    '(replacement           "$.each («expression», «callback»)")
+    '(replacement           "$.each (Â«expressionÂ», Â«callbackÂ»)")
 ;;; jq-util-each
 )
 
@@ -297,7 +297,7 @@
     "Merge the contents of two or more objects together into the first object."
    )
   '(replacement
-    "$.extend (««jq-extend-deep»», «jq-extend-target», «argument»···)"
+    "$.extend (Â«Â«jq-extend-deepÂ»Â», Â«jq-extend-targetÂ», Â«argumentÂ»Â·Â·Â·)"
    )
 ;;; jq-util-extend
 )
@@ -310,8 +310,8 @@
         "Load data from the server using a HTTP GET request."
      )
     '(replacement
-        "$.get («url», ««req-data»», ««callback»», ««req-data-type»»)"
-        ««fill-in-item»»···
+        "$.get (Â«urlÂ», Â«Â«req-dataÂ»Â», Â«Â«callbackÂ»Â», Â«Â«req-data-typeÂ»Â»)"
+        Â«Â«fill-in-itemÂ»Â»Â·Â·Â·
      )
 ;;; jq-util-get
 )
@@ -324,7 +324,7 @@
         "Load JSON-encoded data from the server using a GET HTTP request."
      )
     '(replacement
-        "$.getJSON («url», ««req-data»», ««callback»»)"
+        "$.getJSON (Â«urlÂ», Â«Â«req-dataÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-util-get-json
 )
@@ -338,7 +338,7 @@
         "then execute it. callback is executed if the request succeeds."
      )
     '(replacement
-        "$.getScript («url», ««callback»»)"
+        "$.getScript (Â«urlÂ», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-util-get-script
 )
@@ -348,7 +348,7 @@
     '(token)
     '(token                 "$.globalEval")
     '(description           "Execute some JavaScript code globally.")
-    '(replacement           "$.globalEval («code»)")
+    '(replacement           "$.globalEval (Â«codeÂ»)")
 ;;; jq-util-global-eval
 )
 
@@ -359,7 +359,7 @@
     '(description
         "Finds the elements of an array which satisfy a filter function."
      )
-    '(replacement           "$.grep («array», «callback», ««jq-grep-invert»»)")
+    '(replacement           "$.grep (Â«arrayÂ», Â«callbackÂ», Â«Â«jq-grep-invertÂ»Â»)")
 ;;; jq-util-grep
 )
 
@@ -370,7 +370,7 @@
     '(description
         "Search for a specified value within an array and return its index (or -1 if not found)."
      )
-    '(replacement           "$.inArray («value», «array»)")
+    '(replacement           "$.inArray (Â«valueÂ», Â«arrayÂ»)")
 ;;; jq-util-in-array
 )
 
@@ -379,7 +379,7 @@
     '(token)
     '(token                 "$.isArray")
     '(description           "Determine whether the argument is an array.")
-    '(replacement           "$.isArray («argument»)")
+    '(replacement           "$.isArray (Â«argumentÂ»)")
 ;;; jq-util-is-array
 )
 
@@ -390,7 +390,7 @@
     '(description
         "Check to see if an object is empty (contains no properties)."
      )
-    '(replacement           "$.isEmptyObject («argument»)")
+    '(replacement           "$.isEmptyObject (Â«argumentÂ»)")
 ;;; jq-util-is-empty-object
 )
 
@@ -401,7 +401,7 @@
     '(description
         "Determine if the argument passed is a Javascript function object."
      )
-    '(replacement           "$.isFunction («argument»)")
+    '(replacement           "$.isFunction (Â«argumentÂ»)")
 ;;; jq-util-is-function
 )
 
@@ -412,7 +412,7 @@
     '(description
         "Check if an object is a plain object (created using '{}' or 'new Object')."
      )
-    '(replacement           "$.isPlainObject («argument»)")
+    '(replacement           "$.isPlainObject (Â«argumentÂ»)")
 ;;; jq-util-is-plain-object
 )
 
@@ -423,7 +423,7 @@
     '(description
         "Convert an array-like object into a true JavaScript array."
      )
-    '(replacement           "$.makeArray («argument»)")
+    '(replacement           "$.makeArray (Â«argumentÂ»)")
 ;;; jq-util-make-array
 )
 
@@ -434,7 +434,7 @@
     '(description
         "Translate all items in an array or array-like object to another array of items."
      )
-    '(replacement           "$.map («array», «callback»)")
+    '(replacement           "$.map (Â«arrayÂ», Â«callbackÂ»)")
 ;;; jq-util-map
 )
 
@@ -445,7 +445,7 @@
     '(description
         "Merge the contents of second array into the first array. "
      )
-    '(replacement           "$.merge («array», «array»)")
+    '(replacement           "$.merge (Â«arrayÂ», Â«arrayÂ»)")
 ;;; jq-util-merge
 )
 
@@ -457,7 +457,7 @@
         "Create a serialized representation of an array or object, "
         "suitable for use in a URL query string or Ajax request. "
      )
-    '(replacement           "$.param («object», «jq-util-param:traditional»)")
+    '(replacement           "$.param (Â«objectÂ», Â«jq-util-param:traditionalÂ»)")
 ;;; jq-util-param
 )
 
@@ -478,7 +478,7 @@
     '(description
         "Converts a well-formed JSON string into a JavaScript object."
      )
-    '(replacement           "$.parseJSON («argument»)")
+    '(replacement           "$.parseJSON (Â«argumentÂ»)")
 ;;; jq-util-parse-json
 )
 
@@ -490,7 +490,7 @@
         "Load data from the server using a HTTP POST request."
      )
     '(replacement
-        "$.post («url», ««req-data»», ««callback»», ««req-data-type»»)"
+        "$.post (Â«urlÂ», Â«Â«req-dataÂ»Â», Â«Â«callbackÂ»Â», Â«Â«req-data-typeÂ»Â»)"
      )
 ;;; jq-util-post
 )
@@ -502,7 +502,7 @@
     '(description
         "Returns a proxy of the function that always has a particular context."
      )
-    '(replacement           "$.proxy («argument»)")
+    '(replacement           "$.proxy (Â«argumentÂ»)")
 ;;; jq-util-proxy
 )
 
@@ -511,7 +511,7 @@
     '(token)
     '(token                 "$.removeData")
     '(description           "Remove a previously-stored piece of data.")
-    '(replacement           "$.removeData («jq-element», «name»)")
+    '(replacement           "$.removeData (Â«jq-elementÂ», Â«nameÂ»)")
 ;;; jq-util-remove-data
 )
 
@@ -522,7 +522,7 @@
     '(description
         "Remove the whitespace from the beginning and end of a string."
      )
-    '(replacement           "$.trim («argument»)")
+    '(replacement           "$.trim (Â«argumentÂ»)")
 ;;; jq-util-trim
 )
 
@@ -533,7 +533,7 @@
     '(description
         "Determine the name of the type of an object."
      )
-    '(replacement           "$.type («argument»)")
+    '(replacement           "$.type (Â«argumentÂ»)")
 ;;; jq-util-type
 )
 
@@ -544,7 +544,7 @@
     '(description
         "Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers."
      )
-    '(replacement           "$.unique («array»)")
+    '(replacement           "$.unique (Â«arrayÂ»)")
 ;;; jq-util-unique
 )
 
@@ -686,7 +686,7 @@
     '(description
         "Adds the specified class(es) to each of the set of matched elements."
      )
-    '(replacement           ".addClass («name»)")
+    '(replacement           ".addClass (Â«nameÂ»)")
 ;;; jq-wrapper-add-class
 )
 
@@ -697,7 +697,7 @@
     '(description
         "Add elements to the set of matched elements (expression can be selector, element, or array)."
      )
-    '(replacement           ".add («expression», ««context»»)")
+    '(replacement           ".add (Â«expressionÂ», Â«Â«contextÂ»Â»)")
 ;;; jq-wrapper-add-elements
 )
 
@@ -708,7 +708,7 @@
     '(description
         "Insert content after each element in the set of matched elements."
      )
-    '(replacement           ".after («content»)")
+    '(replacement           ".after (Â«contentÂ»)")
 ;;; jq-wrapper-after
 )
 
@@ -730,7 +730,7 @@
     '(description
         "Insert content to the end of each element in the set of matched elements."
      )
-    '(replacement           ".append («content»)")
+    '(replacement           ".append (Â«contentÂ»)")
 ;;; jq-wrapper-append
 )
 
@@ -741,7 +741,7 @@
     '(description
         "Insert every element in the set of matched elements to the end of the target(s)."
      )
-    '(replacement           ".appendTo («target»)")
+    '(replacement           ".appendTo (Â«targetÂ»)")
 ;;; jq-wrapper-append-to
 )
 
@@ -766,7 +766,7 @@
     '(description
         "Get the value of an attribute for the first element in the set of matched elements."
      )
-    '(replacement           ".attr («name»)")
+    '(replacement           ".attr (Â«nameÂ»)")
 ;;; jq-wrapper-attr-get
 )
 
@@ -777,7 +777,7 @@
     '(description
         "Set one attribute for the set of matched elements."
      )
-    '(replacement           ".attr («name», «value»)")
+    '(replacement           ".attr (Â«nameÂ», Â«valueÂ»)")
 ;;; jq-wrapper-attr-set-1
 )
 
@@ -788,7 +788,7 @@
     '(description
         "Set several attributes for the set of matched elements."
      )
-    '(replacement           ".attr («arg-object»)")
+    '(replacement           ".attr (Â«arg-objectÂ»)")
 ;;; jq-wrapper-attr-set-many
 )
 
@@ -799,7 +799,7 @@
     '(description
         "Insert content before each element in the set of matched elements."
      )
-    '(replacement           ".before («content»)")
+    '(replacement           ".before (Â«contentÂ»)")
 ;;; jq-wrapper-before
 )
 
@@ -810,7 +810,7 @@
     '(description
         "Attach a handler to an event for the elements. Passing `false` for callback attaches a function that prevents the default action from occurring and stops the event from bubbling."
      )
-    '(replacement           ".bind («event-type», ««event-data»», «callback»)")
+    '(replacement           ".bind (Â«event-typeÂ», Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-bind
 )
 
@@ -821,7 +821,7 @@
     '(description
         "Bind all events specified by object to the specified handlers."
      )
-    '(replacement           ".bind («object»)")
+    '(replacement           ".bind (Â«objectÂ»)")
 ;;; jq-wrapper-bind-map
 )
 
@@ -832,7 +832,7 @@
     '(description
         "This method is a shortcut for .bind('blur', handler) in the first variation, and .trigger('blur') in the second."
      )
-    '(replacement           ".blur (««event-data»», ««callback»»)")
+    '(replacement           ".blur (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-blur
 )
 
@@ -843,7 +843,7 @@
     '(description
         "This method is a shortcut for .bind('change', handler) in the first variation, and .trigger('change') in the second."
      )
-    '(replacement           ".change (««event-data»», ««callback»»)")
+    '(replacement           ".change (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-change
 )
 
@@ -854,7 +854,7 @@
     '(description
         "This method is a shortcut for .bind('click', handler) in the first variation, and .trigger('click') in the second."
      )
-    '(replacement           ".click (««event-data»», ««callback»»)")
+    '(replacement           ".click (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-click
 )
 
@@ -865,7 +865,7 @@
     '(description
         "Get the children of each element in the set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".children (««selector»»)")
+    '(replacement           ".children (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-children
 )
 
@@ -876,7 +876,7 @@
     '(description
         "Create a deep copy of the set of matched elements."
      )
-    '(replacement           ".clone (««jq-wrapper-clone:flag»»)")
+    '(replacement           ".clone (Â«Â«jq-wrapper-clone:flagÂ»Â»)")
 ;;; jq-wrapper-clone
 )
 
@@ -896,7 +896,7 @@
     '(description
         "Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree."
      )
-    '(replacement           ".closest («selectors», ««context»»)")
+    '(replacement           ".closest (Â«selectorsÂ», Â«Â«contextÂ»Â»)")
 ;;; jq-wrapper-closest
 )
 
@@ -918,7 +918,7 @@
     '(description
         "Get the value of a style property for the first element, or set the value of a style property for all elements, in the set of matched elements."
      )
-    '(replacement           ".css («name», ««value»»)")
+    '(replacement           ".css (Â«nameÂ», Â«Â«valueÂ»Â»)")
 ;;; jq-wrapper-css
 )
 
@@ -929,7 +929,7 @@
     '(description
         "This method is a shortcut for .bind('dblclick', handler) in the first variation, and .trigger('dblclick') in the second. "
      )
-    '(replacement           ".dblclick (««event-data»», ««callback»»)")
+    '(replacement           ".dblclick (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-dblclick
 )
 
@@ -943,7 +943,7 @@
         "root elements."
      )
     '(replacement
-        ".delegate («selector», «event-type», ««event-data»», «callback»)"
+        ".delegate (Â«selectorÂ», Â«event-typeÂ», Â«Â«event-dataÂ»Â», Â«callbackÂ»)"
      )
 ;;; jq-wrapper-delegate
 )
@@ -953,7 +953,7 @@
     '(token)
     '(token                 ".detach")
     '(description           "Remove the set of matched elements from the DOM.")
-    '(replacement           ".detach (««selector»»)")
+    '(replacement           ".detach (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-detach
 )
 
@@ -968,7 +968,7 @@
         "Remove an event handler previously attached using .live() "
         "from the elements."
      )
-    ; '(replacement           ".die (««event-type»», ««callback»»)")
+    ; '(replacement           ".die (Â«Â«event-typeÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-die
 )
 
@@ -979,7 +979,7 @@
     '(description
         "Execute a callback function for each element in the set of matched elements."
      )
-    '(replacement           ".each («callback»)")
+    '(replacement           ".each (Â«callbackÂ»)")
 ;;; jq-wrapper-each
 )
 
@@ -1012,7 +1012,7 @@
     '(description
         "Reduce the set of matched elements to the one at the specified index (negative counts from the end)."
      )
-    '(replacement           ".eq («number»)")
+    '(replacement           ".eq (Â«numberÂ»)")
 ;;; jq-wrapper-eq
 )
 
@@ -1023,7 +1023,7 @@
     '(description
         "This method is a shortcut for .bind('error', handler)."
      )
-    '(replacement           ".error (««event-data»», «callback»)")
+    '(replacement           ".error (Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-error
 )
 
@@ -1034,7 +1034,7 @@
     '(description
         "Display the matched elements by fading them to opaque."
      )
-    '(replacement           ".fadeIn (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".fadeIn (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-fade-in
 )
 
@@ -1045,7 +1045,7 @@
     '(description
         "Hide the matched elements by fading them to transparent."
      )
-    '(replacement           ".fadeOut (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".fadeOut (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-fade-out
 )
 
@@ -1055,7 +1055,7 @@
     '(token                 ".fadeTo")
     '(description           "Adjust the opacity of the matched elements.")
     '(replacement
-        ".fadeTo («duration», «opacity», ««easing»», ««callback»»)"
+        ".fadeTo (Â«durationÂ», Â«opacityÂ», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-wrapper-fade-to
 )
@@ -1068,7 +1068,7 @@
         "Display or hide the matched elements by animating their opacity."
      )
     '(replacement
-        ".fadeToggle (««duration»», ««easing»», ««callback»»)"
+        ".fadeToggle (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-wrapper-fade-toggle
 )
@@ -1080,7 +1080,7 @@
     '(description
         "Reduce the set of matched elements to those that match the selector or pass the function's test (expression can be selector, element, array, or function)."
      )
-    '(replacement           ".filter («expression»)")
+    '(replacement           ".filter (Â«expressionÂ»)")
 ;;; jq-wrapper-filter
 )
 
@@ -1091,7 +1091,7 @@
     '(description
         "Get the descendants of each element in the current set of matched elements, filtered by a selector."
      )
-    '(replacement           ".find («selector»)")
+    '(replacement           ".find (Â«selectorÂ»)")
 ;;; jq-wrapper-find
 )
 
@@ -1114,7 +1114,7 @@
         "This method is a shortcut for .bind('focus', handler) in the "
         "first variation, and .trigger('focus') in the second."
      )
-    '(replacement           ".focus (««event-data»», ««callback»»)")
+    '(replacement           ".focus (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-focus
 )
 
@@ -1125,7 +1125,7 @@
     '(description
         "This method is a shortcut for .bind('focusin', handler)."
      )
-    '(replacement           ".focusin (««event-data»», «callback»)")
+    '(replacement           ".focusin (Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-focus-in
 )
 
@@ -1136,7 +1136,7 @@
     '(description
         "This method is a shortcut for .bind('focusout', handler)."
      )
-    '(replacement           ".focusout (««event-data»», «callback»)")
+    '(replacement           ".focusout (Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-focus-out
 )
 
@@ -1147,7 +1147,7 @@
     '(description
         "Reduce the set of matched elements to those that have a descendant that matches the selector or DOM element."
      )
-    '(replacement           ".has («expression»)")
+    '(replacement           ".has (Â«expressionÂ»)")
 ;;; jq-wrapper-has
 )
 
@@ -1158,7 +1158,7 @@
     '(description
         "Determine whether any of the matched elements are assigned the given class."
      )
-    '(replacement           ".hasClass («name»)")
+    '(replacement           ".hasClass (Â«nameÂ»)")
 ;;; jq-wrapper-has-class
 )
 
@@ -1169,7 +1169,7 @@
     '(description
         "Get the current computed height for the first element, or set the CSS height of all elements, in the set of matched elements."
      )
-    '(replacement           ".height (««number»»)")
+    '(replacement           ".height (Â«Â«numberÂ»Â»)")
 ;;; jq-wrapper-height
 )
 
@@ -1178,7 +1178,7 @@
     '(token)
     '(token                 ".hide")
     '(description           "Hide the matched elements.")
-    '(replacement           ".hide (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".hide (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-hide
 )
 
@@ -1189,12 +1189,12 @@
     '(description
         "Bind two handlers to the matched elements, to be executed when "
         "the mouse pointer enters and leaves the elements. "
-        "The .hover(«callback», «callback») method binds handlers for "
+        "The .hover(Â«callbackÂ», Â«callbackÂ») method binds handlers for "
         "both mouseenter and mouseleave events, respectively. We can use "
         "it to simply apply behavior to an "
         "element during the time the mouse is within the element."
      )
-    '(replacement           ".hover («callback», «callback»)")
+    '(replacement           ".hover (Â«callbackÂ», Â«callbackÂ»)")
 ;;; jq-wrapper-hover
 )
 
@@ -1205,7 +1205,7 @@
     '(description
         "Get the HTML contents of the first element, or set the HTML contents of all elements, in the set of matched elements."
      )
-    '(replacement           ".html (««text»»)")
+    '(replacement           ".html (Â«Â«textÂ»Â»)")
 ;;; jq-wrapper-html
 )
 
@@ -1238,7 +1238,7 @@
     '(description
         "Insert every element in the set of matched elements after the target."
      )
-    '(replacement           ".insertAfter («target»)")
+    '(replacement           ".insertAfter (Â«targetÂ»)")
 ;;; jq-wrapper-insert-after
 )
 
@@ -1249,7 +1249,7 @@
     '(description
         "Insert every element in the set of matched elements before the target."
      )
-    '(replacement           ".insertBefore («target»)")
+    '(replacement           ".insertBefore (Â«targetÂ»)")
 ;;; jq-wrapper-insert-before
 )
 
@@ -1260,7 +1260,7 @@
     '(description
         "Check the current matched set of elements against a selector and return true if at least one of these elements matches the selector."
      )
-    '(replacement           ".is («selector»)")
+    '(replacement           ".is (Â«selectorÂ»)")
 ;;; jq-wrapper-is
 )
 
@@ -1272,7 +1272,7 @@
         "This method is a shortcut for .bind('keydown', handler) in the "
         "first variation, and .trigger('keydown') in the second."
      )
-    '(replacement           ".keydown (««event-data»», ««callback»»)")
+    '(replacement           ".keydown (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-keydown
 )
 
@@ -1284,7 +1284,7 @@
         "This method is a shortcut for .bind('keypress', handler) in the "
         "first variation, and .trigger('keypress') in the second."
      )
-    '(replacement           ".keypress (««event-data»», ««callback»»)")
+    '(replacement           ".keypress (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-keypress
 )
 
@@ -1296,7 +1296,7 @@
         "This method is a shortcut for .bind('keyup', handler) in the "
         "first variation, and .trigger('keyup') in the second."
      )
-    '(replacement           ".keyup (««event-data»», ««callback»»)")
+    '(replacement           ".keyup (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-keyup
 )
 
@@ -1327,7 +1327,7 @@
         "that get introduced later do not, so they would require another "
         ".bind() call. "
      )
-    ; '(replacement           ".live («event-type», ««event-data»», «callback»)")
+    ; '(replacement           ".live (Â«event-typeÂ», Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-live
 )
 
@@ -1339,7 +1339,7 @@
         "Load data from the server and place the returned HTML into the "
         "matched element."
      )
-    '(replacement           ".load («url», ««req-data»», ««callback»»)")
+    '(replacement           ".load (Â«urlÂ», Â«Â«req-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-load-ajax
 )
 
@@ -1350,7 +1350,7 @@
     '(description
         "This method is a shortcut for .bind('load', handler)."
      )
-    '(replacement           ".load (««event-data»», «callback»)")
+    '(replacement           ".load (Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-load-handler
 )
 
@@ -1361,7 +1361,7 @@
     '(description
         "Pass each element in the current matched set through a function, producing a new jQuery object containing the return values."
      )
-    '(replacement           ".map («callback»)")
+    '(replacement           ".map (Â«callbackÂ»)")
 ;;; jq-wrapper-map
 )
 
@@ -1373,7 +1373,7 @@
         "This method is a shortcut for .bind('mousedown', handler) in the "
         "first variation, and .trigger('mousedown') in the second."
      )
-    '(replacement           ".mousedown (««event-data»», ««callback»»)")
+    '(replacement           ".mousedown (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-down
 )
 
@@ -1385,7 +1385,7 @@
         "This method is a shortcut for .bind('mouseenter', handler) in "
         "the first variation, and .trigger('mouseenter') in the second."
      )
-    '(replacement           ".mouseenter (««event-data»», ««callback»»)")
+    '(replacement           ".mouseenter (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-enter
 )
 
@@ -1397,7 +1397,7 @@
         "This method is a shortcut for .bind('mouseleave', handler) in the "
         "first variation, and .trigger('mouseleave') in the second."
      )
-    '(replacement           ".mouseleave (««event-data»», ««callback»»)")
+    '(replacement           ".mouseleave (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-leave
 )
 
@@ -1409,7 +1409,7 @@
         "This method is a shortcut for .bind('mousemove', handler) in "
         "the first variation, and .trigger('mousemove') in the second."
      )
-    '(replacement           ".mousemove (««event-data»», ««callback»»)")
+    '(replacement           ".mousemove (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-move
 )
 
@@ -1421,7 +1421,7 @@
         "This method is a shortcut for .bind('mouseout', handler) in the "
         "first variation, and .trigger('mouseout') in the second."
      )
-    '(replacement           ".mouseout (««event-data»», ««callback»»)")
+    '(replacement           ".mouseout (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-out
 )
 
@@ -1433,7 +1433,7 @@
         "This method is a shortcut for .bind('mouseover', handler) in the W
         first variation, and .trigger('mouseover') in the second."
      )
-    '(replacement           ".mouseover (««event-data»», ««callback»»)")
+    '(replacement           ".mouseover (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-over
 )
 
@@ -1445,7 +1445,7 @@
         "This method is a shortcut for .bind('mouseup', handler) in the "
         "first variation, and .trigger('mouseup') in the second."
      )
-    '(replacement           ".mouseup (««event-data»», ««callback»»)")
+    '(replacement           ".mouseup (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-mouse-up
 )
 
@@ -1457,7 +1457,7 @@
         "This method is identical to .bind(), except that the handler is "
         "unbound after its first invocation. "
      )
-    '(replacement           ".one («event-type», ««event-data»», «callback»)")
+    '(replacement           ".one (Â«event-typeÂ», Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-one
 )
 
@@ -1468,7 +1468,7 @@
     '(description
         "Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector."
      )
-    '(replacement           ".next (««selector»»)")
+    '(replacement           ".next (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-next
 )
 
@@ -1479,7 +1479,7 @@
     '(description
         "Get all following siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".nextAll (««selector»»)")
+    '(replacement           ".nextAll (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-next-all
 )
 
@@ -1490,7 +1490,7 @@
     '(description
         "Get all following siblings of each element up to but not including the element matched by the selector."
      )
-    '(replacement           ".nextUntil (««selector»»)")
+    '(replacement           ".nextUntil (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-next-until
 )
 
@@ -1501,7 +1501,7 @@
     '(description
         "Remove elements from the set of matched elements (expression can be selector, element, array, or function)."
      )
-    '(replacement           ".not («expression»)")
+    '(replacement           ".not (Â«expressionÂ»)")
 ;;; jq-wrapper-not
 )
 
@@ -1513,7 +1513,7 @@
         "Get the current coordinates of the first element in the set of matched elements, relative to the document. "
         "With argument: set the current coordinates of every element in the set of matched elements, relative to the document."
      )
-    '(replacement           ".offset (««coordinates»»)")
+    '(replacement           ".offset (Â«Â«coordinatesÂ»Â»)")
 ;;; jq-wrapper-offset
 )
 
@@ -1535,7 +1535,7 @@
     '(description
         "Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin."
      )
-    '(replacement           ".outerHeight (««include-margin-flag»»)")
+    '(replacement           ".outerHeight (Â«Â«include-margin-flagÂ»Â»)")
 ;;; jq-wrapper-outer-height
 )
 
@@ -1546,7 +1546,7 @@
     '(description
           "Get the current computed width for the first element in the set of matched elements, including padding and border."
       )
-    '(replacement           ".outerWidth (««include-margin-flag»»)")
+    '(replacement           ".outerWidth (Â«Â«include-margin-flagÂ»Â»)")
 ;;; jq-wrapper-outer-width
 )
 
@@ -1557,7 +1557,7 @@
     '(description
         "Get the parent of each element in the current set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".parent (««selector»»)")
+    '(replacement           ".parent (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-parent
 )
 
@@ -1568,7 +1568,7 @@
     '(description
         "Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".parents (««selector»»)")
+    '(replacement           ".parents (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-parents
 )
 
@@ -1579,7 +1579,7 @@
     '(description
         "Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector."
      )
-    '(replacement           ".parentsUntil (««selector»»)")
+    '(replacement           ".parentsUntil (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-parents-until
 )
 
@@ -1601,7 +1601,7 @@
     '(description
           "Insert content to the beginning of each element in the set of matched elements."
       )
-    '(replacement           ".prepend («content»)")
+    '(replacement           ".prepend (Â«contentÂ»)")
 ;;; jq-wrapper-prepend
 )
 
@@ -1612,7 +1612,7 @@
     '(description
           "Insert every element in the set of matched elements to the beginning of the target."
       )
-    '(replacement           ".prependTo («target»)")
+    '(replacement           ".prependTo (Â«targetÂ»)")
 ;;; jq-wrapper-prepend-to
 )
 
@@ -1623,7 +1623,7 @@
     '(description
         "Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".prev (««selector»»)")
+    '(replacement           ".prev (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-prev
 )
 
@@ -1634,7 +1634,7 @@
     '(description
         "Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".prevAll (««selector»»)")
+    '(replacement           ".prevAll (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-prev-all
 )
 
@@ -1645,7 +1645,7 @@
     '(description
         "Get all preceding siblings of each element up to but not including the element matched by the selector."
      )
-    '(replacement           ".prevUntil (««selector»»)")
+    '(replacement           ".prevUntil (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-prev-until
 )
 
@@ -1654,7 +1654,7 @@
     '(token)
     '(token                 ".remove")
     '(description           "Remove the set of matched elements from the DOM.")
-    '(replacement           ".remove (««selector»»)")
+    '(replacement           ".remove (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-remove
 )
 
@@ -1665,7 +1665,7 @@
     '(description
         "Remove an attribute from each element in the set of matched elements."
      )
-    '(replacement           ".removeAttr («name»)")
+    '(replacement           ".removeAttr (Â«nameÂ»)")
 ;;; jq-wrapper-remove-attr
 )
 
@@ -1676,7 +1676,7 @@
     '(description
         "Remove a single class, multiple classes, or all classes from each element in the set of matched elements."
      )
-    '(replacement           ".removeClass (««name»»)")
+    '(replacement           ".removeClass (Â«Â«nameÂ»Â»)")
 ;;; jq-wrapper-remove-class
 )
 
@@ -1687,7 +1687,7 @@
     '(description
           "Replace each target element with the set of matched elements."
       )
-    '(replacement           ".replaceAll («target»)")
+    '(replacement           ".replaceAll (Â«targetÂ»)")
 ;;; jq-wrapper-replace-all
 )
 
@@ -1698,7 +1698,7 @@
     '(description
           "Replace each element in the set of matched elements with the new content."
       )
-    '(replacement           ".replaceWith («content»)")
+    '(replacement           ".replaceWith (Â«contentÂ»)")
 ;;; jq-wrapper-replace-with
 )
 
@@ -1710,7 +1710,7 @@
         "This method is a shortcut for .bind('resize', handler) in the "
         "first variation, and .trigger('resize') in the second."
      )
-    '(replacement           ".resize (««event-data»», ««callback»»)")
+    '(replacement           ".resize (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-resize
 )
 
@@ -1722,7 +1722,7 @@
         "This method is a shortcut for .bind('scroll', handler) in the "
         "first variation, and .trigger('scroll') in the second."
      )
-    '(replacement           ".scroll (««event-data»», ««callback»»)")
+    '(replacement           ".scroll (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-scroll
 )
 
@@ -1734,7 +1734,7 @@
           "Get the current horizontal position of the scroll bar for the first element in the set of matched elements. "
           "With argument: set the current horizontal position of the scroll bar for each of the set of matched elements."
       )
-    '(replacement           ".scrollLeft (««number»»)")
+    '(replacement           ".scrollLeft (Â«Â«numberÂ»Â»)")
 ;;; jq-wrapper-scroll-left
 )
 
@@ -1746,7 +1746,7 @@
           "Get the current vertical position of the scroll bar for the first element in the set of matched elements. "
           "With argument: set the current vertical position of the scroll bar for each of the set of matched elements."
       )
-    '(replacement           ".scrollTop (««number»»)")
+    '(replacement           ".scrollTop (Â«Â«numberÂ»Â»)")
 ;;; jq-wrapper-scroll-top
 )
 
@@ -1758,7 +1758,7 @@
         "This method is a shortcut for .bind('select', handler) in the "
         "first variation, and .trigger('select') in the second."
      )
-    '(replacement           ".select (««event-data»», ««callback»»)")
+    '(replacement           ".select (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-select
 )
 
@@ -1789,7 +1789,7 @@
     '(token)
     '(token                 ".show")
     '(description           "Display the matched elements.")
-    '(replacement           ".show (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".show (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-show
 )
 
@@ -1800,7 +1800,7 @@
     '(description
         "Get the siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
-    '(replacement           ".siblings (««selector»»)")
+    '(replacement           ".siblings (Â«Â«selectorÂ»Â»)")
 ;;; jq-wrapper-siblings
 )
 
@@ -1811,7 +1811,7 @@
     '(description
         "Reduce the set of matched elements to a subset specified by a range of indices."
      )
-    '(replacement           ".slice («number», ««number»»)")
+    '(replacement           ".slice (Â«numberÂ», Â«Â«numberÂ»Â»)")
 ;;; jq-wrapper-slice
 )
 
@@ -1822,7 +1822,7 @@
     '(description
         "Display the matched elements with a sliding motion."
      )
-    '(replacement           ".slideDown (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".slideDown (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-slide-down
 )
 
@@ -1834,7 +1834,7 @@
         "Display or hide the matched elements with a sliding motion."
      )
     '(replacement
-        ".slideToggle (««duration»», ««easing»», ««callback»»)"
+        ".slideToggle (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-wrapper-slide-toggle
 )
@@ -1844,7 +1844,7 @@
     '(token)
     '(token                 ".slideUp")
     '(description           "Hide the matched elements with a sliding motion.")
-    '(replacement           ".slideUp (««duration»», ««easing»», ««callback»»)")
+    '(replacement           ".slideUp (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-slide-up
 )
 
@@ -1856,7 +1856,7 @@
         "This method is a shortcut for .bind('submit', handler) in the "
         "first variation, and .trigger('submit') in the second."
      )
-    '(replacement           ".submit (««event-data»», ««callback»»)")
+    '(replacement           ".submit (Â«Â«event-dataÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-submit
 )
 
@@ -1868,7 +1868,7 @@
           "Get the combined text contents of each element in the set of matched elements, including their descendants. "
           "With argument: set the content of each element in the set of matched elements to the specified text."
       )
-    '(replacement           ".text (««argument»»)")
+    '(replacement           ".text (Â«Â«argumentÂ»Â»)")
 ;;; jq-wrapper-text
 )
 
@@ -1878,7 +1878,7 @@
     '(token                 ".toggle_display")
     '(description           "Display or hide the matched elements.")
     '(replacement
-        ".toggle_display (««duration»», ««easing»», ««callback»»)"
+        ".toggle_display (Â«Â«durationÂ»Â», Â«Â«easingÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-wrapper-toggle-display
 )
@@ -1895,7 +1895,7 @@
         "then the first handler will be called on the first click, the "
         "fourth click, the seventh click, and so on."
      )
-    '(replacement           ".toggle («callback», ««callback»»···)")
+    '(replacement           ".toggle (Â«callbackÂ», Â«Â«callbackÂ»Â»Â·Â·Â·)")
 ;;; jq-wrapper-toggle-handler
 )
 
@@ -1906,7 +1906,7 @@
     '(description
         "Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument."
      )
-    '(replacement           ".toggleClass («name», ««jq-wrapper-toggle-class:switch»»)")
+    '(replacement           ".toggleClass (Â«nameÂ», Â«Â«jq-wrapper-toggle-class:switchÂ»Â»)")
 ;;; jq-wrapper-toggle-class
 )
 
@@ -1926,7 +1926,7 @@
         "Execute all handlers and behaviors attached to the matched "
         "elements for the given event type."
      )
-    '(replacement           ".trigger («event-type», ««array»»)")
+    '(replacement           ".trigger (Â«event-typeÂ», Â«Â«arrayÂ»Â»)")
 ;;; jq-wrapper-trigger
 )
 
@@ -1942,7 +1942,7 @@
         "* Events created with .triggerHandler() do not bubble up the DOM hierarchy; if they are not handled by the target element directly, they do nothing.\n"
         "* Instead of returning the jQuery object (to allow chaining), .triggerHandler() returns whatever value was returned by the last handler it caused to be executed. If no handlers are triggered, it returns undefined"
      )
-    '(replacement           ".triggerHandler («event-type», ««array»»)")
+    '(replacement           ".triggerHandler (Â«event-typeÂ», Â«Â«arrayÂ»Â»)")
 ;;; jq-wrapper-trigger-handler
 )
 
@@ -1953,7 +1953,7 @@
     '(description
         "Remove a previously-attached event handler from the elements."
      )
-    '(replacement           ".unbind (««event-type»», ««callback»»)")
+    '(replacement           ".unbind (Â«Â«event-typeÂ»Â», Â«Â«callbackÂ»Â»)")
 ;;; jq-wrapper-unbind
 )
 
@@ -1967,7 +1967,7 @@
         "set of root elements."
      )
     '(replacement
-        ".undelegate (««selector»», ««event-type»», ««callback»»)"
+        ".undelegate (Â«Â«selectorÂ»Â», Â«Â«event-typeÂ»Â», Â«Â«callbackÂ»Â»)"
      )
 ;;; jq-wrapper-undelegate
 )
@@ -1979,7 +1979,7 @@
     '(description
         "This method is a shortcut for .bind('unload', handler)."
      )
-    '(replacement           ".unload (««event-data»», «callback»)")
+    '(replacement           ".unload (Â«Â«event-dataÂ»Â», Â«callbackÂ»)")
 ;;; jq-wrapper-unload
 )
 
@@ -2001,7 +2001,7 @@
     '(description
         "Get the current value of the first (form) element, or set the value of each element, in the set of matched elements."
      )
-    '(replacement           ".val (««value»»)")
+    '(replacement           ".val (Â«Â«valueÂ»Â»)")
 ;;; jq-wrapper-val
 )
 
@@ -2013,7 +2013,7 @@
           "Get the current computed width for the first element in the set of matched elements. "
           "With argument: set the CSS width of each element in the set of matched elements."
       )
-    '(replacement           ".width (««number»»)")
+    '(replacement           ".width (Â«Â«numberÂ»Â»)")
 ;;; jq-wrapper-width
 )
 
@@ -2025,7 +2025,7 @@
           "Wrap an HTML structure around each element in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
       )
-    '(replacement           ".wrap («expression»)")
+    '(replacement           ".wrap (Â«expressionÂ»)")
 ;;; jq-wrapper-wrap
 )
 
@@ -2037,7 +2037,7 @@
           "Wrap an HTML structure around all elements in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
       )
-    '(replacement           ".wrapAll («expression»)")
+    '(replacement           ".wrapAll (Â«expressionÂ»)")
 ;;; jq-wrapper-wrap-all
 )
 
@@ -2049,7 +2049,7 @@
           "Wrap an HTML structure around the content of each element in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
       )
-    '(replacement           ".wrapInner («expression»)")
+    '(replacement           ".wrapInner (Â«expressionÂ»)")
 ;;; jq-wrapper-wrap-inner
 )
 

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -12,7 +12,7 @@
 ;;;; Revision Dates
 ;;;;    10-Jun-1994 (CT) Creation
 ;;;;    13-Jun-1994 (CT) Fill-In chapter, section, and friends defined
-;;;;    26-Jun-1994 (CT) «@node-name» used instead of «name»
+;;;;    26-Jun-1994 (CT) Â«@node-nameÂ» used instead of Â«nameÂ»
 ;;;;-- 
 (lse-define-fill-in "@*"
     '(token)
@@ -23,43 +23,43 @@
 
 (lse-define-fill-in "@appendix"
     '(token)
-    '(description           "Begin an appendix with title «text»")
-    '(replacement           "@appendix «@node-name»")
+    '(description           "Begin an appendix with title Â«textÂ»")
+    '(replacement           "@appendix Â«@node-nameÂ»")
 ;;; @appendix
 )
 
 (lse-define-fill-in "@appendixsection"
     '(token)
     '(description           "Begin an appendix section within an appendix")
-    '(replacement           "@appendixsection «@node-name»")
+    '(replacement           "@appendixsection Â«@node-nameÂ»")
 ;;; @appendixsection
 )
 
 (lse-define-fill-in "@appendixsubsec"
     '(token)
     '(description           "Begin an appendix subsection within an appendix")
-    '(replacement           "@appendixsubsec «@node-name»")
+    '(replacement           "@appendixsubsec Â«@node-nameÂ»")
 ;;; @appendixsubsec
 )
 
 (lse-define-fill-in "@appendixsubsubsec"
     '(token)
     '(description           "Begin an appendix subsubsection within an appendix")
-    '(replacement           "@appendixsubsubsec «@node-name»")
+    '(replacement           "@appendixsubsubsec Â«@node-nameÂ»")
 ;;; @appendixsubsubsec
 )
 
 (lse-define-fill-in "@author"
     '(token)
     '(description           "Set name of author flush-left")
-    '(replacement           "@author «text»")
+    '(replacement           "@author Â«textÂ»")
 ;;; @author
 )
 
 (lse-define-fill-in "@b"
     '(token)
-    '(description           "Print «text» in bold font (no effect in Info)")
-    '(replacement           "@b{«text»}")
+    '(description           "Print Â«textÂ» in bold font (no effect in Info)")
+    '(replacement           "@b{Â«textÂ»}")
 ;;; @b
 )
 
@@ -73,7 +73,7 @@
 (lse-define-fill-in "@c"
     '(token)
     '(description           "Comment line")
-    '(replacement           "@c ««text»»")
+    '(replacement           "@c Â«Â«textÂ»Â»")
 ;;; @c
 )
 
@@ -91,28 +91,28 @@
 (lse-define-fill-in "@center"
     '(token)
     '(description           "Center the line of text following @center")
-    '(replacement           "@center «text»")
+    '(replacement           "@center Â«textÂ»")
 ;;; @center
 )
 
 (lse-define-fill-in "@chapheading"
     '(token)
     '(description           "Print a chapter-like heading in the text, but not in the table of contents")
-    '(replacement           "@chapheading «text»")
+    '(replacement           "@chapheading Â«textÂ»")
 ;;; @chapheading
 )
 
 (lse-define-fill-in "@chapter"
     '(token)
     '(description           "Begin a chapter (title appears in the table of contents)")
-    '(replacement           "@chapter «@node-name»")
+    '(replacement           "@chapter Â«@node-nameÂ»")
 ;;; @chapter
 )
 
 (lse-define-fill-in "@cindex"
     '(token)
-    '(description           "Make an entry in the concept index for «text»")
-    '(replacement           "@cindex «text»")
+    '(description           "Make an entry in the concept index for Â«textÂ»")
+    '(replacement           "@cindex Â«textÂ»")
 ;;; @cindex
 )
 
@@ -123,21 +123,21 @@
                             "a cross reference command since a reader can easily follow"
                             "such a reference in Info."
      )
-    '(replacement           "@cite{«name»}")
+    '(replacement           "@cite{Â«nameÂ»}")
 ;;; @cite
 )
 
 (lse-define-fill-in "@clear"
     '(token)
-    '(description           "Clear the value of flag «name»")
-    '(replacement           "@clear «name»")
+    '(description           "Clear the value of flag Â«nameÂ»")
+    '(replacement           "@clear Â«nameÂ»")
 ;;; @clear
 )
 
 (lse-define-fill-in "@code"
     '(token)
     '(description           "Indicate text that is a piece of a program and which consists of entire syntactic tokens")
-    '(replacement           "@code{«text»}")
+    '(replacement           "@code{Â«textÂ»}")
 ;;; @code
 )
 
@@ -157,8 +157,8 @@
 
 (lse-define-fill-in "@defcodeindex"
     '(token)
-    '(description           "Define additional index set as @code (plus all commands to handle it). «name» should be a two-letter word")
-    '(replacement           "@defcodeindex «name»")
+    '(description           "Define additional index set as @code (plus all commands to handle it). Â«nameÂ» should be a two-letter word")
+    '(replacement           "@defcodeindex Â«nameÂ»")
 ;;; @defcodeindex
 )
 
@@ -166,7 +166,7 @@
     '(token)
     '(description           "General definition command for variables associated with classes")
     '(replacement
-        "@defcv «category» «class» «name»"
+        "@defcv Â«categoryÂ» Â«classÂ» Â«nameÂ»"
         @ text-block
         "@end defcv"
      )
@@ -177,7 +177,7 @@
     '(token)
     '(description           "General definition command for functions, interactive commands, and similar entities that may take arguments")
     '(replacement
-        "@deffn «category» «name» ««argument-name»»···"
+        "@deffn Â«categoryÂ» Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end deffn"
      )
@@ -186,15 +186,15 @@
 
 (lse-define-fill-in "@defindex"
     '(token)
-    '(description           "Define additional index (plus all commands to handle it). «name» should be a two-letter word")
-    '(replacement           "@defindex «name»")
+    '(description           "Define additional index (plus all commands to handle it). Â«nameÂ» should be a two-letter word")
+    '(replacement           "@defindex Â«nameÂ»")
 ;;; @defindex
 )
 
 (lse-define-fill-in "@defivar"
     '(token)
     '(description           "Definition command for instance variables of a class (equivalent to @defcv {Instance variable})")
-    '(replacement           "@defivar «category» «name»")
+    '(replacement           "@defivar Â«categoryÂ» Â«nameÂ»")
 ;;; @defivar
 )
 
@@ -202,7 +202,7 @@
     '(token)
     '(description           "Definition command for macros (equivalent to @deffn Macro)")
     '(replacement
-        "@defmac «name» ««argument-name»»···"
+        "@defmac Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @text-block
         "@end defmac"
      )
@@ -213,7 +213,7 @@
     '(token)
     '(description           "Definition command for methods of a class (equivalent to @defop Method)")
     '(replacement
-        "@defmethod «class» «name» ««argument-name»»···"
+        "@defmethod Â«classÂ» Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end defmethod"
      )
@@ -224,7 +224,7 @@
     '(token)
     '(description           "General definition command for entities resembling methods of a class")
     '(replacement
-        "@defop «category» «class» «name» ««argument-name»»···"
+        "@defop Â«categoryÂ» Â«classÂ» Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end defop"
      )
@@ -235,7 +235,7 @@
     '(token)
     '(description           "Definition command for user (emacs) options (equivalent to @defvr {User option})")
     '(replacement
-        "@defopt «name»"
+        "@defopt Â«nameÂ»"
         @ text-block
         "@end defopt"
      )
@@ -246,7 +246,7 @@
     '(token)
     '(description           "Definition command for (lisp) special forms (equivalent to @deffn {Special Form})")
     '(replacement
-        "@defspec «name» ««argument-name»»···"
+        "@defspec Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end defspec"
      )
@@ -257,7 +257,7 @@
     '(token)
     '(description           "General definition command for data types")
     '(replacement
-        "@deftp «category» «name» ««attribute»»···"
+        "@deftp Â«categoryÂ» Â«nameÂ» Â«Â«attributeÂ»Â»Â·Â·Â·"
         @ text-block
         "@end deftp"
      )
@@ -268,7 +268,7 @@
     '(token)
     '(description           "General definition command for typed functions and similar entities")
     '(replacement
-        "@deftypefn «category» «data-type» «name» ««argument-name»»···"
+        "@deftypefn Â«categoryÂ» Â«data-typeÂ» Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end deftypefn"
      )
@@ -279,7 +279,7 @@
     '(token)
     '(description           "Definition command for typed functions (equivalent to @deftypefn Function)")
     '(replacement
-        "@deftypefun «data-type» «name» ««argument-name»»···"
+        "@deftypefun Â«data-typeÂ» Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end deftypefun"
      )
@@ -290,7 +290,7 @@
     '(token)
     '(description           "General definition command for typed variable-like entities")
     '(replacement
-        "@deftypevar «category» «data-type» «name»"
+        "@deftypevar Â«categoryÂ» Â«data-typeÂ» Â«nameÂ»"
         @ text-block
         "@end deftypevar"
      )
@@ -301,7 +301,7 @@
     '(token)
     '(description           "Definition command for typed variables (equivalent to @deftypevar Variable)")
     '(replacement
-        "@deftypevr «data-type» «name»"
+        "@deftypevr Â«data-typeÂ» Â«nameÂ»"
         @ text-block
         "@end deftypevr"
      )
@@ -312,7 +312,7 @@
     '(token)
     '(description           "Definition command for functions (equivalent to @deffn Function)")
     '(replacement
-        "@defun «name» ««argument-name»»···"
+        "@defun Â«nameÂ» Â«Â«argument-nameÂ»Â»Â·Â·Â·"
         @ text-block
         "@end defun"
      )
@@ -323,7 +323,7 @@
     '(token)
     '(description           "Definition command for variables (equivalent to @defvr Variable)")
     '(replacement
-        "@defvar «name»"
+        "@defvar Â«nameÂ»"
         @ text-block
         "@end defvar"
      )
@@ -334,7 +334,7 @@
     '(token)
     '(description           "General definition command for variable-like entities")
     '(replacement
-        "@defvr «category» «name»"
+        "@defvr Â«categoryÂ» Â«nameÂ»"
         @ text-block
         "@end defvr"
      )
@@ -348,7 +348,7 @@
                             "which will be used again or which the reader ought to know. Mere "
                             "passing mention of a term for the first time does not deserve @dfn."
      )
-    '(replacement           "@dfn{«text»}")
+    '(replacement           "@dfn{Â«textÂ»}")
 ;;; @dfn
 )
 
@@ -366,8 +366,8 @@
 
 (lse-define-fill-in "@dmn"
     '(token)
-    '(description           "Format a dimension: use <number>@dmn{«name»}")
-    '(replacement           "««number»»@dmn{«name»}")
+    '(description           "Format a dimension: use <number>@dmn{Â«nameÂ»}")
+    '(replacement           "Â«Â«numberÂ»Â»@dmn{Â«nameÂ»}")
 ;;; @dmn
 )
 
@@ -381,7 +381,7 @@
 (lse-define-fill-in "@emph"
     '(token)
     '(description           "Set text with emphasis")
-    '(replacement           "@emph{«text»}")
+    '(replacement           "@emph{Â«textÂ»}")
 ;;; @emph
 )
 
@@ -389,9 +389,9 @@
     '(token)
     '(description           "Make an enumerated list of paragraphs")
     '(replacement
-        "@enumerate ««number-or-letter»»"
+        "@enumerate Â«Â«number-or-letterÂ»Â»"
         @ @item
-        "««@item»»···"
+        "Â«Â«@itemÂ»Â»Â·Â·Â·"
         "@end enumerate"
      )
 ;;; @enumerate
@@ -414,28 +414,28 @@
 (lse-define-fill-in "@evenfooting"
     '(token)
     '(description           "Specify page footings for even-numbered (left-hand) pages")
-    '(replacement           "@evenfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@evenfooting Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @evenfooting
 )
 
 (lse-define-fill-in "@evenheading"
     '(token)
     '(description           "Specify page headings for even-numbered (left-hand) pages")
-    '(replacement           "@evenheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@evenheading Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @evenheading
 )
 
 (lse-define-fill-in "@everyfooting"
     '(token)
     '(description           "Specify page footings for every page")
-    '(replacement           "@everyfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@everyfooting Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @everyfooting
 )
 
 (lse-define-fill-in "@everyheading"
     '(token)
     '(description           "Specify page headings for every page")
-    '(replacement           "@everyheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@everyheading Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @everyheading
 )
 
@@ -454,7 +454,7 @@
 (lse-define-fill-in "@exdent"
     '(token)
     '(description           "Remove any indentation a line might have")
-    '(replacement           "@exdent «text»")
+    '(replacement           "@exdent Â«textÂ»")
 ;;; @exdent
 )
 
@@ -468,7 +468,7 @@
 (lse-define-fill-in "@file"
     '(token)
     '(description           "Indicate the name of a file, buffer, or directory, or the name of a node in Info")
-    '(replacement           "@file{«name»}")
+    '(replacement           "@file{Â«nameÂ»}")
 ;;; @file
 )
 
@@ -481,8 +481,8 @@
 
 (lse-define-fill-in "@findex"
     '(token)
-    '(description           "Make an entry in the function index for «text»")
-    '(replacement           "@findex «text»")
+    '(description           "Make an entry in the function index for Â«textÂ»")
+    '(replacement           "@findex Â«textÂ»")
 ;;; @findex
 )
 
@@ -511,7 +511,7 @@
 (lse-define-fill-in "@footnote"
     '(token)
     '(description           "Create a footnote")
-    '(replacement           "@footnote{«text»}")
+    '(replacement           "@footnote{Â«textÂ»}")
 ;;; @footnote
 )
 
@@ -539,9 +539,9 @@
     '(token                 "description")
     '(description           "Like @table, but enters each of the items into the function index")
     '(replacement
-        "@ftable «table-item-format»"
+        "@ftable Â«table-item-formatÂ»"
         @ table-item
-        "««table-item»»···"
+        "Â«Â«table-itemÂ»Â»Â·Â·Â·"
         "@end ftable"
      )
 ;;; @ftable
@@ -562,29 +562,29 @@
 (lse-define-fill-in "@heading"
     '(token)
     '(description           "Print an unnumbered section-like heading in the text, but not in table of contents")
-    '(replacement           "@heading «title»")
+    '(replacement           "@heading Â«titleÂ»")
 ;;; @heading
 )
 
 (lse-define-fill-in "@headings"
     '(token)
     '(description           "Turn page headings on or off, or specify single-sided or double-sided headings")
-    '(replacement           "@headings «on/off/single/double»")
+    '(replacement           "@headings Â«on/off/single/doubleÂ»")
 ;;; @headings
 )
 
 (lse-define-fill-in "@i"
     '(token)
-    '(description           "Print «text» in italic font")
-    '(replacement           "@i{«text»}")
+    '(description           "Print Â«textÂ» in italic font")
+    '(replacement           "@i{Â«textÂ»}")
 ;;; @i
 )
 
 (lse-define-fill-in "@ifclear"
     '(token)
-    '(description           "Specify conditional text which will appear only if flag «name» is not set")
+    '(description           "Specify conditional text which will appear only if flag Â«nameÂ» is not set")
     '(replacement
-        "@ifclear «name»"
+        "@ifclear Â«nameÂ»"
         @  text-block
         "@end ifclear"
      )
@@ -604,9 +604,9 @@
 
 (lse-define-fill-in "@ifset"
     '(token)
-    '(description           "Specify conditional text which will appear only if flag «name» is set")
+    '(description           "Specify conditional text which will appear only if flag Â«nameÂ» is set")
     '(replacement
-        "@ifset «name»"
+        "@ifset Â«nameÂ»"
         @  text-block
         "@end ifset"
      )
@@ -626,7 +626,7 @@
 
 (lse-define-fill-in "@ignore"
     '(token)
-    '(description           "«text»··· won't appear in either the printed or the on-line version of the document")
+    '(description           "Â«textÂ»Â·Â·Â· won't appear in either the printed or the on-line version of the document")
     '(replacement
         "@ignore"
         @ text-block
@@ -637,15 +637,15 @@
 
 (lse-define-fill-in "@include"
     '(token)
-    '(description           "Incorporates contents of file «file-name» into the document")
-    '(replacement           "@include «file-name»")
+    '(description           "Incorporates contents of file Â«file-nameÂ» into the document")
+    '(replacement           "@include Â«file-nameÂ»")
 ;;; @include
 )
 
 (lse-define-fill-in "@inforef"
     '(token)
     '(description           "Make a cross reference to an Info file for which there is no printed manual")
-    '(replacement           "@inforef{«node-name», ««cross-reference-name»», «file-name»}")
+    '(replacement           "@inforef{Â«node-nameÂ», Â«Â«cross-reference-nameÂ»Â», Â«file-nameÂ»}")
 ;;; @inforef
 )
 
@@ -664,9 +664,9 @@
     '(token)
     '(description           "Make an itemized list of paragraphs")
     '(replacement
-        "@itemize «itemize-mark»"
+        "@itemize Â«itemize-markÂ»"
         @ @item
-        "««@item»»···"
+        "Â«Â«@itemÂ»Â»Â·Â·Â·"
         "@end itemize"
      )
 ;;; @itemize
@@ -685,21 +685,21 @@
 (lse-define-fill-in "@kbd"
     '(token)
     '(description           "Describes characters of input to be typed by users")
-    '(replacement           "@kbd{«text»}")
+    '(replacement           "@kbd{Â«textÂ»}")
 ;;; @kbd
 )
 
 (lse-define-fill-in "@key"
     '(token)
     '(description           "Refer to the conventional name of a keyboard key")
-    '(replacement           "@key{«key-name»}")
+    '(replacement           "@key{Â«key-nameÂ»}")
 ;;; @key
 )
 
 (lse-define-fill-in "@kindex"
     '(token)
-    '(description           "Make an entry in the key index for «text»")
-    '(replacement           "@kindex «text»")
+    '(description           "Make an entry in the key index for Â«textÂ»")
+    '(replacement           "@kindex Â«textÂ»")
 ;;; @kindex
 )
 
@@ -718,7 +718,7 @@
 (lse-define-fill-in "@majorheading"
     '(token)
     '(description           "Print a chapter-like heading in the text, but not in the table of contents")
-    '(replacement           "@majorheading «text»")
+    '(replacement           "@majorheading Â«textÂ»")
 ;;; @majorheading
 )
 
@@ -727,9 +727,9 @@
     '(description           "Mark the beginning of a menu of nodes in Info (no effect in printed version of the document)")
     '(replacement
         "@menu"
-        "««menu-comment-line»»···"
-        "«menu-entry»···"
-        "««menu-comment-line»»···"
+        "Â«Â«menu-comment-lineÂ»Â»Â·Â·Â·"
+        "Â«menu-entryÂ»Â·Â·Â·"
+        "Â«Â«menu-comment-lineÂ»Â»Â·Â·Â·"
         "@end menu"
      )
 ;;; @menu
@@ -744,8 +744,8 @@
 
 (lse-define-fill-in "@need"
     '(token)
-    '(description           "Start a new page if fewer than «number» mils (1/000 inch) remain on current page")
-    '(replacement           "@need «number»")
+    '(description           "Start a new page if fewer than Â«numberÂ» mils (1/000 inch) remain on current page")
+    '(replacement           "@need Â«numberÂ»")
 ;;; @need
 )
 
@@ -753,7 +753,7 @@
     '(token)
     '(description           "Define the beginning of a new Info-node, and serve as locator for references for TeX")
     '(replacement
-        "@node «@node-name»"
+        "@node Â«@node-nameÂ»"
      )
 ;;; @node
 )
@@ -774,14 +774,14 @@
 (lse-define-fill-in "@oddfooting"
     '(token)
     '(description           "Specify page footings for odd-numbered (right-hand) pages")
-    '(replacement           "@oddfooting ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@oddfooting Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @oddfooting
 )
 
 (lse-define-fill-in "@oddheading"
     '(token)
     '(description           "Specify page headings for odd-numbered (right-hand) pages")
-    '(replacement           "@oddheading ««left-text»» @| ««center-text»» @| ««right-text»»")
+    '(replacement           "@oddheading Â«Â«left-textÂ»Â» @| Â«Â«center-textÂ»Â» @| Â«Â«right-textÂ»Â»")
 ;;; @oddheading
 )
 
@@ -794,15 +794,15 @@
 
 (lse-define-fill-in "@paragraphindent"
     '(token)
-    '(description           "Indent paragraphs by «number» spaces; delete indentation if 0; don't change indendation if «number» is `asis'")
-    '(replacement           "@paragraphindent «number»")
+    '(description           "Indent paragraphs by Â«numberÂ» spaces; delete indentation if 0; don't change indendation if Â«numberÂ» is `asis'")
+    '(replacement           "@paragraphindent Â«numberÂ»")
 ;;; @paragraphindent
 )
 
 (lse-define-fill-in "@pindex"
     '(token)
-    '(description           "Make an entry in the program index for «text»")
-    '(replacement           "@pindex «text»")
+    '(description           "Make an entry in the program index for Â«textÂ»")
+    '(replacement           "@pindex Â«textÂ»")
 ;;; @pindex
 )
 
@@ -824,8 +824,8 @@
     '(token)
     '(description           "Generate an index in the printed version or a menu of index entries for Info")
     '(replacement
-        "««index-section»»"
-        "@printindex «texinfo-index-name»"
+        "Â«Â«index-sectionÂ»Â»"
+        "@printindex Â«texinfo-index-nameÂ»"
         ""
      )
 ;;; @printindex
@@ -837,7 +837,7 @@
                             "Punctuation is inserted automatically by Texinfo"
      )
     '(replacement
-        "@pxref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+        "@pxref{Â«node-nameÂ», Â«Â«cross-reference-nameÂ»Â», Â«Â«title-or-topicÂ»Â», Â«Â«file-nameÂ»Â», Â«Â«printed-manual-titleÂ»Â»}"
      )
 ;;; @pxref
 )
@@ -856,8 +856,8 @@
 
 (lse-define-fill-in "@r"
     '(token)
-    '(description           "Print «text» in roman font")
-    '(replacement           "@r{«text»}")
+    '(description           "Print Â«textÂ» in roman font")
+    '(replacement           "@r{Â«textÂ»}")
 ;;; @r
 )
 
@@ -870,7 +870,7 @@
                             "of the document"
      )
     '(replacement
-        "@ref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+        "@ref{Â«node-nameÂ», Â«Â«cross-reference-nameÂ»Â», Â«Â«title-or-topicÂ»Â», Â«Â«file-nameÂ»Â», Â«Â«printed-manual-titleÂ»Â»}"
      )
 ;;; @ref
 )
@@ -885,49 +885,49 @@
 (lse-define-fill-in "@samp"
     '(token)
     '(description           "Indicate text that is a literal example or `sample' of a sequence of characters in a file, string, pattern, etc.")
-    '(replacement           "@samp{«text»}")
+    '(replacement           "@samp{Â«textÂ»}")
 ;;; @samp
 )
 
 (lse-define-fill-in "@sc"
     '(token)
     '(description           "Set text in small caps font")
-    '(replacement           "@sc{«text»}")
+    '(replacement           "@sc{Â«textÂ»}")
 ;;; @sc
 )
 
 (lse-define-fill-in "@section"
     '(token)
-    '(description           "Begin a numbered section with title «@node-name» within a chapter (appears in table of contents)")
-    '(replacement           "@section «@node-name»")
+    '(description           "Begin a numbered section with title Â«@node-nameÂ» within a chapter (appears in table of contents)")
+    '(replacement           "@section Â«@node-nameÂ»")
 ;;; @section
 )
 
 (lse-define-fill-in "@set"
     '(token)
-    '(description           "Set flag to value ««name»» (default true)")
-    '(replacement           "@set «name» ««name»»")
+    '(description           "Set flag to value Â«Â«nameÂ»Â» (default true)")
+    '(replacement           "@set Â«nameÂ» Â«Â«nameÂ»Â»")
 ;;; @set
 )
 
 (lse-define-fill-in "@setchapternewpage"
     '(token)
     '(description           "Define on what page a new chapter should start")
-    '(replacement           "@setchapternewpage «chapter-new-page-style»")
+    '(replacement           "@setchapternewpage Â«chapter-new-page-styleÂ»")
 ;;; @setchapternewpage
 )
 
 (lse-define-fill-in "@setfilename"
     '(token)
     '(description           "Provide a name for the Info file")
-    '(replacement           "@setfilename «name»")
+    '(replacement           "@setfilename Â«nameÂ»")
 ;;; @setfilename
 )
 
 (lse-define-fill-in "@settitle"
     '(token)
     '(description           "Provide a title for page headers in the printed version of the document")
-    '(replacement           "@settitle    «name»")
+    '(replacement           "@settitle    Â«nameÂ»")
 ;;; @settitle
 )
 
@@ -964,50 +964,50 @@
 
 (lse-define-fill-in "@sp"
     '(token)
-    '(description           "Generate «number» blank lines (forces a new paragraph)")
-    '(replacement           "@sp «number»")
+    '(description           "Generate Â«numberÂ» blank lines (forces a new paragraph)")
+    '(replacement           "@sp Â«numberÂ»")
 ;;; @sp
 )
 
 (lse-define-fill-in "@strong"
     '(token)
     '(description           "Set text with strong emphasis")
-    '(replacement           "@strong{«text»}")
+    '(replacement           "@strong{Â«textÂ»}")
 ;;; @strong
 )
 
 (lse-define-fill-in "@subheading"
     '(token)
     '(description           "Print an unnumbered subsection-like heading in the text, but not in table of contents")
-    '(replacement           "@subheading «@node-name»")
+    '(replacement           "@subheading Â«@node-nameÂ»")
 ;;; @subheading
 )
 
 (lse-define-fill-in "@subsection"
     '(token)
     '(description           "Begin a numbered subsection within a section (appears in table of contents)")
-    '(replacement           "@subsection «@node-name»")
+    '(replacement           "@subsection Â«@node-nameÂ»")
 ;;; @subsection
 )
 
 (lse-define-fill-in "@subsubheading"
     '(token)
     '(description           "Print an unnumbered subsubsection-like heading in the text, but not in table of contents")
-    '(replacement           "@subsubheading «@node-name»")
+    '(replacement           "@subsubheading Â«@node-nameÂ»")
 ;;; @subsubheading
 )
 
 (lse-define-fill-in "@subsubsection"
     '(token)
     '(description           "Begin a numbered subsubsection within a section (appears in table of contents)")
-    '(replacement           "@subsubsection «@node-name»")
+    '(replacement           "@subsubsection Â«@node-nameÂ»")
 ;;; @subsubsection
 )
 
 (lse-define-fill-in "@subtitle"
     '(token)
     '(description           "Sets a sub-title in a normal-sized font flush-right")
-    '(replacement           "@subtitle «name»")
+    '(replacement           "@subtitle Â«nameÂ»")
 ;;; @subtitle
 )
 
@@ -1020,22 +1020,22 @@
 
 (lse-define-fill-in "@syncodeindex"
     '(token)
-    '(description           "Combine indices: redirects «from-index» entries to «to-index» (sets all entries of «from-index» like @code)")
-    '(replacement           "@syncodeindex «from-index» «to-index»")
+    '(description           "Combine indices: redirects Â«from-indexÂ» entries to Â«to-indexÂ» (sets all entries of Â«from-indexÂ» like @code)")
+    '(replacement           "@syncodeindex Â«from-indexÂ» Â«to-indexÂ»")
 ;;; @syncodeindex
 )
 
 (lse-define-fill-in "@synindex"
     '(token)
-    '(description           "Combine indices: redirects «from-index» entries to «to-index» (sets all entries of «from-index» in roman font)")
-    '(replacement           "@synindex «from-index» «to-index»")
+    '(description           "Combine indices: redirects Â«from-indexÂ» entries to Â«to-indexÂ» (sets all entries of Â«from-indexÂ» in roman font)")
+    '(replacement           "@synindex Â«from-indexÂ» Â«to-indexÂ»")
 ;;; @synindex
 )
 
 (lse-define-fill-in "@t"
     '(token)
-    '(description           "Print «text» in a fixed-width, typewriter-like font")
-    '(replacement           "@t{«text»}")
+    '(description           "Print Â«textÂ» in a fixed-width, typewriter-like font")
+    '(replacement           "@t{Â«textÂ»}")
 ;;; @t
 )
 
@@ -1044,9 +1044,9 @@
     '(token                 "description")
     '(description           "Make a two-column table (corresponds to LaTeX's description environment)")
     '(replacement
-        "@table «table-item-format»"
+        "@table Â«table-item-formatÂ»"
         @ table-item
-        "««table-item»»···"
+        "Â«Â«table-itemÂ»Â»Â·Â·Â·"
         "@end table"
      )
 ;;; @table
@@ -1054,7 +1054,7 @@
 
 (lse-define-fill-in "@tex"
     '(token)
-    '(description           "Interpret «text»··· as TeX input")
+    '(description           "Interpret Â«textÂ»Â·Â·Â· as TeX input")
     '(replacement
         "@tex"
         @ text-block
@@ -1107,22 +1107,22 @@
 
 (lse-define-fill-in "@tindex"
     '(token)
-    '(description           "Make an entry in the type index for «text»")
-    '(replacement           "@tindex «text»")
+    '(description           "Make an entry in the type index for Â«textÂ»")
+    '(replacement           "@tindex Â«textÂ»")
 ;;; @tindex
 )
 
 (lse-define-fill-in "@title"
     '(token)
     '(description           "Set a title flush-left in a larger than normal font underlined by a black rule")
-    '(replacement           "@title «text»")
+    '(replacement           "@title Â«textÂ»")
 ;;; @title
 )
 
 (lse-define-fill-in "@titlefont"
     '(token)
-    '(description           "In the printed version, print «text» in a larger than normal font")
-    '(replacement           "@titlefont{«text»}")
+    '(description           "In the printed version, print Â«textÂ» in a larger than normal font")
+    '(replacement           "@titlefont{Â«textÂ»}")
 ;;; @titlefont
 )
 
@@ -1132,17 +1132,17 @@
     '(replacement
         "@titlepage"
         @ @title
-        "««text»»···"
-        "««@subtitle»»···"
-        "««text»»···"
-        "««@author»»···"
-        "««text»»···"
+        "Â«Â«textÂ»Â»Â·Â·Â·"
+        "Â«Â«@subtitleÂ»Â»Â·Â·Â·"
+        "Â«Â«textÂ»Â»Â·Â·Â·"
+        "Â«Â«@authorÂ»Â»Â·Â·Â·"
+        "Â«Â«textÂ»Â»Â·Â·Â·"
         "@page"
         "@vskip 0pt plus 1filll"
         "Copyright @copyright{} "
                    & lse-insert-year & " " & @ this-company-name & "."
         ""
-        "««texinfo-tex-copyright»»"
+        "Â«Â«texinfo-tex-copyrightÂ»Â»"
         "@end titlepage"
         ""        
      )
@@ -1158,10 +1158,10 @@
 
 (lse-define-fill-in "@top"
     '(token)
-    '(description           "Identify the top-most @node line with title «text» in a Texinfo file to be formatted by makeinfo")
+    '(description           "Identify the top-most @node line with title Â«textÂ» in a Texinfo file to be formatted by makeinfo")
     '(replacement
         "@ifinfo"
-        "@top «text»"
+        "@top Â«textÂ»"
         @ node
         "@end ifinfo"
      )
@@ -1171,35 +1171,35 @@
 (lse-define-fill-in "@unnumbered"
     '(token)
     '(description           "Begin a chapter that appears without chapter numbers of any kind, but appears in the table of contents")
-    '(replacement           "@unnumbered «@node-name»")
+    '(replacement           "@unnumbered Â«@node-nameÂ»")
 ;;; @unnumbered
 )
 
 (lse-define-fill-in "@unnumberedsec"
     '(token)
     '(description           "Begin a section that appears without section numbers of any kind, but appears in the table of contents")
-    '(replacement           "@unnumberedsec «@node-name»")
+    '(replacement           "@unnumberedsec Â«@node-nameÂ»")
 ;;; @unnumberedsec
 )
 
 (lse-define-fill-in "@unnumberedsubsec"
     '(token)
     '(description           "Begin a subsection that appears without section numbers of any kind, but appears in the table of contents")
-    '(replacement           "@unnumberedsubsec «@node-name»")
+    '(replacement           "@unnumberedsubsec Â«@node-nameÂ»")
 ;;; @unnumberedsubsec
 )
 
 (lse-define-fill-in "@unnumberedsubsubsec"
     '(token)
     '(description           "Begin a subsubsection that appears without section numbers of any kind, but appears in the table of contents")
-    '(replacement           "@unnumberedsubsubsec «@node-name»")
+    '(replacement           "@unnumberedsubsubsec Â«@node-nameÂ»")
 ;;; @unnumberedsubsubsec
 )
 
 (lse-define-fill-in "@value"
     '(token)
-    '(description           "Use value of flag «name»")
-    '(replacement           "@value{«name»}")
+    '(description           "Use value of flag Â«nameÂ»")
+    '(replacement           "@value{Â«nameÂ»}")
 ;;; @value
 )
 
@@ -1209,21 +1209,21 @@
                             "Don't use @var for the names of particular variables in programming languages"
                             "(use @code instead)"
      )
-    '(replacement           "@var{«text»}")
+    '(replacement           "@var{Â«textÂ»}")
 ;;; @var
 )
 
 (lse-define-fill-in "@vindex"
     '(token)
-    '(description           "Make an entry in the variable index for «text»")
-    '(replacement           "@vindex «text»")
+    '(description           "Make an entry in the variable index for Â«textÂ»")
+    '(replacement           "@vindex Â«textÂ»")
 ;;; @vindex
 )
 
 (lse-define-fill-in "@vskip"
     '(token)
     '(description           "Insert vertical whitespace in printed version of the document (use only in contexts ignored for Info)")
-    '(replacement           "@vskip «text»")
+    '(replacement           "@vskip Â«textÂ»")
 ;;; @vskip
 )
 
@@ -1232,9 +1232,9 @@
     '(token                 "description")
     '(description           "Like @table, but enters each item into the variable index")
     '(replacement
-        "@vtable «table-item-format»"
+        "@vtable Â«table-item-formatÂ»"
         @ table-item
-        "««table-item»»···"
+        "Â«Â«table-itemÂ»Â»Â·Â·Â·"
         "@end vtable"
      )
 ;;; @vtable
@@ -1242,8 +1242,8 @@
 
 (lse-define-fill-in "@w"
     '(token)
-    '(description           "Prohibit line breaks within «text»")
-    '(replacement           "@w{«text»}")
+    '(description           "Prohibit line breaks within Â«textÂ»")
+    '(replacement           "@w{Â«textÂ»}")
 ;;; @w
 )
 
@@ -1253,7 +1253,7 @@
                             "A period or comma MUST follow the closing brace of an @xref"
      )
     '(replacement
-        "@xref{«node-name», ««cross-reference-name»», ««title-or-topic»», ««file-name»», ««printed-manual-title»»}"
+        "@xref{Â«node-nameÂ», Â«Â«cross-reference-nameÂ»Â», Â«Â«title-or-topicÂ»Â», Â«Â«file-nameÂ»Â», Â«Â«printed-manual-titleÂ»Â»}"
      )
 ;;; @xref
 )
@@ -1315,11 +1315,11 @@
 
 (lse-define-fill-in "environment"
     '(token)
-    '(description           "Expands to `@«env-name» ... @end «env-name»")
+    '(description           "Expands to `@Â«env-nameÂ» ... @end Â«env-nameÂ»")
     '(replacement
-        "@«env-name»"
+        "@Â«env-nameÂ»"
         @ text-block
-        "@end «env-name»"
+        "@end Â«env-nameÂ»"
      )
 ;;; environment
 )
@@ -1348,8 +1348,8 @@
     '(token)
     '(description           "Commands for starting an index section")
     '(replacement
-        "@node ««@node-name»» Index"
-        "@unnumbered ««@node-name»» Index"
+        "@node Â«Â«@node-nameÂ»Â» Index"
+        "@unnumbered Â«Â«@node-nameÂ»Â» Index"
      )
 ;;; index-section
 )
@@ -1400,10 +1400,10 @@
 
 (lse-define-fill-in "menu-entry"
     '(token)
-    '(description           "Menu entry with «name» pointing to a node of the Info file")
+    '(description           "Menu entry with Â«nameÂ» pointing to a node of the Info file")
     '(menu
-        ("* «name»::             «text»"     "Points to node «name»")
-        ("* «name»: «node-name». «text»"     "Points to node «node-name»")
+        ("* Â«nameÂ»::             Â«textÂ»"     "Points to node Â«nameÂ»")
+        ("* Â«nameÂ»: Â«node-nameÂ». Â«textÂ»"     "Points to node Â«node-nameÂ»")
      )
 ;;; menu-entry
 )
@@ -1478,7 +1478,7 @@
 (lse-define-fill-in "table-item"
     '(token)
     '(replacement
-        "@item «text»"
+        "@item Â«textÂ»"
         @ text-block
         ""
      )
@@ -1505,7 +1505,7 @@
 )
 
 (lse-define-fill-in "table-item-x"
-    '(replacement           "@itemx «text»")
+    '(replacement           "@itemx Â«textÂ»")
 ;;; table-item-x
 )
 
@@ -1646,18 +1646,18 @@
     '(description           "Root file-in of texinfo-language")
     '(replacement
         "\\input texinfo"
-        "«texinfo-header»"
+        "Â«texinfo-headerÂ»"
         ""
-        "««@titlepage»»"
-        "««texinfo-info-summary»»"
+        "Â«Â«@titlepageÂ»Â»"
+        "Â«Â«texinfo-info-summaryÂ»Â»"
         ""
-        "««@top»»"
+        "Â«Â«@topÂ»Â»"
         ""
-        "««texinfo-command»»···"
+        "Â«Â«texinfo-commandÂ»Â»Â·Â·Â·"
         ""
-        "««@printindex»»···"
-        "««@summarycontents»»"
-        "««@contents»»"
+        "Â«Â«@printindexÂ»Â»Â·Â·Â·"
+        "Â«Â«@summarycontentsÂ»Â»"
+        "Â«Â«@contentsÂ»Â»"
         "@bye"
      )
 ;;; texinfo-file
@@ -1669,7 +1669,7 @@
         "@c %**start of header"
         @ @setfilename
         @ @settitle 
-        "««texinfo-header-command»»···"
+        "Â«Â«texinfo-header-commandÂ»Â»Â·Â·Â·"
         "@c %**end of header"
      )
 ;;; texinfo-header
@@ -1713,7 +1713,7 @@
     '(replacement
         "@iftex"
         "@headings off"
-        "«texinfo-heading-command»···"
+        "Â«texinfo-heading-commandÂ»Â·Â·Â·"
         "@end iftex"
      )
 ;;; texinfo-heading-spec
@@ -1754,7 +1754,7 @@
     '(replacement
         "@ifinfo"
         ""
-        "This file documents ««text»»"
+        "This file documents Â«Â«textÂ»Â»"
         ""
         "Copyright " & lse-insert-year & " " & @ this-company-name & "."
         ""
@@ -1816,12 +1816,12 @@
 )
 
 (lse-define-fill-in "text-block"
-    '(replacement   "«text»···")
+    '(replacement   "Â«textÂ»Â·Â·Â·")
 ;;; text-block
 )
 
 (lse-define-fill-in "title-or-topic"
-    '(description           "Replaces «node-name» in the TeX output (should be a section-name of the printed version)")
+    '(description           "Replaces Â«node-nameÂ» in the TeX output (should be a section-name of the printed version)")
 )
 
 (lse-define-fill-in "to-index"

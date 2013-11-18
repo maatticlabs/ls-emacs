@@ -1,52 +1,52 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "aufwandserfassung-woche"
   '(replacement
       "#Tag& Kategorie              & Sub-Kategorie         & Arbeitszeit"
-      "««Aufwand-Montag»»···"
-      "««Aufwand-Dienstag»»···"
-      "««Aufwand-Mittwoch»»···"
-      "««Aufwand-Donnerstag»»···"
-      "««Aufwand-Freitag»»···"
-      "««Aufwand-Samstag»»···"
-      "««Aufwand-Sonntag»»···"
+      "Â«Â«Aufwand-MontagÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-DienstagÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-MittwochÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-DonnerstagÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-FreitagÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-SamstagÂ»Â»Â·Â·Â·"
+      "Â«Â«Aufwand-SonntagÂ»Â»Â·Â·Â·"
    )
 ;;; aufwandserfassung
 )
 
 (lse-define-fill-in "Aufwand-Montag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Mon & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Mon & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Dienstag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Tue & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Tue & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Mittwoch"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Wed & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Wed & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Donnerstag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Thu & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Thu & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Freitag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Fri & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Fri & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Samstag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Sat & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Sat & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwand-Sonntag"
   '(auto-expand); 18-Sep-2000 
-  '(replacement     "Sun & " & @ Aufwands-Kategorie & "& «Arbeitszeit»")
+  '(replacement     "Sun & " & @ Aufwands-Kategorie & "& Â«ArbeitszeitÂ»")
 )
 
 (lse-define-fill-in "Aufwands-Tag"

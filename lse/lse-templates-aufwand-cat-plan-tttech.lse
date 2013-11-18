@@ -1,8 +1,8 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 (lse-define-fill-in "SW-Tools"
    '(description "Sub-Kategorien: TTPplan-R2 TTP/A-Master TTPbuild-R2 TTPos-R2 TTPload-R3 TTPview-R4 TTPplan-R3 TTPbuild-R3 TTPos-R3 TTPload-R4 TTPview-R5 TTPview-R6 TTPverify TTPmatlink-R1 Eval-Cluster-SW TTPtools Regression-Test TTPA-PIC HW-Drivers HW-Tests")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "SW-Tools " & (lse-align-to-pattern "&") & "& «SW-Tools-Kategorie»")
+   '(replacement "SW-Tools " & (lse-align-to-pattern "&") & "& Â«SW-Tools-KategorieÂ»")
 )
 (lse-define-fill-in "SW-Tools-Kategorie"
    '(sort)
@@ -114,7 +114,7 @@
 (lse-define-fill-in "HW-Dvpt"
    '(description "Sub-Kategorien: TTPpowernode-C2 TTPpowerlink-C1 TTPmonitornode-C2 C2Hub C2-Powerlink C2X-Board C2S-AMS-Test-Bord C2S-NEC-Test-Bord Eval-Cluster-HW C2-TTP-CAN-Gateway Standard-Product-Delivery HW-Customer-Support")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "HW-Dvpt " & (lse-align-to-pattern "&") & "& «HW-Dvpt-Kategorie»")
+   '(replacement "HW-Dvpt " & (lse-align-to-pattern "&") & "& Â«HW-Dvpt-KategorieÂ»")
 )
 (lse-define-fill-in "HW-Dvpt-Kategorie"
    '(sort)
@@ -186,7 +186,7 @@
 (lse-define-fill-in "By-wire-Box"
    '(description "Sub-Kategorien: By-Wire-Box-V1 By-Wire-Box-V2 By-Wire-Box-Optical By-Wire-Box-Piezo")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "By-wire-Box " & (lse-align-to-pattern "&") & "& «By-wire-Box-Kategorie»")
+   '(replacement "By-wire-Box " & (lse-align-to-pattern "&") & "& Â«By-wire-Box-KategorieÂ»")
 )
 (lse-define-fill-in "By-wire-Box-Kategorie"
    '(sort)
@@ -218,7 +218,7 @@
 (lse-define-fill-in "Chip-Development"
    '(description "Sub-Kategorien: C2-Model C2S-NEC-Tina C2S-AMS-Tania C2X-Model C2S-Model C2-AMS")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Chip-Development " & (lse-align-to-pattern "&") & "& «Chip-Development-Kategorie»")
+   '(replacement "Chip-Development " & (lse-align-to-pattern "&") & "& Â«Chip-Development-KategorieÂ»")
 )
 (lse-define-fill-in "Chip-Development-Kategorie"
    '(sort)
@@ -260,7 +260,7 @@
 (lse-define-fill-in "Training_Support"
    '(description "Sub-Kategorien: TTP-Basisseminar Quickstart TTPtools-Workshop Base-Training-New-Empl TTTech-SW-Design-Guidelines TTPC-Specification TTPtools-Customer-Support Support-Contracts")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Training_Support " & (lse-align-to-pattern "&") & "& «Training_Support-Kategorie»")
+   '(replacement "Training_Support " & (lse-align-to-pattern "&") & "& Â«Training_Support-KategorieÂ»")
 )
 (lse-define-fill-in "Training_Support-Kategorie"
    '(sort)
@@ -312,7 +312,7 @@
 (lse-define-fill-in "TTControl-Box"
    '(description "Sub-Kategorien: TTcontrol-IO-Unit-V1 TTcontrol-IO-Unit-V2 TTcontrol-Visual")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTControl-Box " & (lse-align-to-pattern "&") & "& «TTControl-Box-Kategorie»")
+   '(replacement "TTControl-Box " & (lse-align-to-pattern "&") & "& Â«TTControl-Box-KategorieÂ»")
 )
 (lse-define-fill-in "TTControl-Box-Kategorie"
    '(sort)
@@ -339,7 +339,7 @@
 (lse-define-fill-in "Audi-Projects"
    '(description "Sub-Kategorien: Audi-Architecture Audi-Standard-Platform Audi-Sensor-Array Audi-Shows")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Audi-Projects " & (lse-align-to-pattern "&") & "& «Audi-Projects-Kategorie»")
+   '(replacement "Audi-Projects " & (lse-align-to-pattern "&") & "& Â«Audi-Projects-KategorieÂ»")
 )
 (lse-define-fill-in "Audi-Projects-Kategorie"
    '(sort)
@@ -371,7 +371,7 @@
 (lse-define-fill-in "Active-Chassis"
    '(description "Sub-Kategorien: Active-Chassis")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Active-Chassis " & (lse-align-to-pattern "&") & "& «Active-Chassis-Kategorie»")
+   '(replacement "Active-Chassis " & (lse-align-to-pattern "&") & "& Â«Active-Chassis-KategorieÂ»")
 )
 (lse-define-fill-in "Active-Chassis-Kategorie"
    '(sort)
@@ -388,7 +388,7 @@
 (lse-define-fill-in "Honeywell"
    '(description "Sub-Kategorien: Hon-APEX Hon-MAC-Support Hon-C2-Certification Hon-C2X-Certification Hon-C2X-Meta-Test Hon-TTPos-Certification Hon-TTPverify-Certification")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Honeywell " & (lse-align-to-pattern "&") & "& «Honeywell-Kategorie»")
+   '(replacement "Honeywell " & (lse-align-to-pattern "&") & "& Â«Honeywell-KategorieÂ»")
 )
 (lse-define-fill-in "Honeywell-Kategorie"
    '(sort)
@@ -435,7 +435,7 @@
 (lse-define-fill-in "Customer-Projects"
    '(description "Sub-Kategorien: SKF-Longbow TTCar DESDEMONA SKF-Longbow-2 SKF-Marlene VW-D1-ADR VW-Brake-By-Wire VW-Steer-By-Wire PSA-Axones Nord-Micro-Length-Test UTC-Eval TTPherd TTPlan-TTCan TMI-Calibration")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Customer-Projects " & (lse-align-to-pattern "&") & "& «Customer-Projects-Kategorie»")
+   '(replacement "Customer-Projects " & (lse-align-to-pattern "&") & "& Â«Customer-Projects-KategorieÂ»")
 )
 (lse-define-fill-in "Customer-Projects-Kategorie"
    '(sort)
@@ -517,7 +517,7 @@
 (lse-define-fill-in "Sales-Projects"
    '(description "Sub-Kategorien: Audi Robert-Bosch Volkswagen Japan-Customers-Automotive Denso Daimler-Chrysler Toyota Visteon TRW Delphi-Automotive-Systems Ford-Jaguar-Volvo-Land-Rover SKF Renault Brembo-SKF GM-Opel-Saab Siemens-AT BMW Other-Customers-Automotive PSA FIAT Other-Customers-Aerospace Boeing Honeywell-Tucson Honeywell-Phoenix Honeywell-Kansas Nord-Micro Ohter-Customers-Industrial Alcatel Other-Customers-Semiconductor Austria-Micro-Systems-AG TURN-Sales Conti")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Sales-Projects " & (lse-align-to-pattern "&") & "& «Sales-Projects-Kategorie»")
+   '(replacement "Sales-Projects " & (lse-align-to-pattern "&") & "& Â«Sales-Projects-KategorieÂ»")
 )
 (lse-define-fill-in "Sales-Projects-Kategorie"
    '(sort)
@@ -689,7 +689,7 @@
 (lse-define-fill-in "Marketing"
    '(description "Sub-Kategorien: CRM+Addresses Press+Communication Events Product-Marketing Company-Information Case-Studies+Market-Brochures Customers+Partners Corporate-Identity Give-Aways TURN-Marketing Web Price-List Analysis+Market-Research")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Marketing " & (lse-align-to-pattern "&") & "& «Marketing-Kategorie»")
+   '(replacement "Marketing " & (lse-align-to-pattern "&") & "& Â«Marketing-KategorieÂ»")
 )
 (lse-define-fill-in "Marketing-Kategorie"
    '(sort)
@@ -766,7 +766,7 @@
 (lse-define-fill-in "Finance_Legal"
    '(description "Sub-Kategorien: Accounting Staff-Other-Cost Personnel-Administration Supervisory-board Stock-Options-Program Trainees Human-Resources-Development Reporting-TTTech Controlling USA-h1b-Inc Consolidation Liquidity-Banking Budget-Planning Taxes Reports Costing-Structure Contracts Company IPR WWFF-TTP-DE-iii WWFF-Milleniums-Car WWFF-IQ-Mitarbeiter FFF-TTPC-C2-Sequel-Proposal (Folgeantrag) FFF-TTPC-C2-Controller FFF-TTP-DE-iii FAST Oberbay-Regionalfoerderung EU-Next-TTA EU-SETTA EU-FIT EU-TTPforum EU-Tecnothon EU-Telelogic DARPA-NEST ERP-Fonds")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Finance_Legal " & (lse-align-to-pattern "&") & "& «Finance_Legal-Kategorie»")
+   '(replacement "Finance_Legal " & (lse-align-to-pattern "&") & "& Â«Finance_Legal-KategorieÂ»")
 )
 (lse-define-fill-in "Finance_Legal-Kategorie"
    '(sort)
@@ -953,7 +953,7 @@
 (lse-define-fill-in "Operations"
    '(description "Sub-Kategorien: SysAdmin Organisation-Handbook Process-Documentation License-Management Integration-TU Selection-ERP-System Time-Registration Project-Management Project-Handbook-R_D CE-Labelling Procurement Shipment Facility-Management Office-Management Quality Tools")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Operations " & (lse-align-to-pattern "&") & "& «Operations-Kategorie»")
+   '(replacement "Operations " & (lse-align-to-pattern "&") & "& Â«Operations-KategorieÂ»")
 )
 (lse-define-fill-in "Operations-Kategorie"
    '(sort)
@@ -1045,7 +1045,7 @@
 (lse-define-fill-in "Overhead"
    '(description "Sub-Kategorien: Jour-Fix TTTech-Day Travel Team-Meetings Coordination-Meetings Internal-Organisation Urlaub Sonderurlaub Training-Einschulung Krankenstand Arztbesuch Zeitausgleich Feiertage")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "Overhead " & (lse-align-to-pattern "&") & "& «Overhead-Kategorie»")
+   '(replacement "Overhead " & (lse-align-to-pattern "&") & "& Â«Overhead-KategorieÂ»")
 )
 (lse-define-fill-in "Overhead-Kategorie"
    '(sort)
@@ -1122,7 +1122,7 @@
 (lse-define-fill-in "TTChip"
    '(description "Sub-Kategorien: TTChip-Finance_Legal TTChip-Operations TTChip-Administration TTChip-Marketing TTChip-Support TTChip-Training")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTChip " & (lse-align-to-pattern "&") & "& «TTChip-Kategorie»")
+   '(replacement "TTChip " & (lse-align-to-pattern "&") & "& Â«TTChip-KategorieÂ»")
 )
 (lse-define-fill-in "TTChip-Kategorie"
    '(sort)
@@ -1164,7 +1164,7 @@
 (lse-define-fill-in "TTControl"
    '(description "Sub-Kategorien: TTControl-Finance_Legal TTControl-Operations TTControl-Administration TTControl-Marketing TTControl-Support TTControl-Training")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTControl " & (lse-align-to-pattern "&") & "& «TTControl-Kategorie»")
+   '(replacement "TTControl " & (lse-align-to-pattern "&") & "& Â«TTControl-KategorieÂ»")
 )
 (lse-define-fill-in "TTControl-Kategorie"
    '(sort)
@@ -1206,7 +1206,7 @@
 (lse-define-fill-in "TTTech-NA"
    '(description "Sub-Kategorien: TTTech-NA-Finance_Legal TTTech-NA-Operations TTTech-NA-Administration TTTech-NA-Marketing TTTech-NA-Support TTTech-NA-Training")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTTech-NA " & (lse-align-to-pattern "&") & "& «TTTech-NA-Kategorie»")
+   '(replacement "TTTech-NA " & (lse-align-to-pattern "&") & "& Â«TTTech-NA-KategorieÂ»")
 )
 (lse-define-fill-in "TTTech-NA-Kategorie"
    '(sort)
@@ -1248,7 +1248,7 @@
 (lse-define-fill-in "TTTech-D"
    '(description "Sub-Kategorien: TTTech-D-Finance_Legal TTTech-D-Operations TTTech-D-Administration TTTech-D-Marketing TTTech-D-Support TTTech-D-Training")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTTech-D " & (lse-align-to-pattern "&") & "& «TTTech-D-Kategorie»")
+   '(replacement "TTTech-D " & (lse-align-to-pattern "&") & "& Â«TTTech-D-KategorieÂ»")
 )
 (lse-define-fill-in "TTTech-D-Kategorie"
    '(sort)
@@ -1290,7 +1290,7 @@
 (lse-define-fill-in "TTAGroup"
    '(description "Sub-Kategorien: Marketing-PR Administration")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTAGroup " & (lse-align-to-pattern "&") & "& «TTAGroup-Kategorie»")
+   '(replacement "TTAGroup " & (lse-align-to-pattern "&") & "& Â«TTAGroup-KategorieÂ»")
 )
 (lse-define-fill-in "TTAGroup-Kategorie"
    '(sort)
@@ -1312,7 +1312,7 @@
 (lse-define-fill-in "TTTech-J"
    '(description "Sub-Kategorien: TTTech-J-Finance_Legal TTTech-J-Operations TTTech-J-Administration TTTech-J-Marketing TTTech-J-Support TTTech-J-Training")
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
-   '(replacement "TTTech-J " & (lse-align-to-pattern "&") & "& «TTTech-J-Kategorie»")
+   '(replacement "TTTech-J " & (lse-align-to-pattern "&") & "& Â«TTTech-J-KategorieÂ»")
 )
 (lse-define-fill-in "TTTech-J-Kategorie"
    '(sort)
@@ -1353,7 +1353,7 @@
 )
 (lse-define-fill-in "Aufwands-Kategorie"
    '(token)
-   '(description "Geleistete Tätigkeit")
+   '(description "Geleistete TÃ¤tigkeit")
    '(sort)
    '(rcompletion-trailer just-one-space & (lse-align-to-pattern "&"))
    '(menu 

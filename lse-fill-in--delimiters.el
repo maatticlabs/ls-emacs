@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
  
 ;;;;unix_ms_filename_correspondency lse-fill-in--delimiters:el lse_fidl:el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -36,27 +36,27 @@
 (provide 'lse-fill-in--delimiters)
 
 ;;; required and optional head delimiters must start with the same character!!!
-(defconst lse_fill-in-not_head_start_chars   "^«")
+(defconst lse_fill-in-not_head_start_chars   "^Â«")
 
-(defconst lse_fill-in_head_delim_chars       "«¦")
-(defconst lse_fill-in_tail_delim_chars       "¦»·")
-(defconst lse_fill-in_name_delim_chars       "«»¦")
-(defconst lse_fill-in_delim_chars            "«¦»·")
+(defconst lse_fill-in_head_delim_chars       "Â«Å ")
+(defconst lse_fill-in_tail_delim_chars       "Å Â»Â·")
+(defconst lse_fill-in_name_delim_chars       "Â«Â»Å ")
+(defconst lse_fill-in_delim_chars            "Â«Å Â»Â·")
 
-(defconst lse_req_fill-in_head_delim         "«")  
-(defconst lse_opt_fill-in_head_delim         "««")
-(defconst lse_req_fill-in_tail_delim         "»")
-(defconst lse_opt_fill-in_tail_delim         "»»")
+(defconst lse_req_fill-in_head_delim         "Â«")  
+(defconst lse_opt_fill-in_head_delim         "Â«Â«")
+(defconst lse_req_fill-in_tail_delim         "Â»")
+(defconst lse_opt_fill-in_tail_delim         "Â»Â»")
 
-(defconst lse_no_replacement_fill-in_marker  "¦")
-(defconst lse_list_fill-in_trailer           "···")
+(defconst lse_no_replacement_fill-in_marker  "Å ")
+(defconst lse_list_fill-in_trailer           "Â·Â·Â·")
 
 ;;; take care of characters which must be quoted inside Emacs patterns!!!
-(defconst lse_req_fill-in_head_delim_pattern "«¦?")
-(defconst lse_req_fill-in_tail_delim_pattern "¦?»")
-(defconst lse_opt_fill-in_head_delim_pattern "««¦?")
-(defconst lse_opt_fill-in_tail_delim_pattern "¦?»»")
-(defconst lse_list_fill-in_trailer_pattern   "\\(···\\)?")
+(defconst lse_req_fill-in_head_delim_pattern "Â«Å ?")
+(defconst lse_req_fill-in_tail_delim_pattern "Å ?Â»")
+(defconst lse_opt_fill-in_head_delim_pattern "Â«Â«Å ?")
+(defconst lse_opt_fill-in_tail_delim_pattern "Å ?Â»Â»")
+(defconst lse_list_fill-in_trailer_pattern   "\\(Â·Â·Â·\\)?")
 
 ;;;+
 ;;; If you want to use 7-bit delimiters, uncomment the following lines

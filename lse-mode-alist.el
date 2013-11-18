@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-mode-alist:el lse_mode:el
 ;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
@@ -70,7 +70,7 @@
 ;;;;    12-Oct-2007 (CT) Added keybindings for `lse-cal:diary:next-day` and
 ;;;;                     `lse-cal:diary:prev-day` to `lse-diary-mode`
 ;;;;    28-May-2011 (CT) `lse-git:setup-hook` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-mode-alist)
 

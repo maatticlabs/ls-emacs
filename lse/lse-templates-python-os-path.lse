@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "os.path.basename:p" 
   '(description           "Argument 1 of os.path.basename")
@@ -9,7 +9,7 @@
 (lse-define-fill-in "os.path.basename" 
   '(description           "Returns the final component of a pathname")
   '(token)
-  '(replacement           "os.path.basename («os.path.basename:p»)")
+  '(replacement           "os.path.basename (Â«os.path.basename:pÂ»)")
 ;;; os.path.basename
 )
 
@@ -22,7 +22,7 @@
 (lse-define-fill-in "os.path.commonprefix" 
   '(description           "Given a list of pathnames, returns the longest common leading component")
   '(token)
-  '(replacement           "os.path.commonprefix («os.path.commonprefix:m»)")
+  '(replacement           "os.path.commonprefix (Â«os.path.commonprefix:mÂ»)")
 ;;; os.path.commonprefix
 )
 
@@ -35,7 +35,7 @@
 (lse-define-fill-in "os.path.dirname" 
   '(description           "Returns the directory component of a pathname")
   '(token)
-  '(replacement           "os.path.dirname («os.path.dirname:p»)")
+  '(replacement           "os.path.dirname (Â«os.path.dirname:pÂ»)")
 ;;; os.path.dirname
 )
 
@@ -48,7 +48,7 @@
 (lse-define-fill-in "os.path.exists" 
   '(description           "Test whether a path exists.  Returns false for broken symbolic links")
   '(token)
-  '(replacement           "os.path.exists («os.path.exists:path»)")
+  '(replacement           "os.path.exists (Â«os.path.exists:pathÂ»)")
 ;;; os.path.exists
 )
 
@@ -64,7 +64,7 @@
 "do nothing"
    )
   '(token)
-  '(replacement           "os.path.expanduser («os.path.expanduser:path»)")
+  '(replacement           "os.path.expanduser (Â«os.path.expanduser:pathÂ»)")
 ;;; os.path.expanduser
 )
 
@@ -80,7 +80,7 @@
 "are left unchanged"
    )
   '(token)
-  '(replacement           "os.path.expandvars («os.path.expandvars:path»)")
+  '(replacement           "os.path.expandvars (Â«os.path.expandvars:pathÂ»)")
 ;;; os.path.expandvars
 )
 
@@ -93,7 +93,7 @@
 (lse-define-fill-in "os.path.isabs" 
   '(description           "Test whether a path is absolute")
   '(token)
-  '(replacement           "os.path.isabs («os.path.isabs:s»)")
+  '(replacement           "os.path.isabs (Â«os.path.isabs:sÂ»)")
 ;;; os.path.isabs
 )
 
@@ -106,7 +106,7 @@
 (lse-define-fill-in "os.path.isdir" 
   '(description           "Test whether a path is a directory")
   '(token)
-  '(replacement           "os.path.isdir («os.path.isdir:path»)")
+  '(replacement           "os.path.isdir (Â«os.path.isdir:pathÂ»)")
 ;;; os.path.isdir
 )
 
@@ -119,7 +119,7 @@
 (lse-define-fill-in "os.path.isfile" 
   '(description           "Test whether a path is a regular file")
   '(token)
-  '(replacement           "os.path.isfile («os.path.isfile:path»)")
+  '(replacement           "os.path.isfile (Â«os.path.isfile:pathÂ»)")
 ;;; os.path.isfile
 )
 
@@ -132,7 +132,7 @@
 (lse-define-fill-in "os.path.islink" 
   '(description           "Test whether a path is a symbolic link")
   '(token)
-  '(replacement           "os.path.islink («os.path.islink:path»)")
+  '(replacement           "os.path.islink (Â«os.path.islink:pathÂ»)")
 ;;; os.path.islink
 )
 
@@ -145,7 +145,7 @@
 (lse-define-fill-in "os.path.ismount" 
   '(description           "Test whether a path is a mount point")
   '(token)
-  '(replacement           "os.path.ismount («os.path.ismount:path»)")
+  '(replacement           "os.path.ismount (Â«os.path.ismount:pathÂ»)")
 ;;; os.path.ismount
 )
 
@@ -165,7 +165,7 @@
 (lse-define-fill-in "os.path.join" 
   '(description           "Join two or more pathname components, inserting '/' as needed")
   '(token)
-  '(replacement           "os.path.join («os.path.join:a», ««os.path.join:p»»···)")
+  '(replacement           "os.path.join (Â«os.path.join:aÂ», Â«Â«os.path.join:pÂ»Â»Â·Â·Â·)")
 ;;; os.path.join
 )
 
@@ -178,7 +178,7 @@
 (lse-define-fill-in "os.path.normcase" 
   '(description           "Normalize case of pathname.  Has no effect under Posix")
   '(token)
-  '(replacement           "os.path.normcase («os.path.normcase:s»)")
+  '(replacement           "os.path.normcase (Â«os.path.normcase:sÂ»)")
 ;;; os.path.normcase
 )
 
@@ -191,7 +191,7 @@
 (lse-define-fill-in "os.path.normpath" 
   '(description           "Normalize path, eliminating double slashes, etc.")
   '(token)
-  '(replacement           "os.path.normpath («os.path.normpath:path»)")
+  '(replacement           "os.path.normpath (Â«os.path.normpath:pathÂ»)")
 ;;; os.path.normpath
 )
 
@@ -210,7 +210,7 @@
 (lse-define-fill-in "os.path.samefile" 
   '(description           "Test whether two pathnames reference the same actual file")
   '(token)
-  '(replacement           "os.path.samefile («os.path.samefile:f1», «os.path.samefile:f2»)")
+  '(replacement           "os.path.samefile (Â«os.path.samefile:f1Â», Â«os.path.samefile:f2Â»)")
 ;;; os.path.samefile
 )
 
@@ -229,7 +229,7 @@
 (lse-define-fill-in "os.path.sameopenfile" 
   '(description           "Test whether two open file objects reference the same file")
   '(token)
-  '(replacement           "os.path.sameopenfile («os.path.sameopenfile:fp1», «os.path.sameopenfile:fp2»)")
+  '(replacement           "os.path.sameopenfile (Â«os.path.sameopenfile:fp1Â», Â«os.path.sameopenfile:fp2Â»)")
 ;;; os.path.sameopenfile
 )
 
@@ -248,7 +248,7 @@
 (lse-define-fill-in "os.path.samestat" 
   '(description           "Test whether two stat buffers reference the same file")
   '(token)
-  '(replacement           "os.path.samestat («os.path.samestat:s1», «os.path.samestat:s2»)")
+  '(replacement           "os.path.samestat (Â«os.path.samestat:s1Â», Â«os.path.samestat:s2Â»)")
 ;;; os.path.samestat
 )
 
@@ -264,7 +264,7 @@
 "everything after the final slash.  Either part may be empty"
    )
   '(token)
-  '(replacement           "os.path.split («os.path.split:p»)")
+  '(replacement           "os.path.split (Â«os.path.split:pÂ»)")
 ;;; os.path.split
 )
 
@@ -280,7 +280,7 @@
 "empty"
    )
   '(token)
-  '(replacement           "os.path.splitdrive («os.path.splitdrive:p»)")
+  '(replacement           "os.path.splitdrive (Â«os.path.splitdrive:pÂ»)")
 ;;; os.path.splitdrive
 )
 
@@ -296,7 +296,7 @@
 "last dot to the end.  Returns `(root, ext)', either part may be empty"
    )
   '(token)
-  '(replacement           "os.path.splitext («os.path.splitext:p»)")
+  '(replacement           "os.path.splitext (Â«os.path.splitext:pÂ»)")
 ;;; os.path.splitext
 )
 
@@ -341,7 +341,7 @@
 ""
    )
   '(token)
-  '(replacement           "os.path.walk («os.path.walk:top», «os.path.walk:func», «os.path.walk:arg»)")
+  '(replacement           "os.path.walk (Â«os.path.walk:topÂ», Â«os.path.walk:funcÂ», Â«os.path.walk:argÂ»)")
 ;;; os.path.walk
 )
 

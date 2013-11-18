@@ -1,27 +1,27 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "alias"
   '(description   "Define an abbreviation for a command(-list)")
   '(token)
-  '(replacement   "alias ««alias-definition»»")
+  '(replacement   "alias Â«Â«alias-definitionÂ»Â»")
 )
 
 (lse-define-fill-in "alias-definition"
   '(description   "Establish correspondence between alias-name and alias-value")
-  '(replacement   "«name» ««alias-value»»")
+  '(replacement   "Â«nameÂ» Â«Â«alias-valueÂ»Â»")
 )
 
 (lse-define-fill-in "alias-value"
   '(description   "Replacement for alias")
-  '(replacement   "= '«command-in-group»···'")
+  '(replacement   "= 'Â«command-in-groupÂ»Â·Â·Â·'")
 )
 
 (lse-define-fill-in "bash"
     '(description           "Root fill-in for bash language")
     '(replacement
         "#! /swing/bin/bash" ;;; 11-Feb-1997 /swing/bin/bash for /bin/bash
-        "#««header-comment»»"
-        "««command»»···"
+        "#Â«Â«header-commentÂ»Â»"
+        "Â«Â«commandÂ»Â»Â·Â·Â·"
      )
 )
 
@@ -83,34 +83,34 @@
 
 (lse-define-fill-in "bg"
   '(description   "Start a process in background")
-  '(replacement   "bg ««job-specification»»")
+  '(replacement   "bg Â«Â«job-specificationÂ»Â»")
 )
 
 (lse-define-fill-in "bind"
   '(description   "Define function of terminal key")
   '(token)
-  '(replacement   "bind «text»")
+  '(replacement   "bind Â«textÂ»")
 )
 
 (lse-define-fill-in "break"
   '(description   "Terminate a for-, until- or while-loop")
   '(token)
-  '(replacement   "break ««number»»")
+  '(replacement   "break Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "builtin"
   '(description   "Execute an internal shell command even if shadowed by a synonym")
   '(token)
-  '(replacement   "builtin «bash-command»")
+  '(replacement   "builtin Â«bash-commandÂ»")
 )
 
 (lse-define-fill-in "case"
   '(description   "Bash case construct")
   '(token)
   '(replacement
-      "case «text» in"
+      "case Â«textÂ» in"
       lse-indent+1
-      "«case-clause»···"
+      "Â«case-clauseÂ»Â·Â·Â·"
       lse-indent-1
       "esac"
    )
@@ -119,9 +119,9 @@
 (lse-define-fill-in "case-clause"
   '(token)
   '(replacement
-      "«case-pattern»··· ) "
+      "Â«case-patternÂ»Â·Â·Â· ) "
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       ";;"
       lse-indent:<                      ;  5-Jan-1998 ; instead of lse-indent-1
    )
@@ -152,19 +152,19 @@
 (lse-define-fill-in "command-extern"
   '(description   "Executes external command ignoring internal synonyms")
   '(token)
-  '(replacement   "command «command»")
+  '(replacement   "command Â«commandÂ»")
 )
 
 (lse-define-fill-in "command-group"
   '(description   "Group of commands executed inside active shell")
   '(token         "{")
-  '(replacement   "{ «command-in-group»··· }")
+  '(replacement   "{ Â«command-in-groupÂ»Â·Â·Â· }")
 )
 
 (lse-define-fill-in "command-group-in-subshell"
   '(description   "Group of commands executed in subshell")
   '(token         "(")
-  '(replacement   "( «command-in-group»··· )")
+  '(replacement   "( Â«command-in-groupÂ»Â·Â·Â· )")
 )
 
 (lse-define-fill-in "command-in-group"
@@ -176,49 +176,49 @@
 
 (lse-define-fill-in "conditional-expression"
   '(menu
-      ("-b «file-name»"     "True if file exists and is block-special")
-      ("-c «file-name»"     "True if file exists and is character-special")
-      ("-d «file-name»"     "True if file exists and is a directory")
-      ("-e «file-name»"     "True if file exists")
-      ("-f «file-name»"     "True if file exists and is a regular file")
-      ("-g «file-name»"     "True if file exists and is set-group-id")
-      ("-k «file-name»"     "True if file has its ``sticky'' bit set")
-      ("-L «file-name»"     "True if file exists and is a symbolic link")
-      ("-p «file-name»"     "True if file exists and is a named pipe")
-      ("-r «file-name»"     "True if file exists and is readable")
-      ("-s «file-name»"     "True if file exists and has a size greater than zero")
-      ("-S «file-name»"     "True if file exists and is a socket")
-      ("-t ««number»»"      "True if file ««number»» (default 1) is opened on a terminal")
-      ("-u «file-name»"     "True if file exists and its set-user-id bit is set")
-      ("-w «file-name»"     "True if file exists and is writable")
-      ("-x «file-name»"     "True if file exists and is executable")
-      ("-O «file-name»"     "True if file exists and is owned by the effective UID")
-      ("-G «file-name»"     "True if file exists and is owned by the effective group id")
-      ("«file-name» -nt «file-name»"     "True if file1 is newer than file 2 (modification date)")
-      ("«file-name» -ot «file-name»"     "True if file1 is older than file 2")
-      ("«file-name» -ef «file-name»"     "True if both files have the same device and inode numbers")
-      ("-z «text»"          "True if the length of «text» is zero")
-      ("-n «text»"          "True if the length of «text» is non-zero")
-      ("«text» = «text»"    "True if the strings are equal")
-      ("«text» != «text»"   "True if the strings are not equal")
-      ("! «conditional-expression»"      "True if expression is false")
-      ("«conditional-expression» -a «conditional-expression»"     "True if both expressions are true")
-      ("«conditional-expression» -o «conditional-expression»"     "True if either expression is true")
-      ("«number» «operator» «number»"                             "Arithmetic binary operator")
+      ("-b Â«file-nameÂ»"     "True if file exists and is block-special")
+      ("-c Â«file-nameÂ»"     "True if file exists and is character-special")
+      ("-d Â«file-nameÂ»"     "True if file exists and is a directory")
+      ("-e Â«file-nameÂ»"     "True if file exists")
+      ("-f Â«file-nameÂ»"     "True if file exists and is a regular file")
+      ("-g Â«file-nameÂ»"     "True if file exists and is set-group-id")
+      ("-k Â«file-nameÂ»"     "True if file has its ``sticky'' bit set")
+      ("-L Â«file-nameÂ»"     "True if file exists and is a symbolic link")
+      ("-p Â«file-nameÂ»"     "True if file exists and is a named pipe")
+      ("-r Â«file-nameÂ»"     "True if file exists and is readable")
+      ("-s Â«file-nameÂ»"     "True if file exists and has a size greater than zero")
+      ("-S Â«file-nameÂ»"     "True if file exists and is a socket")
+      ("-t Â«Â«numberÂ»Â»"      "True if file Â«Â«numberÂ»Â» (default 1) is opened on a terminal")
+      ("-u Â«file-nameÂ»"     "True if file exists and its set-user-id bit is set")
+      ("-w Â«file-nameÂ»"     "True if file exists and is writable")
+      ("-x Â«file-nameÂ»"     "True if file exists and is executable")
+      ("-O Â«file-nameÂ»"     "True if file exists and is owned by the effective UID")
+      ("-G Â«file-nameÂ»"     "True if file exists and is owned by the effective group id")
+      ("Â«file-nameÂ» -nt Â«file-nameÂ»"     "True if file1 is newer than file 2 (modification date)")
+      ("Â«file-nameÂ» -ot Â«file-nameÂ»"     "True if file1 is older than file 2")
+      ("Â«file-nameÂ» -ef Â«file-nameÂ»"     "True if both files have the same device and inode numbers")
+      ("-z Â«textÂ»"          "True if the length of Â«textÂ» is zero")
+      ("-n Â«textÂ»"          "True if the length of Â«textÂ» is non-zero")
+      ("Â«textÂ» = Â«textÂ»"    "True if the strings are equal")
+      ("Â«textÂ» != Â«textÂ»"   "True if the strings are not equal")
+      ("! Â«conditional-expressionÂ»"      "True if expression is false")
+      ("Â«conditional-expressionÂ» -a Â«conditional-expressionÂ»"     "True if both expressions are true")
+      ("Â«conditional-expressionÂ» -o Â«conditional-expressionÂ»"     "True if either expression is true")
+      ("Â«numberÂ» Â«operatorÂ» Â«numberÂ»"                             "Arithmetic binary operator")
    )
 )
 
 (lse-define-fill-in "continue"
   '(description   "Start next iteration of loop")
   '(token)
-  '(replacement   "continue ««number»»")
+  '(replacement   "continue Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "declare"
   '(description   "Declare a shell variable and/or set it's attributes")
   '(token)
   '(replacement
-      "declare ««declare-option»»··· ««variable-definition»»"
+      "declare Â«Â«declare-optionÂ»Â»Â·Â·Â· Â«Â«variable-definitionÂ»Â»"
    )
 )
 
@@ -239,7 +239,7 @@
 (lse-define-fill-in "echo"
   '(description   "Display arguments on standard output")
   '(token)
-  '(replacement   "echo ««echo-option»»··· «text»")
+  '(replacement   "echo Â«Â«echo-optionÂ»Â»Â·Â·Â· Â«textÂ»")
 )
 
 (lse-define-fill-in "echo-option"
@@ -255,10 +255,10 @@
   '(token)
   '(token         "elseif")
   '(replacement
-      "elif «command»"
+      "elif Â«commandÂ»"
       "then"
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       lse-indent:<                      ;  5-Jan-1998 ; instead of lse-indent-1
    )
 )
@@ -269,7 +269,7 @@
   '(replacement
       "else"
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       lse-indent:<                      ;  5-Jan-1998 ; instead of lse-indent-1
    )
 )
@@ -278,7 +278,7 @@
   '(description   "Enable or disable builtin shell commands (allows execution of external commands instead of builtin version)")
   '(token)
   '(replacement
-      "enable ««enable-option»» «bash-command»»···"
+      "enable Â«Â«enable-optionÂ»Â» Â«bash-commandÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -292,26 +292,26 @@
 (lse-define-fill-in "eval"
   '(description   "The args are read and concatenated together into a single command which is executed by the shell")
   '(token)
-  '(replacement   "eval «text»")
+  '(replacement   "eval Â«textÂ»")
 )
 
 (lse-define-fill-in "exec"
   '(description   "Replace shell by command given (without command just apply redirections to the shell)")
   '(token)
-  '(replacement   "exec ««-»» «command»")
+  '(replacement   "exec Â«Â«-Â»Â» Â«commandÂ»")
 )
 
 (lse-define-fill-in "exit"
   '(description   "Exits shell with given status or status of last command")
   '(token)
-  '(replacement   "exit ««number»»")
+  '(replacement   "exit Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "export"
   '(description   "Export variables to the environment of subsequently executed commands")
   '(token)
   '(replacement
-      "export ««export-option»»··· ««variable-definition»»"
+      "export Â«Â«export-optionÂ»Â»Â·Â·Â· Â«Â«variable-definitionÂ»Â»"
    )
 )
 
@@ -340,7 +340,7 @@
 
 (lse-define-fill-in "fg"
   '(description   "Bring job to foreground")
-  '(replacement   "fg ««job-specification»»")
+  '(replacement   "fg Â«Â«job-specificationÂ»Â»")
 )
 
 (lse-define-fill-in "field-list"
@@ -352,7 +352,7 @@
   '(description   "Perform loop for all items given")
   '(token)
   '(replacement
-      "for «name» ««in-word»»"
+      "for Â«nameÂ» Â«Â«in-wordÂ»Â»"
       @ "loop-body"
    )
 )
@@ -369,10 +369,10 @@
   '(description   "Define a named function")
   '(token)
   '(replacement
-      "function «name» ()"
+      "function Â«nameÂ» ()"
       "{"
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       lse-indent-1
       "}"
    )
@@ -381,32 +381,32 @@
 (lse-define-fill-in "hash"
   '(description   "Remember location of named commands or forget all remembered locations")
   '(token)
-  '(replacement   "hash ««hash-option»»")
+  '(replacement   "hash Â«Â«hash-optionÂ»Â»")
 )
 
 (lse-define-fill-in "hash-option"
   '(separator             " ")
   '(menu
       ("-r"        "Forget all remembered locations")
-      ("«name»···" "Remember commands named")
+      ("Â«nameÂ»Â·Â·Â·" "Remember commands named")
    )
 )
 
 (lse-define-fill-in "header-comment-language-specific"
-    '(replacement   "««header-comment-parameters»»")
+    '(replacement   "Â«Â«header-comment-parametersÂ»Â»")
 )
 
 (lse-define-fill-in "help"
   '(description   "Provide short description of shell command")
   '(token)
-  '(replacement   "help ««bash-command»»")
+  '(replacement   "help Â«Â«bash-commandÂ»Â»")
 )
 
 (lse-define-fill-in "history"
   '(description   "Display or manipulate command history")
   '(token)
   '(replacement
-      "history ««history-option»» «file-name»"
+      "history Â«Â«history-optionÂ»Â» Â«file-nameÂ»"
    )
 )
 
@@ -414,26 +414,26 @@
   '(description   "Conditional statement")
   '(token)
   '(replacement
-      "if «command»"
+      "if Â«commandÂ»"
       "then"
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       lse-indent-1
-      "««elif»»"
-      "««else»»"
+      "Â«Â«elifÂ»Â»"
+      "Â«Â«elseÂ»Â»"
       "fi"
    )
 )
 
 (lse-define-fill-in "in-word"
-  '(replacement   "in «text»")
+  '(replacement   "in Â«textÂ»")
 )
 
 (lse-define-fill-in "jobs"
   '(description   "List jobs or execute a given command passing it job id")
   '(token)
   '(replacement
-      "jobs ««jobs-option»»··· ««job-specification»»"
+      "jobs Â«Â«jobs-optionÂ»Â»Â·Â·Â· Â«Â«job-specificationÂ»Â»"
    )
 )
 
@@ -443,7 +443,7 @@
       ("-l"           "List process ID in addition to normal information")
       ("-n"           "List only jobs which have changed status since last notified")
       ("-p"           "List only process ID of the job's process group leader")
-      ("-x «command»" "Replace job-specification by ID and execute command")
+      ("-x Â«commandÂ»" "Replace job-specification by ID and execute command")
    )
 )
 
@@ -452,7 +452,7 @@
   '(menu
       ("%+"      "Last job")
       ("%-"      "Next to last job")
-      ("%«text»" "Job specified by number or name of command")
+      ("%Â«textÂ»" "Job specified by number or name of command")
    )
 )
 
@@ -460,7 +460,7 @@
   '(description   "Send signal (default SIGTERM) to specified processes")
   '(token)
   '(replacement
-      "kill ««kill-option»» ««pid | job-specification»»"
+      "kill Â«Â«kill-optionÂ»Â» Â«Â«pid | job-specificationÂ»Â»"
    )
 )
 
@@ -468,7 +468,7 @@
   '(separator             " ")
   '(menu
       ("-l"           "List all signals")
-      ("-s «text»"    "Specify signal name or number with «text»")
+      ("-s Â«textÂ»"    "Specify signal name or number with Â«textÂ»")
       ("-SIGHUP"      "Terminal hangup")
       ("-SIGINT"      "Terminal interrupt")
       ("-SIGQUIT"     "Terminal quit (with a memory dump)")
@@ -480,13 +480,13 @@
 (lse-define-fill-in "let"
   '(description   "Evaluate all arithmetic expressions given and return 1 if last evaluates to 0")
   '(token)
-  '(replacement   "let «arithmetic-expression»")
+  '(replacement   "let Â«arithmetic-expressionÂ»")
 )
 
 (lse-define-fill-in "local"
   '(description   "Create a local variable")
   '(token)
-  '(replacement   "local ««variable-definition»»···")
+  '(replacement   "local Â«Â«variable-definitionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "loop-body"
@@ -494,7 +494,7 @@
   '(replacement
       "do"
       lse-indent+1
-      "«command»···"
+      "Â«commandÂ»Â·Â·Â·"
       lse-indent-1
       "done"
    )
@@ -513,7 +513,7 @@
 
 (lse-define-fill-in "pid | job-specification"
   '(menu
-      ("«text»"         "Process ID")
+      ("Â«textÂ»"         "Process ID")
       job-specification
    )
 )
@@ -521,28 +521,28 @@
 (lse-define-fill-in "popd"
   '(description   "Removes entries of the directory stack. With no arguments, removes the top directory and performs a cd to the new top directopry")
   '(token)
-  '(replacement   "popd ««number»»")
+  '(replacement   "popd Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "pushd"
   '(description   "Adds a directory to the top of the directory stack")
   '(token)
-  '(replacement   "push ««pushd-option»»")
+  '(replacement   "push Â«Â«pushd-optionÂ»Â»")
 )
 
 (lse-define-fill-in "pushd-option"
   '(separator             " ")
   '(menu
-      ("««name»»"        "Name of new directory")
-      ("+«number»"       "Rotates stack so that the nth directory is at the top (counted from the left  of the list shown by dirs)")
-      ("-«number»"       "Rotates stack so that the nth directory is at the top (counted from the right of the list shown by dirs)")
+      ("Â«Â«nameÂ»Â»"        "Name of new directory")
+      ("+Â«numberÂ»"       "Rotates stack so that the nth directory is at the top (counted from the left  of the list shown by dirs)")
+      ("-Â«numberÂ»"       "Rotates stack so that the nth directory is at the top (counted from the right of the list shown by dirs)")
    )
 )
 
 (lse-define-fill-in "read"
   '(description   "Read one line from std-input and assign first word to first name, second word to second name and so forth, with leftover words assigned to last name")
   '(token)
-  '(replacement   "read ««read-option»» «name»···")
+  '(replacement   "read Â«Â«read-optionÂ»Â» Â«nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "read-option"
@@ -554,7 +554,7 @@
 
 (lse-define-fill-in "readonly"
   '(description   "Mark shell variables or functions as readonly")
-  '(replacement   "readonly ««readonly-option»»··· «name»···")
+  '(replacement   "readonly Â«Â«readonly-optionÂ»Â»Â·Â·Â· Â«nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "readonly-option"
@@ -568,19 +568,19 @@
 (lse-define-fill-in "return"
   '(description   "Return from function")
   '(token)
-  '(replacement   "return ««number»»")
+  '(replacement   "return Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "set"
   '(description   "Enable (-) or disable (+) options and set numbered parameters")
   '(token)
-  '(replacement   "set ««set-option»»··· ««set-args»»")
+  '(replacement   "set Â«Â«set-optionÂ»Â»Â·Â·Â· Â«Â«set-argsÂ»Â»")
 )
 
 (lse-define-fill-in "set-args"
   '(menu
-      ("-- «text»"     "Set positional parameters to values given, even if some of them begin with a -")
-      ("- «text»"      "Set positional parameters to values given. The -x and -v options are turned off")
+      ("-- Â«textÂ»"     "Set positional parameters to values given, even if some of them begin with a -")
+      ("- Â«textÂ»"      "Set positional parameters to values given. The -x and -v options are turned off")
       ("--"            "Unset positional parameters")
    )
 )
@@ -588,22 +588,22 @@
 (lse-define-fill-in "set-option"
   '(separator             " ")
   '(menu
-      ("«+-»a"     "Automatically mark variables for export")
-      ("«+-»e"     "Exit immediately if a simple command exits with non-zero status")
-      ("«+-»f"     "Disable pathname expansion")
-      ("«+-»h"     "Locate and remember function commands as functions are defined")
-      ("«+-»k"     "All keyword arguments are placed in the environment of a command, not just those preceeding the command")
-      ("«+-»m"     "Monitor mode. Job control is enabled (default for interactive shells)")
-      ("«+-»n"     "Read commands but do not execute them (ignored for interactive shells)")
-      ("«+-»o «set-option-name»"     "Set named option")
-      ("«+-»t"     "Exit after reading and executing one command")
-      ("«+-»u"     "Treat unset variables as an error when performing parameter expansion")
-      ("«+-»v"     "Print shell input lines as they are read")
-      ("«+-»x"     "After expanding each simple command, bash displays the expanded value of PS4, followed by the command and its expanded arguments")
-      ("«+-»l"     "Save and restore the binding of name in a for name [in-word] command")
-      ("«+-»d"     "Disable the hashing of commands that are looked up for execution")
-      ("«+-»C"     "The effect is as if the shell command `noclobber=' had been executed")
-      ("«+-»H"     "Enable ! style history substitution (enabled by default)")
+      ("Â«+-Â»a"     "Automatically mark variables for export")
+      ("Â«+-Â»e"     "Exit immediately if a simple command exits with non-zero status")
+      ("Â«+-Â»f"     "Disable pathname expansion")
+      ("Â«+-Â»h"     "Locate and remember function commands as functions are defined")
+      ("Â«+-Â»k"     "All keyword arguments are placed in the environment of a command, not just those preceeding the command")
+      ("Â«+-Â»m"     "Monitor mode. Job control is enabled (default for interactive shells)")
+      ("Â«+-Â»n"     "Read commands but do not execute them (ignored for interactive shells)")
+      ("Â«+-Â»o Â«set-option-nameÂ»"     "Set named option")
+      ("Â«+-Â»t"     "Exit after reading and executing one command")
+      ("Â«+-Â»u"     "Treat unset variables as an error when performing parameter expansion")
+      ("Â«+-Â»v"     "Print shell input lines as they are read")
+      ("Â«+-Â»x"     "After expanding each simple command, bash displays the expanded value of PS4, followed by the command and its expanded arguments")
+      ("Â«+-Â»l"     "Save and restore the binding of name in a for name [in-word] command")
+      ("Â«+-Â»d"     "Disable the hashing of commands that are looked up for execution")
+      ("Â«+-Â»C"     "The effect is as if the shell command `noclobber=' had been executed")
+      ("Â«+-Â»H"     "Enable ! style history substitution (enabled by default)")
    )
 )
 
@@ -636,7 +636,7 @@
 (lse-define-fill-in "shift"
   '(description   "Rename the postional parameters ${n+1}... to ${1}..., where n is the argument given (default = 1)")
   '(token)
-  '(replacement   "shift ««number»»")
+  '(replacement   "shift Â«Â«numberÂ»Â»")
 )
 
 (lse-define-fill-in "sigspec"
@@ -647,13 +647,13 @@
   '(description   "Execute shell script in current environment (without forking)")
   '(token         "@")
   '(token)
-  '(replacement   "source «file-name»")
+  '(replacement   "source Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "suspend"
   '(description   "Suspend the execution of this shell until it receives a SIGCONT signal")
   '(token)
-  '(replacement   "suspend ««suspend-option»»")
+  '(replacement   "suspend Â«Â«suspend-optionÂ»Â»")
 )
 
 (lse-define-fill-in "suspend-option"
@@ -666,7 +666,7 @@
 (lse-define-fill-in "test"
   '(description   "Return 0 or 1 depending on the evaluation of conditional expression")
   '(token)
-  '(replacement   "test «conditional-expression»")
+  '(replacement   "test Â«conditional-expressionÂ»")
 )
 
 (lse-define-fill-in "times"
@@ -676,27 +676,27 @@
 )
 
 (lse-define-fill-in "trap"
-  '(description   "The «command» is to be read and executed when the shell receives signal(s) «sigspec»")
+  '(description   "The Â«commandÂ» is to be read and executed when the shell receives signal(s) Â«sigspecÂ»")
   '(token)
-  '(replacement   "trap ««command»» ««sigspec»»")
+  '(replacement   "trap Â«Â«commandÂ»Â» Â«Â«sigspecÂ»Â»")
 )
 
 (lse-define-fill-in "type"
   '(description   "Show interpreation of name")
   '(token)
-  '(replacement   "type ««type-all»» ««type-option»» ««name»»···")
+  '(replacement   "type Â«Â«type-allÂ»Â» Â«Â«type-optionÂ»Â» Â«Â«nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "type-all"
   '(menu
-      ("-all"     "Show all of the places that contain an execuatble «name»")
+      ("-all"     "Show all of the places that contain an execuatble Â«nameÂ»")
    )
 )
 
 (lse-define-fill-in "type-option"
   '(separator             " ")
   '(menu
-      ("-type"     "Show type of entity «name» (alias, keyword, ...)")
+      ("-type"     "Show type of entity Â«nameÂ» (alias, keyword, ...)")
       ("-path"     "Show path of command (for files). Shows hashed value!")
    )
 )
@@ -704,7 +704,7 @@
 (lse-define-fill-in "ulimit"
   '(description   "Control resources available to shell and to processes started by it")
   '(token)
-  '(replacement   "ulimit ««ulimit-option»»···")
+  '(replacement   "ulimit Â«Â«ulimit-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "ulimit-option"
@@ -713,12 +713,12 @@
       ("-S"                "Set soft limits (may be increased later)")
       ("-H"                "Set hard limit (cannot be increased once set)")
       ("-a"                "Report all current limits")
-      ("-c ««number»»"     "Maximum size of core files created")
-      ("-d ««number»»"     "Maximum size of a process's data segment")
-      ("-f ««number»»"     "Maximum size of files created by the shell")
-      ("-m ««number»»"     "Maximum resident set size")
-      ("-s ««number»»"     "Maximum stack size")
-      ("-t ««number»»"     "Maximum amount of cpu time (seconds)")
+      ("-c Â«Â«numberÂ»Â»"     "Maximum size of core files created")
+      ("-d Â«Â«numberÂ»Â»"     "Maximum size of a process's data segment")
+      ("-f Â«Â«numberÂ»Â»"     "Maximum size of files created by the shell")
+      ("-m Â«Â«numberÂ»Â»"     "Maximum resident set size")
+      ("-s Â«Â«numberÂ»Â»"     "Maximum stack size")
+      ("-t Â«Â«numberÂ»Â»"     "Maximum amount of cpu time (seconds)")
       ("-p"                "Pipe size in 512-byte blocks")
       ("-n"                "Maximum number of open file descriptors")
    )
@@ -728,7 +728,7 @@
   '(description   "Set user file creation mask (numeric or symbolic value can be specified)")
   '(token)
   '(replacement
-      "umask ««umask-option»» ««file-protection-mode»»"
+      "umask Â«Â«umask-optionÂ»Â» Â«Â«file-protection-modeÂ»Â»"
    )
 )
 
@@ -740,9 +740,9 @@
 )
 
 (lse-define-fill-in "unalias"
-  '(description   "Remove «name»··· from the list of defined aliases")
+  '(description   "Remove Â«nameÂ»Â·Â·Â· from the list of defined aliases")
   '(token)
-  '(replacement   "unalias ««unalias-option»» ««name»»···")
+  '(replacement   "unalias Â«Â«unalias-optionÂ»Â» Â«Â«nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "unalias-option"
@@ -756,7 +756,7 @@
   '(description   "Remove shell variable or function")
   '(token)
   '(replacement
-      "unset ««unset-option»»··· ««name»»···"
+      "unset Â«Â«unset-optionÂ»Â»Â·Â·Â· Â«Â«nameÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -771,28 +771,28 @@
 (lse-define-fill-in "until-loop"
   '(description   "Iterate loop until condition does hold")
   '(token)
-  '(replacement   "until «command»" @ "loop-body")
+  '(replacement   "until Â«commandÂ»" @ "loop-body")
 )
 
 (lse-define-fill-in "wait"
   '(description   "Wait for specified process and report its exit status")
-  '(replacement   "wait ««pid | job-specification»»")
+  '(replacement   "wait Â«Â«pid | job-specificationÂ»Â»")
 )
 
 (lse-define-fill-in "while-loop"
   '(description   "Iterate loop as long as condition holds")
   '(token)
-  '(replacement   "while «command»" @ "loop-body")
+  '(replacement   "while Â«commandÂ»" @ "loop-body")
 )
 
 (lse-define-fill-in "variable-definition"
   '(description           "Definition of a shell variable")
   '(separator             " ")
-  '(replacement           "«name» ««variable-value»»")
+  '(replacement           "Â«nameÂ» Â«Â«variable-valueÂ»Â»")
 )
 
 (lse-define-fill-in "variable-value"
-  '(replacement   "= «text»")
+  '(replacement   "= Â«textÂ»")
 )
 
 (lse-define-fill-in "version-control"

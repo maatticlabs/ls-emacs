@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2011 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -28,7 +28,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    22-Jan-2011 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 22-Jan-2011
@@ -37,7 +37,7 @@
     '(token                 "\"\".char-at")
     '(description           "Return the character at position.")
     '(replacement
-        lse-js:remove-period & ".charAt («position»)"
+        lse-js:remove-period & ".charAt (Â«positionÂ»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-char-at
@@ -49,7 +49,7 @@
     '(token                 "\"\".char-code-at")
     '(description           "Return the character code (integer) at position.")
     '(replacement
-        lse-js:remove-period & ".charCodeAt («position»)"
+        lse-js:remove-period & ".charCodeAt (Â«positionÂ»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-char-code-at
@@ -61,7 +61,7 @@
     '(token                 "\"\".concat")
     '(description           "Return concatenation of string with argument(s)")
     '(replacement
-        lse-js:remove-period & ".concat («argument»···)"
+        lse-js:remove-period & ".concat (Â«argumentÂ»Â·Â·Â·)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-concat
@@ -73,7 +73,7 @@
     '(token                 "\"\".from-char-code")
     '(description           "Produce a string from a series of numbers")
     '(replacement
-        "String.fromCharCode («number»···)"
+        "String.fromCharCode (Â«numberÂ»Â·Â·Â·)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-from-char-code
@@ -85,7 +85,7 @@
     '(token                 "\"\".index-of")
     '(description           "Return position of argument in string or -1")
     '(replacement
-        lse-js:remove-period & ".indexOf («argument», ««position»»)"
+        lse-js:remove-period & ".indexOf (Â«argumentÂ», Â«Â«positionÂ»Â»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-index-of
@@ -99,7 +99,7 @@
         "Return position of argument in string (searching from end) or -1"
      )
     '(replacement
-        lse-js:remove-period & ".lastIndexOf («argument», ««position»»)"
+        lse-js:remove-period & ".lastIndexOf (Â«argumentÂ», Â«Â«positionÂ»Â»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-last-index-of
@@ -123,7 +123,7 @@
     '(token                 "\"\".match")
     '(description           "Match string against regular expression")
     '(replacement
-        lse-js:remove-period & ".match («expression»)"
+        lse-js:remove-period & ".match (Â«expressionÂ»)"
          & (lse-js:clean-closing "\"")
      )
 ;;; string-match
@@ -138,7 +138,7 @@
         "If expression is a regexp with the 'g' flag, all occurences are replaced, otherwise only the first is replaced"
      )
     '(replacement
-        lse-js:remove-period & ".replace («expression», «argument»)"
+        lse-js:remove-period & ".replace (Â«expressionÂ», Â«argumentÂ»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-replace
@@ -152,7 +152,7 @@
         "Return position of regular expression in string or -1"
      )
     '(replacement
-        lse-js:remove-period & ".search («expression»)"
+        lse-js:remove-period & ".search (Â«expressionÂ»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-search
@@ -164,7 +164,7 @@
     '(token                 "\"\".slice")
     '(description           "Return a copy of a sub string.")
     '(replacement
-        lse-js:remove-period & ".slice («number», ««number»»)"
+        lse-js:remove-period & ".slice (Â«numberÂ», Â«Â«numberÂ»Â»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-slice
@@ -178,7 +178,7 @@
         "Split at separator, if number is given it specifies the maximum number of pieces."
      )
     '(replacement
-        lse-js:remove-period & ".split («expression», ««number»»)"
+        lse-js:remove-period & ".split (Â«expressionÂ», Â«Â«numberÂ»Â»)"
         & (lse-js:clean-closing "\"")
      )
 ;;; string-split

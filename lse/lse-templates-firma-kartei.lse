@@ -1,8 +1,8 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Abteilung"
   '(replacement
-      "Abteilung «text»"
+      "Abteilung Â«textÂ»"
    )
 )
 
@@ -10,27 +10,27 @@
   '(token)
   '(token                 "\\DefFirmenAbteilung")
   '(replacement
-      "««\\DefAbteilungName»»"
-      "««\\DefFirmenStrasse»»"
-      "««\\DefFirmenPostfach»»"
-      "««\\DefFirmenOrt»»"
-      "««\\DefFirmenLand»»"
-      "««\\DefFirmenTelefon»»"
+      "Â«Â«\\DefAbteilungNameÂ»Â»"
+      "Â«Â«\\DefFirmenStrasseÂ»Â»"
+      "Â«Â«\\DefFirmenPostfachÂ»Â»"
+      "Â«Â«\\DefFirmenOrtÂ»Â»"
+      "Â«Â«\\DefFirmenLandÂ»Â»"
+      "Â«Â«\\DefFirmenTelefonÂ»Â»"
    )
 )
 
 (lse-define-fill-in "\\DefAbteilungAlias"
   '(token)
   '(replacement
-      "\\DefAbteilung[«Kartei_Key»]{«Abteilung»}"
-      "««\\DefFirmenAdressAlias»»"
+      "\\DefAbteilung[Â«Kartei_KeyÂ»]{Â«AbteilungÂ»}"
+      "Â«Â«\\DefFirmenAdressAliasÂ»Â»"
    )
 )
 
 (lse-define-fill-in "\\DefAbteilungName"
   
   '(replacement
-      "\\DefAbteilung[«Kartei_Key»]{«Abteilung»}"
+      "\\DefAbteilung[Â«Kartei_KeyÂ»]{Â«AbteilungÂ»}"
    )
 )
 
@@ -38,36 +38,36 @@
   '(token)
   '(description   "sets address for department of company equal to another deparment's" )
   '(replacement
-      "\\DefFirmenAdressAlias[«Kartei_Key»]{««Kartei_Alias»»}"
+      "\\DefFirmenAdressAlias[Â«Kartei_KeyÂ»]{Â«Â«Kartei_AliasÂ»Â»}"
    )
 )
 
 (lse-define-fill-in "\\DefFirmenIndex"
   '(token)
-  '(description   "`Quelle: «text»' oder `TN: «seminar/termin»' oder `Interessent: «text»'" )
+  '(description   "`Quelle: Â«textÂ»' oder `TN: Â«seminar/terminÂ»' oder `Interessent: Â«textÂ»'" )
   '(replacement
-      "\\DefFirmenIndex{«text»}"
+      "\\DefFirmenIndex{Â«textÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefFirmenLand"
   '(token)
   '(replacement
-      "\\DefFirmenLand[««Kartei_Key»»]{«Kartei_Land»}"
+      "\\DefFirmenLand[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_LandÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefFirmenOrt"
   '(token)
   '(replacement
-      "\\DefFirmenOrt[««Kartei_Key»»]{«Kartei_PLZ» «Kartei_Ort»}"
+      "\\DefFirmenOrt[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_PLZÂ» Â«Kartei_OrtÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefFirmenPostfach"
   '(token)
   '(replacement
-      "\\DefFirmenPostfach[««Kartei_Key»»]{Postfach «Kartei_Nummer»}"
+      "\\DefFirmenPostfach[Â«Â«Kartei_KeyÂ»Â»]{Postfach Â«Kartei_NummerÂ»}"
    )
 )
 
@@ -81,14 +81,14 @@
 (lse-define-fill-in "\\DefFirmenStrasse"
   '(token)
   '(replacement
-      "\\DefFirmenStrasse[««Kartei_Key»»]{«Kartei_Strasse» «Kartei_Nummer»}"
+      "\\DefFirmenStrasse[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_StrasseÂ» Â«Kartei_NummerÂ»}"
    )
 )
 
 (lse-define-fill-in "\\DefFirmenTelefon"
   '(token)
   '(replacement
-      "\\DefFirmenTelefon[««Kartei_Key»»]{«Kartei_Vorwahl» «Kartei_Wahl»--««Kartei_Durchwahl»»}"
+      "\\DefFirmenTelefon[Â«Â«Kartei_KeyÂ»Â»]{Â«Kartei_VorwahlÂ» Â«Kartei_WahlÂ»--Â«Â«Kartei_DurchwahlÂ»Â»}"
    )
 )
 
@@ -96,7 +96,7 @@
   '(token)
   '(description   "Options for telefon register" )
   '(replacement
-      "\\DefFirmenTRcmd[««kartei_key»»]{«text»}"
+      "\\DefFirmenTRcmd[Â«Â«kartei_keyÂ»Â»]{Â«textÂ»}"
     )
 )
 
@@ -104,16 +104,16 @@
   '(token)
   '(replacement
       @ "entry-head"
-      "\\entryflag{«Kartei_Mail_Flag»}"
-      "\\DefFirmaKurz{«Kartei_Firmenkurztitel»}"
-      "\\DefFirmenName{«Kartei_Handelsregistername»}"
-      "««\\DefFirmenTelefon»»"
-      "««\\DefAbteilung»»"
+      "\\entryflag{Â«Kartei_Mail_FlagÂ»}"
+      "\\DefFirmaKurz{Â«Kartei_FirmenkurztitelÂ»}"
+      "\\DefFirmenName{Â«Kartei_HandelsregisternameÂ»}"
+      "Â«Â«\\DefFirmenTelefonÂ»Â»"
+      "Â«Â«\\DefAbteilungÂ»Â»"
       "%"
-      "««\\DefFirmenIndex»»"
-      "««\\DefFirmenPreLetterCommands{\\foreignletter}»»"
+      "Â«Â«\\DefFirmenIndexÂ»Â»"
+      "Â«Â«\\DefFirmenPreLetterCommands{\\foreignletter}Â»Â»"
       "\\DefFirmenAnrede{Sehr geehrte Damen und Herren}"
-      "««\\DefFirmenTRcmd»»"
+      "Â«Â«\\DefFirmenTRcmdÂ»Â»"
       @ "entry-tail"
    )
 )

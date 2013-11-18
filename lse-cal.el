@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2003-2012 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -70,7 +70,7 @@
 ;;;;    25-Feb-2012 (CT) Use `lse-tpu:next-line-internal` instead of
 ;;;;                     `next-line-internal`
 ;;;;    26-Nov-2012 (CT) Change `mode-line-format` of `lse-cal:view:mode`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;;

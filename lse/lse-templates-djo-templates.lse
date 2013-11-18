@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -31,7 +31,7 @@
 ;;;;    19-Jul-2009 (CT) Use `lse-indent+1` and `lse-indent-1` instead of
 ;;;;                     literal indentation
 ;;;;    19-Jul-2009 (CT) `lse-stmt-block` factored
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 ;;; 17-Jul-2009
@@ -79,7 +79,7 @@
     '(token                 "filter-allow_user")
     '(token                 "|allow_user")
     '(description           "Returns true if `page` allows access to `user`.")
-    '(replacement           "allow_user:«djt-variable-or-literal»")
+    '(replacement           "allow_user:Â«djt-variable-or-literalÂ»")
 ;;; djo-filter-allow_user
 )
 
@@ -89,7 +89,7 @@
     '(token                 "filter-div")
     '(description           "Operator div.")
     '(replacement
-        "div:«number»"
+        "div:Â«numberÂ»"
      )
 ;;; djo-filter-div
 )
@@ -100,7 +100,7 @@
     '(token                 "filter-eq")
     '(description           "Operator eq.")
     '(replacement
-        "eq:«number»"
+        "eq:Â«numberÂ»"
      )
 ;;; djo-filter-eq
 )
@@ -111,7 +111,7 @@
     '(token                 "filter-ge")
     '(description           "Operator ge.")
     '(replacement
-        "ge:«number»"
+        "ge:Â«numberÂ»"
      )
 ;;; djo-filter-ge
 )
@@ -122,7 +122,7 @@
     '(token                 "filter-gt")
     '(description           "Operator gt.")
     '(replacement
-        "gt:«number»"
+        "gt:Â«numberÂ»"
      )
 ;;; djo-filter-gt
 )
@@ -133,7 +133,7 @@
     '(token                 "filter-le")
     '(description           "Operator le.")
     '(replacement
-        "le:«number»"
+        "le:Â«numberÂ»"
      )
 ;;; djo-filter-le
 )
@@ -144,7 +144,7 @@
     '(token                 "filter-lt")
     '(description           "Operator lt.")
     '(replacement
-        "lt:«number»"
+        "lt:Â«numberÂ»"
      )
 ;;; djo-filter-lt
 )
@@ -155,7 +155,7 @@
     '(token                 "filter-mod")
     '(description           "Operator mod.")
     '(replacement
-        "mod:«number»"
+        "mod:Â«numberÂ»"
      )
 ;;; djo-filter-mod
 )
@@ -166,7 +166,7 @@
     '(token                 "filter-mul")
     '(description           "Operator mul.")
     '(replacement
-        "mul:«number»"
+        "mul:Â«numberÂ»"
      )
 ;;; djo-filter-mul
 )
@@ -177,7 +177,7 @@
     '(token                 "filter-ne")
     '(description           "Operator ne.")
     '(replacement
-        "ne:«number»"
+        "ne:Â«numberÂ»"
      )
 ;;; djo-filter-ne
 )
@@ -188,7 +188,7 @@
     '(token                 "filter-pow")
     '(description           "Operator pow.")
     '(replacement
-        "pow:«number»"
+        "pow:Â«numberÂ»"
      )
 ;;; djo-filter-pow
 )
@@ -201,7 +201,7 @@
     '(description
         "Returns all elements of sequence for which predicate is satisfied"
      )
-    '(replacement           "sequence_filter:«djt-variable-or-literal»")
+    '(replacement           "sequence_filter:Â«djt-variable-or-literalÂ»")
 ;;; djo-filter-sequence_filter
 )
 
@@ -214,7 +214,7 @@
         "`value|starts_with:prefix` returns True if `value` starts "
         "with `prefix`."
      )
-    '(replacement           "starts_with:«djt-variable-or-literal»")
+    '(replacement           "starts_with:Â«djt-variable-or-literalÂ»")
 ;;; djo-filter-starts_with
 )
 
@@ -224,7 +224,7 @@
     '(token                 "filter-sub")
     '(description           "Operator sub.")
     '(replacement
-        "sub:«number»"
+        "sub:Â«numberÂ»"
      )
 ;;; djo-filter-sub
 )
@@ -235,7 +235,7 @@
     '(token                 "filter-tel_uri")
     '(token                 "|tel_uri")
     '(description           "Returns a telephone URI for `phone_number`.")
-    '(replacement           "tel_uri:«djt-variable-or-literal»")
+    '(replacement           "tel_uri:Â«djt-variable-or-literalÂ»")
 ;;; djo-filter-tel_uri
 )
 
@@ -245,7 +245,7 @@
     '(description           "Define binding of name to value")
     '(leading               ";")
     '(separator             "; ")
-    '(replacement           "«djt-variable-name» = «djt-variable-or-literal»")
+    '(replacement           "Â«djt-variable-nameÂ» = Â«djt-variable-or-literalÂ»")
 ;;; djo-binding
 )
 
@@ -257,7 +257,7 @@
         "Assign the result of rendering the enclosed block to a variable."
      )
     '(replacement
-        "{% blet «djt-variable-name» %}"
+        "{% blet Â«djt-variable-nameÂ» %}"
         @ djt-stmt-block
         "{% endblet %}"
      )
@@ -270,7 +270,7 @@
     '(token                 "let")
     '(description           "Create a scope with temporary variables")
     '(replacement
-        "{% let «djo-binding»··· %}"
+        "{% let Â«djo-bindingÂ»Â·Â·Â· %}"
         @ djt-stmt-block
         "{% endlet %}"
      )
@@ -286,16 +286,16 @@
         "The `else`-clauses of both `head` and `tail` are optional."
      )
     '(replacement
-        "{% onion «djt-variable-name» %}"
+        "{% onion Â«djt-variable-nameÂ» %}"
         lse-indent+1
         "{% head %}"
         @ djt-stmt-block
-        "««djt-else»»"
+        "Â«Â«djt-elseÂ»Â»"
         "{% body %}"
         @ djt-stmt-block
         "{% tail %}"
         @ djt-stmt-block
-        "««djt-else»»"
+        "Â«Â«djt-elseÂ»Â»"
         lse-indent-1
         "{% endonion %}"
      )
@@ -307,7 +307,7 @@
     '(token)
     '(token                 "rrender")
     '(description           "Render a template with the bindings specified")
-    '(replacement           "{% rrender «djo-binding»··· %}")
+    '(replacement           "{% rrender Â«djo-bindingÂ»Â·Â·Â· %}")
 ;;; djo-rrender
 )
 
@@ -315,7 +315,7 @@
 (lse-define-fill-in "djo-var"
     '(token)
     '(token                 "Define a variable (that doesn't go out of scope)")
-    '(replacement           "{% var «djo-binding»··· %}")
+    '(replacement           "{% var Â«djo-bindingÂ»Â·Â·Â· %}")
 ;;; djo-var
 )
 

@@ -1,7 +1,7 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -84,7 +84,8 @@
 ;;;;                     home-grown code
 ;;;;    18-Feb-2012 (CT) Remove `lse-goto-last-position`,
 ;;;;                     use `lse-tpu:put-prop:auto-save-position`
-;;;;    ««revision-date»»···
+;;;;    18-Nov-2013 (CT) Change `lse-language:compile` to `coding: utf-8`
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-interactive)
 
@@ -816,7 +817,7 @@ trailers."
       (erase-buffer)
       (setq buffer-file-name   (concat lse-directory "/" file-name))
       (lse-language:use-loaded (lse-language:load-from-source name))
-      (princ ";-*- coding: iso-8859-15; -*-" (current-buffer)); 28-Jan-2011
+      (princ ";-*- coding: utf-8; -*-" (current-buffer)); 28-Jan-2011
       (terpri                     (current-buffer)); 25-May-1999
       (mapatoms 'lse-compile@write-one-fill-in lse_fill-in_table)
       (mapatoms 'lse-compile@write-one-token   lse_token_table)

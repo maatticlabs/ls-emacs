@@ -1,20 +1,20 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "buchhaltung"
     '(token)
     '(auto-expand); 17-Aug-2000
     '(replacement
-        " «Tag». & "
+        " Â«TagÂ». & "
         & " & "
-        & "«MWSt» & "
-        & "«Betrag» & "
-        & "«Brutto/Netto» & "
-        & "«Soll-Konto» & "
-        & "«Haben-Konto» & "
-        & "«+-=» & "
-        & "«Tools» & "
+        & "Â«MWStÂ» & "
+        & "Â«BetragÂ» & "
+        & "Â«Brutto/NettoÂ» & "
+        & "Â«Soll-KontoÂ» & "
+        & "Â«Haben-KontoÂ» & "
+        & "Â«+-=Â» & "
+        & "Â«ToolsÂ» & "
         & " & "
-        & "«Beschreibung»  "
+        & "Â«BeschreibungÂ»  "
         & ""
      )
 ;;; buchhaltung
@@ -26,7 +26,7 @@
         "$vst_korrektur = 1.0;"
         "% Datum  &    & USt & Betrag        &b/n & Soll  & Haben &+-= & "
                   & "Tools   &  & Beschreibung  "
-        "«buchhaltung»···"
+        "Â«buchhaltungÂ»Â·Â·Â·"
         "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file
@@ -34,7 +34,7 @@
 
 (lse-define-fill-in "Tools"
   '(description           "Kennungen der Tools, die diese Buchungszeile bearbeiten"
-                          "E         Steuererklärung"
+                          "E         SteuererklÃ¤rung"
                           "U         Umsatzsteuervoranmeldung"
    )
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))

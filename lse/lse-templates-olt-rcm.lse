@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;; 21-Mar-1996 
 (lse-define-fill-in "_NO_"
@@ -13,7 +13,7 @@
     '(replacement
         "@expand (\"_RCM_"
         & (lse-insert-replica-or-flat "RCM_Type")
-        & "_«RCM_Attribute_Name»_\" + @as_string (i))"
+        & "_Â«RCM_Attribute_NameÂ»_\" + @as_string (i))"
      )
 ;;; RCM_Attribute
 )
@@ -25,7 +25,7 @@
     '(replacement
         "\"@def _RCM_"
         & (lse-insert-replica-or-flat "RCM_Type")
-        & "_«RCM_Attribute_Name»_\" & @ \"RCM_Config_Tail\""
+        & "_Â«RCM_Attribute_NameÂ»_\" & @ \"RCM_Config_Tail\""
      )
 ;;; RCM_Config_Item
 )
@@ -38,7 +38,7 @@
 
 ;;;  5-Mar-1996 
 (lse-define-fill-in "RCM_Config_Tail"
-    '(replacement           "«RCM_Number» (@as_code («quoted-text»))")
+    '(replacement           "Â«RCM_NumberÂ» (@as_code (Â«quoted-textÂ»))")
 ;;; RCM_Config_Tail
 )
 
@@ -75,7 +75,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_Â«numberÂ»)")
 ;;; RCM_Function_calls_back_Function
 )
 
@@ -84,7 +84,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(fct_" & @ RCM_Number_A & ", eobj_«number»)")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", eobj_Â«numberÂ»)")
 ;;; RCM_Function_uses_E_Object
 )
 
@@ -93,7 +93,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_«number»)")
+    '(replacement           " @(fct_" & @ RCM_Number_A & ", fct_Â«numberÂ»)")
 ;;; RCM_Function_calls_Function
 )
 
@@ -103,9 +103,9 @@
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
     '(replacement
-        " @( fct_" & @ RCM_Number_A & ", msg_«number», ««_NO_»»Group"
-        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
-        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive, ««_NO_»»ReceiveBeforeSend"
+        " @( fct_" & @ RCM_Number_A & ", msg_Â«numberÂ», Â«Â«_NO_Â»Â»Group"
+        "  , Â«Â«_NO_Â»Â»Send, Â«Â«_NO_Â»Â»Receive, Â«Â«_NO_Â»Â»DirectAccess, Â«Â«_NO_Â»Â»WithCopy"
+        "  , Â«Â«_NO_Â»Â»Explicit_Send, Â«Â«_NO_Â»Â»Explicit_Receive, Â«Â«_NO_Â»Â»ReceiveBeforeSend"
         "  )"
      )
 ;;; RCM_Function_uses_Message
@@ -117,7 +117,7 @@
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
     '(replacement
-        " @(fct_" & @ RCM_Number_A & ", rsc_«number», «RCM_Function_uses_Resource_Time»)"
+        " @(fct_" & @ RCM_Number_A & ", rsc_Â«numberÂ», Â«RCM_Function_uses_Resource_TimeÂ»)"
      )
 ;;; RCM_Function_uses_Resource
 )
@@ -133,7 +133,7 @@
   '(token)
   '(leading               ",")
   '(separator             lse-environment-indent lse-newline-and-indent ", ")
-  '(replacement           " @(fct_" & @ RCM_Number_A & ", stsk_«number»)")
+  '(replacement           " @(fct_" & @ RCM_Number_A & ", stsk_Â«numberÂ»)")
 ;;; RCM_Function_uses_SW_Task
 )
 
@@ -155,18 +155,18 @@
         ""
         "@def _RCM_Function_Code_"                & @ "RCM_Config_Tail"
         ""
-        "@def _RCM_Function_calls_back_Function_«RCM_Number»"
-        "     (@(««RCM_Function_calls_back_Function»»···))"
-        "@def _RCM_Function_uses_E_Object_«RCM_Number»"
-        "     (@(««RCM_Function_uses_E_Object»»···))"
-        "@def _RCM_Function_calls_Function_«RCM_Number»"
-        "     (@(««RCM_Function_calls_Function»»···))"
-        "@def _RCM_Function_uses_Message_«RCM_Number»"
-        "     (@(««RCM_Function_uses_Message»»···))"
-        "@def _RCM_Function_uses_Resource_«RCM_Number»"
-        "     (@(««RCM_Function_uses_Resource»»···))"
-        "@def _RCM_Function_uses_SW_Task_«RCM_Number»"
-        "     (@(««RCM_Function_uses_SW_Task»»))"
+        "@def _RCM_Function_calls_back_Function_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_calls_back_FunctionÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Function_uses_E_Object_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_uses_E_ObjectÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Function_calls_Function_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_calls_FunctionÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Function_uses_Message_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_uses_MessageÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Function_uses_Resource_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_uses_ResourceÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Function_uses_SW_Task_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Function_uses_SW_TaskÂ»Â»))"
      )
 ;;; RCM_Function_Config
 )
@@ -203,7 +203,7 @@
                             ""
                             "For properties defined inside a subsystem, this"
                             "is a structured number formed as :"
-                            "    «subsystem-number»_«property-number»"
+                            "    Â«subsystem-numberÂ»_Â«property-numberÂ»"
      )
     '(auto-replicate        100)
 ;;; RCM_Number
@@ -259,7 +259,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_Â«numberÂ»)")
 ;;; RCM_Process_calls_back_Function
 )
 
@@ -268,7 +268,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(prc_" & @ RCM_Number_A & ", eobj_«number»)")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", eobj_Â«numberÂ»)")
 ;;; RCM_Process_uses_E_Object
 )
 
@@ -277,7 +277,7 @@
     '(token)
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
-    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_«number»)")
+    '(replacement           " @(prc_" & @ RCM_Number_A & ", fct_Â«numberÂ»)")
 ;;; RCM_Process_calls_Function
 )
 
@@ -287,9 +287,9 @@
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
     '(replacement
-        " @( prc_" & @ RCM_Number_A & ", msg_«number», ««_NO_»»Group"
-        "  , ««_NO_»»Send, ««_NO_»»Receive, ««_NO_»»DirectAccess, ««_NO_»»WithCopy"
-        "  , ««_NO_»»Explicit_Send, ««_NO_»»Explicit_Receive, ««_NO_»»ReceiveBeforeSend"
+        " @( prc_" & @ RCM_Number_A & ", msg_Â«numberÂ», Â«Â«_NO_Â»Â»Group"
+        "  , Â«Â«_NO_Â»Â»Send, Â«Â«_NO_Â»Â»Receive, Â«Â«_NO_Â»Â»DirectAccess, Â«Â«_NO_Â»Â»WithCopy"
+        "  , Â«Â«_NO_Â»Â»Explicit_Send, Â«Â«_NO_Â»Â»Explicit_Receive, Â«Â«_NO_Â»Â»ReceiveBeforeSend"
         "  )"
      )
 ;;; RCM_Process_uses_Message
@@ -301,7 +301,7 @@
     '(leading               ",")
     '(separator             lse-environment-indent lse-newline-and-indent ", ")
     '(replacement
-        " @(prc_" & @ RCM_Number_A & ", rsc_«number», «RCM_Process_uses_Resource_Time»)"
+        " @(prc_" & @ RCM_Number_A & ", rsc_Â«numberÂ», Â«RCM_Process_uses_Resource_TimeÂ»)"
      )
 ;;; RCM_Process_uses_Resource
 )
@@ -317,7 +317,7 @@
   '(token)
   '(leading               ",")
   '(separator             lse-environment-indent lse-newline-and-indent ", ")
-  '(replacement           " @(prc_" & @ RCM_Number_A & ", stsk_«number»)")
+  '(replacement           " @(prc_" & @ RCM_Number_A & ", stsk_Â«numberÂ»)")
 ;;; RCM_Process_uses_SW_Task
 )
 
@@ -342,18 +342,18 @@
         "@def _RCM_Process_init_"         & @ "RCM_Config_Tail"
         "@def _RCM_Process_body_"         & @ "RCM_Config_Tail"
         ""
-        "@def _RCM_Process_calls_back_Function_«RCM_Number»"
-        "     (@(««RCM_Process_calls_back_Function»»···))"
-        "@def _RCM_Process_uses_E_Object_«RCM_Number»"
-        "     (@(««RCM_Process_uses_E_Object»»···))"
-        "@def _RCM_Process_calls_Function_«RCM_Number»"
-        "     (@(««RCM_Process_calls_Function»»···))"
-        "@def _RCM_Process_uses_Message_«RCM_Number»"
-        "     (@(««RCM_Process_uses_Message»»···))"
-        "@def _RCM_Process_uses_Resource_«RCM_Number»"
-        "     (@(««RCM_Process_uses_Resource»»···))"
-        "@def _RCM_Process_uses_SW_Task_«RCM_Number»"
-        "     (@(««RCM_Process_uses_SW_Task»»))"
+        "@def _RCM_Process_calls_back_Function_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_calls_back_FunctionÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Process_uses_E_Object_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_uses_E_ObjectÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Process_calls_Function_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_calls_FunctionÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Process_uses_Message_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_uses_MessageÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Process_uses_Resource_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_uses_ResourceÂ»Â»Â·Â·Â·))"
+        "@def _RCM_Process_uses_SW_Task_Â«RCM_NumberÂ»"
+        "     (@(Â«Â«RCM_Process_uses_SW_TaskÂ»Â»))"
      )
 ;;; RCM_Process_Config
 )
@@ -393,8 +393,8 @@
         "@def _RCM_Subsystem_Exports_Resource_"   & @ "RCM_Config_Tail"
         "@def _RCM_Subsystem_Exports_Subsystem_"  & @ "RCM_Config_Tail"
         ""
-        "@require (\"msg_cfg«RCM_Number».c\")"
-        "@require (\"xcp_cfg«RCM_Number».c\")"
+        "@require (\"msg_cfgÂ«RCM_NumberÂ».c\")"
+        "@require (\"xcp_cfgÂ«RCM_NumberÂ».c\")"
      )
 ;;; RCM_Subsystem_Config
 )
@@ -465,4 +465,4 @@
 ;;; RCM_X_Routine_Config
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·

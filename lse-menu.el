@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
 ;;;; Copyright (C) 1996-2012 Mag. Christian Tanzer. All rights reserved.
@@ -54,7 +54,7 @@
 ;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
 ;;;;    26-Feb-2012 (CT) Add `lse-tpu:search:smart-case`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (provide 'lse-menu)

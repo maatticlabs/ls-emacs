@@ -1,16 +1,16 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Quotation-File" 
   '(description   "Definition of a single quotation")
   '(replacement 
       @ "entry-head"
-      "\\def\\QuotCreator/{«text»}"
-      "\\def\\QuotSource/{«Quotation-Source»}"
-      "\\def\\QuotSourcePage/{«Quotation-Page»}"
+      "\\def\\QuotCreator/{Â«textÂ»}"
+      "\\def\\QuotSource/{Â«Quotation-SourceÂ»}"
+      "\\def\\QuotSourcePage/{Â«Quotation-PageÂ»}"
       "\\def\\QuotContents/%"
-      "  {«text»"
+      "  {Â«textÂ»"
       "  }"
-      "««Quotation-Comment»»"
+      "Â«Â«Quotation-CommentÂ»Â»"
       @ "entry-tail"
   )
 )
@@ -20,7 +20,7 @@
   '(description)
   '(replacement
       "\\def\\QuotComment/%"
-      "  {«text»}"
+      "  {Â«textÂ»}"
    )
 )
 

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -68,7 +68,7 @@
 ;;;;     5-Aug-2009 (CT) Quote added to `lse-face:line-too-long`
 ;;;;    10-Nov-2010 (CT) Optional argument `buffer` added to `lse-revert-buffer`
 ;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-buffer)
 

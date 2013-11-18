@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
  
 ;;;;unix_ms_filename_correspondency swing-kartei--summary.el swi_ksmy.el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -13,7 +13,7 @@
 ;;;; Revision Dates
 ;;;;    16-Aug-1994 (CT) Creation (of comment)
 ;;;;    16-Aug-1994 (CT) case-fold-search added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;-- 
 (provide 'swing-kartei--summary)
 

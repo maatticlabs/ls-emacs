@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in-history:el lse_fihi:el
 ;;;; Copyright (C) 1995-2010 Mag. Christian Tanzer. All rights reserved.
@@ -36,7 +36,7 @@
 ;;;;                     princ instead of insert
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-fill-in-history)
 

@@ -24,7 +24,7 @@
 #    18-May-2011 (CT) Use `$(dirname $0)` to find `ls-emacs-ini.bash`
 #    18-May-2011 (CT) Allow filenames, not only language names, as arguments
 #    18-Feb-2012 (CT) Guard for argument `*`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 if [ -z "$EMACSLSESRC" ]

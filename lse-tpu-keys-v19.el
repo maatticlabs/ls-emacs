@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -83,8 +83,8 @@
 ;;;;    13-Jan-1998 (CT) Corrected `lse-tpu-keys:shifted'
 ;;;;    12-Feb-1998 (CT) [?\s-c], [?\s-v], and [?\s-x] defined analogously to
 ;;;;                     the corresponding control-keys in Windows programs
-;;;;    22-Mar-1998 (CT) Substituted definitions for [<color> ?ß] by
-;;;;                     definitions for [<color> ?:] (ß didn't work)
+;;;;    22-Mar-1998 (CT) Substituted definitions for [<color> ?ÃŸ] by
+;;;;                     definitions for [<color> ?:] (ÃŸ didn't work)
 ;;;;     9-Apr-1998 (CT) lse-frame:make-small added
 ;;;;    29-Apr-1998 (CT) Replace-Binding for `print-buffer' and
 ;;;;                     `print-region' (by `lpr-*')
@@ -174,7 +174,7 @@
 ;;;;                     `lse-tpu:goto-next-occurrence-current-char`
 ;;;;     2-Jul-2012 (CT) Bind `lse-copy-current-word`,
 ;;;;                     `lse-copy-current-bs-word`
-;;;;    ««Revision-date»»···
+;;;;    Â«Â«Revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-tpu-keys-v19)
 
@@ -837,12 +837,12 @@
   (global-set-asp [blue      ?\<]    'lse-select-bracketed-range)
   (global-set-asp [blue      ?\[]    'lse-select-bracketed-range)
   (global-set-asp [blue      ?\{]    'lse-select-bracketed-range)
-  (global-set-asp [blue      ?\«]    'lse-select-bracketed-range)
+  (global-set-asp [blue      ?\Â«]    'lse-select-bracketed-range)
   (global-set-asp [pink      ?\(]    'lse-select-next-bracketed-range)
   (global-set-asp [pink      ?\<]    'lse-select-next-bracketed-range)
   (global-set-asp [pink      ?\[]    'lse-select-next-bracketed-range)
   (global-set-asp [pink      ?\{]    'lse-select-next-bracketed-range)
-  (global-set-asp [pink      ?\«]    'lse-select-next-bracketed-range)
+  (global-set-asp [pink      ?\Â«]    'lse-select-next-bracketed-range)
   (global-set-key [blue      ?|]     'lse-insert-bars)
   (global-set-key [blue      ?+]     'lse-pop+restore-window-configuration)
   (global-set-key [blue      ?`]     'lse-frame:set-width:80); 5-Mar-1997

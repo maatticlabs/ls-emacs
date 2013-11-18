@@ -1,7 +1,7 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2001 TTTech Computertechnik AG. All rights reserved
-;;;; Schönbrunnerstraße 7, A--1040 Wien, Austria. office@tttech.com
+;;;; SchÃ¶nbrunnerstraÃŸe 7, A--1040 Wien, Austria. office@tttech.com
 ;;;;
 ;;;;++
 ;;;; Name
@@ -12,7 +12,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;     4-Sep-2001 (MG) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 
@@ -23,14 +23,14 @@
   '(token                 "etype")
   '(description           "Definition of an Entity Type class")
   '(replacement
-      "class «tta-entity-type-name» (TOM.Entity_Type)"
+      "class Â«tta-entity-type-nameÂ» (TOM.Entity_Type)"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
           "Ancestor = __Ancestor = TOM.Entity_Type"
           ""
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
         ""
    )
 ;;; tta-entity-type
@@ -41,7 +41,7 @@
     '(token                 "_e_type_template")
     '(description           "Define the entity-type template")
     '(replacement
-        "_e_type_template            = TOM.««text»» ()"
+        "_e_type_template            = TOM.Â«Â«textÂ»Â» ()"
         ""
      )
 ;;; tta-et-template
@@ -52,7 +52,7 @@
     '(token                 "_e_type_universe")
     '(description           "Define a template for the entity-type `universe`")
     '(replacement
-        "_e_type_universe            = TOM.««text»» \\"
+        "_e_type_universe            = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_universe"
         "  )"
         ""
@@ -65,7 +65,7 @@
     '(token                 "_e_type_cluster")
     '(description           "Define a template for the entity-type `solitaire`")
     '(replacement
-        "_e_type_cluster             = TOM.««text»» \\"
+        "_e_type_cluster             = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_cluster"
         "  )"
         ""
@@ -78,7 +78,7 @@
     '(token                 "_e_type_solitaire")
     '(description           "Define a template for the entity-type `solitaire`")
     '(replacement
-        "_e_type_solitaire           = TOM.««text»» \\"
+        "_e_type_solitaire           = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_solitaire"
         "  )"
         ""
@@ -91,7 +91,7 @@
     '(token                 "_e_type_solitaire__universe")
     '(description           "Define a template for the entity-type `solitaire-universe`")
     '(replacement
-        "_e_type_solitaire__universe = TOM.««text»» \\"
+        "_e_type_solitaire__universe = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_solitaire__universe"
         "  )"
         ""
@@ -104,7 +104,7 @@
     '(token                 "_e_type_node")
     '(description           "Define a template for the entity-type `node`")
     '(replacement
-        "_e_type_node                = TOM.««text»» \\"
+        "_e_type_node                = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_node"
         "  )"
         ""
@@ -117,7 +117,7 @@
     '(token                 "_e_type_node__universe")
     '(description           "Define a template for the entity-type `node-universe`")
     '(replacement
-        "_e_type_node__universe      = TOM.««text»» \\"
+        "_e_type_node__universe      = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_node__universe"
         "  )"
         ""
@@ -130,7 +130,7 @@
     '(token                 "_e_type_node__cluster")
     '(description           "Define a template for the entity-type `node-cluster`")
     '(replacement
-        "_e_type_node__cluster       = TOM.««text»» \\"
+        "_e_type_node__cluster       = TOM.Â«Â«textÂ»Â» \\"
         "  ( _e_type_template, Ancestor._e_type_node__cluster"
         "  )"
         ""
@@ -164,7 +164,7 @@
     '(replacement
         "_attr_spec                  = TOM.Attr_Spec \\"
         "  ( Ancestor._attr_spec"
-        "  , «text»"
+        "  , Â«textÂ»"
         "  )"
         ""
      )
@@ -179,7 +179,7 @@
     '(replacement
         "_invariant_spec             = TOM.Invariant_Spec \\"
         "  ( Ancestor._invariant_spec"
-        "  , «tta-invariant-type»···"
+        "  , Â«tta-invariant-typeÂ»Â·Â·Â·"
         "  )"
         ""
      )
@@ -198,13 +198,13 @@
     '(description           "A simple invarinat")
     '(replacement
         "TTA_Invariant"
-        "  ( «tta-invariant-attributes»"
-        "  , «tta-invariant-condition»"
-        "  , ««tta-invariant-parameter»»"
+        "  ( Â«tta-invariant-attributesÂ»"
+        "  , Â«tta-invariant-conditionÂ»"
+        "  , Â«Â«tta-invariant-parameterÂ»Â»"
         "  , kind        = "
         "  , description = "
         "  )"
-        ««fill-in-item»»···
+        Â«Â«fill-in-itemÂ»Â»Â·Â·Â·
      )
 ;;; tta-invariant
 )

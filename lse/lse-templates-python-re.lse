@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "MatchObject:re" 
   '(description           "Argument 1 of MatchObject")
@@ -33,7 +33,7 @@
 (lse-define-fill-in "MatchObject(re,string,pos,endpos,regs)" 
   '(description           "Create a MatchObject object")
   '(token                 "re.MatchObject")
-  '(replacement           "re.MatchObject («MatchObject:re», «MatchObject:string», «MatchObject:pos», «MatchObject:endpos», «MatchObject:regs»)")
+  '(replacement           "re.MatchObject (Â«MatchObject:reÂ», Â«MatchObject:stringÂ», Â«MatchObject:posÂ», Â«MatchObject:endposÂ», Â«MatchObject:regsÂ»)")
 ;;; MatchObject(re,string,pos,endpos,regs)
 )
 
@@ -64,7 +64,7 @@
 (lse-define-fill-in "RegexObject(pattern,flags,code,groupindex)" 
   '(description           "Create a RegexObject object")
   '(token                 "re.RegexObject")
-  '(replacement           "re.RegexObject («RegexObject:pattern», «RegexObject:flags», «RegexObject:code», «RegexObject:groupindex»)")
+  '(replacement           "re.RegexObject (Â«RegexObject:patternÂ», Â«RegexObject:flagsÂ», Â«RegexObject:codeÂ», Â«RegexObject:groupindexÂ»)")
 ;;; RegexObject(pattern,flags,code,groupindex)
 )
 
@@ -83,7 +83,7 @@
 (lse-define-fill-in "re.compile" 
   '(description           "Compile a regular expression pattern, returning a RegexObject.")
   '(token)
-  '(replacement           "re.compile («re.compile:pattern», ««re.compile:flags»»)")
+  '(replacement           "re.compile (Â«re.compile:patternÂ», Â«Â«re.compile:flagsÂ»Â»)")
 ;;; re.compile
 )
 
@@ -97,7 +97,7 @@
   '(description           "Return the end of the substring matched by group g")
   '(token)
   '(token                 "MatchObject.end")
-  '(replacement           "end (««MatchObject.end:g»»)")
+  '(replacement           "end (Â«Â«MatchObject.end:gÂ»Â»)")
 ;;; end(g)
 )
 
@@ -110,7 +110,7 @@
 (lse-define-fill-in "re.escape" 
   '(description           "Escape all non-alphanumeric characters in pattern.")
   '(token)
-  '(replacement           "re.escape («re.escape:pattern»)")
+  '(replacement           "re.escape (Â«re.escape:patternÂ»)")
 ;;; re.escape
 )
 
@@ -125,7 +125,7 @@
   '(description           "Return one or more groups of the match.")
   '(token)
   '(token                 "MatchObject.group")
-  '(replacement           "group (««MatchObject.group:groups»»···)")
+  '(replacement           "group (Â«Â«MatchObject.group:groupsÂ»Â»Â·Â·Â·)")
 ;;; group(groups)
 )
 
@@ -157,7 +157,7 @@
 
 (lse-define-fill-in "re.match" 
   '(token)
-  '(replacement           "re.match («re.match:pattern», «re.match:string», ««re.match:flags»»)")
+  '(replacement           "re.match (Â«re.match:patternÂ», Â«re.match:stringÂ», Â«Â«re.match:flagsÂ»Â»)")
 ;;; re.match
 )
 
@@ -189,7 +189,7 @@
    )
   '(token)
   '(token                 "RegexObject.match")
-  '(replacement           "match («RegexObject.match:string», ««RegexObject.match:pos»», ««RegexObject.match:endpos»»)")
+  '(replacement           "match (Â«RegexObject.match:stringÂ», Â«Â«RegexObject.match:posÂ»Â», Â«Â«RegexObject.match:endposÂ»Â»)")
 ;;; match(string,pos,endpos)
 )
 
@@ -225,7 +225,7 @@
 
 (lse-define-fill-in "re.search" 
   '(token)
-  '(replacement           "re.search («re.search:pattern», «re.search:string», ««re.search:flags»»)")
+  '(replacement           "re.search (Â«re.search:patternÂ», Â«re.search:stringÂ», Â«Â«re.search:flagsÂ»Â»)")
 ;;; re.search
 )
 
@@ -257,7 +257,7 @@
    )
   '(token)
   '(token                 "RegexObject.search")
-  '(replacement           "search («RegexObject.search:string», ««RegexObject.search:pos»», ««RegexObject.search:endpos»»)")
+  '(replacement           "search (Â«RegexObject.search:stringÂ», Â«Â«RegexObject.search:posÂ»Â», Â«Â«RegexObject.search:endposÂ»Â»)")
 ;;; search(string,pos,endpos)
 )
 
@@ -277,7 +277,7 @@
    )
   '(token)
   '(token                 "MatchObject.span")
-  '(replacement           "span (««MatchObject.span:g»»)")
+  '(replacement           "span (Â«Â«MatchObject.span:gÂ»Â»)")
 ;;; span(g)
 )
 
@@ -301,7 +301,7 @@
 
 (lse-define-fill-in "re.split" 
   '(token)
-  '(replacement           "re.split («re.split:pattern», «re.split:string», ««re.split:maxsplit»»)")
+  '(replacement           "re.split (Â«re.split:patternÂ», Â«re.split:stringÂ», Â«Â«re.split:maxsplitÂ»Â»)")
 ;;; re.split
 )
 
@@ -327,7 +327,7 @@
    )
   '(token)
   '(token                 "RegexObject.split")
-  '(replacement           "split («RegexObject.split:source», ««RegexObject.split:maxsplit»»)")
+  '(replacement           "split (Â«RegexObject.split:sourceÂ», Â«Â«RegexObject.split:maxsplitÂ»Â»)")
 ;;; split(source,maxsplit)
 )
 
@@ -341,7 +341,7 @@
   '(description           "Return the start of the substring matched by group g")
   '(token)
   '(token                 "MatchObject.start")
-  '(replacement           "start (««MatchObject.start:g»»)")
+  '(replacement           "start (Â«Â«MatchObject.start:gÂ»Â»)")
 ;;; start(g)
 )
 
@@ -371,7 +371,7 @@
 
 (lse-define-fill-in "re.sub" 
   '(token)
-  '(replacement           "re.sub («re.sub:pattern», «re.sub:repl», «re.sub:string», ««re.sub:count»»)")
+  '(replacement           "re.sub (Â«re.sub:patternÂ», Â«re.sub:replÂ», Â«re.sub:stringÂ», Â«Â«re.sub:countÂ»Â»)")
 ;;; re.sub
 )
 
@@ -409,7 +409,7 @@
    )
   '(token)
   '(token                 "RegexObject.sub")
-  '(replacement           "sub («RegexObject.sub:repl», «RegexObject.sub:string», ««RegexObject.sub:count»»)")
+  '(replacement           "sub (Â«RegexObject.sub:replÂ», Â«RegexObject.sub:stringÂ», Â«Â«RegexObject.sub:countÂ»Â»)")
 ;;; sub(repl,string,count)
 )
 
@@ -439,7 +439,7 @@
 
 (lse-define-fill-in "re.subn" 
   '(token)
-  '(replacement           "re.subn («re.subn:pattern», «re.subn:repl», «re.subn:string», ««re.subn:count»»)")
+  '(replacement           "re.subn (Â«re.subn:patternÂ», Â«re.subn:replÂ», Â«re.subn:stringÂ», Â«Â«re.subn:countÂ»Â»)")
 ;;; re.subn
 )
 
@@ -483,7 +483,7 @@
    )
   '(token)
   '(token                 "RegexObject.subn")
-  '(replacement           "subn («RegexObject.subn:repl», «RegexObject.subn:source», ««RegexObject.subn:count»»)")
+  '(replacement           "subn (Â«RegexObject.subn:replÂ», Â«RegexObject.subn:sourceÂ», Â«Â«RegexObject.subn:countÂ»Â»)")
 ;;; subn(repl,source,count)
 )
 

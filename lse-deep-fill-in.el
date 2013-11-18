@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-deep-fill-in:el lse_dpfi:el
 ;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
@@ -42,7 +42,7 @@
 ;;;;     9-Oct-1996 (CT) Added optional parameter `dont-highlight' to
 ;;;;                     `lse_toggle_fill-in_expansion'
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-deep-fill-in)
 

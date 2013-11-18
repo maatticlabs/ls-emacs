@@ -25,7 +25,7 @@
 #
 # Revision Dates
 #    18-May-2011 (CT) Creation
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 if [ -z "$EMACSLSESRC" ]

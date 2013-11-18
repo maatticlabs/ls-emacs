@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
 ;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
@@ -47,7 +47,7 @@
 ;;;;     5-Aug-2009 (CT) Modernize use of backquotes
 ;;;;    18-Feb-2012 (CT) Remove `lse_last_position`
 ;;;;    16-May-2013 (CT) Change `defmacro` to `defun`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-fill-in--search)
 

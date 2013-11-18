@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in:el lse_fiin:el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -42,7 +42,7 @@
 ;;;;                     removing text properties)
 ;;;;    13-Oct-1996 (CT) lse-fill-in:add-text-properties and
 ;;;;                     lse-fill-in:remove-text-properties defined
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-fill-in)
 

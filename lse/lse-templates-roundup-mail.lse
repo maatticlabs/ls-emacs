@@ -1,6 +1,6 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 ;;;; Copyright (C) 2000 TTTech Computertechnik AG. All rights reserved
-;;;; Schönbrunnerstraße 7, A--1040 Wien, Austria. office@tttech.com
+;;;; SchÃ¶nbrunnerstraÃŸe 7, A--1040 Wien, Austria. office@tttech.com
 ;;;;
 ;;;;++
 ;;;; Name
@@ -11,7 +11,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;     6-Oct-2003 (CT) Creation (loosely based on lse-templates-gnats-pr.el)
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 
@@ -29,7 +29,7 @@
     '(token)
     '(token                 "property-settings")
     '(description           "Properties to be set for issue")
-    '(replacement           "[«roundup-mail-one-property»···]")
+    '(replacement           "[Â«roundup-mail-one-propertyÂ»Â·Â·Â·]")
 ;;; roundup-mail-property-settings
 )
 
@@ -63,7 +63,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Numeric priority of issue")
-    '(replacement           "priority=«number»")
+    '(replacement           "priority=Â«numberÂ»")
 ;;; roundup-mail-priority
 )
 
@@ -74,7 +74,7 @@
     '(description           "Category of problem report")
     '(separator             "; ")
     '(leading               ";")
-    '(replacement           "category=«roundup-mail-category-value»")
+    '(replacement           "category=Â«roundup-mail-category-valueÂ»")
 ;;; roundup-mail-category
 )
 
@@ -157,7 +157,7 @@
     '(description           "Area of issue")
     '(separator             "; ")
     '(leading               ";")
-    '(replacement           "area=«roundup-mail-area-value»")
+    '(replacement           "area=Â«roundup-mail-area-valueÂ»")
 ;;; roundup-mail-area
 )
 
@@ -182,7 +182,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Person responsible for working on issue")
-    '(replacement           "responsible=«text»")
+    '(replacement           "responsible=Â«textÂ»")
 ;;; roundup-mail-responsible
 )
 
@@ -194,7 +194,7 @@
     '(leading               ";")
     '(description           "Estimated effort for implementation of fix")
     '(replacement
-        "effort=«roundup-mail-effort-time»"
+        "effort=Â«roundup-mail-effort-timeÂ»"
      )
 ;;; roundup-mail-effort
 )
@@ -203,8 +203,8 @@
 (lse-define-fill-in "roundup-mail-effort-time"
     '(description           "Person days or person weeks estimated")
     '(menu
-        ("«text» PD"     "person days")
-        ("«text» PW"     "person weeks")
+        ("Â«textÂ» PD"     "person days")
+        ("Â«textÂ» PW"     "person weeks")
      )
 ;;; roundup-mail-effort-time
 )
@@ -219,7 +219,7 @@
         "Lists issues describing workpackages of this issue"
      )
     '(replacement
-        "composed_of=+«number»···"
+        "composed_of=+Â«numberÂ»Â·Â·Â·"
      )
 ;;; roundup-mail-composed-of
 )
@@ -232,7 +232,7 @@
     '(leading               ";")
     '(description           "Lists the roundup issue this issue is a part of")
     '(auto-expand)
-    '(replacement           "part_of=«number»")
+    '(replacement           "part_of=Â«numberÂ»")
 ;;; roundup-mail-part-of
 )
 
@@ -243,7 +243,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Other issues this one depends one")
-    '(replacement           "depends_on=+«number»")
+    '(replacement           "depends_on=+Â«numberÂ»")
 ;;; roundup-mail-depends
 )
 
@@ -254,7 +254,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Deadline of issue")
-    '(replacement           "deadline=«date»")
+    '(replacement           "deadline=Â«dateÂ»")
 ;;; roundup-mail-deadline
 )
 
@@ -265,7 +265,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Version where this issue is fixed")
-    '(replacement           "fixed_in=«text»")
+    '(replacement           "fixed_in=Â«textÂ»")
 ;;; roundup-mail-depends
 )
 
@@ -276,7 +276,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "Number of issue that this issue is a duplicate of")
-    '(replacement           "duplicate_of=«number»")
+    '(replacement           "duplicate_of=Â«numberÂ»")
 ;;; roundup-mail-depends
 )
 
@@ -287,7 +287,7 @@
     '(separator             "; ")
     '(leading               ";")
     '(description           "List of persons getting mails about this issue")
-    '(replacement           "nosy=+«text»")
+    '(replacement           "nosy=+Â«textÂ»")
 ;;; roundup-mail-depends
 )
 
@@ -298,7 +298,7 @@
     '(description           "New status of issue")
     '(separator             "; ")
     '(leading               ";")
-    '(replacement           "status=«roundup-mail-status-value»")
+    '(replacement           "status=Â«roundup-mail-status-valueÂ»")
 ;;; roundup-mail-status
 )
 

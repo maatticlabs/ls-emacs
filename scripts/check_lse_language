@@ -38,7 +38,7 @@ open(FILE, $file) || die "Can't open $file: $!\n";
 while ($line = <FILE>) {
     chop $line;
     $line =~ tr/\\/\\/s;
-    while ($line =~ /«+¦?([^¦»]*)(.*)/) {
+    while ($line =~ /Â«+Â¦?([^Â¦Â»]*)(.*)/) {
         $line = $2;
         next if $1 =~ /^"? +"?$/; # avoid empty fill-in caused by simple
                                   # token "<"
@@ -48,7 +48,7 @@ while ($line = <FILE>) {
 close(FILE);
 #
 foreach $f (sort keys(%freferenced)) {
-    print "«$f» $freferenced{$f}\n" unless $defined{"$f"} >= 1;
+    print "Â«$fÂ» $freferenced{$f}\n" unless $defined{"$f"} >= 1;
 }
 
 

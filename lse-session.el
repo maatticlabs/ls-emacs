@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-session:el lse_sssn:el
 ;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
@@ -46,8 +46,8 @@
 ;;;;    26-Aug-1998 (CT) `lse-yyyy/mm/dd' and `lse-insert-yyyy/mm/dd' added
 ;;;;    30-Oct-1998 (CT) Angelow and Langmaier added
 ;;;;    11-Jan-1999 (CT) Changed `lse-user-e-mail-address'
-;;;;     7-Apr-1999 (CT) Benesch, Lettner, and Niedersüß added
-;;;;     7-May-1999 (CT) Bauer and Wächter added
+;;;;     7-Apr-1999 (CT) Benesch, Lettner, and NiedersÃ¼ÃŸ added
+;;;;     7-May-1999 (CT) Bauer and WÃ¤chter added
 ;;;;     1-Jul-1999 (CT) Pisecky added
 ;;;;    16-Jul-1999 (CT) Schwarz added
 ;;;;     4-Aug-1999 (CT) Doppelbauer added
@@ -68,7 +68,7 @@
 ;;;;    12-Nov-2009 (CT) `lse-new-site-info` and functions using it added
 ;;;;                     (and: site-specific function definitions removed)
 ;;;;    23-Jul-2010 (CT) `lse-insert-date-time-comment` added
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-session)
 

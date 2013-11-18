@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1997-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -38,7 +38,7 @@
 ;;;;    17-Feb-2012 (CT) Defvar `:source-dir` as `nil`
 ;;;;    17-Feb-2012 (CT) Add and use `:setup-source-dir`, `:extra-source-dirs`
 ;;;;    16-May-2013 (CT) Remove `lse-fill-in--search` from `black-list`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 
 (provide 'lse-byte-compile)

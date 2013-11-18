@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-kartei.el swi_kart.el
 ;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
@@ -22,7 +22,7 @@
 ;;;;                     question to user)
 ;;;;    11-Oct-2007 (CT) `swing-kartei:get-file-buffer` changed to use
 ;;;;                     `lse-file:expanded-name`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (let ((kdir (getenv "SWING_KARTEI")))
   (if kdir

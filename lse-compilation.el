@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-compilation:el lse_cmpi:el
 ;;;; Copyright (C) 1995-2012 Mag. Christian Tanzer. All rights reserved.
@@ -40,7 +40,7 @@
 ;;;;                     compilation keymap (they are too stupid!!!)
 ;;;;     9-Sep-1995 (CT) lse-compilation-mode-hook added
 ;;;;    10-Jan-1998 (CT) Moved Control-Keys to Alt-Keys
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-compilation)
 

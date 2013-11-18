@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
@@ -18,12 +18,12 @@
 ;;;;                     (lse-environment-indent added to @section)
 ;;;;    11-Sep-2002 (CT) `item_text` added and used instead of `text` for
 ;;;;                     `another_item`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (lse-define-fill-in "*{N}{}"
   '(description   "Tabular environment repeat command")
   '(replacement
-      "*{«number»}{«text»}"
+      "*{Â«numberÂ»}{Â«textÂ»}"
    )
 )
 
@@ -43,13 +43,13 @@
     "Tabular preamble: inserts intracolumn material suppressing space"
    )
   '(replacement
-      "@{«text»}"
+      "@{Â«textÂ»}"
    )
 )
 
 (lse-define-fill-in "address"
     '(description           "Letter recipient address")
-    '(replacement           "«text»««linebreak»»")
+    '(replacement           "Â«textÂ»Â«Â«linebreakÂ»Â»")
 ;;; address
 )
 
@@ -62,7 +62,7 @@
   '(token)
   '(description   "Environment \\bibitem command")
   '(replacement
-      "\\bibitem ««item_label»» {«cite_key»}"
+      "\\bibitem Â«Â«item_labelÂ»Â» {Â«cite_keyÂ»}"
    )
 )
 
@@ -70,21 +70,21 @@
   '(token)
   '(description   "Environment \\item command")
   '(replacement
-      "\\item «item_text»"; 11-Sep-2002 `item_text` instead of `text`
+      "\\item Â«item_textÂ»"; 11-Sep-2002 `item_text` instead of `text`
    )
 )
 
 (lse-define-fill-in "ANOTHER_ITEM_LABELED"
   '(description   "Environment \\item command with optional label")
   '(replacement
-      "\\item ««item_label»» «text»"
+      "\\item Â«Â«item_labelÂ»Â» Â«textÂ»"
    )
 )
 
 (lse-define-fill-in "ARRAY_ENTRY"
   '(description   "Array entry")
   '(replacement
-      "««column_entry»»··· \\\\"
+      "Â«Â«column_entryÂ»Â»Â·Â·Â· \\\\"
    )
 )
 
@@ -135,7 +135,7 @@
 (lse-define-fill-in "ARTICLE"
   '(description   "Latex article document style")
   '(replacement
-      "\\documentstyle[12pt,german,swing,««options»»···]{article}"
+      "\\documentstyle[12pt,german,swing,Â«Â«optionsÂ»Â»Â·Â·Â·]{article}"
       ""
       "\\begin{document}"
       ""
@@ -197,7 +197,7 @@
   '(token         "\\caption")
   '(description   "Figure and Table caption command")
   '(replacement
-      "\\caption{«text» ««label»»}"
+      "\\caption{Â«textÂ» Â«Â«labelÂ»Â»}"
    )
 )
 
@@ -206,7 +206,7 @@
   '(token         "\\cc")
   '(description   "Letter copies")
   '(replacement
-      "\\cc{«text»}"
+      "\\cc{Â«textÂ»}"
    )
 )
 
@@ -218,7 +218,7 @@
   '(description     "Tabular preamble column specifier")
   '(replacement
       delete-horizontal-space
-      "«col_pos»««lined»»···««column»»"
+      "Â«col_posÂ»Â«Â«linedÂ»Â»Â·Â·Â·Â«Â«columnÂ»Â»"
    )
 )
 
@@ -316,7 +316,7 @@
   '(token         "\\encl")
   '(description   "Letter enclosures")
   '(replacement
-      "\\encl{«text»}"
+      "\\encl{Â«textÂ»}"
    )
 )
 
@@ -368,10 +368,10 @@
   '(replacement
       "\\begin{equation}"
       lse-indent+1
-      "««paragraph_text»»"
+      "Â«Â«paragraph_textÂ»Â»"
       lse-indent-1
       "\\end{equation}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -401,7 +401,7 @@
 (lse-define-fill-in "FN_NUMBER"
   '(description   "\\footnote and \\footnotetext optional footnote number argument")
   '(replacement
-      "[«number»]"
+      "[Â«numberÂ»]"
    )
 )
 
@@ -494,14 +494,14 @@
 (lse-define-fill-in "ITEM_ARG"
   '(description   "\\item macro with optional argument for documentlist environment")
   '(replacement
-      "\\item [««paragraph_text»»···] «text»"
+      "\\item [Â«Â«paragraph_textÂ»Â»Â·Â·Â·] Â«textÂ»"
    )
 )
 
 (lse-define-fill-in "ITEM_LABEL"
   '(description   "Optional label for \\item command")
   '(replacement
-      "[««text»»]"
+      "[Â«Â«textÂ»Â»]"
    )
 )
 
@@ -517,7 +517,7 @@
   '(token   "\\label")
   '(description   "Cross referencing command")
   '(replacement
-      "\\label{«text»}"
+      "\\label{Â«textÂ»}"
    )
 )
 
@@ -546,21 +546,21 @@
     '(token)
     '(description           "Latex letter document style")
     '(replacement
-            "\\documentstyle««optionlist»»{letter}"
+            "\\documentstyleÂ«Â«optionlistÂ»Â»{letter}"
             lse-indent+1
-            "««pre_letter_cmds»»···"
+            "Â«Â«pre_letter_cmdsÂ»Â»Â·Â·Â·"
             lse-indent-1
             "\\begin{document}"
             lse-indent+1
-            "\\begin{letter}{«recipient»}"
+            "\\begin{letter}{Â«recipientÂ»}"
             lse-indent+1
-            "\\opening{«paragraph_text»···}"
+            "\\opening{Â«paragraph_textÂ»Â·Â·Â·}"
             ""
-            "««environments»»···"
+            "Â«Â«environmentsÂ»Â»Â·Â·Â·"
             ""
-            "\\closing{«paragraph_text»···}"
-            "««cc»»"
-            "««encl»»"
+            "\\closing{Â«paragraph_textÂ»Â·Â·Â·}"
+            "Â«Â«ccÂ»Â»"
+            "Â«Â«enclÂ»Â»"
             lse-indent-1
             "\\end{letter}"
             lse-indent-1
@@ -585,7 +585,7 @@
 (lse-define-fill-in "LOCATION"
   '(description   "Figure and Table placement location")
   '(replacement
-      "[«here/top/bottom/float_page»···]"
+      "[Â«here/top/bottom/float_pageÂ»Â·Â·Â·]"
    )
 )
 
@@ -631,7 +631,7 @@
 (lse-define-fill-in "MAKEBOX_P_PLACEMENT"
   '(description   "\\makebox quadrant specifier for the picture environment")
   '(replacement
-      "[«quadrant» ««quadrant»»]"
+      "[Â«quadrantÂ» Â«Â«quadrantÂ»Â»]"
    )
 )
 
@@ -639,16 +639,16 @@
   '(token)
   '(description   "Math mode accents, see table 3.11 of LaTeX manual")
   '(menu
-      "\\hat{«text»}"
-      "\\check{«text»}"
-      "\\breve{«text»}"
-      "\\acute{«text»}"
-      "\\grave{«text»}"
-      "\\tilde{«text»}"
-      "\\bar{«text»}"
-      "\\vec{«text»}"
-      "\\dot{«text»}"
-      "\\ddot{«text»}"
+      "\\hat{Â«textÂ»}"
+      "\\check{Â«textÂ»}"
+      "\\breve{Â«textÂ»}"
+      "\\acute{Â«textÂ»}"
+      "\\grave{Â«textÂ»}"
+      "\\tilde{Â«textÂ»}"
+      "\\bar{Â«textÂ»}"
+      "\\vec{Â«textÂ»}"
+      "\\dot{Â«textÂ»}"
+      "\\ddot{Â«textÂ»}"
    )
 )
 
@@ -703,7 +703,7 @@
   '(token)
   '(description   "Tabular command to span multiple columns")
   '(replacement
-      "\\multicolumn{«no_col»}{««lined»»···«right/center/left» ««lined»»···}{«text»}"
+      "\\multicolumn{Â«no_colÂ»}{Â«Â«linedÂ»Â»Â·Â·Â·Â«right/center/leftÂ» Â«Â«linedÂ»Â»Â·Â·Â·}{Â«textÂ»}"
    )
 )
 
@@ -711,27 +711,27 @@
   '(token)
   '(description   "Non-math mode accents, see table 3.1 of LaTeX manual")
   '(menu
-      "\\`{«text»}"
-      "\\'{«text»}"
-      "\\^{«text»}"
-      "\\{«TEXT»}"
-      "\\~{«text»}"
-      "\\={«text»}"
-      "\\.{«text»}"
-      "\\u{«text»}"
-      "\\v{«text»}"
-      "\\H{«text»}"
-      "\\t{«text»}"
-      "\\c{«text»}"
-      "\\d{«text»}"
-      "\\b{«text»}"
+      "\\`{Â«textÂ»}"
+      "\\'{Â«textÂ»}"
+      "\\^{Â«textÂ»}"
+      "\\{Â«TEXTÂ»}"
+      "\\~{Â«textÂ»}"
+      "\\={Â«textÂ»}"
+      "\\.{Â«textÂ»}"
+      "\\u{Â«textÂ»}"
+      "\\v{Â«textÂ»}"
+      "\\H{Â«textÂ»}"
+      "\\t{Â«textÂ»}"
+      "\\c{Â«textÂ»}"
+      "\\d{Â«textÂ»}"
+      "\\b{Â«textÂ»}"
    )
 )
 
 (lse-define-fill-in "NO_ARGS"
   '(description   "\\newcommand and \\renewcommand optional arguments argument")
   '(replacement
-      "[«number»]"
+      "[Â«numberÂ»]"
    )
 )
 
@@ -750,7 +750,7 @@
 (lse-define-fill-in "NUMBERED_LIKE"
   '(description   "Name of a pre-defined theorem-like environment")
   '(replacement
-      "[«text»]"
+      "[Â«textÂ»]"
    )
 )
 
@@ -784,7 +784,7 @@
 (lse-define-fill-in "OPTIONAL"
   '(description   "Optional parameter for commands")
   '(replacement
-      "[«text»]"
+      "[Â«textÂ»]"
    )
 )
 
@@ -798,7 +798,7 @@
 (lse-define-fill-in "OPTIONLIST"
   '(description   "Optional Latex document substyles")
   '(replacement
-      "[«options»···]"
+      "[Â«optionsÂ»Â·Â·Â·]"
    )
 )
 
@@ -820,7 +820,7 @@
 (lse-define-fill-in "ORIGIN_OFFSET"
   '(description   "Optional picture environment offset")
   '(replacement
-      "(«offset_width»,«offset_height»)"
+      "(Â«offset_widthÂ»,Â«offset_heightÂ»)"
    )
 )
 
@@ -831,7 +831,7 @@
 (lse-define-fill-in "OVAL_SECTION"
   '(description   "Oval quadrant specifier for the picture environment")
   '(replacement
-      "[«quadrant» ««quadrant»»]"
+      "[Â«quadrantÂ» Â«Â«quadrantÂ»Â»]"
    )
 )
 
@@ -850,9 +850,9 @@
 (lse-define-fill-in "@paragraph"
   '(description   "used in all <*>paragraph commands")
   '(replacement
-      "paragraph{«text»}"
+      "paragraph{Â«textÂ»}"
       lse-indent+1
-      "««text»»"
+      "Â«Â«textÂ»Â»"
       "%"
       lse-indent-1
       ""
@@ -862,7 +862,7 @@
 (lse-define-fill-in "PARAGRAPH_TEXT"
   '(description   "Text followed by a \\\\")
   '(replacement
-      "«text» ««linebreak»»"
+      "Â«textÂ» Â«Â«linebreakÂ»Â»"
    )
 )
 
@@ -928,17 +928,17 @@
   '(token   "\\ps")
   '(description   "Postskriptum for letter style")
   '(replacement
-      "\\ps{«text»}"
+      "\\ps{Â«textÂ»}"
    )
 )
 
 (lse-define-fill-in "Put_Label"
   '(replacement
-      "\\putlabel(«x_coord»,«y_coord»)%"
+      "\\putlabel(Â«x_coordÂ»,Â«y_coordÂ»)%"
       lse-indent+1
       "{"
       lse-indent+1
-      "««put_p»»···"
+      "Â«Â«put_pÂ»Â»Â·Â·Â·"
       lse-indent-1
       "}"
       lse-indent-1
@@ -948,7 +948,7 @@
 (lse-define-fill-in "Put_P"
   '(description   "Object placement command for the picture environment")
   '(replacement
-      "\\put(«x_coord»,«y_coord»){«object_p»}"
+      "\\put(Â«x_coordÂ»,Â«y_coordÂ»){Â«object_pÂ»}"
    )
 )
 
@@ -963,7 +963,7 @@
 (lse-define-fill-in "P{}"
   '(description   "p-expression for tabular environment only")
   '(replacement
-      "p{«dimension»}"
+      "p{Â«dimensionÂ»}"
    )
 )
 
@@ -972,7 +972,7 @@
   '(separator "")
   '(replacement
       delete-horizontal-space
-      "«top/bottom/right/left»"
+      "Â«top/bottom/right/leftÂ»"
    )
 )
 
@@ -985,7 +985,7 @@
 
 (lse-define-fill-in "recipient"
     '(description           "Name and address of letter recipient")
-    '(replacement           "«addressee»««linebreak»»««address»»")
+    '(replacement           "Â«addresseeÂ»Â«Â«linebreakÂ»Â»Â«Â«addressÂ»Â»")
 ;;; recipient
 )
 
@@ -1036,7 +1036,7 @@
 (lse-define-fill-in "REPORT"
   '(description   "Latex report document style")
   '(replacement
-      "\\documentstyle[12pt,german,swing,««options»»···]{report}"
+      "\\documentstyle[12pt,german,swing,Â«Â«optionsÂ»Â»Â·Â·Â·]{report}"
       ""
       "\\begin{document}"
       ""
@@ -1049,7 +1049,7 @@
 (lse-define-fill-in "RESET_COUNTER"
   '(description   "Optional reset for the \\newcounter command")
   '(replacement
-      "[«counter_name»]"
+      "[Â«counter_nameÂ»]"
    )
 )
 
@@ -1065,15 +1065,15 @@
 (lse-define-fill-in "ROMAN"
   '(description   "Roman counter definitions, capital and lower case")
   '(menu
-      "\\roman{«counter_name»}"
-      "\\Roman{«counter_name»}"
+      "\\roman{Â«counter_nameÂ»}"
+      "\\Roman{Â«counter_nameÂ»}"
    )
 )
 
 (lse-define-fill-in "@section"
   '(description   "Used in all <*>section commands ")
   '(replacement
-      "section{«text»}"
+      "section{Â«textÂ»}"
       lse-environment-indent
       @ text-block
       ""
@@ -1146,21 +1146,21 @@
 (lse-define-fill-in "TABBING_ENTRY"
   '(description   "tabbing entry")
   '(replacement
-      "««tabbing_column_entry»»··· \\\\"
+      "Â«Â«tabbing_column_entryÂ»Â»Â·Â·Â· \\\\"
    )
 )
 
 (lse-define-fill-in "TABLE_ENTRY"
   '(description   "Tabular entry")
   '(replacement
-      "««column_entry»»··· \\\\ ««hline»»"
+      "Â«Â«column_entryÂ»Â»Â·Â·Â· \\\\ Â«Â«hlineÂ»Â»"
    )
 )
 
 (lse-define-fill-in "TABULAR_WIDTH"
   '(description   "Width of a table made with tabular* ")
   '(replacement
-      "[«width»]"
+      "[Â«widthÂ»]"
    )
 )
 
@@ -1252,7 +1252,7 @@
 (lse-define-fill-in "WITHIN"
   '(description   "Optional counter name, e.g. chapter, section")
   '(replacement
-      "[«counter_name»]"
+      "[Â«counter_nameÂ»]"
    )
 )
 
@@ -1276,12 +1276,12 @@
   '(token)
   '(description   "Multi-column array environment")
   '(replacement
-      "\\begin{array}{«column»···}"
+      "\\begin{array}{Â«columnÂ»Â·Â·Â·}"
       lse-indent+1
-      "««array_entry»»···"
+      "Â«Â«array_entryÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{array}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1290,10 +1290,10 @@
   '(token         "\\begin")
   '(description   "Any other environment")
   '(replacement
-      "\\begin{«env_name»}"
+      "\\begin{Â«env_nameÂ»}"
       @ text-block &
-      "\\end{«env_name»}"
-      "««text»»"
+      "\\end{Â«env_nameÂ»}"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1304,7 +1304,7 @@
       "\\begin{center}"
       @ text-block &
       "\\end{center}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1314,9 +1314,9 @@
   '(replacement
       "\\begin{description}"
       @  "another_item_labeled"
-      "««another_item_labeled»»···"
+      "Â«Â«another_item_labeledÂ»Â»Â·Â·Â·"
       "\\end{description}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1326,10 +1326,10 @@
   '(replacement
       "\\begin{displaymath}"
       lse-indent+1
-      "««paragraph_text»»···"
+      "Â«Â«paragraph_textÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{displaymath}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1338,8 +1338,8 @@
   '(description   "Document list environment")
   '(replacement
       "\\begin{documentlist}"
-      "\\item [««paragraph_text»»···] «text»"
-      "««item_arg»»···"
+      "\\item [Â«Â«paragraph_textÂ»Â»Â·Â·Â·] Â«textÂ»"
+      "Â«Â«item_argÂ»Â»Â·Â·Â·"
       "\\end{documentlist}"
    )
 )
@@ -1350,9 +1350,9 @@
   '(replacement
       "\\begin{enumerate}"
       @  "another_item"
-      "««another_item»»···"
+      "Â«Â«another_itemÂ»Â»Â·Â·Â·"
       "\\end{enumerate}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1360,12 +1360,12 @@
   '(token)
   '(description   "Multi-line formula environment")
   '(replacement
-      "\\begin{eqnarray««env_star»»}"
+      "\\begin{eqnarrayÂ«Â«env_starÂ»Â»}"
       lse-indent+1
-      "«paragraph_text»"
+      "Â«paragraph_textÂ»"
       lse-indent-1
-      "\\end{eqnarray««env_star»»}"
-      "««text»»"
+      "\\end{eqnarrayÂ«Â«env_starÂ»Â»}"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1373,13 +1373,13 @@
   '(token)
   '(description   "LaTeX figure environment, NOT available in SliTeX")
   '(replacement
-      "\\begin{figure}««location»»"
+      "\\begin{figure}Â«Â«locationÂ»Â»"
       lse-indent+1
-      "««text»»"
-      "««caption»»"
+      "Â«Â«textÂ»Â»"
+      "Â«Â«captionÂ»Â»"
       lse-indent-1
       "\\end{figure}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1390,7 +1390,7 @@
       "\\begin{flushleft}"
       @ text-block &
       "\\end{flushleft}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1401,7 +1401,7 @@
       "\\begin{flushright}"
       @ text-block &
       "\\end{flushright}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1411,9 +1411,9 @@
   '(replacement
       "\\begin{itemize}"
       @  "another_item"
-      "««another_item»»···"
+      "Â«Â«another_itemÂ»Â»Â·Â·Â·"
       "\\end{itemize}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1423,9 +1423,9 @@
   '(replacement
       "\\begin{itemize}\\largeitemsep"
       @  "another_item"
-      "««another_item»»···"
+      "Â«Â«another_itemÂ»Â»Â·Â·Â·"
       "\\end{itemize}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1441,9 +1441,9 @@
   '(token)
   '(description   "minipage environment (box containing paragraph environments)")
   '(replacement
-      "\\begin{minipage}««minipage_pos»»{«width»}"
+      "\\begin{minipage}Â«Â«minipage_posÂ»Â»{Â«widthÂ»}"
       lse-indent+1
-      "«environments»"
+      "Â«environmentsÂ»"
       lse-indent-1
       "\\end{minipage}"
    )
@@ -1453,12 +1453,12 @@
   '(token)
   '(description   "Picture environment")
   '(replacement
-      "\\begin{picture}(«picture_width»,«picture_height»)««origin_offset»»"
+      "\\begin{picture}(Â«picture_widthÂ»,Â«picture_heightÂ»)Â«Â«origin_offsetÂ»Â»"
       lse-indent+1
-      "««put/multiput»»···"
+      "Â«Â«put/multiputÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{picture}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1469,7 +1469,7 @@
       "\\begin{quotation}"
       @ text-block &
       "\\end{quotation}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1480,7 +1480,7 @@
       "\\begin{quote}"
       @ text-block &
       "\\end{quote}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1490,11 +1490,11 @@
   '(replacement
       "\\begin{tabbing}"
       lse-indent+1
-      "«tab_set»··· «\\\\_or_\\kill»"
-      "««tabbing_entry»»···"
+      "Â«tab_setÂ»Â·Â·Â· Â«\\\\_or_\\killÂ»"
+      "Â«Â«tabbing_entryÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{tabbing}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1502,10 +1502,10 @@
   '(token)
   '(description   "Floating table environment, NOT available in SliTeX")
   '(replacement
-      "\\begin{table}««location»»"
+      "\\begin{table}Â«Â«locationÂ»Â»"
       lse-indent+1
-      "««text»»"
-      "««caption»»"
+      "Â«Â«textÂ»Â»"
+      "Â«Â«captionÂ»Â»"
       lse-indent-1
       "\\end{table}"
    )
@@ -1515,15 +1515,15 @@
   '(token)
   '(description   "Table making environment")
   '(replacement
-      "\\begin{tabular}{««lined»»···«column»}"
+      "\\begin{tabular}{Â«Â«linedÂ»Â»Â·Â·Â·Â«columnÂ»}"
       lse-indent+1
-      "««hline»»···"
-      "««multicolumn»»···"
-      "«table_entry»···"
-      "««hline»»···"
+      "Â«Â«hlineÂ»Â»Â·Â·Â·"
+      "Â«Â«multicolumnÂ»Â»Â·Â·Â·"
+      "Â«table_entryÂ»Â·Â·Â·"
+      "Â«Â«hlineÂ»Â»Â·Â·Â·"
       lse-indent-1
       "\\end{tabular}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1531,11 +1531,11 @@
   '(token)
   '(description   "Produce a bibliography list")
   '(replacement
-      "\\begin{thebibliography}{«widest_label»}"
+      "\\begin{thebibliography}{Â«widest_labelÂ»}"
       @ "another_bibitem"
-      "««another_bibitem»»···"
+      "Â«Â«another_bibitemÂ»Â»Â·Â·Â·"
       "\\end{thebibliography}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1546,7 +1546,7 @@
       "\\begin{theorem}"
       @ text-block &
       "\\end{theorem}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1556,7 +1556,7 @@
   '(replacement
       "\\begin{titlepage}"
       lse-indent+1
-      "«paragraph_text»···"
+      "Â«paragraph_textÂ»Â·Â·Â·"
       lse-indent-1
       "\\end{titlepage}"
    )
@@ -1569,7 +1569,7 @@
       "\\begin{verbatim}"
       @ text-block &
       "\\end{verbatim}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1580,7 +1580,7 @@
       "\\begin{verse}"
       @ text-block &
       "\\end{verse}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1592,7 +1592,7 @@
 (lse-define-fill-in "\\address"
     '(token)
     '(description           "Return address. If null, business letter is made.")
-    '(replacement           "\\address{«paragraph_text»···}")
+    '(replacement           "\\address{Â«paragraph_textÂ»Â·Â·Â·}")
 ;;; \\address
 )
 
@@ -1600,7 +1600,7 @@
   '(token)
   '(description   "Adds an entry to the specified list or table")
   '(replacement
-      "\\addcontentsline{«file»}{«sec_unit»}{«text»}"
+      "\\addcontentsline{Â«fileÂ»}{Â«sec_unitÂ»}{Â«textÂ»}"
    )
 )
 
@@ -1608,7 +1608,7 @@
   '(token)
   '(description   "Adds text directly to the file that generates toc,lof,lot")
   '(replacement
-      "\\addtocontents{«file»}{«text»}"
+      "\\addtocontents{Â«fileÂ»}{Â«textÂ»}"
    )
 )
 
@@ -1616,7 +1616,7 @@
   '(token)
   '(description   "Add a specified amount to an existing counter")
   '(replacement
-      "\\addtocounter{«counter_name»}{«number»}"
+      "\\addtocounter{Â«counter_nameÂ»}{Â«numberÂ»}"
    )
 )
 
@@ -1624,7 +1624,7 @@
   '(token)
   '(description   "Add a specified amount to an existing length command")
   '(replacement
-      "\\addtolength{\\«length_name»}{«dimension»}"
+      "\\addtolength{\\Â«length_nameÂ»}{Â«dimensionÂ»}"
    )
 )
 
@@ -1632,7 +1632,7 @@
   '(token)
   '(description   "Add vertical space between paragraphs")
   '(replacement
-      "\\addvspace{«dimension»}"
+      "\\addvspace{Â«dimensionÂ»}"
    )
 )
 
@@ -1657,7 +1657,7 @@
   '(token)
   '(description   "Arabic counter definitions")
   '(replacement
-      "\\arabic{«counter_name»}"
+      "\\arabic{Â«counter_nameÂ»}"
    )
 )
 
@@ -1665,7 +1665,7 @@
   '(token)
   '(description   "Author used by the \\maketitle command")
   '(replacement
-      "\\author{«paragraph_text»···}"
+      "\\author{Â«paragraph_textÂ»Â·Â·Â·}"
    )
 )
 
@@ -1681,7 +1681,7 @@
   '(token)
   '(description   "Bold")
   '(replacement
-      "{\\bf «text»}"
+      "{\\bf Â«textÂ»}"
    )
 )
 
@@ -1706,9 +1706,9 @@
   '(description   "LaTeX sectioning command, report style ONLY")
   '(replacement
       ""
-      "\\chapter{«text»}"
+      "\\chapter{Â«textÂ»}"
       lse-indent+1
-      "««text»»"
+      "Â«Â«textÂ»Â»"
       "%"
       lse-indent-1
       ""
@@ -1727,7 +1727,7 @@
   '(token)
   '(description   "Picture environment circle making command")
   '(replacement
-      "\\circle{«diameter»}"
+      "\\circle{Â«diameterÂ»}"
    )
 )
 
@@ -1735,7 +1735,7 @@
   '(token)
   '(description   "Generate an in-text citation")
   '(replacement
-      "\\cite{«key_list»···}"
+      "\\cite{Â«key_listÂ»Â·Â·Â·}"
    )
 )
 
@@ -1759,7 +1759,7 @@
   '(token)
   '(description   "Draw a horizontal line over the specified column range")
   '(replacement
-      "\\cline{«col_range»}"
+      "\\cline{Â«col_rangeÂ»}"
    )
 )
 
@@ -1767,7 +1767,7 @@
   '(token)
   '(description   "Letter closing, e.g. 'Sincerely,'")
   '(replacement
-      "\\closing{«text»}"
+      "\\closing{Â«textÂ»}"
    )
 )
 
@@ -1783,7 +1783,7 @@
   '(token)
   '(description   "Picture environment \\dashbox command")
   '(replacement
-      "\\dashbox{«dash_size»}(«x_coord»,«y_coord»){«text»}"
+      "\\dashbox{Â«dash_sizeÂ»}(Â«x_coordÂ»,Â«y_coordÂ»){Â«textÂ»}"
    )
 )
 
@@ -1791,7 +1791,7 @@
   '(token)
   '(description   "Declare document date, used by \\maketitle command")
   '(replacement
-      "\\date{«text»}"
+      "\\date{Â«textÂ»}"
    )
 )
 
@@ -1823,7 +1823,7 @@
   '(token)
   '(description   "LaTeX document style selection command")
   '(replacement
-      "\\documentstyle[12pt,««options»»···]{«letter/business/article/memo»}"
+      "\\documentstyle[12pt,Â«Â«optionsÂ»Â»Â·Â·Â·]{Â«letter/business/article/memoÂ»}"
    )
 )
 
@@ -1839,7 +1839,7 @@
   '(token)
   '(description   "Emphasis: toggle between roman and italics")
   '(replacement
-      "{\\em «text»\\/}"
+      "{\\em Â«textÂ»\\/}"
    )
 )
 
@@ -1863,7 +1863,7 @@
   '(token)
   '(description   "Short form of the \\framebox command")
   '(replacement
-      "\\fbox{«text»}"
+      "\\fbox{Â«textÂ»}"
    )
 )
 
@@ -1879,7 +1879,7 @@
   '(token)
   '(description   "Produce footnote symbols, math mode, counter <= 9")
   '(replacement
-      "\\fnsymbol{«counter_name»}"
+      "\\fnsymbol{Â«counter_nameÂ»}"
    )
 )
 
@@ -1887,7 +1887,7 @@
   '(token)
   '(description   "Footnote generating command")
   '(replacement
-      "\\footnote{«text»}"
+      "\\footnote{Â«textÂ»}"
    )
 )
 
@@ -1895,7 +1895,7 @@
   '(token)
   '(description   "Mark a footnote, used in conjunction with \\footnotetext")
   '(replacement
-      "\\footnotemark««fn_number»»"
+      "\\footnotemarkÂ«Â«fn_numberÂ»Â»"
    )
 )
 
@@ -1906,7 +1906,7 @@
       "\\begin{footnotesize}"
       @ text-block &
       "\\end{footnotesize}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -1922,7 +1922,7 @@
   '(token)
   '(description   "Footnote generating command, used with \\footnotemark")
   '(replacement
-      "\\footnotetext{«text»}"
+      "\\footnotetext{Â«textÂ»}"
    )
 )
 
@@ -1930,7 +1930,7 @@
   '(token)
   '(description   "Generate a fraction, math mode ONLY")
   '(replacement
-      "\\frac{«numerator»}{«denominator»}"
+      "\\frac{Â«numeratorÂ»}{Â«denominatorÂ»}"
    )
 )
 
@@ -1938,7 +1938,7 @@
   '(token)
   '(description   "Frame a box as specified containing the text specified")
   '(replacement
-      "\\framebox««optional_width»»««position»»{«text»}"
+      "\\frameboxÂ«Â«optional_widthÂ»Â»Â«Â«positionÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -1946,7 +1946,7 @@
   '(token)
   '(description   "Picture environment \\framebox command")
   '(replacement
-      "\\framebox(«x_coord»,«y_coord»)««framebox_p_placement»»{«text»}"
+      "\\framebox(Â«x_coordÂ»,Â«y_coordÂ»)Â«Â«framebox_p_placementÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -1954,7 +1954,7 @@
   '(token)
   '(description   "Picture environment framing command, simmilar to \\fbox")
   '(replacement
-      "\\frame{«object_p»}"
+      "\\frame{Â«object_pÂ»}"
    )
 )
 
@@ -1994,7 +1994,7 @@
   '(token)
   '(description   "Insert horizontal space")
   '(replacement
-      "\\hspace{«dimension»}"
+      "\\hspace{Â«dimensionÂ»}"
    )
 )
 
@@ -2005,7 +2005,7 @@
       "\\begin{huge}"
       @ text-block &
       "\\end{huge}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -2029,7 +2029,7 @@
   '(token)
   '(description   "Hyphenation command")
   '(replacement
-      "\\hyphenation{«text»}"
+      "\\hyphenation{Â«textÂ»}"
    )
 )
 
@@ -2037,7 +2037,7 @@
   '(token)
   '(description   "Read the specified file")
   '(replacement
-      "\\include{«text»}"
+      "\\include{Â«textÂ»}"
    )
 )
 
@@ -2045,7 +2045,7 @@
   '(token)
   '(description   "Define the files to be read by the \\include command")
   '(replacement
-      "\\includeonly{«text»}"
+      "\\includeonly{Â«textÂ»}"
    )
 )
 
@@ -2061,7 +2061,7 @@
   '(token)
   '(description   "Read the specified file into your document")
   '(replacement
-      "\\input{«text»}"
+      "\\input{Â«textÂ»}"
    )
 )
 
@@ -2077,7 +2077,7 @@
   '(token)
   '(description   "Italics")
   '(replacement
-      "{\\it «text»\\/}"
+      "{\\it Â«textÂ»\\/}"
    )
 )
 
@@ -2125,7 +2125,7 @@
   '(token)
   '(description   "Left delimiter command for math formula")
   '(replacement
-      "\\left«delimiters»"
+      "\\leftÂ«delimitersÂ»"
    )
 )
 
@@ -2133,7 +2133,7 @@
   '(token)
   '(description   "Break the current line")
   '(replacement
-      "\\linebreak««priority»»"
+      "\\linebreakÂ«Â«priorityÂ»Â»"
    )
 )
 
@@ -2141,7 +2141,7 @@
   '(token)
   '(description   "Set the thickness of lines drawn in the picture environment")
   '(replacement
-      "\\linethickness{«dimension»}"
+      "\\linethickness{Â«dimensionÂ»}"
    )
 )
 
@@ -2149,7 +2149,7 @@
   '(token)
   '(description   "Picture environment \\line command")
   '(replacement
-      "\\line(«x_coord»,«y_coord»){«length»}"
+      "\\line(Â«x_coordÂ»,Â«y_coordÂ»){Â«lengthÂ»}"
    )
 )
 
@@ -2173,7 +2173,7 @@
   '(token)
   '(description   "letter location (e.g. M/S 121)")
   '(replacement
-      "\\location{«text»}"
+      "\\location{Â«textÂ»}"
    )
 )
 
@@ -2181,7 +2181,7 @@
   '(token)
   '(description   "Generate a box as specified containing the text specified")
   '(replacement
-      "\\makebox««optional_width»»««position»»{«text»}"
+      "\\makeboxÂ«Â«optional_widthÂ»Â»Â«Â«positionÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -2189,7 +2189,7 @@
   '(token)
   '(description   "Picture environment \\makebox command")
   '(replacement
-      "\\makebox(«x_coord»,«y_coord»)««makebox_p_placement»»{«text»}"
+      "\\makebox(Â«x_coordÂ»,Â«y_coordÂ»)Â«Â«makebox_p_placementÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -2205,7 +2205,7 @@
   '(token)
   '(description   "Produce a marginal note")
   '(replacement
-      "\\marginpar{«text»}"
+      "\\marginpar{Â«textÂ»}"
    )
 )
 
@@ -2213,7 +2213,7 @@
   '(token)
   '(description   "Define the headings for the headings and myheadings page style")
   '(replacement
-      "\\markboth{«text»}{«text»}"
+      "\\markboth{Â«textÂ»}{Â«textÂ»}"
    )
 )
 
@@ -2221,7 +2221,7 @@
   '(token)
   '(description   "Define the headings for the headings and myheadings page style")
   '(replacement
-      "\\markright{«text»}"
+      "\\markright{Â«textÂ»}"
    )
 )
 
@@ -2229,7 +2229,7 @@
   '(token)
   '(description   "Short form of the \\makebox command")
   '(replacement
-      "\\mbox{«text»}"
+      "\\mbox{Â«textÂ»}"
    )
 )
 
@@ -2253,7 +2253,7 @@
   '(token)
   '(description   "Tabular command to span multiple columns")
   '(replacement
-      "\\multicolumn{«no_col»}{««lined»»···«right/center/left»««lined»»···}{«text»}"
+      "\\multicolumn{Â«no_colÂ»}{Â«Â«linedÂ»Â»Â·Â·Â·Â«right/center/leftÂ»Â«Â«linedÂ»Â»Â·Â·Â·}{Â«textÂ»}"
    )
 )
 
@@ -2261,7 +2261,7 @@
   '(token)
   '(description   "Object placement command for the picture environment")
   '(replacement
-      "\\multiput(«x_coord»,«y_coord»)(«delta_x»,«delta_y»){«no_obj»}{«object_p»}"
+      "\\multiput(Â«x_coordÂ»,Â«y_coordÂ»)(Â«delta_xÂ»,Â«delta_yÂ»){Â«no_objÂ»}{Â«object_pÂ»}"
    )
 )
 
@@ -2269,7 +2269,7 @@
   '(token)
   '(description   "Define a new LaTeX command")
   '(replacement
-      "\\newcommand{\\«text»}««no_args»»{«command_definition»}"
+      "\\newcommand{\\Â«textÂ»}Â«Â«no_argsÂ»Â»{Â«command_definitionÂ»}"
    )
 )
 
@@ -2277,7 +2277,7 @@
   '(token)
   '(description   "Create a new counter")
   '(replacement
-      "\\newcounter{«counter_name»}««reset_counter»»"
+      "\\newcounter{Â«counter_nameÂ»}Â«Â«reset_counterÂ»Â»"
    )
 )
 
@@ -2285,7 +2285,7 @@
   '(token)
   '(description   "Define a new environment")
   '(replacement
-      "\\newenvironment{«env_name»}««no_args»»{«text»}{«text»}"
+      "\\newenvironment{Â«env_nameÂ»}Â«Â«no_argsÂ»Â»{Â«textÂ»}{Â«textÂ»}"
    )
 )
 
@@ -2293,7 +2293,7 @@
   '(token)
   '(description   "Define a new font")
   '(replacement
-      "\\newfont{\\«name»}{«font_name»}"
+      "\\newfont{\\Â«nameÂ»}{Â«font_nameÂ»}"
    )
 )
 
@@ -2301,7 +2301,7 @@
   '(token)
   '(description   "Generate a  new length command")
   '(replacement
-      "\\newlength{\\«length_name»}"
+      "\\newlength{\\Â«length_nameÂ»}"
    )
 )
 
@@ -2325,7 +2325,7 @@
   '(token)
   '(description   "Create a new box for future use")
   '(replacement
-      "\\newsavebox{\\«box_name»}"
+      "\\newsavebox{\\Â«box_nameÂ»}"
    )
 )
 
@@ -2333,7 +2333,7 @@
   '(token)
   '(description   "New theorem numbered within a sectional unit")
   '(replacement
-      "\\newtheorem{«env_name»}{«text»}««within»»"
+      "\\newtheorem{Â«env_nameÂ»}{Â«textÂ»}Â«Â«withinÂ»Â»"
    )
 )
 
@@ -2341,7 +2341,7 @@
   '(token)
   '(description   "New theorem numbered like another theorem")
   '(replacement
-      "\\newtheorem{«env_name»}««numbered_like»»{«text»}"
+      "\\newtheorem{Â«env_nameÂ»}Â«Â«numbered_likeÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -2349,7 +2349,7 @@
   '(token)
   '(description   "Produce no text, but write the key list")
   '(replacement
-      "\\nocite{«key_list»···}"
+      "\\nocite{Â«key_listÂ»Â·Â·Â·}"
    )
 )
 
@@ -2373,7 +2373,7 @@
   '(token)
   '(description   "Do not break the current line")
   '(replacement
-      "\\nolinebreak««priority»»"
+      "\\nolinebreakÂ«Â«priorityÂ»Â»"
    )
 )
 
@@ -2381,7 +2381,7 @@
   '(token)
   '(description   "Do not break the current page")
   '(replacement
-      "\\nopagebreak««priority»»"
+      "\\nopagebreakÂ«Â«priorityÂ»Â»"
    )
 )
 
@@ -2392,7 +2392,7 @@
       "\\begin{normalsize}"
       @ text-block &
       "\\end{normalsize}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -2440,7 +2440,7 @@
   '(token)
   '(description   "Picture environment oval making command")
   '(replacement
-      "\\oval(«oval_width»,«oval_height»)««oval_section»»"
+      "\\oval(Â«oval_widthÂ»,Â«oval_heightÂ»)Â«Â«oval_sectionÂ»Â»"
    )
 )
 
@@ -2448,7 +2448,7 @@
   '(token)
   '(description   "Generate formula with brace above it, math mode ONLY")
   '(replacement
-      "\\overbrace{«formula»}"
+      "\\overbrace{Â«formulaÂ»}"
    )
 )
 
@@ -2456,7 +2456,7 @@
   '(token)
   '(description   "Generate formula with line above it, math mode ONLY")
   '(replacement
-      "\\overline{«formula»}"
+      "\\overline{Â«formulaÂ»}"
    )
 )
 
@@ -2464,7 +2464,7 @@
   '(token)
   '(description   "Break the current page")
   '(replacement
-      "\\pagebreak««priority»»"
+      "\\pagebreakÂ«Â«priorityÂ»Â»"
    )
 )
 
@@ -2472,7 +2472,7 @@
   '(token)
   '(description   "Set the style of the page numbers")
   '(replacement
-      "\\pagenumbering{«pgno_options»}"
+      "\\pagenumbering{Â«pgno_optionsÂ»}"
    )
 )
 
@@ -2480,7 +2480,7 @@
   '(token)
   '(description   "Reference the page number of a label created with a \\label command")
   '(replacement
-      "\\pageref{«text»}"
+      "\\pageref{Â«textÂ»}"
    )
 )
 
@@ -2488,7 +2488,7 @@
   '(token)
   '(description   "Set the page style for the entire document")
   '(replacement
-      "\\pagestyle{«styles»}"
+      "\\pagestyle{Â«stylesÂ»}"
    )
 )
 
@@ -2506,7 +2506,7 @@
   '(token)
   '(description   "Generate a box in paragraph mode")
   '(replacement
-      "\\parbox««parbox_pos»»{«width»}{«text»}"
+      "\\parboxÂ«Â«parbox_posÂ»Â»{Â«widthÂ»}{Â«textÂ»}"
    )
 )
 
@@ -2515,7 +2515,7 @@
   '(description   "LaTeX sectioning command")
   '(replacement
       ""
-      "\\part{«text»}"
+      "\\part{Â«textÂ»}"
    )
 )
 
@@ -2595,7 +2595,7 @@
   '(token)
   '(description   "Raise the text as specified")
   '(replacement
-      "\\raisebox{«dimension»}««ext_above_height»»««ext_below_height»»{«text»}"
+      "\\raisebox{Â«dimensionÂ»}Â«Â«ext_above_heightÂ»Â»Â«Â«ext_below_heightÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -2603,7 +2603,7 @@
   '(token)
   '(description   "Reference a label created with the \\label command")
   '(replacement
-      "\\Ref{«text»}"
+      "\\Ref{Â«textÂ»}"
    )
 )
 
@@ -2611,7 +2611,7 @@
   '(token)
   '(description   "Redefine an existing LaTeX command")
   '(replacement
-      "\\renewcommand{\\«text»}««no_args»»{«command_definition»}"
+      "\\renewcommand{\\Â«textÂ»}Â«Â«no_argsÂ»Â»{Â«command_definitionÂ»}"
    )
 )
 
@@ -2619,7 +2619,7 @@
   '(token)
   '(description   "Re-define an existing environment")
   '(replacement
-      "\\renewenvironment{«env_name»}««no_args»»{«text»}{«text»}"
+      "\\renewenvironment{Â«env_nameÂ»}Â«Â«no_argsÂ»Â»{Â«textÂ»}{Â«textÂ»}"
    )
 )
 
@@ -2635,7 +2635,7 @@
   '(token)
   '(description   "Right delimiter command for math formula")
   '(replacement
-      "\\right«delimiters»"
+      "\\rightÂ«delimitersÂ»"
    )
 )
 
@@ -2643,7 +2643,7 @@
   '(token)
   '(description   "Roman")
   '(replacement
-      "{\\rm «text»}"
+      "{\\rm Â«textÂ»}"
    )
 )
 
@@ -2651,7 +2651,7 @@
   '(token)
   '(description   "Draw a horizontal line")
   '(replacement
-      "\\rule««raise_height»»{«width»}{«height»}"
+      "\\ruleÂ«Â«raise_heightÂ»Â»{Â«widthÂ»}{Â«heightÂ»}"
    )
 )
 
@@ -2659,7 +2659,7 @@
   '(token)
   '(description   "Define the contents of the named box")
   '(replacement
-      "\\savebox{\\«box_name»}««optional_width»»{«text»}"
+      "\\savebox{\\Â«box_nameÂ»}Â«Â«optional_widthÂ»Â»{Â«textÂ»}"
    )
 )
 
@@ -2667,7 +2667,7 @@
   '(token)
   '(description   "Small caps")
   '(replacement
-      "{\\sc «text»}"
+      "{\\sc Â«textÂ»}"
    )
 )
 
@@ -2678,7 +2678,7 @@
       "\\begin{scriptsize}"
       @ text-block &
       "\\end{scriptsize}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -2702,7 +2702,7 @@
   '(token)
   '(description   "Set an existing counter to a specified value")
   '(replacement
-      "\\setcounter{«counter_name»}{«number»}"
+      "\\setcounter{Â«counter_nameÂ»}{Â«numberÂ»}"
    )
 )
 
@@ -2710,7 +2710,7 @@
   '(token)
   '(description   "Set an existing length to a specified value")
   '(replacement
-      "\\setlength{\\«length_name»}{«dimension»}"
+      "\\setlength{\\Â«length_nameÂ»}{Â«dimensionÂ»}"
    )
 )
 
@@ -2718,7 +2718,7 @@
   '(token)
   '(description   "Set an existing length command to the width of the specified text")
   '(replacement
-      "\\settowidth{\\«length_name»}{«text»}"
+      "\\settowidth{\\Â«length_nameÂ»}{Â«textÂ»}"
    )
 )
 
@@ -2726,7 +2726,7 @@
   '(token)
   '(description   "Sans serif")
   '(replacement
-      "{\\sf «text»}"
+      "{\\sf Â«textÂ»}"
    )
 )
 
@@ -2734,7 +2734,7 @@
   '(token)
   '(description   "Picture environment \\shortstack command")
   '(replacement
-      "\\shortstack««position»»{«paragraph_text»···}"
+      "\\shortstackÂ«Â«positionÂ»Â»{Â«paragraph_textÂ»Â·Â·Â·}"
    )
 )
 
@@ -2757,7 +2757,7 @@
 (lse-define-fill-in "\\signature"
     '(token)
     '(description           "Letter signature")
-    '(replacement           "\\signature{«paragraph_text»···}")
+    '(replacement           "\\signature{Â«paragraph_textÂ»Â·Â·Â·}")
 ;;; \\signature
 )
 
@@ -2765,7 +2765,7 @@
   '(token)
   '(description   "Slanted")
   '(replacement
-      "{\\sl «text»\\/}"
+      "{\\sl Â«textÂ»\\/}"
    )
 )
 
@@ -2781,7 +2781,7 @@
   '(token)
   '(description   "Generate the nth root of the argument, math mode ONLY")
   '(replacement
-      "\\sqrt««nth_root»»{«number»}"
+      "\\sqrtÂ«Â«nth_rootÂ»Â»{Â«numberÂ»}"
    )
 )
 
@@ -2852,7 +2852,7 @@
 (lse-define-fill-in "\\telephone"
     '(token)
     '(description           "letter telephone, only used if \address is null")
-    '(replacement           "\\telephone{«number»}")
+    '(replacement           "\\telephone{Â«numberÂ»}")
 ;;; \\telephone
 )
 
@@ -2860,7 +2860,7 @@
   '(token)
   '(description   "Produce a footnote to the title made by \\maketitle")
   '(replacement
-      "\\thanks{«text»}"
+      "\\thanks{Â«textÂ»}"
    )
 )
 
@@ -2900,7 +2900,7 @@
   '(token)
   '(description   "Set the page style for this page only")
   '(replacement
-      "\\thispagestyle{«styles»}"
+      "\\thispagestyle{Â«stylesÂ»}"
    )
 )
 
@@ -2918,7 +2918,7 @@
       "\\begin{tiny}"
       @ text-block &
       "\\end{tiny}"
-      "««text»»"
+      "Â«Â«textÂ»Â»"
    )
 )
 
@@ -2926,7 +2926,7 @@
   '(token)
   '(description   "Text used by the \\maketitle command")
   '(replacement
-      "\\title{«paragraph_text»···}"
+      "\\title{Â«paragraph_textÂ»Â·Â·Â·}"
    )
 )
 
@@ -2942,7 +2942,7 @@
   '(token)
   '(description   "Typewriter")
   '(replacement
-      "{\\tt «text»}"
+      "{\\tt Â«textÂ»}"
    )
 )
 
@@ -2950,7 +2950,7 @@
   '(token)
   '(description   "Start two column text")
   '(replacement
-      "\\twocolumn««optional»»"
+      "\\twocolumnÂ«Â«optionalÂ»Â»"
    )
 )
 
@@ -2958,7 +2958,7 @@
   '(token)
   '(description   "Interactive input command")
   '(replacement
-      "\\typein{«text»}"
+      "\\typein{Â«textÂ»}"
    )
 )
 
@@ -2966,7 +2966,7 @@
   '(token)
   '(description   "Print a message on your teminal")
   '(replacement
-      "\\typeout{«text»}"
+      "\\typeout{Â«textÂ»}"
    )
 )
 
@@ -2974,7 +2974,7 @@
   '(token)
   '(description   "Underbrace a formula or text")
   '(replacement
-      "\\underbrace{«formula»}"
+      "\\underbrace{Â«formulaÂ»}"
    )
 )
 
@@ -2982,7 +2982,7 @@
   '(token)
   '(description   "Underline a formula or text")
   '(replacement
-      "\\underline{«formula»}"
+      "\\underline{Â«formulaÂ»}"
    )
 )
 
@@ -3006,7 +3006,7 @@
   '(token)
   '(description   "'Execute' the saved box")
   '(replacement
-      "\\usebox{\\«box_name»}"
+      "\\usebox{\\Â«box_nameÂ»}"
    )
 )
 
@@ -3014,7 +3014,7 @@
   '(token)
   '(description   "Enable counter for use in numbered list")
   '(replacement
-      "\\usecounter{«counter_name»}"
+      "\\usecounter{Â«counter_nameÂ»}"
    )
 )
 
@@ -3022,7 +3022,7 @@
   '(token)
   '(description   "Produce the value of a counter")
   '(replacement
-      "\\value{«counter_name»}"
+      "\\value{Â«counter_nameÂ»}"
    )
 )
 
@@ -3086,7 +3086,7 @@
   '(token)
   '(description   "Picture environment \\vector command")
   '(replacement
-      "\\vector(«x_coord»,«y_coord»){«length»}"
+      "\\vector(Â«x_coordÂ»,Â«y_coordÂ»){Â«lengthÂ»}"
    )
 )
 
@@ -3094,7 +3094,7 @@
   '(token)
   '(description   "Produce a literal string")
   '(replacement
-      "\\verb=«text»="
+      "\\verb=Â«textÂ»="
    )
 )
 
@@ -3118,7 +3118,7 @@
   '(token)
   '(description   "Insert vertical space")
   '(replacement
-      "\\vspace{«dimension»}"
+      "\\vspace{Â«dimensionÂ»}"
    )
 )
 
@@ -3150,7 +3150,7 @@
   '(token)
   '(description   "Start a new line")
   '(replacement
-      "\\\\[«dimension»]"
+      "\\\\[Â«dimensionÂ»]"
    )
 )
 

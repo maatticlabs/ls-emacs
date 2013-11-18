@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;  1-Mar-1996 
 (lse-define-fill-in "const-int"
@@ -18,7 +18,7 @@
     '(token)
     '(description           "Print error message and terminate immediately")
     '(replacement
-        "@abort («text»)"
+        "@abort (Â«textÂ»)"
      )
 ;;; olt-abort
 )
@@ -28,7 +28,7 @@
     '(token)
     '(leading               "")
     '(separator             lse-newline-and-indent)
-    '(replacement           "activateProcess («olt-id»)")
+    '(replacement           "activateProcess (Â«olt-idÂ»)")
 ;;; olt-activate-process
 )
 
@@ -38,7 +38,7 @@
     '(token                 "activateTask")
     '(description           "ERCOS OS Call activateTask")
     '(leading               "")
-    '(replacement           "activateTask («olt-id»)")
+    '(replacement           "activateTask (Â«olt-idÂ»)")
 ;;; olt-activate_task
 )
 
@@ -46,7 +46,7 @@
 (lse-define-fill-in "olt-address"
     '(token)
     '(leading               ",")
-    '(replacement           "Address («const-uint»)")
+    '(replacement           "Address (Â«const-uintÂ»)")
 ;;; olt-address
 )
 
@@ -71,7 +71,7 @@
 (lse-define-fill-in "olt-alias_translation"
     '(token                 "@Alias_Translation")
     '(token)
-    '(replacement           "@Alias_Translation («olt-id»)")
+    '(replacement           "@Alias_Translation (Â«olt-idÂ»)")
 ;;; olt-alias_translation
 )
 
@@ -103,7 +103,7 @@
 (lse-define-fill-in "olt-association"
     '(token                 "@Association")
     '(token)
-    '(replacement           "@Association («name»)")
+    '(replacement           "@Association (Â«nameÂ»)")
 ;;; olt-association
 )
 
@@ -111,7 +111,7 @@
 (lse-define-fill-in "olt-delay"
     '(token)
     '(leading               ",")
-    '(replacement           "Delay («const-int»)")
+    '(replacement           "Delay (Â«const-intÂ»)")
 ;;; olt-delay
 )
 
@@ -152,7 +152,7 @@
     '(token                "@as_code")
     '(token)
     '(replacement
-        "@as_code («olt-const-value»)"
+        "@as_code (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_code
 )
@@ -162,7 +162,7 @@
     '(token                "@as_id")
     '(token)
     '(replacement
-        "@as_id («olt-const-text-expr»)"
+        "@as_id (Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-as_id
 )
@@ -172,7 +172,7 @@
     '(token                "@as_int")
     '(token)
     '(replacement
-        "@as_int («olt-const-value»)"
+        "@as_int (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_int
 )
@@ -182,7 +182,7 @@
     '(token                "@as_list")
     '(token)
     '(replacement
-        "@as_list («olt-const-value»)"
+        "@as_list (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_list
 )
@@ -192,7 +192,7 @@
     '(token                "@as_string")
     '(token)
     '(replacement
-        "@as_string («olt-const-value»)"
+        "@as_string (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_string
 )
@@ -202,7 +202,7 @@
     '(token                "@as_uint")
     '(token)
     '(replacement
-        "@as_uint («olt-const-value»)"
+        "@as_uint (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_uint
 )
@@ -212,7 +212,7 @@
     '(token                "@as_void")
     '(token)
     '(replacement
-        "@as_void («olt-const-value»)"
+        "@as_void (Â«olt-const-valueÂ»)"
      )
 ;;; olt-as_void
 )
@@ -222,7 +222,7 @@
     '(leading               "")
     '(replacement
         lse-indent+1
-        "«olt-statement»"
+        "Â«olt-statementÂ»"
         & lse-indent:< ;  4-Jan-1998 ; avoid new line after block
      )
 ;;; olt-block
@@ -260,7 +260,7 @@
     '(token)
     '(token                 "CCStack")
     '(leading               ",")
-    '(replacement           "CCStack («const-int»)")
+    '(replacement           "CCStack (Â«const-intÂ»)")
 ;;; olt-cc-stack
 )
 
@@ -268,7 +268,7 @@
 (lse-define-fill-in "olt-cc-type"
     '(token                 "CType")
     '(leading               ",")
-    '(replacement           "CType («olt-cc-type-specification»)")
+    '(replacement           "CType (Â«olt-cc-type-specificationÂ»)")
 ;;; olt-cc-type
 )
 
@@ -283,7 +283,7 @@
     '(token)
     '(token                 "chainTask")
     '(description           "ERCOS OS Call chainTask")
-    '(replacement           "chainTask («olt-id»)")
+    '(replacement           "chainTask (Â«olt-idÂ»)")
 ;;; olt-chain_task
 )
 
@@ -325,14 +325,14 @@
 ;;; 10-Jul-1995 
 (lse-define-fill-in "olt-const-list-expr"
     '(description           "Expression evaluating to a list")
-    '(replacement           "@( ««olt-const-value»»··· )")
+    '(replacement           "@( Â«Â«olt-const-valueÂ»Â»Â·Â·Â· )")
 ;;; olt-const-list-expr
 )
 
 ;;;  2-Mar-1996 
 (lse-define-fill-in "olt-const-prio-expr"
     '(description           "Expression specifying preemptive/cooperative priority")
-    '(replacement           "«olt-const-prio-preemptive», ««olt-const-prio-cooperative»»")
+    '(replacement           "Â«olt-const-prio-preemptiveÂ», Â«Â«olt-const-prio-cooperativeÂ»Â»")
 ;;; olt-const-prio-expr
 )
 
@@ -395,7 +395,7 @@
     '(token                "@contains")
     '(token)
     '(replacement
-        "@contains («olt-list», «olt-const-value»)"
+        "@contains (Â«olt-listÂ», Â«olt-const-valueÂ»)"
      )
 ;;; olt-contains
 )
@@ -404,7 +404,7 @@
 (lse-define-fill-in "olt-cpu"
     '(token)
     '(leading               ",")
-    '(replacement           "CPU («const-int»)")
+    '(replacement           "CPU (Â«const-intÂ»)")
 ;;; olt-cpu
 )
 
@@ -455,7 +455,7 @@
 (lse-define-fill-in "olt-deadline"
     '(token)
     '(leading               ",")
-    '(replacement           "Deadline («const-int»)")
+    '(replacement           "Deadline (Â«const-intÂ»)")
 ;;; olt-deadline
 )
 
@@ -482,7 +482,7 @@
     '(token)
     '(description           "Define OLT constant")
     '(replacement
-        "defineConstant («olt-id», «olt-const-int-expr», «olt-description», «olt-const-type»)"
+        "defineConstant (Â«olt-idÂ», Â«olt-const-int-exprÂ», Â«olt-descriptionÂ», Â«olt-const-typeÂ»)"
      )
 ;;; olt-define-constant
 )
@@ -494,15 +494,15 @@
     '(token)
     '(description           "Define dynmics of OLT system")
     '(replacement
-        "defineDynamics  («olt-description»)"
+        "defineDynamics  (Â«olt-descriptionÂ»)"
         "beginDynamics   ()"
-        "««olt-define-InitTask»»···"
-        "««olt-define-HWTask»»···"
-        "««olt-define-SWTask»»···"
-        "«olt-define-MsgGroup»···"
-        "«olt-define-OpMode»···"
-        "««olt-define-TimeTable»»···"
-        "««olt-define-x_binding»»···"
+        "Â«Â«olt-define-InitTaskÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-define-HWTaskÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-define-SWTaskÂ»Â»Â·Â·Â·"
+        "Â«olt-define-MsgGroupÂ»Â·Â·Â·"
+        "Â«olt-define-OpModeÂ»Â·Â·Â·"
+        "Â«Â«olt-define-TimeTableÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-define-x_bindingÂ»Â»Â·Â·Â·"
         "endDynamics     ()"
      )
 ;;; olt-define-Dynamics
@@ -515,9 +515,9 @@
     '(token)
     '(description           "Define OLT Exception")
     '(replacement
-        "defineException ( «olt-id»"
-        "                , «olt-description»"
-        "                , «olt-exception-level»"
+        "defineException ( Â«olt-idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«olt-exception-levelÂ»"
         "                )"
      )
 ;;; olt-define-Exception
@@ -530,24 +530,24 @@
     '(token)
     '(description           "Define OLT Function")
     '(replacement
-        "defineFunction  ( «olt_id»"
-        "                , «olt-subsystem-arg»"
-        "                , «olt-description»"
-        "                , «olt-callable»"
-        "                , ««olt-address-type»»"
-        "                , ««olt-func-prototype»»"
-        "                , ««olt-registers»»"
-        "                , ««olt-window»»"
-        "                , ««olt-hw-stack»»"
-        "                , ««olt-cc-stack»»"
-        "                , ««olt-allow-def-only»»"
+        "defineFunction  ( Â«olt_idÂ»"
+        "                , Â«olt-subsystem-argÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«olt-callableÂ»"
+        "                , Â«Â«olt-address-typeÂ»Â»"
+        "                , Â«Â«olt-func-prototypeÂ»Â»"
+        "                , Â«Â«olt-registersÂ»Â»"
+        "                , Â«Â«olt-windowÂ»Â»"
+        "                , Â«Â«olt-hw-stackÂ»Â»"
+        "                , Â«Â«olt-cc-stackÂ»Â»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
         ")"
         lse-indent+1
-        "««olt-use-property»»···"
+        "Â«Â«olt-use-propertyÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "beginCode («olt_id»)"
+        "beginCode (Â«olt_idÂ»)"
         @ olt-block
-        "endCode   («olt_id»)"
+        "endCode   (Â«olt_idÂ»)"
      )
 ;;; olt-define-Function
 )
@@ -559,16 +559,16 @@
     '(token)
     '(description           "Define OLT HW_Task")
     '(replacement
-        "defineHWTask    ( «olt_id»"
-        "                , «olt-description»"
-        "                , «olt-priority»"
-        "                , «olt-interrupt»"
-        "                , ««olt-min-period»»"
-        "                , ««olt-allow-def-only»»"
+        "defineHWTask    ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«olt-priorityÂ»"
+        "                , Â«olt-interruptÂ»"
+        "                , Â«Â«olt-min-periodÂ»Â»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
         "                )"
-        "beginHWTask     ( «olt_id»)"
-        "«olt-activate-process»···"
-        "endHWTask       ( «olt_id»)"
+        "beginHWTask     ( Â«olt_idÂ»)"
+        "Â«olt-activate-processÂ»Â·Â·Â·"
+        "endHWTask       ( Â«olt_idÂ»)"
      )
 ;;; olt-define-HWTask
 )
@@ -580,12 +580,12 @@
     '(token)
     '(description           "Define OLT Init_Task")
     '(replacement
-        "defineInitTask  ( «olt_id»"
-        "                , «olt-description»"
+        "defineInitTask  ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
         "                )"
-        "beginInitTask   ( «olt_id»)"
-        "«olt-init-process»···"
-        "endInitTask     ( «olt_id»)"
+        "beginInitTask   ( Â«olt_idÂ»)"
+        "Â«olt-init-processÂ»Â·Â·Â·"
+        "endInitTask     ( Â«olt_idÂ»)"
      )
 ;;; olt-define-InitTask
 )
@@ -597,13 +597,13 @@
     '(token)
     '(description           "Define OLT Message")
     '(replacement
-        "defineMessage   ( «olt-id»"
-        "                , «olt-description»"
-        "                , «olt-cc-type»"
-        "                , «olt-msg-group»"
-        "                , ««olt-msg-length»»"
-        "                , ««olt-allow-multiple-send»»"
-        "                , ««olt-allow-def-only»»"
+        "defineMessage   ( Â«olt-idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«olt-cc-typeÂ»"
+        "                , Â«olt-msg-groupÂ»"
+        "                , Â«Â«olt-msg-lengthÂ»Â»"
+        "                , Â«Â«olt-allow-multiple-sendÂ»Â»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
         "                )"
      )
 ;;; olt-define-Message
@@ -616,9 +616,9 @@
     '(token)
     '(description           "Define OLT Msg_Group")
     '(replacement
-        "defineMsgGroup  ( «olt-id»"
-        "                , «olt-description»"
-        "                , ««olt-address»»"
+        "defineMsgGroup  ( Â«olt-idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«Â«olt-addressÂ»Â»"
         "                )"
      )
 ;;; olt-define-MsgGroup
@@ -631,15 +631,15 @@
     '(token)
     '(description           "Define OLT Op_Mode")
     '(replacement
-        "defineOpMode    ( «olt_id»"
-        "                , «olt-description»"
+        "defineOpMode    ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
         "                )"
-        "beginOpMode     ( «olt_id»)"
-        "««olt-use-init-task»»···"
-        "««olt-use-hw-task»»···"
-        "««olt-successor-op-mode»»···"
-        "««olt-use-time-table»»···"
-        "endOpMode       ( «olt_id»)"
+        "beginOpMode     ( Â«olt_idÂ»)"
+        "Â«Â«olt-use-init-taskÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-use-hw-taskÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-successor-op-modeÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-use-time-tableÂ»Â»Â·Â·Â·"
+        "endOpMode       ( Â«olt_idÂ»)"
      )
 ;;; olt-define-OpMode
 )
@@ -651,25 +651,25 @@
     '(token)
     '(description           "Define OLT Process")
     '(replacement
-        "defineProcess   ( «olt_id»"
-        "                , «olt-subsystem-arg»"
-        "                , «olt-description»"
-        "                , ««olt-code-specification»»"
-        "                , ««olt-proc-prototype»»"
-        "                , ««olt-registers»»"
-        "                , ««olt-window»»"
-        "                , ««olt-register-class»»"        
-        "                , ««olt-hw-stack»»"
-        "                , ««olt-cc-stack»»"
-        "                , ««olt-cpu»»"
-        "                , ««olt-deadline»»"
-        "                , ««olt-allow-def-only»»"
+        "defineProcess   ( Â«olt_idÂ»"
+        "                , Â«olt-subsystem-argÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«Â«olt-code-specificationÂ»Â»"
+        "                , Â«Â«olt-proc-prototypeÂ»Â»"
+        "                , Â«Â«olt-registersÂ»Â»"
+        "                , Â«Â«olt-windowÂ»Â»"
+        "                , Â«Â«olt-register-classÂ»Â»"        
+        "                , Â«Â«olt-hw-stackÂ»Â»"
+        "                , Â«Â«olt-cc-stackÂ»Â»"
+        "                , Â«Â«olt-cpuÂ»Â»"
+        "                , Â«Â«olt-deadlineÂ»Â»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
         "                )"
         lse-indent+1
-        "««olt-use-property»»···"
+        "Â«Â«olt-use-propertyÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "««olt-process-init»»"
-        "««olt-process-body»»"
+        "Â«Â«olt-process-initÂ»Â»"
+        "Â«Â«olt-process-bodyÂ»Â»"
      )
 ;;; olt-define-Process
 )
@@ -681,10 +681,10 @@
     '(token)
     '(description           "Define OLT Resource")
     '(replacement
-        "defineResource  (  «olt-id»"
-        "                , «olt-description»"
-        "                , ««olt-allow-def-only»»"
-        "                , ««olt-protected-data»»···"
+        "defineResource  (  Â«olt-idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
+        "                , Â«Â«olt-protected-dataÂ»Â»Â·Â·Â·"
         "                )"
      )
 ;;; olt-define-Resource
@@ -697,18 +697,18 @@
     '(token)
     '(description           "Define OLT Subsystem")
     '(replacement
-        "defineSubsystem ( «olt_id»"
-        "                , «olt-subsystem-arg»"
-        "                , «olt-description»"
+        "defineSubsystem ( Â«olt_idÂ»"
+        "                , Â«olt-subsystem-argÂ»"
+        "                , Â«olt-descriptionÂ»"
         "                )"
         lse-indent+1
-        "««olt-renames»»···"
+        "Â«Â«olt-renamesÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "beginSubsystem («olt_id»)"
+        "beginSubsystem (Â«olt_idÂ»)"
         lse-indent+1
-        "«olt-subsystem-declaration»···"
+        "Â«olt-subsystem-declarationÂ»Â·Â·Â·"
         lse-indent-1
-        "endSubsystem   («olt_id»)"
+        "endSubsystem   (Â«olt_idÂ»)"
      )
 ;;; olt-define-Subsystem
 )
@@ -720,15 +720,15 @@
     '(token)
     '(description           "Define OLT SW_Task")
     '(replacement
-        "defineSWTask    ( «olt_id»"
-        "                , «olt-description»"
-        "                , «olt-priority»"
-        "                , ««olt-swt-constraint»»"
-        "                , ««olt-allow-def-only»»"
+        "defineSWTask    ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«olt-priorityÂ»"
+        "                , Â«Â«olt-swt-constraintÂ»Â»"
+        "                , Â«Â«olt-allow-def-onlyÂ»Â»"
         "                )"
-        "beginSWTask     ( «olt_id»)"
-        "«olt-activate-process»···"
-        "endSWTask       ( «olt_id»)"
+        "beginSWTask     ( Â«olt_idÂ»)"
+        "Â«olt-activate-processÂ»Â·Â·Â·"
+        "endSWTask       ( Â«olt_idÂ»)"
      )
 ;;; olt-define-SWTask
 )
@@ -740,12 +740,12 @@
     '(token)
     '(description           "Define OLT Time_Table")
     '(replacement
-        "defineTimeTable ( «olt_id»"
-        "                , «olt-description»"
+        "defineTimeTable ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
         "                )"
-        "beginTimeTable  ( «olt_id»)"
-        "«olt-time-table-entry»···"
-        "endTimeTable    ( «olt_id»)"
+        "beginTimeTable  ( Â«olt_idÂ»)"
+        "Â«olt-time-table-entryÂ»Â·Â·Â·"
+        "endTimeTable    ( Â«olt_idÂ»)"
      )
 ;;; olt-define-TimeTable
 )
@@ -757,16 +757,16 @@
     '(token)
     '(description           "Define OLT X-Routine")
     '(replacement
-        "defineXRoutine  ( «olt_id»"
-        "                , «olt-description»"
-        "                , ««olt-x-model»»"
-        "                , ««olt-x-prototype»»"
-        "                , ««olt-registers»»"
-        "                , ««olt-window»»"
-        "                , ««olt-hw-stack»»"
-        "                , ««olt-cc-stack»»"
+        "defineXRoutine  ( Â«olt_idÂ»"
+        "                , Â«olt-descriptionÂ»"
+        "                , Â«Â«olt-x-modelÂ»Â»"
+        "                , Â«Â«olt-x-prototypeÂ»Â»"
+        "                , Â«Â«olt-registersÂ»Â»"
+        "                , Â«Â«olt-windowÂ»Â»"
+        "                , Â«Â«olt-hw-stackÂ»Â»"
+        "                , Â«Â«olt-cc-stackÂ»Â»"
         "                )"
-        "««olt-x-body»»"
+        "Â«Â«olt-x-bodyÂ»Â»"
      )
 ;;; olt-define-XRoutine
 )
@@ -775,7 +775,7 @@
 (lse-define-fill-in "olt-define-x_binding"
     '(token                 "bindXRoutine")
     '(token)
-    '(replacement           "bindXRoutine («olt-id», ToException («olt-id»···))")
+    '(replacement           "bindXRoutine (Â«olt-idÂ», ToException (Â«olt-idÂ»Â·Â·Â·))")
 ;;; olt-define-x_binding
 )
 
@@ -785,7 +785,7 @@
     '(token                 "macro-const-definition")
     '(token)
     '(description           "Define OLT macro constant")
-    '(replacement           "@def «olt-id» («olt-const-value»)@")
+    '(replacement           "@def Â«olt-idÂ» (Â«olt-const-valueÂ»)@")
 ;;; olt-def-macro-constant
 )
 
@@ -795,7 +795,7 @@
     '(token                 "macro--local-var-definition")
     '(token)
     '(description           "Define OLT local macro variable")
-    '(replacement           "@lset «olt-id» («olt-const-value»)@")
+    '(replacement           "@lset Â«olt-idÂ» (Â«olt-const-valueÂ»)@")
 ;;; olt-def-macro-local-variable
 )
 
@@ -806,7 +806,7 @@
     '(token)
     '(description           "Define OLT macro procedure")
     '(replacement
-        "@macro «olt-id» (««olt-id»»···)@"
+        "@macro Â«olt-idÂ» (Â«Â«olt-idÂ»Â»Â·Â·Â·)@"
         @ olt-macro-block
         "@endmacro@"
      )
@@ -819,7 +819,7 @@
     '(token                 "macro-var-definition")
     '(token)
     '(description           "Define OLT macro variable")
-    '(replacement           "@set «olt-id» («olt-const-value»)@")
+    '(replacement           "@set Â«olt-idÂ» (Â«olt-const-valueÂ»)@")
 ;;; olt-def-macro-variable
 )
 
@@ -828,7 +828,7 @@
     '(token                "@Define_E_Object")
     '(token)
     '(replacement
-        "@Define_E_Object («olt-id», «olt-id», «const-text-expr», «const-int-expr», «olt-list»)@"
+        "@Define_E_Object (Â«olt-idÂ», Â«olt-idÂ», Â«const-text-exprÂ», Â«const-int-exprÂ», Â«olt-listÂ»)@"
      )
 ;;; olt-Define_E_Object
 )
@@ -838,7 +838,7 @@
     '(token                "@Define_E_Type")
     '(token)
     '(replacement
-        "@Define_E_Type («olt-id», «olt-id», «const-text-expr», «olt-list»)@"
+        "@Define_E_Type (Â«olt-idÂ», Â«olt-idÂ», Â«const-text-exprÂ», Â«olt-listÂ»)@"
      )
 ;;; olt-Define_E_Type
 )
@@ -848,7 +848,7 @@
     '(token)
     '(description           "Comment describing the object defined")
     '(leading               ",")
-    '(replacement           "Desc («text»)")
+    '(replacement           "Desc (Â«textÂ»)")
 ;;; olt-description
 )
 
@@ -857,7 +857,7 @@
     '(token)
     '(token                 "directMessageAddress")
     '(description           "ERCOS OS Call directMessageAddress")
-    '(replacement           "directMessageAddress («olt-id»)")
+    '(replacement           "directMessageAddress (Â«olt-idÂ»)")
 ;;; olt-direct_message_address
 )
 
@@ -875,7 +875,7 @@
     '(token                "@echo")
     '(token)
     '(replacement
-        "@echo («text»)@"
+        "@echo (Â«textÂ»)@"
      )
 ;;; olt-echo
 )
@@ -900,9 +900,9 @@
     '(leading               "")
     '(description           "Conditional execution")
     '(replacement
-        "@elsif («olt-const-bool-expr»)@"
+        "@elsif (Â«olt-const-bool-exprÂ»)@"
         @ olt-macro-block
-        "««olt-elsif»»"
+        "Â«Â«olt-elsifÂ»Â»"
      )
 ;;; olt-elsif
 )
@@ -929,7 +929,7 @@
     '(token                 "@error")
     '(token)
     '(description           "Print error message and terminate after all files were read")
-    '(replacement           "@error («text»)@")
+    '(replacement           "@error (Â«textÂ»)@")
 ;;; olt-error
 )
 
@@ -938,7 +938,7 @@
     '(token)
     '(token                 "Level")
     '(leading               ",")
-    '(replacement           "Level («olt-const-int»)")
+    '(replacement           "Level (Â«olt-const-intÂ»)")
 ;;; olt-exception-level
 )
 
@@ -954,7 +954,7 @@
 (lse-define-fill-in "olt-exists"
     '(token                 "@Exists")
     '(token)
-    '(replacement           "@Exists («olt-id»)")
+    '(replacement           "@Exists (Â«olt-idÂ»)")
 ;;; olt-exists
 )
 
@@ -963,7 +963,7 @@
     '(token                 "@expand")
     '(token)
     '(description           "Evaluate text expression and macro-expand its value")
-    '(replacement           "@expand («const-text-expr»)")
+    '(replacement           "@expand (Â«const-text-exprÂ»)")
 ;;; olt-expand
 )
 
@@ -972,7 +972,7 @@
     '(token                "@exprtype")
     '(token)
     '(replacement
-        "@exprtype («olt-const-value»)"
+        "@exprtype (Â«olt-const-valueÂ»)"
      )
 ;;; olt-exprtype
 )
@@ -981,7 +981,7 @@
 (lse-define-fill-in "olt-extension"
     '(token                 "@Extension")
     '(token)
-    '(replacement           "@Extension («name»)")
+    '(replacement           "@Extension (Â«nameÂ»)")
 ;;; olt-extension
 )
 
@@ -990,7 +990,7 @@
     '(token                 "@fatal")
     '(token)
     '(description           "Print error message and terminate immediately")
-    '(replacement           "@fatal («text»)@")
+    '(replacement           "@fatal (Â«textÂ»)@")
 ;;; olt-fatal
 )
 
@@ -999,11 +999,11 @@
     '(description           "Root production of OLT language")
     '(replacement
         "/*"
-        " ««header-comment»»"
+        " Â«Â«header-commentÂ»Â»"
         "*/"
         ""
-        "««olt-front-definition»»···"
-        "««olt-object-definition»»···"
+        "Â«Â«olt-front-definitionÂ»Â»Â·Â·Â·"
+        "Â«Â«olt-object-definitionÂ»Â»Â·Â·Â·"
      )
 ;;; olt-file
 )
@@ -1021,7 +1021,7 @@
     '(token                "@force_echo")
     '(token)
     '(replacement
-        "@force_echo («text»)@"
+        "@force_echo (Â«textÂ»)@"
      )
 ;;; olt-force_echo
 )
@@ -1030,7 +1030,7 @@
 (lse-define-fill-in "olt-force_synthesis"
     '(token                 "@Force_Synthesis")
     '(token)
-    '(replacement           "@Force_Synthesis («olt-id»)")
+    '(replacement           "@Force_Synthesis (Â«olt-idÂ»)")
 ;;; olt-force_synthesis
 )
 
@@ -1048,7 +1048,7 @@
     '(token)
     '(description           "Iteration over list of values")
     '(replacement
-        "@forall «olt-id» «olt-for-all-list»@"
+        "@forall Â«olt-idÂ» Â«olt-for-all-listÂ»@"
         @ olt-macro-block
         "@endforall@"
      )
@@ -1059,9 +1059,9 @@
 (lse-define-fill-in "olt-for-all-list"
     '(description           "List of values to iterate over")
     '(menu
-        ("(««olt-const-value»»···)"                       "Literal list")
-        ("(«olt-const-int-expr» .. «olt-const-int-expr»)" "Range of values")
-        ("«olt-id»"                                       "«olt-id» must be the name of a list-variable")
+        ("(Â«Â«olt-const-valueÂ»Â»Â·Â·Â·)"                       "Literal list")
+        ("(Â«olt-const-int-exprÂ» .. Â«olt-const-int-exprÂ»)" "Range of values")
+        ("Â«olt-idÂ»"                                       "Â«olt-idÂ» must be the name of a list-variable")
      )
 ;;; olt-for-all-list
 )
@@ -1103,7 +1103,7 @@
     '(token)
     '(token                 "getResource")
     '(description           "ERCOS OS Call getResource")
-    '(replacement           "getResource («olt-id»···)")
+    '(replacement           "getResource (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-get_resource
 )
 
@@ -1121,7 +1121,7 @@
     '(token                "@gsubstitute")
     '(token)
     '(replacement
-        "@gsubstitute («olt-const-text-expr», «olt-const-text-expr», «olt-const-text-expr»)"
+        "@gsubstitute (Â«olt-const-text-exprÂ», Â«olt-const-text-exprÂ», Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-gsubstitute
 )
@@ -1131,7 +1131,7 @@
     '(token)
     '(token                 "HWStack")
     '(leading               ",")
-    '(replacement           "HWStack («const-int»)")
+    '(replacement           "HWStack (Â«const-intÂ»)")
 ;;; olt-hw-stack
 )
 
@@ -1156,10 +1156,10 @@
     '(token)
     '(description           "Conditional execution")
     '(replacement
-        "@if («olt-const-bool-expr»)@"
+        "@if (Â«olt-const-bool-exprÂ»)@"
         @ olt-macro-block
-        "««olt-elsif»»"
-        "««olt-else»»"
+        "Â«Â«olt-elsifÂ»Â»"
+        "Â«Â«olt-elseÂ»Â»"
         "@endif@"
      )
 ;;; olt-if
@@ -1169,7 +1169,7 @@
 (lse-define-fill-in "olt-include-time-table"
     '(token)
     '(separator             lse-newline-and-indent)
-    '(replacement           "ttInclude («olt-id»)")
+    '(replacement           "ttInclude (Â«olt-idÂ»)")
 ;;; olt-include-time-table
 )
 
@@ -1178,7 +1178,7 @@
     '(token                "@index")
     '(token)
     '(replacement
-        "@index («olt-list», «olt-const-value»)"
+        "@index (Â«olt-listÂ», Â«olt-const-valueÂ»)"
      )
 ;;; olt-index
 )
@@ -1187,7 +1187,7 @@
 (lse-define-fill-in "olt-init-process"
     '(token)
     '(separator             lse-newline-and-indent)
-    '(replacement           "initializeProcess («olt-id»)")
+    '(replacement           "initializeProcess (Â«olt-idÂ»)")
 ;;; olt-init-process
 )
 
@@ -1195,7 +1195,7 @@
 (lse-define-fill-in "olt-interrupt"
     '(token)
     '(leading               ",")
-    '(replacement           "Interrupt («olt-id»)")
+    '(replacement           "Interrupt (Â«olt-idÂ»)")
 ;;; olt-interrupt
 )
 
@@ -1204,7 +1204,7 @@
     '(token                 "@is_defined")
     '(token)
     '(description           "Evaluates to TRUE, if name is defined as macro-proc")
-    '(replacement           "@is_defined («olt-id»)")
+    '(replacement           "@is_defined (Â«olt-idÂ»)")
 ;;; olt-is-defined
 )
 
@@ -1212,7 +1212,7 @@
 (lse-define-fill-in "olt-is_foreign"
     '(token                 "@Is_Foreign")
     '(token)
-    '(replacement           "@Is_Foreign («name»)")
+    '(replacement           "@Is_Foreign (Â«nameÂ»)")
 ;;; olt-is_foreign
 )
 
@@ -1229,7 +1229,7 @@
     '(token                "@item")
     '(token)
     '(replacement
-        "@item («olt-list», «olt-const-int-expr»)"
+        "@item (Â«olt-listÂ», Â«olt-const-int-exprÂ»)"
      )
 ;;; olt-item
 )
@@ -1239,7 +1239,7 @@
     '(token                "@join")
     '(token)
     '(replacement
-        "@join («olt-const-text-expr», «olt-list»)"
+        "@join (Â«olt-const-text-exprÂ», Â«olt-listÂ»)"
      )
 ;;; olt-join
 )
@@ -1268,7 +1268,7 @@
 (lse-define-fill-in "olt-laxity"
     '(token)
     '(leading               ",")
-    '(replacement           "Laxity («const-int»)")
+    '(replacement           "Laxity (Â«const-intÂ»)")
 ;;; olt-laxity
 )
 
@@ -1276,7 +1276,7 @@
 (lse-define-fill-in "olt-left"
     '(token                 "@Left")
     '(token)
-    '(replacement           "@Left («name», «olt-id»)")
+    '(replacement           "@Left (Â«nameÂ», Â«olt-idÂ»)")
 ;;; olt-left
 )
 
@@ -1285,7 +1285,7 @@
     '(token                "@length")
     '(token)
     '(replacement
-        "@length («olt-const-structure»)"
+        "@length (Â«olt-const-structureÂ»)"
      )
 ;;; olt-length
 )
@@ -1304,7 +1304,7 @@
 (lse-define-fill-in "olt-link"
     '(token                 "@Link")
     '(token)
-    '(replacement           "@Link («name», «olt-id», «olt-id»)")
+    '(replacement           "@Link (Â«nameÂ», Â«olt-idÂ», Â«olt-idÂ»)")
 ;;; olt-link
 )
 
@@ -1312,7 +1312,7 @@
 (lse-define-fill-in "olt-link_format"
     '(token                 "@Link_Format")
     '(token)
-    '(replacement           "@Link_Format («name»)")
+    '(replacement           "@Link_Format (Â«nameÂ»)")
 ;;; olt-link_format
 )
 
@@ -1321,7 +1321,7 @@
     '(token)
     '(menu
         olt-const-list-expr
-        ("«olt-id»"     "Name of list macro value")
+        ("Â«olt-idÂ»"     "Name of list macro value")
      )
 ;;; olt-list
 )
@@ -1331,7 +1331,7 @@
     '(leading               "")
     '(replacement
         lse-indent+1
-        "«olt-macro-text»"
+        "Â«olt-macro-textÂ»"
         & lse-indent:< ;  4-Jan-1998 ; avoid new line after block
      )
 ;;; olt-macro-block
@@ -1421,7 +1421,7 @@
     '(token                 "@matches")
     '(token)
     '(description           "TRUE if match between the two arguments is found")
-    '(replacement           "@matches («olt-macro-text», «olt-macro-text»)")
+    '(replacement           "@matches (Â«olt-macro-textÂ», Â«olt-macro-textÂ»)")
 ;;; olt-matches
 )
 
@@ -1429,7 +1429,7 @@
 (lse-define-fill-in "olt-max-nof-active"
     '(token)
     '(leading               ",")
-    '(replacement           "MaxNofActive («const-int»)")
+    '(replacement           "MaxNofActive (Â«const-intÂ»)")
 ;;; olt-max-nof-active
 )
 
@@ -1438,7 +1438,7 @@
     '(token)
     '(leading               ",")
     '(replacement
-        @ olt-message-access-type & "(««olt-message-access-type-1»»)"
+        @ olt-message-access-type & "(Â«Â«olt-message-access-type-1Â»Â»)"
      )
 ;;; olt-message-access
 )
@@ -1469,7 +1469,7 @@
 (lse-define-fill-in "olt-message_allocation"
     '(token                 "@Message_Allocation")
     '(token)
-    '(replacement           "@Message_Allocation («olt-id»)")
+    '(replacement           "@Message_Allocation (Â«olt-idÂ»)")
 ;;; olt-message_allocation
 )
 
@@ -1477,7 +1477,7 @@
 (lse-define-fill-in "olt-message_copy"
     '(token                 "@Message_Copy")
     '(token)
-    '(replacement           "@Message_Copy («olt-id», «olt-id»)")
+    '(replacement           "@Message_Copy (Â«olt-idÂ», Â«olt-idÂ»)")
 ;;; olt-message_copy
 )
 
@@ -1485,7 +1485,7 @@
 (lse-define-fill-in "olt-min-period"
     '(token)
     '(leading               ",")
-    '(replacement           "MinPeriod («const-int»)")
+    '(replacement           "MinPeriod (Â«const-intÂ»)")
 ;;; olt-min-period
 )
 
@@ -1493,7 +1493,7 @@
 (lse-define-fill-in "olt-msg-group"
     '(token)
     '(leading               ",")
-    '(replacement           "Group («olt-id»)")
+    '(replacement           "Group (Â«olt-idÂ»)")
 ;;; olt-msg-group
 )
 
@@ -1503,7 +1503,7 @@
     '(token                 "length")
     '(description           "Length of message. Must be consistent with type.")
     '(leading               ",")
-    '(replacement           "Length («const-int»)")
+    '(replacement           "Length (Â«const-intÂ»)")
 ;;; olt-msg-length
 )
 
@@ -1524,7 +1524,7 @@
 (lse-define-fill-in "olt-object"
     '(token                 "@Object")
     '(token)
-    '(replacement           "@Object («olt-id»)")
+    '(replacement           "@Object (Â«olt-idÂ»)")
 ;;; olt-object
 )
 
@@ -1532,7 +1532,7 @@
 (lse-define-fill-in "olt-object_format"
     '(token                 "@Object_Format")
     '(token)
-    '(replacement           "@Object_Format («name»)")
+    '(replacement           "@Object_Format (Â«nameÂ»)")
 ;;; olt-object_format
 )
 
@@ -1590,7 +1590,7 @@
 (lse-define-fill-in "olt-period"
     '(token)
     '(leading               ",")
-    '(replacement           "Period («const-int»)")
+    '(replacement           "Period (Â«const-intÂ»)")
 ;;; olt-period
 )
 
@@ -1599,7 +1599,7 @@
     '(token                "@pop")
     '(token)
     '(replacement
-        "@pop («olt-list»)"
+        "@pop (Â«olt-listÂ»)"
      )
 ;;; olt-pop
 )
@@ -1618,7 +1618,7 @@
 (lse-define-fill-in "olt-priority"
     '(token)
     '(leading               ",")
-    '(replacement           "Priority («olt-const-prio-expr»)")
+    '(replacement           "Priority (Â«olt-const-prio-exprÂ»)")
 ;;; olt-priority
 )
 
@@ -1626,7 +1626,7 @@
 (lse-define-fill-in "olt-priority_level"
     '(token                 "@Priority_Level")
     '(token)
-    '(replacement           "@Priority_Level («olt-const-int-expr»)")
+    '(replacement           "@Priority_Level (Â«olt-const-int-exprÂ»)")
 ;;; olt-priority_level
 )
 
@@ -1674,7 +1674,7 @@
     '(separator             ", ")
     '(leading               ",")
     '(replacement
-        "ProtectedData («olt-id», «olt-cc-type-specification»)"
+        "ProtectedData (Â«olt-idÂ», Â«olt-cc-type-specificationÂ»)"
      )
 ;;; olt-protected-data
 )
@@ -1684,7 +1684,7 @@
     '(token                "@push")
     '(token)
     '(replacement
-        "@push («olt-id», «olt-const-value»)"
+        "@push (Â«olt-idÂ», Â«olt-const-valueÂ»)"
      )
 ;;; olt-push
 )
@@ -1695,7 +1695,7 @@
     '(token)
     '(description           "Change to other language")
     '(replacement
-        "@push_language («text»)"
+        "@push_language (Â«textÂ»)"
         @ olt-block
         "@pop_language"
      )
@@ -1717,7 +1717,7 @@
     '(token)
     '(token                 "raiseException")
     '(description           "ERCOS OS Call raiseException")
-    '(replacement           "raiseException («olt-id»)")
+    '(replacement           "raiseException (Â«olt-idÂ»)")
 ;;; olt-raise_exception
 )
 
@@ -1726,7 +1726,7 @@
     '(token)
     '(token                 "receiveMessage")
     '(description           "ERCOS OS Call receiveMessage")
-    '(replacement           "receiveMessage («olt-id»)")
+    '(replacement           "receiveMessage (Â«olt-idÂ»)")
 ;;; olt-receive_message
 )
 
@@ -1734,7 +1734,7 @@
 (lse-define-fill-in "olt-receiver_copies"
     '(token                 "@Receiver_Copies")
     '(token)
-    '(replacement           "@Receiver_Copies («olt-id»)")
+    '(replacement           "@Receiver_Copies (Â«olt-idÂ»)")
 ;;; olt-receiver_copies
 )
 
@@ -1758,7 +1758,7 @@
 (lse-define-fill-in "olt-registers"
     '(token)
     '(leading               ",")
-    '(replacement           "Registers («const-int»)")
+    '(replacement           "Registers (Â«const-intÂ»)")
 ;;; olt-registers
 )
 
@@ -1767,7 +1767,7 @@
     '(token)
     '(token                 "releaseResource")
     '(description           "ERCOS OS Call releaseResource")
-    '(replacement           "releaseResource («olt-id»···)")
+    '(replacement           "releaseResource (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-release_resource
 )
 
@@ -1778,7 +1778,7 @@
     '(leading               "")
     '(description           "Define alias")
     '(separator             lse-newline-and-indent)
-    '(replacement           @ olt-renames-type & («olt-id», AS («olt-id»)))
+    '(replacement           @ olt-renames-type & (Â«olt-idÂ», AS (Â«olt-idÂ»)))
 ;;; olt-renames
 )
 
@@ -1800,7 +1800,7 @@
     '(token)
     '(description           "Specify file to be analyzed before current file")
     '(separator             lse-newline-and-indent)
-    '(replacement           "@require («file-name»)")
+    '(replacement           "@require (Â«file-nameÂ»)")
 ;;; olt-require
 )
 
@@ -1808,7 +1808,7 @@
 (lse-define-fill-in "olt-right"
     '(token                 "@Right")
     '(token)
-    '(replacement           "@Right («name», «olt-id»)")
+    '(replacement           "@Right (Â«nameÂ», Â«olt-idÂ»)")
 ;;; olt-right
 )
 
@@ -1817,7 +1817,7 @@
     '(token)
     '(token                 "sendMessage")
     '(description           "ERCOS OS Call sendMessage")
-    '(replacement           "sendMessage («olt-id»)")
+    '(replacement           "sendMessage (Â«olt-idÂ»)")
 ;;; olt-send_message
 )
 
@@ -1825,7 +1825,7 @@
 (lse-define-fill-in "olt-sender_copies"
     '(token                 "@Sender_Copies")
     '(token)
-    '(replacement           "@Sender_Copies («olt-id»)")
+    '(replacement           "@Sender_Copies (Â«olt-idÂ»)")
 ;;; olt-sender_copies
 )
 
@@ -1834,7 +1834,7 @@
     '(token)
     '(token                 "setNextOpMode")
     '(description           "ERCOS OS Call setNextOpMode")
-    '(replacement           "setNextOpMode («olt-id»)")
+    '(replacement           "setNextOpMode (Â«olt-idÂ»)")
 ;;; olt-set_next_op_mode
 )
 
@@ -1843,7 +1843,7 @@
     '(token                "@slice")
     '(token)
     '(replacement
-        "@slice («olt-const-structure», «olt-const-int-expr», «olt-const-int-expr»)"
+        "@slice (Â«olt-const-structureÂ», Â«olt-const-int-exprÂ», Â«olt-const-int-exprÂ»)"
      )
 ;;; olt-slice
 )
@@ -1853,7 +1853,7 @@
     '(token                "@split")
     '(token)
     '(replacement
-        "@split («olt-const-text-expr», «olt-const-text-expr»)"
+        "@split (Â«olt-const-text-exprÂ», Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-split
 )
@@ -1877,7 +1877,7 @@
     '(token)
     '(token                 "startERCOS")
     '(description           "ERCOS OS Call startERCOS")
-    '(replacement           "startERCOS («olt-id»)")
+    '(replacement           "startERCOS (Â«olt-idÂ»)")
 ;;; olt-start_ercos
 )
 
@@ -1886,7 +1886,7 @@
     '(token                "@substitute")
     '(token)
     '(replacement
-        "@substitute («olt-const-text-expr», «olt-const-text-expr», «olt-const-text-expr»)"
+        "@substitute (Â«olt-const-text-exprÂ», Â«olt-const-text-exprÂ», Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-substitute
 )
@@ -1896,7 +1896,7 @@
     '(token)
     '(description           "Specifies environment of current definition")
     '(leading               ",")
-    '(replacement           "Subsystem («olt-id»)")
+    '(replacement           "Subsystem (Â«olt-idÂ»)")
 ;;; olt-subsystem-arg
 )
 
@@ -1916,7 +1916,7 @@
 (lse-define-fill-in "olt-subsystem-contains-function"
     '(token)
     '(token                 "containsFunction")
-    '(replacement           "containsFunction («olt-id»···)")
+    '(replacement           "containsFunction (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-subsystem-contains-function
 )
 
@@ -1924,7 +1924,7 @@
 (lse-define-fill-in "olt-subsystem-contains-process"
     '(token)
     '(token                 "containsProcess")
-    '(replacement           "containsProcess («olt-id»···)")
+    '(replacement           "containsProcess (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-subsystem-contains-process
 )
 
@@ -1932,7 +1932,7 @@
 (lse-define-fill-in "olt-subsystem-contains-subsystem"
     '(token)
     '(token                 "containsSubsystem")
-    '(replacement           "containsSubsystem («olt-id»···)")
+    '(replacement           "containsSubsystem (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-subsystem-contains-subsystem
 )
 
@@ -1970,7 +1970,7 @@
     '(token                 "exports")
     '(leading               "")
     '(replacement
-        "exports" & @ olt-subsystem-exports-type & " («olt-id»···)"
+        "exports" & @ olt-subsystem-exports-type & " (Â«olt-idÂ»Â·Â·Â·)"
      )
 ;;; olt-subsystem-exports
 )
@@ -1991,7 +1991,7 @@
 ;;;  2-Mar-1996 
 (lse-define-fill-in "olt-successor-op-mode"
     '(token)
-    '(replacement           "successorOpMode («olt-id»···)")
+    '(replacement           "successorOpMode (Â«olt-idÂ»Â·Â·Â·)")
 ;;; olt-successor-op-mode
 )
 
@@ -2009,7 +2009,7 @@
     '(token)
     '(token                 "Time")
     '(leading               ",")
-    '(replacement           "Time («const-int»)")
+    '(replacement           "Time (Â«const-intÂ»)")
 ;;; olt-time
 )
 
@@ -2017,7 +2017,7 @@
 (lse-define-fill-in "olt-time_table"
     '(token                 "@Time_Table")
     '(token)
-    '(replacement           "@Time_Table («olt-id»)")
+    '(replacement           "@Time_Table (Â«olt-idÂ»)")
 ;;; olt-time_table
 )
 
@@ -2038,7 +2038,7 @@
     '(token                "@tolower")
     '(token)
     '(replacement
-        "@tolower («olt-const-text-expr»)"
+        "@tolower (Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-tolower
 )
@@ -2048,7 +2048,7 @@
     '(token                "@toupper")
     '(token)
     '(replacement
-        "@toupper («olt-const-text-expr»)"
+        "@toupper (Â«olt-const-text-exprÂ»)"
      )
 ;;; olt-toupper
 )
@@ -2058,7 +2058,7 @@
     '(token                "@top")
     '(token)
     '(replacement
-        "@top («olt-list»)"
+        "@top (Â«olt-listÂ»)"
      )
 ;;; olt-top
 )
@@ -2069,10 +2069,10 @@
     '(leading               "")
     '(separator             lse-newline-and-indent)
     '(replacement
-        "ttActivatesTask ( «olt-id»"
-        "                , «olt-period»"
-        "                , «olt-delay»"
-        "                , ««olt-laxity»»"
+        "ttActivatesTask ( Â«olt-idÂ»"
+        "                , Â«olt-periodÂ»"
+        "                , Â«olt-delayÂ»"
+        "                , Â«Â«olt-laxityÂ»Â»"
         "                )"
      )
 ;;; olt-tt-activate-task
@@ -2082,7 +2082,7 @@
 (lse-define-fill-in "olt-type"
     '(token                 "@Type")
     '(token)
-    '(replacement           "@Type («olt-id»)")
+    '(replacement           "@Type (Â«olt-idÂ»)")
 ;;; olt-type
 )
 
@@ -2114,7 +2114,7 @@
 (lse-define-fill-in "olt-use-call_back"
     '(token)
     '(replacement
-        "usesCallBack («olt-id», «olt-use-call_back-by» («olt-id»), ««olt-allow-use-multiply»»)"
+        "usesCallBack (Â«olt-idÂ», Â«olt-use-call_back-byÂ» (Â«olt-idÂ»), Â«Â«olt-allow-use-multiplyÂ»Â»)"
      )
 ;;; olt-use-call_back
 )
@@ -2131,28 +2131,28 @@
 ;;;  1-Mar-1996 
 (lse-define-fill-in "olt-use-e_object"
     '(token)
-    '(replacement           "usesEObject («olt-id», ««olt-allow-use-multiply»»)")
+    '(replacement           "usesEObject (Â«olt-idÂ», Â«Â«olt-allow-use-multiplyÂ»Â»)")
 ;;; olt-use-e_object
 )
 
 ;;;  1-Mar-1996 
 (lse-define-fill-in "olt-use-function"
     '(token)
-    '(replacement           "usesFunction («olt-id», ««olt-allow-use-multiply»»)")
+    '(replacement           "usesFunction (Â«olt-idÂ», Â«Â«olt-allow-use-multiplyÂ»Â»)")
 ;;; olt-use-function
 )
 
 ;;;  2-Mar-1996 
 (lse-define-fill-in "olt-use-hw-task"
     '(token)
-    '(replacement           "usesHWTask («olt-id»)")
+    '(replacement           "usesHWTask (Â«olt-idÂ»)")
 ;;; olt-use-hw-task
 )
 
 ;;;  2-Mar-1996 
 (lse-define-fill-in "olt-use-init-task"
     '(token)
-    '(replacement           "usesInitTask («olt-id»)")
+    '(replacement           "usesInitTask (Â«olt-idÂ»)")
 ;;; olt-use-init-task
 )
 
@@ -2160,12 +2160,12 @@
 (lse-define-fill-in "olt-use-message"
     '(token)
     '(replacement
-        "usesMessage ( «olt-id»"
-        "            , «olt-message-access»"
-        "            , ««olt-msg-group»»"
-        "            , ««olt-allow-use-multiply»»"
-        "            , ««olt-allow-receive-before-send»»"
-        "            , ««olt-allow-direct-access»»"
+        "usesMessage ( Â«olt-idÂ»"
+        "            , Â«olt-message-accessÂ»"
+        "            , Â«Â«olt-msg-groupÂ»Â»"
+        "            , Â«Â«olt-allow-use-multiplyÂ»Â»"
+        "            , Â«Â«olt-allow-receive-before-sendÂ»Â»"
+        "            , Â«Â«olt-allow-direct-accessÂ»Â»"
         "            )"
      )
 ;;; olt-use-message
@@ -2191,7 +2191,7 @@
 (lse-define-fill-in "olt-use-resource"
     '(token)
     '(replacement
-        "usesResource («olt-id», «olt-time», ««olt-allow-use-multiply»»)"
+        "usesResource (Â«olt-idÂ», Â«olt-timeÂ», Â«Â«olt-allow-use-multiplyÂ»Â»)"
      )
 ;;; olt-use-resource
 )
@@ -2199,14 +2199,14 @@
 ;;;  1-Mar-1996 
 (lse-define-fill-in "olt-use-sw-task"
     '(token)
-    '(replacement           "usesSWTask («olt-id», ««olt-allow-use-multiply»»)")
+    '(replacement           "usesSWTask (Â«olt-idÂ», Â«Â«olt-allow-use-multiplyÂ»Â»)")
 ;;; olt-use-sw-task
 )
 
 ;;;  2-Mar-1996 
 (lse-define-fill-in "olt-use-time-table"
     '(token)
-    '(replacement           "usesTimeTable («olt-id»)")
+    '(replacement           "usesTimeTable (Â«olt-idÂ»)")
 ;;; olt-use-time-table
 )
 
@@ -2216,7 +2216,7 @@
     '(token)
     '(description           "While loop")
     '(replacement
-        "@while («olt-const-bool-expr»)"
+        "@while (Â«olt-const-bool-exprÂ»)"
         @ olt-macro-block
         "@endwhile"
      )
@@ -2228,7 +2228,7 @@
     '(token)
     '(token                 "Window")
     '(leading               ",")
-    '(replacement           "Window («const-int»)")
+    '(replacement           "Window (Â«const-intÂ»)")
 ;;; olt-window
 )
 
@@ -2242,7 +2242,7 @@
 (lse-define-fill-in "olt-x_level"
     '(token                 "@X_Level")
     '(token)
-    '(replacement           "@X_Level («olt-const-int-expr»)")
+    '(replacement           "@X_Level (Â«olt-const-int-exprÂ»)")
 ;;; olt-x_level
 )
 

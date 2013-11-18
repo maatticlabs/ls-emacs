@@ -1,18 +1,18 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "ANGEBOT"
   '(description   "Latex letter document style for Angebote" )
   '(replacement
       ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       lse-indent+1
-      "\\briefautor{«Initialen»}"
+      "\\briefautor{Â«InitialenÂ»}"
       @ "\\briefdatum"
-      "««\\foreignletter»»"
-      "««\\nofoldmark»»"
+      "Â«Â«\\foreignletterÂ»Â»"
+      "Â«Â«\\nofoldmarkÂ»Â»"
       ""
-      "««Include-Projekt-Letter-Definition»»"
+      "Â«Â«Include-Projekt-Letter-DefinitionÂ»Â»"
       lse-indent-1
       ""
       "\\begin{document}"
@@ -21,7 +21,7 @@
       "\\defletter%"
       lse-indent+1
       "{"
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\TheAdressat[\\TheKey]"
       ""
@@ -29,31 +29,31 @@
       ""
       "\\Anrede"
       ""
-      "«text»···"
+      "Â«textÂ»Â·Â·Â·"
       ""
       "\\bigskip"
       "Dieses Angebot ist verbindlich und basiert auf den \">Allgemeinen"
-      "Geschäftsbedingungen\"< und der \">Honorarordnung\"<"
+      "GeschÃ¤ftsbedingungen\"< und der \">Honorarordnung\"<"
       "der \\swinggesmbh/"
-      "Dieses Angebot ist 30~Tage gültig."
+      "Dieses Angebot ist 30~Tage gÃ¼ltig."
       ""
       "Wir hoffen, Ihnen mit diesem Angebot gedient zu haben und verbleiben"
       ""
-      "«gruesse»"
+      "Â«gruesseÂ»"
       ""
       "\\vfill"
       ""
       "\\beilagen%"
       lse-indent+1
       "{"
-      "Allgemeine Geschäftsbedingungen, Jänner 1989 \\\\"
+      "Allgemeine GeschÃ¤ftsbedingungen, JÃ¤nner 1989 \\\\"
       "Honorarordnung, Juli 1990"
       "}"
       lse-indent-1
       "}"
       lse-indent-1
       ""
-      "\\printletterperson{«Kartei_Zuname»_««Kartei_Vorname»»}[««Kartei-Key»»]"
+      "\\printletterperson{Â«Kartei_ZunameÂ»_Â«Â«Kartei_VornameÂ»Â»}[Â«Â«Kartei-KeyÂ»Â»]"
       "\\printletterausfertigung[Duplikat]"
       ""
       lse-indent-1
@@ -75,23 +75,23 @@
   '(description   "Latex letter document style" )
   '(replacement
       ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,letter]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       lse-indent+1
-      "\\def\\unserzeichen/{{«text»}}"
-      "\\def\\lieferdatum/{{«text»}}"
-      "««\\foreignletter»»"
-      "««\\nofoldmark»»"
+      "\\def\\unserzeichen/{{Â«textÂ»}}"
+      "\\def\\lieferdatum/{{Â«textÂ»}}"
+      "Â«Â«\\foreignletterÂ»Â»"
+      "Â«Â«\\nofoldmarkÂ»Â»"
       ""
       "\\input{$SDM$LETTERS:PROJEKT_LETTER.DEF}"
       ""
-      "\\def\\heute{«text»}"
+      "\\def\\heute{Â«textÂ»}"
       ""
       lse-indent-1
       "\\begin{document}"
       ""
       lse-indent+1
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\adressat%"
       lse-indent+1
@@ -100,13 +100,13 @@
       "}"
       lse-indent-1
       ""
-      "\\lieferschein{«lieferschein-code»}"
+      "\\lieferschein{Â«lieferschein-codeÂ»}"
       ""
       lse-indent+1
       "Zu den in Ihrer Bestellung~\\bestellcode/ vom~\\bestelldatum/"
       "vereinbarten Bedingungen liefern wir Ihnen:"
       ""
-      "««text»»···"
+      "Â«Â«textÂ»Â»Â·Â·Â·"
       ""
       "\\bigskip"
       ""
@@ -126,20 +126,20 @@
   '(description   "Angebots-Code, Bestell-Code, ..., fuer kaufm. Korrespondenz" )
   '(replacement
       lse-indent+1
-      "\\def\\kunde/{{«text»}}            % Firmenkurzname / Abteilung"
-      "\\def\\angebotdatum/{{«text»}}       % Datum des Angebots von Swing"
-      "\\def\\angebotcode/{{«text»}}        % Angebots-Code von Swing"
-      "\\def\\bestelldatum/{{«text»}}       % Datum der Bestellung"
-      "\\def\\bestellcode/{{«text»}}        % Bestellnummer etc."
-      "\\def\\lieferantencode/{{«text»}}      % Code des Kunden fuer Swing"
+      "\\def\\kunde/{{Â«textÂ»}}            % Firmenkurzname / Abteilung"
+      "\\def\\angebotdatum/{{Â«textÂ»}}       % Datum des Angebots von Swing"
+      "\\def\\angebotcode/{{Â«textÂ»}}        % Angebots-Code von Swing"
+      "\\def\\bestelldatum/{{Â«textÂ»}}       % Datum der Bestellung"
+      "\\def\\bestellcode/{{Â«textÂ»}}        % Bestellnummer etc."
+      "\\def\\lieferantencode/{{Â«textÂ»}}      % Code des Kunden fuer Swing"
       "\\def\\kundenadr/%                 % Adresse des Kunden"
       lse-indent+1
       "{"
-      "«paragraph_text»···"
+      "Â«paragraph_textÂ»Â·Â·Â·"
       "}"
       lse-indent-1
-      "\\def\\projectname/{{«text»}}        % Name des Projekts"
-      "\\def\\projectid/{{«text»}}          % Kurzbezeichnung des Projekts"
+      "\\def\\projectname/{{Â«textÂ»}}        % Name des Projekts"
+      "\\def\\projectid/{{Â«textÂ»}}          % Kurzbezeichnung des Projekts"
       lse-indent-1
    )
 )
@@ -147,16 +147,16 @@
 (lse-define-fill-in "RECHNUNG"
   '(description   "Latex letter document style for bills" )
   '(replacement
-      ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,««text»»letter]{business}"
-      "\\documentclass[12pt,german,««options»»···]{busletter}"
+      ;  4-Feb-2008 ; "\\documentstyle[12pt,german,swing,Â«Â«textÂ»Â»letter]{business}"
+      "\\documentclass[12pt,german,Â«Â«optionsÂ»Â»Â·Â·Â·]{busletter}"
       ""
       lse-indent+1
-      "\\briefautor{«Initialen»}"
+      "\\briefautor{Â«InitialenÂ»}"
       @ "\\briefdatum"
-      "««\\foreignletter»»"
-      "««\\nofoldmark»»"
+      "Â«Â«\\foreignletterÂ»Â»"
+      "Â«Â«\\nofoldmarkÂ»Â»"
       ""
-      "««Include-Projekt-Letter-Definition»»"
+      "Â«Â«Include-Projekt-Letter-DefinitionÂ»Â»"
       ""
       lse-indent-1
       "\\begin{document}"
@@ -165,36 +165,36 @@
       "\\defletter%"
       lse-indent+1
       "{"
-      "\\briefkopf««Telefon_Klappe»»"
+      "\\briefkopfÂ«Â«Telefon_KlappeÂ»Â»"
       ""
       "\\TheAdressat[\\TheKey]"
       ""
       "\\Rechnung"
       ""
       lse-indent+1
-      "Füur «text» stelle ich in Rechnung:"
+      "FÃ¼ur Â«textÂ» stelle ich in Rechnung:"
       ""
-      "«Rechnungs-Tabelle»···"
+      "Â«Rechnungs-TabelleÂ»Â·Â·Â·"
       ""
-      "Ich ersuche um Überweisung des Rechnungsbetrages auf das \\kontoi/."
+      "Ich ersuche um Ãœberweisung des Rechnungsbetrages auf das \\kontoi/."
       ""
       "\\bigskip"
-      "«rechnungs-zahlungsziel»"
+      "Â«rechnungs-zahlungszielÂ»"
       ""
       lse-indent-1
-      "«gruesse»"
+      "Â«gruesseÂ»"
       ""
       "\\vfill"
       "}"
       lse-indent-1
       ""
-      "«\\printletter»[Original]"
+      "Â«\\printletterÂ»[Original]"
       "%\\printletterausfertigung[1. Duplikat]"
       "%\\printletterausfertigung[2. Duplikat]"
       "%\\printletterausfertigung[3. Duplikat]"
-      "%\\printletterausfertigung[Buchhaltung «text»]"
-      "%\\printletterausfertigung[1. Duplikat «text»]"
-      "%\\printletterausfertigung[2. Duplikat «text»]"
+      "%\\printletterausfertigung[Buchhaltung Â«textÂ»]"
+      "%\\printletterausfertigung[1. Duplikat Â«textÂ»]"
+      "%\\printletterausfertigung[2. Duplikat Â«textÂ»]"
       ""
       lse-indent-1
       "\\end{document}"
@@ -207,8 +207,8 @@
 
 (lse-define-fill-in "RECHNUNGS-ZAHLUNGSZIEL"
   '(menu
-        "Zahlungsziel: «text»."
-        "Die Rechnung ist sofort und ohne jeden Abzug fällig."
+        "Zahlungsziel: Â«textÂ»."
+        "Die Rechnung ist sofort und ohne jeden Abzug fÃ¤llig."
    )
 )
 
@@ -219,7 +219,7 @@
     '(description           "Selbstrechnende Tabelle mit Auflistung der Rechnungsposten")
     '(replacement
         "\\begin{Rtable}"
-        "«Rechnungs-Posten»···"
+        "Â«Rechnungs-PostenÂ»Â·Â·Â·"
         "\\end{Rtable}"
      )
 ;;; Rechnungs-Tabelle
@@ -232,10 +232,10 @@
     '(description           "Einzelposten einer Rechnungs-Tabelle")
     '(replacement
         "\\Rpos"
-        "  {«text»}"
-        "  {«text»}"
-        "  {«text»}"
-        "  \\\\ ««hline»»"
+        "  {Â«textÂ»}"
+        "  {Â«textÂ»}"
+        "  {Â«textÂ»}"
+        "  \\\\ Â«Â«hlineÂ»Â»"
      )
 ;;; Rechnungs-Posten
 )

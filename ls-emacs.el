@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
 ;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
@@ -91,7 +91,7 @@
 ;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
 ;;;;    23-Nov-2012 (CT) Add `lse-emacs24-p`
 ;;;;     5-Sep-2013 (CT) Use `version<` instead of `string-lessp`
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'ls-emacs)
 

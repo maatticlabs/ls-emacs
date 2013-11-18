@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "+-="
   '(description           "Richtung des Geldflusses einer Buchungszeile")
@@ -6,7 +6,7 @@
   '(menu
       ("+"     "Einnahme")
       ("-"     "Ausgabe")
-      ("="     "Startwert (z.B. Eröffnungsbilanz)")
+      ("="     "Startwert (z.B. ErÃ¶ffnungsbilanz)")
       (" "     "Interne Umbuchung")
    )
 ;;; +-=
@@ -20,7 +20,7 @@
 )
 
 (lse-define-fill-in "Beschreibung"
-  '(description           "Beschreibung einer Buchungszeile (wird für Kassabuch verwendet)")
+  '(description           "Beschreibung einer Buchungszeile (wird fÃ¼r Kassabuch verwendet)")
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
 ;;; Beschreibung
 )
@@ -35,18 +35,18 @@
     '(token                 "\n");  4-May-2007
     '(auto-expand); 17-Aug-2000
     '(replacement
-        " «Tag». & "
-        & "«Beleg-Zahl» & "
-        & "«MWSt» & "
-        & "«Betrag» & "
-        & "«Brutto/Netto» & "
-        & "«Soll-Konto» & "
-        & "«Haben-Konto» & "
-        & "«+-=» & "
-        & "«Tools» & "
-        & "«Finanzplan-Kategorie» & "
-        & "«Beschreibung» & "
-        & "««person»»"
+        " Â«TagÂ». & "
+        & "Â«Beleg-ZahlÂ» & "
+        & "Â«MWStÂ» & "
+        & "Â«BetragÂ» & "
+        & "Â«Brutto/NettoÂ» & "
+        & "Â«Soll-KontoÂ» & "
+        & "Â«Haben-KontoÂ» & "
+        & "Â«+-=Â» & "
+        & "Â«ToolsÂ» & "
+        & "Â«Finanzplan-KategorieÂ» & "
+        & "Â«BeschreibungÂ» & "
+        & "Â«Â«personÂ»Â»"
      )
 ;;; buchhaltung
 )
@@ -57,7 +57,7 @@
         "$vst_korrektur = 1.0;"
         "% Datum  & #  & USt & Betrag        &b/n & Soll  & Haben &+-= & "
         & "Tools & Finanzplan-Kategorie           & Beschreibung & Person "
-        "«buchhaltung»···"
+        "Â«buchhaltungÂ»Â·Â·Â·"
         "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
      )
 ;;; buchhaltung-file
@@ -68,26 +68,26 @@
   '(token                 "bkonto")
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
   '(description           "Hauptkategorien des Kontenplans."
-                          "Die Subkategorien sind über Tokenexpansion zugänglich."
+                          "Die Subkategorien sind Ã¼ber Tokenexpansion zugÃ¤nglich."
    )
   '(sort)
   '(menu
-      ("0"     "Anlagevermögen")
-      ("1"     "Vorräte und unfertige Aufträge")
-      ("2"     "Sonstiges Umlaufvermögen und aktive Rechnungsabgrenzungsposten")
-      ("3"     "Verbindlichkeiten, Rückstellungen und passive Rechnungsabgrenzungsposten")
-      ("4"     "Materialaufwand, Energieaufwand und Aufwand für die Fremdbearbeitung")
-      ("5"     "Personalaufwand (einschließlich Provisionsaufwand)")
+      ("0"     "AnlagevermÃ¶gen")
+      ("1"     "VorrÃ¤te und unfertige AuftrÃ¤ge")
+      ("2"     "Sonstiges UmlaufvermÃ¶gen und aktive Rechnungsabgrenzungsposten")
+      ("3"     "Verbindlichkeiten, RÃ¼ckstellungen und passive Rechnungsabgrenzungsposten")
+      ("4"     "Materialaufwand, Energieaufwand und Aufwand fÃ¼r die Fremdbearbeitung")
+      ("5"     "Personalaufwand (einschlieÃŸlich Provisionsaufwand)")
       ("6"     "Sachaufwand und sonstiger Aufwand")
       ("7"     "Sachaufwand und sonstiger Aufwand")
-      ("8"     "Erträge")
-      ("9"     "Kapitalkonten, Verrechnungskonten, Abschlußkonten und Evidenzkonten")
+      ("8"     "ErtrÃ¤ge")
+      ("9"     "Kapitalkonten, Verrechnungskonten, AbschluÃŸkonten und Evidenzkonten")
    )
 ;;; buchhaltung-konto
 )
 
 (lse-define-fill-in "Brutto/Netto"
-    '(description           "Kennzeichnung ob der Betrag brutto oder netto angeführt wurde")
+    '(description           "Kennzeichnung ob der Betrag brutto oder netto angefÃ¼hrt wurde")
     '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
     '(menu
         ("b"     "Betrag ist brutto")
@@ -98,7 +98,7 @@
 
 (lse-define-fill-in "Finanzplan-Kategorie"
   '(token)
-  '(description           "Kategorie für Finanzplanung")
+  '(description           "Kategorie fÃ¼r Finanzplanung")
   '(rcompletion-trailer   just-one-space (lse-align-to-pattern "&"))
   '(sort)
   '(menu
@@ -145,8 +145,8 @@
     '(menu
         (""      "Mehrwertsteuerfrei")
         ("20"    "Normaler   Mehrwertsteuersatz")
-        ("10"    "Ermäßigter Mehrwertsteuersatz")
-        ("9.091" "Mehrwertsteuersatz für Diäten")
+        ("10"    "ErmÃ¤ÃŸigter Mehrwertsteuersatz")
+        ("9.091" "Mehrwertsteuersatz fÃ¼r DiÃ¤ten")
      )
 )
 

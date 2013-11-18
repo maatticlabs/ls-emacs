@@ -1,24 +1,24 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;  7-Feb-2003
 (lse-define-fill-in "TOM-Essence-Object-Class"
     '(token)
     '(token                  "Essence-Object")
     '(replacement
-        "_Ancestor_Essence = «name»"
+        "_Ancestor_Essence = Â«nameÂ»"
         ""
-        "class «TOM-Essence-class-name» (_Ancestor_Essence) :"
+        "class Â«TOM-Essence-class-nameÂ» (_Ancestor_Essence) :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "««TOM-Attr-Spec»»"
-          "««TOM-Pred-Spec»»"
-          "««py-class-init»»"
-          "««py-statement»»···"
+          "Â«Â«TOM-Attr-SpecÂ»Â»"
+          "Â«Â«TOM-Pred-SpecÂ»Â»"
+          "Â«Â«py-class-initÂ»Â»"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «TOM-Essence-class-name»"
+        "# end class Â«TOM-Essence-class-nameÂ»"
         ""
-        "««TOM-ATS-Type-Spec»»"
+        "Â«Â«TOM-ATS-Type-SpecÂ»Â»"
      )
 ;;; TOM-Essence-Object-Class
 )
@@ -27,23 +27,23 @@
     '(token)
     '(token                  "Essence-Link")
     '(replacement
-        "_Ancestor_Essence = «name»"
+        "_Ancestor_Essence = Â«nameÂ»"
         ""
-        "class «TOM-Essence-class-name» (_Ancestor_Essence) :"
+        "class Â«TOM-Essence-class-nameÂ» (_Ancestor_Essence) :"
         lse-indent+1
-          "««py-doc-string»»"
+          "Â«Â«py-doc-stringÂ»Â»"
           ""
-          "«TOM-Link-Type»···"
-          "««TOM-Link-Roles»»"
-          "««TOM-Link-Max-Links»»"
-          "««TOM-Attr-Spec»»"
-          "««TOM-Pred-Spec»»"
-          "««py-class-init»»"
-          "««py-statement»»···"
+          "Â«TOM-Link-TypeÂ»Â·Â·Â·"
+          "Â«Â«TOM-Link-RolesÂ»Â»"
+          "Â«Â«TOM-Link-Max-LinksÂ»Â»"
+          "Â«Â«TOM-Attr-SpecÂ»Â»"
+          "Â«Â«TOM-Pred-SpecÂ»Â»"
+          "Â«Â«py-class-initÂ»Â»"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «TOM-Essence-class-name»"
+        "# end class Â«TOM-Essence-class-nameÂ»"
         ""
-        "««TOM-ATS-Type-Spec»»"
+        "Â«Â«TOM-ATS-Type-SpecÂ»Â»"
      )
 ;;; TOM-Essence-Link-Class
 )
@@ -52,7 +52,7 @@
     '(token)
     '(replacement
         "max_links               = dict \\ "
-        "  ( «name» = «number»"
+        "  ( Â«nameÂ» = Â«numberÂ»"
         "  )"
      )
 ;;; TOM-Link-Max-Links
@@ -61,7 +61,7 @@
 (lse-define-fill-in "TOM-Link-Roles"
     '(token)
     '(replacement
-        "role_names              = («quoted-text», ««quoted-text»»)"
+        "role_names              = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Link-Roles
 )
@@ -69,7 +69,7 @@
 (lse-define-fill-in "TOM-Link-Type"
     '(token)
     '(replacement
-        "«TOM-Link-Type-Role» = «name»"
+        "Â«TOM-Link-Type-RoleÂ» = Â«nameÂ»"
      )
 ;;; TOM-Link-Type
 )
@@ -103,12 +103,12 @@
         "Define a specific attribute of an essential object/link"
      )
     '(replacement
-        "class «py-class-name» («TOM-Attribute-Type») :"
+        "class Â«py-class-nameÂ» (Â«TOM-Attribute-TypeÂ») :"
         lse-indent+1
-          "««py-doc-string»»"
-          "««TOM-Attribute-Attribute»»···"
+          "Â«Â«py-doc-stringÂ»Â»"
+          "Â«Â«TOM-Attribute-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; TOM-Attribute
 )
@@ -118,7 +118,7 @@
     '(description           "Type of attribute")
     '(menu ;; 13-Mar-2003
         TOM-Attribute-Type-Derived
-        "A_«TOM-Attribute-Type-1»"
+        "A_Â«TOM-Attribute-Type-1Â»"
      )
 ;;; TOM-Attribute-Type
 )
@@ -172,7 +172,7 @@
     '(token                 "default")
     '(description           "Default value of a TOM attribute")
     '(replacement
-        "default            = «text»"
+        "default            = Â«textÂ»"
      )
 ;;; TOM-Attribute-default
 )
@@ -197,7 +197,7 @@
     '(description           "Further explanation for a TOM attribute")
     '(replacement
         "explanation        = \"\"\" "
-        "  «text»"
+        "  Â«textÂ»"
         "  \"\"\" "
      )
 ;;; TOM-Attribute-explanation
@@ -209,7 +209,7 @@
     '(token                 "group")
     '(description           "Sort group of a TOM attribute")
     '(replacement
-        "group              = «text»"
+        "group              = Â«textÂ»"
      )
 ;;; TOM-Attribute-group
 )
@@ -236,12 +236,12 @@
     '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
     '(rcompletion-trailer   delete-blank-lines lse-newline)
     '(replacement
-        "class «ats-type-name» :"
+        "class Â«ats-type-nameÂ» :"
         lse-indent+1
-          "««TOM-Attribute-Kind»»"
-          "««TOM-Attribute-Attribute-mixin»»···"
+          "Â«Â«TOM-Attribute-KindÂ»Â»"
+          "Â«Â«TOM-Attribute-Attribute-mixinÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «ats-type-name»"
+        "# end class Â«ats-type-nameÂ»"
      )
 ;;; TOM-Attribute-ATS-Mixin
 )
@@ -262,7 +262,7 @@
     '(token)
     '(description           "Define generic attribute Kind")
     '(replacement
-        "Attr.«TOM-Attribute-Kind-Type»««TOM-Attribute-Kind-Type-Mod»»"
+        "Attr.Â«TOM-Attribute-Kind-TypeÂ»Â«Â«TOM-Attribute-Kind-Type-ModÂ»Â»"
      )
 ;;; TOM-Attribute-Kind-Spec
 )
@@ -346,7 +346,7 @@
      )
     '(replacement
         "ats_kinds          = dict \\"
-        "  ( «TOM-Attr-Kind-Dict-Entry»···"
+        "  ( Â«TOM-Attr-Kind-Dict-EntryÂ»Â·Â·Â·"
         "  )"
      )
 ;;; TOM-Attribute-ATS-Kinds
@@ -357,7 +357,7 @@
     '(separator             lse-newline & lse-environment-indent & ", ")
     '(leading               ",")
     '(replacement
-        "«name»= " & @ TOM-Attribute-Kind-Spec
+        "Â«nameÂ»= " & @ TOM-Attribute-Kind-Spec
      )
 ;;; TOM-Attr-Kind-Dict-Entry
 )
@@ -387,7 +387,7 @@
           ""
           "_Ancestor = _Ancestor_Essence._Attributes"
           ""
-          "««TOM-Attribute»»···"
+          "Â«Â«TOM-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _Attributes"
      )
@@ -405,10 +405,10 @@
         ""
         "_Ancestor = _Ancestor_Essence._ATS_Types"
         ""
-        "««TOM-ATS-Type-template»»"
-        "««TOM-ATS-Type-auto-mixin»»"
+        "Â«Â«TOM-ATS-Type-templateÂ»Â»"
+        "Â«Â«TOM-ATS-Type-auto-mixinÂ»Â»"
         ""
-        "««TOM-ATS-Type»»···"
+        "Â«Â«TOM-ATS-TypeÂ»Â»Â·Â·Â·"
         ""
         lse-indent-1
         "# end class _ATS_Types"
@@ -425,11 +425,11 @@
     '(replacement
         "class _template (_Ancestor._template) :"
         lse-indent+1
-          "««py-statement»»···"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _template"
         ""
-        "««TOM-ATS-Type-template-I»»"
+        "Â«Â«TOM-ATS-Type-template-IÂ»Â»"
      )
 ;;; TOM-ATS-Type-template
 )
@@ -443,7 +443,7 @@
     '(replacement
         "class _template_I (_template, _Ancestor._template_I) : "
         lse-indent+1
-          "««py-statement»»···"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _template_I"
      )
@@ -459,7 +459,7 @@
         "as first base."
      )
     '(replacement
-        "_auto_mixin = «TOM-ATS-Type-auto-mixin-base»"
+        "_auto_mixin = Â«TOM-ATS-Type-auto-mixin-baseÂ»"
      )
 ;;; TOM-ATS-Type-auto-mixin
 )
@@ -480,19 +480,19 @@
     '(description           "Define a application-type specific entity type")
     '(replacement
         "class _" & (lse-insert-replica-or-flat "TOM-Essence-class-name")
-                  & "_«ats-type-name»_ "
-                  & "(««_template»», _Ancestor.«ats-type-name») :"
+                  & "_Â«ats-type-nameÂ»_ "
+                  & "(Â«Â«_templateÂ»Â», _Ancestor.Â«ats-type-nameÂ») :"
         lse-indent+1
           ""
-          "_Ancestor  = _Ancestor_Essence._ATS_Types.«ats-type-name»"
-          "_real_name = \"«ats-type-name»\" "
+          "_Ancestor  = _Ancestor_Essence._ATS_Types.Â«ats-type-nameÂ»"
+          "_real_name = \"Â«ats-type-nameÂ»\" "
           ""
-          "««py-statement»»···"
+          "Â«Â«py-statementÂ»Â»Â·Â·Â·"
           ""
         lse-indent-1
-        "«ats-type-name» = _"
+        "Â«ats-type-nameÂ» = _"
           & (lse-insert-replica-or-flat "TOM-Essence-class-name")
-          & "_«ats-type-name»_ "
+          & "_Â«ats-type-nameÂ»_ "
           & "# end class ..."
      )
 ;;; TOM-ATS-Type
@@ -517,7 +517,7 @@
           ""
           "_Ancestor = _Ancestor_Essence._Predicates"
           ""
-          "««TOM-Predicate»»···"
+          "Â«Â«TOM-PredicateÂ»Â»Â·Â·Â·"
         lse-indent-1
         "# end class _Predicates"
      )
@@ -534,12 +534,12 @@
         "Define a specific predicate of an essential object/link"
      )
     '(replacement
-        "class «py-class-name» («TOM-Predicate-Type») :"
+        "class Â«py-class-nameÂ» (Â«TOM-Predicate-TypeÂ») :"
         lse-indent+1
-          "««py-doc-string»»"
-          "««TOM-Predicate-Attribute»»···"
+          "Â«Â«py-doc-stringÂ»Â»"
+          "Â«Â«TOM-Predicate-AttributeÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «py-class-name»"
+        "# end class Â«py-class-nameÂ»"
      )
 ;;; TOM-Predicate
 )
@@ -607,7 +607,7 @@
     '(token                 "assertion")
     '(description           "Define assertion describing the predicate")
     '(replacement
-        "assertion          = «quoted-text»"
+        "assertion          = Â«quoted-textÂ»"
      )
 ;;; TOM-Predicate-assertion
 )
@@ -620,7 +620,7 @@
         "checked if all `attributes` have a non-None value."
      )
     '(replacement
-        "attributes         = («quoted-text», ««quoted-text»»)"
+        "attributes         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-attributes
 )
@@ -633,7 +633,7 @@
         "checked even if some `attr-none` have a None value."
      )
     '(replacement
-        "attr_none          = («quoted-text», ««quoted-text»»)"
+        "attr_none          = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-attr-none
 )
@@ -644,7 +644,7 @@
         "Define bounded variables used by this predicate"
      )
     '(replacement
-        "bvar               = «quoted-text»"
+        "bvar               = Â«quoted-textÂ»"
      )
 ;;; TOM-Predicate-bvar
 )
@@ -655,7 +655,7 @@
         "Define bounded variable attributes used by this predicate"
      )
     '(replacement
-        "bvar_attr          = («quoted-text», ««quoted-text»»)"
+        "bvar_attr          = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-bvar_attr
 )
@@ -674,7 +674,7 @@
     '(token)
     '(description           "Define additional hyperlinks for error widget")
     '(replacement
-        "_extra_links_s     = («quoted-text», ««quoted-text»»)"
+        "_extra_links_s     = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-extralinks
 )
@@ -687,7 +687,7 @@
         "guard is true."
      )
     '(replacement
-        "guard              = «quoted-text»"
+        "guard              = Â«quoted-textÂ»"
      )
 ;;; TOM-Predicate-guard
 )
@@ -700,7 +700,7 @@
         "guard is true."
      )
     '(replacement
-        "guard_attr         = («quoted-text», ««quoted-text»»)"
+        "guard_attr         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-guard-attr
 )
@@ -710,7 +710,7 @@
     '(token)
     '(description           "Define lower limit for N_Quant")
     '(replacement
-        "lower_limit        = «text»"
+        "lower_limit        = Â«textÂ»"
      )
 ;;; TOM-Predicate-lower-limit
 )
@@ -723,7 +723,7 @@
         "object/link in question) used for evaluating assertion."
      )
     '(replacement
-        "parameters         = («quoted-text», ««quoted-text»»)"
+        "parameters         = (Â«quoted-textÂ», Â«Â«quoted-textÂ»Â»)"
      )
 ;;; TOM-Predicate-parameters
 )
@@ -737,7 +737,7 @@
         "predicates of rank `n + 1` and higher won't be checked."
      )
     '(replacement
-        "rank               = «text»"
+        "rank               = Â«textÂ»"
      )
 ;;; TOM-Predicate-rank
 )
@@ -748,7 +748,7 @@
         "Define the sequence over which should be quantified"
      )
     '(replacement
-        "seq                = «quoted-text»"
+        "seq                = Â«quoted-textÂ»"
      )
 ;;; TOM-Predicate-seq
 )
@@ -760,7 +760,7 @@
          "Define severity of predicate (0 means warning, 1 means error)."
      )
     '(replacement
-        "severe             = «text»"
+        "severe             = Â«textÂ»"
      )
 ;;; TOM-Predicate-severe
 )
@@ -775,12 +775,12 @@
     '(rcompletion-leading   lse-remove-prev-blank-lines lse-newline-and-indent)
     '(rcompletion-trailer   delete-blank-lines lse-newline)
     '(replacement
-        "class «ats-type-name» :"
+        "class Â«ats-type-nameÂ» :"
         lse-indent+1
-          "««TOM-Predicate-Kind»»"
-          "««TOM-Predicate-Attribute-mixin»»···"
+          "Â«Â«TOM-Predicate-KindÂ»Â»"
+          "Â«Â«TOM-Predicate-Attribute-mixinÂ»Â»Â·Â·Â·"
         lse-indent-1
-        "# end class «ats-type-name»"
+        "# end class Â«ats-type-nameÂ»"
      )
 ;;; TOM-Predicate-ATS-Mixin
 )
@@ -791,7 +791,7 @@
     '(token                 "PKind")
     '(description           "Define generic Predicate Kind")
     '(replacement
-        "kind           = Pred.«TOM-Predicate-Kind-Type»"
+        "kind           = Pred.Â«TOM-Predicate-Kind-TypeÂ»"
      )
 ;;; TOM-Predicate-Kind
 )
@@ -816,7 +816,7 @@
         "Define default predicate kind (except for imports)"
      )
     '(replacement
-        "default_kind       = Pred.«TOM-Predicate-Kind-Type»"
+        "default_kind       = Pred.Â«TOM-Predicate-Kind-TypeÂ»"
      )
 ;;; TOM-Predicate-Default-Kind
 )
@@ -829,7 +829,7 @@
         "Define default predicate kind for imports"
      )
     '(replacement
-        "import_kind        = Pred.«TOM-Predicate-Kind-Type»"
+        "import_kind        = Pred.Â«TOM-Predicate-Kind-TypeÂ»"
      )
 ;;; TOM-Predicate-Import-Kind
 )
@@ -843,7 +843,7 @@
      )
     '(replacement
         "ats_kinds          = d_dict \\"
-        "  ( «TOM-Pred-Kind-Dict-Entry»···"
+        "  ( Â«TOM-Pred-Kind-Dict-EntryÂ»Â·Â·Â·"
         "  )"
      )
 ;;; TOM-Predicate-ATS-Kinds
@@ -854,7 +854,7 @@
     '(separator             lse-newline & lse-environment-indent & ", ")
     '(leading               ",")
     '(replacement
-        "«name»= Pred.«TOM-Predicate-Kind-Type»"
+        "Â«nameÂ»= Pred.Â«TOM-Predicate-Kind-TypeÂ»"
      )
 ;;; TOM-Pred-Kind-Dict-Entry
 )
@@ -864,17 +864,17 @@
     '(token)
     '(description           "Define upper limit for N_Quant")
     '(replacement
-        "upper_limit        = «text»"
+        "upper_limit        = Â«textÂ»"
      )
 ;;; TOM-Predicate-upper-limit
 )
 
-;  ««lse-define-fill-in»»···
+;  Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 
 ;;;  7-Feb-2003
 (lse-define-fill-in "TOM-multi-line-text-assignment"
     '(replacement
-        "  ( «quoted-text»···"
+        "  ( Â«quoted-textÂ»Â·Â·Â·"
         "  )"
      )
 ;;; TOM-multi-line-text-assignment

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-keys:el lse_keys:el
 ;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
@@ -29,7 +29,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    18-Jun-1994 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 (provide 'lse-keys)
 

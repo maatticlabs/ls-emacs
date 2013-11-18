@@ -1,26 +1,26 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "\\DefSeminarHotel/" 
   '(description   "Hotel in dem das Seminar veranstaltet wird" )
   '(replacement 
-      "\\DefSeminarHotel/{«text»}%"   
+      "\\DefSeminarHotel/{Â«textÂ»}%"   
    )
 )
 
 (lse-define-fill-in "\\DefSeminarSubtitel/" 
   '(description   "Untertitel des Seminars" )
   '(replacement 
-      "\\DefSeminarSubtitel/{«text»}%"
+      "\\DefSeminarSubtitel/{Â«textÂ»}%"
    )
 )
 
 (lse-define-fill-in "\\DefSeminarTermin/" 
   '(description   "Definition eines einzelnen Termins" )
   '(replacement 
-      "\\DefSeminarTermin/[«text»]%"
-      "  {\\DefSeminarDatum/[«tag».«monat».«jahr»]%"
-      "   \\DefSeminarOrt/{«text»}%"     
-      "   ««\\DefSeminarHotel/»»"
+      "\\DefSeminarTermin/[Â«textÂ»]%"
+      "  {\\DefSeminarDatum/[Â«tagÂ».Â«monatÂ».Â«jahrÂ»]%"
+      "   \\DefSeminarOrt/{Â«textÂ»}%"     
+      "   Â«Â«\\DefSeminarHotel/Â»Â»"
       "  }%"
     )  
 )
@@ -38,19 +38,19 @@
   '(token)
   '(description   "Titel & Dauer des Seminars")
   '(replacement 
-      "\\DefSeminarTitel/{«text»}"
-      "««\\DefSeminarSubtitel/»»"
-      "\\DefSeminarVortragender/{«text»}"
-      "\\DefSeminarDauer/{«text»}"
+      "\\DefSeminarTitel/{Â«textÂ»}"
+      "Â«Â«\\DefSeminarSubtitel/Â»Â»"
+      "\\DefSeminarVortragender/{Â«textÂ»}"
+      "\\DefSeminarDauer/{Â«textÂ»}"
    )
 )          
 
 (lse-define-fill-in "Seminar-Kapitel" 
   '(replacement 
-      "\\subsubsection*{«text»}"
+      "\\subsubsection*{Â«textÂ»}"
       "  \\begin{itemize}"     
-      "  \\item «text»"
-      "  ««another_item»»···"
+      "  \\item Â«textÂ»"
+      "  Â«Â«another_itemÂ»Â»Â·Â·Â·"
       "  \\end{itemize}"
       "  %"     
       ""
@@ -61,26 +61,26 @@
   '(token)
   '(description   "Beschreibung eines Swing-Seminars" )
   '(replacement 
-      "\\gdef\\sbversion/{«text»}% Datum: «text»"
-      "\\gdef\\sbname/{«text»}% Kuerzel = File-Name"
+      "\\gdef\\sbversion/{Â«textÂ»}% Datum: Â«textÂ»"
+      "\\gdef\\sbname/{Â«textÂ»}% Kuerzel = File-Name"
       ""
       "  \\subsection*{Teilnehmerkreis}"
-      "    «text»"
+      "    Â«textÂ»"
       "    %"
       ""
       "  \\subsection*{Zielsetzung}"
-      "    «text»"
+      "    Â«textÂ»"
       "    %"
       ""      
       "  \\subsection*{Lernziele}"
-      "    «text»"
+      "    Â«textÂ»"
       "    %"
       ""
       "  \\clearpage"
       ""
       "  \\section*{Programm}"
       "    \\raggedright"
-      "    «Seminar-Kapitel»···"
+      "    Â«Seminar-KapitelÂ»Â·Â·Â·"
       ""      
     )  
 )                
@@ -89,7 +89,7 @@
   '(token)
   '(description   "Datum & Ort des Seminars")
   '(replacement 
-      "\\DefSeminarTermin/[]{\\UseSeminarTermin/[«text»]}% aktueller Termin"
-      "«\DefSeminarTermin/>..."
+      "\\DefSeminarTermin/[]{\\UseSeminarTermin/[Â«textÂ»]}% aktueller Termin"
+      "Â«\DefSeminarTermin/>..."
    )
 )

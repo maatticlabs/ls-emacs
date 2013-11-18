@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
 ;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
@@ -50,7 +50,7 @@
 ;;;;    11-Oct-1996 (CT) mode-line-format changed a bit
 ;;;;                     - added line-number-mode and column-number-mode
 ;;;;                     - removed whitespace
-;;;;                     - Enclose mode-name inside «» when a LS-Emacs
+;;;;                     - Enclose mode-name inside Â«Â» when a LS-Emacs
 ;;;;                       language is used
 ;;;;                     - mode-line-buffer-identification set to 15b (was 17b)
 ;;;;                     - mode-line-modified set to %*%+ (was %*%*)
@@ -156,7 +156,7 @@
 ;;;;                     `lse-tpu:match-end` if there is no selection
 ;;;;     6-Sep-2013 (CT) Advise `mouse-yank-primary` to cancel tpu selection
 ;;;;     6-Sep-2013 (CT) Replace `interactive-p` by optional "p"-argument
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;; we use picture-mode functions
 (require 'picture)
@@ -574,7 +574,7 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
     ((string= char "[") "]")
     ((string= char "{") "}")
     ((string= char "<") ">")
-    ((string= char "«") "»")
+    ((string= char "Â«") "Â»")
   )
 ; lse-tpu:closing-char
 )
@@ -586,7 +586,7 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
     ((string= char "]") "[")
     ((string= char "}") "{")
     ((string= char ">") "<")
-    ((string= char "»") "«")
+    ((string= char "Â»") "Â«")
   )
 ; lse-tpu:opening-char
 )
@@ -923,9 +923,9 @@ Accepts a prefix argument of the number of characters to invert."
                              (purecopy " ")
                              'lse-tpu:mark-flag
                              (purecopy "%[(")
-                             '(lse-language:name "«")
+                             '(lse-language:name "Â«")
                              'mode-name
-                             '(lse-language:name "»")
+                             '(lse-language:name "Â»")
                              'mode-line-process 'minor-mode-alist
                              (purecopy "%n")
                              (purecopy ")%]--")

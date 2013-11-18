@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 
 (lse-define-fill-in "ebnf-c-brace"
@@ -18,7 +18,7 @@
     '(max-line-move         3)
     '(replacement
         "\\Case"
-        "«ebnf-1-choice»···"
+        "Â«ebnf-1-choiceÂ»Â·Â·Â·"
         "\\Esac"
      )
 ;;; ebnf-choice
@@ -29,7 +29,7 @@
     '(token                 "Or")
     '(description           "Define next alternative of EBNF choice")
     '(max-line-move         3)
-    '(replacement           "\\| «ebnf-token» ")
+    '(replacement           "\\| Â«ebnf-tokenÂ» ")
 ;;; ebnf-1-choice
 )
 
@@ -38,7 +38,7 @@
     '(token                 "Comment")
     '(description           "Define something informally with a comment")
     '(max-line-move         3)
-    '(replacement           "\\C«:«text»:» ")
+    '(replacement           "\\CÂ«:Â«textÂ»:Â» ")
 ;;; ebnf-comment
 )
 
@@ -46,7 +46,7 @@
     '(token)
     '(token                 "default")
     '(description           "Mark default element of optional choice")
-    '(replacement           "\\Default`«text»'")
+    '(replacement           "\\Default`Â«textÂ»'")
 ;;; ebnf-default
 )
 
@@ -64,7 +64,7 @@
     '(token                 "Nonterminal")
     '(description           "Use non-terminal EBNF symbol in production")
     '(max-line-move         3)
-    '(replacement           "\\NT«:«name»:» ")
+    '(replacement           "\\NTÂ«:Â«nameÂ»:Â» ")
 ;;; ebnf-nonterminal
 )
 
@@ -92,7 +92,7 @@
     '(description           "Preceeding EBNF token is optional")
     '(replacement
         "\\Option "
-        "  «ebnf-token»···"
+        "  Â«ebnf-tokenÂ»Â·Â·Â·"
         "\\Noitpo "
      )
 ;;; ebnf-optional
@@ -103,7 +103,7 @@
     '(token                 "Chapter")
     '(description           "Begins a new chapter")
     '(max-line-move         3)
-    '(replacement           "\\ebnfChapter«:«text»:»")
+    '(replacement           "\\ebnfChapterÂ«:Â«textÂ»:Â»")
 ;;; ebnf-chapter
 )
 
@@ -113,9 +113,9 @@
     '(description           "Define an EBNF production")
     '(max-line-move         3)
     '(replacement
-        "\\begin{ebnfProduction} «name» : "
+        "\\begin{ebnfProduction} Â«nameÂ» : "
         lse-indent+1
-        "«ebnf-token»···"
+        "Â«ebnf-tokenÂ»Â·Â·Â·"
         lse-indent-1
         "\\end{ebnfProduction} "
         ""
@@ -128,7 +128,7 @@
     '(token                 "Section")
     '(description           "Begins a new section")
     '(max-line-move         3)
-    '(replacement           "\\ebnfSection«:«text»:»")
+    '(replacement           "\\ebnfSectionÂ«:Â«textÂ»:Â»")
 ;;; ebnf-section
 )
 
@@ -137,7 +137,7 @@
     '(token                 "Subsection")
     '(description           "Begins a new subsection")
     '(max-line-move         3)
-    '(replacement           "\\ebnfSubsection«:«text»:»")
+    '(replacement           "\\ebnfSubsectionÂ«:Â«textÂ»:Â»")
 ;;; ebnf-sub-section
 )
 
@@ -146,7 +146,7 @@
     '(token                 "Subsubsection")
     '(description           "Begins a new subsubsection")
     '(max-line-move         3)
-    '(replacement           "\\ebnfSubsubsection«:«text»:»")
+    '(replacement           "\\ebnfSubsubsectionÂ«:Â«textÂ»:Â»")
 ;;; ebnf-sub-sub-section
 )
 
@@ -155,7 +155,7 @@
     '(token                 "Terminal")
     '(description           "Use terminal EBNF symbol in production")
     '(max-line-move         3)
-    '(replacement           "\\T«:«name»:» ")
+    '(replacement           "\\TÂ«:Â«nameÂ»:Â» ")
 ;;; ebnf-terminal
 )
 

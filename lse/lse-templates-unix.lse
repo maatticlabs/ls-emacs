@@ -1,23 +1,23 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "at"
     '(description   "Schedule a job to run at a future time")
     '(token)
     '(replacement
-        "at ««at-option»»··· ««at-time-specification»»"
+        "at Â«Â«at-optionÂ»Â»Â·Â·Â· Â«Â«at-time-specificationÂ»Â»"
      )
 )
 
 (lse-define-fill-in "atq"
   '(description   "Show pending jobs submiited to at")
   '(token)
-  '(replacement   "atq ««atq-option»»···")
+  '(replacement   "atq Â«Â«atq-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "atrm"
   '(description   "Deletes jobs submitted to at")
   '(token)
-  '(replacement   "atrm «job-specification»···")
+  '(replacement   "atrm Â«job-specificationÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "at-date"
@@ -25,30 +25,30 @@
   '(menu
       ("today"                          "Job runs today")
       ("tomorrow"                       "Job will run tomorrow")
-      ("«day».«month:MM».«year:YY»"     "Job will run at specified date")
-      ("«month:Mmm» «day»"              "Job will run at date month day (e.g., Apr 01)")
-      ("«month:Mmm» «day», «year:YY»"   "Job will run at date month day, year (e.g., Apr 01, 2001)")
+      ("Â«dayÂ».Â«month:MMÂ».Â«year:YYÂ»"     "Job will run at specified date")
+      ("Â«month:MmmÂ» Â«dayÂ»"              "Job will run at date month day (e.g., Apr 01)")
+      ("Â«month:MmmÂ» Â«dayÂ», Â«year:YYÂ»"   "Job will run at date month day, year (e.g., Apr 01, 2001)")
       week-day-3
    )
 )
 
 (lse-define-fill-in "at-increment"
   '(description   "Amount of time to be added to the specified time")
-  '(replacement   "+ «number» «time-unit»")
+  '(replacement   "+ Â«numberÂ» Â«time-unitÂ»")
 )
 
 (lse-define-fill-in "at-option"
   '(separator             " ")
   '(menu
       @ batch-option
-      ("-q «text»"        "Use specified queue (single letter a-l; default = `a'; queues with higher letters run with increased niceness)")
+      ("-q Â«textÂ»"        "Use specified queue (single letter a-l; default = `a'; queues with higher letters run with increased niceness)")
    )
 )
 
 (lse-define-fill-in "atq-option"
   '(separator             " ")
   '(menu
-      ("-q «text»"          "Show specified queue (single letter a-l; default = all)")
+      ("-q Â«textÂ»"          "Show specified queue (single letter a-l; default = all)")
       ("-v"                 "Show completed but not yet deleted jobs")
    )
 )
@@ -56,7 +56,7 @@
 (lse-define-fill-in "at-time"
   '(description   "Time at which job will run")
   '(menu
-      ("«hour:hh»:«minute:MM»" "Explicit time")
+      ("Â«hour:hhÂ»:Â«minute:MMÂ»" "Explicit time")
       ("now"                   "Current time (probably with increment)")
       ("noon"                  "Job will run at 12 o'clock")
       ("midnight"              "Job will run at midnight")
@@ -65,7 +65,7 @@
 )
 
 (lse-define-fill-in "at-time-specification"
-  '(replacement     "«at-time» ««at-date»» ««at-increment»»")
+  '(replacement     "Â«at-timeÂ» Â«Â«at-dateÂ»Â» Â«Â«at-incrementÂ»Â»")
 )
 
 (lse-define-fill-in "backup-file-suffix"
@@ -73,10 +73,10 @@
 )
 
 (lse-define-fill-in "basename"
-  '(description   "Extract file-name proper from «file-name» (directory (and optional extension) is removed)")
+  '(description   "Extract file-name proper from Â«file-nameÂ» (directory (and optional extension) is removed)")
   '(token)
   '(replacement
-      "basename «file-name» ««basename-extension»»"
+      "basename Â«file-nameÂ» Â«Â«basename-extensionÂ»Â»"
    )
 )
 
@@ -88,14 +88,14 @@
   '(description   "Submit batch job")
   '(token)
   '(replacement
-      "batch ««batch-option»»··· ««at-time»»"
+      "batch Â«Â«batch-optionÂ»Â»Â·Â·Â· Â«Â«at-timeÂ»Â»"
    )
 )
 
 (lse-define-fill-in "batch-option"
   '(separator             " ")
   '(menu
-      ("-f «file-name»"     "Read the job from «file» rather than standard input")
+      ("-f Â«file-nameÂ»"     "Read the job from Â«fileÂ» rather than standard input")
       ("-m"                 "Send mail to the user when the job has completed even if there was no output")
    )
 )
@@ -103,43 +103,43 @@
 (lse-define-fill-in "cat"
   '(description   "Concatenate files and copy to standard output")
   '(token)
-  '(replacement   "cat «file-name»··· ««output-redirection»»")
+  '(replacement   "cat Â«file-nameÂ»Â·Â·Â· Â«Â«output-redirectionÂ»Â»")
 )
 
 (lse-define-fill-in "chgrp"
   '(description   "Change group of file(s)")
   '(token)
-  '(replacement   "chgrp «group» «file-name»···")
+  '(replacement   "chgrp Â«groupÂ» Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "chmod"
   '(description   "Change protection (permission) of file(s)")
   '(token)
-  '(replacement   "chmod «file-protection-mode» «file-name»···")
+  '(replacement   "chmod Â«file-protection-modeÂ» Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "chown"
   '(description   "Change owner of file(s)")
   '(token)
-  '(replacement   "chown «owner» «file-name»···")
+  '(replacement   "chown Â«ownerÂ» Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "chsh"
   '(description   "Change login shell specified in password file")
   '(token)
-  '(replacement   "chsh ««user»» ««shell»»")
+  '(replacement   "chsh Â«Â«userÂ»Â» Â«Â«shellÂ»Â»")
 )
 
 (lse-define-fill-in "cksum"
   '(description   "Calculate CRC check sum and number of bytes in file(s)")
   '(token)
-  '(replacement   "cksum «file-name»···")
+  '(replacement   "cksum Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "cmp"
   '(description   "Compare two files")
   '(token)
-  '(replacement   "cmp ««cmp-option»» «file-name» «file-name»")
+  '(replacement   "cmp Â«Â«cmp-optionÂ»Â» Â«file-nameÂ» Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "cmp-option"
@@ -153,7 +153,7 @@
 (lse-define-fill-in "comm"
   '(description   "List lines common to two sorted lines. (the default listing has three columns)")
   '(token)
-  '(replacement   "comm ««comm-option»»··· «file-name» «file-name»")
+  '(replacement   "comm Â«Â«comm-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "comm-option"
@@ -169,7 +169,7 @@
 (lse-define-fill-in "compress"
   '(description   "Compress a set of files using the Lempel-Ziv method; uncompress and zcat undo the compression")
   '(token)
-  '(replacement   "compress ««compress-option»»··· ««file-name»»···")
+  '(replacement   "compress Â«Â«compress-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "compress-option"
@@ -179,7 +179,7 @@
       ("-v"              "Show the percentage of reduction for each file compressed")
       ("-f"              "Force compression even if nothing is gained")
       ("-r"              "Compress recursively all files in subdirectories")
-      ("-b «number»"     "Use «number» (between 9 and 16) bits in the compression (default 16)")
+      ("-b Â«numberÂ»"     "Use Â«numberÂ» (between 9 and 16) bits in the compression (default 16)")
    )
 )
 
@@ -187,8 +187,8 @@
   '(description   "Copy one or more files")
   '(token)
   '(menu
-      ("cp ««cp-option»» «source-file» «target-file»"         "File-to-file copy")
-      ("cp ««cp-option»» «source-file»··· «target-directory»" "Copy all source files into target-directory")
+      ("cp Â«Â«cp-optionÂ»Â» Â«source-fileÂ» Â«target-fileÂ»"         "File-to-file copy")
+      ("cp Â«Â«cp-optionÂ»Â» Â«source-fileÂ»Â·Â·Â· Â«target-directoryÂ»" "Copy all source files into target-directory")
    )
 )
 
@@ -207,8 +207,8 @@
       ("-u"     "Overwrite target-file only if source-file is newer")
       ("-v"     "Print the name of each file before copying it")
       ("-x"     "Ignore subdirectories in different file systems")
-      ("-S «backup-file-suffix»"  "Define suffix for backup files (default ~)")
-      ("-V «version-control»"     "Control saving of former backup files")
+      ("-S Â«backup-file-suffixÂ»"  "Define suffix for backup files (default ~)")
+      ("-V Â«version-controlÂ»"     "Control saving of former backup files")
    )
 )
 
@@ -216,16 +216,16 @@
   '(description   "Save and restore files to and from a cpio or tar archive and copy files from one directory to another")
   '(token)
   '(menu
-      ("cpio --extract ««cpio-i-option»»··· ««cpio-pattern»»··· ««input-redirection»»"
+      ("cpio --extract Â«Â«cpio-i-optionÂ»Â»Â·Â·Â· Â«Â«cpio-patternÂ»Â»Â·Â·Â· Â«Â«input-redirectionÂ»Â»"
            "Restore a file from an archive (assumed to be standard input)"
       )
-      ("cpio --create ««cpio-o-option»»··· ««input-redirection»» ««output-redirection»»"
+      ("cpio --create Â«Â«cpio-o-optionÂ»Â»Â·Â·Â· Â«Â«input-redirectionÂ»Â» Â«Â«output-redirectionÂ»Â»"
            "Save a set of files (taken from standard input) to an archive (created on standard output)"
       )
-      ("cpio --pass-through «target-directory» ««input-redirection»»"
+      ("cpio --pass-through Â«target-directoryÂ» Â«Â«input-redirectionÂ»Â»"
            "Copy files (name-list taken from standard input) from one directory to another"
       )
-      ("cpio --extract --list ««input-redirection»»"
+      ("cpio --extract --list Â«Â«input-redirectionÂ»Â»"
            "List the contents of an archive"
       )
    )
@@ -258,17 +258,17 @@
   '(separator             " ")
   '(menu
       ("-B"                     "Set block size to 5120 bytes (default = 512 bytes)")
-      ("--block-size=«number»"  "Set the block size to «number» * 512 bytes")
+      ("--block-size=Â«numberÂ»"  "Set the block size to Â«numberÂ» * 512 bytes")
       ("-c"                     "Use the old portable (ASCII) archive format")
-      ("-C «number»"            "Set block size to «number» bytes")
-      ("--io-size=«number»"     "Equivalent to -C")
-      ("-F «file-name»"         "Use archive «file-name» instead of standard input or standard output")
-      ("--file=«file-name»"     "Equivalent to -F")
+      ("-C Â«numberÂ»"            "Set block size to Â«numberÂ» bytes")
+      ("--io-size=Â«numberÂ»"     "Equivalent to -C")
+      ("-F Â«file-nameÂ»"         "Use archive Â«file-nameÂ» instead of standard input or standard output")
+      ("--file=Â«file-nameÂ»"     "Equivalent to -F")
       ("--force-local"          "Take archive file-name of -F, -I, or -O options to be a local file even if it contains a colon")
-      ("-H «cpio-format»"       "Use archive format «cpio-format» (defaults: bin for archive creation, automatic detection for archive reading)")
-      ("--format=«cpio-format»" "Equivalent to -H")
-      ("-M «text»"              "Print «text» when the end of the volume is reached, to prompt the user to insert a new volume (`%d' is replaced by the current volume numbery)")
-      ("--message=«text»"       "Equivalent to -M")
+      ("-H Â«cpio-formatÂ»"       "Use archive format Â«cpio-formatÂ» (defaults: bin for archive creation, automatic detection for archive reading)")
+      ("--format=Â«cpio-formatÂ»" "Equivalent to -H")
+      ("-M Â«textÂ»"              "Print Â«textÂ» when the end of the volume is reached, to prompt the user to insert a new volume (`%d' is replaced by the current volume numbery)")
+      ("--message=Â«textÂ»"       "Equivalent to -M")
    )
 )
 
@@ -280,8 +280,8 @@
       ("-m"                                "Retain previous file modification time when creating files (i.e., the one stored in the archive")
       ("--preserve-modification-time"      "Equivalent to -m")
       ("--no-preserve-owner"               "Do not change ownership of the files (leave them owned by the user extracting them). Default for non-root users")
-      ("-R ««user»» ««:.»» ««group»»"      "Set the ownership of all files created to the specified user and/or group (at least one must be present)")
-      ("--owner ««user»» ««:.»» ««group»»" "Equivalent to -R")
+      ("-R Â«Â«userÂ»Â» Â«Â«:.Â»Â» Â«Â«groupÂ»Â»"      "Set the ownership of all files created to the specified user and/or group (at least one must be present)")
+      ("--owner Â«Â«userÂ»Â» Â«Â«:.Â»Â» Â«Â«groupÂ»Â»" "Equivalent to -R")
       ("-u"                                "Replace all files, without asking whether to replace newer files with older files")
       ("--unconditional"                   "Equivalent to -u")
    )
@@ -308,11 +308,11 @@
       @ cpio-ip-option
       ("-b"                             "Use this option to convert 32-bit integers between big-endian and little-endian machines")
       ("--swap"                         "Equivalent to -b")
-      ("-E «file-name»"                 "take additional patterns specifying files to extract and list from «file-name»")
-      ("--pattern-file «file-name»"     "Equivalent to -E")
+      ("-E Â«file-nameÂ»"                 "take additional patterns specifying files to extract and list from Â«file-nameÂ»")
+      ("--pattern-file Â«file-nameÂ»"     "Equivalent to -E")
       ("-f"                             "Only copy files that do not match any of the given patterns")
       ("--nonmatching"                  "Equivalent to -f")
-      ("-I «file-name»"                 "Read the archive from «file-name»")
+      ("-I Â«file-nameÂ»"                 "Read the archive from Â«file-nameÂ»")
       ("-n"                             "Show numeric (instead of symbolic) UID and GID in verbose listings")
       ("--numeric-uid-gid"              "Equivalent to -n")
       ("-r"                             "Interactively rename files (cpio prompts for each file; pressing RETURN causes the file not to be stored at all)")
@@ -335,7 +335,7 @@
       @ cpio-op-option
       ("-A"                 "Append to an existing archive, which must be a disk file specified with the -O or -F option")
       ("--append"           "Equivalent to -A")
-      ("-O «file-name»"     "Write the archive to «file-name» (can begin with `HOSTNAME:'to use a tape drive on another machine)")
+      ("-O Â«file-nameÂ»"     "Write the archive to Â«file-nameÂ» (can begin with `HOSTNAME:'to use a tape drive on another machine)")
    )
 )
 
@@ -361,24 +361,24 @@
   '(description   "Split one file into sections determined by context lines")
   '(token)
   '(replacement
-      "csplit ««csplit-option»»··· «file-name» «csplit-pattern»···"
+      "csplit Â«Â«csplit-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«csplit-patternÂ»Â·Â·Â·"
    )
 )
 
 (lse-define-fill-in "csplit-offset"
   '(description   "Change line starting the next section of the input file")
-  '(replacement   "«+-»«number»")
+  '(replacement   "Â«+-Â»Â«numberÂ»")
 )
 
 (lse-define-fill-in "csplit-option"
   '(separator             " ")
   '(menu
-      ("-f «file-name-prefix»"       "Use «file-name-prefix» as the output file name prefix default = `xx')")
-      ("--prefix=«file-name-prefix»" "Equivalent to -f")
+      ("-f Â«file-name-prefixÂ»"       "Use Â«file-name-prefixÂ» as the output file name prefix default = `xx')")
+      ("--prefix=Â«file-name-prefixÂ»" "Equivalent to -f")
       ("-k"                          "Keep output files if an error occurrs")
       ("--keep-files"                "Equivalent to -k")
-      ("-n «number»"                 "Use output file names containing «number» digits (default 2)")
-      ("--digits=«number»"           "Equivalent to -n")
+      ("-n Â«numberÂ»"                 "Use output file names containing Â«numberÂ» digits (default 2)")
+      ("--digits=Â«numberÂ»"           "Equivalent to -n")
       ("-s"                          "Do not print count of output file sizes")
       ("--silent"                    "Equivalent to -s")
    )
@@ -388,10 +388,10 @@
   '(description           "Pattern used for splitting file")
   '(separator             " ")
   '(menu
-      ("/«regexp»/««csplit-offset»»" "Create an output file containing the current line up to (exclusive) the next line matching «regexp»")
-      ("%«regexp»%««csplit-offset»»" "Skip everything from the current line up to (exclusive) the next line matching «regexp»")
-      ("{«number»}"                  "Repeat the previous pattern «numnber» additional times (must be positive)")
-      ("«number»"                    "Create an output file containing the current line plus the next «number» lines (must be positive)")
+      ("/Â«regexpÂ»/Â«Â«csplit-offsetÂ»Â»" "Create an output file containing the current line up to (exclusive) the next line matching Â«regexpÂ»")
+      ("%Â«regexpÂ»%Â«Â«csplit-offsetÂ»Â»" "Skip everything from the current line up to (exclusive) the next line matching Â«regexpÂ»")
+      ("{Â«numberÂ»}"                  "Repeat the previous pattern Â«numnberÂ» additional times (must be positive)")
+      ("Â«numberÂ»"                    "Create an output file containing the current line plus the next Â«numberÂ» lines (must be positive)")
    )
 )
 
@@ -399,16 +399,16 @@
   '(description   "Extract specified portions of each line of input")
   '(token)
   '(replacement
-      "cut «cut-option»··· ««file-name»» ««output-redirection»»"
+      "cut Â«cut-optionÂ»Â·Â·Â· Â«Â«file-nameÂ»Â» Â«Â«output-redirectionÂ»Â»"
    )
 )
 
 (lse-define-fill-in "cut-option"
   '(separator             " ")
   '(menu
-      ("-c«char-list»"   "Extract the characters specified in char-list")
-      ("-f«field-list»"  "Extract the fields specified in field-list")
-      ("-d«character»"   "Use «character» as field delimiter (default is a tab)")
+      ("-cÂ«char-listÂ»"   "Extract the characters specified in char-list")
+      ("-fÂ«field-listÂ»"  "Extract the fields specified in field-list")
+      ("-dÂ«characterÂ»"   "Use Â«characterÂ» as field delimiter (default is a tab)")
       ("-s"              "Suppress lines containing no delimiter character")
    )
 )
@@ -416,14 +416,14 @@
 (lse-define-fill-in "date-command"
   '(description   "Display or change system date (and time)")
   '(token)
-  '(replacement   "date ««date-command-option»»···")
+  '(replacement   "date Â«Â«date-command-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "date-command-option"
   '(separator             " ")
   '(menu
       ("-u"                      "Use greenwich mean time (UT)")
-      ("-s «date-command-value»" "Set date/time to «date-value»")
+      ("-s Â«date-command-valueÂ»" "Set date/time to Â«date-valueÂ»")
       date-command-format
       date-command-value
    )
@@ -431,7 +431,7 @@
 
 (lse-define-fill-in "date-command-format"
   '(description   "Specification of output format of date command")
-  '(replacement   "+«date-command-format-field»»···")
+  '(replacement   "+Â«date-command-format-fieldÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "date-command-format-field"
@@ -471,7 +471,7 @@
 (lse-define-fill-in "date-command-value"
   '(description   "Valid value to which date is set")
   '(replacement
-      "«month:MM»«day»«hour:HH»«Minute:MM»««Year:YYYY»»"
+      "Â«month:MMÂ»Â«dayÂ»Â«hour:HHÂ»Â«Minute:MMÂ»Â«Â«Year:YYYYÂ»Â»"
    )
 )
 
@@ -480,9 +480,9 @@
 )
 
 (lse-define-fill-in "df"
-  '(description   "Report number of free blocks and free i-nodes in one or more file systems (given by ««name»»)")
+  '(description   "Report number of free blocks and free i-nodes in one or more file systems (given by Â«Â«nameÂ»Â»)")
   '(token)
-  '(replacement   "df ««df-option»»··· ««name»»")
+  '(replacement   "df Â«Â«df-optionÂ»Â»Â·Â·Â· Â«Â«nameÂ»Â»")
 )
 
 (lse-define-fill-in "df-option"
@@ -490,16 +490,16 @@
   '(menu
       ("-a"                       "Report on all file systems, even those having no blocks")
       ("--all"                    "Equivalent to -a")
-      ("--exclude-type=«FS-Type»" "Equivalent to -x")
+      ("--exclude-type=Â«FS-TypeÂ»" "Equivalent to -x")
       ("-i"                       "Report the number of free and used i-nodes")
       ("--inodes"                 "Equivalent to -i")
       ("-k"                       "Report free space in units of kilobytes (even if POSIXLY_CORRECT is set)")
       ("--kilobytes"              "Equivalent to -k")
       ("-P"                       "Restrict report to 1 line per file system")
       ("--portability"            "Equivalent to -P")
-      ("-t «FS-Type»"             "Report only on file-systems of type «FS-Type»")
-      ("--type=«FS-Type»"         "Equivalent to -t")
-      ("-x «FS-Type»"             "Dont report on file-systems of type «FS-Type»")
+      ("-t Â«FS-TypeÂ»"             "Report only on file-systems of type Â«FS-TypeÂ»")
+      ("--type=Â«FS-TypeÂ»"         "Equivalent to -t")
+      ("-x Â«FS-TypeÂ»"             "Dont report on file-systems of type Â«FS-TypeÂ»")
       ("--version"                "Print version information on standard output")
    )
 )
@@ -508,7 +508,7 @@
   '(description   "Find all differences between two files (output is a list of instructions to transform file-1 to file-2)")
   '(token)
   '(replacement
-      "diff ««diff-option»»··· «file-name» «file-name»"
+      "diff Â«Â«diff-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«file-nameÂ»"
    )
 )
 
@@ -525,25 +525,25 @@
 (lse-define-fill-in "dir"
   '(description   "Show directory (alias for unix ls-command)")
   '(token)
-  '(replacement   "dir ««ls-option»»··· ««file-name»»")
+  '(replacement   "dir Â«Â«ls-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»")
 )
 
 (lse-define-fill-in "dirname"
-  '(description   "Produce on standard output the portion of «file-name» that precedes its last `/'")
+  '(description   "Produce on standard output the portion of Â«file-nameÂ» that precedes its last `/'")
   '(token)
-  '(replacement   "dirname «file-name»")
+  '(replacement   "dirname Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "doshell"
   '(description   "Start a shell on a virtual port without login (does not need getty). 1. parameter: port, 2. parameter: shell")
   '(token)
-  '(replacement   "doshell «text» «text»")
+  '(replacement   "doshell Â«textÂ» Â«textÂ»")
 )
 
 (lse-define-fill-in "du"
   '(description   "Report the number of disk blocks used by a file or the files in a directory and its subdirectories")
   '(token)
-  '(replacement   "du ««du-option»»··· ««file-name»»")
+  '(replacement   "du Â«Â«du-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»")
 )
 
 (lse-define-fill-in "du-option"
@@ -577,7 +577,7 @@
     '(description           "Check a Linux second extended file system")
     '(token)
     '(replacement
-        "e2fsck ««e2fsck-option»»··· «device»"
+        "e2fsck Â«Â«e2fsck-optionÂ»Â»Â·Â·Â· Â«deviceÂ»"
      )
 ;;; device
 )
@@ -586,7 +586,7 @@
     '(separator             " ")
     '(menu
         ("-a"               "Automatically repair the file system without any questions (use this option with caution)")
-        ("-b «filename»"    "Read the bad blocks list from «filename»")
+        ("-b Â«filenameÂ»"    "Read the bad blocks list from Â«filenameÂ»")
         ("-c"               "Check the file system for bad blocks")
         ("-d"               "Print debugging output (useless unless you are debugging e2fsck)")
         ("-f"               "Force checking even if the file system seems clean")
@@ -604,7 +604,7 @@
   '(description   "Search through a set of files for all lines that match a (generalized) regular expression (see also grep & fgrep)")
   '(token)
   '(replacement
-      "egrep ««grep-option»»··· «text» ««file-name»»···"
+      "egrep Â«Â«grep-optionÂ»Â»Â·Â·Â· Â«textÂ» Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -612,7 +612,7 @@
   '(description   "Execute a command in a changed environment")
   '(token)
   '(replacement
-      "env ««env-option»»··· ««command»»"
+      "env Â«Â«env-optionÂ»Â»Â·Â·Â· Â«Â«commandÂ»Â»"
    )
 )
 
@@ -621,8 +621,8 @@
   '(menu
       ("-i"                   "Delete all environment variables")
       ("--ignore-environment" "Equivalent to -i")
-      ("-u «name»"            "Delete environment variable «name»")
-      ("--unset=«name»"       "Equivalent to -u")
+      ("-u Â«nameÂ»"            "Delete environment variable Â«nameÂ»")
+      ("--unset=Â«nameÂ»"       "Equivalent to -u")
       variable-definition
    )
 )
@@ -630,20 +630,20 @@
 (lse-define-fill-in "expand"
   '(description   "Replace all tab-characters in a file by spaces")
   '(token)
-  '(replacement   "expand ««file-name»»···")
+  '(replacement   "expand Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "expr"
   '(description   "Evaluate an expression and send result to standard output")
   '(token)
-  '(replacement   "expr «text»")
+  '(replacement   "expr Â«textÂ»")
 )
 
 (lse-define-fill-in "fdformat"
   '(description   "Format a floppy disk")
   '(token)
   '(replacement
-      "fdformat ««fd-option»» «floppy-device»"
+      "fdformat Â«Â«fd-optionÂ»Â» Â«floppy-deviceÂ»"
    )
 )
 
@@ -651,7 +651,7 @@
   '(description   "Search fast through a set of files for a fixed string")
   '(token)
   '(replacement
-      "fgrep ««grep-option»»··· «text» ««file-name»»···"
+      "fgrep Â«Â«grep-optionÂ»Â»Â·Â·Â· Â«textÂ» Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -659,7 +659,7 @@
   '(description   "Classify a file by examining its first few bytes")
   '(token)
   '(replacement
-      "file ««file-option»»··· «file-name»···"
+      "file Â«Â«file-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·"
    )
 )
 
@@ -667,15 +667,15 @@
   '(separator             " ")
   '(menu
       ("-c"                 "Check that the magic file is in the right format")
-      ("-f «file-name»"     "Read a list of files to classify from «file-name» (in addition to argument)")
-      ("-m «file-name»"     "Use «file-name» as magic file instead of /etc/magic")
+      ("-f Â«file-nameÂ»"     "Read a list of files to classify from Â«file-nameÂ» (in addition to argument)")
+      ("-m Â«file-nameÂ»"     "Use Â«file-nameÂ» as magic file instead of /etc/magic")
    )
 )
 
 (lse-define-fill-in "file-protection-mode"
     '(menu
-        "«file-protection-mode-symbolic»···"
-        ("«number»"       "Octal number")
+        "Â«file-protection-mode-symbolicÂ»Â·Â·Â·"
+        ("Â«numberÂ»"       "Octal number")
      )
 )
 
@@ -684,7 +684,7 @@
   '(separator     ",")
   '(leading       ",")
   '(replacement
-      "«file-protection-who»···«file-protection-operator»«file-protection-value»···"
+      "Â«file-protection-whoÂ»Â·Â·Â·Â«file-protection-operatorÂ»Â«file-protection-valueÂ»Â·Â·Â·"
    )
 )
 
@@ -742,22 +742,22 @@
   '(description   "Find files matching the specified criteria")
   '(token)
   '(replacement
-      "find ««path-name»»··· ««find-option»»··· ««find-expression»»···"
+      "find Â«Â«path-nameÂ»Â»Â·Â·Â· Â«Â«find-optionÂ»Â»Â·Â·Â· Â«Â«find-expressionÂ»Â»Â·Â·Â·"
    )
 )
 
 (lse-define-fill-in "find-action"
   '(menu
-      ("-exec «command»"          "Execute «command»; true if 0 status is returned; all following arguments to find are taken to be arguments to the «command» until an argument consisting  of `;' is encountered; `{}' is replaced by the current pathname being processed")
-      ("-fprint «file-name»"      "True; print the full pathname into file «file-name»")
-      ("-fprint0 «file-name»"     "True; like -print0 but write to «file-name»")
-      ("-fprintf «file-name» '«find-print-format»···'"
-                                  "True; like -printf but write to «file-name»")
-      ("-ok «command»"            "Like -exec but ask the user first (on standard input)")
+      ("-exec Â«commandÂ»"          "Execute Â«commandÂ»; true if 0 status is returned; all following arguments to find are taken to be arguments to the Â«commandÂ» until an argument consisting  of `;' is encountered; `{}' is replaced by the current pathname being processed")
+      ("-fprint Â«file-nameÂ»"      "True; print the full pathname into file Â«file-nameÂ»")
+      ("-fprint0 Â«file-nameÂ»"     "True; like -print0 but write to Â«file-nameÂ»")
+      ("-fprintf Â«file-nameÂ» 'Â«find-print-formatÂ»Â·Â·Â·'"
+                                  "True; like -printf but write to Â«file-nameÂ»")
+      ("-ok Â«commandÂ»"            "Like -exec but ask the user first (on standard input)")
       ("-print"                   "True; print the full pathname on standard output, followed by a newline")
       ("-print0"                  "True; print the full pathname on standard output, followed by a null character")
-      ("-printf '«find-print-format»···'"
-                                  "True; print «find-print-format» on the standard output")
+      ("-printf 'Â«find-print-formatÂ»Â·Â·Â·'"
+                                  "True; print Â«find-print-formatÂ» on the standard output")
       ("-prune"                   "If -depth not given, true (do not descend the current directory); else false (no effect)")
       ("-ls"                      "True; list current file in ls-dils format on standard output")
    )
@@ -765,27 +765,27 @@
 
 (lse-define-fill-in "find-expression"
   '(replacement
-      "«find-term» ««find-operator+expression»»"
+      "Â«find-termÂ» Â«Â«find-operator+expressionÂ»Â»"
    )
 )
 
 (lse-define-fill-in "find-number"
   '(menu
-      ("«number»"      "Exactly the value «number»")
-      ("+«number»"     "A value greater than «number»")
-      ("-«number»"     "A value less    than «number»")
+      ("Â«numberÂ»"      "Exactly the value Â«numberÂ»")
+      ("+Â«numberÂ»"     "A value greater than Â«numberÂ»")
+      ("-Â«numberÂ»"     "A value less    than Â«numberÂ»")
    )
 )
 
 (lse-define-fill-in "find-operator+expression"
   '(menu
-      "\\( «find-expression» \\)"
-      ("! «find-expression»"                       "True if «find-expression» is false")
-      ("-not «find-expression»"                    "Equivalent to ! «find-expression»")
-      ("«find-expression» «find-expression»"       "Implied -and")
-      ("«find-expression» -and «find-expression»"  "Second expression is not evaluated if first one is false")
-      ("«find-expression» -or  «find-expression»"  "Second expression is not evaluated if first one is true")
-      ("«find-expression» , «find-expression»"     "Both expressions are evaluated; the value of the second becomes the result")
+      "\\( Â«find-expressionÂ» \\)"
+      ("! Â«find-expressionÂ»"                       "True if Â«find-expressionÂ» is false")
+      ("-not Â«find-expressionÂ»"                    "Equivalent to ! Â«find-expressionÂ»")
+      ("Â«find-expressionÂ» Â«find-expressionÂ»"       "Implied -and")
+      ("Â«find-expressionÂ» -and Â«find-expressionÂ»"  "Second expression is not evaluated if first one is false")
+      ("Â«find-expressionÂ» -or  Â«find-expressionÂ»"  "Second expression is not evaluated if first one is true")
+      ("Â«find-expressionÂ» , Â«find-expressionÂ»"     "Both expressions are evaluated; the value of the second becomes the result")
    )
 )
 
@@ -795,8 +795,8 @@
       ("-daystart"          "Measure times from the beginning of today rather than from 24 hours ago (for -amin, -atime, -cmin, -ctime, -mmin, -mtime)")
       ("-depth"             "Process each directory's contents before the directory itself")
       ("-follow"            "Dereference symbolic links. Implies -noleaf")
-      ("-maxdepth «number»" "Descend at most «number» levels of directories below the command line arguments (0 means appl the tests only to those)")
-      ("-mindepth «number»" "Do not apply any tests or actions at levels less than «number» (1 means all files except the command line arguments)")
+      ("-maxdepth Â«numberÂ»" "Descend at most Â«numberÂ» levels of directories below the command line arguments (0 means appl the tests only to those)")
+      ("-mindepth Â«numberÂ»" "Do not apply any tests or actions at levels less than Â«numberÂ» (1 means all files except the command line arguments)")
       ("-noleaf"            "Do not optimize by assuming that directories contain 2 fewer subdirectories than their hard link count (for non-Unix filesystems)")
       ("-version"           "Print version number of find on standard output")
       ("-xdev"              "Don't descend directories on other filesystems")
@@ -816,11 +816,11 @@
       ("\\\\"     "A literal backslash (`\\')")
       ("%%"     "A literal percent sign")
       ("%a"     "File's last access time in the format returned by the C `ctime' function")
-      ("%A«date-command-format-field»"
+      ("%AÂ«date-command-format-fieldÂ»"
                 "File's last access time")
       ("%b"     "File's size in 512-byte blocks (rounded up)")
       ("%c"     "File's last status change time in the format returned by the C `ctime' function")
-      ("%C«date-command-format-field»"
+      ("%CÂ«date-command-format-fieldÂ»"
                 "File's last status change time")
       ("%d"     "File's depth in the directory tree; 0  means the file is a command line argument")
       ("%f"     "File's pathname with any leading directories removed")
@@ -837,7 +837,7 @@
       ("%P"     "File's pathname with the name of the command line argument under which it was foundremoved")
       ("%s"     "File's size in bytes")
       ("%t"     "File's  last modification time in the format returned by the C `ctime' function")
-      ("%T«date-command-format-field»"
+      ("%TÂ«date-command-format-fieldÂ»"
                 "File's last modification time")
       ("%u"     "File's user name, or numeric user ID if the user has no name")
       ("%U"     "File's numeric user ID")
@@ -863,37 +863,37 @@
 
 (lse-define-fill-in "find-test"
   '(menu
-      ("-amin «find-number»"            "File was last accessed «find-number» minutes ago")
-      ("-anewer «file-name»"            "File was last accessed more recently than «file-name» was modified (-anewer is affected by -follow only if -follow comes before -anewer on the command line)")
-      ("-atime «find-number»"           "File was last accessed «find-number» * 24 hours ago")
-      ("-cmin «find-number»"            "File's status was changed «find-number» minutes ago")
-      ("-cnewer «file-name»"            "File's status was changed more recently than «file-name» was modified")
-      ("-ctime «find-number»"           "File's status was changed «find-number» * 24 hours ago")
+      ("-amin Â«find-numberÂ»"            "File was last accessed Â«find-numberÂ» minutes ago")
+      ("-anewer Â«file-nameÂ»"            "File was last accessed more recently than Â«file-nameÂ» was modified (-anewer is affected by -follow only if -follow comes before -anewer on the command line)")
+      ("-atime Â«find-numberÂ»"           "File was last accessed Â«find-numberÂ» * 24 hours ago")
+      ("-cmin Â«find-numberÂ»"            "File's status was changed Â«find-numberÂ» minutes ago")
+      ("-cnewer Â«file-nameÂ»"            "File's status was changed more recently than Â«file-nameÂ» was modified")
+      ("-ctime Â«find-numberÂ»"           "File's status was changed Â«find-numberÂ» * 24 hours ago")
       ("-empty"                         "File is empty and is either a regular file or a directory")
       ("-false"                         "Always false")
-      ("-fstype «FS-type»"              "File is on a filesystem of type «FS-type»")
-      ("-gid «number»"                  "File's numeric group ID is «number»")
-      ("-group «name»"                  "File belongs to group «name» (numeric GID allowed)")
-      ("-inum «number»"                 "File has inode number «number»")
-      ("-links «find-number»"           "File has «find-number» links")
-      ("-lname «text»"                  "File is a symbolic link whose contents match the shell pattern «text»")
-      ("-mmin «find-number»"            "File's data was modified «find-number» minutes ago")
-      ("-mtime «find-number»"           "File's data was modified «find-number» * 24 hours ago")
-      ("-name «text»"                   "Base of path name (the path with the leading directories removed) matches the shell pattern «text»")
-      ("-newer «file-name»"             "File was modified more recently than «file-name»")
-      ("-path «text»"                   "Path name matches the shell pattern «text»»»")
-      ("-perm «file-protection-mode»"   "File's permission bits are exactly «file-protection-mode»")
-      ("-perm -«file-protection-mode»"  "All of the permission bits «file-protection-mode» are set for the file")
-      ("-perm +«file-protection-mode»"  "Any of the permission bits «file-protection-mode» are set for the file")
-      ("-regex «text»"                  "Pathname matches regular expression «text»")
-      ("-size «find-number»««find-size-unit»»"
-                                        "File uses «find-number» units of storage")
+      ("-fstype Â«FS-typeÂ»"              "File is on a filesystem of type Â«FS-typeÂ»")
+      ("-gid Â«numberÂ»"                  "File's numeric group ID is Â«numberÂ»")
+      ("-group Â«nameÂ»"                  "File belongs to group Â«nameÂ» (numeric GID allowed)")
+      ("-inum Â«numberÂ»"                 "File has inode number Â«numberÂ»")
+      ("-links Â«find-numberÂ»"           "File has Â«find-numberÂ» links")
+      ("-lname Â«textÂ»"                  "File is a symbolic link whose contents match the shell pattern Â«textÂ»")
+      ("-mmin Â«find-numberÂ»"            "File's data was modified Â«find-numberÂ» minutes ago")
+      ("-mtime Â«find-numberÂ»"           "File's data was modified Â«find-numberÂ» * 24 hours ago")
+      ("-name Â«textÂ»"                   "Base of path name (the path with the leading directories removed) matches the shell pattern Â«textÂ»")
+      ("-newer Â«file-nameÂ»"             "File was modified more recently than Â«file-nameÂ»")
+      ("-path Â«textÂ»"                   "Path name matches the shell pattern Â«textÂ»Â»Â»")
+      ("-perm Â«file-protection-modeÂ»"   "File's permission bits are exactly Â«file-protection-modeÂ»")
+      ("-perm -Â«file-protection-modeÂ»"  "All of the permission bits Â«file-protection-modeÂ» are set for the file")
+      ("-perm +Â«file-protection-modeÂ»"  "Any of the permission bits Â«file-protection-modeÂ» are set for the file")
+      ("-regex Â«textÂ»"                  "Pathname matches regular expression Â«textÂ»")
+      ("-size Â«find-numberÂ»Â«Â«find-size-unitÂ»Â»"
+                                        "File uses Â«find-numberÂ» units of storage")
       ("-true"                          "Always true")
-      ("-type «file-type»"              "File is of type «file-type»")
-      ("-uid «number»"                  "File's numeric user ID is «number»")
-      ("-used «file-number»"            "File was last accessed «file-number» days after its status  was last changed")
-      ("-user «name»"                   "File is owned by user «name» (numeric UID allowed)")
-      ("-xtype «file-type»"             "Equivalent to -type unless the file is a symbolic link (see man page for details)")
+      ("-type Â«file-typeÂ»"              "File is of type Â«file-typeÂ»")
+      ("-uid Â«numberÂ»"                  "File's numeric user ID is Â«numberÂ»")
+      ("-used Â«file-numberÂ»"            "File was last accessed Â«file-numberÂ» days after its status  was last changed")
+      ("-user Â«nameÂ»"                   "File is owned by user Â«nameÂ» (numeric UID allowed)")
+      ("-xtype Â«file-typeÂ»"             "Equivalent to -type unless the file is a symbolic link (see man page for details)")
    )
 ;;; find-test
 )
@@ -902,7 +902,7 @@
   '(description   "Wrap each input line to fit in specified width and print onto standard output")
   '(token)
   '(replacement
-      "fold ««fold-option»»··· ««file-name»»···"
+      "fold Â«Â«fold-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -913,15 +913,15 @@
       ("--bytes"              "Equivalent to -b")
       ("-s"                   "Break at word boundaries")
       ("--spaces"             "Equivalent to -s")
-      ("-w «number»"          "Use a maximum line length of «number» columns (default 80)")
-      ("--width=«number»"     "Equivalent to -w")
+      ("-w Â«numberÂ»"          "Use a maximum line length of Â«numberÂ» columns (default 80)")
+      ("--width=Â«numberÂ»"     "Equivalent to -w")
    )
 )
 
 (lse-define-fill-in "free"
   '(description   "Display amount of free and used main memory (and swap space)")
   '(token)
-  '(replacement   "free «free-option»")
+  '(replacement   "free Â«free-optionÂ»")
 )
 
 (lse-define-fill-in "free-option"
@@ -948,21 +948,21 @@
   '(description   "Search through a set of files for all lines that match a (ed-style) regular expression (see also egrep & fgrep)")
   '(token)
   '(replacement
-      "grep ««grep-option»»··· «text» ««file-name»»···"
+      "grep Â«Â«grep-optionÂ»Â»Â·Â·Â· Â«textÂ» Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 )
 
 (lse-define-fill-in "grep-option"
   '(separator             " ")
   '(menu
-      ("-A «number»"     "Print «number» lines of context after  every matching line")
-      ("-B «number»"     "Print «number» lines of context before every matching line")
+      ("-A Â«numberÂ»"     "Print Â«numberÂ» lines of context after  every matching line")
+      ("-B Â«numberÂ»"     "Print Â«numberÂ» lines of context before every matching line")
       ("-C"              "Print 2 lines of context on each side of every matching line")
-      ("-«number»"       "Print «number» lines of context on each side of every matching line")
+      ("-Â«numberÂ»"       "Print Â«numberÂ» lines of context on each side of every matching line")
       ("-b"              "Print every match preceeded by its byte offset")
       ("-c"              "Print a total count of matching lines only")
-      ("-e «text»"       "Search for «text» (useful if «text» begins with -)")
-      ("-f «file-name»"  "Search in «file-name»")
+      ("-e Â«textÂ»"       "Search for Â«textÂ» (useful if Â«textÂ» begins with -)")
+      ("-f Â«file-nameÂ»"  "Search in Â«file-nameÂ»")
       ("-h"              "Don't display filenames on matches")
       ("-i"              "Ignore case differences when comparing strings")
       ("-l"              "List files containing matches only (not the matches themselves)")
@@ -984,7 +984,7 @@
   '(description   "Compress or expand files using LZ77 Lempel-Ziv encoding (see also gunzip and zcat)")
   '(token)
   '(replacement
-      "gzip ««gzip-option»»··· ««file-name»»···"
+      "gzip Â«Â«gzip-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 )
 
@@ -1010,16 +1010,16 @@
       ("--quiet"           "Equivalent to -q")
       ("-r"                "Travel the directory structure recursively")
       ("--recursive"       "Equivalent to -r")
-      ("-S .«text»"        "Use extension .«text» instead of .gz")
+      ("-S .Â«textÂ»"        "Use extension .Â«textÂ» instead of .gz")
       ("-S \"\""           "Try decompression regardless of extension")
-      ("--suffix .«text»"  "Equivalent to -S")
+      ("--suffix .Â«textÂ»"  "Equivalent to -S")
       ("-t"                "Test the compressed file integrity")
       ("--test"            "Equivalent to -t")
       ("-v"                "Display name and reduction percentage for each file (de)compressed")
       ("--verbose"         "Equivalent to -v")
       ("-V"                "Display version number and compilation options, then quit")
       ("--version"         "Equivalent to -v")
-      ("-«digit»"          "Regulate the speed of compression using «digit» (default=6. 1 fastest, less compression. 9 slowest, best compression)")
+      ("-Â«digitÂ»"          "Regulate the speed of compression using Â«digitÂ» (default=6. 1 fastest, less compression. 9 slowest, best compression)")
       ("--fast"            "Equivalent to -1 (fast, but less compression)")
       ("--best"            "Equivalent to -9 (slow, but best compression)")
    )
@@ -1029,7 +1029,7 @@
   '(description   "Equivalent to gzip -d. Takes a list of files and replaces each one ending in .gz, .z, or .Z with an uncompressed file without the original extension")
   '(token)
   '(replacement
-      "gunzip ««gzip-option»»··· ««file-name»»···"
+      "gunzip Â«Â«gzip-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 ; gunzip
 )
@@ -1038,7 +1038,7 @@
   '(description   "Write the beginning of a file to standard output")
   '(token)
   '(replacement
-      "head ««head-option»»··· ««file-name»»···"
+      "head Â«Â«head-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 ; head
 )
@@ -1046,10 +1046,10 @@
 (lse-define-fill-in "head-option"
   '(separator             " ")
   '(menu
-      ("-c «number» ««head-size-unit»»"      "Print first «number» bytes (or «head-size-unit»)")
-      ("--bytes «number» ««head-size-unit»»" "Equivalent to -c")
-      ("-n «number»"                         "Print first «number» lines (default 10)")
-      ("--lines «number»"                    "Equivalent to -n")
+      ("-c Â«numberÂ» Â«Â«head-size-unitÂ»Â»"      "Print first Â«numberÂ» bytes (or Â«head-size-unitÂ»)")
+      ("--bytes Â«numberÂ» Â«Â«head-size-unitÂ»Â»" "Equivalent to -c")
+      ("-n Â«numberÂ»"                         "Print first Â«numberÂ» lines (default 10)")
+      ("--lines Â«numberÂ»"                    "Equivalent to -n")
       ("-q"                                  "Never print filename headers")
       ("--quiet"                             "Equivalent to -q")
       ("-v"                                  "Always print filename headers")
@@ -1068,13 +1068,13 @@
 (lse-define-fill-in "hostname"
   '(description   "Set or print name of current host")
   '(token)
-  '(replacement   "hostname ««name»»")
+  '(replacement   "hostname Â«Â«nameÂ»Â»")
 ;;; hostname
 )
 
 (lse-define-fill-in "id"
   '(description   "Display the current and effective user and group ID name or values")
-  '(replacement   "id ««id-option»»")
+  '(replacement   "id Â«Â«id-optionÂ»Â»")
 ;;; id
 )
 
@@ -1090,12 +1090,12 @@
   '(description   "Copy files and set their attributes")
   '(token)
   '(menu
-      ("install ««install-option»»··· «source-file» «target-file»"
-         "««quoted-text»»")
-      ("install ««install-option»»··· «source-file»··· «target-directory»"
-         "««quoted-text»»")
-      ("install ««install-option»»··· «target-directory»···"
-         "««quoted-text»»")
+      ("install Â«Â«install-optionÂ»Â»Â·Â·Â· Â«source-fileÂ» Â«target-fileÂ»"
+         "Â«Â«quoted-textÂ»Â»")
+      ("install Â«Â«install-optionÂ»Â»Â·Â·Â· Â«source-fileÂ»Â·Â·Â· Â«target-directoryÂ»"
+         "Â«Â«quoted-textÂ»Â»")
+      ("install Â«Â«install-optionÂ»Â»Â·Â·Â· Â«target-directoryÂ»Â·Â·Â·"
+         "Â«Â«quoted-textÂ»Â»")
    )
 ;;; install
 )
@@ -1105,12 +1105,12 @@
   '(menu
       ("-d"                            "Create each given directory and its leading directories, if they do not already exist")
       ("--directory"                   "Equivalent to -d")
-      ("-g «group»"                    "Set the group ownership of the installed file/directory to ID «group»y")
-      ("--group «group»"               "Equivalent to -g")
-      ("-m «file-protection-mode»"     "Set the protection to «file-protection-mode»")
-      ("--mode «file-protection-mode»" "Equivalent to -m")
-      ("-o «owner»"                    "If run as root, set the ownership of the installed file to «owner»")
-      ("--owner «owner»"               "Equivalent to -o")
+      ("-g Â«groupÂ»"                    "Set the group ownership of the installed file/directory to ID Â«groupÂ»y")
+      ("--group Â«groupÂ»"               "Equivalent to -g")
+      ("-m Â«file-protection-modeÂ»"     "Set the protection to Â«file-protection-modeÂ»")
+      ("--mode Â«file-protection-modeÂ»" "Equivalent to -m")
+      ("-o Â«ownerÂ»"                    "If run as root, set the ownership of the installed file to Â«ownerÂ»")
+      ("--owner Â«ownerÂ»"               "Equivalent to -o")
       ("-s"                            "Strip the symbol tables from installed programs")
       ("--strip"                       "Equivalent to -s")
    )
@@ -1120,35 +1120,35 @@
 (lse-define-fill-in "join"
     '(description           "Join lines of two (sorted) files on a common field")
     '(token)
-    '(replacement           "join ««join-option»»··· «file-name» «file-name»")
+    '(replacement           "join Â«Â«join-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "join-option"
     '(sort)
     '(menu
-        ("-a «1|2»"     "Print a line for each unpairable line in file «1|2», in addition to normal output")
-        ("-e «text»"    "Replace empty output fields (those missing in the input) with «text»")
-        ("-j1 «number»" "Join on field «number» of file 1")
-        ("-j2 «number»" "Join on field «number» of file 2")
-        ("-j  «number»" "Equivalent to -j1 «number» -j2 «number»")
-        ("-o «join-field-list-item»···"
-                        "Construct each output line according to the format in «join-field-list»")
-        ("-t «char»"    "Use «char» as the input and output field separator")
-        ("-v «1|2»"     "Print a line for each unpairable line in file «1|2», instead of the normal output")
+        ("-a Â«1|2Â»"     "Print a line for each unpairable line in file Â«1|2Â», in addition to normal output")
+        ("-e Â«textÂ»"    "Replace empty output fields (those missing in the input) with Â«textÂ»")
+        ("-j1 Â«numberÂ»" "Join on field Â«numberÂ» of file 1")
+        ("-j2 Â«numberÂ»" "Join on field Â«numberÂ» of file 2")
+        ("-j  Â«numberÂ»" "Equivalent to -j1 Â«numberÂ» -j2 Â«numberÂ»")
+        ("-o Â«join-field-list-itemÂ»Â·Â·Â·"
+                        "Construct each output line according to the format in Â«join-field-listÂ»")
+        ("-t Â«charÂ»"    "Use Â«charÂ» as the input and output field separator")
+        ("-v Â«1|2Â»"     "Print a line for each unpairable line in file Â«1|2Â», instead of the normal output")
      )
 ;;; join-option
 )
 (lse-define-fill-in "join-field-list-item"
-    '(description           "«1|2» specifies the file, «number» specifies the field")
+    '(description           "Â«1|2Â» specifies the file, Â«numberÂ» specifies the field")
     '(separator             " ")
-    '(replacement           "«1|2».«number»")
+    '(replacement           "Â«1|2Â».Â«numberÂ»")
 )
 
 (lse-define-fill-in "kill"
   '(description   "Send signal (default SIGTERM) to specified processes")
   '(token)
   '(replacement
-      "kill ««kill-option»» ««pid | job-specification»»"
+      "kill Â«Â«kill-optionÂ»Â» Â«Â«pid | job-specificationÂ»Â»"
    )
 )
 
@@ -1156,7 +1156,7 @@
   '(separator             " ")
   '(menu
       ("-l"           "List all signals")
-      ("-s «text»"    "Specify signal name or number with «text»")
+      ("-s Â«textÂ»"    "Specify signal name or number with Â«textÂ»")
       ("-SIGHUP"      "Terminal hangup")
       ("-SIGINT"      "Terminal interrupt")
       ("-SIGQUIT"     "Terminal quit (with a memory dump)")
@@ -1168,7 +1168,7 @@
 (lse-define-fill-in "less"
     '(description           "Display file on terminal a screen at a time allowing forward and backward movements")
     '(token)
-    '(replacement           "less ««less-option»»··· «file-name»···")
+    '(replacement           "less Â«Â«less-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "less-option"
@@ -1176,7 +1176,7 @@
     '(menu
         ("-?"             "Displays a summary of the commands accepted by less (the same as the h command)")
         ("-a"             "Causes searches to start after the last line displayed on the screen, thus skipping all lines displayed on the screen")
-        ("-b «number»"    "Causes less to use a non-standard number of buffers")
+        ("-b Â«numberÂ»"    "Causes less to use a non-standard number of buffers")
         ("-B"             "Disables automatic allocation of buffers, so  that only  the  default  number of buffers are used")
         ("-c"             "Causes full screen repaints to be painted from the top line down")
         ("-C"             "Like -c, but the screen is cleared before it is repainted")
@@ -1184,32 +1184,32 @@
         ("-e"             "Causes less to automatically exit the second time it reaches end-of-file")
         ("-E"             "Causes less to automatically exit the first time it reaches end-of-file")
         ("-f"             "Forces non-regular files to be opened")
-        ("-h «number»"    "Specifies a maximum number of lines to scroll backward")
+        ("-h Â«numberÂ»"    "Specifies a maximum number of lines to scroll backward")
         ("-i"             "Causes searches to ignore case; that is, uppercase and lowercase are considered identical")
-        ("-j «number»"    "Specifies a line on the screen where `target' lines are to be positioned")
-        ("-k «file-name»" "Causes less to open and interpret the named file as a lesskey (1) file")
+        ("-j Â«numberÂ»"    "Specifies a line on the screen where `target' lines are to be positioned")
+        ("-k Â«file-nameÂ»" "Causes less to open and interpret the named file as a lesskey (1) file")
         ("-m"             "Causes less to prompt verbosely (like more), with the percent into the file")
         ("-M"             "Causes less to prompt even more verbosely than more")
         ("-n"             "Suppresses line numbers")
         ("-N"             "Causes a line number to be displayed at the beginning of each line in the display")
-        ("-o «file-name»" "Causes less to copy its input to the named file as it is being viewed")
-        ("-O «file-name»" "Like -o, but it will overwrite an existing file without asking for confirmation")
-        ("-p «text»"      "Equivalent to specifying the pattern +/«text»; that is, it tells less to start at the first occurence of pattern in the file")
-        ("-P «text»"      "Provides a way to tailor the three prompt styles to your own preference «text»")
+        ("-o Â«file-nameÂ»" "Causes less to copy its input to the named file as it is being viewed")
+        ("-O Â«file-nameÂ»" "Like -o, but it will overwrite an existing file without asking for confirmation")
+        ("-p Â«textÂ»"      "Equivalent to specifying the pattern +/Â«textÂ»; that is, it tells less to start at the first occurence of pattern in the file")
+        ("-P Â«textÂ»"      "Provides a way to tailor the three prompt styles to your own preference Â«textÂ»")
         ("-q"             "Causes moderately `quiet' operation: the terminal bell is not rung if an attempt is made to scroll past the end of the file or before the beginning of the file")
         ("-Q"             "Causes totally `quiet' operation: the terminal bell is never rung")
         ("-r"             "Causes 'raw' control characters to be displayed")
         ("-s"             "Causes consecutive blank lines to be squeezed into a single blank line")
         ("-S"             "Causes lines longer than the screen width to be chopped rather than folded")
-        ("-t «text»"      "Followed immediately by a TAG «text», will edit the file containing that tag")
-        ("-T «text»"      "Specifies a tags file «text» to be used instead of 'tags'")
+        ("-t Â«textÂ»"      "Followed immediately by a TAG Â«textÂ», will edit the file containing that tag")
+        ("-T Â«textÂ»"      "Specifies a tags file Â«textÂ» to be used instead of 'tags'")
         ("-u"             "Causes backspaces and carriage returns to be treated as printable characters; that is, they are sent to the terminal when they appear in the input")
         ("-U"             "Causes backspaces and carriage returns to be treated as control characters; that is, they are handled as specified by the -r option")
         ("-w"             "Causes blank lines to be used to represent lines past the end of the file")
-        ("-x «number»"    "Sets tab stops every n positions")
-        ("-y «number»"    "Specifies a maximum number of lines to scroll forward")
-        ("-[z] «number»"  "Changes the default scrolling window size to n lines")
-        ("+«text»"       "«text» is taken to be an initial command to less")
+        ("-x Â«numberÂ»"    "Sets tab stops every n positions")
+        ("-y Â«numberÂ»"    "Specifies a maximum number of lines to scroll forward")
+        ("-[z] Â«numberÂ»"  "Changes the default scrolling window size to n lines")
+        ("+Â«textÂ»"       "Â«textÂ» is taken to be an initial command to less")
      )
 ;;; less-option
 )
@@ -1218,8 +1218,8 @@
     '(description           "make links between files")
     '(token)
     '(menu
-        ("ln ««ln-option»»··· «source-file» ««target-file»»"       "If only one file is given, it links that file into the current directory. Otherwise, if only two files are given, it links the first onto the second")
-        ("ln ««ln-option»»··· «source-file»··· «target-directory»" "Links each given file into a file with the same name in that directory")
+        ("ln Â«Â«ln-optionÂ»Â»Â·Â·Â· Â«source-fileÂ» Â«Â«target-fileÂ»Â»"       "If only one file is given, it links that file into the current directory. Otherwise, if only two files are given, it links the first onto the second")
+        ("ln Â«Â«ln-optionÂ»Â»Â·Â·Â· Â«source-fileÂ»Â·Â·Â· Â«target-directoryÂ»" "Links each given file into a file with the same name in that directory")
      )
 ;;; ln
 )
@@ -1240,9 +1240,9 @@
         ("-s"            "Equivalent to --symbolic")
         ("--verbose"     "Print the name of each file before linking it")
         ("-v"            "Equivalent to --verbose")
-        ("--suffix «backup-file-suffix»" "Overrides the suffix used for making simple backup files that can be set with the SIMPLE_BACKUP_SUFFIX environment variable")
-        ("-S «backup-file-suffix»"       "Equivalent to --suffix")
-        ("--version-control «version-control»" "Overrides type of backups made that can be set with the VERSION_CONTROL environment variable")
+        ("--suffix Â«backup-file-suffixÂ»" "Overrides the suffix used for making simple backup files that can be set with the SIMPLE_BACKUP_SUFFIX environment variable")
+        ("-S Â«backup-file-suffixÂ»"       "Equivalent to --suffix")
+        ("--version-control Â«version-controlÂ»" "Overrides type of backups made that can be set with the VERSION_CONTROL environment variable")
         ("-V"            "Equivalent to --version-control")
      )
 ;;; ln-option
@@ -1251,7 +1251,7 @@
 (lse-define-fill-in "ls"
     '(description           "list contents of directories")
     '(token)
-    '(replacement           "ls ««ls-option»»··· ««path-name»»")
+    '(replacement           "ls Â«Â«ls-optionÂ»Â»Â·Â·Â· Â«Â«path-nameÂ»Â»")
 )
 
 (lse-define-fill-in "ls-option"
@@ -1322,10 +1322,10 @@
         ("-7"                "Treat all characters with 8. bit set as nonprintable control characters")
         ("--7bit"            "Equivalent to -7")
         ("-8"                "Treat all characters from the 8-bit ISO 8859 character sets as printable")
-        ("-w «number»"       "Assume the screen is «number» columns wide (default 80)")
-        ("--width «number»"  "Equivalent to -w")
-        ("-I «text»"         "Do not list files whose names match the shell pattern «text»")
-        ("--ignore «text»"   "Equivalent to -I")
+        ("-w Â«numberÂ»"       "Assume the screen is Â«numberÂ» columns wide (default 80)")
+        ("--width Â«numberÂ»"  "Equivalent to -w")
+        ("-I Â«textÂ»"         "Do not list files whose names match the shell pattern Â«textÂ»")
+        ("--ignore Â«textÂ»"   "Equivalent to -I")
      )
 ;;; ls-option
 )
@@ -1334,7 +1334,7 @@
     '(description           "format and display the on-line manual pages")
     '(token)
     '(replacement
-        "man ««man-option»»··· ««man-section»» «name»"
+        "man Â«Â«man-optionÂ»Â»Â·Â·Â· Â«Â«man-sectionÂ»Â» Â«nameÂ»"
      )
 )
 
@@ -1342,16 +1342,16 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("-M «path-name»"   "Specify an alternate manpath")
-        ("-P «text»"        "Specify to use pager «text»")
-        ("-S «number-list»" "List is a colon separated list of manual sections to search")
+        ("-M Â«path-nameÂ»"   "Specify an alternate manpath")
+        ("-P Â«textÂ»"        "Specify to use pager Â«textÂ»")
+        ("-S Â«number-listÂ»" "List is a colon separated list of manual sections to search")
         ("-a"               "Forces man to display all the manual pages that match name, not just the first (default: exit after displaying the first manual page it finds")
         ("-d"               "Don't actually display the man pages, but do print gobs of debugging information")
         ("-f"               "Equivalent to whatis")
         ("-h"               "Print a one line help message and exit")
         ("-k"               "Equivalent to apropos")
-        ("-m«text»"         "Specify an alternate set of man pages to search based on the system name «text» given")
-        ("-p«text»"         "Specify the sequence of preprocessors to run before nroff or troff")
+        ("-mÂ«textÂ»"         "Specify an alternate set of man pages to search based on the system name Â«textÂ» given")
+        ("-pÂ«textÂ»"         "Specify the sequence of preprocessors to run before nroff or troff")
         ("-t"               "Use /usr/bin/groff -Tascii -mandoc to format the manual page, passing the output to stdout")
         ("-w"               "Don't actually display the man pages, but do print the location(s) of the files that would be formatted or displayed")
      )
@@ -1365,17 +1365,17 @@
 (lse-define-fill-in "mattrib"
     '(description           "Adds (with the '+' operator) or removes attribute flags to/from an MSDOS file (with the '-' operator)")
     '(token)
-    '(replacement           "mattrib ««mattrib-option»»··· «file-name»···")
+    '(replacement           "mattrib Â«Â«mattrib-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mattrib-option"
     '(separator             " ")
     '(sort)
     '(menu
-        ("«+-»a"     "Archive bit:   Used by some backup programs to indicate a new file")
-        ("«+-»r"     "Read-only bit: Used to indicate a read-only file")
-        ("«+-»s"     "System bit:    Used by MSDOS to indicate a operating system file")
-        ("«+-»h"     "Hidden bit:    Used to make files hidden from DIR; however, mdir is more cunning")
+        ("Â«+-Â»a"     "Archive bit:   Used by some backup programs to indicate a new file")
+        ("Â«+-Â»r"     "Read-only bit: Used to indicate a read-only file")
+        ("Â«+-Â»s"     "System bit:    Used by MSDOS to indicate a operating system file")
+        ("Â«+-Â»h"     "Hidden bit:    Used to make files hidden from DIR; however, mdir is more cunning")
      )
 ;;; mattrib-option
 )
@@ -1383,15 +1383,15 @@
 (lse-define-fill-in "mcd"
     '(description           "Change default directory realtive to an MS-DOS filesystem (without argument displays current directory)")
     '(token)
-    '(replacement           "mcd ««directory-name»»")
+    '(replacement           "mcd Â«Â«directory-nameÂ»Â»")
 )
 
 (lse-define-fill-in "mcopy"
     '(description           "Copy MSDOS files to/from Unix")
     '(token)
     '(menu
-        ("mcopy ««mcopy-option»»··· «source-file» «target-file»"         "Copies the specified file to the named file")
-        ("mcopy ««mcopy-option»»··· «source-file»··· «target-directory»" "Copies multiple files to the named directory")
+        ("mcopy Â«Â«mcopy-optionÂ»Â»Â·Â·Â· Â«source-fileÂ» Â«target-fileÂ»"         "Copies the specified file to the named file")
+        ("mcopy Â«Â«mcopy-optionÂ»Â»Â·Â·Â· Â«source-fileÂ»Â·Â·Â· Â«target-directoryÂ»" "Copies multiple files to the named directory")
      )
 ;;; mcopy
 )
@@ -1411,7 +1411,7 @@
 (lse-define-fill-in "mdel"
     '(description           "Delete an MSDOS file")
     '(replacement
-        "mdel ««mdel-option»»··· «file-name»···"
+        "mdel Â«Â«mdel-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·"
      )
 )
 
@@ -1426,7 +1426,7 @@
 
 (lse-define-fill-in "mdir"
     '(description           "Display an MSDOS directory")
-    '(replacement           "mdir ««mdir-option»»··· «file-name»···")
+    '(replacement           "mdir Â«Â«mdir-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mdir-option"
@@ -1441,7 +1441,7 @@
 (lse-define-fill-in "mformat"
     '(description           "Add an MSDOS filesystem to a low-level formatted diskette")
     '(replacement
-        "mformat ««mformat-option»»··· «mformat-drive»"
+        "mformat Â«Â«mformat-optionÂ»Â»Â·Â·Â· Â«mformat-driveÂ»"
      )
 )
 
@@ -1453,10 +1453,10 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("-t «number»"   "The number of tracks (not cylinders)")
-        ("-h «number»"   "The number of heads (sides)")
-        ("-s «number»"   "The number of sectors per track")
-        ("-l «text»"     "An optional volume label")
+        ("-t Â«numberÂ»"   "The number of tracks (not cylinders)")
+        ("-h Â«numberÂ»"   "The number of heads (sides)")
+        ("-s Â«numberÂ»"   "The number of sectors per track")
+        ("-l Â«textÂ»"     "An optional volume label")
      )
 ;;; mformat-option
 )
@@ -1464,13 +1464,13 @@
 (lse-define-fill-in "mkdir"
     '(description           "Create one or more new directories")
     '(token)
-    '(replacement           "mkdir ««mkdir-option»»··· «directory-name»···")
+    '(replacement           "mkdir Â«Â«mkdir-optionÂ»Â»Â·Â·Â· Â«directory-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mkdir-option"
     '(separator             " ")
     '(menu
-        ("--mode «file-protection-mode»" "Set the mode of created directories to mode, which is symbolic as in chmod and uses the default mode as the point of departure") 
+        ("--mode Â«file-protection-modeÂ»" "Set the mode of created directories to mode, which is symbolic as in chmod and uses the default mode as the point of departure") 
         ("-m"        "Equivalent to --mode")
         ("--parents" "Ensure that each given path exists creating all parent directories necessary")
         ("-p"        "Equivalent to --parents")
@@ -1481,10 +1481,10 @@
 )
 
 (lse-define-fill-in "mke2fs"
-    '(description           "mke2fs is used to create a Linux second extended file system on a device («number» is the number of blocks on the device)")
+    '(description           "mke2fs is used to create a Linux second extended file system on a device (Â«numberÂ» is the number of blocks on the device)")
     '(token)
     '(replacement
-        "mke2fs ««mke2fs-option»»··· «device» ««number»»"
+        "mke2fs Â«Â«mke2fs-optionÂ»Â»Â·Â·Â· Â«deviceÂ» Â«Â«numberÂ»Â»"
      )
 ;;; mke2fs
 )
@@ -1493,12 +1493,12 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("-b «number»"      "Specify the size of blocks in bytes")
+        ("-b Â«numberÂ»"      "Specify the size of blocks in bytes")
         ("-c"               "Check the device for bad blocks before creating the file system")
-        ("-f «number»"      "Specify the size of fragments in bytes")
-        ("-i «number»"      "Specify the bytes/inode ratio; mke2fs creates an inode for every bytes-per-inode bytes of space on the disk (default: 4096 bytes, minimum: 1024)")
-        ("-l «file-name»"   "Read the bad blocks list from «file-name»")
-        ("-m «number»"      "Specify the percentage of reserved blocks for the super-user (default: 5%)")
+        ("-f Â«numberÂ»"      "Specify the size of fragments in bytes")
+        ("-i Â«numberÂ»"      "Specify the bytes/inode ratio; mke2fs creates an inode for every bytes-per-inode bytes of space on the disk (default: 4096 bytes, minimum: 1024)")
+        ("-l Â«file-nameÂ»"   "Read the bad blocks list from Â«file-nameÂ»")
+        ("-m Â«numberÂ»"      "Specify the percentage of reserved blocks for the super-user (default: 5%)")
         ("-t"               "Check the device for bad blocks before creating the file system")
         ("-v"               "Verbose execution")
      )
@@ -1508,13 +1508,13 @@
 (lse-define-fill-in "mkfifo"
     '(description           "Create named pipe(s)")
     '(token)
-    '(replacement           "mkfifo ««mkfifo-option»»··· «path-name»···")
+    '(replacement           "mkfifo Â«Â«mkfifo-optionÂ»Â»Â·Â·Â· Â«path-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mkfifo-option"
     '(separator             " ")
     '(menu
-        ("--mode «file-protection-mode»" "Set the mode of created FIFOs to mode, which is symbolic as in chmod and uses the default mode as the point of departure")
+        ("--mode Â«file-protection-modeÂ»" "Set the mode of created FIFOs to mode, which is symbolic as in chmod and uses the default mode as the point of departure")
         ("-m"        "Equivalent to --mode")
         ("--help"    "Print a usage message on standard output and exit successfully")
         ("--version" "Print version information on standard output then exit successfully")
@@ -1524,9 +1524,9 @@
 
 
 (lse-define-fill-in "mlabel"
-    '(description           "Displays the current volume label of drive «text», if present, and prompts the user for a new volume label; to delete an existing volume label, press return at the prompt")
+    '(description           "Displays the current volume label of drive Â«textÂ», if present, and prompts the user for a new volume label; to delete an existing volume label, press return at the prompt")
     '(token)
-    '(replacement           "mlabel ««mlabel-option»»··· «text»")
+    '(replacement           "mlabel Â«Â«mlabel-optionÂ»Â»Â·Â·Â· Â«textÂ»")
 )
 
 
@@ -1543,8 +1543,8 @@
     '(description           "mknod creates a FIFO, character special file, or block special file with the given pathname; by default, the mode of created files is 0666 minus the bits set in the umask")
     '(token)
     '(menu
-        "mknod ««mknod-option»»··· «path-name» «mknod-type» «mknod-major» «mknod-minor»"
-        ("mknod ««mknod-option»»··· «path-name» p" "make named pipe (equivalent to mkfifo)")
+        "mknod Â«Â«mknod-optionÂ»Â»Â·Â·Â· Â«path-nameÂ» Â«mknod-typeÂ» Â«mknod-majorÂ» Â«mknod-minorÂ»"
+        ("mknod Â«Â«mknod-optionÂ»Â»Â·Â·Â· Â«path-nameÂ» p" "make named pipe (equivalent to mkfifo)")
      )
 ;;; mknod
 )
@@ -1581,8 +1581,8 @@
 (lse-define-fill-in "mknod-option"
     '(separator             " ")
     '(menu
-        ("--mode «file-protection-mode»" "Set the mode of created files to mode, which is symbolic as in chmod and uses the default mode as the point of departure")
-        ("-m «file-protection-mode»"     "Equivalent to --mode")
+        ("--mode Â«file-protection-modeÂ»" "Set the mode of created files to mode, which is symbolic as in chmod and uses the default mode as the point of departure")
+        ("-m Â«file-protection-modeÂ»"     "Equivalent to --mode")
         ("--help"                        "Print a usage message on standard output and exit successfully")
         ("--version"                     "Print version information on standard output then exit successfully")
      )
@@ -1603,10 +1603,10 @@
 )
 
 (lse-define-fill-in "mkswap"
-    '(description           "mkswap sets up a Linux swap area of size «number» on a device (usually a disk partition)")
+    '(description           "mkswap sets up a Linux swap area of size Â«numberÂ» on a device (usually a disk partition)")
     '(token)
     '(replacement
-        "mkswap ««mkswap-option»» «device» «number»"
+        "mkswap Â«Â«mkswap-optionÂ»Â» Â«deviceÂ» Â«numberÂ»"
      )
 ;;; mkswap
 )
@@ -1622,7 +1622,7 @@
 (lse-define-fill-in "mmd"
     '(description           "Make one or more MS-DOS subdirectories on an MS-DOS filesystem")
     '(token)
-    '(replacement           "mmd ««mmd-option»»··· «directory-name»···")
+    '(replacement           "mmd Â«Â«mmd-optionÂ»Â»Â·Â·Â· Â«directory-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mmd-option"
@@ -1638,8 +1638,8 @@
     '(description           "mount attaches the filesystem specified by specialfile (which is often a device name) to the directory specified by dir")
     '(token)
     '(menu
-        ("mount ««mount-option»»··· «device» «directory»"     "Mount a single device")
-        ("mount -a ««mount-option»»··· «mount-type-option»"   "Mount all devices specified in /etc/fstab")
+        ("mount Â«Â«mount-optionÂ»Â»Â·Â·Â· Â«deviceÂ» Â«directoryÂ»"     "Mount a single device")
+        ("mount -a Â«Â«mount-optionÂ»Â»Â·Â·Â· Â«mount-type-optionÂ»"   "Mount all devices specified in /etc/fstab")
      )
 ;;; mount
 )
@@ -1649,7 +1649,7 @@
     '(sort)
     '(menu
         ("-f"                       "Fake mount-operation: do everything except actual system-call")
-        ("-o «mount-option-fs»···"  "Specify file system options")
+        ("-o Â«mount-option-fsÂ»Â·Â·Â·"  "Specify file system options")
         ("-r"                       "Mount read-only")
         @ mount-type-option
         ("-u"                       "Update status of file-system already mounted")
@@ -1675,33 +1675,33 @@
     '(separator             ",")
     '(leading               ",")
     '(menu
-        ("««no»»ext2"       "Second extended file system")
-        ("««no»»iso9660"    "CD-ROM file system")
-        ("««no»»msdos"      "MS-DOS file system")
-        ("««no»»proc"       "Process file system")
-        ("««no»»ifs"        "Inheriting file system (needs kernel extension)")
+        ("Â«Â«noÂ»Â»ext2"       "Second extended file system")
+        ("Â«Â«noÂ»Â»iso9660"    "CD-ROM file system")
+        ("Â«Â«noÂ»Â»msdos"      "MS-DOS file system")
+        ("Â«Â«noÂ»Â»proc"       "Process file system")
+        ("Â«Â«noÂ»Â»ifs"        "Inheriting file system (needs kernel extension)")
      )
 ;;; mount-type-option
 )
 
 (lse-define-fill-in "mount-type-option"
     '(menu
-        ("-t «mount-type»···"   "Specify type(s) of file-system to be mounted (leading 'no' means do not mount file-systems of this type)")
+        ("-t Â«mount-typeÂ»Â·Â·Â·"   "Specify type(s) of file-system to be mounted (leading 'no' means do not mount file-systems of this type)")
      )
 )
 
 (lse-define-fill-in "mrd"
     '(description           "Remove one or more empty(!) MS-DOS subdirectories from an MS-DOS filesystem")
     '(token)
-    '(replacement           "mrd «directory-name»···")
+    '(replacement           "mrd Â«directory-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mread"
     '(description           "Copy an MSDOS file to a Unix file")
     '(token)
     '(menu
-        "mread ««mread-option»»··· «file-name» «file-name»"
-        "mread ««mread-option»»··· «file-name»··· «directory-name»"
+        "mread Â«Â«mread-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«file-nameÂ»"
+        "mread Â«Â«mread-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â· Â«directory-nameÂ»"
      )
 )
 
@@ -1720,7 +1720,7 @@
     '(description           "Mren renames an existing file on an MSDOS filesystem")
     '(token)
     '(replacement
-        "mren ««mren-option»»··· «source-file» «target-file»"
+        "mren Â«Â«mren-optionÂ»Â»Â·Â·Â· Â«source-fileÂ» Â«target-fileÂ»"
      )
 )
 
@@ -1759,7 +1759,7 @@
 (lse-define-fill-in "mtype"
     '(description           "Display contents of an MSDOS file")
     '(token)
-    '(replacement           "mtype ««mtype-option»»··· «file-name»···")
+    '(replacement           "mtype Â«Â«mtype-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "mtype-option"
@@ -1777,8 +1777,8 @@
     '(description           "Copy a Unix file to an MSDOS file")
     '(token)
     '(menu
-        "mwrite ««mwrite-option»»··· «file-name» «file-name»"
-        "mwrite ««mwrite-option»»··· «file-name»··· «directory-name»"
+        "mwrite Â«Â«mwrite-optionÂ»Â»Â·Â·Â· Â«file-nameÂ» Â«file-nameÂ»"
+        "mwrite Â«Â«mwrite-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â· Â«directory-nameÂ»"
      )
 ;;; mwrite
 )
@@ -1800,8 +1800,8 @@
     '(description           "Rename files")
     '(token)
     '(menu
-        ("mv ««mv-option»»··· «source-file» «target-file»"     "Rename one file")
-        ("mv ««mv-option»»··· «source-file»··· «target-directory»"     "Rename all specified files to target directory")
+        ("mv Â«Â«mv-optionÂ»Â»Â·Â·Â· Â«source-fileÂ» Â«target-fileÂ»"     "Rename one file")
+        ("mv Â«Â«mv-optionÂ»Â»Â·Â·Â· Â«source-fileÂ»Â·Â·Â· Â«target-directoryÂ»"     "Rename all specified files to target directory")
      )
 ;;; mv
 )
@@ -1822,9 +1822,9 @@
         ("-v"            "Equivalent to --verbose")
         ("--help"        "Print a usage message on standard output and exit successfully")
         ("--version"     "Print version information on standard output then exit successfully")
-        ("--suffix «backup-file-suffix»"       "Overrides the suffix used for making simple backup files that can be set with the SIMPLE_BACKUP_SUFFIX environment variable")
+        ("--suffix Â«backup-file-suffixÂ»"       "Overrides the suffix used for making simple backup files that can be set with the SIMPLE_BACKUP_SUFFIX environment variable")
         ("-S"            "Equivalent to --suffix")
-        ("--version-control «version-control»" "Overrides the type of backups made that can be set with the VERSION_CONTROL environment variable")
+        ("--version-control Â«version-controlÂ»" "Overrides the type of backups made that can be set with the VERSION_CONTROL environment variable")
         ("-V"            "Equivalent to --version-control")
      )
 ;;; mv-option
@@ -1834,7 +1834,7 @@
 (lse-define-fill-in "newgrp"
     '(description           "newgrp is used to change the current group ID during a login session")
     '(token)
-    '(replacement           "newgrp ««newgrp-option»» «group»")
+    '(replacement           "newgrp Â«Â«newgrp-optionÂ»Â» Â«groupÂ»")
 )
 
 
@@ -1851,7 +1851,7 @@
 (lse-define-fill-in "nice"
     '(description           "Run a program with modified scheduling priority (without arguments displays current nice-ness)")
     '(token)
-    '(replacement           "nice ««nice-option»»··· ««command»»")
+    '(replacement           "nice Â«Â«nice-optionÂ»Â»Â·Â·Â· Â«Â«commandÂ»Â»")
 )
 
 
@@ -1859,8 +1859,8 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("--adjustment=«number»" "Add adjustment instead of 10 to the command's priority")
-        ("-n «number»"           "Equivalent to --adjustment")
+        ("--adjustment=Â«numberÂ»" "Add adjustment instead of 10 to the command's priority")
+        ("-n Â«numberÂ»"           "Equivalent to --adjustment")
      )
 ;;; nice-option
 )
@@ -1869,7 +1869,7 @@
     '(description           "Dump contents of a file to standard output")
     '(token)
     '(replacement
-        "od ««od-std-option»» ««od-option»»··· «file-name»···"
+        "od Â«Â«od-std-optionÂ»Â» Â«Â«od-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·"
      )
 ;;; od
 )
@@ -1878,10 +1878,10 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("-e «quoted-text»" "Specify a format string «text» to be used for displaying data (interpreted as a fprintf-style format string)")
-        ("-f «file-name»"   "Specify a file that contains one or more newline separated format strings")
-        ("-n «number»"      "Interpret only «number» length bytes of input")
-        ("-s «number»"      "Skip «number» offset bytes from the beginning of the input")
+        ("-e Â«quoted-textÂ»" "Specify a format string Â«textÂ» to be used for displaying data (interpreted as a fprintf-style format string)")
+        ("-f Â«file-nameÂ»"   "Specify a file that contains one or more newline separated format strings")
+        ("-n Â«numberÂ»"      "Interpret only Â«numberÂ» length bytes of input")
+        ("-s Â«numberÂ»"      "Skip Â«numberÂ» offset bytes from the beginning of the input")
         ("-v"               "The -v option causes od to display all input data")
      )
 ;;; od-option
@@ -1900,13 +1900,13 @@
 )
 
 (lse-define-fill-in "header-comment-language-specific"
-    '(replacement   "««header-comment-parameters»»")
+    '(replacement   "Â«Â«header-comment-parametersÂ»Â»")
 )
 
 (lse-define-fill-in "header-comment-parameters"
     '(replacement
         " Parameters"
-        "    ««header-comment-parameter»»···"
+        "    Â«Â«header-comment-parameterÂ»Â»Â·Â·Â·"
         ""
      )
 ;;; header-comment-parameters
@@ -1915,7 +1915,7 @@
 (lse-define-fill-in "header-comment-parameter"
     '(token                 "parameter")
     '(replacement
-        "$«number»  ««header-comment-parameter-type»»««text»»"
+        "$Â«numberÂ»  Â«Â«header-comment-parameter-typeÂ»Â»Â«Â«textÂ»Â»"
      )
 )
 
@@ -1942,7 +1942,7 @@
 (lse-define-fill-in "paste"
     '(description           "Paste together corresponding lines of the input files into a single one line of the output file")
     '(token)
-    '(replacement           "paste ««paste-option»»··· «file-name»···")
+    '(replacement           "paste Â«Â«paste-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "paste-option"
@@ -1950,8 +1950,8 @@
     '(menu
         ("--serial"            "Paste the lines of one file alltogether at a time rather than one line from each file")
         ("-s"                  "Equivalent to --serial")
-        ("--delimiters «text»" "Use the characters in «text» circularly instead of TAB to separate merged lines")
-        ("-d«text»             "Equivalent to --delimiters"")
+        ("--delimiters Â«textÂ»" "Use the characters in Â«textÂ» circularly instead of TAB to separate merged lines")
+        ("-dÂ«textÂ»             "Equivalent to --delimiters"")
      )
 ;;; paste-option
 )
@@ -1964,7 +1964,7 @@
 (lse-define-fill-in "pr"
     '(description           "pr prints on the standard output a paginated and optionally multicolumn copy of the text files given on the command line, or of the standard input if no files are given or when the file name `-' is encountered. Form feeds in the input cause page breaks in the output")
     '(token)
-    '(replacement           "pr ««pr-option»»··· ««file-name»»···")
+    '(replacement           "pr Â«Â«pr-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 
@@ -1972,25 +1972,25 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("+«number»"        "Begin printing with page «number»")
-        ("-«number»"        "Produce «number»-column output and print columns down; the column width is automatically decreased as COLUMN increases; unless you use the -w option to increase the page width as well, this option might cause some columns to be truncated")
+        ("+Â«numberÂ»"        "Begin printing with page Â«numberÂ»")
+        ("-Â«numberÂ»"        "Produce Â«numberÂ»-column output and print columns down; the column width is automatically decreased as COLUMN increases; unless you use the -w option to increase the page width as well, this option might cause some columns to be truncated")
         ("-a"               "Print columns across rather than down")
         ("-b"               "Balance columns on the last page")
         ("-c"               "Print control characters using hat notation (e.g., `^G'); print other unprintable characters in octal backslash notation")
         ("-d"               "Double space the output")
-        ("-e««char»»««number»»" "Expand tabs in input to spaces («char») in output, «number» giving the tab-width (default 8)")
+        ("-eÂ«Â«charÂ»Â»Â«Â«numberÂ»Â»" "Expand tabs in input to spaces (Â«charÂ») in output, Â«numberÂ» giving the tab-width (default 8)")
         ("-f"               "Use a formfeed instead of newlines to separate output pages")
-        ("-h«text»"         "Replace the filename in the header with the string «text»")
-        ("-i««char»»««number»»" "Replace spaces in input with tabs («char») on output, «number» giving the tab-width (default 8)")
-        ("-l«number»"       "Set the page length to «number» lines (default 66)")
+        ("-hÂ«textÂ»"         "Replace the filename in the header with the string Â«textÂ»")
+        ("-iÂ«Â«charÂ»Â»Â«Â«numberÂ»Â»" "Replace spaces in input with tabs (Â«charÂ») on output, Â«numberÂ» giving the tab-width (default 8)")
+        ("-lÂ«numberÂ»"       "Set the page length to Â«numberÂ» lines (default 66)")
         ("-m"               "Print all files in parallel, one in each column")
-        ("-n««char»»««number»»" "Precede each column with a «number»-digit (default = 5) line number followed by «char» (default TAB); with parallel files, precede each line with a line number") 
-        ("-o«number»"       "Offset each line with a margin «number» spaces wide; the total page width is this offset plus the width set with the -w option")
+        ("-nÂ«Â«charÂ»Â»Â«Â«numberÂ»Â»" "Precede each column with a Â«numberÂ»-digit (default = 5) line number followed by Â«charÂ» (default TAB); with parallel files, precede each line with a line number") 
+        ("-oÂ«numberÂ»"       "Offset each line with a margin Â«numberÂ» spaces wide; the total page width is this offset plus the width set with the -w option")
         ("-r"               "Do not print a warning message when an argument file cannot be opened")
-        ("-s«char»"         "Separate columns by the single character «char», default tab, instead of spaces")
+        ("-sÂ«charÂ»"         "Separate columns by the single character Â«charÂ», default tab, instead of spaces")
         ("-t"               "Do not print the 5-line header and the 5-line trailer that are normally on each page, and do not fill out the bottoms of pages (with blank lines or formfeeds)")
         ("-v"               "Print unprintable characters in octal backslash notation")
-        ("-w«number»"       "Set the page width to «number» columns (default 72)")
+        ("-wÂ«numberÂ»"       "Set the page width to Â«numberÂ» columns (default 72)")
      )
 ;;; pr-option
 )
@@ -1999,14 +1999,14 @@
 (lse-define-fill-in "printenv"
     '(description           "Print all (if no arguments) or part (arguments) of environment")
     '(token)
-    '(replacement           "printenv ««name»»···")
+    '(replacement           "printenv Â«Â«nameÂ»Â»Â·Â·Â·")
 )
 
 
 (lse-define-fill-in "ps"
     '(description           "Show processes running on the system")
     '(token)
-    '(replacement           "ps ««ps-option»»···")
+    '(replacement           "ps Â«Â«ps-optionÂ»Â»Â·Â·Â·")
 )
 
 
@@ -2043,10 +2043,10 @@
     '(description           "(use LILO instead where possible) query/set image root device, RAM disk size, or video mode")
     '(token)
     '(menu
-        ("rdev ««file-name»» ««device»»"           "Set the root device and image")
-        ("rdev -r ««file-name»» «rdev-boot-flag»"  "Set the RAM-disk size")
-        ("rdev -R ««file-name»» «number»"          "Set the root-flags")
-        ("rdev -v ««file-name»» «rdev-video-mode»" "Set the bootup video-mode")
+        ("rdev Â«Â«file-nameÂ»Â» Â«Â«deviceÂ»Â»"           "Set the root device and image")
+        ("rdev -r Â«Â«file-nameÂ»Â» Â«rdev-boot-flagÂ»"  "Set the RAM-disk size")
+        ("rdev -R Â«Â«file-nameÂ»Â» Â«numberÂ»"          "Set the root-flags")
+        ("rdev -v Â«Â«file-nameÂ»Â» Â«rdev-video-modeÂ»" "Set the bootup video-mode")
      )
 ;;; rdev
 )
@@ -2065,7 +2065,7 @@
         ("-2"       "Extended VGA mode with 80x50 characters")
         ("-1"       "Standard VGA mode with 80x25 characters")
         ("1"        "First supported video mode    (depends on VGA card)")
-        ("«number»" "Supported video mode «number» (depends on VGA card)")
+        ("Â«numberÂ»" "Supported video mode Â«numberÂ» (depends on VGA card)")
      )
 ;;; rdev-video-mode
 )
@@ -2073,7 +2073,7 @@
 (lse-define-fill-in "reboot"
     '(description           "Reboot the system")
     '(token)
-    '(replacement           "reboot ««reboot-option»»···")
+    '(replacement           "reboot Â«Â«reboot-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "reboot-option"
@@ -2088,7 +2088,7 @@
 (lse-define-fill-in "rm"
     '(description           "Delete files specified")
     '(token)
-    '(replacement           "rm ««rm-option»»··· «file-name»···")
+    '(replacement           "rm Â«Â«rm-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "rm-option"
@@ -2113,7 +2113,7 @@
 (lse-define-fill-in "rmdir"
     '(description           "Delete empty directories")
     '(token)
-    '(replacement           "rmdir ««rmdir-option»»··· «directory-name»···")
+    '(replacement           "rmdir Â«Â«rmdir-optionÂ»Â»Â·Â·Â· Â«directory-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "rmdir-option"
@@ -2130,22 +2130,22 @@
     '(description           "Stream editor")
     '(token)
     '(menu
-        ("sed ««sed-option»» «sed-command» ««file-name»»···"         "Execute a single «sed-command»")
-        ("sed ««sed-option»» ««-e sed-command»»··· ««file-name»»···" "Execute multiple «sed-command»'s")
-        ("sed ««sed-option»» ««-f file-name»» ««file-name»»···"      "Execute multiple sed-command's from file-name")
-        ("sed ««sed-option»» ««-e sed-command»»··· ««-f file-name»» ««file-name»»···" "Execute multiple «sed-command»'s plus file-name")
+        ("sed Â«Â«sed-optionÂ»Â» Â«sed-commandÂ» Â«Â«file-nameÂ»Â»Â·Â·Â·"         "Execute a single Â«sed-commandÂ»")
+        ("sed Â«Â«sed-optionÂ»Â» Â«Â«-e sed-commandÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·" "Execute multiple Â«sed-commandÂ»'s")
+        ("sed Â«Â«sed-optionÂ»Â» Â«Â«-f file-nameÂ»Â» Â«Â«file-nameÂ»Â»Â·Â·Â·"      "Execute multiple sed-command's from file-name")
+        ("sed Â«Â«sed-optionÂ»Â» Â«Â«-e sed-commandÂ»Â»Â·Â·Â· Â«Â«-f file-nameÂ»Â» Â«Â«file-nameÂ»Â»Â·Â·Â·" "Execute multiple Â«sed-commandÂ»'s plus file-name")
      )
 ;;; sed
 )
 
 (lse-define-fill-in "-e sed-command"
-    '(description           "Append the editing commands specified by the «sed-command» to the list of commands")
-    '(replacement           "-e '«sed-command»'")
+    '(description           "Append the editing commands specified by the Â«sed-commandÂ» to the list of commands")
+    '(replacement           "-e 'Â«sed-commandÂ»'")
 )
 
 (lse-define-fill-in "-f file-name"
-    '(description           "Append the editing commands found in «file-name» to the list of commands. The editing commands should each be listed on a separate line.")
-    '(replacement           "-f «file-name»")
+    '(description           "Append the editing commands found in Â«file-nameÂ» to the list of commands. The editing commands should each be listed on a separate line.")
+    '(replacement           "-f Â«file-nameÂ»")
 )
 
 (lse-define-fill-in "sed-option"
@@ -2157,10 +2157,10 @@
 )
 
 (lse-define-fill-in "shutdown"
-    '(description           "Shutdown the system and halt or reboot (««text»» is used as warning message)")
+    '(description           "Shutdown the system and halt or reboot (Â«Â«textÂ»Â» is used as warning message)")
     '(token)
     '(replacement
-        "shutdown ««shutdown-option»»··· «time» ««text»»"
+        "shutdown Â«Â«shutdown-optionÂ»Â»Â·Â·Â· Â«timeÂ» Â«Â«textÂ»Â»"
      )
 ;;; shutdown
 )
@@ -2174,7 +2174,7 @@
         ("-n"          "Don't sync before reboot or halt")
         ("-f"          "Do a 'fast' reboot")
         ("-c"          "Cancel a running shutdown")
-        ("-t «number»" "Delay «number» seconds between warning and kill signal")
+        ("-t Â«numberÂ»" "Delay Â«numberÂ» seconds between warning and kill signal")
      )
 ;;; shutdown-option
 )
@@ -2183,7 +2183,7 @@
     '(description           "Sort sorts (default), merges, or compares all the lines from the given files, or the standard input if no files are given; a file name of `-' means standard input; by default, sort writes the results to the standard output")
     '(token)
     '(replacement
-        "sort ««sort-mode»» ««sort-option»»··· ««file-name»»···"
+        "sort Â«Â«sort-modeÂ»Â» Â«Â«sort-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
      )
 ;;; sort
 )
@@ -2221,11 +2221,11 @@
     '(separator             " ")
     '(menu
         sort-key-option
-        ("-o «file-name»"   "Write output to output-file instead of to the standard output; if output-file is one of the input files, sort copies it to a temporary file before sorting and writing the output to output-file")
-        ("-t «char»"        "Use character «char» as the field separator when finding the sort keys in each line")
+        ("-o Â«file-nameÂ»"   "Write output to output-file instead of to the standard output; if output-file is one of the input files, sort copies it to a temporary file before sorting and writing the output to output-file")
+        ("-t Â«charÂ»"        "Use character Â«charÂ» as the field separator when finding the sort keys in each line")
         ("-u"               "For the default case or the -m option, only output the first of a sequence of lines that compare equal")
-        ("+«sort-pos» -««sort-pos»»"  "Specify a field (from +«sort-pos» to -«sort-pos» or end of line, zero-based) within each line to use as a sorting key")
-        ("-k «sort-pos»,««sort-pos»»" "An alternate syntax for specifying sorting keys (one-based)")
+        ("+Â«sort-posÂ» -Â«Â«sort-posÂ»Â»"  "Specify a field (from +Â«sort-posÂ» to -Â«sort-posÂ» or end of line, zero-based) within each line to use as a sorting key")
+        ("-k Â«sort-posÂ»,Â«Â«sort-posÂ»Â»" "An alternate syntax for specifying sorting keys (one-based)")
      )
 ;;; sort-option
 )
@@ -2233,7 +2233,7 @@
 (lse-define-fill-in "sort-pos"
     '(leading               "-|,")
     '(replacement
-        "«sort-pos-field».««sort-pos-char»»««sort-key-flag»»···"
+        "Â«sort-pos-fieldÂ».Â«Â«sort-pos-charÂ»Â»Â«Â«sort-key-flagÂ»Â»Â·Â·Â·"
      )
 ;;; sort-pos
 )
@@ -2251,7 +2251,7 @@
     '(description           "Split creates one or more output files (as many as necessary) containing consecutive sections of the infile, or the standard input if none is given or the name `-' is given; by default, split puts 1000 lines of the input file, or whatever is left if it is less than that, into each output file")
     '(token)
     '(replacement
-        "split ««split-option»»··· ««file-name»» ««split-outfile-prefix»»"
+        "split Â«Â«split-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â» Â«Â«split-outfile-prefixÂ»Â»"
      )
 ;;; split
 )
@@ -2260,13 +2260,13 @@
 (lse-define-fill-in "split-option"
     '(separator             " ")
     '(menu
-        ("--lines=«number»"    "Put «number» lines of the input file into each output file")
-        ("-l «number»"         "Equivalent to --lines")
-        ("-«number»"           "Equivalent to --lines")
-        ("--bytes=«number»««file-size-unit»»"  "Put «number» bytes of the input file into each output file")
-        ("-b «number»««file-size-unit»»"       "Equivalent to --bytes")
-        ("--line-bytes=«number»««file-size-unit»»" "Put into each output file as many complete lines of the input file as is possible without exceeding bytes bytes")
-        ("-C «number»««file-size-unit»»"           "Equivalent to --line-bytes")
+        ("--lines=Â«numberÂ»"    "Put Â«numberÂ» lines of the input file into each output file")
+        ("-l Â«numberÂ»"         "Equivalent to --lines")
+        ("-Â«numberÂ»"           "Equivalent to --lines")
+        ("--bytes=Â«numberÂ»Â«Â«file-size-unitÂ»Â»"  "Put Â«numberÂ» bytes of the input file into each output file")
+        ("-b Â«numberÂ»Â«Â«file-size-unitÂ»Â»"       "Equivalent to --bytes")
+        ("--line-bytes=Â«numberÂ»Â«Â«file-size-unitÂ»Â»" "Put into each output file as many complete lines of the input file as is possible without exceeding bytes bytes")
+        ("-C Â«numberÂ»Â«Â«file-size-unitÂ»Â»"           "Equivalent to --line-bytes")
      )
 ;;; split-option
 )
@@ -2275,7 +2275,7 @@
 (lse-define-fill-in "stty"
     '(description           "Change terminal line settings (without arguments display them). Nothing is sent to terminal!")
     '(token)
-    '(replacement           "stty ««stty-option»»··· ««stty-setting»»···")
+    '(replacement           "stty Â«Â«stty-optionÂ»Â»Â·Â·Â· Â«Â«stty-settingÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "stty-option"
@@ -2308,19 +2308,19 @@
     '(description           "Settings produce combinations of effects")
     '(separator             " ")
     '(menu
-        ("««-»»evenp"       "Same as parenb -parodd cs7")
-        ("««-»»oddp"        "Same as parenb parodd cs7")
-        ("««-»»nl"          "Same as icrnl")
+        ("Â«Â«-Â»Â»evenp"       "Same as parenb -parodd cs7")
+        ("Â«Â«-Â»Â»oddp"        "Same as parenb parodd cs7")
+        ("Â«Â«-Â»Â»nl"          "Same as icrnl")
         ("ek"               "Reset the erase and kill special characters to their default values")
         ("sane"             "Same as cread -ignbrk brkint -inlcr -igncr icrnl")
-        ("««-»»cooked"      "Same as brkint ignpar istrip icrnl ixon opost isig icanon, plus sets the eof and eol characters to their default values if they are the same as the min and time characters")
-        ("««-»»raw"         "Same as -ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr -icrnl -ixon -ixoff -iuclc -ixany -imaxbel -opost -isig -icanon -xcase min 1 time 0; With `-', same as cooked")
-        ("««-»»cbreak"      "Same as -icanon")
-        ("««-»»pass8"       "Same as -parenb -istrip cs8; With `-', same as parenb istrip cs7")
-        ("««-»»litout"      "Same as -parenb -istrip -opost cs8; With `-', same as parenb istrip opost cs7")
-        ("««-»»decctlq"     "Same as -ixany")
-        ("««-»»tabs"        "Same as tab0; With `-', same as tab3")
-        ("««-»»lcase"       "Same as xcase iuclc olcuc")
+        ("Â«Â«-Â»Â»cooked"      "Same as brkint ignpar istrip icrnl ixon opost isig icanon, plus sets the eof and eol characters to their default values if they are the same as the min and time characters")
+        ("Â«Â«-Â»Â»raw"         "Same as -ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr -icrnl -ixon -ixoff -iuclc -ixany -imaxbel -opost -isig -icanon -xcase min 1 time 0; With `-', same as cooked")
+        ("Â«Â«-Â»Â»cbreak"      "Same as -icanon")
+        ("Â«Â«-Â»Â»pass8"       "Same as -parenb -istrip cs8; With `-', same as parenb istrip cs7")
+        ("Â«Â«-Â»Â»litout"      "Same as -parenb -istrip -opost cs8; With `-', same as parenb istrip opost cs7")
+        ("Â«Â«-Â»Â»decctlq"     "Same as -ixany")
+        ("Â«Â«-Â»Â»tabs"        "Same as tab0; With `-', same as tab3")
+        ("Â«Â«-Â»Â»lcase"       "Same as xcase iuclc olcuc")
         ("crt"              "Same as echoe echoctl echoke")
         ("dec"              "Same as echoe echoctl echoke -ixany, and also sets the interrupt special character to Ctrl-C, erase to Del, and kill to Ctrl-U")
      )
@@ -2332,21 +2332,21 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("intr «char»"      "Send an interrupt signal")
-        ("quit «char»"      "Send a quit signal")
-        ("erase «char»"     "Erase the last character typed")
-        ("kill «char»"      "Erase the current line")
-        ("eof «char»"       "Send an end of file (terminate the input)")
-        ("eol «char»"       "End the line")
-        ("eol2 «char»"      "Alternate character to end the line")
-        ("swtch «char»"     "Switch to a different shell layer")
-        ("start «char»"     "Restart the output after stopping it")
-        ("stop «char»"      "Stop the output")
-        ("susp «char»"      "Send a terminal stop signal")
-        ("dsusp «char»"     "Send a terminal stop signal after flushing the input")
-        ("rprnt «char»"     "Redraw the current line")
-        ("werase «char»"    "Erase the last word typed")
-        ("lnext «char»"     "Enter the next character typed literally, even if it is a special character")
+        ("intr Â«charÂ»"      "Send an interrupt signal")
+        ("quit Â«charÂ»"      "Send a quit signal")
+        ("erase Â«charÂ»"     "Erase the last character typed")
+        ("kill Â«charÂ»"      "Erase the current line")
+        ("eof Â«charÂ»"       "Send an end of file (terminate the input)")
+        ("eol Â«charÂ»"       "End the line")
+        ("eol2 Â«charÂ»"      "Alternate character to end the line")
+        ("swtch Â«charÂ»"     "Switch to a different shell layer")
+        ("start Â«charÂ»"     "Restart the output after stopping it")
+        ("stop Â«charÂ»"      "Stop the output")
+        ("susp Â«charÂ»"      "Send a terminal stop signal")
+        ("dsusp Â«charÂ»"     "Send a terminal stop signal after flushing the input")
+        ("rprnt Â«charÂ»"     "Redraw the current line")
+        ("werase Â«charÂ»"    "Erase the last word typed")
+        ("lnext Â«charÂ»"     "Enter the next character typed literally, even if it is a special character")
      )
 ;;; stty-setting:control-chars
 )
@@ -2356,33 +2356,33 @@
     '(description           "Settings affect how the terminal driver transforms the stream of characters received from the terminal")
     '(separator             " ")
     '(menu
-        ("««-»»ignbrk"      "Ignore breaks")
-        ("««-»»brkint"      "Breaks cause an interrupt signal")
-        ("««-»»ignpar"      "Ignore parity errors")
-        ("««-»»parmrk"      "Mark parity errors (with a 255-0-character sequence)")
-        ("««-»»inpck"       "Enable input parity checking")
-        ("««-»»istrip"      "Clear high (8th) bit of input characters")
-        ("««-»»inlcr"       "Translate newline to carriage return")
-        ("««-»»igncr"       "Ignore carriage return")
-        ("««-»»icrnl"       "Translate carriage return to newline")
-        ("««-»»ixon"        "Enable XON/XOFF flow control")
-        ("««-»»ixoff"       "Enable sending of stop character when the system input buffer is almost full, and start character when it becomes almost empty again")
-        ("««-»»iuclc"       "Translate uppercase characters to lowercase")
-        ("««-»»ixany"       "Allow any character to restart output (only the start character with `-')")
-        ("««-»»imaxbel"     "Enable beeping and not flushing input buffer if a character arrives when the input buffer is full")
-        ("««-»»isig"        "Enable interrupt, quit, and suspend special characters")
-        ("««-»»icanon"      "Enable erase, kill, werase, and rprnt special characters")
-        ("««-»»iexten"      "Enable non-POSIX special characters")
-        ("««-»»echo"        "Echo input characters")
-        ("««-»»echoe"       "Echo erase characters as backspace-space-backspace")
-        ("««-»»echok"       "Echo a newline after a kill character")
-        ("««-»»echonl"      "Echo newline even if not echoing other characters")
-        ("««-»»noflsh"      "Disable flushing after interrupt and quit special characters")
-        ("««-»»xcase"       "Enable input and output of uppercase characters by preceding their lowercase equivalents with `\\', when icanon is set")
-        ("««-»»tostop"      "Stop background jobs that try to write to the terminal")
-        ("««-»»echoprt"     "Echo erased characters backward, between `\\' and '/'")
-        ("««-»»echoctl"     "Echo control characters in hat notation (`^c') instead of literally")
-        ("««-»»echoke"      "Echo the kill special character by erasing each character on the line as indicated by the echoprt and echoe settings, instead of by the echoctl and echok settings")
+        ("Â«Â«-Â»Â»ignbrk"      "Ignore breaks")
+        ("Â«Â«-Â»Â»brkint"      "Breaks cause an interrupt signal")
+        ("Â«Â«-Â»Â»ignpar"      "Ignore parity errors")
+        ("Â«Â«-Â»Â»parmrk"      "Mark parity errors (with a 255-0-character sequence)")
+        ("Â«Â«-Â»Â»inpck"       "Enable input parity checking")
+        ("Â«Â«-Â»Â»istrip"      "Clear high (8th) bit of input characters")
+        ("Â«Â«-Â»Â»inlcr"       "Translate newline to carriage return")
+        ("Â«Â«-Â»Â»igncr"       "Ignore carriage return")
+        ("Â«Â«-Â»Â»icrnl"       "Translate carriage return to newline")
+        ("Â«Â«-Â»Â»ixon"        "Enable XON/XOFF flow control")
+        ("Â«Â«-Â»Â»ixoff"       "Enable sending of stop character when the system input buffer is almost full, and start character when it becomes almost empty again")
+        ("Â«Â«-Â»Â»iuclc"       "Translate uppercase characters to lowercase")
+        ("Â«Â«-Â»Â»ixany"       "Allow any character to restart output (only the start character with `-')")
+        ("Â«Â«-Â»Â»imaxbel"     "Enable beeping and not flushing input buffer if a character arrives when the input buffer is full")
+        ("Â«Â«-Â»Â»isig"        "Enable interrupt, quit, and suspend special characters")
+        ("Â«Â«-Â»Â»icanon"      "Enable erase, kill, werase, and rprnt special characters")
+        ("Â«Â«-Â»Â»iexten"      "Enable non-POSIX special characters")
+        ("Â«Â«-Â»Â»echo"        "Echo input characters")
+        ("Â«Â«-Â»Â»echoe"       "Echo erase characters as backspace-space-backspace")
+        ("Â«Â«-Â»Â»echok"       "Echo a newline after a kill character")
+        ("Â«Â«-Â»Â»echonl"      "Echo newline even if not echoing other characters")
+        ("Â«Â«-Â»Â»noflsh"      "Disable flushing after interrupt and quit special characters")
+        ("Â«Â«-Â»Â»xcase"       "Enable input and output of uppercase characters by preceding their lowercase equivalents with `\\', when icanon is set")
+        ("Â«Â«-Â»Â»tostop"      "Stop background jobs that try to write to the terminal")
+        ("Â«Â«-Â»Â»echoprt"     "Echo erased characters backward, between `\\' and '/'")
+        ("Â«Â«-Â»Â»echoctl"     "Echo control characters in hat notation (`^c') instead of literally")
+        ("Â«Â«-Â»Â»echoke"      "Echo the kill special character by erasing each character on the line as indicated by the echoprt and echoe settings, instead of by the echoctl and echok settings")
      )
 ;;; stty-setting:input
 )
@@ -2391,14 +2391,14 @@
     '(description           "Set characteristics of the communcation line between computer and terminal")
     '(separator             " ")
     '(menu
-        ("«number»"         "Set baud rate to «number» (one of (38400 19200 9600 4800 2400 1200 600 300 110))")
-        ("««-»»parenb"      "Generate parity bit in output and expect parity bit in input")
-        ("««-»»parodd"      "Set odd parity (even with `-')")
-        ("««-»»hup"         "Send a hangup signal when the last process closes the tty")
-        ("««-»»cstopb"      "Use two stop bits per character (one with `-')")
-        ("««-»»cread"       "Allow input to be received")
-        ("««-»»clocal"      "Disable modem control signals")
-        ("««-»»crtscts"     "Enable RTS/CTS handshaking")
+        ("Â«numberÂ»"         "Set baud rate to Â«numberÂ» (one of (38400 19200 9600 4800 2400 1200 600 300 110))")
+        ("Â«Â«-Â»Â»parenb"      "Generate parity bit in output and expect parity bit in input")
+        ("Â«Â«-Â»Â»parodd"      "Set odd parity (even with `-')")
+        ("Â«Â«-Â»Â»hup"         "Send a hangup signal when the last process closes the tty")
+        ("Â«Â«-Â»Â»cstopb"      "Use two stop bits per character (one with `-')")
+        ("Â«Â«-Â»Â»cread"       "Allow input to be received")
+        ("Â«Â«-Â»Â»clocal"      "Disable modem control signals")
+        ("Â«Â«-Â»Â»crtscts"     "Enable RTS/CTS handshaking")
         ("cs5"              "Set character size to 5 bits")
         ("cs6"              "Set character size to 6 bits")
         ("cs7"              "Set character size to 7 bits")
@@ -2411,14 +2411,14 @@
     '(description           "Settings affect how the terminal driver transforms the stream of characters sent by the program to the terminal")
     '(separator             " ")
     '(menu
-        ("««-»»opost"       "Postprocess output")
-        ("««-»»olcuc"       "Translate lowercase characters to uppercase")
-        ("««-»»ocrnl"       "Translate carriage return to newline")
-        ("««-»»onlcr"       "Translate newline to carriage return-newline")
-        ("««-»»onocr"       "Do not print carriage returns in the first column")
-        ("««-»»onlret"      "Newline performs a carriage return")
-        ("««-»»ofill"       "Use fill (padding) characters instead of timing for delays")
-        ("««-»»ofdel"       "Use delete characters for fill instead of null characters")
+        ("Â«Â«-Â»Â»opost"       "Postprocess output")
+        ("Â«Â«-Â»Â»olcuc"       "Translate lowercase characters to uppercase")
+        ("Â«Â«-Â»Â»ocrnl"       "Translate carriage return to newline")
+        ("Â«Â«-Â»Â»onlcr"       "Translate newline to carriage return-newline")
+        ("Â«Â«-Â»Â»onocr"       "Do not print carriage returns in the first column")
+        ("Â«Â«-Â»Â»onlret"      "Newline performs a carriage return")
+        ("Â«Â«-Â»Â»ofill"       "Use fill (padding) characters instead of timing for delays")
+        ("Â«Â«-Â»Â»ofdel"       "Use delete characters for fill instead of null characters")
         ("nl1"              "Newline delay style")
         ("nl0"              "Newline delay style")
         ("cr3"              "Carriage return delay style")
@@ -2444,13 +2444,13 @@
     '(separator             " ")
     '(sort)
     '(menu
-        ("min «number»"     "Set the minimum «number» of characters that will satisfy a read until the time value has expired, when -icanon is set")
-        ("time «number»"    "Set the «number» of tenths of a second before reads time out if the min number of characters have not been read, when -icanon is set")
-        ("ispeed «number»"  "Set the input speed  to «number»")
-        ("ospeed «number»"  "Set the output speed to «number»")
-        ("rows «number»"    "Tell the kernel that the terminal has «number» rows")
-        ("cols «number»"    "Tell the kernel that the terminal has «number» columns")
-        ("line «number»"    "Use line discipline «number»")
+        ("min Â«numberÂ»"     "Set the minimum Â«numberÂ» of characters that will satisfy a read until the time value has expired, when -icanon is set")
+        ("time Â«numberÂ»"    "Set the Â«numberÂ» of tenths of a second before reads time out if the min number of characters have not been read, when -icanon is set")
+        ("ispeed Â«numberÂ»"  "Set the input speed  to Â«numberÂ»")
+        ("ospeed Â«numberÂ»"  "Set the output speed to Â«numberÂ»")
+        ("rows Â«numberÂ»"    "Tell the kernel that the terminal has Â«numberÂ» rows")
+        ("cols Â«numberÂ»"    "Tell the kernel that the terminal has Â«numberÂ» columns")
+        ("line Â«numberÂ»"    "Use line discipline Â«numberÂ»")
         ("speed"            "Print the terminal speed")
         ("size"             "Print the number of rows and columns that the kernel thinks the terminal has")
      )
@@ -2460,14 +2460,14 @@
 (lse-define-fill-in "su"
     '(description           "Change user ID or (wihtout argument) become super user ('-' may be used to provide an environment similiar to what the user would expect had the user logged in directly)")
     '(token)
-    '(replacement           "su ««-»» ««name»» ««text»»")
+    '(replacement           "su Â«Â«-Â»Â» Â«Â«nameÂ»Â» Â«Â«textÂ»Â»")
 )
 
 
 (lse-define-fill-in "sum"
     '(description           "Sum computes a 16-bit checksum for each named file, or the standard input if none are given or when a file named `-' is given; it prints the checksum for each file along with the number of blocks in the file (rounded up), and the file name unless no arguments were given")
     '(token)
-    '(replacement           "sum ««sum-option»» ««file-name»»···")
+    '(replacement           "sum Â«Â«sum-optionÂ»Â» Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "sum-option"
@@ -2491,7 +2491,7 @@
     '(description           "tail prints the last part (10 lines by default) of each given file; it reads from standard input if no files are given or when a filename of `-' is encountered")
     '(token)
     '(replacement
-        "tail ««tail-option»»··· ««file-name»»···"
+        "tail Â«Â«tail-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
      )
 )
 
@@ -2499,13 +2499,13 @@
 (lse-define-fill-in "tail-option"
     '(separator             " ")
     '(menu
-        ("--bytes «number»««files-ize-unit»»" "Tail by «number» bytes; «number» is a nonzero integer, optionally followed by one of the following characters to specify a different unit")
-        ("-c «number»««files-ize-unit»»"      "Equivalent to --bytes")
+        ("--bytes Â«numberÂ»Â«Â«files-ize-unitÂ»Â»" "Tail by Â«numberÂ» bytes; Â«numberÂ» is a nonzero integer, optionally followed by one of the following characters to specify a different unit")
+        ("-c Â«numberÂ»Â«Â«files-ize-unitÂ»Â»"      "Equivalent to --bytes")
         ("--follow"         "Loop forever trying to read more characters at the end of the file, on the assumption that the file is growing; ignored if reading from a pipe")
         ("-f"               "Equivalent to --follow")
-        ("--lines «number»" "Tail by «number» lines")
-        ("-n «number»"      "Equivalent to --lines")
-        ("-«number»"        "Equivalent to --lines")
+        ("--lines Â«numberÂ»" "Tail by Â«numberÂ» lines")
+        ("-n Â«numberÂ»"      "Equivalent to --lines")
+        ("-Â«numberÂ»"        "Equivalent to --lines")
         ("--silent"         "Never print filename headers")
         ("-q"               "Equivalent to --silent")
         ("--verbose"        "Always print filename headers")
@@ -2517,7 +2517,7 @@
 (lse-define-fill-in "tac"
     '(description           "tac copies each given file, or the standard input if none are given or when a file name of `-' is encountered, to the standard output with the order of the records reversed;  the records are separated by instances of a string, or a newline if none is given")
     '(token)
-    '(replacement           "tac ««tac-option»»··· «file-name»···")
+    '(replacement           "tac Â«Â«tac-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "tac-option"
@@ -2527,8 +2527,8 @@
         ("-b"                 "Equivalent to --before")
         ("--regex"            "The separator is a regular expression")
         ("-r"                 "Equivalent to --regex")
-        ("--separator «text»" "Use «text» as the record separator")
-        ("-s «text»"          "Equivalent to --separator")
+        ("--separator Â«textÂ»" "Use Â«textÂ» as the record separator")
+        ("-s Â«textÂ»"          "Equivalent to --separator")
      )
 ;;; tac-option
 )
@@ -2537,7 +2537,7 @@
     '(description           "Tar: an archiving program designed to store and extract files from an archive file known as a tar-file")
     '(token)
     '(replacement
-        "tar «tar-function»··· ««tar-option»»··· «file-name»···"
+        "tar Â«tar-functionÂ»Â·Â·Â· Â«Â«tar-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·"
      )
 ;;; tar
 )
@@ -2568,18 +2568,18 @@
     '(separator             " ")
     '(menu
         ("--atime-preserve"                "don't change access times on dumped files")
-        ("--block-size «number»"           "block size of «number» x 512 bytes (default N=20)")
-        ("-b «number»"                     "Equivalent to --block-size")
+        ("--block-size Â«numberÂ»"           "block size of Â«numberÂ» x 512 bytes (default N=20)")
+        ("-b Â«numberÂ»"                     "Equivalent to --block-size")
         ("--read-full-blocks"              "reblock as we read (for reading 4")
         ("-B"                              "Equivalent to --read-full-blocks")
-        ("--directory «directory-name»"    "change to directory «directory-name»")
-        ("-C «directory-name»"             "Equivalent to --directory")
+        ("--directory Â«directory-nameÂ»"    "change to directory Â«directory-nameÂ»")
+        ("-C Â«directory-nameÂ»"             "Equivalent to --directory")
         ("--checkpoint"                    "print directory names while reading the archive")
-        ("--file «name»"                   "use archive file or device «name» (default /dev/rmt0) (name can contain a hostname)")
-        ("-f «name»"                       "Equivalent to --file")
+        ("--file Â«nameÂ»"                   "use archive file or device Â«nameÂ» (default /dev/rmt0) (name can contain a hostname)")
+        ("-f Â«nameÂ»"                       "Equivalent to --file")
         ("--force-local"                   "archive file is local even if has a colon")
-        ("--new-volume-script «file-name»" "run script «file-name» at end of each tape (implies -M)")
-        ("-F «file-name»"                  "Equivalent to --new-volume-script")
+        ("--new-volume-script Â«file-nameÂ»" "run script Â«file-nameÂ» at end of each tape (implies -M)")
+        ("-F Â«file-nameÂ»"                  "Equivalent to --new-volume-script")
         ("--incremental"                   "create/list/extract old GNU-format incremental backup")
         ("-G"                              "Equivalent to --incremental")
         ("--listed-incremental"            "create/list/extract new GNU-format incremental backup")
@@ -2591,18 +2591,18 @@
         ("--ignore-failed-read"            "don't exit with non-zero status on unreadable files")
         ("--keep-old-files"                "keep existing files; don't overwrite them from archive")
         ("-k"                              "Equivalent to --keep-old-files")
-        ("--starting-file «file-name»"     "begin at file «file-name» in the archive")
-        ("-K «file-name»"                  "Equivalent to --starting-file")
+        ("--starting-file Â«file-nameÂ»"     "begin at file Â«file-nameÂ» in the archive")
+        ("-K Â«file-nameÂ»"                  "Equivalent to --starting-file")
         ("--one-file-system"               "stay in local file system when creating an archive")
         ("-l"                              "Equivalent to --one-file-system")
-        ("--tape-length «number»"          "change tapes after writing «number» * 1024 bytes")
-        ("-L «number»"                     "Equivalent to --tape-length")
+        ("--tape-length Â«numberÂ»"          "change tapes after writing Â«numberÂ» * 1024 bytes")
+        ("-L Â«numberÂ»"                     "Equivalent to --tape-length")
         ("--modification-time"             "don't extract file modified time")
         ("-m"                              "Equivalent to --modification-time")
         ("--multi-volume"                  "create/list/extract multi-volume archive")
         ("-M"                              "Equivalent to --multi-volume")
-        ("--after-date «date»"             "only store files newer than «date»")
-        ("-N «date»"                       "Equivalent to --after-date")
+        ("--after-date Â«dateÂ»"             "only store files newer than Â«dateÂ»")
+        ("-N Â«dateÂ»"                       "Equivalent to --after-date")
         ("--portability"                   "write a V7 format archive, rather than ANSI format")
         ("--old-archive"                   "Equivalent to --portability")
         ("-o"                              "Equivalent to --portability")
@@ -2621,29 +2621,29 @@
         ("--same-owner"                    "create extracted files with the same ownership")
         ("--sparse"                        "handle sparse files efficiently")
         ("-S"                              "Equivalent to --sparse")
-        ("--files-from «file-name»"        "get names to extract or create from file «file-name»")
-        ("-T «file-name»"                  "Equivalent to --files-from")
+        ("--files-from Â«file-nameÂ»"        "get names to extract or create from file Â«file-nameÂ»")
+        ("-T Â«file-nameÂ»"                  "Equivalent to --files-from")
         ("--null"                          "-T reads null-terminated names, disable -C")
         ("--totals"                        "print total bytes written with --create")
         ("--verbose"                       "verbosely list files processed")
         ("-v"                              "Equivalent to --verbose")
-        ("--label «name»"                  "create archive with volume name «name»")
-        ("-V «name»"                       "Equivalent to --label")
+        ("--label Â«nameÂ»"                  "create archive with volume name Â«nameÂ»")
+        ("-V Â«nameÂ»"                       "Equivalent to --label")
         ("--version"                       "print tar program version number")
         ("--confirmation"                  "ask for confirmation for every action")
         ("-w"                              "Equivalent to --confirmation")
         ("--verify"                        "attempt to verify the archive after writing it")
         ("-W"                              "Equivalent to --verify")
-        ("--exclude «file-name»"           "exclude file «file-name»")
-        ("--exclude-from «file-name»"      "exclude files listed in «file-name»")
-        ("-X «file-name»"                  "Equivalent to --exclude-from")
+        ("--exclude Â«file-nameÂ»"           "exclude file Â«file-nameÂ»")
+        ("--exclude-from Â«file-nameÂ»"      "exclude files listed in Â«file-nameÂ»")
+        ("-X Â«file-nameÂ»"                  "Equivalent to --exclude-from")
         ("--compress"                      "filter the archive through compress")
         ("-Z"                              "Equivalent to --compress")
         ("--gzip"                          "filter the archive through gzip")
         ("-z"                              "Equivalent to --gzip")
-        ("--use-compress-program «name»"   "filter the archive through compression program «name» (which must accepted)")
+        ("--use-compress-program Â«nameÂ»"   "filter the archive through compression program Â«nameÂ» (which must accepted)")
         ("--block-compress"                "block the output of compression program for tapes")
-        ("-«number»«tar-lmh»"              "specify drive and density («number» in 0 .. 7)")
+        ("-Â«numberÂ»Â«tar-lmhÂ»"              "specify drive and density (Â«numberÂ» in 0 .. 7)")
      )
 ;;; tar-option
 )
@@ -2660,7 +2660,7 @@
 (lse-define-fill-in "tee"
     '(description           "tee copies the standard input to the standard output and any files given as arguments")
     '(token)
-    '(replacement           "tee ««tee-option»»··· ««file-name»»···")
+    '(replacement           "tee Â«Â«tee-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "tee-option"
@@ -2677,7 +2677,7 @@
 (lse-define-fill-in "touch"
     '(description           "touch changes the access and modification times of each given file to the current time; Files that do not exist are created empty")
     '(token)
-    '(replacement           "touch ««touch-option»»··· «file-name»···")
+    '(replacement           "touch Â«Â«touch-optionÂ»Â»Â·Â·Â· Â«file-nameÂ»Â·Â·Â·")
 )
 
 (lse-define-fill-in "touch-option"
@@ -2687,14 +2687,14 @@
         ("-a"                      "Equivalent to --time=access")
         ("--no-create"             "Do not create files that do not exist")
         ("-c"                      "Equivalent to --no-create")
-        ("--date «time»"           "Use «time» (which can be in various common formats) instead of the current time; it can contain month names, timezones, `am' and `pm', etc")
-        ("-d «time»"               "Equivalent to --date")
+        ("--date Â«timeÂ»"           "Use Â«timeÂ» (which can be in various common formats) instead of the current time; it can contain month names, timezones, `am' and `pm', etc")
+        ("-d Â«timeÂ»"               "Equivalent to --date")
         ("-f"                      "Ignored; for compatibility with BSD versions of touch")
         ("--time=modify"           "Change the modification time only")
         ("-m"                      "Equivalent to --time=modify")
-        ("--file «file-name»"      "Use the times of «file-name» instead of the current time")
-        ("-r «file-name»"          "Equivalent to --file")
-        ("-t «date-command-value»" "Use the argument (months, days, hours, minutes, optional century and years) instead of the current time")
+        ("--file Â«file-nameÂ»"      "Use the times of Â«file-nameÂ» instead of the current time")
+        ("-r Â«file-nameÂ»"          "Equivalent to --file")
+        ("-t Â«date-command-valueÂ»" "Use the argument (months, days, hours, minutes, optional century and years) instead of the current time")
         ("--help"                  "Print a usage message on standard output and exit successfully")
         ("--version"               "Print version information on standard output then exit successfully")
      )
@@ -2704,12 +2704,12 @@
 (lse-define-fill-in "tput"
     '(description           "Retrieve and display control sequences for a particular terminal (type)")
     '(token)
-    '(replacement           "tput ««tput-option»» «tput-cmd»")
+    '(replacement           "tput Â«Â«tput-optionÂ»Â» Â«tput-cmdÂ»")
 )
 
 (lse-define-fill-in "tput-option"
     '(menu
-        ("-T «text»"     "Terminal type «text»")
+        ("-T Â«textÂ»"     "Terminal type Â«textÂ»")
      )
 )
 
@@ -2721,23 +2721,23 @@
     '(description           "Translate or delete characters from stream")
     '(token)
     '(replacement
-        "tr ««tr-option»» «tr-char-set-1» ««tr-char-set-2»»"
+        "tr Â«Â«tr-optionÂ»Â» Â«tr-char-set-1Â» Â«Â«tr-char-set-2Â»Â»"
      )
 ;;; tr
 )
 
 (lse-define-fill-in "tr-char-set-1"
     '(description           "Character set to replaced or deleted")
-    '(replacement           "'«tr-char-set-item»···'")
+    '(replacement           "'Â«tr-char-set-itemÂ»Â·Â·Â·'")
 )
 
 (lse-define-fill-in "tr-char-set-2"
     '(description           "Character set to be substituted for corresponding character from tr-char-set-1 or condensed")
-    '(replacement           "'««tr-char-set-item»»···'")
+    '(replacement           "'Â«Â«tr-char-set-itemÂ»Â»Â·Â·Â·'")
 )
 
 (lse-define-fill-in "tr-char-set-class"
-    '(description           "Expands to all of the characters in the (predefined) class named «tr-char-set-class»")
+    '(description           "Expands to all of the characters in the (predefined) class named Â«tr-char-set-classÂ»")
     '(separator             "")
     '(replacement-leading   "[:")
     '(replacement-trailer   ":]")
@@ -2772,7 +2772,7 @@
         ("r"           "Control-M: carriage-return")
         ("t"           "Control-I: horizontal tab")
         ("v"           "Control-K: vertical   tab")
-        ("«number»"    "The character with the value given by «number», which is 1 to 3 octal digits")
+        ("Â«numberÂ»"    "The character with the value given by Â«numberÂ», which is 1 to 3 octal digits")
         ("\\"           "A backslash")
      )
 ;;; tr-char-set-class
@@ -2782,8 +2782,8 @@
     '(separator             "")
     '(menu
         tr-char-set-class
-        ("«char»-«char»"        "Range of all characters in scending order")
-        ("[«char»*««number»»]"  "Expands to «number» copies of «char» (if «number» is omitted in tr-char-set-2, expands to as many characters as necessary)")
+        ("Â«charÂ»-Â«charÂ»"        "Range of all characters in scending order")
+        ("[Â«charÂ»*Â«Â«numberÂ»Â»]"  "Expands to Â«numberÂ» copies of Â«charÂ» (if Â«numberÂ» is omitted in tr-char-set-2, expands to as many characters as necessary)")
         tr-char-set-control-char
      )
 ;;; tr-char-set-item
@@ -2805,20 +2805,20 @@
 )
 
 (lse-define-fill-in "tset"
-    '(description           "Initialize terminal ««name»»: tset first determines the type of terminal that you are using")
+    '(description           "Initialize terminal Â«Â«nameÂ»Â»: tset first determines the type of terminal that you are using")
     '(token)
-    '(replacement           "teset ««tset-option»»··· ««name»»")
+    '(replacement           "teset Â«Â«tset-optionÂ»Â»Â·Â·Â· Â«Â«nameÂ»Â»")
 )
 
 (lse-define-fill-in "tset-option"
     '(separator             " ")
     '(menu
         ("-"            "The terminal type is displayed to the standard output, and the terminal is not initialized in any way")
-        ("-e «char»"    "Set the erase character to «char»")
+        ("-e Â«charÂ»"    "Set the erase character to Â«charÂ»")
         ("-I"           "Do not send the terminal or tab initialization strings to the terminal")
-        ("-i «char»"    "Set the interrupt character to «char»")
-        ("-k «char»"    "Set the line kill character to «char»")
-        ("-m «text»"    "Specify a mapping «text» from a port type to a terminal")
+        ("-i Â«charÂ»"    "Set the interrupt character to Â«charÂ»")
+        ("-k Â«charÂ»"    "Set the line kill character to Â«charÂ»")
+        ("-m Â«textÂ»"    "Specify a mapping Â«textÂ» from a port type to a terminal")
         ("-r"           "Print the terminal type to the standard error output")
         ("-s"           "Print the sequence of shell commands to initialize the environment variables TERM and TERMCAP to the standard output")
         ("-Q"           "Don't display any values for the erase, interrupt and line kill characters")
@@ -2829,7 +2829,7 @@
 (lse-define-fill-in "tty"
     '(description           "print the path of the terminal connected to standard input; Its exit status is: 0 if the standard input is a tty, 1 if the standard input is not a tty, 2 if given incorrect arguments")
     '(token)
-    '(replacement           "tty ««tty-option»»")
+    '(replacement           "tty Â«Â«tty-optionÂ»Â»")
 )
 
 (lse-define-fill-in "tty-option"
@@ -2846,9 +2846,9 @@
     '(description           "Dismount a file-system")
     '(token)
     '(menu
-        ("umount «directory-name»"          "Dismount the file-system mounted on «directory-name»")
-        ("umount «device»"                  "Dismount the file-system mounted on «device»")
-        ("umount -a ««mount-type-option»»"  "Dismount all devices in /etc/fstab of specified type(s) (default: all types)")
+        ("umount Â«directory-nameÂ»"          "Dismount the file-system mounted on Â«directory-nameÂ»")
+        ("umount Â«deviceÂ»"                  "Dismount the file-system mounted on Â«deviceÂ»")
+        ("umount -a Â«Â«mount-type-optionÂ»Â»"  "Dismount all devices in /etc/fstab of specified type(s) (default: all types)")
      )
 ;;; umount
 )
@@ -2856,7 +2856,7 @@
 (lse-define-fill-in "uname"
     '(description           "uname prints information about the machine and operating system it is run on. If no options are given, uname acts as if the -s option were given. If multiple options are given or the -a option is given, the selected information is printed in the order `snrvm' with a space between items.")
     '(token)
-    '(replacement           "uname ««uname-option»»···")
+    '(replacement           "uname Â«Â«uname-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "uname-option"
@@ -2883,7 +2883,7 @@
     '(description           "remove duplicate lines from a sorted file; optionally shows only lines that appear exactly once, or lines that appear more than once")
     '(token)
     '(replacement
-        "uniq ««uniq-option»»··· ««source-file»» ««target-file»»"
+        "uniq Â«Â«uniq-optionÂ»Â»Â·Â·Â· Â«Â«source-fileÂ»Â» Â«Â«target-fileÂ»Â»"
      )
 ;;; uniq
 )
@@ -2897,12 +2897,12 @@
         ("-d"                     "Equivalent to --repeated")
         ("--count"                "Print the number of times each line occurred along with the line")
         ("-c"                     "Equivalent to --count")
-        ("--skip-fields=«number»" "In this option, «number» is an integer representing the number of fields to skip over before checking for uniqueness")
-        ("-«number»"              "Equivalent to --skip-fields=«number»")
-        ("+skip-chars=«number»"   "In this option, «number» is an integer represent the number of characters to skip over before checking for uniqueness")
-        ("-s «number»"            "Equivalent to +skip-chars=«number»")
-        ("+check-chars=«number»"  "Specify the «number» of characters to compare in the lines, after skipping any specified fields and characters")
-        ("-w «number»"            "Equivalent to +check-chars=«number»")
+        ("--skip-fields=Â«numberÂ»" "In this option, Â«numberÂ» is an integer representing the number of fields to skip over before checking for uniqueness")
+        ("-Â«numberÂ»"              "Equivalent to --skip-fields=Â«numberÂ»")
+        ("+skip-chars=Â«numberÂ»"   "In this option, Â«numberÂ» is an integer represent the number of characters to skip over before checking for uniqueness")
+        ("-s Â«numberÂ»"            "Equivalent to +skip-chars=Â«numberÂ»")
+        ("+check-chars=Â«numberÂ»"  "Specify the Â«numberÂ» of characters to compare in the lines, after skipping any specified fields and characters")
+        ("-w Â«numberÂ»"            "Equivalent to +check-chars=Â«numberÂ»")
      )
 ;;; uniq-option
 )
@@ -3016,7 +3016,7 @@
 (lse-define-fill-in "wc"
     '(description           "print the number of bytes, words, and lines in files")
     '(token)
-    '(replacement           "wc ««wc-option»»··· ««file-name»»···")
+    '(replacement           "wc Â«Â«wc-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "wc-option"
@@ -3035,7 +3035,7 @@
 (lse-define-fill-in "who"
     '(description           "Show active users")
     '(token)
-    '(replacement           "who ««who-option»»···")
+    '(replacement           "who Â«Â«who-optionÂ»Â»Â·Â·Â·")
 )
 
 (lse-define-fill-in "who-option"
@@ -3057,9 +3057,9 @@
 )
 
 (lse-define-fill-in "write"
-    '(description           "Write allows you to communicate with user «name», by copying lines from your terminal to hers")
+    '(description           "Write allows you to communicate with user Â«nameÂ», by copying lines from your terminal to hers")
     '(token)
-    '(replacement           "write «name» ««write-tty-name»»")
+    '(replacement           "write Â«nameÂ» Â«Â«write-tty-nameÂ»Â»")
 )
 
 (lse-define-fill-in "write-tty-name"
@@ -3070,7 +3070,7 @@
   '(description   "Equivalent to gzip -c. It uncompresses either a a list of files on the command line or its standard input and writes the uncompressed data on standard output")
   '(token)
   '(replacement
-      "zcat ««gzip-option»»··· ««file-name»»···"
+      "zcat Â«Â«gzip-optionÂ»Â»Â·Â·Â· Â«Â«file-nameÂ»Â»Â·Â·Â·"
    )
 ; zcat
 )

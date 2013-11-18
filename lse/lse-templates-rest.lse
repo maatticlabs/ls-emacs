@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 ;;;; Copyright (C) 2002 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.cluster
@@ -12,7 +12,7 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    10-Sep-2002 (CT) Creation
-;;;;    ««revision-date»»···
+;;;;    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 ;;;;--
 ;;;;
 
@@ -20,9 +20,9 @@
 (lse-define-fill-in "rest-file"
     '(description           "Root fill-in for ReST language")
     '(replacement
-        ".. #««header-comment»»"
+        ".. #Â«Â«header-commentÂ»Â»"
         ""
-        "««rest-item»»···"
+        "Â«Â«rest-itemÂ»Â»Â·Â·Â·"
      )
 ;;; rest-file
 )
@@ -79,12 +79,12 @@
         (setq rest:bullet-type
               (or
                 (get-text-property (point) 'rest-bullet-type)
-                "«rest-bullet-type»"
+                "Â«rest-bullet-typeÂ»"
               )
         )
      )
     '(replacement
-        (insert rest:bullet-type) & " «rest-text»"
+        (insert rest:bullet-type) & " Â«rest-textÂ»"
         ""
      )
 ;;; rest-bullet-item
@@ -131,7 +131,7 @@
 ;;; 10-Sep-2002
 (lse-define-fill-in "rest@bullet@list"
     '(replacement
-        "«rest-bullet-item»···"
+        "Â«rest-bullet-itemÂ»Â·Â·Â·"
      )
 ;;; rest-bullet-list
 )
@@ -152,7 +152,7 @@
     '(token)
     '(token                 "citation-definition")
     '(description           "Define a citation")
-    '(replacement           ".. «rest-citation-label» «rest-text»")
+    '(replacement           ".. Â«rest-citation-labelÂ» Â«rest-textÂ»")
 ;;; rest-citation-definition
 )
 
@@ -169,7 +169,7 @@
     '(token)
     '(token                 "citation-reference")
     '(description           "Refer to a citation")
-    '(replacement           "«rest-citation-label»_")
+    '(replacement           "Â«rest-citation-labelÂ»_")
 ;;; rest-citation-reference
 )
 
@@ -180,7 +180,7 @@
     '(description
      "Comment which isn't interpreted as marked-ip text"
      )
-    '(replacement           ".. # «text»")
+    '(replacement           ".. # Â«textÂ»")
 ;;; rest-comment
 )
 
@@ -197,8 +197,8 @@
     '(token                 "definition-list")
     '(description           "Definition list")
     '(replacement
-        "«rest-definition-term» ««rest-definition-classifier»»"
-        @ «text-block»
+        "Â«rest-definition-termÂ» Â«Â«rest-definition-classifierÂ»Â»"
+        @ Â«text-blockÂ»
         ""
      )
 ;;; rest-definition-list
@@ -217,7 +217,7 @@
     '(token                 "num-item")
     '(description           "One item in a enumerated list")
     '(replacement
-        "«rest-enumeration-tag» «rest-text»"
+        "Â«rest-enumeration-tagÂ» Â«rest-textÂ»"
         ""
      )
 ;;; rest-enumerated-item
@@ -229,7 +229,7 @@
     '(token                 "enumerated-list")
     '(description           "Enumerated list")
     '(replacement
-        "«rest-enumerated-item»···"
+        "Â«rest-enumerated-itemÂ»Â·Â·Â·"
      )
 ;;; rest-enumerated-list
 )
@@ -238,15 +238,15 @@
 (lse-define-fill-in "rest-enumeration-tag"
     '(auto-expand)
     '(menu
-        ("«digit»."        "1., 2., ...")
-        ("«digit»)"        "1), 2), ...")
-        ("(«digit»)"       "(1), (2), ...")
-        ("«letter-lc»."    "a., b., ...")
-        ("«letter-lc»)"    "a), b), ...")
-        ("(«letter-lc»)"   "(a), (b), ...")
-        ("«letter-uc»."    "A., B., ...")
-        ("«letter-uc»)"    "A), B), ...")
-        ("(«letter-uc»)"   "(A), (B), ...")
+        ("Â«digitÂ»."        "1., 2., ...")
+        ("Â«digitÂ»)"        "1), 2), ...")
+        ("(Â«digitÂ»)"       "(1), (2), ...")
+        ("Â«letter-lcÂ»."    "a., b., ...")
+        ("Â«letter-lcÂ»)"    "a), b), ...")
+        ("(Â«letter-lcÂ»)"   "(a), (b), ...")
+        ("Â«letter-ucÂ»."    "A., B., ...")
+        ("Â«letter-ucÂ»)"    "A), B), ...")
+        ("(Â«letter-ucÂ»)"   "(A), (B), ...")
      )
 ;;; rest-enumeration-tag
 )
@@ -265,7 +265,7 @@
     '(token)
     '(token                 "footnote-definition")
     '(description           "Defines a footnote")
-    '(replacement           ".. [#««rest-fn-label»»] «rest-text»")
+    '(replacement           ".. [#Â«Â«rest-fn-labelÂ»Â»] Â«rest-textÂ»")
 ;;; rest-footnote-definition
 )
 
@@ -276,7 +276,7 @@
     '(description           "Refer to footnote")
     '(menu
          ("[#]_"                  "Plain auto-numbered footnote reference")
-         ("[#««rest-fn-label»»]_" "Labelled auto-numbered footnote reference")
+         ("[#Â«Â«rest-fn-labelÂ»Â»]_" "Labelled auto-numbered footnote reference")
      )
 ;;; rest-footnote-reference
 )
@@ -306,7 +306,7 @@
      )
     '(replacement
         @ rest-hyperlink-target-name
-        & "http://«text»"
+        & "http://Â«textÂ»"
      )
 ;;; rest-hyperlink-target-external
 )
@@ -318,13 +318,13 @@
     '(description
       "A internal hyperlink allows linking within a document"
      )
-    '(replacement           @ rest-hyperlink-target-name "" "«text»")
+    '(replacement           @ rest-hyperlink-target-name "" "Â«textÂ»")
 ;;; rest-hyperlink-target-internal
 )
 
 ;;; 11-Sep-2002
 (lse-define-fill-in "rest-hyperlink-target-name"
-    '(replacement           ".. _«rest-reference»: ")
+    '(replacement           ".. _Â«rest-referenceÂ»: ")
 ;;; rest-hyperlink-target-name
 )
 
@@ -349,8 +349,8 @@
 ;;; 11-Sep-2002
 (lse-define-fill-in "rest-reference"
     '(menu
-       ("«text»"     "A reference name")
-       ("`«text»`"   "A reference phrase")
+       ("Â«textÂ»"     "A reference name")
+       ("`Â«textÂ»`"   "A reference phrase")
      )
 ;;; rest-reference
 )
@@ -373,9 +373,9 @@
     '(token                 "section")
     '(description           "Start a new section")
     '(replacement
-        "«rest-section-title»"
+        "Â«rest-section-titleÂ»"
         ""
-        "«rest-item»"
+        "Â«rest-itemÂ»"
         ""
      )
 ;;; rest-section
@@ -395,9 +395,9 @@
     '(token                 "subsection")
     '(description           "Start a new subsection")
     '(replacement
-        "«rest-subsection-title»"
+        "Â«rest-subsection-titleÂ»"
         ""
-        "«rest-item»"
+        "Â«rest-itemÂ»"
         ""
      )
 ;;; rest-subsection
@@ -416,9 +416,9 @@
     '(token                 "subsubsection")
     '(description           "Start a new subsubsection")
     '(replacement
-        "«rest-subsubsection-title»"
+        "Â«rest-subsubsection-titleÂ»"
         ""
-        "«rest-item»"
+        "Â«rest-itemÂ»"
         ""
      )
 ;;; rest-subsubsection-title
@@ -439,5 +439,5 @@
 ;;; rest-text
 )
 
-; ««lse-define-fill-in»»···
+; Â«Â«lse-define-fill-inÂ»Â»Â·Â·Â·
 ;;; End of lse-templates-rest.lse

@@ -1,4 +1,4 @@
-;-*- coding: iso-8859-15; -*-
+;-*- coding: utf-8 -*-
 
 (lse-define-fill-in "Exception:args" 
   '(description           "Argument 1 of Exception")
@@ -10,7 +10,7 @@
 (lse-define-fill-in "Exception(args)" 
   '(description           "Create a Exception object")
   '(token                 "string.Exception")
-  '(replacement           "string.Exception (««Exception:args»»···)")
+  '(replacement           "string.Exception (Â«Â«Exception:argsÂ»Â»Â·Â·Â·)")
 ;;; Exception(args)
 )
 
@@ -112,7 +112,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.capwords («string.capwords:s», ««string.capwords:sep»»)")
+  '(replacement           "string.capwords (Â«string.capwords:sÂ», Â«Â«string.capwords:sepÂ»Â»)")
 ;;; string.capwords
 )
 
@@ -155,7 +155,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.center («string.center:s», «string.center:width»)")
+  '(replacement           "string.center (Â«string.center:sÂ», Â«string.center:widthÂ»)")
 ;;; string.center
 )
 
@@ -210,7 +210,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.count («string.count:s», «string.count:sub», ««string.count:i»», ««string.count:last»»)")
+  '(replacement           "string.count (Â«string.count:sÂ», Â«string.count:subÂ», Â«Â«string.count:iÂ»Â», Â«Â«string.count:lastÂ»Â»)")
 ;;; string.count
 )
 
@@ -253,7 +253,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.expandtabs («string.expandtabs:s», ««string.expandtabs:tabsize»»)")
+  '(replacement           "string.expandtabs (Â«string.expandtabs:sÂ», Â«Â«string.expandtabs:tabsizeÂ»Â»)")
 ;;; string.expandtabs
 )
 
@@ -329,7 +329,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.index («string.index:s», «string.index:sub», ««string.index:i»», ««string.index:last»»)")
+  '(replacement           "string.index (Â«string.index:sÂ», Â«string.index:subÂ», Â«Â«string.index:iÂ»Â», Â«Â«string.index:lastÂ»Â»)")
 ;;; string.index
 )
 
@@ -404,7 +404,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.ljust («string.ljust:s», «string.ljust:width»)")
+  '(replacement           "string.ljust (Â«string.ljust:sÂ», Â«string.ljust:widthÂ»)")
 ;;; string.ljust
 )
 
@@ -528,7 +528,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.rindex («string.rindex:s», «string.rindex:sub», ««string.rindex:i»», ««string.rindex:last»»)")
+  '(replacement           "string.rindex (Â«string.rindex:sÂ», Â«string.rindex:subÂ», Â«Â«string.rindex:iÂ»Â», Â«Â«string.rindex:lastÂ»Â»)")
 ;;; string.rindex
 )
 
@@ -571,7 +571,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.rjust («string.rjust:s», «string.rjust:width»)")
+  '(replacement           "string.rjust (Â«string.rjust:sÂ», Â«string.rjust:widthÂ»)")
 ;;; string.rjust
 )
 
@@ -705,7 +705,7 @@
 	""
    )
   '(token)
-  '(replacement           "string.zfill («string.zfill:x», «string.zfill:width»)")
+  '(replacement           "string.zfill (Â«string.zfill:xÂ», Â«string.zfill:widthÂ»)")
 ;;; string.zfill
 )
 
