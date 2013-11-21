@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -174,6 +174,7 @@
 ;;;;                     `lse-tpu:goto-next-occurrence-current-char`
 ;;;;     2-Jul-2012 (CT) Bind `lse-copy-current-word`,
 ;;;;                     `lse-copy-current-bs-word`
+;;;;    21-Nov-2013 (CT) Add bindings for typographic quotes `“`, `‘`, `‚`, `„`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -446,6 +447,10 @@
   (global-set-key  ","               'lse-insert-comma)
   (global-set-key  ";"               'lse-insert-semicolon)
   (global-set-key  "\""              'lse-insert-dquotes)
+  (global-set-key  "“"               'lse-insert-tdquotes)
+  (global-set-key  "‘"               'lse-insert-tsquotes)
+  (global-set-key  "„"               'lse-insert-tgdquotes)
+  (global-set-key  "‚"               'lse-insert-tgsquotes)
 ; lse-tpu:define-electric-inserts
 )
 
@@ -672,6 +677,10 @@
   (global-set-key [gold ?\ ]          'lse-align-to-next-word)
   (global-set-key [gold ?\"]          'self-insert-command)
   (global-set-key [gold ?\']          'lse-insert-squotes)
+  (global-set-key [gold ?“]           'self-insert-command)
+  (global-set-key [gold ?‘]           'self-insert-command)
+  (global-set-key [gold ?„]           'self-insert-command)
+  (global-set-key [gold ?‚]           'self-insert-command)
   (global-set-key [gold ?\(]          'self-insert-command)
   (global-set-key [gold ?\)]          'backward-sexp)
   (global-set-key [gold ?\;]          'self-insert-command)

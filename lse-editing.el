@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -98,6 +98,8 @@
 ;;;;                     `lse-tpu:curr-word-tail-pos`
 ;;;;    25-Feb-2012 (CT) Change `lse-indent-line-by-word` slightly
 ;;;;     2-Jul-2012 (CT) Add `lse-copy-current-word`, `lse-copy-current-bs-word`
+;;;;    21-Nov-2013 (CT) Add `lse-insert-tdquotes`, `lse-remove-tdquotes` and
+;;;;                     friends (typographic quotes: `“`, `‘`, `‚`, `„`)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -248,6 +250,70 @@
   (interactive)
   (lse-tpu:de-enclose-selection "'" "'")
 ; lse-remove-squotes
+)
+
+;;; 21-Nov-2013
+(defun lse-insert-tdquotes ()
+  "Insert balanced typographic double quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:enclose-selection "“" "”")
+; lse-insert-tdquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-remove-tdquotes ()
+  "Remove balanced typographic double quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:de-enclose-selection "“" "”")
+; lse-remove-tdquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-insert-tsquotes ()
+  "Insert balanced typographic single quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:enclose-selection "‘" "’")
+; lse-insert-tsquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-remove-tsquotes ()
+  "Remove balanced typographic single quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:de-enclose-selection "‘" "’")
+; lse-remove-tsquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-insert-tgdquotes ()
+  "Insert balanced typographic german double quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:enclose-selection "„" "“")
+; lse-insert-tgdquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-remove-tgdquotes ()
+  "Remove balanced typographic german double quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:de-enclose-selection "„" "“")
+; lse-remove-tgdquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-insert-tgsquotes ()
+  "Insert balanced typographic german single quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:enclose-selection "‚" "‘")
+; lse-insert-tgsquotes
+)
+
+;;; 21-Nov-2013
+(defun lse-remove-tgsquotes ()
+  "Remove balanced typographic german single quotes (around selection or cursor)"
+  (interactive)
+  (lse-tpu:de-enclose-selection "‚" "‘")
+; lse-remove-tgsquotes
 )
 
 ;;; 10-Jun-1998
