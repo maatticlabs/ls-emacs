@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -123,17 +123,16 @@
 
 ;;;  3-Oct-2007
 (defvar lse-keys:function-key-map-bindings
-    '( ;; if you change this, please update the copy in swing-default.el, too
+    '( ;; if you change this, please update the copy in lse-config.el, too
+       ([pause]         [gold])
        ([scroll]        [blue]); Windows NT
        ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
+       ([print]         [red])
        ([f12]           [do])
-       ([pause]         [gold])
        ([s-pause]       [gray])
-       ([s-print]       [green])
-       ([f11]           [help])
        ([s-scroll]      [pink])
        ([s-scroll_lock] [pink])
-       ([print]         [red])
+       ([s-print]       [green])
      )
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."
@@ -341,4 +340,3 @@
 (mapc (function (lambda (x) (apply 'define-key function-key-map x)))
   lse-keys:function-key-map-bindings
 )
-

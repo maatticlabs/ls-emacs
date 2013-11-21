@@ -56,25 +56,23 @@
 
 (defvar lse-keys:function-key-map-bindings
     '( ;; Legacy bindings
-       ([kp-f2]         [blue])
-       ([f16]           [do])
        ([kp-f1]         [gold])
-       ([s-kp-f1]       [gray])
-       ([s-f17]         [green])
-       ([f15]           [help])
-       ([s-kp-f2]       [pink])
+       ([kp-f2]         [blue])
        ([f17]           [red])
+       ([f16]           [do])
+       ([s-kp-f1]       [gray])
+       ([s-kp-f2]       [pink])
+       ([s-f17]         [green])
        ;; Bindings copied from lse-keys-v19.el
+       ([pause]         [gold])
        ([scroll]        [blue]); Windows NT
        ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
+       ([print]         [red])
        ([f12]           [do])
-       ([pause]         [gold])
        ([s-pause]       [gray])
-       ([s-print]       [green])
-       ([f11]           [help])
        ([s-scroll]      [pink])
        ([s-scroll_lock] [pink])
-       ([print]         [red])
+       ([s-print]       [green])
      )
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."
