@@ -59,6 +59,8 @@
 ;;;;    16-May-2013 (CT) Use 'mode-line, not 'modeline
 ;;;;                     (the latter gives error in emacs-24.3-r1)
 ;;;;    16-May-2013 (CT) Set background of 'region to "lightgoldenrod2"
+;;;;    22-Nov-2013 (CT) Add `lse-face:figure-space`, `lse-face:narrow-nbsp`,
+;;;;                     `lse-face:thin-space`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -74,6 +76,21 @@
 
 (if (not lse-emacsX-p)
     t
+  (defface lse-face:figure-space
+    '((t :background "dark magenta" :inherit escape-glyph :underline t)
+     )
+    "Face for `figure space` character"
+  )
+  (defface lse-face:narrow-nbsp
+    '((t :background "coral" :inherit escape-glyph :underline t)
+     )
+    "Face for `narrow non breaking space` character"
+  )
+  (defface lse-face:thin-space
+    '((t :background "magenta" :inherit escape-glyph :underline t)
+     )
+    "Face for `thin space` character"
+  )
   (lse-face:define 'lse-face:open-replacement            "Yellow" "Red")
   (lse-face:define 'lse-face:current-fill-in             "Yellow")
   (lse-face:define 'lse-face:current-fill-in-terminal    nil      "Orange")

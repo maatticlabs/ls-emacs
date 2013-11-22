@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -68,6 +68,7 @@
 ;;;;     5-Aug-2009 (CT) Quote added to `lse-face:line-too-long`
 ;;;;    10-Nov-2010 (CT) Optional argument `buffer` added to `lse-revert-buffer`
 ;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
+;;;;    22-Nov-2013 (CT) Add `lse-face:thin-space` to `lse-buffer:initialize`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -315,7 +316,12 @@
   (add-hook 'post-command-hook 'lse-buffer:initialize-hack-19.30+)
   ;; mark overlong lines ;; 29-Jul-2009
   (font-lock-add-keywords nil
-    '(("^[^\n]\\{78\\}\\(.*\\)$" 1 'lse-face:line-too-long)))
+    '((" " . 'lse-face:figure-space)
+      (" " . 'lse-face:narrow-nbsp)
+      (" " . 'lse-face:thin-space)
+      ("^[^\n]\\{78\\}\\(.*\\)$" 1 'lse-face:line-too-long)
+     )
+  )
 )
 
 ;;;  2-Oct-1996
