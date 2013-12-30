@@ -175,6 +175,7 @@
 ;;;;     2-Jul-2012 (CT) Bind `lse-copy-current-word`,
 ;;;;                     `lse-copy-current-bs-word`
 ;;;;    21-Nov-2013 (CT) Add bindings for typographic quotes `“`, `‘`, `‚`, `„`
+;;;;    30-Dec-2013 (CT) Replace bindings for `split-window-below`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -637,6 +638,7 @@
   (lse-replace-binding-for-all-keys 'set-visited-file-name     'lse-change-output-file)
   (lse-replace-binding-for-all-keys 'shell-command             'lse-shell-command)
   (lse-replace-binding-for-all-keys 'split-window              'lse-split-window)
+  (lse-replace-binding-for-all-keys 'split-window-below        'lse-split-window)
   (lse-replace-binding-for-all-keys 'split-window-horizontally 'lse-split-window-horizontally)
   (lse-replace-binding-for-all-keys 'split-window-vertically   'lse-split-window)
   (lse-replace-binding-for-all-keys 'switch-to-buffer          'lse-goto-buffer)
