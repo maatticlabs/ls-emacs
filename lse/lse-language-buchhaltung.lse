@@ -35,3 +35,6 @@
 
 ;;; 11-Oct-1996
 (define-key lse-buchhaltung-mode-map [tab] 'lse-expand-or-goto-next)
+
+;;; 30-Dec-2013
+(define-key lse-buchhaltung-mode-map [return] 'lse-goto-next-fill-in)

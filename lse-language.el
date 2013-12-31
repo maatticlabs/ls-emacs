@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-language:el lse_lngg:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -215,10 +215,12 @@
          (insert "\n")
          (goto-char 1)
          (lse-goto-next-fill-in)
-         (if lse-language:expand-initial (lse-expand))
-         (save-excursion
-           (goto-char (point-max))
-           (insert "\n\n")
+         (if lse-language:expand-initial
+             (lse-expand)
+           (save-excursion
+             (goto-char (point-max))
+             (insert "\n\n")
+           )
          )
          (goto-char 1)
          (lse-goto-next-fill-in)
