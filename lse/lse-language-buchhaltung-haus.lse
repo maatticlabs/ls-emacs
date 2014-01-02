@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-
 (lse-language:define "buchhaltung-haus"
     '(
         (lse-language:initial-fill-in      "«buchhaltung-file»")
@@ -28,9 +27,12 @@
 ;;;
 ;;; buchhaltung mode
 ;;;
-(defun lse-buchhaltung-haus-mode ()
-  (interactive)
+(define-derived-mode lse-buchhaltung-haus-mode lse-buchhaltung-mode
+                     "Haus-Buchhaltung"
+  "Major mode for accounting.
+\\{lse-buchhaltung-mode-map}"
+  (if (lse_inside_fill-in)
+      (erase-buffer)
+  )
   (lse-language:use "buchhaltung-haus")
-  (local-set-key [tab] 'lse-expand-or-goto-next)
 )
-
