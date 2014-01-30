@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu-keys-v19:el lse_tpk9:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -176,6 +176,7 @@
 ;;;;                     `lse-copy-current-bs-word`
 ;;;;    21-Nov-2013 (CT) Add bindings for typographic quotes `“`, `‘`, `‚`, `„`
 ;;;;    30-Dec-2013 (CT) Replace bindings for `split-window-below`
+;;;;    30-Jan-2014 (CT) Add binding for `recenter` (to `super-r`)
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -463,6 +464,7 @@
   (global-set-asp             [?\C-n]    'lse-tpu:search-again-forward); 31-Aug-2002
   (global-set-smk             [?\C-o]    'lse-open-line); 31-Aug-2002
   (global-set-asp             [?\C-p]    'lse-tpu:search-again-reverse); 31-Aug-2002
+  (global-set-asp             [?\s-r]    'recenter); 30-Jan-2014
   (global-set-key             [?\C-,]    'lse-tpu:unselect); 12-Nov-2002
   (global-set-key             [?\C-']    'lse-insert-backquote-quote); 10-Jan-1998
   (global-set-key             [?\C-|]    'lse-fill-range); 10-Jan-1998
