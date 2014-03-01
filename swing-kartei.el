@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-kartei.el swi_kart.el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -253,41 +253,48 @@
 )
 
 (defun swing-kartei:get-file-buffer (dir name ext &optional read-only no-lock)
-  (if (or no-lock (file-readable-p (concat dir "." name ".open")))
-      (let* ((full-name (lse-file:expanded-name (concat dir name "." ext)))
-             (rbuf      (get-file-buffer full-name))
-            )
-        (if rbuf
-            (let ((uptodate (verify-visited-file-modtime rbuf))
-                  (modified (buffer-modified-p           rbuf))
-                 )
-              (if uptodate
-                  t                         ; relax
-                (if modified
-                    (error "Buffer and file for kartei %s do not match"
-                           full-name
+  (let ((lock-name (concat dir "." name ".open"))
+       )
+    ;;  1-Mar-2014 `file-readable-p` fails
+    ;;  * I have no idea what it was supposed to do
+    ;;  * Added `t` to or-expression as quick&dirty workaround
+    ;;  * Locking obviously wasn't implemented properly anyway
+    (if (or no-lock t (file-readable-p lock-name))
+        (let* ((full-name (lse-file:expanded-name (concat dir name "." ext)))
+               (rbuf      (get-file-buffer full-name))
+              )
+          (if rbuf
+              (let ((uptodate (verify-visited-file-modtime rbuf))
+                    (modified (buffer-modified-p           rbuf))
+                   )
+                (if uptodate
+                    t                         ; relax
+                  (if modified
+                      (error "Buffer and file for kartei %s do not match"
+                             full-name
+                      )
+                    (save-excursion
+                      (lse-kill-buffer rbuf)
+                      (setq rbuf (find-file-noselect full-name))
                     )
-                  (save-excursion
-                    (lse-kill-buffer rbuf)
-                    (setq rbuf (find-file-noselect full-name))
                   )
                 )
               )
+            (setq rbuf (find-file-noselect full-name))
+            (if (not rbuf)
+                (error "Kartei %s not found" full-name)
             )
-          (setq rbuf (find-file-noselect full-name))
-          (if (not rbuf)
-              (error "Kartei %s not found" full-name)
+            (if read-only
+                (save-excursion
+                  (set-buffer rbuf)
+                  (setq buffer-read-only t)
+                )
+            )
           )
-          (if read-only
-              (save-excursion
-                (set-buffer rbuf)
-                (setq buffer-read-only t)
-              )
-          )
+          rbuf
         )
-        rbuf
-      )
-    (error "Kartei `%s' currently isn't available. Try again later." name)
+      (error "Kartei `%s' currently isn't available. Try again later." name)
+    )
   )
 ; swing-kartei:get-file-buffer
 )
@@ -698,4 +705,3 @@
   )
 ; swing-kartei:remove-tex-markup
 )
-
