@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
-;;;; Copyright (C) 1996-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -54,6 +54,7 @@
 ;;;;    29-May-2011 (CT) `lse-vcs` added
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
 ;;;;    26-Feb-2012 (CT) Add `lse-tpu:search:smart-case`
+;;;;    14-Apr-2014 (CT) Comment out entries for `lse-tpu:search:smart-case`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -307,21 +308,21 @@
                         "Case insensitive searches"
         )
       )
-      (define-key lse-menu:options:search [smart-case-search-local]
-        (list
-          'menu-item "Use smart case for search in current buffer"
-          'lse-tpu:search:toggle-smart-case
-          :help "Case insensitive searches in current buffer unless search string is mixed case"
-          :button '(:toggle . lse-tpu:search:smart-case)
-        )
-      )
-      (define-key lse-menu:options:search [smart-case-search]
-        (menu-bar-make-toggle toggle-smart-case-search lse-tpu:search:smart-case
-                        "Use smart case for search"
-                        "Use smart case for search %s"
-                        "Case insensitive searches unless search string is mixed case"
-        )
-      )
+;      (define-key lse-menu:options:search [smart-case-search-local]
+;        (list
+;          'menu-item "Use smart case for search in current buffer"
+;          'lse-tpu:search:toggle-smart-case
+;          :help "Case insensitive searches in current buffer unless search string is mixed case"
+;          :button '(:toggle . lse-tpu:search:smart-case)
+;        )
+;      )
+;      (define-key lse-menu:options:search [smart-case-search]
+;        (menu-bar-make-toggle toggle-smart-case-search lse-tpu:search:smart-case
+;                        "Use smart case for search"
+;                        "Use smart case for search %s"
+;                        "Case insensitive searches unless search string is mixed case"
+;        )
+;      )
       (define-key lse-menu:options:editing [rectangular-mode]
         (menu-bar-make-toggle toggle-rectangular-mode
                               lse-tpu:rectangular-p

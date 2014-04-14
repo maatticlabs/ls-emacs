@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -259,7 +259,7 @@
 )
 
 ;;; 26-Feb-2012
-(defvar lse-tpu:search:smart-case t
+(defvar lse-tpu:search:smart-case nil
   "Don't ignore case if search string contains upper case"
 )
 (make-variable-buffer-local 'lse-tpu:search:smart-case)
@@ -2709,7 +2709,7 @@ direction."
         (lse-tpu:search-mode mode)
         (pat lse-tpu:search-last-string)
         (case-fold-search
-          (if lse-tpu:search:smart-case
+          (if (and nil lse-tpu:search:smart-case)
               (not (string-mixed-case-p lse-tpu:search-last-string))
             case-fold-search
           )
