@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-face:el lse_face:el
-;;;; Copyright (C) 1995-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -61,6 +61,9 @@
 ;;;;    16-May-2013 (CT) Set background of 'region to "lightgoldenrod2"
 ;;;;    22-Nov-2013 (CT) Add `lse-face:figure-space`, `lse-face:narrow-nbsp`,
 ;;;;                     `lse-face:thin-space`
+;;;;     5-Jul-2014 (CT) Set foreground of 'region to "Grey15"
+;;;;                     (used to be dark, today suddenly was unreadable white)
+;;;;     5-Jul-2014 (CT) Add `group` argument to `defface`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -77,19 +80,22 @@
 (if (not lse-emacsX-p)
     t
   (defface lse-face:figure-space
-    '((t :background "dark magenta" :inherit escape-glyph :underline t)
+    '((t (:background "dark magenta" :inherit escape-glyph :underline t))
      )
     "Face for `figure space` character"
+    :group 'whitespace
   )
   (defface lse-face:narrow-nbsp
-    '((t :background "coral" :inherit escape-glyph :underline t)
+    '((t (:background "coral" :inherit escape-glyph :underline t))
      )
     "Face for `narrow non breaking space` character"
+    :group 'whitespace
   )
   (defface lse-face:thin-space
-    '((t :background "magenta" :inherit escape-glyph :underline t)
+    '((t (:background "magenta" :inherit escape-glyph :underline t))
      )
     "Face for `thin space` character"
+    :group 'whitespace
   )
   (lse-face:define 'lse-face:open-replacement            "Yellow" "Red")
   (lse-face:define 'lse-face:current-fill-in             "Yellow")
@@ -137,6 +143,7 @@
   (set-face-foreground 'mode-line            "Light Yellow")   ; 28-Dec-1997
 
   (set-face-background 'region               "lightgoldenrod2"); 16-May-2013
+  (set-face-foreground 'region               "Grey15")         ;  5-Jul-2014
 
   (set-face-background 'trailing-whitespace "Gray80")          ;  3-Mar-2008
 )
