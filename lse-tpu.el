@@ -156,6 +156,7 @@
 ;;;;                     `lse-tpu:match-end` if there is no selection
 ;;;;     6-Sep-2013 (CT) Advise `mouse-yank-primary` to cancel tpu selection
 ;;;;     6-Sep-2013 (CT) Replace `interactive-p` by optional "p"-argument
+;;;;    20-Oct-2014 (CT) Add `lse-tpu:mouse-paste`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -3475,7 +3476,18 @@ A repeat count means scroll that many sections."
 (put 'lse-tpu:undelete-line       'delete-selection 'kill)
 (put 'lse-tpu:undelete-char       'delete-selection 'kill)
 (put 'lse-tpu:paste-region        'delete-selection 'kill)
-
+
+;;; 20-Oct-2014
+(defun lse-tpu:mouse-paste (click)
+  "Wrapper around `mouse-yank-primary` to first cancel active selection."
+  ;; Without the `lse-tpu:unselect`, bad things happen when you select a
+  ;; region in one window and try to mouse-paste into the same buffer in
+  ;; another window
+  (interactive "e")
+  (lse-tpu:unselect)
+  (call-interactively 'mouse-yank-primary)
+; lse-tpu:mouse-paste
+)
+
 (provide 'lse-tpu)
-
 ;;  LocalWords:  tpu

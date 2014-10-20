@@ -177,6 +177,7 @@
 ;;;;    21-Nov-2013 (CT) Add bindings for typographic quotes `“`, `‘`, `‚`, `„`
 ;;;;    30-Dec-2013 (CT) Replace bindings for `split-window-below`
 ;;;;    30-Jan-2014 (CT) Add binding for `recenter` (to `super-r`)
+;;;;    20-Oct-2014 (CT) Replace bindings for `mouse-yank-primary`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -635,7 +636,7 @@
   (lse-replace-binding-for-all-keys 'find-file                 'lse-visit-file)
   (lse-replace-binding-for-all-keys 'find-file-other-window    'lse-visit-file-other-window)
   (lse-replace-binding-for-all-keys 'kill-buffer               'lse-kill-buffer)
-  ;;(lse-replace-binding-for-all-keys 'list-buffers              'lse-show-buffers)
+  (lse-replace-binding-for-all-keys 'mouse-yank-primary        'lse-tpu:mouse-paste); 20-Oct-2014
   (lse-replace-binding-for-all-keys 'revert-buffer             'lse-revert-buffer)
   (lse-replace-binding-for-all-keys 'set-visited-file-name     'lse-change-output-file)
   (lse-replace-binding-for-all-keys 'shell-command             'lse-shell-command)
