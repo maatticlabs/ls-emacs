@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-keys-v19:el lse_kv19:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -99,6 +99,7 @@
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
 ;;;;    24-Feb-2012 (CT) Add `[modeline ...mouse...]` to
 ;;;;                     `lse-keys:emacs-bindings-to-unset`
+;;;;    21-Oct-2014 (CT) Add `[?\C-x?5?*]` to `lse-keys:emacs-bindings-to-unset`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-keys-v19)
@@ -111,7 +112,10 @@
 (defvar lse-keys:emacs-bindings-to-unset
     '([f2] [f3] [f4] [f5] [f6] [f7] [f8] [f9]
       [f10] [f11] [f12] [f13] [f14] [f15] [f16] [f17] [f18] [f19] [f20]
-      [?\C-x ?4] [?\C-x ?4] [?\C-x ?6]
+      [?\C-x?4]
+      [?\C-x?5?0] [?\C-x?5?\C-f]  [?\C-x?5?\C-o]
+      [?\C-x?5?b] [?\C-x?5?d] [?\C-x?5?f] [?\C-x?5?m] [?\C-x?5?r]
+      [?\C-x?6]
       [M-home] [M-end]
       [modeline C-mouse-2]
       [modeline mouse-2]

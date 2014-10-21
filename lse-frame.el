@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-frame:el lse_fram:el
-;;;; Copyright (C) 1996-2013 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1996-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -62,6 +62,8 @@
 ;;;;    20-Mar-2013 (CT) Remove `(lse-previous-window)` from
 ;;;;                     `lse-frame:restore-saved-config`
 ;;;;    20-Mar-2013 (CT) Save/restore `window-start` and `frame-selected-window`
+;;;;    21-Oct-2014 (CT) Add `lse-frame:make-full-height`, `lse-frame:make-std`
+;;;;    21-Oct-2014 (CT) Add and use `lse-frame:fix-position`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -107,6 +109,11 @@
 ;;;  8-Sep-2002
 (defvar lse-frame:large-height 66 ;; 28-Mar-2007 s/72/66/
   "Height of large frames (in lines) created by LS-Emacs"
+)
+
+;;; 21-Oct-2014
+(defvar lse-frame:full-height nil ;; will be set by 'after-init-hook
+  "Height of frames filling the screen vertically (in lines)"
 )
 
 ;;; 12-Aug-1996
@@ -157,6 +164,48 @@
 ; lse-frame:n
 )
 
+;;; 21-Oct-2014
+(defun lse-frame:fix-position (&optional fram)
+  "Fix position of frame relative to display to avoid off-display parts."
+  (interactive)
+  (or fram (setq fram (selected-frame)))
+  (let* ((d-height    (x-display-pixel-height))
+         (d-width     (x-display-pixel-width))
+         (f-height    (frame-pixel-height fram))
+         (f-width     (frame-pixel-width  fram))
+         (params      (frame-parameters   fram))
+         (f-left      (cdr                (assoc 'left           params)))
+         (f-top       (cdr                (assoc 'top            params)))
+         (menu-bar    (cdr                (assoc 'menu-bar-lines params)))
+         (f-bottom    (+ f-top            f-height))
+         (f-right     (+ f-left           f-width))
+         (h-correct   (+ (* lse-frame:wbc-ht (+ menu-bar 1)) 6))
+         (w-correct   lse-frame:wbc-wd)
+         (h-delta     (- f-bottom         d-height))
+         (w-delta     (- f-right          d-width))
+        )
+    (cond ((> f-height d-height)
+           (setq f-top 0)
+           (set-frame-position fram f-left f-top)
+          )
+          ((> h-delta 0)
+           (setq f-top (- f-top h-delta h-correct))
+           (set-frame-position fram f-left f-top)
+          )
+    )
+    (cond ((> f-width d-width)
+           (setq f-left 0)
+           (set-frame-position fram f-left f-top)
+          )
+          ((> w-delta 0)
+           (setq f-left (- f-left w-delta w-correct))
+           (set-frame-position fram f-left f-top)
+          )
+    )
+  )
+; lse-frame:fix-position
+)
+
 ;;;  3-Oct-1996
 (defun lse-frame:make (&optional nam pos siz alist)
   "Make a frame named `nam' at position `pos' with size `siz'. `alist is passed to make-frame'"
@@ -164,9 +213,19 @@
     (and (consp   pos) (set-frame-position fram (car pos) (cdr pos)))
     (and (consp   siz) (set-frame-size     fram (car siz) (cdr siz)))
     (and (stringp nam) (lse-set-shorthosted-frame-title nam fram))
+    (lse-frame:fix-position fram)
     fram
   )
 ; lse-frame:make
+)
+
+;;; 21-Oct-2014
+(defun lse-frame:make-full-height (&optional ht nam alist)
+  "Make a frame filling the screen vertically, or with height `ht' if specified"
+  (interactive "p")
+  (if (eq ht 1) (setq ht lse-frame:full-height))
+  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
+; lse-frame:make-full-height
 )
 
 ;;;  9-Apr-1998
@@ -178,8 +237,36 @@
 ; lse-frame:make-small
 )
 
+;;; 21-Oct-2014
+(defun lse-frame:make-std (&optional ht nam alist)
+  "Make a small frame with height `ht' (default: 30)"
+  (interactive "p")
+  (if (eq ht 1) (setq ht lse-frame:std-height))
+  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
+; lse-frame:make-std
+)
+
 (setq frame-title-format (list (concat lse-frame:title-prefix " %b")))
 (setq icon-title-format  (list (concat lse-frame:title-prefix " %b")))
+
+;;; 21-Oct-2014
+(defun lse-frame:max-height ()
+  (let* ((c-height  (frame-char-height))
+         (d-height  (- (x-display-pixel-height) lse-frame:wbc-ht))
+         (result    (- (/ d-height c-height) 2))
+        )
+    result
+  )
+; lse-frame:max-height
+)
+
+(add-hook 'after-init-hook
+  (function
+    (lambda ()
+      (setq lse-frame:full-height (lse-frame:max-height))
+    )
+  )
+)
 
 ;;;  5-Mar-1997
 (defun lse-frame:parameter (nsym &optional fram)
@@ -430,7 +517,9 @@
 ;;; 17-Nov-2009
 (add-hook 'after-init-hook
   (function
-    (lambda () (lse-frame:set-parameter 'root-p t))
+    (lambda ()
+      (lse-frame:set-parameter 'root-p t)
+    )
   )
 )
 

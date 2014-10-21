@@ -178,6 +178,7 @@
 ;;;;    30-Dec-2013 (CT) Replace bindings for `split-window-below`
 ;;;;    30-Jan-2014 (CT) Add binding for `recenter` (to `super-r`)
 ;;;;    20-Oct-2014 (CT) Replace bindings for `mouse-yank-primary`
+;;;;    21-Oct-2014 (CT) Add lse-frame bindings ([?\C-x?5?1], ...)
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -562,8 +563,10 @@
   (global-set-key  [?\s-v]           'lse-tpu:paste-region); 12-Feb-1998
   (global-set-key  [?\A-w]           'redraw-display)
   (global-set-key  [?\s-x]           'lse-tpu:cut-region); 12-Feb-1998
-  (global-set-key  [?\C-x ?5 ?3]     'lse-frame:make-small);  9-Apr-1998
-  (global-unset-key [?\C-x ?5 ?1]); 31-Mar-2003
+  (global-set-key  [?\C-x?5?1]       'lse-frame:make-full-height); 21-Oct-2014
+  (global-set-key  [?\C-x?5?2]       'lse-frame:make-std)        ; 21-Oct-2014
+  (global-set-key  [?\C-x?5?3]       'lse-frame:make-small)      ;  9-Apr-1998
+  (global-set-key  [?\C-x?5?^]       'lse-frame:fix-position)    ; 21-Oct-2014
   (global-set-key  [?\A-z]           'lse-tpu:goto-last-position)
   (global-set-key  [?\A-\\]          'quoted-insert)
   (global-set-key  [?\C-\.]          'universal-argument) ; 28-Jun-1995
