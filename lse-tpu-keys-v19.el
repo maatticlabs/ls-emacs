@@ -471,9 +471,9 @@
   (global-set-key             [?\C-']    'lse-insert-backquote-quote); 10-Jan-1998
   (global-set-key             [?\C-|]    'lse-fill-range); 10-Jan-1998
   (global-set-key             [?\C->]    'lse-unset-selective-display);  8-Sep-2002
-  (global-set-key             [?\C-^]    'lse-frame:set-width:80); 10-Jan-1998
-  (global-set-key             [?\C-`]    'lse-frame:set-width:132);  7-Sep-2002
-  (global-set-key             [?\C-!]    'lse-frame:set-height:48);  8-Sep-2002
+  (global-set-key             [?\C-^]    'lse-frame:set-width:std);  10-Jan-1998
+  (global-set-key             [?\C-`]    'lse-frame:set-width:wide);  7-Sep-2002
+  (global-set-key             [?\C-!]    'lse-frame:set-height:std);  8-Sep-2002
   (global-set-key             [?\C-\s-.] 'lse-tpu:unselect); 17-Jun-2001
   (global-set-key             [?\C-:]    'lse-tpu:replace); 30-Aug-2002
   (if (fboundp 'repeat)
@@ -527,9 +527,9 @@
   (global-set-key  [?\A-']           'lse-insert-bquotes); 10-Jun-1998
   (global-set-key  [?\A-|]           'lse-fill-range); 28-Apr-1996
   (global-set-key  [?\A-<]           'lse-set-selective-display);    8-Sep-2002
-  (global-set-key  [?\A-^]           'lse-frame:set-width:80); 15-Jul-1997
-  (global-set-key  [?\A-`]           'lse-frame:set-width:132);  7-Sep-2002
-  (global-set-key  [?\A-!]           'lse-frame:set-height:48);  8-Sep-2002
+  (global-set-key  [?\A-^]           'lse-frame:set-width:std);  15-Jul-1997
+  (global-set-key  [?\A-`]           'lse-frame:set-width:wide);  7-Sep-2002
+  (global-set-key  [?\A-!]           'lse-frame:set-height:std);  8-Sep-2002
   (global-set-key  [?\A-\s-.]        'lse-tpu:unselect); 17-Jun-2001
   (global-set-key  [?\A-,]           'lse-tpu:select); 12-Nov-2002
 
@@ -695,10 +695,10 @@
   (global-set-key [gold ?\[]          'self-insert-command)
   (global-set-key [gold ?\\]          'self-insert-command)
   (global-set-key [gold ?\]]          'backward-sexp)
-  (global-set-key [gold ?`]           'lse-frame:set-width:132); 5-Mar-1997
-  (global-set-key [gold ?^]           'lse-frame:set-width:132); 5-Mar-1997
-  (global-set-key [gold ?!]           'lse-frame:set-height:72);  8-Sep-2002
-  (global-set-key [gold ?:]           'lse-frame:set-height:30);  8-Sep-2002
+  (global-set-key [gold ?`]           'lse-frame:set-width:wide);    5-Mar-1997
+  (global-set-key [gold ?^]           'lse-frame:set-width:wide);    5-Mar-1997
+  (global-set-key [gold ?!]           'lse-frame:set-height:full);  21-Oct-2014
+  (global-set-key [gold ?:]           'lse-frame:set-height:small);  8-Sep-2002
   (global-set-key [gold ?{]           'self-insert-command)
   (global-set-key [gold ?|]           'lse-fill-range)
   (global-set-key [gold ?}]           'backward-sexp)
@@ -862,14 +862,14 @@
   (global-set-asp [pink      ?\«]    'lse-select-next-bracketed-range)
   (global-set-key [blue      ?|]     'lse-insert-bars)
   (global-set-key [blue      ?+]     'lse-pop+restore-window-configuration)
-  (global-set-key [blue      ?`]     'lse-frame:set-width:80); 5-Mar-1997
-  (global-set-key [blue      ?^]     'lse-frame:set-width:80); 5-Mar-1997
-  (global-set-key [blue      ?!]     'lse-frame:set-height:48);  8-Sep-2002
-  (global-set-key [blue      ?:]     'lse-frame:set-height:48);  8-Sep-2002
-  (global-set-key [blue gold ?`]     'lse-frame:set-width:162);   5-Mar-1997
-  (global-set-key [blue gold ?^]     'lse-frame:set-width:162);   5-Mar-1997
-  (global-set-key [blue gold ?!]     'lse-frame:set-height:30);  8-Sep-2002
-  (global-set-key [blue gold ?:]     'lse-frame:set-height:48);  8-Sep-2002
+  (global-set-key [blue      ?`]     'lse-frame:set-width:std);     5-Mar-1997
+  (global-set-key [blue      ?^]     'lse-frame:set-width:std);     5-Mar-1997
+  (global-set-key [blue      ?!]     'lse-frame:set-height:std);    8-Sep-2002
+  (global-set-key [blue      ?:]     'lse-frame:set-height:std);    8-Sep-2002
+  (global-set-key [blue gold ?`]     'lse-frame:set-width:double);  5-Mar-1997
+  (global-set-key [blue gold ?^]     'lse-frame:set-width:double);  5-Mar-1997
+  (global-set-key [blue gold ?!]     'lse-frame:set-height:small);  8-Sep-2002
+  (global-set-key [blue gold ?:]     'lse-frame:set-height:std);    8-Sep-2002
   (global-set-key [blue      ?']     'lse-insert-backquote-quote); 26-Apr-1996
   (global-set-key [blue      ?\"]    'lse-insert-double-backquote-quote); 26-Apr-1996
   (global-set-key [blue      ?~]     'delete-trailing-whitespace)

@@ -350,32 +350,33 @@
         )
       )
     )
+    (lse-frame:fix-position fram)
   )
 ; lse-frame:set-width
 )
 
 ;;;  7-Sep-2002
-(defun lse-frame:set-width:80 (wd &optional fram)
+(defun lse-frame:set-width:std (wd &optional fram)
   "Set width of frame `fram` to prefix argument or 80 (standard width)"
   (interactive "P")
   (lse-frame:set-width (or wd lse-frame:std-width) fram)
-; lse-frame:set-width:80
+; lse-frame:set-width:std
 )
 
 ;;;  7-Sep-2002
-(defun lse-frame:set-width:132 (wd &optional fram)
+(defun lse-frame:set-width:wide (wd &optional fram)
   "Set width of frame `fram` to prefix argument or 132 (wide width)"
   (interactive "P")
   (lse-frame:set-width (or wd lse-frame:wide-width) fram)
-; lse-frame:set-width:132
+; lse-frame:set-width:wide
 )
 
 ;;;  7-Sep-2002
-(defun lse-frame:set-width:162 (wd &optional fram)
+(defun lse-frame:set-width:double (wd &optional fram)
   "Set width of frame `fram` to prefix argument or 162 (double width)"
   (interactive "P")
   (lse-frame:set-width (or wd lse-frame:double-width) fram)
-; lse-frame:set-width:162
+; lse-frame:set-width:double
 )
 
 ;;;  5-Mar-1997
@@ -437,32 +438,41 @@
         )
       )
     )
+    (lse-frame:fix-position fram)
   )
 ; lse-frame:set-height
 )
 
 ;;;  8-Sep-2002
-(defun lse-frame:set-height:48 (ht &optional fram)
+(defun lse-frame:set-height:std (ht &optional fram)
   "Set height of frame `fram` to prefix argument or 48 (standard height)"
   (interactive "P")
   (lse-frame:set-height (or ht lse-frame:std-height) fram)
-; lse-frame:set-height:48
+; lse-frame:set-height:std
 )
 
 ;;;  8-Sep-2002
-(defun lse-frame:set-height:30 (ht &optional fram)
+(defun lse-frame:set-height:small (ht &optional fram)
   "Set height of frame `fram` to prefix argument or 30 (small height)"
   (interactive "P")
   (lse-frame:set-height (or ht lse-frame:small-height) fram)
-; lse-frame:set-height:30
+; lse-frame:set-height:small
 )
 
 ;;;  8-Sep-2002
-(defun lse-frame:set-height:72 (ht &optional fram)
+(defun lse-frame:set-height:large (ht &optional fram)
   "Set height of frame `fram` to prefix argument or 72 (large height)"
   (interactive "P")
   (lse-frame:set-height (or ht lse-frame:large-height) fram)
-; lse-frame:set-height:72
+; lse-frame:set-height:large
+)
+
+;;; 21-Oct-2014
+(defun lse-frame:set-height:full (ht &optional fram)
+  "Set height of frame `fram` to prefix argument or full height"
+  (interactive "P")
+  (lse-frame:set-height (or ht lse-frame:full-height) fram)
+; lse-frame:set-height:full
 )
 
 ;;; 28-Mar-2007
