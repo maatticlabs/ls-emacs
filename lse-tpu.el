@@ -157,6 +157,7 @@
 ;;;;     6-Sep-2013 (CT) Advise `mouse-yank-primary` to cancel tpu selection
 ;;;;     6-Sep-2013 (CT) Replace `interactive-p` by optional "p"-argument
 ;;;;    20-Oct-2014 (CT) Add `lse-tpu:mouse-paste`
+;;;;    21-Oct-2014 (CT) Remove advise to `mouse-yank-primary`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -1109,18 +1110,17 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:select (&optional quiet)
   "Sets the mark to define one end of a region."
-  ;; 22-Nov-1993 changed by CT : do not unselect quietly
   (interactive "P")
   (cond ((lse-tpu:mark)
-         (lse-message "select already active")
+         (or quiet (lse-message "Selection already active."))
         )
         (t
          (lse-tpu:set-mark (point))
          (lse-tpu:update-mode-line)
+         (add-hook 'post-command-hook 'lse-tpu:mark-active-hook)
          (or quiet (message "Move the text cursor to select text."))
         )
   )
-  (add-hook 'post-command-hook 'lse-tpu:mark-active-hook)
 ; lse-tpu:select
 )
 
@@ -1134,15 +1134,6 @@ Accepts a prefix argument of the number of characters to invert."
   (remove-hook 'post-command-hook 'lse-tpu:mark-active-hook)
   (or quiet (message "Selection canceled."))
 ; lse-tpu:unselect
-)
-
-(defadvice mouse-yank-primary
-    (before lse-tpu:cancel-selection activate compile preactivate)
-  "Cancel tpu selection before mouse-yank-primary"
-  ; Without this, Emacs 24 is terminally broken: Double clicking in one
-  ; window and then middle clicking in another window showing the same
-  ; buffer extends the selection before yanking. Un-fucking-believably stupid!
-  (when (lse-tpu:mark) (lse-tpu:unselect 't))
 )
 
 (defun lse-tpu:exchange-point-and-mark ()
@@ -3480,11 +3471,14 @@ A repeat count means scroll that many sections."
 ;;; 20-Oct-2014
 (defun lse-tpu:mouse-paste (click)
   "Wrapper around `mouse-yank-primary` to first cancel active selection."
-  ;; Without the `lse-tpu:unselect`, bad things happen when you select a
-  ;; region in one window and try to mouse-paste into the same buffer in
-  ;; another window
+  ; Without this, Emacs 24 is terminally broken: Double clicking in one
+  ; window and then middle clicking in another window showing the same
+  ; buffer extends the selection before yanking. Un-fucking-believably stupid!
+  ;
+  ; Unfortunately, even with `lse-tpu:unselect` middle clicking in another
+  ; frame showing the same buffer still extends the selection before yanking.
   (interactive "e")
-  (lse-tpu:unselect)
+  (lse-tpu:unselect t)
   (call-interactively 'mouse-yank-primary)
 ; lse-tpu:mouse-paste
 )
