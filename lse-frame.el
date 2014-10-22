@@ -64,6 +64,10 @@
 ;;;;    20-Mar-2013 (CT) Save/restore `window-start` and `frame-selected-window`
 ;;;;    21-Oct-2014 (CT) Add `lse-frame:make-full-height`, `lse-frame:make-std`
 ;;;;    21-Oct-2014 (CT) Add and use `lse-frame:fix-position`
+;;;;    22-Oct-2014 (CT) Delay calculation of `lse-frame:full-height` until
+;;;;                     first use to avoid using wrong font for calculation
+;;;;    22-Oct-2014 (CT) Add `lse-frame:make-server-window`
+;;;;    22-Oct-2014 (CT) Add `lse-frame:set-font`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -223,6 +227,9 @@
 (defun lse-frame:make-full-height (&optional ht nam alist)
   "Make a frame filling the screen vertically, or with height `ht' if specified"
   (interactive "p")
+  (unless lse-frame:full-height
+    (setq lse-frame:full-height (lse-frame:max-height))
+  )
   (if (eq ht 1) (setq ht lse-frame:full-height))
   (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
 ; lse-frame:make-full-height
@@ -246,6 +253,33 @@
 ; lse-frame:make-std
 )
 
+;;; 22-Oct-2014
+(defun lse-frame:make-server-window ()
+  "Make a frame and assign to `server-window`"
+  (interactive)
+  (unless (and server-window (window-live-p server-window))
+    (let ((result
+            (lse-frame:make
+              (concat lse-frame:title-prefix "-Server")
+              nil nil
+              (list
+                '(height . 40)
+                '(width . 80)
+                '(visibility . icon)
+              )
+            )
+          )
+         )
+      (setq server-window result)
+    )
+  )
+  ;; for some reason, passing 'font to `lse-frame:make` doesn't work
+  ;; do it separately here, then
+  (lse-frame:set-font lse-face:font:7x13 server-window)
+  server-window
+; lse-frame:make-server-window
+)
+
 (setq frame-title-format (list (concat lse-frame:title-prefix " %b")))
 (setq icon-title-format  (list (concat lse-frame:title-prefix " %b")))
 
@@ -260,14 +294,6 @@
 ; lse-frame:max-height
 )
 
-(add-hook 'after-init-hook
-  (function
-    (lambda ()
-      (setq lse-frame:full-height (lse-frame:max-height))
-    )
-  )
-)
-
 ;;;  5-Mar-1997
 (defun lse-frame:parameter (nsym &optional fram)
   (or fram (setq fram (selected-frame)))
@@ -280,6 +306,14 @@
   (or fram (setq fram (selected-frame)))
   (modify-frame-parameters fram (list (cons nsym value)))
 ; lse-frame:set-parameter
+)
+
+;;; 22-Oct-2014
+(defun lse-frame:set-font (&optional font fram)
+  "Set font of frame"
+  (interactive)
+  (lse-frame:set-parameter 'font (or font lse-face:font:7x13) fram)
+; lse-frame:set-font
 )
 
 ;;;  5-Mar-1997

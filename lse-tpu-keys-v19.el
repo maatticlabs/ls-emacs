@@ -179,6 +179,8 @@
 ;;;;    30-Jan-2014 (CT) Add binding for `recenter` (to `super-r`)
 ;;;;    20-Oct-2014 (CT) Replace bindings for `mouse-yank-primary`
 ;;;;    21-Oct-2014 (CT) Add lse-frame bindings ([?\C-x?5?1], ...)
+;;;;    22-Oct-2014 (CT) Replace bindings for
+;;;;                     `electric-newline-and-maybe-indent`
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -655,6 +657,11 @@
   (lse-replace-binding-for-all-keys 'print-buffer              'lpr-buffer); 29-Apr-1998
   (lse-replace-binding-for-all-keys 'print-region              'lpr-region); 29-Apr-1998
 
+  (when (fboundp 'electric-newline-and-maybe-indent)
+    (lse-replace-binding-for-all-keys
+      'electric-newline-and-maybe-indent 'newline-and-indent
+    )
+  )
   ;;  1-Sep-2002
   ;; Define [?\M-<i>] as 'negative-digit-argument
   (let ((i 0))

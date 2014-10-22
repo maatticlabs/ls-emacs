@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2003-2012 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -70,6 +70,7 @@
 ;;;;    25-Feb-2012 (CT) Use `lse-tpu:next-line-internal` instead of
 ;;;;                     `next-line-internal`
 ;;;;    26-Nov-2012 (CT) Change `mode-line-format` of `lse-cal:view:mode`
+;;;;    22-Oct-2014 (CT) Use `lse-face:font:6x13` instead of hard-coded value
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -726,7 +727,7 @@
                (concat (lse-user-initials) "'s calendar " year)
                (cons (or x 284) (or y 341))
                (cons (or wd 115) (or ht 24))
-               '((font . "6x13") (Font . "6x13"))
+               (list (cons 'font lse-face:font:6x13))
               )
         )
        )
@@ -743,7 +744,7 @@
                 nil
                 (cons (or x 0) (or y 460))
                 (cons (or wd 65) (or ht 11)); 11-Apr-2007 s/9/11/ for ht
-                '((font . "6x13") (Font . "6x13"))
+                (list (cons 'font lse-face:font:6x13))
                )
          )
         )

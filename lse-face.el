@@ -64,6 +64,7 @@
 ;;;;     5-Jul-2014 (CT) Set foreground of 'region to "Grey15"
 ;;;;                     (used to be dark, today suddenly was unreadable white)
 ;;;;     5-Jul-2014 (CT) Add `group` argument to `defface`
+;;;;    22-Oct-2014 (CT) Add `lse-face:font:6x13` and `lse-face:font:7x13`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -145,8 +146,30 @@
   (set-face-background 'region               "lightgoldenrod2"); 16-May-2013
   (set-face-foreground 'region               "Grey15")         ;  5-Jul-2014
 
-  (set-face-background 'trailing-whitespace "Gray80")          ;  3-Mar-2008
+  (set-face-background 'trailing-whitespace  "Gray80")         ;  3-Mar-2008
 )
 
+;;; 22-Oct-2014
+;;; Used `xlsfonts` + experimentation to find the XLFD names of fixed fonts
+(defconst lse-face:font:6x13
+  "-misc-fixed-medium-r-semicondensed--13-120-100-100-c-60-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 6x13"
+)
+
+(defconst lse-face:font:6x13:latin-9
+  "-misc-fixed-medium-r-semicondensed--13-120-100-100-c-60-iso8859-15"
+  "Standard X-Window fixed width font with old style designation 6x13"
+)
+
+;;; 22-Oct-2014
+(defconst lse-face:font:7x13
+  "-misc-fixed-medium-r-normal--13-120-100-100-c-70-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 7x13"
+)
+
+(defconst lse-face:font:7x13:latin-9
+  "-misc-fixed-medium-r-normal--13-120-100-100-c-70-iso8859-15"
+  "Standard X-Window fixed width font with old style designation 7x13"
+)
 
 ;;; __END__ lse-face.el

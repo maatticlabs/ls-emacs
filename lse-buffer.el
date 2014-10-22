@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer:el lse_buff:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -69,6 +69,8 @@
 ;;;;    10-Nov-2010 (CT) Optional argument `buffer` added to `lse-revert-buffer`
 ;;;;    10-Nov-2010 (CT) `lse-revert-buffers-same-anchor` added
 ;;;;    22-Nov-2013 (CT) Add `lse-face:thin-space` to `lse-buffer:initialize`
+;;;;    22-Oct-2014 (CT) Set `electric-indent-inhibit` in
+;;;;                     `lse-buffer:initialize`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -322,6 +324,8 @@
       ("^[^\n]\\{78\\}\\(.*\\)$" 1 'lse-face:line-too-long)
      )
   )
+  ;; disable electric-indent ;; 22-Oct-2014
+  (setq electric-indent-inhibit t)
 )
 
 ;;;  2-Oct-1996

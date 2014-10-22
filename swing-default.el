@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency swing-default.el swi_dflt.el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -77,6 +77,7 @@
 ;;;;    18-Oct-2007 (CT) `lse-config.el` factored out
 ;;;;     3-Dec-2007 (CT) Remove `vc-find-file-hook` from `find-file-hook`
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix` for `-Server` frame
+;;;;    22-Oct-2014 (CT) Factor `lse-frame:make-server-window`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -117,13 +118,8 @@
 
 (if lse-emacsX-p; 31-May-1996
     (progn
-      (if (eq system-type 'windows-nt); 13-Nov-2002
-          t
-        (setq server-window ;  3-Jan-2000
-          (lse-frame:make (concat lse-frame:title-prefix "-Server")
-            nil nil '((visibility . icon) (width . 80) (height . 30))
-          )
-        )
+      (unless (eq system-type 'windows-nt); 13-Nov-2002
+        (lse-frame:make-server-window)
       )
     )
 )

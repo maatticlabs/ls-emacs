@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -12,7 +12,10 @@
 ;;;; Revision Dates
 ;;;;    14-Jun-1994 (CT) Creation (of comment)
 ;;;;    14-Jun-1994 (CT) Definition of lse-texinfo-mode put in here
-;;;;-- 
+;;;;    22-Oct-2014 (CT) Use `completion-at-point`, not `lisp-complete-symbol`,
+;;;;                     if available
+;;;;    ««Revision-date»»···
+;;;;--
 (lse-language:define "texinfo"
     '(
         (lse-tpu:ident-group-chars         "@")
@@ -25,7 +28,7 @@
      )
     '(
         lse-tpu:toggle-newline-and-indent
-        auto-fill-mode 
+        auto-fill-mode
      )
     '(
         "lse-templates-texinfo"
@@ -42,7 +45,11 @@
 (defun lse-texinfo-mode ()
   (lse-language:use "texinfo")
   (setq indent-line-function 'lse-indent-line)
-  (local-set-key "\e\C-i" 'lisp-complete-symbol)
+  (local-set-key "\e\C-i"
+    (if (fboundp 'completion-at-point)
+        'completion-at-point
+      'lisp-complete-symbol
+    )
+  )
 ; lse-texinfo-mode
 )
-
