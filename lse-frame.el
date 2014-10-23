@@ -68,6 +68,7 @@
 ;;;;                     first use to avoid using wrong font for calculation
 ;;;;    22-Oct-2014 (CT) Add `lse-frame:make-server-window`
 ;;;;    22-Oct-2014 (CT) Add `lse-frame:set-font`
+;;;;    23-Oct-2014 (CT) Change `lse-frame:save-one` to restore active window
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -703,6 +704,9 @@
         (setq  result (list root-p fpl window-infos frame-setup))
         (print result out)
       )
+    )
+    (when active-wdw
+      (set-frame-selected-window frame active-wdw 'norecord)
     )
   )
 ; lse-frame:save-one
