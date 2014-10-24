@@ -68,7 +68,8 @@
 ;;;;                     first use to avoid using wrong font for calculation
 ;;;;    22-Oct-2014 (CT) Add `lse-frame:make-server-window`
 ;;;;    22-Oct-2014 (CT) Add `lse-frame:set-font`
-;;;;    23-Oct-2014 (CT) Change `lse-frame:save-one` to restore active window
+;;;;    24-Oct-2014 (CT) For Emacs >= 24.4, don't use `lse-frame:desktop-save`
+;;;;                     (desktop can, and does by default, do that on its own)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -705,15 +706,16 @@
         (print result out)
       )
     )
-    (when active-wdw
-      (set-frame-selected-window frame active-wdw 'norecord)
-    )
   )
 ; lse-frame:save-one
 )
 
 (add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
-(add-hook 'desktop-save-hook       'lse-frame:desktop-save)
+
+;;; 24-Oct-2014 only use lse-frame:desktop-save for Emacs < 24.4
+(unless lse-emacs24.4-p
+  (add-hook 'desktop-save-hook       'lse-frame:desktop-save)
+)
 
 ;;;; Commands for frame management
 ;;;  8-Dec-2009
