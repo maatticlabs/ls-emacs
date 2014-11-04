@@ -158,6 +158,7 @@
 ;;;;     6-Sep-2013 (CT) Replace `interactive-p` by optional "p"-argument
 ;;;;    20-Oct-2014 (CT) Add `lse-tpu:mouse-paste`
 ;;;;    21-Oct-2014 (CT) Remove advise to `mouse-yank-primary`
+;;;;     4-Nov-2014 (CT) Remove `lse-tpu:mark-flag` from `mode-line-format`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -923,7 +924,6 @@ Accepts a prefix argument of the number of characters to invert."
                              (purecopy " ")
                              'global-mode-string
                              (purecopy " ")
-                             'lse-tpu:mark-flag
                              (purecopy "%[(")
                              '(lse-language:name "«")
                              'mode-name

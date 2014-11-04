@@ -71,6 +71,7 @@
 ;;;;                     `next-line-internal`
 ;;;;    26-Nov-2012 (CT) Change `mode-line-format` of `lse-cal:view:mode`
 ;;;;    22-Oct-2014 (CT) Use `lse-face:font:6x13` instead of hard-coded value
+;;;;     4-Nov-2014 (CT) Don't call `lse-set-shorthosted-frame-title`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -724,7 +725,7 @@
 (defun lse-cal:setup-year (year &optional x y ht wd)
   (interactive "sYear to setup (YYYY) \n")
   (let ((fram (lse-frame:make
-               (concat (lse-user-initials) "'s calendar " year)
+               nil
                (cons (or x 284) (or y 341))
                (cons (or wd 115) (or ht 24))
                (list (cons 'font lse-face:font:6x13))
@@ -769,11 +770,6 @@
   (if (not d) (setq d (lse-yyyy/mm/dd)))
   (let ((df (lse-file:expanded-name (concat "~/diary/" d ".diary"))))
     (lse-goto-buffer (or (get-file-buffer df) (find-file df)))
-    (unless quiet
-      (lse-set-shorthosted-frame-title
-        (concat (lse-user-initials) "'s Diary " d)
-      )
-    )
   )
 ; lse-cal:switch-diary
 )

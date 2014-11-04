@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -91,6 +91,7 @@
 ;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
 ;;;;    23-Nov-2012 (CT) Add `lse-emacs24-p`
 ;;;;     5-Sep-2013 (CT) Use `version<` instead of `string-lessp`
+;;;;     4-Nov-2014 (CT) Don't set frame title in `lse-terminal-setup`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -208,7 +209,6 @@
       (lse-set-home-mark-global (point-marker))
     )
     (lse@initialize@window@mark@stack)
-    (lse-set-hosted-frame-title lse-frame:title-prefix)
     (lse-ring-bell)
   )
 )
@@ -307,7 +307,4 @@
   (lse-define-insertion-keys);   30-Aug-2002
 )
 
-(if lse-emacs19-p
-    (add-hook 'after-init-hook 'lse-terminal-setup)
-  (setq term-setup-hook 'lse-terminal-setup)
-)
+(add-hook 'after-init-hook 'lse-terminal-setup)

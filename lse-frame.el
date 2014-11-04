@@ -70,6 +70,16 @@
 ;;;;    22-Oct-2014 (CT) Add `lse-frame:set-font`
 ;;;;    24-Oct-2014 (CT) For Emacs >= 24.4, don't use `lse-frame:desktop-save`
 ;;;;                     (desktop can, and does by default, do that on its own)
+;;;;     4-Nov-2014 (CT) Revamp frame title handling
+;;;;                     * Add and use frame parameter `title-prefix-suffix`
+;;;;                     * Add `lse-frame:reset-title`
+;;;;                     * Factor `lse-frame:mark-root`
+;;;;                     * Factor `lse-frame:set-title-prefix`
+;;;;                     * Remove `lse-set-frame-title`
+;;;;                     * Remove `lse-set-hosted-frame-title`
+;;;;                     * Remove `lse-set-shorthosted-frame-title`
+;;;;                     * Remove `save-window-excursion` from
+;;;;                       `lse-frame:restore-saved-config`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -80,12 +90,25 @@
 
 ;;; 15-Mar-2012
 (defvar lse-frame:title-prefix
+    ""
+  "Prefix for frame title"
+)
+
+;;;  4-Nov-2014
+(defun lse-frame:set-title-prefix (&optional tp)
+  "Set `lse-frame:title-prefix` to `tp` or `LSE_FRAME_TITLE_PREFIX`"
+  (interactive)
+  (setq lse-frame:title-prefix
     (or
+      (and    (stringp tp) tp)
       (getenv "LSE_FRAME_TITLE_PREFIX")
       (concat "LSE@" (lse-system-name))
     )
-  "Prefix for frame title"
+  )
+; lse-frame:set-title-prefix
 )
+
+(lse-frame:set-title-prefix)
 
 ;;;  8-Sep-2002
 (defvar lse-frame:std-width 80
@@ -122,46 +145,28 @@
   "Height of frames filling the screen vertically (in lines)"
 )
 
-;;; 12-Aug-1996
-(defun lse-set-frame-title (nam &optional fram)
+;;;  4-Nov-2014
+(defun lse-frame:mark-root (&optional fram)
+  (interactive)
+  (lse-frame:set-parameter 'root-p              t       fram)
+  (lse-frame:set-parameter 'title-prefix-suffix "-Root" fram)
+  (lse-frame:reset-title fram)
+; lse-frame:mark-root
+)
+
+;;;  4-Nov-2014
+(defun lse-frame:reset-title (&optional fram)
+  (interactive)
   (if lse-emacsX-p
     (modify-frame-parameters
         (or fram (selected-frame))
         (list
-          (cons 'name  nam)
-          (cons 'title nam)
+          (cons 'name  nil)
+          (cons 'title nil)
         )
     )
   )
-; lse-set-frame-title
-)
-
-;;; 12-Aug-1996
-(defun lse-set-hosted-frame-title (&optional nam fram)
-  (interactive)
-  (or nam (setq nam lse-frame:title-prefix))
-  (lse-set-frame-title
-      (concat nam " " (lse-system-name) "::" (lse-user-initials-r))
-      fram
-  )
-; lse-set-hosted-frame-title
-)
-
-;;; 12-Aug-1996
-(defun lse-set-shorthosted-frame-title (&optional nam fram)
-  (interactive)
-  (or nam (setq nam lse-frame:title-prefix))
-  (lse-set-frame-title
-      (concat nam
-              " "
-              (substring (lse-system-name) 0 1)
-              (substring (lse-system-name) -1 )
-              "::"
-              (lse-user-initials-r)
-      )
-      fram
-  )
-; lse-set-shorthosted-frame-title
+; lse-frame:reset-title
 )
 
 ;;;  3-Oct-1996
@@ -213,45 +218,47 @@
 )
 
 ;;;  3-Oct-1996
-(defun lse-frame:make (&optional nam pos siz alist)
-  "Make a frame named `nam' at position `pos' with size `siz'. `alist is passed to make-frame'"
-  (let ((fram (make-frame alist)))
-    (and (consp   pos) (set-frame-position fram (car pos) (cdr pos)))
-    (and (consp   siz) (set-frame-size     fram (car siz) (cdr siz)))
-    (and (stringp nam) (lse-set-shorthosted-frame-title nam fram))
-    (lse-frame:fix-position fram)
-    fram
+(defun lse-frame:make (&optional tps pos siz alist)
+  "Make a frame at position `pos' with size `siz'. `alist is passed to make-frame'"
+  (let ((result (make-frame alist)))
+    (when (consp   pos) (set-frame-position result (car pos) (cdr pos)))
+    (when (consp   siz) (set-frame-size     result (car siz) (cdr siz)))
+    (when (stringp tps)
+      (lse-frame:set-parameter 'title-prefix-suffix tps result)
+    )
+    (lse-frame:fix-position result)
+    result
   )
 ; lse-frame:make
 )
 
 ;;; 21-Oct-2014
-(defun lse-frame:make-full-height (&optional ht nam alist)
+(defun lse-frame:make-full-height (&optional ht tps alist)
   "Make a frame filling the screen vertically, or with height `ht' if specified"
   (interactive "p")
   (unless lse-frame:full-height
     (setq lse-frame:full-height (lse-frame:max-height))
   )
   (if (eq ht 1) (setq ht lse-frame:full-height))
-  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
 ; lse-frame:make-full-height
 )
 
 ;;;  9-Apr-1998
-(defun lse-frame:make-small (&optional ht nam alist)
+(defun lse-frame:make-small (&optional ht tps alist)
   "Make a small frame with height `ht' (default: 30)"
   (interactive "p")
   (if (eq ht 1) (setq ht lse-frame:small-height))
-  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
 ; lse-frame:make-small
 )
 
 ;;; 21-Oct-2014
-(defun lse-frame:make-std (&optional ht nam alist)
+(defun lse-frame:make-std (&optional ht tps alist)
   "Make a small frame with height `ht' (default: 30)"
   (interactive "p")
   (if (eq ht 1) (setq ht lse-frame:std-height))
-  (lse-frame:make nam nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
 ; lse-frame:make-std
 )
 
@@ -262,11 +269,10 @@
   (unless (and server-window (window-live-p server-window))
     (let ((result
             (lse-frame:make
-              (concat lse-frame:title-prefix "-Server")
-              nil nil
+              "-Server" nil nil
               (list
-                '(height . 40)
-                '(width . 80)
+                '(height     . 40)
+                '(width      . 80)
                 '(visibility . icon)
               )
             )
@@ -282,8 +288,14 @@
 ; lse-frame:make-server-window
 )
 
-(setq frame-title-format (list (concat lse-frame:title-prefix " %b")))
-(setq icon-title-format  (list (concat lse-frame:title-prefix " %b")))
+(setq frame-title-format
+  (list
+    lse-frame:title-prefix
+    '(:eval (lse-frame:parameter 'title-prefix-suffix))
+    " %b"
+  )
+)
+(setq icon-title-format frame-title-format)
 
 ;;; 21-Oct-2014
 (defun lse-frame:max-height ()
@@ -561,13 +573,7 @@
 
 ;;;; Saving of frame information
 ;;; 17-Nov-2009
-(add-hook 'after-init-hook
-  (function
-    (lambda ()
-      (lse-frame:set-parameter 'root-p t)
-    )
-  )
-)
+(add-hook 'after-init-hook 'lse-frame:mark-root)
 
 ;;; 17-Nov-2009
 (defun lse-frame:desktop-save ()
@@ -575,7 +581,7 @@
     (insert "\n;; Frame configuration section:\n")
     (insert "(setq lse-frame:saved-config '(" )
     (dolist (frame (frame-list))
-      (lse-frame:save-one frame out)
+      (lse-frame:desktop-save-one frame out)
     )
     (insert "))\n\n")
   )
@@ -583,73 +589,7 @@
 )
 
 ;;; 17-Nov-2009
-(defun lse-frame:restore-saved-config ()
-  (when (boundp 'lse-frame:saved-config)
-    (let ((start-frame (selected-frame))
-         )
-      (dolist (frame-infos lse-frame:saved-config)
-        (let* ((root-p       (nth 0 frame-infos))
-               (frame-params (nth 1 frame-infos))
-               (window-infos (nth 2 frame-infos))
-               (frame-setup  (nth 3 frame-infos))
-               (visibility   (cdr (assoc 'visibility frame-params)))
-               (first t)
-               frame active-window
-             )
-          (save-window-excursion
-            (if root-p
-                (progn
-                  (select-frame start-frame)
-                  (modify-frame-parameters start-frame frame-params)
-                )
-              (select-frame (make-frame frame-params))
-            )
-            (let ((frame (selected-frame)))
-              (if frame-setup
-                  (eval frame-setup)
-                (dolist (window-info window-infos)
-                  (let ((b-nam (nth 0 window-info))
-                        (b-pos (nth 1 window-info))
-                        (w-pos (nth 2 window-info))
-                        (w-act (nth 3 window-info))
-                       )
-                    (unless first
-                      (lse-split-window)
-                    )
-                    (lse-goto-buffer+maybe-create (nth 0 window-info))
-                    (goto-char                    (nth 1 window-info))
-                    (when w-pos
-                      (set-window-start (selected-window) w-pos)
-                    )
-                    (when w-act
-                      (setq active-window (selected-window))
-                    )
-                    (when (and root-p first)
-                      (lse-set-home-mark-global (point-marker))
-                    )
-                    (setq first nil)
-                  )
-                )
-                (when active-window
-                  (set-frame-selected-window frame active-window 'norecord)
-                )
-              )
-              (cond ((equal visibility 'icon) (iconify-frame))
-                    ((not   visibility)       (make-frame-invisible))
-              )
-            )
-          )
-        )
-      )
-      (select-frame-set-input-focus start-frame)
-    )
-    (makunbound 'lse-frame:saved-config)
-  )
-; lse-frame:restore-saved-config
-)
-
-;;; 17-Nov-2009
-(defun lse-frame:save-one (frame out)
+(defun lse-frame:desktop-save-one (frame out)
   (let* ((params      (frame-parameters frame))
          ;; We use`Font` instead of `font` because bloody Emacs 23.1.1 converts
          ;; "6x13" to a font-string that gives an error on restore
@@ -667,18 +607,20 @@
          window-infos
         )
     (unless frame-setup
-      (dolist (window (lse-frame:window-list frame))
-        (setq buffer      (window-buffer window))
-        (setq buffer-name (buffer-name   buffer))
-        (when (and buffer-name (lse-buffer:is-lse-buffer buffer))
-          (setq window-infos
-            (cons
-              (list buffer-name
-                (save-window-excursion (select-window window) (point))
-                (window-start window)
-                (eq active-wdw window)
+      (save-window-excursion
+        (dolist (window (lse-frame:window-list frame))
+          (setq buffer      (window-buffer window))
+          (setq buffer-name (buffer-name   buffer))
+          (when (and buffer-name (lse-buffer:is-lse-buffer buffer))
+            (setq window-infos
+              (cons
+                (list buffer-name
+                  (save-window-excursion (select-window window) (point))
+                  (window-start window)
+                  (eq active-wdw window)
+                )
+                window-infos
               )
-              window-infos
             )
           )
         )
@@ -707,15 +649,83 @@
       )
     )
   )
-; lse-frame:save-one
+; lse-frame:desktop-save-one
 )
+
+;;; 17-Nov-2009
+(defun lse-frame:restore-saved-config ()
+  (when (boundp 'lse-frame:saved-config)
+    (let ((start-frame  (selected-frame))
+          (start-window (selected-window))
+         )
+      (dolist (frame-infos lse-frame:saved-config)
+        (let* ((root-p       (nth 0 frame-infos))
+               (frame-params (nth 1 frame-infos))
+               (window-infos (nth 2 frame-infos))
+               (frame-setup  (nth 3 frame-infos))
+               (visibility   (cdr (assoc 'visibility frame-params)))
+               (first t)
+               frame active-window
+             )
+          (if root-p
+              (progn
+                (select-frame start-frame)
+                (modify-frame-parameters start-frame frame-params)
+              )
+            (select-frame (make-frame frame-params))
+          )
+          (let ((frame (selected-frame)))
+            (if frame-setup
+                (eval frame-setup)
+              (dolist (window-info window-infos)
+                (let ((b-nam (nth 0 window-info))
+                      (b-pos (nth 1 window-info))
+                      (w-pos (nth 2 window-info))
+                      (w-act (nth 3 window-info))
+                     )
+                  (unless first
+                    (lse-split-window)
+                  )
+                  (lse-goto-buffer+maybe-create (nth 0 window-info))
+                  (goto-char                    (nth 1 window-info))
+                  (when w-pos
+                    (set-window-start (selected-window) w-pos)
+                  )
+                  (when w-act
+                    (setq active-window (selected-window))
+                  )
+                  (when (and root-p first)
+                    (lse-set-home-mark-global (point-marker))
+                  )
+                  (setq first nil)
+                )
+              )
+              (when active-window
+                (set-frame-selected-window frame active-window 'norecord)
+              )
+            )
+            (lse-frame:reset-title)
+            (cond ((equal visibility 'icon) (iconify-frame))
+                  ((not   visibility)       (make-frame-invisible))
+            )
+          )
+        )
+      )
+      (select-frame-set-input-focus start-frame)
+      (set-frame-selected-window start-frame start-window 'norecord)
+    )
+    (makunbound 'lse-frame:saved-config)
+  )
+; lse-frame:restore-saved-config
+)
+
+;;; 17-Nov-2009
+;;; reset title-prefix after reading .emacs.desktop to get rid of legacy values
+(add-hook 'desktop-after-read-hook 'lse-frame:set-title-prefix)
 
 (add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
 
-;;; 24-Oct-2014 only use lse-frame:desktop-save for Emacs < 24.4
-(unless lse-emacs24.4-p
-  (add-hook 'desktop-save-hook       'lse-frame:desktop-save)
-)
+(add-hook 'desktop-save-hook       'lse-frame:desktop-save)
 
 ;;;; Commands for frame management
 ;;;  8-Dec-2009
