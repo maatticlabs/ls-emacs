@@ -80,6 +80,7 @@
 ;;;;                     * Remove `lse-set-shorthosted-frame-title`
 ;;;;                     * Remove `save-window-excursion` from
 ;;;;                       `lse-frame:restore-saved-config`
+;;;;     4-Nov-2014 (CT) Fix `start-window` in `lse-frame:restore-saved-config`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -659,13 +660,13 @@
           (start-window (selected-window))
          )
       (dolist (frame-infos lse-frame:saved-config)
-        (let* ((root-p       (nth 0 frame-infos))
-               (frame-params (nth 1 frame-infos))
-               (window-infos (nth 2 frame-infos))
-               (frame-setup  (nth 3 frame-infos))
-               (visibility   (cdr (assoc 'visibility frame-params)))
-               (first t)
-               frame active-window
+        (let* ((root-p         (nth 0 frame-infos))
+               (frame-params   (nth 1 frame-infos))
+               (window-infos   (nth 2 frame-infos))
+               (frame-setup    (nth 3 frame-infos))
+               (visibility     (cdr (assoc 'visibility frame-params)))
+               (first          t)
+               active-window frame
              )
           (if root-p
               (progn
@@ -693,9 +694,10 @@
                   )
                   (when w-act
                     (setq active-window (selected-window))
-                  )
-                  (when (and root-p first)
-                    (lse-set-home-mark-global (point-marker))
+                    (when root-p
+                      (setq start-window active-window)
+                      (lse-set-home-mark-global (point-marker))
+                    )
                   )
                   (setq first nil)
                 )
