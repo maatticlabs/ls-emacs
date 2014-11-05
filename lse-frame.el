@@ -81,6 +81,14 @@
 ;;;;                     * Remove `save-window-excursion` from
 ;;;;                       `lse-frame:restore-saved-config`
 ;;;;     4-Nov-2014 (CT) Fix `start-window` in `lse-frame:restore-saved-config`
+;;;;     5-Nov-2014 (CT) Change `frameset-filter-alist` to include `left`, `top`
+;;;;     5-Nov-2014 (CT) Use `lse-frame:desktop-save` in Emacs > 24.4
+;;;;                     * `lse-frame:desktop-save` somehow gobbles up lots
+;;;;                       of CPU in long-running Emacs 24.4+ processes
+;;;;     5-Nov-2014 (CT) Improve `lse-frame:make-server-window`
+;;;;                     * Use frame-p
+;;;;                     * Readability
+;;;;                     * Add `desktop-dont-save`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -146,6 +154,12 @@
   "Height of frames filling the screen vertically (in lines)"
 )
 
+;;;  5-Nov-2014
+(defvar lse-frame:setup-server-window-p nil
+  "Set this to t in your .emacs file if you want a server window created
+ automatically."
+)
+
 ;;;  4-Nov-2014
 (defun lse-frame:mark-root (&optional fram)
   (interactive)
@@ -153,6 +167,15 @@
   (lse-frame:set-parameter 'title-prefix-suffix "-Root" fram)
   (lse-frame:reset-title fram)
 ; lse-frame:mark-root
+)
+
+;;;  5-Nov-2014
+(defun lse-frame:unmark-root (&optional fram)
+  (interactive)
+  (lse-frame:set-parameter 'root-p              nil     fram)
+  (lse-frame:set-parameter 'title-prefix-suffix ""      fram)
+  (lse-frame:reset-title fram)
+; lse-frame:unmark-root
 )
 
 ;;;  4-Nov-2014
@@ -267,24 +290,30 @@
 (defun lse-frame:make-server-window ()
   "Make a frame and assign to `server-window`"
   (interactive)
-  (unless (and server-window (window-live-p server-window))
-    (let ((result
-            (lse-frame:make
-              "-Server" nil nil
-              (list
-                '(height     . 40)
-                '(width      . 80)
-                '(visibility . icon)
-              )
-            )
-          )
-         )
-      (setq server-window result)
+  (if (and
+        server-window
+        (or
+          (frame-live-p  server-window)
+          (window-live-p server-window)
+        )
+      )
+      t
+    (setq server-window
+      (lse-frame:make
+        "-Server" nil nil
+        (list
+          '(desktop-dont-save . t)
+          '(height            . 40)
+          '(width             . 80)
+          '(visibility        . icon)
+        )
+      )
     )
+    ;; for some reason, passing 'font to `lse-frame:make` doesn't work
+    ;; do it separately here, then
+    (lse-frame:set-font lse-face:font:7x13 server-window)
+    (lse-goto-buffer "*scratch*")
   )
-  ;; for some reason, passing 'font to `lse-frame:make` doesn't work
-  ;; do it separately here, then
-  (lse-frame:set-font lse-face:font:7x13 server-window)
   server-window
 ; lse-frame:make-server-window
 )
@@ -724,10 +753,32 @@
 ;;; 17-Nov-2009
 ;;; reset title-prefix after reading .emacs.desktop to get rid of legacy values
 (add-hook 'desktop-after-read-hook 'lse-frame:set-title-prefix)
-
 (add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
+(if (and lse-frame:setup-server-window-p lse-emacsX-p)
+    (add-hook 'desktop-after-read-hook 'lse-frame:make-server-window)
+)
 
-(add-hook 'desktop-save-hook       'lse-frame:desktop-save)
+(if lse-emacs24.4-p
+    (progn
+      (require 'frameset)
+      ;; without the following modification of `frameset-filter-alist`,
+      ;; `desktop-restore-frames` looses the position of iconified frames
+      ;; `frameset.el` claims that `left` and `top` of iconified frames are
+      ;; garbage but that's not true under X+fvwm2
+      (setq frameset-filter-alist
+        (nconc
+          '((left     . frameset-filter-shelve-param)
+            (top      . frameset-filter-shelve-param)
+            (GUI:left . frameset-filter-unshelve-param)
+            (GUI:top  . frameset-filter-unshelve-param)
+           )
+          (copy-tree frameset-filter-alist)
+        )
+      )
+      (setq desktop-restore-frames t)
+    )
+  (add-hook 'desktop-save-hook 'lse-frame:desktop-save)
+)
 
 ;;;; Commands for frame management
 ;;;  8-Dec-2009

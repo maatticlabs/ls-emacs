@@ -78,6 +78,7 @@
 ;;;;     3-Dec-2007 (CT) Remove `vc-find-file-hook` from `find-file-hook`
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix` for `-Server` frame
 ;;;;    22-Oct-2014 (CT) Factor `lse-frame:make-server-window`
+;;;;     5-Nov-2014 (CT) Remove call to `lse-frame:make-server-window`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -115,16 +116,6 @@
 (require 'swing-command)
 (load "swing-keys")
 (load "swing-kartei")
-
-(if lse-emacsX-p; 31-May-1996
-    (progn
-      (unless (eq system-type 'windows-nt); 13-Nov-2002
-        (lse-frame:make-server-window)
-      )
-    )
-)
-
-; (byte-recompile-directory "/swing/project/ls-emacs" t)
 
 ;;; 13-Oct-2007
 (lse-add-to-list lse-byte-compile:files "swing-default")
