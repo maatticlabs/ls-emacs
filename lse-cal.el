@@ -72,6 +72,7 @@
 ;;;;    26-Nov-2012 (CT) Change `mode-line-format` of `lse-cal:view:mode`
 ;;;;    22-Oct-2014 (CT) Use `lse-face:font:6x13` instead of hard-coded value
 ;;;;     4-Nov-2014 (CT) Don't call `lse-set-shorthosted-frame-title`
+;;;;     5-Nov-2014 (CT) Pass `frame-setup` parameter to `lse-frame:make`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -684,12 +685,11 @@
 
 ;;; 17-Nov-2009
 (defun lse-cal:setup-year-frame (fram &optional year)
-  (or year (setq year (lse-date-year)))
+  (unless (and (stringp year) (not (string= year "")))
+    (setq year (lse-date-year))
+  )
   (let ((current-year-p (string= year (lse-date-year))))
     (select-frame fram)
-    (lse-frame:set-parameter
-      'frame-setup (list 'lse-cal:setup-year-frame 'frame year) fram
-    )
     (lse-frame:disable-menu-bar fram); 28-Mar-2007
     (let (pbuf vbuf)
       (lse-split-window-horizontally nil 34)
@@ -724,15 +724,18 @@
 ;;;  7-Apr-2003
 (defun lse-cal:setup-year (year &optional x y ht wd)
   (interactive "sYear to setup (YYYY) \n")
+  (unless (and (stringp year) (not (string= year "")))
+    (setq year (lse-date-year))
+  )
   (let ((fram (lse-frame:make
                nil
                (cons (or x 284) (or y 341))
                (cons (or wd 115) (or ht 24))
                (list (cons 'font lse-face:font:6x13))
+               (list 'lse-cal:setup-year-frame 'frame year)
               )
         )
        )
-    (lse-cal:setup-year-frame fram year)
   )
 ; lse-cal:setup-year
 )

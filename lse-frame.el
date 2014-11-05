@@ -89,6 +89,10 @@
 ;;;;                     * Use frame-p
 ;;;;                     * Readability
 ;;;;                     * Add `desktop-dont-save`
+;;;;     5-Nov-2014 (CT) Add `frame-setup` parameter to `lse-frame:make`
+;;;;     5-Nov-2014 (CT) Add `lse-frame:desktop-save-frames-with-setup`
+;;;;     5-Nov-2014 (CT) Factor `lse-frame:desktop-save-list`,
+;;;;                     change `lse-frame:desktop-save-one` to return result
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -96,6 +100,8 @@
 (require 'lse-face)
 (require 'lse-hash)
 (require 'lse-session)
+
+(require 'desktop)
 
 ;;; 15-Mar-2012
 (defvar lse-frame:title-prefix
@@ -159,6 +165,9 @@
   "Set this to t in your .emacs file if you want a server window created
  automatically."
 )
+
+;;;  5-Nov-2014
+(defvar lse-frame:_frames_with_setup nil)
 
 ;;;  4-Nov-2014
 (defun lse-frame:mark-root (&optional fram)
@@ -242,7 +251,7 @@
 )
 
 ;;;  3-Oct-1996
-(defun lse-frame:make (&optional tps pos siz alist)
+(defun lse-frame:make (&optional tps pos siz alist frame-setup)
   "Make a frame at position `pos' with size `siz'. `alist is passed to make-frame'"
   (let ((result (make-frame alist)))
     (when (consp   pos) (set-frame-position result (car pos) (cdr pos)))
@@ -251,38 +260,48 @@
       (lse-frame:set-parameter 'title-prefix-suffix tps result)
     )
     (lse-frame:fix-position result)
+    (when frame-setup
+      (lse-frame:set-parameter 'frame-setup       frame-setup result)
+      (lse-frame:set-parameter 'desktop-dont-save t           result)
+      (let ((frame result)
+           )
+        (select-frame frame)
+        (eval frame-setup)
+        (push frame lse-frame:_frames_with_setup)
+      )
+    )
     result
   )
 ; lse-frame:make
 )
 
 ;;; 21-Oct-2014
-(defun lse-frame:make-full-height (&optional ht tps alist)
+(defun lse-frame:make-full-height (&optional ht tps alist frame-setup)
   "Make a frame filling the screen vertically, or with height `ht' if specified"
   (interactive "p")
   (unless lse-frame:full-height
     (setq lse-frame:full-height (lse-frame:max-height))
   )
   (if (eq ht 1) (setq ht lse-frame:full-height))
-  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist frame-setup)
 ; lse-frame:make-full-height
 )
 
 ;;;  9-Apr-1998
-(defun lse-frame:make-small (&optional ht tps alist)
+(defun lse-frame:make-small (&optional ht tps alist frame-setup)
   "Make a small frame with height `ht' (default: 30)"
   (interactive "p")
   (if (eq ht 1) (setq ht lse-frame:small-height))
-  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist frame-setup)
 ; lse-frame:make-small
 )
 
 ;;; 21-Oct-2014
-(defun lse-frame:make-std (&optional ht tps alist)
+(defun lse-frame:make-std (&optional ht tps alist frame-setup)
   "Make a small frame with height `ht' (default: 30)"
   (interactive "p")
   (if (eq ht 1) (setq ht lse-frame:std-height))
-  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist)
+  (lse-frame:make tps nil (cons lse-frame:std-width ht) alist frame-setup)
 ; lse-frame:make-std
 )
 
@@ -607,23 +626,40 @@
 
 ;;; 17-Nov-2009
 (defun lse-frame:desktop-save ()
-  (let ((out (current-buffer)))
-    (insert "\n;; Frame configuration section:\n")
-    (insert "(setq lse-frame:saved-config '(" )
-    (dolist (frame (frame-list))
-      (lse-frame:desktop-save-one frame out)
-    )
-    (insert "))\n\n")
-  )
+  (lse-frame:desktop-save-list (frame-list))
 ; lse-frame:desktop-save
 )
 
+;;;  5-Nov-2014
+(defun lse-frame:desktop-save-frames-with-setup ()
+  (lse-frame:desktop-save-list lse-frame:_frames_with_setup)
+; lse-frame:desktop-save-frames-with-setup
+)
+
+;;;  5-Nov-2014
+(defun lse-frame:desktop-save-list (frames)
+  (let (lse-frame:saved-config fi)
+    (dolist (frame frames)
+      (when (frame-live-p frame)
+        (setq fi (lse-frame:desktop-save-one frame))
+        (when fi
+          (push fi lse-frame:saved-config)
+        )
+      )
+    )
+    (when lse-frame:saved-config
+      (insert "\n;; Frames-with-setup configuration section:\n")
+      (desktop-outvar 'lse-frame:saved-config)
+      (insert "\n")
+    )
+  )
+; lse-frame:desktop-save-list
+)
+
 ;;; 17-Nov-2009
-(defun lse-frame:desktop-save-one (frame out)
+(defun lse-frame:desktop-save-one (frame)
   (let* ((params      (frame-parameters frame))
-         ;; We use`Font` instead of `font` because bloody Emacs 23.1.1 converts
-         ;; "6x13" to a font-string that gives an error on restore
-         (Font        (cdr (assoc 'Font        params)))
+         (font        (cdr (assoc 'font        params)))
          (frame-setup (cdr (assoc 'frame-setup params)))
          (height      (cdr (assoc 'height      params)))
          (left        (cdr (assoc 'left        params)))
@@ -659,6 +695,7 @@
     (when (or frame-setup window-infos)
       (let ((fpl
               (list
+                (cons 'font       font)
                 (cons 'height     height)
                 (cons 'left       left)
                 (cons 'top        top)
@@ -668,14 +705,8 @@
             )
             result
            )
-        (when Font
-          ;; We set `Font` because bloody Emacs 23.1.1 converts "6x13" to a
-          ;; font-string that gives an error on restore
-          (setq fpl (cons (cons 'font  Font)  fpl))
-          (setq fpl (cons (cons 'Font  Font)  fpl))
-        )
         (setq  result (list root-p fpl window-infos frame-setup))
-        (print result out)
+        result
       )
     )
   )
@@ -706,7 +737,10 @@
           )
           (let ((frame (selected-frame)))
             (if frame-setup
-                (eval frame-setup)
+                (progn
+                  (eval frame-setup)
+                  (lse-frame:set-parameter 'frame-setup frame-setup frame)
+                )
               (dolist (window-info window-infos)
                 (let ((b-nam (nth 0 window-info))
                       (b-pos (nth 1 window-info))
@@ -776,6 +810,7 @@
         )
       )
       (setq desktop-restore-frames t)
+      (add-hook 'desktop-save-hook 'lse-frame:desktop-save-frames-with-setup)
     )
   (add-hook 'desktop-save-hook 'lse-frame:desktop-save)
 )
