@@ -95,6 +95,7 @@
 ;;;;                     change `lse-frame:desktop-save-one` to return result
 ;;;;     6-Nov-2014 (CT) Factor `lse-frame:do-setup`, use it in
 ;;;;                     `lse-frame:restore-saved-config` to avoid info loss
+;;;;     6-Nov-2014 (CT) Add `require` statements to avoid compiler warnings
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -104,6 +105,8 @@
 (require 'lse-session)
 
 (require 'desktop)
+(require 'hl-line)
+(require 'server)
 
 ;;; 15-Mar-2012
 (defvar lse-frame:title-prefix
