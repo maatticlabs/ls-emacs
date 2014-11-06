@@ -90,8 +90,10 @@
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix`, increase `lse-version`
 ;;;;     4-Jul-2012 (CT) Remove `enable-multibyte-characters` to please Emacs 24
 ;;;;    23-Nov-2012 (CT) Add `lse-emacs24-p`
-;;;;     5-Sep-2013 (CT) Use `version<` instead of `string-lessp`
+;;;;     5-Sep-2013 (CT) Add `lse-emacs24.4-p`;
+;;;;                     Use `version<`, not `string-lessp`
 ;;;;     4-Nov-2014 (CT) Don't set frame title in `lse-terminal-setup`
+;;;;     6-Nov-2014 (CT) Add `lse-emacs24.3-p`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
@@ -121,11 +123,15 @@
 
 (defconst lse-emacs23-p (not (version< emacs-version "23"))
   "Non-NIL if we are running GNU Emacs version 23."
-);   5-Aug-2009
+);  5-Aug-2009
 
 (defconst lse-emacs24-p (not (version< emacs-version "24"))
   "Non-NIL if we are running GNU Emacs version 24."
 ); 23-Nov-2012
+
+(defconst lse-emacs24.3-p (not (version< emacs-version "24.3"))
+  "Non-NIL if we are running GNU Emacs version 24.3."
+);  6-Nov-2014
 
 (defconst lse-emacs24.4-p (not (version< emacs-version "24.4"))
   "Non-NIL if we are running GNU Emacs version 24.4."

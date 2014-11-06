@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -73,6 +73,11 @@
 ;;;;                     `lse-cal:plan:sync-to-view` [due to a bug in Emacs?!])
 ;;;;     3-Apr-2008 (CT) Added `lse-scroll-to-bottom`
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
+;;;;     6-Nov-2014 (CT) Remove legacy `lse-window:display-buffer`
+;;;;     6-Nov-2014 (CT) Add `lse-scroll-to-{bottom,top}` to `lse-split-window`
+;;;;     6-Nov-2014 (CT) Remove compiler warnings
+;;;;     6-Nov-2014 (CT) Add advice `lse-scroll-to-top:after` to
+;;;;                     `imenu-default-goto-function`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -186,8 +191,8 @@
 ;;; 29-Dec-1997
 (defsubst lse-previous-screen-2 () (interactive) (lse-previous-screen 2))
 
-(defvar lse@window@number )
-(defvar lse@window@length )
+(defvar lse-window::number 0)
+(defvar lse-window::length 0)
 
 ;;; 11-Oct-1996
 (defun lse-next-window-all-frames ()
@@ -262,7 +267,7 @@
 )
 
 ;;; 28-Dec-1999
-(defun lse-scroll-to-top (arg)
+(defun lse-scroll-to-top (&optional arg)
   "Scroll current line to top of window."
   (interactive "P")
   (let ((pos-1 (point))
@@ -282,8 +287,14 @@
 ; lse-scroll-to-top
 )
 
+;;;  6-Nov-2014
+(defun lse-scroll-to-top:after (&rest arg)
+  (lse-scroll-to-top)
+; lse-scroll-to-top:after
+)
+
 ;;;  3-Apr-2008
-(defun lse-scroll-to-bottom (arg)
+(defun lse-scroll-to-bottom (&optional arg)
   "Scroll current line to bottom of window."
   (interactive "P")
   (recenter (or arg -1))
@@ -304,10 +315,16 @@
 
 (defun lse-split-window (&optional wdw horizontally size)
   (interactive)
+  (unless horizontally
+    (lse-scroll-to-bottom)
+  )
   (lse@initialize@window@mark@stack (split-window wdw size horizontally))
   (if (not size) (lse-balance-windows));  7-Apr-2003
   (lse-set-home-mark-window (point-marker));  6-Jan-1995
   (lse-next-window)
+  (unless horizontally
+    (lse-scroll-to-top)
+  )
 ; lse-split-window
 )
 
@@ -352,22 +369,22 @@
 )
 
 (defun lse@find@window@number (w)
-  (setq lse@window@number (1+ lse@window@number))
+  (setq lse-window::number (1+ lse-window::number))
 ; lse@find@window@number
 )
 
 (defun lse@find@window@length (w)
-  (setq lse@window@length (+ lse@window@length (window-height w)))
+  (setq lse-window::length (+ lse-window::length (window-height w)))
 ; lse@find@window@length
 )
 
 (defun lse@balance@window (w)
   (select-window w)
-  (cond ((> lse@window@length (window-height w))
-         (enlarge-window (- lse@window@length (window-height w)))
+  (cond ((> lse-window::length (window-height w))
+         (enlarge-window (- lse-window::length (window-height w)))
         )
-        ((< lse@window@length (window-height w))
-         (shrink-window (- (window-height w) lse@window@length))
+        ((< lse-window::length (window-height w))
+         (shrink-window (- (window-height w) lse-window::length))
         )
   )
 ; lse@balance@window
@@ -377,11 +394,11 @@
     (fset 'lse-balance-windows 'balance-windows)
   (defun lse-balance-windows ()
     (interactive)
-    (setq lse@window@number 0)
+    (setq lse-window::number 0)
         (lse-iterate-windows 'lse@find@window@number)
-    (setq lse@window@length 0)
+    (setq lse-window::length 0)
         (lse-iterate-windows 'lse@find@window@length)
-    (setq lse@window@length (/ lse@window@length lse@window@number))
+    (setq lse-window::length (/ lse-window::length lse-window::number))
     (let ((w (selected-window)))
         (lse-iterate-windows 'lse@balance@window)
         (select-window w)
@@ -434,7 +451,7 @@
 ;;;;++
 ;;; Window-mark-stack
 ;;;;--
-(defvar lse@window@list nil
+(defvar lse-window::list nil
   ;; this is an association list, which pairs all windows with their
   ;; corresponding mark-stacks
 )
@@ -442,14 +459,14 @@
 (defun lse@delete@window@list ()
   (mapc
     (function (lambda (ms) (lse-delete-mark-stack (cdr ms))))
-    lse@window@list
+    lse-window::list
   )
-  (setq lse@window@list nil)
+  (setq lse-window::list nil)
 ; lse@delete@window@list
 )
 
 (defun lse-window-mark@stack (&optional no-create)
-  (let ((entry (assq (selected-window) lse@window@list)))
+  (let ((entry (assq (selected-window) lse-window::list)))
     (if entry
         (cdr entry)
       (if no-create
@@ -464,12 +481,12 @@
 
 (defun lse@initialize@window@mark@stack (&optional wdw)
   (let ((w (or wdw (selected-window))))
-    (or (assq w lse@window@list)
+    (or (assq w lse-window::list)
         (save-window-excursion
           (if (not (eq w (selected-window)))
               (select-window w)
           )
-          (lse-add-to-list lse@window@list (cons w (lse-new-mark-stack)))
+          (lse-add-to-list lse-window::list (cons w (lse-new-mark-stack)))
         )
     )
   )
@@ -478,11 +495,11 @@
 
 (defun lse@remove@window@mark@stack (&optional wdw)
   (let* ((w     (or wdw (selected-window)))
-         (entry (assq w lse@window@list))
+         (entry (assq w lse-window::list))
         )
     (if entry
         (progn
-          (lse-remove-from-list lse@window@list entry)
+          (lse-remove-from-list lse-window::list entry)
           (lse-delete-mark-stack (cdr entry))
         )
     )
@@ -513,7 +530,7 @@
 ; lse-set-last-mark-window
 )
 
-(defun lse-set-home-mark-window (to-mark)
+(defun lse-set-home-mark-window (&optional to-mark)
   "Set window last mark to 'to-mark'."
   (interactive "d")
   (lse-set-home-mark (lse-window-mark@stack)
@@ -551,80 +568,78 @@
 ;;;;++
 ;;; Window configuration list
 ;;;;--
-(defvar lse@window@configuration@list nil
+(defvar lse-window::configuration-list nil
   ;; window configurations stored by the user (stack-wise)
 )
 
 (defun lse-push-window-configuration ()
   (interactive)
-  (lse-add-to-list lse@window@configuration@list
+  (lse-add-to-list lse-window::configuration-list
                      (current-window-configuration)
   )
   (message "Window configuration %d pushed"
-           (length lse@window@configuration@list)
+           (length lse-window::configuration-list)
   )
 ; lse-push-window-configuration
 )
 
 (defun lse-pop+restore-window-configuration ()
   (interactive)
-  (if lse@window@configuration@list
+  (if lse-window::configuration-list
       (progn
-        (set-window-configuration (car lse@window@configuration@list))
-        (lse-remove-car-from-list lse@window@configuration@list)
+        (set-window-configuration (car lse-window::configuration-list))
+        (lse-remove-car-from-list lse-window::configuration-list)
       )
   )
   (message "%d window configurations remaining"
-           (length lse@window@configuration@list)
+           (length lse-window::configuration-list)
   )
 ; lse-pop+restore-window-configuration
 )
 
-;;;  3-Oct-1996
-(defun lse-window:display-buffer (bon &optional ntw)
-  (let ((nam (if (stringp bon) bon (buffer-name bon)))
-        (buf (if (bufferp bon) bon (get-buffer  bon)))
-       )
-    (if ntw
-        (cond ((string= nam "*Completions*")
-               (let (display-buffer-function)
-                 (display-buffer bon ntw)
-               )
-              )
-              ((string-match "   *\\*.+\\*" nam)
-               (special-display-popup-frame buf)
-              )
-              (t
-               (let (display-buffer-function)
-                 (display-buffer bon ntw)
-               )
-              )
-        )
-      (if (string-match " *\\*.+\\*" nam);   28-Dec-1999
-          (special-display-popup-frame buf); 28-Dec-1999
-        (let (display-buffer-function)
-          (display-buffer bon ntw)
+;;;  6-Nov-2014
+(defvar lse-window:special-display-alist
+  '((width . 80) (height . 30))
+)
+
+;;;  6-Nov-2014
+(defvar lse-window:special-display-regexp
+  (concat
+    " *\\*\\("
+      "Finder\\|Help\\|mail\\|shell\\|info\\|.*-Log\\|VC\\|vc"
+      "\\|Text Properties\\|Faces\\|Colors\\|Python\\( Output\\)?"
+      "\\|Apropos\\|Shadows"
+    "\\).*\\*"
+  )
+)
+
+(if lse-emacs24.3-p
+    (setq display-buffer-alist
+      (list
+        (cons
+          lse-window:special-display-regexp
+            (cons
+              'special-display-popup-frame lse-window:special-display-alist
+            )
         )
       )
     )
+  (with-no-warnings
+    ;; obsolete variables as of Emacs 24.3
+    ;; as this is only executed for earlier Emacsen, disable compiler warnings
+    (setq
+      special-display-frame-alist lse-window:special-display-alist
+      special-display-regexps     (list lse-window:special-display-regexp)
+    )
   )
-; lse-window:display-buffer
 )
-
-; (setq display-buffer-function 'lse-window:display-buffer)
-
-(setq special-display-frame-alist '((width . 80) (height . 30))); 4-Dec-1997
-(setq special-display-regexps
-      (list
-        ;; " *\\*.+\\*";
-        (concat " *\\*\\("
-                  "Finder\\|Help\\|mail\\|shell\\|info\\|.*-Log\\|VC\\|vc"
-                  "\\|Text Properties\\|Faces\\|Colors\\|Python\\( Output\\)?"
-                  "\\|Apropos\\|Shadows"
-                "\\).*\\*"
-        )
-      )
-); 3-Jan-2000
 
 (setq same-window-buffer-names nil);  3-Jan-2000
 ;;; (setq same-window-regexps (list "\\*[Cc]ompletions?\\*"));  6-Jan-2000;  3-Jan-2000
+
+(require 'imenu)
+(when (fboundp 'imenu-default-goto-function)
+  (advice-add 'imenu-default-goto-function :after #'lse-scroll-to-top:after)
+)
+
+;;; __END__ lse-window.el

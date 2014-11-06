@@ -96,6 +96,8 @@
 ;;;;     6-Nov-2014 (CT) Factor `lse-frame:do-setup`, use it in
 ;;;;                     `lse-frame:restore-saved-config` to avoid info loss
 ;;;;     6-Nov-2014 (CT) Add `require` statements to avoid compiler warnings
+;;;;     6-Nov-2014 (CT) Add `select-frame`, `lse-scroll-to-top` to
+;;;;                     `lse-frame:make`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -274,8 +276,9 @@
       (lse-frame:set-parameter 'title-prefix-suffix tps result)
     )
     (lse-frame:fix-position result)
+    (select-frame result)
+    (lse-scroll-to-top)
     (when frame-setup
-      (select-frame result)
       (lse-frame:do-setup result frame-setup)
     )
     result
@@ -325,21 +328,24 @@
         )
       )
       t
-    (setq server-window
-      (lse-frame:make
-        "-Server" nil nil
-        (list
-          '(desktop-dont-save . t)
-          '(height            . 40)
-          '(width             . 80)
-          '(visibility        . icon)
+    (let ((start-frame  (selected-frame)))
+      (setq server-window
+        (lse-frame:make
+          "-Server" nil nil
+          (list
+            '(desktop-dont-save . t)
+            '(height            . 40)
+            '(width             . 80)
+            '(visibility        . icon)
+          )
         )
       )
+      ;; for some reason, passing 'font to `lse-frame:make` doesn't work
+      ;; do it separately here, then
+      (lse-frame:set-font lse-face:font:7x13 server-window)
+      (lse-goto-buffer "*scratch*")
+      (select-frame start-frame)
     )
-    ;; for some reason, passing 'font to `lse-frame:make` doesn't work
-    ;; do it separately here, then
-    (lse-frame:set-font lse-face:font:7x13 server-window)
-    (lse-goto-buffer "*scratch*")
   )
   server-window
 ; lse-frame:make-server-window
