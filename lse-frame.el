@@ -93,6 +93,8 @@
 ;;;;     5-Nov-2014 (CT) Add `lse-frame:desktop-save-frames-with-setup`
 ;;;;     5-Nov-2014 (CT) Factor `lse-frame:desktop-save-list`,
 ;;;;                     change `lse-frame:desktop-save-one` to return result
+;;;;     6-Nov-2014 (CT) Factor `lse-frame:do-setup`, use it in
+;;;;                     `lse-frame:restore-saved-config` to avoid info loss
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -208,6 +210,15 @@
 ; lse-frame:n
 )
 
+;;;  6-Nov-2014
+(defun lse-frame:do-setup (frame frame-setup)
+  (eval frame-setup)
+  (lse-frame:set-parameter 'frame-setup       frame-setup frame)
+  (lse-frame:set-parameter 'desktop-dont-save t           frame)
+  (push frame lse-frame:_frames_with_setup)
+; lse-frame:do-setup
+)
+
 ;;; 21-Oct-2014
 (defun lse-frame:fix-position (&optional fram)
   "Fix position of frame relative to display to avoid off-display parts."
@@ -261,14 +272,8 @@
     )
     (lse-frame:fix-position result)
     (when frame-setup
-      (lse-frame:set-parameter 'frame-setup       frame-setup result)
-      (lse-frame:set-parameter 'desktop-dont-save t           result)
-      (let ((frame result)
-           )
-        (select-frame frame)
-        (eval frame-setup)
-        (push frame lse-frame:_frames_with_setup)
-      )
+      (select-frame result)
+      (lse-frame:do-setup result frame-setup)
     )
     result
   )
@@ -737,10 +742,7 @@
           )
           (let ((frame (selected-frame)))
             (if frame-setup
-                (progn
-                  (eval frame-setup)
-                  (lse-frame:set-parameter 'frame-setup frame-setup frame)
-                )
+                (lse-frame:do-setup frame frame-setup)
               (dolist (window-info window-infos)
                 (let ((b-nam (nth 0 window-info))
                       (b-pos (nth 1 window-info))
