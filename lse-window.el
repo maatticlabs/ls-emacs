@@ -78,6 +78,8 @@
 ;;;;     6-Nov-2014 (CT) Remove compiler warnings
 ;;;;     6-Nov-2014 (CT) Add advice `lse-scroll-to-top:after` to
 ;;;;                     `imenu-default-goto-function`
+;;;;     7-Nov-2014 (CT) Add `unsplittable` to lse-window:special-display-alist
+;;;;                     Set `special-display-frame-alist` for Emacs 24.3+, too
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -599,7 +601,7 @@
 
 ;;;  6-Nov-2014
 (defvar lse-window:special-display-alist
-  '((width . 80) (height . 30))
+  '((width . 80) (height . 30) (unsplittable . nil))
 )
 
 ;;;  6-Nov-2014
@@ -625,13 +627,14 @@
       )
     )
   (with-no-warnings
-    ;; obsolete variables as of Emacs 24.3
-    ;; as this is only executed for earlier Emacsen, disable compiler warnings
-    (setq
-      special-display-frame-alist lse-window:special-display-alist
-      special-display-regexps     (list lse-window:special-display-regexp)
-    )
+    ;; obsolete variable as of Emacs 24.3, disable compiler warnings
+    (setq special-display-regexps (list lse-window:special-display-regexp))
   )
+)
+
+(with-no-warnings
+  ;; obsolete variable as of Emacs 24.3, disable compiler warnings
+  (setq special-display-frame-alist lse-window:special-display-alist)
 )
 
 (setq same-window-buffer-names nil);  3-Jan-2000
