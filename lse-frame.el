@@ -98,6 +98,7 @@
 ;;;;     6-Nov-2014 (CT) Add `require` statements to avoid compiler warnings
 ;;;;     6-Nov-2014 (CT) Add `select-frame`, `lse-scroll-to-top` to
 ;;;;                     `lse-frame:make`
+;;;;     7-Nov-2014 (CT) Add `(display :never)` to `frameset-filter-alist`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -812,7 +813,8 @@
       ;; garbage but that's not true under X+fvwm2
       (setq frameset-filter-alist
         (nconc
-          '((left     . frameset-filter-shelve-param)
+          '((display  . :never)
+            (left     . frameset-filter-shelve-param)
             (top      . frameset-filter-shelve-param)
             (GUI:left . frameset-filter-unshelve-param)
             (GUI:top  . frameset-filter-unshelve-param)
