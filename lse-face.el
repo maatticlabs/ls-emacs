@@ -65,6 +65,8 @@
 ;;;;                     (used to be dark, today suddenly was unreadable white)
 ;;;;     5-Jul-2014 (CT) Add `group` argument to `defface`
 ;;;;    22-Oct-2014 (CT) Add `lse-face:font:6x13` and `lse-face:font:7x13`
+;;;;     7-Nov-2014 (CT) Change font definitions to `75-75-`; add more fonts
+;;;;                     (`100-100-` doesn't work on all Gentoo machines)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -151,25 +153,72 @@
 
 ;;; 22-Oct-2014
 ;;; Used `xlsfonts` + experimentation to find the XLFD names of fixed fonts
+;;; /usr/share/fonts/misc/fonts.alias is also interesting
+;;;
+;;; xlsfonts -fn "-misc-fixed-medium-r-*iso10646-1" | pcregrep -v -- '-(ko|ja)-'
+;;;    -misc-fixed-medium-r-normal--0-0-100-100-c-0-iso10646-1
+;;;    -misc-fixed-medium-r-normal--0-0-75-75-c-0-iso10646-1
+;;;    -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1
+;;;    -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso10646-1
+;;;    -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso10646-1
+;;;    -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
+;;;    -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso10646-1
+;;;    -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
+;;;    -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1
+;;;    -misc-fixed-medium-r-normal--6-60-75-75-c-40-iso10646-1
+;;;    -misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
+;;;    -misc-fixed-medium-r-normal--8-80-75-75-c-50-iso10646-1
+;;;    -misc-fixed-medium-r-normal--9-90-75-75-c-60-iso10646-1
+;;;    -misc-fixed-medium-r-semicondensed--0-0-75-75-c-0-iso10646-1
+;;;    -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso10646-1
+;;;    -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
+
+(defconst lse-face:font:6x10
+  "-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 6x10"
+)
+
+(defconst lse-face:font:6x12
+  "-misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 6x12"
+)
+
 (defconst lse-face:font:6x13
-  "-misc-fixed-medium-r-semicondensed--13-120-100-100-c-60-iso10646-1"
+  "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
   "Standard X-Window fixed width font with old style designation 6x13"
 )
 
-(defconst lse-face:font:6x13:latin-9
-  "-misc-fixed-medium-r-semicondensed--13-120-100-100-c-60-iso8859-15"
-  "Standard X-Window fixed width font with old style designation 6x13"
-)
-
-;;; 22-Oct-2014
 (defconst lse-face:font:7x13
-  "-misc-fixed-medium-r-normal--13-120-100-100-c-70-iso10646-1"
+  "-misc-fixed-medium-r-normal--13-120-75-75-c-70-iso10646-1"
   "Standard X-Window fixed width font with old style designation 7x13"
 )
 
-(defconst lse-face:font:7x13:latin-9
-  "-misc-fixed-medium-r-normal--13-120-100-100-c-70-iso8859-15"
-  "Standard X-Window fixed width font with old style designation 7x13"
+(defconst lse-face:font:7x14
+  "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 7x14"
 )
+
+(defconst lse-face:font:8x13
+  "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 8x13"
+)
+
+(defconst lse-face:font:8x16
+  "-misc-fixed-medium-r-normal--16-120-75-75-c-80-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 8x16"
+)
+
+(defconst lse-face:font:9x15
+  "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 9x15"
+)
+
+(defconst lse-face:font:10x20
+  "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1"
+  "Standard X-Window fixed width font with old style designation 10x20"
+)
+
+(defconst lse-face:font:fixed   lse-face:font:6x13)
+(defconst lse-face:font:default lse-face:font:7x13)
 
 ;;; __END__ lse-face.el
