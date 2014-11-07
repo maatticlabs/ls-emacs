@@ -99,6 +99,7 @@
 ;;;;     6-Nov-2014 (CT) Add `select-frame`, `lse-scroll-to-top` to
 ;;;;                     `lse-frame:make`
 ;;;;     7-Nov-2014 (CT) Add `(display :never)` to `frameset-filter-alist`
+;;;;     7-Nov-2014 (CT) Add `lse-frame:never-save-parameters`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -811,14 +812,50 @@
       ;; `desktop-restore-frames` looses the position of iconified frames
       ;; `frameset.el` claims that `left` and `top` of iconified frames are
       ;; garbage but that's not true under X+fvwm2
+      ;;;  7-Nov-2014
+      (defvar lse-frame:never-save-parameters
+        '((alpha                        . :never)
+          (auto-lower                   . :never)
+          (auto-raise                   . :never)
+          (background-color             . :never)
+          (border-color                 . :never)
+          (border-width                 . :never)
+          (bottom-divider-width         . :never)
+          (cursor-color                 . :never)
+          (cursor-type                  . :never)
+          (display                      . :never)
+          (display-type                 . :never)
+          (explicit-name                . :never)
+          (font-backend                 . :never)
+          (foreground-color             . :never)
+          (internal-border-width        . :never)
+          (left-fringe                  . :never)
+          (mouse-color                  . :never)
+          (right-divider-width          . :never)
+          (right-fringe                 . :never)
+          (screen-gamma                 . :never)
+          (scroll-bar-background        . :never)
+          (scroll-bar-foreground        . :never)
+          (scroll-bar-width             . :never)
+          (wait-for-wm                  . :never)
+         )
+        "List of frame parameters not to be saved; redefine this at will"
+      )
       (setq frameset-filter-alist
         (nconc
-          '((display  . :never)
-            (left     . frameset-filter-shelve-param)
+          '((left     . frameset-filter-shelve-param)
             (top      . frameset-filter-shelve-param)
             (GUI:left . frameset-filter-unshelve-param)
             (GUI:top  . frameset-filter-unshelve-param)
            )
+          (copy-tree frameset-filter-alist)
+        )
+      )
+      ;; Don't want `display` saved,
+      ;; doesn't make sense in `desktop-restore-frames`
+      (setq frameset-filter-alist
+        (nconc
+          (copy-tree lse-frame:never-save-parameters)
           (copy-tree frameset-filter-alist)
         )
       )
