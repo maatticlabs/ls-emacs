@@ -159,6 +159,8 @@
 ;;;;    20-Oct-2014 (CT) Add `lse-tpu:mouse-paste`
 ;;;;    21-Oct-2014 (CT) Remove advise to `mouse-yank-primary`
 ;;;;     4-Nov-2014 (CT) Remove `lse-tpu:mark-flag` from `mode-line-format`
+;;;;     7-Nov-2014 (CT) Fix `lse-tpu:mouse-paste` by copying and fixing code
+;;;;                     from `/usr/share/emacs/24.4/lisp/mouse.el: mouse-yank-primary`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -3468,19 +3470,54 @@ A repeat count means scroll that many sections."
 (put 'lse-tpu:undelete-char       'delete-selection 'kill)
 (put 'lse-tpu:paste-region        'delete-selection 'kill)
 
-;;; 20-Oct-2014
+;;;  7-Nov-2014
+;;; Replacement for `mouse-yank-primary` to do the right thing.
+;;;
+;;; Without this redefinition, Emacs 24 is terminally broken: Double clicking
+;;; in one window and then middle clicking in another window showing the same
+;;; buffer extends the selection before yanking. Un-fucking-believably
+;;; stupid!
+;;;
+;;; `mouse-yank-primary` determines the selection after calling
+;;; `(mouse-set-point click)` instead of before setting the point to `click`
+;;;
+;;; Move `(or mouse-yank-at-point (mouse-set-point click))` into `let` to
+;;; solve the problem
+;;;
 (defun lse-tpu:mouse-paste (click)
-  "Wrapper around `mouse-yank-primary` to first cancel active selection."
-  ; Without this, Emacs 24 is terminally broken: Double clicking in one
-  ; window and then middle clicking in another window showing the same
-  ; buffer extends the selection before yanking. Un-fucking-believably stupid!
-  ;
-  ; Unfortunately, even with `lse-tpu:unselect` middle clicking in another
-  ; frame showing the same buffer still extends the selection before yanking.
+  "Insert the primary selection at the position clicked on.
+Move point to the end of the inserted text, and set mark at
+beginning.  If `mouse-yank-at-point' is non-nil, insert at point
+regardless of where you click."
   (interactive "e")
-  (lse-tpu:unselect t)
-  (call-interactively 'mouse-yank-primary)
-; lse-tpu:mouse-paste
+  ;; Give temporary modes such as isearch a chance to turn off.
+  (run-hooks 'mouse-leave-buffer-hook)
+  ;; Without this, confusing things happen upon e.g. inserting into
+  ;; the middle of an active region.
+  (when select-active-regions
+    (let (select-active-regions)
+      (deactivate-mark)))
+  (let ((primary
+         (if (fboundp 'x-get-selection-value)
+             (if (eq (framep (selected-frame)) 'w32)
+                 ;; MS-Windows emulates PRIMARY in x-get-selection, but not
+                 ;; in x-get-selection-value (the latter only accesses the
+                 ;; clipboard).  So try PRIMARY first, in case they selected
+                 ;; something with the mouse in the current Emacs session.
+                 (or (x-get-selection 'PRIMARY)
+                     (x-get-selection-value))
+               ;; Else MS-DOS or X.
+               ;; On X, x-get-selection-value supports more formats and
+               ;; encodings, so use it in preference to x-get-selection.
+               (or (x-get-selection-value)
+                   (x-get-selection 'PRIMARY)))
+           ;; FIXME: What about xterm-mouse-mode etc.?
+           (x-get-selection 'PRIMARY))))
+    (or mouse-yank-at-point (mouse-set-point click))
+    (unless primary
+      (error "No selection is available"))
+    (push-mark (point))
+    (insert-for-yank primary))
 )
 
 (provide 'lse-tpu)

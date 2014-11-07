@@ -181,6 +181,8 @@
 ;;;;    21-Oct-2014 (CT) Add lse-frame bindings ([?\C-x?5?1], ...)
 ;;;;    22-Oct-2014 (CT) Replace bindings for
 ;;;;                     `electric-newline-and-maybe-indent`
+;;;;     7-Nov-2014 (CT) Factor `lse-tpu:define-mouse-keys`,
+;;;;                     unset destructive `mode-line` mouse bindings
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -460,6 +462,16 @@
 ; lse-tpu:define-electric-inserts
 )
 
+;;;  7-Nov-2014
+(defun lse-tpu:define-mouse-keys ()
+  (global-set-key   [S-mouse-down-3]                  'imenu)
+  (global-unset-key [mode-line mouse-2])
+  (global-unset-key [mode-line mouse-3])
+  (global-unset-key [mode-line C-mouse-2])
+  (global-unset-key [mode-line C-mouse-3])
+; lse-tpu:define-mouse-keys
+)
+
 ;;;  1-Sep-2002
 (defun lse-tpu:redefine-some-control-keys ()
   (lse-define-key-in-all-maps [?\C-w]    'lse-tpu:delete-prev-bs-word);  6-Jan-2002
@@ -487,6 +499,7 @@
 (defun lse-define-tpu-keys ()
   "Redefine keys defined by standard EMACS modes"
   (lse-tpu:define-keypad-num);  3-Oct-2007
+  (lse-tpu:define-mouse-keys)
   (if lse-tpu:electric-inserts-p
       (lse-tpu:define-electric-inserts)
   )
@@ -523,8 +536,6 @@
       (setq i (1+ i))
     )
   )
-
-  (global-set-key  [mouse-3]         'imenu)
 
   (global-set-key  [?\A-']           'lse-insert-bquotes); 10-Jun-1998
   (global-set-key  [?\A-|]           'lse-fill-range); 28-Apr-1996
