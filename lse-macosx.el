@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2009-2011 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -29,32 +29,35 @@
 ;;;; Revision Dates
 ;;;;    14-May-2009 (CT) Creation
 ;;;;     3-Jun-2011 (CT) `provide` added
+;;;;     7-Nov-2014 (CT) Add guard
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-macosx)
 
-(osx-key-mode nil)
+(when (fboundp 'osx-key-mode)
+  (osx-key-mode nil)
 
-(defvar lse-keys:function-key-map-bindings
-   '( ([f11]        [blue])
-      ([f12]        [gold])
-    )
+  (defvar lse-keys:function-key-map-bindings
+     '( ([f11]        [blue])
+        ([f12]        [gold])
+      )
+  )
+
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier  'alt)
+  (setq osx-key-mode-map (make-osx-key-mode-map))
+
+  (defvar lse-tpu:electric-inserts-p t)
+  (defvar lse-tpu:use-control-keys-p t)
+
+  (setq load-path
+    (append (list "/Developer/Tools/ls-emacs" "/Developer/Tools/ls-emacs/lsc") load-path)
+  )
+
+  (setq lse-directory        "/Developer/Tools/ls-emacs/lse")
+  (setq lse-src-directory    "/Developer/Tools/ls-emacs/lse")
+  (setq lse-script-directory "/Developer/Tools/ls-emacs/scripts")
 )
-
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier  'alt)
-(setq  osx-key-mode-map (make-osx-key-mode-map))
-
-(defvar lse-tpu:electric-inserts-p t)
-(defvar lse-tpu:use-control-keys-p t)
-
-(setq load-path
-  (append (list "/Developer/Tools/ls-emacs" "/Developer/Tools/ls-emacs/lsc") load-path)
-)
-
-(setq lse-directory        "/Developer/Tools/ls-emacs/lse")
-(setq lse-src-directory    "/Developer/Tools/ls-emacs/lse")
-(setq lse-script-directory "/Developer/Tools/ls-emacs/scripts")
 
 ;;;; __END__ lse-config.el
