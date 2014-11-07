@@ -55,6 +55,9 @@
 ;;;;    18-Feb-2012 (CT) s/lse-goto-last-position/lse-tpu:goto-last-position/
 ;;;;    26-Feb-2012 (CT) Add `lse-tpu:search:smart-case`
 ;;;;    14-Apr-2014 (CT) Comment out entries for `lse-tpu:search:smart-case`
+;;;;     7-Nov-2014 (CT) Add `Set font` sub-menu
+;;;;     7-Nov-2014 (CT) Use `define-prefix-command`,
+;;;;                     not `defvar... make-sparse-keymap`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -73,16 +76,14 @@
   "Menu keymap for fill-in commands of LS-Emacs"
 )
 
-(defvar lse-menu:vcs (make-sparse-keymap "VCS")
-  "Menu keymap for vc-specific commands of LS-Emacs"
-)
+;;; Menu keymap for vc-specific commands of LS-Emacs
+(define-prefix-command 'lse-menu:vcs nil "VCS")
+
 (put 'lse-menu:vcs 'menu-enable '(lse-vcs:conflict:p))
 
-(defvar lse-menu:fill-in (make-sparse-keymap "Fill-In")
-  "Menu keymap for fill-in commands of LS-Emacs"
-)
+;;; Menu keymap for fill-in commands of LS-Emacs
+(define-prefix-command 'lse-menu:fill-in nil "Fill-In")
 
-;;; (setq   lse-menu:fill-in (make-sparse-keymap "Fill-In"))
 (add-to-list 'menu-bar-final-items 'fill-in)
 
 (define-key global-map        [menu-bar fill-in]
@@ -109,6 +110,59 @@
   '("Revert all buffers with same anchor" . lse-revert-buffers-same-anchor)
 ); 10-Nov-2010
 (put 'lse-revert-buffers-same-anchor 'menu-enable 'lse-buffer:anchor)
+
+;;;  7-Nov-2014
+;;; Menu keymap for commands to set the font of the current frame
+
+(define-prefix-command 'lse-menu:set-font nil "Set font")
+
+(define-key lse-menu:lse-menu [set-font] (cons "Set font" lse-menu:set-font))
+
+(define-key lse-menu:set-font [10x20]
+  (cons "Use font 10x20" (lse-key-cmd (lse-frame:set-font lse-face:font:10x20)))
+)
+
+(define-key lse-menu:set-font [9x15]
+  (cons "Use font 9x15" (lse-key-cmd (lse-frame:set-font lse-face:font:9x15)))
+)
+
+(define-key lse-menu:set-font [8x16]
+  (cons "Use font 8x16" (lse-key-cmd (lse-frame:set-font lse-face:font:8x16)))
+)
+
+(define-key lse-menu:set-font [8x13]
+  (cons "Use font 8x13" (lse-key-cmd (lse-frame:set-font lse-face:font:8x13)))
+)
+
+(define-key lse-menu:set-font [7x14]
+  (cons "Use font 7x14" (lse-key-cmd (lse-frame:set-font lse-face:font:7x14)))
+)
+
+(define-key lse-menu:set-font [7x13]
+  (cons "Use font 7x13" (lse-key-cmd (lse-frame:set-font lse-face:font:7x13)))
+)
+
+(define-key lse-menu:set-font [6x13]
+  (cons "Use font 6x13" (lse-key-cmd (lse-frame:set-font lse-face:font:6x13)))
+)
+
+(define-key lse-menu:set-font [6x12]
+  (cons "Use font 6x12" (lse-key-cmd (lse-frame:set-font lse-face:font:6x12)))
+)
+
+(define-key lse-menu:set-font [6x10]
+  (cons "Use font 6x10" (lse-key-cmd (lse-frame:set-font lse-face:font:6x10)))
+)
+
+(define-key lse-menu:set-font [separator-set-font] '("--"))
+
+(define-key lse-menu:set-font [small]
+  (cons "Use font small" (lse-key-cmd (lse-frame:set-font lse-face:font:small)))
+)
+
+(define-key lse-menu:set-font [default]
+  (cons "Use font default" (lse-key-cmd (lse-frame:set-font lse-face:font:default)))
+)
 
 (define-key lse-menu:lse-menu [VCS] (cons "VCS" lse-menu:vcs))
 
@@ -283,8 +337,8 @@
     ;; menu-bar-make-toggle should be provided by the standard library
     ;; menu-bar.el
     (progn
-      (defvar lse-menu:options:editing (make-sparse-keymap "Editing Options"))
-      (defvar lse-menu:options:search  (make-sparse-keymap "Search Options"))
+      (define-prefix-command 'lse-menu:options:editing nil "Editing Options")
+      (define-prefix-command 'lse-menu:options:search  nil "Search Options")
       (define-key lse-menu:lse-menu [editing-options]
         (cons "Edit options" lse-menu:options:editing)
       )

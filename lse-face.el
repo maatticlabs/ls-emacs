@@ -218,7 +218,7 @@
   "Standard X-Window fixed width font with old style designation 10x20"
 )
 
-(defconst lse-face:font:fixed   lse-face:font:6x13)
+(defconst lse-face:font:small   lse-face:font:6x13)
 (defconst lse-face:font:default lse-face:font:7x13)
 
 ;;; __END__ lse-face.el

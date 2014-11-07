@@ -183,6 +183,7 @@
 ;;;;                     `electric-newline-and-maybe-indent`
 ;;;;     7-Nov-2014 (CT) Factor `lse-tpu:define-mouse-keys`,
 ;;;;                     unset destructive `mode-line` mouse bindings
+;;;;     7-Nov-2014 (CT) Add binding for `lse-menu:set-font` [S-down-mouse-2]
 ;;;;    ««Revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys-v19)
@@ -464,7 +465,8 @@
 
 ;;;  7-Nov-2014
 (defun lse-tpu:define-mouse-keys ()
-  (global-set-key   [S-mouse-down-3]                  'imenu)
+  (global-set-key   [S-down-mouse-2]                  'lse-menu:set-font)
+  (global-set-key   [S-down-mouse-3]                  'imenu)
   (global-unset-key [mode-line mouse-2])
   (global-unset-key [mode-line mouse-3])
   (global-unset-key [mode-line C-mouse-2])
