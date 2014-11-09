@@ -94,12 +94,13 @@
 ;;;;                     Use `version<`, not `string-lessp`
 ;;;;     4-Nov-2014 (CT) Don't set frame title in `lse-terminal-setup`
 ;;;;     6-Nov-2014 (CT) Add `lse-emacs24.3-p`
+;;;;     9-Nov-2014 (CT) Remove compiler warnings
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
-(defconst lse-version      "3.8.2"        "Version number of LS-Emacs.")
-(defconst lse-version-date " 5-Sep-2013 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "4.0.0"        "Version number of LS-Emacs.")
+(defconst lse-version-date " 9-Nov-2014 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (version< emacs-version "19"))
   "Non-NIL if we are running GNU Emacs version 19."
@@ -156,9 +157,6 @@
       (append (list lse-directory lse-src-directory) load-path nil)
 )
 
-(defconst                    lse@active@in@buffer nil)
-(make-variable-buffer-local 'lse@active@in@buffer)
-
 ;;;+
 ;;; lse_current_fill-in stores the fill-in_info about the currently
 ;;; considered (flat) fill-in.
@@ -169,13 +167,6 @@
 (make-variable-buffer-local 'lse_current_fill-in)
 (defvar                      lse_dead_fill-in     nil)
 (make-variable-buffer-local 'lse_dead_fill-in)
-
-;;;+
-;;; lse_last_position stores the position prior to the last
-;;; lse-goto-*-fill-in operation
-;;;-
-(defvar                      lse_last_position nil)
-(make-variable-buffer-local 'lse_last_position)
 
 (defun lse-initialize ()
   (if noninteractive       ;  9-Jul-1995
@@ -214,7 +205,7 @@
     (unless lse-global-home-mark-initialized
       (lse-set-home-mark-global (point-marker))
     )
-    (lse@initialize@window@mark@stack)
+    (lse-window:mark-stack:initialize)
     (lse-ring-bell)
   )
 )

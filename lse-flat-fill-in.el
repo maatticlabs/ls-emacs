@@ -82,7 +82,7 @@
 ;;;;                     time to work around Emacs's idiosyncrasies)
 ;;;;    29-Mar-1995 (CT) Don't care about empty replacements (previously, the
 ;;;;                     flat fill-in was restored by
-;;;;                     lse@shut_fill-in_replacement)
+;;;;                     lse-fill-in:shut-replacement)
 ;;;;    23-Apr-1995 (CT) Check if replacement allowed
 ;;;;                     (lse-flat-fill-in:auto-open-replacement)
 ;;;;    19-Aug-1995 (CT) Optional argument `lazy' added to
@@ -107,7 +107,7 @@
 ;;;;                     lse_replicate_fill_in_menu_entries (now defined by
 ;;;;                     lse-list-util if not by Emacs)
 ;;;;     9-Oct-1996 (CT) Added optional parameter `dont-highlight' to
-;;;;                     `lse_toggle_fill-in_expansion'
+;;;;                     `lse-fill-in:toggle-expansion'
 ;;;;    11-Oct-1996 (CT) Use 'category to define text-properties for current
 ;;;;                     fill-in
 ;;;;    13-Oct-1996 (CT) Use lse-fill-in:{add|remove}-text-properties
@@ -158,7 +158,7 @@
 ;;;;     4-Jul-2012 (CT) Rewrite `lse-flat-fill-in:replace-and-mouse-yank` to
 ;;;;                     work in Emacs 24, too
 ;;;;     4-Jul-2012 (CT) Use `let`, not `setq`, to temporarily change
-;;;;                     `lse@expansion@separator` in
+;;;;                     `lse::expansion@separator` in
 ;;;;                     `lse-flat-fill-in:expand-menu`
 ;;;;     9-Nov-2014 (CT) Change `lse-flat-fill-in:replace-and-mouse-yank` to
 ;;;;                     use `lse-tpu:mouse-paste:get-primary`
@@ -167,22 +167,26 @@
 ;;;;--
 (provide 'lse-flat-fill-in)
 
+(defvar lse::expansion-separator          nil)
+(defvar lse-flat-fill-in:no-vanguard      nil); 26-Jun-1994
+(defvar lse-flat-fill-in:auto-replicating nil); 26-Feb-1995
+
 (defmacro with_lse_fill_environment_at (pos &rest forms)
-  `(let (lse@current-expansion-indent
-         lse@original-expansion-indent
-         lse@environment-expansion-indent
-         lse@expansion-line-leading
-         lse@expansion-line-trailer
-         lse@expansion-line-leading-indent
-         lse@expansion-line-trailer-indent
+  `(let (lse::current-expansion-indent
+         lse::original-expansion-indent
+         lse::environment-expansion-indent
+         lse::expansion-line-leading
+         lse::expansion-line-trailer
+         lse::expansion-line-leading-indent
+         lse::expansion-line-trailer-indent
         )
      (save-excursion
        (and ,pos (goto-char ,pos))
-       (setq lse@current-expansion-indent     (current-column))
-       (setq lse@original-expansion-indent    (current-column))
-       (setq lse@environment-expansion-indent (current-indentation))
-       (lse_comment:setup_expansion_leading)
-       (lse_comment:setup_expansion_trailer)
+       (setq lse::current-expansion-indent     (current-column))
+       (setq lse::original-expansion-indent    (current-column))
+       (setq lse::environment-expansion-indent (current-indentation))
+       (lse-comment:setup_expansion_leading)
+       (lse-comment:setup_expansion_trailer)
      )
      ,@forms
    )
@@ -380,7 +384,7 @@
       (lse-fill-in:change-inner-range lse_current_fill-in inner-range)
     )
     (lse-flat-fill-in:open-replacement-highlight head-pos p); 18-Mar-1995
-    (lse-fill-in:change-state      lse_current_fill-in 'lse@deep)
+    (lse-fill-in:change-state      lse_current_fill-in 'lse::deep)
     (lse-fill-in:change-fill-type  lse_current_fill-in fill-type)
     (lse-fill-in:change-complement lse_current_fill-in complement)
     (lse-fill-in:change-duplicate  lse_current_fill-in dupl-range)
@@ -498,7 +502,7 @@
         (props       (get psym 'properties));  4-Oct-2002
         range
        )
-    (lse-flat-fill-in:open-replacement psym name 'lse@expanded)
+    (lse-flat-fill-in:open-replacement psym name 'lse::expanded)
     (if expansion
         (lse-fill-in-insert expansion)
       (lse-flat-fill-in:interpret-replacement_in_env psym)
@@ -531,7 +535,7 @@
     )
     (setq lse_current_fill-in nil)
     (or (lse_inside_fill-in)
-        (lse_goto_first_fill-in_of_range
+        (lse-fill-in:goto-first-of-range
             (lse-range:head-pos range)
             (lse-tpu:line-tail-pos (or (get psym 'max-line-move) 1))
         )
@@ -572,8 +576,8 @@
   (let ((expansion (lse_expand_menu psym name (get psym 'menu))))
     (cond ((not expansion))
           ((symbolp expansion)
-           (let ((lse@expansion@separator
-                   (or lse@expansion@separator (get psym 'separator))
+           (let ((lse::expansion-separator
+                   (or lse::expansion-separator (get psym 'separator))
                  )
                 )
              (lse-flat-fill-in:expand
@@ -622,9 +626,6 @@
 ;;;;++
 ;;;; Second internal level for expansion
 ;;;;--
-(defvar lse@expansion@separator           nil)
-(defvar lse-flat-fill-in:no-vanguard      nil); 26-Jun-1994
-(defvar lse-flat-fill-in:auto-replicating nil); 26-Feb-1995
 
 ;;;+
 ;;; lse-flat-fill-in:interpret-replacement performs the actual expansion of fill-in
@@ -719,7 +720,7 @@
         )
         (lse-flat-fill-in:interpret-replacement_in_env psym)
         (let (lse_replaced_fill-in) ; otherwise fatal  recursion ; 12-Jun-1994
-          (lse_goto_first_fill-in_of_range                       ; 12-Jun-1994
+          (lse-fill-in:goto-first-of-range                       ; 12-Jun-1994
               token-head
               (lse-tpu:line-tail-pos (or (get psym 'max-line-move) 1))
           )                                                      ; 12-Jun-1994
@@ -730,8 +731,8 @@
           (lse-fill-in:new
                psym
                (symbol-name psym)
-               'lse@flat
-               'lse@expanded
+               'lse::flat
+               'lse::expanded
                (lse-range:new token-head token-tail)
                nil
                token
@@ -869,7 +870,7 @@
             (token-given token-head token-tail expansion)
   (let (result)
     (if expansion
-        (let* ((token-sym   (intern-soft     expansion lse_token_table))
+        (let* ((token-sym   (intern-soft     expansion lse::token-table))
                (token-val   (symbol-value    token-sym))
                (token-fct   (symbol-function token-sym))
                (token-range (lse-range:new   token-head token-tail))
@@ -905,7 +906,7 @@
                 (lse_fill-in_history:add_expansion ; of token-given
                      (lse-fill-in:new
                           token-sym (symbol-name token-sym)
-                          'lse@flat 'lse@expanded
+                          'lse::flat 'lse::expanded
                           token-range nil token-given
                           nil nil nil nil
                      )
@@ -921,7 +922,7 @@
 )
 
 (defun lse_expand_token:make_entries (e)
-  (let ((tsym (intern (downcase e) lse_token_table)))
+  (let ((tsym (intern (downcase e) lse::token-table)))
     (if (symbol-function tsym)
         (cons e (lse_fill-in:definition (symbol-value tsym)))
       (cons e (format "%s" (symbol-value tsym)))
@@ -931,8 +932,8 @@
 
 ;;; 21-Jan-2011
 (defun lse_expand_token:try-1 (token expand-fct bt et)
-  (let (matching-tokens expansion result lse@expansion@separator)
-    (setq matching-tokens (all-completions token lse_token_table))
+  (let (matching-tokens expansion result lse::expansion-separator)
+    (setq matching-tokens (all-completions token lse::token-table))
     (cond ((eq (length matching-tokens) 1)
            (setq expansion (car matching-tokens))
           )
@@ -1009,7 +1010,7 @@
 ;;;;++
 ;;;; Internals for replacement
 ;;;;--
-(defun lse@shut_fill-in_replacement (&optional quiet by-replacement lazy)
+(defun lse-fill-in:shut-replacement (&optional quiet by-replacement lazy)
   ;; 19-Aug-1995 optional parameter `lazy' added
   (let ((lse_current_fill-in                   lse_replaced_fill-in)
         (range       (lse-fill-in:range        lse_replaced_fill-in))
@@ -1072,7 +1073,7 @@
 
 (defun lse_shut_fill-in_replacement (&optional by-replacement)
   (if lse_replaced_fill-in
-      (lse@shut_fill-in_replacement nil by-replacement)
+      (lse-fill-in:shut-replacement nil by-replacement)
   )
 )
 
@@ -1080,7 +1081,7 @@
   (if (and lse_replaced_fill-in
            (not (lse-range:inside (lse-fill-in:range lse_replaced_fill-in)))
       )
-      (lse@shut_fill-in_replacement)
+      (lse-fill-in:shut-replacement)
   )
 )
 
@@ -1093,7 +1094,7 @@
   (let ((psym (lse-fill-in:symbol lse_current_fill-in))
        )
     (setq lse_replaced_fill-in
-          (lse-flat-fill-in:open-replacement psym name 'lse@replaced)
+          (lse-flat-fill-in:open-replacement psym name 'lse::replaced)
     )
     (setq lse-fill-in:currently-replaced (concat " «" name "»"))
     (lse-tpu:update-mode-line)
@@ -1108,7 +1109,7 @@
 
 (defun lse_start_replacement_if_in_fill-in ()
   (or lse-flat-fill-in:expansion-in-progress
-      (if lse@active@in@buffer
+      (if lse::active-in-buffer
           (or lse_replaced_fill-in
               (let ((name (lse_inside_fill-in)))
                  (if name
@@ -1162,7 +1163,7 @@
           (or
             (assq (lse_fill-in:definition name) lse_fill-in_history/expansion)
             (lse-fill-in:new ; just in case there was no previous expansion
-                (lse_fill-in:definition name) name 'lse@deep 'lse@expanded
+                (lse_fill-in:definition name) name 'lse::deep 'lse::expanded
                 (lse-range:new (point) (point))
             )
           )
@@ -1180,7 +1181,7 @@
         (lse_open_fill-in_replacement name)
         (lse-fill-in-insert (lse-range:contents-np (lse-fill-in:range replica)))
         (lse-add-to-list descendants lse_replaced_fill-in)
-        (lse@shut_fill-in_replacement t "")
+        (lse-fill-in:shut-replacement t "")
         (setq auto-replicate (1- auto-replicate))
       )
       (lse-fill-in:change-descendants LSE_CURRENT_FILL-IN descendants)
@@ -1208,7 +1209,7 @@
                    )
               (lse-fill-in:change-complement lse_current_fill-in replica)
               (setq current-fill-in
-                    (lse_toggle_fill-in_expansion lse_current_fill-in t)
+                    (lse-fill-in:toggle-expansion lse_current_fill-in t)
               )
               ; 26-Feb-1995 ; (lse_fill-in_history:remove_last_expansion)
               (lse-add-to-list descendants current-fill-in)
@@ -1362,14 +1363,14 @@
                        (lse_fill-in:definition name)
                        lse_fill-in_history/expansion
                        nil                       ; 20-Mar-1995
-                       (list 'lse@deep 'lse@dead); 20-Mar-1995
+                       (list 'lse::deep 'lse::dead); 20-Mar-1995
                    )
           )
           (lse-flat-fill-in:no-vanguard      t)
           (lse-flat-fill-in:auto-replicating t)
          )
       (if replica
-          (if (eq (lse-fill-in:state replica) 'lse@deep); 20-Mar-1995
+          (if (eq (lse-fill-in:state replica) 'lse::deep); 20-Mar-1995
               (condition-case nil; 21-Mar-1995 protect against errors
                   (progn
                     (lse-fill-in-insert
@@ -1746,7 +1747,7 @@ This function is used as key-binding in `lse-flat-fill-in:keymap' for
                  (lse_search_fill-in:forward)
                  (and (match-end 1)          ; 16-Oct-1996
                       (<= (match-end 1) tail); 16-Oct-1996
-                      (setq lse_current_fill-in (lse@check_fill-in))
+                      (setq lse_current_fill-in (lse-check-fill-in))
                  )
                  (lse-flat-fill-in:highlight-current 1); 17-Dec-1996 ` 1'
                )

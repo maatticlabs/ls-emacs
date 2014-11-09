@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -33,7 +33,7 @@
 ;;;;    15-Jun-1994 (CT) Disable overwrite-mode during expansion
 ;;;;    26-Jun-1994 (CT) Set lse-flat-fill-in:no-vanguard while replacing
 ;;;;    27-Jun-1994 (CT) lse-flush-replacement added
-;;;;     1-Aug-1994 (CT) lse_command:last added to lse-command:do
+;;;;     1-Aug-1994 (CT) lse-command:last added to lse-command:do
 ;;;;     8-Sep-1994 (CT) case-fold parameter passed to lse-complete
 ;;;;    13-Sep-1994 (CT) lse-language:fill-in-refs & lse-language:fill-in-defs
 ;;;;                     in lse-language:compile
@@ -62,7 +62,7 @@
 ;;;;    17-Oct-1996 (CT) lse-goto-parent-expansion-head added
 ;;;;    27-Mar-1997 (CT) lse-toggle-lse-split-line added
 ;;;;    14-Dec-1997 (CT) lse-kill-current-fill-in added
-;;;;    16-Dec-1997 (CT) `(setq lse@current-expansion-indent nil)' added to
+;;;;    16-Dec-1997 (CT) `(setq lse::current-expansion-indent nil)' added to
 ;;;;                     `lse-language:use'
 ;;;;    29-Dec-1997 (CT) `lse-version' added
 ;;;;    30-Dec-1997 (CT) `lse-set-tab-increment-i' added
@@ -196,9 +196,9 @@
                   (setq th (point-marker))
                   (lse-fill-in-insert
                        " \n"
-                       (or lse_comment_head_delim "")
+                       (or lse-comment:head_delim "")
                        " end of buffer " (buffer-name (current-buffer))
-                       (or lse_comment_tail_delim "")
+                       (or lse-comment:tail_delim "")
                        "\n"
                   )
                   (setq tt (point-marker))
@@ -350,7 +350,7 @@
   (interactive "*")
   (if lse_replaced_fill-in
       (error "Cannot unexpand while currently replacing a fill-in")
-    (lse_unfill_fill-in "un-expand")
+    (lse-fill-in:unfill "un-expand")
   )
 )
 
@@ -359,17 +359,17 @@
   (interactive "*")
   (if lse_replaced_fill-in
       (error "Cannot reexpand while currently replacing a fill-in")
-    (let ((last_fill-in (lse_fill-in_history:last_unexpansion))
+    (let ((lse-fill-in:last (lse_fill-in_history:last_unexpansion))
          )
-      (if (not last_fill-in)
+      (if (not lse-fill-in:last)
           (error "No fill-in to re-expand")
         (lse_fill-in_history:remove_last_unexpansion)
         (lse_fill-in_history:add_expansion
-             (lse_toggle_fill-in_expansion last_fill-in)
+             (lse-fill-in:toggle-expansion lse-fill-in:last)
         )
         (save-excursion                         ; 12-Jun-1994 auto-replication
-          (mapc 'lse_toggle_fill-in_expansion
-            (lse-fill-in:descendants last_fill-in)
+          (mapc 'lse-fill-in:toggle-expansion
+            (lse-fill-in:descendants lse-fill-in:last)
           )
         )
       )
@@ -384,23 +384,23 @@
   "Cancel active replacement or undo last replacement."
   (interactive "*")
   (if lse_replaced_fill-in
-      (lse@shut_fill-in_replacement t nil t); 19-Aug-1995 `nil t' added
+      (lse-fill-in:shut-replacement t nil t); 19-Aug-1995 `nil t' added
   )
-  (lse_unfill_fill-in "un-replace")
+  (lse-fill-in:unfill "un-replace")
   (lse-flush-replacement)
 )
 
 (defun lse-rereplace-fill-in ()
   "Redo cancelled/undone replacement."
   (interactive "*")
-  (let ((last_fill-in (lse_fill-in_history:last_unexpansion))
+  (let ((lse-fill-in:last (lse_fill-in_history:last_unexpansion))
        )
-    (if (or (not last_fill-in)
-            (not (eq (lse-fill-in:fill-type last_fill-in) 'lse@replaced))
+    (if (or (not lse-fill-in:last)
+            (not (eq (lse-fill-in:fill-type lse-fill-in:last) 'lse::replaced))
         )
         (error "No fill-in to re-replace")
       (lse_fill-in_history:remove_last_unexpansion)
-      (setq lse_replaced_fill-in (lse_toggle_fill-in_expansion last_fill-in))
+      (setq lse_replaced_fill-in (lse-fill-in:toggle-expansion lse-fill-in:last))
     )
   )
 )
@@ -413,10 +413,10 @@
   (interactive "*")
   (or limit (setq limit (point-max)))
   (if (lse_inside_fill-in)
-      (lse_kill_current_fill-in_if_optional)
+      (lse-kill:current-fill-in-if-optional)
   )
   (while (and (lse-goto-next-fill-in t) (< (point) limit))
-    (lse_kill_current_fill-in_if_optional)
+    (lse-kill:current-fill-in-if-optional)
   )
 ; lse-kill-all-optional-fill-ins
 )
@@ -447,7 +447,7 @@
       (let* ((psym    (lse-fill-in:symbol      lse_current_fill-in))
              (kaction (lse-fill-in:kill-action psym))
             )
-        (lse_kill_current_fill-in)
+        (lse-kill:current-fill-in)
         (if kaction         ; 18-Feb-1995
             (save-excursion ; 18-Feb-1995
               (lse-flat-fill-in:interpret-replacement_in_env kaction);18-Feb-95
@@ -491,7 +491,7 @@
 (defun lse-unkill-fill-in ()
   "Unkill the fill-in which was killed last."
   (interactive "*")
-  (lse_unkill_fill_in)
+  (lse-kill:unkill)
 ; lse-unkill-fill-in
 )
 
@@ -503,24 +503,24 @@
   (interactive)
   (let (result
        )
-    (let ((lse_completion_buffer lse_command:completion_buffer)
+    (let ((lse-completion:buffer lse-command:completion_buffer)
          )
-      (if lse_command:initialized
+      (if lse-command:initialized
           t
         (save-current-buffer
-          (set-buffer (lse_completion:buffer "LSE command"))
-          (lse_completion:show "" lse_command:cmd_list nil)
-          (setq lse_command:completion_buffer (current-buffer))
+          (set-buffer (lse-completion:buffer "LSE command"))
+          (lse-completion:show "" lse-command:cmd_list nil)
+          (setq lse-command:completion_buffer (current-buffer))
         )
-        (setq lse_command:initialized t)
+        (setq lse-command:initialized t)
       )
       (setq result
-        (lse-complete cmd lse_command:cmd_list nil t nil lse_command:last t)
+        (lse-complete cmd lse-command:cmd_list nil t nil lse-command:last t)
       )
-      (and result (setq lse_command:last result))
+      (and result (setq lse-command:last result))
     )
     (if result
-        (let ((binding (cdr (assoc result lse_command:cmd_list)))
+        (let ((binding (cdr (assoc result lse-command:cmd_list)))
              )
           (cond ((commandp binding) (call-interactively binding))
                 ((symbolp binding)  (funcall binding))
@@ -565,7 +565,7 @@
   (interactive "P")
   (if (eobp)
       nil
-    (lse-goto-@-fill-in 'lse_search_fill-in:forward 'eobp quiet name)
+    (lse-fill-in:goto 'lse_search_fill-in:forward 'eobp quiet name)
   )
 )
 
@@ -588,7 +588,7 @@
           )
       )
       (setq result
-            (lse-goto-@-fill-in 'lse_search_fill-in:backward 'bobp quiet name)
+            (lse-fill-in:goto 'lse_search_fill-in:backward 'bobp quiet name)
       )
       (if (or (bobp) (not result))
           (goto-char cp)
@@ -673,18 +673,18 @@
   (interactive "*")
   (if (bolp)
       (lse-fill-in-insert "\n"); (newline) not used to avoid marker confusion
-    (if (integerp lse@current-expansion-indent)
+    (if (integerp lse::current-expansion-indent)
         ;; expanding a fill-in
         (lse-newline-and-indent)
       ;; not expanding a fill-in: determine comment leading and trailer for
       ;; lse-newline-and-indent
-      (let (lse@expansion-line-leading
-            lse@expansion-line-leading-indent
-            lse@expansion-line-trailer
-            lse@expansion-line-trailer-indent
+      (let (lse::expansion-line-leading
+            lse::expansion-line-leading-indent
+            lse::expansion-line-trailer
+            lse::expansion-line-trailer-indent
            )
-        (lse_comment:setup_expansion_leading)
-        (lse_comment:setup_expansion_trailer)
+        (lse-comment:setup_expansion_leading)
+        (lse-comment:setup_expansion_trailer)
         (if no-indent                   ; 12-Jan-1999
             (lse-newline 1)             ; 12-Jan-1999
           (lse-newline-and-indent)
@@ -820,7 +820,7 @@ trailers."
       (princ ";-*- coding: utf-8; -*-" (current-buffer)); 28-Jan-2011
       (terpri                     (current-buffer)); 25-May-1999
       (mapatoms 'lse-compile@write-one-fill-in lse_fill-in_table)
-      (mapatoms 'lse-compile@write-one-token   lse_token_table)
+      (mapatoms 'lse-compile@write-one-token   lse::token-table)
       (save-buffer nil)
       (mapc
         (function
@@ -864,8 +864,8 @@ trailers."
     )
     (lse-language:use-loaded lsym t)
   )
-  (setq lse@current-expansion-indent nil)        ; 16-Dec-1997
-  (setq-default lse@current-expansion-indent nil); 12-Jan-1998
+  (setq lse::current-expansion-indent nil)        ; 16-Dec-1997
+  (setq-default lse::current-expansion-indent nil); 12-Jan-1998
 ; lse-language:use
 )
 
@@ -881,8 +881,8 @@ trailers."
         (error "Can't find language %s"           name)
     )
   )
-  (setq lse@current-expansion-indent nil)        ; 16-Dec-1997
-  (setq-default lse@current-expansion-indent nil); 12-Jan-1998
+  (setq lse::current-expansion-indent nil)        ; 16-Dec-1997
+  (setq-default lse::current-expansion-indent nil); 12-Jan-1998
 ; lse-language:reload
 )
 

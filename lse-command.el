@@ -31,7 +31,7 @@
 ;;;;    26-May-1994 (CT) Creation (of comment)
 ;;;;    26-May-1994 (CT) Interactive functions moved to lse-interactive
 ;;;;    18-Jun-1994 (CT) Factored out swing-specific stuff
-;;;;     1-Aug-1994 (CT) lse_command:last added
+;;;;     1-Aug-1994 (CT) lse-command:last added
 ;;;;     8-Sep-1994 (CT) Commands 'mail send' and 'mail read' added
 ;;;;     8-Sep-1994 (CT) case-fold parameter passed to lse-complete
 ;;;;    17-Sep-1994 (CT) lse-language:check added
@@ -46,25 +46,25 @@
 ;;;;--
 (provide 'lse-command)
 
-(defvar lse_command:completion_buffer nil)
-(defvar lse_command:initialized       nil)
-(defvar lse_command:last              nil)
+(defvar lse-command:completion_buffer nil)
+(defvar lse-command:initialized       nil)
+(defvar lse-command:last              nil)
 
-(defvar lse_command:cmd_list          nil)
+(defvar lse-command:cmd_list          nil)
 
 (defun lse-command:add (name binding)
-  (let ((old-binding (cdr (assoc name lse_command:cmd_list)))
+  (let ((old-binding (cdr (assoc name lse-command:cmd_list)))
        )
     (if old-binding
-        (lse-remove-from-list lse_command:cmd_list (cons name old-binding))
+        (lse-remove-from-list lse-command:cmd_list (cons name old-binding))
     )
     (lse-command:add-new name binding)
   )
 )
 
 (defun lse-command:add-new (name binding)
-  (lse-add-to-list lse_command:cmd_list (cons name binding))
-  (setq lse_command:initialized nil)
+  (lse-add-to-list lse-command:cmd_list (cons name binding))
+  (setq lse-command:initialized nil)
 )
 
 

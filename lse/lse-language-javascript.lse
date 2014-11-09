@@ -48,9 +48,9 @@
     '(
         (lse-language:initial-fill-in      "««js-root»»")
         (lse-language:tab-increment        4)
-        (lse_comment_delim_char_set        "/*")
-        (lse_comment_head_delim            "//")
-        (lse_comment_head_delim_pattern    "// *")
+        (lse-comment:delim_char_set        "/*")
+        (lse-comment:head_delim            "//")
+        (lse-comment:head_delim_pattern    "// *")
         (lse-tpu:ident-group-chars         "$_")
      )
     '(
@@ -283,7 +283,7 @@
          (lse-anchor-indent 2) ; don't want a newline directly after a `(`...
         )
         ((lse-line-startswith " *$")
-         (lse-indent:set (lse-indent@shift 1 nil))
+         (lse-indent:set (lse-indent::shift 1 nil))
         )
         (t
          (let ((shift

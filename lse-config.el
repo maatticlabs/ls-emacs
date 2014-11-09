@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2007-2013 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -197,10 +197,7 @@
 (put     'narrow-to-region   'disabled nil)
 (put     'eval-expression    'disabled nil)
 
-(if lse-emacs19-p
-    (add-hook 'after-init-hook 'swing-terminal-setup)
-  (setq term-setup-hook 'swing-terminal-setup)
-)
+(add-hook 'after-init-hook 'swing-terminal-setup)
 
 ;;; 15-Oct-1996
 (setq mail-host-address (lse-system-domain))

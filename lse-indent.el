@@ -39,7 +39,7 @@
 ;;;;     2-Jan-1998 (CT) `lse-indent:add-end-of-defun-comment' and
 ;;;;                     `lse-indent:format-defun*' added
 ;;;;     4-Jan-1998 (CT) `lse-indent:>' and `lse-indent:<' added
-;;;;    11-Sep-2002 (CT) `lse@hanging-indent` and `lse-hang-indent` added
+;;;;    11-Sep-2002 (CT) `lse::hanging-indent` and `lse-hang-indent` added
 ;;;;    18-Jan-2011 (CT) `lse-prev-indent` added
 ;;;;    20-Jan-2011 (CT) `lse-indent:level`, `lse-indent:set` and friends
 ;;;;                     factored
@@ -55,22 +55,22 @@
 (make-variable-buffer-local 'lse-language:tab-increment)
 
 ;;; set-up by fill-in expansion-functions
-(defvar                      lse@current-expansion-indent      nil)
-(defvar                      lse@original-expansion-indent     nil)
-(defvar                      lse@environment-expansion-indent  nil)
-(defvar                      lse@expansion-line-leading        nil)
-(defvar                      lse@expansion-line-leading-indent nil)
-(defvar                      lse@expansion-line-trailer        nil)
-(defvar                      lse@expansion-line-trailer-indent nil)
-(defvar                      lse@hanging-indent                nil)
-(make-variable-buffer-local 'lse@current-expansion-indent)
-(make-variable-buffer-local 'lse@original-expansion-indent)
-(make-variable-buffer-local 'lse@environment-expansion-indent)
-(make-variable-buffer-local 'lse@expansion-line-leading)
-(make-variable-buffer-local 'lse@expansion-line-leading-indent)
-(make-variable-buffer-local 'lse@expansion-line-trailer)
-(make-variable-buffer-local 'lse@expansion-line-trailer-indent)
-(make-variable-buffer-local 'lse@hanging-indent)
+(defvar                      lse::current-expansion-indent      nil)
+(defvar                      lse::original-expansion-indent     nil)
+(defvar                      lse::environment-expansion-indent  nil)
+(defvar                      lse::expansion-line-leading        nil)
+(defvar                      lse::expansion-line-leading-indent nil)
+(defvar                      lse::expansion-line-trailer        nil)
+(defvar                      lse::expansion-line-trailer-indent nil)
+(defvar                      lse::hanging-indent                nil)
+(make-variable-buffer-local 'lse::current-expansion-indent)
+(make-variable-buffer-local 'lse::original-expansion-indent)
+(make-variable-buffer-local 'lse::environment-expansion-indent)
+(make-variable-buffer-local 'lse::expansion-line-leading)
+(make-variable-buffer-local 'lse::expansion-line-leading-indent)
+(make-variable-buffer-local 'lse::expansion-line-trailer)
+(make-variable-buffer-local 'lse::expansion-line-trailer-indent)
+(make-variable-buffer-local 'lse::hanging-indent)
 
 (defun lse-indent:remove-leading-indentation ()
   ;; used instead of fixup-whitespace or delete-horizontal-space, because
@@ -85,17 +85,17 @@
 )
 
 ;;; 20-Jan-2011
-(defun lse-indent@shift (shift default)
+(defun lse-indent::shift (shift default)
   (if (integerp shift)
       (* shift lse-language:tab-increment)
     (if (integerp default) default lse-language:tab-increment)
   )
-; lse-indent@shift
+; lse-indent::shift
 )
 
 ;;; 20-Jan-2011
 (defun lse-indent:level ()
-  lse@current-expansion-indent
+  lse::current-expansion-indent
 ; lse-indent:level
 )
 
@@ -103,8 +103,8 @@
 (defun lse-indent:level:curr ()
   (save-excursion
     (lse-indent:goto-indent-pos 0)
-    (if (and (bolp) (integerp lse@current-expansion-indent))
-        lse@current-expansion-indent
+    (if (and (bolp) (integerp lse::current-expansion-indent))
+        lse::current-expansion-indent
       (current-column)
     )
   )
@@ -119,19 +119,19 @@
 
 ;;; 20-Jan-2011
 (defun lse-indent:level:environment ()
-  lse@environment-expansion-indent
+  lse::environment-expansion-indent
 ; lse-indent:level:environment
 )
 
 ;;; 20-Jan-2011
 (defun lse-indent:level:expansion ()
-  lse@original-expansion-indent
+  lse::original-expansion-indent
 ; lse-indent:level:expansion
 )
 
 ;;; 20-Jan-2011
 (defun lse-indent:level:outer-environment ()
-  (max (- lse@environment-expansion-indent lse-language:tab-increment) 0)
+  (max (- lse::environment-expansion-indent lse-language:tab-increment) 0)
 ; lse-indent:level:outer-environment
 )
 
@@ -143,7 +143,7 @@
         result
       (if (integerp default)
           default
-        lse@current-expansion-indent
+        lse::current-expansion-indent
       )
     )
   )
@@ -156,10 +156,10 @@
     (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
     (if (bolp)
         (if (and
-              (integerp lse@current-expansion-indent)
-              (> lse@current-expansion-indent 0)
+              (integerp lse::current-expansion-indent)
+              (> lse::current-expansion-indent 0)
             )
-            (- lse@current-expansion-indent (lse-indent@shift 1 nil))
+            (- lse::current-expansion-indent (lse-indent::shift 1 nil))
           0
         )
       (current-column)
@@ -170,13 +170,13 @@
 
 ;;; 20-Jan-2011
 (defun lse-indent:set (indent)
-  (setq lse@current-expansion-indent indent)
+  (setq lse::current-expansion-indent indent)
 ; lse-indent:set
 )
 
 ;;; 20-Jan-2011
 (defun lse-indent:set:curr (&optional shift)
-  (lse-indent:set (+ (lse-indent:level:curr) (lse-indent@shift shift 0)))
+  (lse-indent:set (+ (lse-indent:level:curr) (lse-indent::shift shift 0)))
 ; lse-indent:set:curr
 )
 
@@ -189,14 +189,14 @@
 ;;;  4-Jan-1998
 (defun lse-indent:> (&optional shift default)
   (lse-indent:set
-    (+ lse@current-expansion-indent (lse-indent@shift shift default))
+    (+ lse::current-expansion-indent (lse-indent::shift shift default))
   )
 ; lse-indent:>
 )
 
 (defun lse-indent:< (&optional shift default)
   (lse-indent:set
-    (- lse@current-expansion-indent (lse-indent@shift shift default))
+    (- lse::current-expansion-indent (lse-indent::shift shift default))
   )
 ; lse-indent:<
 )
@@ -218,12 +218,12 @@
 (defun lse-indent (&optional shift)
   "Indent current line; the indentation is modified by `shift' tab-increments."
   (interactive "P")
-  (cond ((integerp lse@current-expansion-indent) ; expanding a fill-in
+  (cond ((integerp lse::current-expansion-indent) ; expanding a fill-in
          (lse-indent:> shift 0)
-         (indent-to lse@current-expansion-indent)
+         (indent-to lse::current-expansion-indent)
         )
         (t ; not expanding a fill-in
-         (setq shift (lse-indent@shift shift 0))
+         (setq shift (lse-indent::shift shift 0))
          (funcall indent-line-function)
          (let ((ci (current-indentation)))
            (if (< shift 0)
@@ -272,20 +272,20 @@
 
 ;;; 11-Sep-2002
 (defun lse-hang-indent (&optional delta)
-  (setq lse@hanging-indent (current-column))
+  (setq lse::hanging-indent (current-column))
   (if (integerp delta)
-      (setq lse@hanging-indent (+ lse@hanging-indent delta))
+      (setq lse::hanging-indent (+ lse::hanging-indent delta))
   )
 ; lse-hang-indent
 )
 
 ;;; 11-Sep-2002
 (defun lse-nohang-indent ()
-  (setq lse@hanging-indent nil)
+  (setq lse::hanging-indent nil)
 ; lse-nohang-indent
 )
 
-(defun lse-expansion-indent ()
+(defun lse::current-expansion-indent ()
   (lse-indent:set (lse-indent:level:expansion))
   (lse-reindent)
 )
@@ -319,23 +319,23 @@
   (or arg (setq arg 1))
   (while (> arg 0)
     (setq arg (1- arg))
-    (if (stringp lse@expansion-line-trailer)
+    (if (stringp lse::expansion-line-trailer)
         (progn
-          (if lse@expansion-line-trailer-indent
-              (indent-to lse@expansion-line-trailer-indent 1)
+          (if lse::expansion-line-trailer-indent
+              (indent-to lse::expansion-line-trailer-indent 1)
           )
-          (lse-fill-in-insert lse@expansion-line-trailer)
+          (lse-fill-in-insert lse::expansion-line-trailer)
         )
     )
     ;; (newline 1) plays havoc with markers: a marker at point is shifted
     ;; instead of staying in front of the inserted newline as expected
     (lse-fill-in-insert "\n")
-    (if (stringp lse@expansion-line-leading)
+    (if (stringp lse::expansion-line-leading)
         (progn
-          (if lse@expansion-line-leading-indent
-              (indent-to lse@expansion-line-leading-indent)
+          (if lse::expansion-line-leading-indent
+              (indent-to lse::expansion-line-leading-indent)
           )
-          (lse-fill-in-insert lse@expansion-line-leading)
+          (lse-fill-in-insert lse::expansion-line-leading)
         )
     )
   )

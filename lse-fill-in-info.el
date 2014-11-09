@@ -35,11 +35,11 @@
 ;;;;                      association lists)
 ;;;;    the cdr of the fill-in_info is a vector with the elements:
 ;;;;        name        : the name of the fill-in as found in the fill-in
-;;;;        state       : - 'lse@flat if fill-in is in buffer
-;;;;                      - 'lse@deep if fill-in was filled by an expansion
+;;;;        state       : - 'lse::flat if fill-in is in buffer
+;;;;                      - 'lse::deep if fill-in was filled by an expansion
 ;;;;                        or by a replacement typed by the user
-;;;;                      - 'lse@dead for a killed fill-in
-;;;;        fill-type   : 'lse@expanded or 'lse@replaced, if fill-in was
+;;;;                      - 'lse::dead for a killed fill-in
+;;;;        fill-type   : 'lse::expanded or 'lse::replaced, if fill-in was
 ;;;;                      already filled
 ;;;;        range       : range of fill-in       (of type lse-range)
 ;;;;        inner-range : inner range of fill-in (of type lse-range)
@@ -211,9 +211,9 @@
 )
 
 (defun lse-fill-in:other-state (state)
-  (cond ((equal state 'lse@deep) 'lse@flat)
-        ((equal state 'lse@flat) 'lse@deep)
-        ((equal state 'lse@dead) 'lse@flat)
+  (cond ((equal state 'lse::deep) 'lse::flat)
+        ((equal state 'lse::flat) 'lse::deep)
+        ((equal state 'lse::dead) 'lse::flat)
   )
 ; lse-fill-in:other-state
 )

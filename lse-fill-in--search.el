@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in--search:el lse_fisr:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -36,8 +36,8 @@
 ;;;;    27-Jun-1994 (CT) lse_inside_fill-in: take care of
 ;;;;                     lse-flat-fill-in:open-replacement
 ;;;;    23-Jan-1995 (CT) Error corrected
-;;;;                       (concat lse_comment_delim_char_set " \t\n") instead
-;;;;                       of (concat " \t\n" lse_comment_delim_char_set)
+;;;;                       (concat lse-comment:delim_char_set " \t\n") instead
+;;;;                       of (concat " \t\n" lse-comment:delim_char_set)
 ;;;;    19-Mar-1995 (CT) Don't call lse-use-lse-self-insert-command and
 ;;;;                     lse-use-emacs-self-insert-command
 ;;;;                     lse-flat-fill-in:highlight-current called instead
@@ -51,20 +51,25 @@
 ;;;;--
 (provide 'lse-fill-in--search)
 
+(require 'lse-fill-in--delimiters)
+
+(defvar                     lse::active-in-buffer nil)
+(make-variable-buffer-local 'lse::active-in-buffer)
+
 (defun lse-skip-whitespace+empty-comments-forward (&optional limit)
-  (skip-chars-forward (concat lse_comment_delim_char_set " \t\n") limit)
+  (skip-chars-forward (concat lse-comment:delim_char_set " \t\n") limit)
 )
 
 (defun lse-skip-whitespace+empty-comments-backward (&optional limit)
-  (skip-chars-backward (concat lse_comment_delim_char_set " \t\n") limit)
+  (skip-chars-backward (concat lse-comment:delim_char_set " \t\n") limit)
 )
 
 
 (defun lse_looking_at_fill-in (&optional name)
   ;; precondition: (point) on first character of a fill-in head delimiter
   (if (looking-at lse_opt_fill-in_head_delim_pattern)
-      (looking-at (lse_opt_fill-in_pattern name))
-    (looking-at (lse_req_fill-in_pattern name))
+      (looking-at (lse-fill-in::pattern:opt name))
+    (looking-at (lse-fill-in::pattern:req name))
   )
 )
 
@@ -118,10 +123,10 @@
   )
 )
 
-(defun lse@check_fill-in ()
+(defun lse-check-fill-in ()
   ;; returns a fill-in_info if matched fill-in has a definition
   ;; this function assumes that the current match data are set-up to match
-  ;; something complying with lse_@_fill-in_pattern
+  ;; something complying with lse-fill-in::pattern:*
   (let ((head (match-beginning 1))
         (tail (match-end 1))
         result
@@ -133,7 +138,7 @@
               (lse-fill-in:new
                 pdef                                              ; symbol
                 result                                            ; name
-                'lse@flat                                         ; state
+                'lse::flat                                         ; state
                 nil                                               ; fill-type
                 (lse-range:new (match-beginning 0) (match-end 0)) ; range
                 (lse-range:new head                tail)          ; inner-range
@@ -150,14 +155,14 @@
   )
 )
 
-(defun lse@goto_fill-in (search-fct buffer-boundary &optional name)
-  ;; may be called by lse_goto_fill-in only !!!
+(defun lse-fill-in--search::goto:inner (search-fct buffer-boundary &optional name)
+  ;; may be called by lse-fill-in--search::goto only !!!
   (let (result
        )
     (while (not (or result (funcall buffer-boundary)))
       (if (setq result (funcall search-fct name))
           (progn
-            (setq result (lse@check_fill-in))
+            (setq result (lse-check-fill-in))
             (if result
                 (progn
                   (lse-flat-fill-in:unhighlight-current)
@@ -174,10 +179,10 @@
     )
     result
   )
-; lse@goto_fill-in
+; lse-fill-in--search::goto:inner
 )
 
-(defun lse_goto_fill-in (search-fct buffer-boundary &optional name)
+(defun lse-fill-in--search::goto (search-fct buffer-boundary &optional name)
   ;; search-fct has to be either lse_search_fill-in:backward or
   ;;                             lse_search_fill-in:forward
   ;; buffer-boundary has to be either bobp or eobp
@@ -185,8 +190,10 @@
         (last-pos (point-marker))
        )
     (save-match-data
-       (setq lse@active@in@buffer t)
-       (setq result (lse@goto_fill-in search-fct buffer-boundary name))
+       (setq lse::active-in-buffer t)
+       (setq result
+         (lse-fill-in--search::goto:inner search-fct buffer-boundary name)
+       )
     )
     (unless result
       (goto-char last-pos)
@@ -199,10 +206,10 @@
   (let (result
         (cp (point))
        )
-    (cond ((eq lse-flat-fill-in:open-replacement 'lse@expanded); 27-Jun-1994
+    (cond ((eq lse-flat-fill-in:open-replacement 'lse::expanded); 27-Jun-1994
            (setq result nil) ; expansion is pending              27-Jun-1994
           )
-          ((eq lse-flat-fill-in:open-replacement 'lse@replaced);  4-Jul-1994
+          ((eq lse-flat-fill-in:open-replacement 'lse::replaced);  4-Jul-1994
            (setq result nil) ; replacement is pending             4-Jul-1994
           )
           (t
@@ -241,7 +248,7 @@
                          (if (lse_search_fill-in:backward_once) (setq found t))
                        )
                        (if found
-                           (let ((current (lse@check_fill-in)))
+                           (let ((current (lse-check-fill-in)))
                              (if (not current)
                                  (setq result nil)
                                (lse-flat-fill-in:unhighlight-current)
@@ -263,7 +270,7 @@
               ); cond
               (if result
                   (progn
-                    (setq lse@active@in@buffer t)
+                    (setq lse::active-in-buffer t)
                     (lse-flat-fill-in:highlight-current)
                   )
               )
@@ -276,16 +283,16 @@
 )
 
 
-(defun lse-goto-@-fill-in (search-fct buffer-boundary &optional quiet name)
+(defun lse-fill-in:goto (search-fct buffer-boundary &optional quiet name)
   (lse_shut_fill-in_replacement)
-  (let ((result (lse_goto_fill-in search-fct buffer-boundary name)))
+  (let ((result (lse-fill-in--search::goto search-fct buffer-boundary name)))
     (or quiet result (lse-message "No more fill-ins"))
     result
   )
 )
 
 ;;; positions to first fill-in of range if any or stays at previous position
-(defun lse_goto_first_fill-in_of_range (head tail)
+(defun lse-fill-in:goto-first-of-range (head tail)
   (if (and (integer-or-marker-p head)
            (integer-or-marker-p tail)
            (> tail head)

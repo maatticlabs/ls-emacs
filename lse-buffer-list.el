@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-buffer-list:el lse_blst:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -29,25 +29,25 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    29-May-1994 (CT) Creation (of comment)
-;;;;    30-May-1994 (CT) lse_buffer_list:name-terminator added (to handle
+;;;;    30-May-1994 (CT) lse-buffer-list::name-terminator added (to handle
 ;;;;                     buffer names with blanks correctly)
 ;;;;    23-Jan-1995 (CT) Key "q" added
-;;;;    19-Feb-1995 (CT) lse_buffer_list:show: identify read-only buffers
+;;;;    19-Feb-1995 (CT) lse-buffer-list::show: identify read-only buffers
 ;;;;                     Display version if file is version-controlled
 ;;;;    20-Feb-1995 (CT) Update number of fields (from 5 to 6) and
-;;;;                     lse_buffer_list:toggle-field-cmds
+;;;;                     lse-buffer-list::toggle-field-cmds
 ;;;;    20-Feb-1995 (CT) lse-buffer-list-toggle-vc added
-;;;;    19-Mar-1995 (CT) lse_buffer_list:overlay added
+;;;;    19-Mar-1995 (CT) lse-buffer-list::overlay added
 ;;;;    14-Jun-1996 (CT) Features renamed
 ;;;;    14-Jun-1996 (CT) Optional parameter added to `lse-show-buffers'
 ;;;;                     trying (unsuccessfully) to accomodate change of
 ;;;;                     `list-buffers' in Emacs 19.30
 ;;;;     3-Oct-1996 (CT) Use post-command-hook instead of
-;;;;                     `lse_buffer_list:key-handler'
+;;;;                     `lse-buffer-list::key-handler'
 ;;;;     3-Oct-1996 (CT) Keydef's for Emacs 18.x removed (no
 ;;;;                     post-command-hook there)
 ;;;;    16-Oct-1996 (CT) Set mouse-face
-;;;;    16-Oct-1996 (CT) lse_buffer_list:name-length-max added
+;;;;    16-Oct-1996 (CT) lse-buffer-list::name-length-max added
 ;;;;    17-Dec-1997 (CT) `lse-buffer-list-mouse-goto-buffer' added
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
@@ -56,10 +56,10 @@
 ;;;;--
 (provide 'lse-buffer-list)
 
-(defvar   lse_buffer_list:buffer        nil)
-(defvar   lse_buffer_list:cb            nil)
-(defvar   lse_buffer_list:buffer-keymap nil)
-(defconst lse_buffer_list:toggle-field-cmds
+(defvar   lse-buffer-list::buffer        nil)
+(defvar   lse-buffer-list::cb            nil)
+(defvar   lse-buffer-list::buffer-keymap nil)
+(defconst lse-buffer-list::toggle-field-cmds
           (vector
                'lse-rename-buffer                  ; field: buffer-name
                'ignore                             ; field: number of lines
@@ -70,15 +70,15 @@
                'lse-change-output-file             ; field: file name
           )
 )
-(defconst lse_buffer_list:buffer-left-margin   6)
-(defvar   lse_buffer_list:buffer-top-line      3)
-(defvar   lse_buffer_list:name-length         15)
-(defvar   lse_buffer_list:name-length-max     15)
-(defconst lse_buffer_list:name-terminator   "\t")
+(defconst lse-buffer-list::buffer-left-margin   6)
+(defvar   lse-buffer-list::buffer-top-line      3)
+(defvar   lse-buffer-list::name-length         15)
+(defvar   lse-buffer-list::name-length-max     15)
+(defconst lse-buffer-list::name-terminator   "\t")
 
-(defvar lse_buffer_list:overlay nil); 14-Dec-1997
+(defvar lse-buffer-list::overlay nil); 14-Dec-1997
 
-(defun lse_buffer_list:define-keys ()
+(defun lse-buffer-list::define-keys ()
   (let ((lmap (current-local-map)))
     (define-key lmap [left]           'lse-tpu:goto-prev-bs-word-head)
     (define-key lmap [right]          'lse-tpu:goto-next-bs-word-head)
@@ -106,47 +106,47 @@
     (lse-define-alpha-key lmap [] "t" 'lse-buffer-list-toggle-field)
     (lse-define-alpha-key lmap [] "w" 'lse-buffer-list-write-buffer)
   )
-; lse_buffer_list:define-keys
+; lse-buffer-list::define-keys
 )
 
-(defun lse_buffer_list:goto-buffer ()
-  (if (not (and (bufferp     lse_buffer_list:buffer)
-                (buffer-name lse_buffer_list:buffer)
+(defun lse-buffer-list::goto-buffer ()
+  (if (not (and (bufferp     lse-buffer-list::buffer)
+                (buffer-name lse-buffer-list::buffer)
            )
       )
       (progn
-        (setq lse_buffer_list:buffer
+        (setq lse-buffer-list::buffer
               (get-buffer-create " $Lse-Buffer-List$")
         )
-        (lse-goto-buffer lse_buffer_list:buffer nil nil t)
-        (setq            lse_buffer_list:buffer-keymap (make-sparse-keymap))
-        (use-local-map   lse_buffer_list:buffer-keymap)
-        (lse_buffer_list:define-keys)
+        (lse-goto-buffer lse-buffer-list::buffer nil nil t)
+        (setq            lse-buffer-list::buffer-keymap (make-sparse-keymap))
+        (use-local-map   lse-buffer-list::buffer-keymap)
+        (lse-buffer-list::define-keys)
         (setq tab-width 1)
         ;; 19-Mar-1995
-        (setq lse_buffer_list:overlay (make-overlay 1 1))
-        (overlay-put lse_buffer_list:overlay 'face 'lse-face:completion)
+        (setq lse-buffer-list::overlay (make-overlay 1 1))
+        (overlay-put lse-buffer-list::overlay 'face 'lse-face:completion)
       )
-    (lse-goto-buffer lse_buffer_list:buffer nil nil t)
+    (lse-goto-buffer lse-buffer-list::buffer nil nil t)
   )
-; lse_buffer_list:goto-buffer
+; lse-buffer-list::goto-buffer
 )
 
-(defun lse_buffer_list:selected-buffer ()
+(defun lse-buffer-list::selected-buffer ()
   (let (result)
     (save-excursion
       (lse-buffer-list-goto-line-begin)
       (let ((b (point)))
-        (skip-chars-forward (concat "^" lse_buffer_list:name-terminator))
+        (skip-chars-forward (concat "^" lse-buffer-list::name-terminator))
         (setq result (buffer-substring-no-properties b (point)))
       )
     )
     result
   )
-; lse_buffer_list:selected-buffer
+; lse-buffer-list::selected-buffer
 )
 
-(defun lse_buffer_list:selected-field ()
+(defun lse-buffer-list::selected-field ()
   (let ((cp (point))
         (n  -1)
        )
@@ -163,12 +163,12 @@
     )
     (max 0 (min 6 n))
   )
-; lse_buffer_list:selected-field
+; lse-buffer-list::selected-field
 )
 
 (defun lse-buffer-list-delete-buffer ()
   (interactive)
-  (save-excursion (lse-kill-buffer (lse_buffer_list:selected-buffer) t))
+  (save-excursion (lse-kill-buffer (lse-buffer-list::selected-buffer) t))
   (beginning-of-line)
   (lse-tpu:delete-next-line 1)
   (set-buffer-modified-p nil)
@@ -185,18 +185,18 @@
 (defun lse-buffer-list-goto-buffer ()
   (interactive)
   (save-current-buffer
-     (set-buffer lse_buffer_list:cb)
+     (set-buffer lse-buffer-list::cb)
      (lse-set-last-mark-all)
   )
-  (lse-goto-buffer (lse_buffer_list:selected-buffer) nil nil t)
+  (lse-goto-buffer (lse-buffer-list::selected-buffer) nil nil t)
 ; lse-buffer-list-goto-buffer
 )
 
 (defun lse-buffer-list-toggle-field ()
   (interactive)
-  (let* ((field (lse_buffer_list:selected-field))
-         (cmd   (aref lse_buffer_list:toggle-field-cmds field))
-         (buf   (lse_buffer_list:selected-buffer))
+  (let* ((field (lse-buffer-list::selected-field))
+         (cmd   (aref lse-buffer-list::toggle-field-cmds field))
+         (buf   (lse-buffer-list::selected-buffer))
          result
         )
     (if (commandp cmd)
@@ -219,7 +219,7 @@
 
 (defun lse-buffer-list-toggle-write (&optional buf)
   (interactive)
-  (or buf (setq buf (lse_buffer_list:selected-buffer)))
+  (or buf (setq buf (lse-buffer-list::selected-buffer)))
   (if (buffer-file-name (get-buffer buf))
       (lse-set-buffer-nowrite buf)
     (lse-set-buffer-write buf)
@@ -230,7 +230,7 @@
 
 (defun lse-buffer-list-toggle-save (&optional buf)
   (interactive)
-  (or buf (setq buf (lse_buffer_list:selected-buffer)))
+  (or buf (setq buf (lse-buffer-list::selected-buffer)))
   (save-current-buffer
     (set-buffer buf)
     (auto-save-mode nil)
@@ -243,7 +243,7 @@
   (interactive)
   (if t
       t
-    (or buf (setq buf (lse_buffer_list:selected-buffer)))
+    (or buf (setq buf (lse-buffer-list::selected-buffer)))
     (save-window-excursion
       (set-buffer buf)
       (vc-toggle-read-only)
@@ -255,7 +255,7 @@
 
 (defun lse-buffer-list-write-buffer ()
   (interactive)
-  (let ((buf (lse_buffer_list:selected-buffer)))
+  (let ((buf (lse-buffer-list::selected-buffer)))
     (lse-write-buffer buf)
     (lse-buffer-list-update buf)
   )
@@ -267,7 +267,7 @@
   (let ((cp (point)))
     (beginning-of-line)
     (lse-tpu:delete-next-line 1)
-    (lse_buffer_list:show (get-buffer buf))
+    (lse-buffer-list::show (get-buffer buf))
     (forward-line -1)
     (set-buffer-modified-p nil)
     (goto-char cp)
@@ -280,7 +280,7 @@
     (setq overlay-arrow-string   "###>")
     (setq overlay-arrow-position (point-marker))
     ;; 19-Mar-1995
-    (move-overlay lse_buffer_list:overlay
+    (move-overlay lse-buffer-list::overlay
                   (point-marker) (lse-tpu:line-tail-pos)
                   (current-buffer)
     )
@@ -291,7 +291,7 @@
 (defun lse-buffer-list-goto-begin ()
   (interactive)
   (goto-char (point-min))
-  (forward-line (1- lse_buffer_list:buffer-top-line))
+  (forward-line (1- lse-buffer-list::buffer-top-line))
 ; lse-buffer-list-goto-begin
 )
 
@@ -325,24 +325,24 @@
 (defun lse-buffer-list-goto-line-begin ()
   (interactive)
   (beginning-of-line)
-  (lse-tpu:forward-char lse_buffer_list:buffer-left-margin)
+  (lse-tpu:forward-char lse-buffer-list::buffer-left-margin)
 ; lse-buffer-list-goto-line-begin
 )
 
-(defun lse_buffer_list:snap-cursor ()
+(defun lse-buffer-list::snap-cursor ()
   (if (eobp)
       (lse-buffer-list-goto-end)
   )
-  (if (< (lse-line-number) lse_buffer_list:buffer-top-line)
+  (if (< (lse-line-number) lse-buffer-list::buffer-top-line)
       (lse-buffer-list-goto-begin)
   )
-  (if (< (current-column) lse_buffer_list:buffer-left-margin)
+  (if (< (current-column) lse-buffer-list::buffer-left-margin)
       (lse-buffer-list-goto-line-begin)
   )
-; lse_buffer_list:snap-cursor
+; lse-buffer-list::snap-cursor
 )
 
-(defun lse_buffer_list:key-handler ()
+(defun lse-buffer-list::key-handler ()
   (let (key
         binding
         cp
@@ -350,7 +350,7 @@
     (while t
       (unwind-protect
           (progn
-            (lse_buffer_list:snap-cursor)
+            (lse-buffer-list::snap-cursor)
             (lse-reverse-video-current-line)
             (setq key (read-key-sequence nil))
             (setq binding (lookup-key (current-local-map) key))
@@ -362,13 +362,13 @@
                 (error "Key %s is undefined" (lse-key-name key))
               )
             )
-            (if (not (eq (current-buffer) lse_buffer_list:buffer))
-                (throw 'lse_buffer_list:exit-signal t)
+            (if (not (eq (current-buffer) lse-buffer-list::buffer))
+                (throw 'lse-buffer-list::exit-signal t)
             )
-            (if (buffer-modified-p lse_buffer_list:buffer)
+            (if (buffer-modified-p lse-buffer-list::buffer)
                 (progn
                   (setq cp (point))
-                  (lse_buffer_list:show-function)
+                  (lse-buffer-list::show-function)
                   (if (< cp (point-max)) (goto-char cp))
                 )
             )
@@ -377,17 +377,17 @@
       )
     )
   )
-; lse_buffer_list:key-handler
+; lse-buffer-list::key-handler
 )
 
-(defun lse_buffer_list:format-buffer
+(defun lse-buffer-list::format-buffer
            (leader buf-nam n-lines mod write jou vc-mode file)
   (let ((opoint (point))); 11-Oct-1996
     (insert (or leader "     "))
-            (indent-to lse_buffer_list:buffer-left-margin)
-    (insert buf-nam lse_buffer_list:name-terminator)
-            (indent-to (+ lse_buffer_list:name-length-max
-                          lse_buffer_list:buffer-left-margin
+            (indent-to lse-buffer-list::buffer-left-margin)
+    (insert buf-nam lse-buffer-list::name-terminator)
+            (indent-to (+ lse-buffer-list::name-length-max
+                          lse-buffer-list::buffer-left-margin
                           2
                        )
             )
@@ -402,12 +402,12 @@
     (insert file)
     (insert "\n")
   )
-; lse_buffer_list:format-buffer
+; lse-buffer-list::format-buffer
 )
 
-(defun lse_buffer_list:show (b)
-  (lse_buffer_list:format-buffer
-       (if (eq b lse_buffer_list:cb)
+(defun lse-buffer-list::show (b)
+  (lse-buffer-list::format-buffer
+       (if (eq b lse-buffer-list::cb)
            "Curr*"
          (if (eq b (lse-buffer:main)) "Main=" nil)
        )
@@ -434,42 +434,42 @@
            "no file"
        )
   )
-; lse_buffer_list:show
+; lse-buffer-list::show
 )
 
-(defun lse_buffer_list:initialize ()
-  (lse_buffer_list:goto-buffer)
+(defun lse-buffer-list::initialize ()
+  (lse-buffer-list::goto-buffer)
   (erase-buffer)
 
-  (lse_buffer_list:format-buffer nil "Buffer-Name" "lines" "Mod" "Write" "Jou" " Version" "File")
-  (lse_buffer_list:format-buffer nil
+  (lse-buffer-list::format-buffer nil "Buffer-Name" "lines" "Mod" "Write" "Jou" " Version" "File")
+  (lse-buffer-list::format-buffer nil
    (substring
     "************************************************************************"
-    1 (min lse_buffer_list:name-length-max 60)
+    1 (min lse-buffer-list::name-length-max 60)
    )
                                         "=====" "***" "=====" "***" " ========"
    "**************************************************************************"
   )
-  (setq lse_buffer_list:buffer-top-line (lse-line-number))
-; lse_buffer_list:initialize
+  (setq lse-buffer-list::buffer-top-line (lse-line-number))
+; lse-buffer-list::initialize
 )
 
-(defun lse_buffer_list:show-all ()
+(defun lse-buffer-list::show-all ()
   (let ((n 0))
     (mapc
       (function
         (lambda (b)
           (setq n (1+ n))
-          (setq lse_buffer_list:name-length-max
-            (max lse_buffer_list:name-length-max (length (buffer-name b)))
+          (setq lse-buffer-list::name-length-max
+            (max lse-buffer-list::name-length-max (length (buffer-name b)))
           )
         )
       )
       (buffer-list)
     )
-    (lse_buffer_list:initialize)
+    (lse-buffer-list::initialize)
     (mapc
-      (function (lambda (b) (if b (lse_buffer_list:show b))))
+      (function (lambda (b) (if b (lse-buffer-list::show b))))
       (buffer-list)
     )
     (newline)
@@ -477,10 +477,10 @@
     (message "Number of buffers: %d" n)
     (set-buffer-modified-p nil)
   )
-; lse_buffer_list:show-all
+; lse-buffer-list::show-all
 )
 
-(defun lse_buffer_list:show-user ()
+(defun lse-buffer-list::show-user ()
   (let* ((main (lse-buffer:main))
          (b    main)
          (n    0)
@@ -490,18 +490,18 @@
       (setq n (1+ n))
       (setq b (lse-buffer:prev b))
       (if b
-          (setq lse_buffer_list:name-length-max
-            (max lse_buffer_list:name-length-max (length (buffer-name b)))
+          (setq lse-buffer-list::name-length-max
+            (max lse-buffer-list::name-length-max (length (buffer-name b)))
           )
       )
       (setq done (or (not b) (eq b main)))
     )
     (setq done nil)
     (setq b main)
-    (lse_buffer_list:initialize)
+    (lse-buffer-list::initialize)
     (while (not done)
       (setq b (lse-buffer:prev b))
-      (if b   (lse_buffer_list:show b))
+      (if b   (lse-buffer-list::show b))
       (setq done (or (not b) (eq b main)))
     )
     (newline)
@@ -509,84 +509,84 @@
     (message "Number of buffers: %d" n)
     (set-buffer-modified-p nil)
   )
-; lse_buffer_list:show-user
+; lse-buffer-list::show-user
 )
 
 (if (fboundp 'make-local-hook);  4-Oct-1996
     ;;  3-Oct-1996
-    (defun lse_buffer_list:driver ()
+    (defun lse-buffer-list::driver ()
       (lse-set-last-mark-global)
-      (setq lse_buffer_list:cb (current-buffer))
-      (setq lse_buffer_list:name-length-max lse_buffer_list:name-length)
-      (lse_buffer_list:show-function)
+      (setq lse-buffer-list::cb (current-buffer))
+      (setq lse-buffer-list::name-length-max lse-buffer-list::name-length)
+      (lse-buffer-list::show-function)
       (lse-buffer-list-goto-begin)
       (make-local-hook 'post-command-hook)
       (add-hook 'post-command-hook 'lse-buffer-list:post-command-hook nil t)
-    ; lse_buffer_list:driver
+    ; lse-buffer-list::driver
     )
-  (defun lse_buffer_list:driver ()
+  (defun lse-buffer-list::driver ()
     (lse-set-last-mark-global)
-    (setq lse_buffer_list:name-length-max lse_buffer_list:name-length)
-    (let ((lse_buffer_list:cb (current-buffer))
+    (setq lse-buffer-list::name-length-max lse-buffer-list::name-length)
+    (let ((lse-buffer-list::cb (current-buffer))
          )
       (unwind-protect
           (progn
-            (catch 'lse_buffer_list:exit-signal
+            (catch 'lse-buffer-list::exit-signal
                 (progn
-                  (lse_buffer_list:show-function)
+                  (lse-buffer-list::show-function)
                   (lse-buffer-list-goto-begin)
-                  (lse_buffer_list:key-handler)
+                  (lse-buffer-list::key-handler)
                 )
             )
           )
         (progn
           (setq overlay-arrow-position nil)
-          (if (eq (current-buffer) lse_buffer_list:buffer)
-              (lse-goto-buffer lse_buffer_list:cb nil nil t)
+          (if (eq (current-buffer) lse-buffer-list::buffer)
+              (lse-goto-buffer lse-buffer-list::cb nil nil t)
           )
           (message "Leaving Buffer-List-Mode")
         )
       )
     )
-  ; lse_buffer_list:driver
+  ; lse-buffer-list::driver
   )
 )
 
 (eval-when-compile
-  (fset 'lse_buffer_list:show-function 'lse_buffer_list:show-user)
+  (fset 'lse-buffer-list::show-function 'lse-buffer-list::show-user)
 )
 
 (defun lse-show-buffers (&optional files-only)
   (interactive "P")
-  (fset 'lse_buffer_list:show-function 'lse_buffer_list:show-user)
-  (lse_buffer_list:driver)
-  (fmakunbound 'lse_buffer_list:show-function)
+  (fset 'lse-buffer-list::show-function 'lse-buffer-list::show-user)
+  (lse-buffer-list::driver)
+  (fmakunbound 'lse-buffer-list::show-function)
 ; lse-show-buffers
 )
 
 (defun lse-show-all-buffers ()
   (interactive)
-  (fset 'lse_buffer_list:show-function 'lse_buffer_list:show-all)
-  (lse_buffer_list:driver)
-  (fmakunbound 'lse_buffer_list:show-function)
+  (fset 'lse-buffer-list::show-function 'lse-buffer-list::show-all)
+  (lse-buffer-list::driver)
+  (fmakunbound 'lse-buffer-list::show-function)
 ; lse-show-all-buffers
 )
 
 ;;;  3-Oct-1996
 (defun lse-buffer-list:post-command-hook ()
   "Snap cursor to buffer list and highlight current line"
-  (if (not (eq (current-buffer) lse_buffer_list:buffer))
+  (if (not (eq (current-buffer) lse-buffer-list::buffer))
       (progn
         (setq overlay-arrow-position nil)
         (message "Leaving Buffer-List-Mode")
       )
-    (lse_buffer_list:snap-cursor)
+    (lse-buffer-list::snap-cursor)
     (lse-reverse-video-current-line)
-    (if (buffer-modified-p lse_buffer_list:buffer)
+    (if (buffer-modified-p lse-buffer-list::buffer)
         (let (cp); 14-Dec-1997
-          (setq lse_buffer_list:name-length-max lse_buffer_list:name-length)
+          (setq lse-buffer-list::name-length-max lse-buffer-list::name-length)
           (setq cp (point))
-          (lse_buffer_list:show-function)
+          (lse-buffer-list::show-function)
           (if (< cp (point-max)) (goto-char cp))
         )
     )

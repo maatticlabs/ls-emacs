@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
- 
+
 ;;;;unix_ms_filename_correspondency lse-learn-key:el lse_lrnk:el
-;;;; Copyright (C) 1995 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -32,9 +32,9 @@
 ;;;;--
 (provide 'lse-learn-key)
 
-(defvar lse@key-currently-learned      nil)
-(defvar lse@key-currently-learned@name nil)
-(defvar lse@key-currently-learned@info nil)
+(defvar lse-learn-key:current      nil)
+(defvar lse-learn-key:current:name nil)
+(defvar lse-learn-key:current:info nil)
 
 (defun lse-learn-key (key)
   "Define a new key in learn mode. "
@@ -46,41 +46,43 @@
   "Define a new key in learn mode. "
   (interactive "kKey to define: \nS(quoted) Name of macro to define: ")
   (if defining-kbd-macro
-      (progn 
-        (message "Learn mode for key `%s' aborted" 
-                 (lse-key-name lse@key-currently-learned)
+      (progn
+        (message "Learn mode for key `%s' aborted"
+                 (lse-key-name lse-learn-key:current)
         )
-        (global-set-key lse@key-currently-learned nil)
-        (setq lse@key-currently-learned      nil)
-        (setq lse@key-currently-learned@name nil)
-        (setq lse@key-currently-learned@info nil)
+        (global-set-key lse-learn-key:current nil)
+        (setq lse-learn-key:current      nil)
+        (setq lse-learn-key:current:name nil)
+        (setq lse-learn-key:current:info nil)
         (end-kbd-macro nil)
       )
   )
-  (global-set-key key 'lse@end-learn-key)
-  (setq lse@key-currently-learned      key)
-  (setq lse@key-currently-learned@name name)
-  (setq lse@key-currently-learned@info 
+  (global-set-key key 'lse-learn-key:end)
+  (setq lse-learn-key:current      key)
+  (setq lse-learn-key:current:name name)
+  (setq lse-learn-key:current:info
         (format " Learn-%s" (lse-key-name key))
   )
   (start-kbd-macro nil)
   (message "Press key `%s' to end definition" (lse-key-name key))
 )
 
-(defun lse@end-learn-key ()
+(defun lse-learn-key:end ()
   "End definition of key in learn mode."
   (interactive)
   (end-kbd-macro nil)
-  (global-set-key lse@key-currently-learned last-kbd-macro)
-  (if (and lse@key-currently-learned@name 
-           (not (string= lse@key-currently-learned@name ""))
+  (global-set-key lse-learn-key:current last-kbd-macro)
+  (if (and lse-learn-key:current:name
+           (not (string= lse-learn-key:current:name ""))
       )
-      (name-last-kbd-macro lse@key-currently-learned@name)
+      (name-last-kbd-macro lse-learn-key:current:name)
   )
-  (message "Key `%s' successfully defined" 
-           (lse-key-name lse@key-currently-learned)
+  (message "Key `%s' successfully defined"
+           (lse-key-name lse-learn-key:current)
   )
-  (setq lse@key-currently-learned      nil)
-  (setq lse@key-currently-learned@name nil)
-  (setq lse@key-currently-learned@info nil)
+  (setq lse-learn-key:current      nil)
+  (setq lse-learn-key:current:name nil)
+  (setq lse-learn-key:current:info nil)
 )
+
+;;; __END__ lse-learn-key.el

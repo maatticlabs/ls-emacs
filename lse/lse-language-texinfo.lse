@@ -20,9 +20,9 @@
     '(
         (lse-tpu:ident-group-chars         "@")
         (lse-language:tab-increment        2)
-        (lse_comment_head_delim            "@c")
-        (lse_comment_head_delim_pattern    "@c *")
-        (lse_comment_delim_char_set        "@c")
+        (lse-comment:head_delim            "@c")
+        (lse-comment:head_delim_pattern    "@c *")
+        (lse-comment:delim_char_set        "@c")
         (lse-language:initial-fill-in      "««texinfo-file»»")
         (lse-language:expand-initial       nil)
      )

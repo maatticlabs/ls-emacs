@@ -17,7 +17,7 @@
 ;;;;                     swing-kartei:entry:complete-name
 ;;;;     1-May-1999 (CT) lse-kartei-mode added to
 ;;;;                     swing-kartei:entry:create+goto-buffer
-;;;;    23-Dec-2007 (CT) `(lse_completion:left_margin 3)` added to
+;;;;    23-Dec-2007 (CT) `(lse-completion:left_margin 3)` added to
 ;;;;                     `swing-kartei:entry:complete-name`
 ;;;;    ««revision-date»»···
 ;;;;--
@@ -114,20 +114,20 @@
 (make-variable-buffer-local 'swing-kartei:entry:case-fold-search)
 
 (defun swing-kartei:entry:complete-name (kartei-dir kartei-name case-fold)
-  (let* ((lse_completion_buffer
+  (let* ((lse-completion:buffer
               (swing-kartei:get-file-buffer kartei-dir kartei-name "summary")
          )
-         (lse_completion:left_margin 3)
+         (lse-completion:left_margin 3)
          result
          blank
         )
     (save-excursion
-      (set-buffer lse_completion_buffer)
-      (lse_completion:initialize_buffer kartei-name)
-      (setq lse_completion:end_pos (1- (point-max)))
-      (setq lse_completion:sorted  t)
+      (set-buffer lse-completion:buffer)
+      (lse-completion:initialize_buffer kartei-name)
+      (setq lse-completion:end_pos (1- (point-max)))
+      (setq lse-completion:sorted  t)
       (setq tab-width 1)
-      (lse_completion:widen)
+      (lse-completion:widen)
       (goto-char (point-min))
     )
     (setq result (lse-complete "" nil nil t nil nil case-fold))

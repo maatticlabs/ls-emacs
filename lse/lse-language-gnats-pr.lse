@@ -19,9 +19,9 @@
         (lse-language:initial-fill-in      "««gnats-pr»»")
         (lse-language:tab-increment        4)
         (lse-tpu:ident-chars               "A-Za-z0-9äöüßÄÖÜ")
-        (lse_comment_delim_char_set        ">")
-        (lse_comment_head_delim            ">")
-        (lse_comment_head_delim_pattern    "> *")
+        (lse-comment:delim_char_set        ">")
+        (lse-comment:head_delim            ">")
+        (lse-comment:head_delim_pattern    "> *")
         (fill-column                       70)
      )
     '(
@@ -57,7 +57,7 @@
 
 ;;;  3-Nov-1997
 (defun lse-gnats-pr:send ()
-  (lse@kill_current_fill-in)
+  (lse-kill:current-fill-in)
   (lse-tpu:move-to-beginning)
   (lse-kill-all-optional-fill-ins)
   (lse-tpu:move-to-beginning)

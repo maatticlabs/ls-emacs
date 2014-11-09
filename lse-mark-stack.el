@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-mark-stack:el lse_mark:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -23,19 +23,21 @@
 
 ;;;;++
 ;;;; Name
-;;;;    Swing-Mark-Stack
+;;;;    lse-mark-stack
 ;;;;
 ;;;; Purpose
 ;;;;    A mark-stack comprises two lists:
-;;;;         - the first list contains the last-mark (last position saved
-;;;;           implicitely) and the home-mark
-;;;;         - the second list contains the marks stacked on explicit request
-;;;;           by the user (the element at position zero points to the
-;;;;           current mark of the stack)
+;;;;
+;;;;    - the first list contains the last-mark (last position saved
+;;;;      implicitly) and the home-mark
+;;;;    - the second list contains the marks stacked on explicit request
+;;;;      by the user (the element at position zero points to the
+;;;;      current mark of the stack)
 ;;;;
 ;;;;    It's possible to use several independent mark stacks. The internal
 ;;;;    core functions (identified by '@'s as name separators) work on the
-;;;;    mark-stack bound to 'lse@mark@stack'. Do not use these directly!
+;;;;    mark-stack bound to 'lse-mark-stack::instance'.
+;;;;    Do not use these directly!
 ;;;;
 ;;;;    The interface functions take the mark-stack as parameter. Use the
 ;;;;    commands implementing the global mark-stack as documentation how to
@@ -57,73 +59,83 @@
   (list (list (point-marker) (point-marker)) (list 1))
 )
 
-(defun lse-delete-mark-stack (lse@mark@stack)
-  (let ((l (append nil lse@mark@stack)))
+(defun lse-delete-mark-stack (lse-mark-stack::instance)
+  (let ((l (append nil lse-mark-stack::instance)))
     (mapc (function (lambda (m) (if (markerp m) (setq m nil)))) l)
   )
 )
 
-(defvar lse@mark@stack nil
+(defvar lse-mark-stack::instance nil
   "Bound by global-mark, buffer-mark and window-mark routines."
 )
+
+(defvar lse-mark-stack:global (lse-new-mark-stack)
+  "List of globally user-defined marks,
+ i.e., neither buffer- nor window-specific"
+)
+
+(defvar lse-global-home-mark-initialized nil)
+
 
 ;;;;+
-;;;; Internal core functions working on mark-stack bound to 'lse@mark@stack'.
+;;;; Internal core functions working on mark-stack bound to
+;;;; 'lse-mark-stack::instance'.
 ;;;;
-(defun lse@implicit@mark (access)
-  (or (funcall access (car lse@mark@stack))
+(defun lse-mark-stack::implicit (access)
+  (or (funcall access (car lse-mark-stack::instance))
       (point-marker)
   )
 )
 
-(defun lse@set@implicit@mark (access to-mark)
-  (if (consp lse@mark@stack)
-      (funcall access (car lse@mark@stack) to-mark)
+(defun lse-mark-stack::implicit:set (access to-mark)
+  (if (consp lse-mark-stack::instance)
+      (funcall access (car lse-mark-stack::instance) to-mark)
   )
 )
 
-(defun lse@top@mark ()
-  (or (nth 1 (car (cdr lse@mark@stack)))
+(defun lse-mark-stack::implicit:top ()
+  (or (nth 1 (car (cdr lse-mark-stack::instance)))
       (point-marker)
   )
 )
 
-(defun lse@pop@mark ()
-  (setcdr (car (cdr lse@mark@stack))
-          (cdr (cdr (car (cdr lse@mark@stack))))
+(defun lse-mark-stack::implicit:pop ()
+  (setcdr (car (cdr lse-mark-stack::instance))
+          (cdr (cdr (car (cdr lse-mark-stack::instance))))
   )
 )
 
-(defun lse@push@mark ()
-  (setcdr (car (cdr lse@mark@stack))
-          (cons (point-marker) (cdr (car (cdr lse@mark@stack))))
+(defun lse-mark-stack::implicit:push ()
+  (setcdr
+    (car (cdr lse-mark-stack::instance))
+    (cons (point-marker) (cdr (car (cdr lse-mark-stack::instance))))
   )
-  (message "Mark %d pushed" (lse@mark@stack@depth))
+  (message "Mark %d pushed" (lse-mark-stack::implicit:depth))
 )
 
-(defun lse@mark@stack@depth ()
-  (1- (length (car (cdr lse@mark@stack))))
+(defun lse-mark-stack::implicit:depth ()
+  (1- (length (car (cdr lse-mark-stack::instance))))
 )
 
-(defun lse@last@mark ()
-  (lse@implicit@mark 'car)
+(defun lse-mark-stack::implicit:last ()
+  (lse-mark-stack::implicit 'car)
 )
 
-(defun lse@home@mark ()
-  (or (lse@implicit@mark 'cdr)
-      (let ((lse@mark@stack lse-global-mark@stack)
+(defun lse-mark-stack::implicit:home ()
+  (or (lse-mark-stack::implicit 'cdr)
+      (let ((lse-mark-stack::instance lse-mark-stack:global)
            )
-        (lse@implicit@mark 'cdr)
+        (lse-mark-stack::implicit 'cdr)
       )
   )
 )
 
-(defun lse@set@last@mark (&optional to-mark)
-  (lse@set@implicit@mark 'setcar (or to-mark (point-marker)))
+(defun lse-mark-stack::implicit:set-last (&optional to-mark)
+  (lse-mark-stack::implicit:set 'setcar (or to-mark (point-marker)))
 )
 
-(defun lse@set@home@mark (&optional to-mark)
-  (lse@set@implicit@mark 'setcdr (or to-mark (point-marker)))
+(defun lse-mark-stack::implicit:set-home (&optional to-mark)
+  (lse-mark-stack::implicit:set 'setcdr (or to-mark (point-marker)))
 )
 
 ;;;;+
@@ -162,40 +174,45 @@
 ;;;; mark-stack to work on.
 ;;;;-
 ;;;  6-Jan-1995 lse-mark-stack.el
-(defun lse-home-mark (lse@mark@stack)
-  (lse@home@mark)
+(defun lse-home-mark (lse-mark-stack::instance)
+  (lse-mark-stack::implicit:home)
 ; lse-home-mark
 )
 
-(defun lse-goto-last-mark (lse@mark@stack)
-  (lse-goto-mark (lse@last@mark) 'lse@set@last@mark)
+(defun lse-goto-last-mark (lse-mark-stack::instance)
+  (lse-goto-mark
+    (lse-mark-stack::implicit:last) 'lse-mark-stack::implicit:set-last
+  )
 )
 
-(defun lse-goto-home-mark (lse@mark@stack)
-  (lse-goto-mark (lse@home@mark) 'lse@set@last@mark)
+(defun lse-goto-home-mark (lse-mark-stack::instance)
+  (lse-goto-mark
+    (lse-mark-stack::implicit:home) 'lse-mark-stack::implicit:set-last
+  )
 )
 
-(defun lse-set-last-mark (lse@mark@stack &optional to-mark)
-  (lse@set@last@mark to-mark)
+(defun lse-set-last-mark (lse-mark-stack::instance &optional to-mark)
+  (lse-mark-stack::implicit:set-last to-mark)
 )
 
-(defun lse-set-home-mark (lse@mark@stack &optional to-mark)
-  (lse@set@home@mark to-mark)
+(defun lse-set-home-mark (lse-mark-stack::instance &optional to-mark)
+  (lse-mark-stack::implicit:set-home to-mark)
 )
 
-(defun lse-push-mark (lse@mark@stack)
-  (lse@push@mark)
+(defun lse-push-mark (lse-mark-stack::instance)
+  (lse-mark-stack::implicit:push)
 )
 
-(defun lse-goto-mark-and-pop (lse@mark@stack)
-  (lse-goto-position (lse@top@mark))
-  (lse@pop@mark)
-  (message "%d marks remaining" (lse@mark@stack@depth))
+(defun lse-goto-mark-and-pop (lse-mark-stack::instance)
+  (lse-goto-position (lse-mark-stack::implicit:top))
+  (lse-mark-stack::implicit:pop)
+  (message "%d marks remaining" (lse-mark-stack::implicit:depth))
 )
 
-(defun lse-toggle-mark (lse@mark@stack)
-  (lse-goto-mark (lse@top@mark)
-                 (function (lambda () (lse@pop@mark) (lse@push@mark)))
+(defun lse-toggle-mark (lse-mark-stack::instance)
+  (lse-goto-mark
+    (lse-mark-stack::implicit:top)
+    (function (lambda () (lse-mark-stack::implicit:pop) (lse-mark-stack::implicit:push)))
   )
 )
 
@@ -203,19 +220,11 @@
 ;;;; Commands implementing the global-mark-stack.
 ;;;;-
 
-;;; (setq lse-global-mark@stack (lse-new-mark-stack))
-(defvar lse-global-mark@stack (lse-new-mark-stack)
-  ;; List of marks defined globally (i.e., neither buffer- nor window-specific)
-  ;; by user.
-)
-
 ;;; 17-Nov-2009
-(defvar lse-global-home-mark-initialized nil)
-
 (defun lse-goto-last-mark-global ()
   "Goto global last mark."
   (interactive)
-  (lse-goto-last-mark lse-global-mark@stack)
+  (lse-goto-last-mark lse-mark-stack:global)
 )
 
 (defun lse-goto-home-mark-global ()
@@ -226,14 +235,14 @@
 
 ;;; 17-Nov-2009
 (defun lse-home-mark-global ()
-  (lse-home-mark lse-global-mark@stack)
+  (lse-home-mark lse-mark-stack:global)
 ; lse-home-mark-global
 )
 
 (defun lse-set-last-mark-global (&optional to-mark)
   "Set global last mark to 'to-mark'."
   (interactive "d")
-  (lse-set-last-mark lse-global-mark@stack
+  (lse-set-last-mark lse-mark-stack:global
                        (if (integerp to-mark) (copy-marker to-mark) to-mark)
   )
 )
@@ -242,7 +251,7 @@
   "Set global last mark to 'to-mark'."
   (interactive "d")
   (setq lse-global-home-mark-initialized t)
-  (lse-set-home-mark lse-global-mark@stack
+  (lse-set-home-mark lse-mark-stack:global
                        (if (integerp to-mark) (copy-marker to-mark) to-mark)
   )
   (message (format "Global home mark set to buffer %s"
@@ -254,19 +263,19 @@
 (defun lse-push-mark-global ()
   "Push mark onto global mark stack."
   (interactive)
-  (lse-push-mark lse-global-mark@stack)
+  (lse-push-mark lse-mark-stack:global)
 )
 
 (defun lse-goto-mark-and-pop-global ()
   "Goto top mark of global mark stack and remove it."
   (interactive)
-  (lse-goto-mark-and-pop lse-global-mark@stack)
+  (lse-goto-mark-and-pop lse-mark-stack:global)
 )
 
 (defun lse-toggle-mark-global ()
   "Goto top mark of global mark-stack and replace it by previous position."
   (interactive)
-  (lse-toggle-mark lse-global-mark@stack)
+  (lse-toggle-mark lse-mark-stack:global)
 )
 
 (defun lse-set-last-mark-all ()
@@ -274,3 +283,5 @@
   (lse-set-last-mark-buffer)
   (lse-set-last-mark-window)
 )
+
+;;; __END__ lse-mark-stack.el

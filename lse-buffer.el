@@ -75,7 +75,13 @@
 ;;;;--
 (provide 'lse-buffer)
 
-(defvar buf nil) ; for some reason debugger does not work without this???
+(with-no-warnings
+  ;; Without the declaration for `buf`, the byte compiler complains::
+  ;;     lse-buffer.el:281:15:Error: Symbol's value as variable is void: buf
+  ;; Unfortunately, the declaration itself triggers a warning::
+  ;;     lse-buffer.el:81:1:Warning: global/dynamic var `buf' lacks a prefix
+  (defvar buf nil)
+)
 
 (defun lse-buffer:alist ()
   (mapcar (function (lambda (x) (cons (buffer-name x) x)))
@@ -577,10 +583,10 @@ Optional argument (the prefix) non-nil means save all with no questions."
 (defun lse-goto-buffer+maybe-create (&optional buf temporary no-mark)
   "Goto to specified buffer. Creates the buffer if it does not exist."
   (interactive)
-  (lse@goto@buffer 'switch-to-buffer buf t temporary no-mark)
+  (lse--goto-buffer 'switch-to-buffer buf t temporary no-mark)
 )
 
-(defun lse@goto@buffer
+(defun lse--goto-buffer
            (switch-cmd &optional buf may-create temporary no-mark default)
   ;; If 'buf' does not exist, it is created when 'may-create' is non-nil.
   ;; 'temporary' disables output file for newly created buffer
@@ -630,7 +636,7 @@ Optional argument (the prefix) non-nil means save all with no questions."
            (&optional buf may-create temporary no-mark default)
   "Goto a buffer in another window"
   (interactive)
-  (lse@goto@buffer
+  (lse--goto-buffer
        'switch-to-buffer-other-window buf may-create temporary no-mark
        (or default "")
   )
@@ -640,7 +646,7 @@ Optional argument (the prefix) non-nil means save all with no questions."
            (&optional buf may-create temporary no-mark default)
   "Goto to another buffer"
   (interactive)
-  (lse@goto@buffer
+  (lse--goto-buffer
         'switch-to-buffer buf may-create temporary no-mark
         (or default "")
   )

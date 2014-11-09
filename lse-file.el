@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-file:el lse_file:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -47,6 +47,7 @@
 ;;;;     3-Dec-2007 (CT) Guard for `filename` added to `lse-file:expanded-name`
 ;;;;    27-Jan-2011 (CT) `lse-file:update-copyright`: s/if/while
 ;;;;                     (i.e., update all occurences of `copyright-pattern`)
+;;;;     9-Nov-2014 (CT) Remove consideration of `automount-dir-prefix`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-file)
@@ -74,15 +75,6 @@
   ;; Read file FILENAME into a buffer and return the buffer.
   ;; The buffer is not selected, just returned to the caller.
   (setq filename (lse-file:expanded-name filename))
-  ;; Get rid of the prefixes added by the automounter.
-  (if (and (string-match automount-dir-prefix filename)
-           (file-exists-p (file-name-directory
-                           (substring filename (1- (match-end 0)))
-                          )
-           )
-      )
-      (setq filename (substring filename (1- (match-end 0))))
-  )
   (if (file-directory-p filename)
       (if find-file-run-dired
           (dired-noselect filename)
@@ -115,7 +107,7 @@
   )
 )
 
-(defun lse@visit@file (switch-cmd &optional file must-exist)
+(defun lse-file::visit (switch-cmd &optional file must-exist)
   (or file
       (setq file
             (lse-read-file-name
@@ -156,13 +148,13 @@
     )
     (funcall switch-cmd (lse-find-file-noselect file))
   )
-; lse@visit@file
+; lse-file::visit
 )
 
 (defun lse-visit-file (&optional must-not-exist file)
   "Reads file into a new buffer."
   (interactive "P")
-  (lse@visit@file 'switch-to-buffer file (not must-not-exist))
+  (lse-file::visit 'switch-to-buffer file (not must-not-exist))
 )
 ;;;  3-Oct-2007
 (defun lse-visit-file-new (&optional file)
@@ -177,7 +169,7 @@
   (interactive "P")
   (let ((w (selected-window)))
     (save-excursion
-      (lse@visit@file
+      (lse-file::visit
            'switch-to-buffer-other-window file (not must-not-exist)
       )
     )
@@ -211,7 +203,6 @@
   (widen)
   (erase-buffer)
   (insert-file-contents file t)
-  ; (rename-buffer (lse@unique@buffer@name file))
 )
 
 (defun lse-insert-file (&optional file)
@@ -321,7 +312,7 @@ Doesn't overrule file protection."
     (if fn
         (progn
           (if (file-writable-p fn)
-              (toggle-read-only)
+              (setq buffer-read-only (not buffer-read-only))
             (lse-ring-bell)
             (error "File `%s' is not writable" fn)
           )

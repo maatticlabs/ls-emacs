@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-define:el lse_defn:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -44,25 +44,25 @@
 ;;;;    17-Aug-2000 (CT) auto-expand added
 ;;;;     4-Oct-2002 (CT) hang-indent added
 ;;;;     4-Oct-2002 (CT) properties  added
-;;;;    17-Jul-2009 (CT) `lse@define-fill-in-menu` robustified
-;;;;    19-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to map `$`
+;;;;    17-Jul-2009 (CT) `lse-define-fill-in-menu` robustified
+;;;;    19-Jan-2011 (CT) `lse-define:fill-in-replacement` changed to map `$`
 ;;;;                     to `lse-auto-expand-replacement-fill-in`
-;;;;    20-Jan-2011 (CT) `lse@define@fill-in-replacement` changed to consider
+;;;;    20-Jan-2011 (CT) `lse-define:fill-in-replacement` changed to consider
 ;;;;                     `no-sep` for `consp` elements
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added to
-;;;;                     `lse@define@fill-in-replacement`
+;;;;                     `lse-define:fill-in-replacement`
 ;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added to
-;;;;                     `lse@define@fill-in-replacement`
+;;;;                     `lse-define:fill-in-replacement`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-define)
 
-(defvar lse_token_table   (make-vector 137 0))
+(defvar lse::token-table   (make-vector 137 0))
 (defvar lse_fill-in_table (make-vector 137 0)
   ;; 25-Nov-1993: SWING$_LSE:[*...]*.LSE contained 3607 placeholder definitions
 )
 
-(make-variable-buffer-local 'lse_token_table)
+(make-variable-buffer-local 'lse::token-table)
 (make-variable-buffer-local 'lse_fill-in_table)
 
 (defun lse_fill-in:definition (name)
@@ -99,7 +99,7 @@
 ; lse-define:string-option
 )
 
-(defun lse@define-fill-in-option (psym name head tail &optional dont-separate)
+(defun lse-define-fill-in-option (psym name head tail &optional dont-separate)
   (let ((result t)
         (integer-option (lse-define:integer-option tail))
         (string-option  (lse-define:string-option  tail))
@@ -139,8 +139,10 @@
                        )
            )
            (put psym head
-                (lse@define-fill-in (concat "$" name "$" (symbol-name head))
-                                    t (list (cons 'replacement tail))
+                (lse-define-fill-in::inner
+                  (concat "$" name "$" (symbol-name head))
+                  t
+                  (list (cons 'replacement tail))
                 )
            )
           )
@@ -169,10 +171,10 @@
     )
     result
   )
-; lse@define-fill-in-option
+; lse-define-fill-in-option
 )
 
-(defun lse@define-fill-in-function    (psym name body &optional dont-separate)
+(defun lse-define-fill-in-function    (psym name body &optional dont-separate)
   (let (next
         function
        )
@@ -201,10 +203,10 @@
       )
     )
   )
-; lse@define-fill-in-function
+; lse-define-fill-in-function
 )
 
-(defun lse@define-fill-in-menu (psym name body &optional dont-separate)
+(defun lse-define-fill-in-menu (psym name body &optional dont-separate)
   (let (next
         menu-entries
         entry
@@ -259,10 +261,10 @@
       )
     )
   )
-; lse@define-fill-in-menu
+; lse-define-fill-in-menu
 )
 
-(defun lse@define@fill-in-replacement (psym name body &optional dont-separate)
+(defun lse-define:fill-in-replacement (psym name body &optional dont-separate)
   (let (next
         replacement
         item_sep
@@ -284,7 +286,7 @@
              (if (eq head 'line)
                  (setq replacement
                      (append
-                        (lse@define@fill-in-replacement psym name (cdr next) t)
+                        (lse-define:fill-in-replacement psym name (cdr next) t)
                         (if item_sep (cons item_sep replacement) replacement)
                      )
                  )
@@ -378,17 +380,17 @@
   )
 )
 
-(defun lse@define-fill-in-replacement (psym name body &optional dont-separate)
+(defun lse-define-fill-in-replacement (psym name body &optional dont-separate)
   (let (replacement)
     (setq replacement
-          (lse@define@fill-in-replacement psym name body dont-separate)
+          (lse-define:fill-in-replacement psym name body dont-separate)
     )
     (setq replacement (nreverse  replacement))
     (if replacement   (put psym 'replacement replacement))
   )
 )
 
-(defun lse@define-fill-in-properties  (psym name body &optional dont-separate)
+(defun lse-define-fill-in-properties  (psym name body &optional dont-separate)
   (let (next
         fill-in-type
        )
@@ -406,16 +408,16 @@
                        )
                      (setq fill-in-type head)
                      (funcall
-                        (symbol-function (intern (concat "lse@define-fill-in-"
-                                                         (symbol-name head)
-                                                 )
-                                         )
+                        (symbol-function
+                          (intern
+                            (concat "lse-define-fill-in-" (symbol-name head))
+                          )
                         )
                         psym name tail dont-separate
                      )
                    )
                   )
-                  (t (lse@define-fill-in-option psym name head tail))
+                  (t (lse-define-fill-in-option psym name head tail))
             )
           )
         (message
@@ -425,10 +427,10 @@
     )
     (put psym 'type (or fill-in-type 'terminal))
   )
-; lse@define-fill-in-properties
+; lse-define-fill-in-properties
 )
 
-(defun lse@define-fill-in (name dont-separate body)
+(defun lse-define-fill-in::inner (name dont-separate body)
   (let ((psym (intern-soft (downcase name) lse_fill-in_table))
         new
        )
@@ -442,7 +444,7 @@
       )
     )
 
-    (lse@define-fill-in-properties psym name body dont-separate)
+    (lse-define-fill-in-properties psym name body dont-separate)
 
     (if new
         (lse-define:message "Fill-in      `%25s' newly defined" name)
@@ -450,17 +452,17 @@
     )
   psym
   )
-; lse@define-fill-in
+; lse-define-fill-in::inner
 )
 
 (defun lse-define-fill-in (name &rest body)
-  (lse@define-fill-in name nil body)
+  (lse-define-fill-in::inner name nil body)
   (lse-add-to-list lse-language:fill-in-defs (downcase name))
 )
 
 (defun lse-define-fill-in-token (token-name fill-in)
   (let* ((name (downcase token-name))
-         (tsym (intern-soft name lse_token_table))
+         (tsym (intern-soft name lse::token-table))
          (new  nil)
         )
     (if (symbolp fill-in)
@@ -468,7 +470,7 @@
     )
     (if (not tsym)
         (progn
-          (setq tsym (intern name lse_token_table))
+          (setq tsym (intern name lse::token-table))
           (setq new  t)
         )
     )
@@ -488,12 +490,12 @@
 
 (defun lse-define-simple-token (token-name expansion)
   (let* ((name (downcase token-name))
-         (tsym (intern-soft name lse_token_table))
+         (tsym (intern-soft name lse::token-table))
          new
         )
     (if (not tsym)
         (progn
-          (setq tsym (intern name lse_token_table))
+          (setq tsym (intern name lse::token-table))
           (setq new  t)
         )
     )

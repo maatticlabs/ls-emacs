@@ -197,12 +197,12 @@
 (defun lse-insert-date-time-comment ()
   (interactive "*")
   (lse_start_replacement_if_in_fill-in)
-  (dotimes (i 3) (lse-tpu:insert (or lse_comment_head_delim "#")))
+  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
   (lse-tpu:insert " ")
   (lse-insert-dd-mmm-yyyy+blank)
   (lse-insert-time+blank)
-  (if lse_comment_tail_delim
-      (dotimes (i 3) (lse-tpu:insert lse_comment_tail_delim))
+  (if lse-comment:tail_delim
+      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
   )
   (newline-and-indent)
 ; lse-insert-date-time-comment

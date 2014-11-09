@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-fill-in:el lse_fiin:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -46,6 +46,8 @@
 ;;;;--
 (provide 'lse-fill-in)
 
+(require 'lse-flat-fill-in)
+
 (defun lse-fill-in:expand-separator (fill-in_separator ref-pos)
   (lse-flat-fill-in:interpret-replacement_in_env
       (lse_fill-in:definition
@@ -59,8 +61,8 @@
 ; lse-fill-in:expand-separator
 )
 
-(defun lse_duplicate_current_fill-in (psym name &optional ref-pos)
-  (let ((fill-in_separator (or lse@expansion@separator (get psym 'separator)))
+(defun lse-fill-in:duplicate-current (psym name &optional ref-pos)
+  (let ((fill-in_separator (or lse::expansion-separator (get psym 'separator)))
         (br                (point-marker))
         dupl-range
        )
@@ -75,17 +77,17 @@
     )
     dupl-range
   )
-; lse_duplicate_current_fill-in
+; lse-fill-in:duplicate-current
 )
 
-(defun lse_duplicate_current_fill-in_maybe (psym name &optional ref-pos)
+(defun lse-fill-in:duplicate-current:maybe (psym name &optional ref-pos)
   (if (lse_current_fill-in_repeats)
-      (lse_duplicate_current_fill-in psym name ref-pos)
+      (lse-fill-in:duplicate-current psym name ref-pos)
   )
 )
 
 (defun lse_convert_current_fill-in_to_duplicate (psym flat-range)
-  (let ((fill-in_separator (or lse@expansion@separator(get psym 'separator)))
+  (let ((fill-in_separator (or lse::expansion-separator(get psym 'separator)))
         (br                (point-marker))
         dupl-range
        )

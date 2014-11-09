@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2014 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This library is free software; you can redistribute it and/or modify
@@ -382,7 +382,7 @@
 (lse-vcs:conflict:define-keys)
 
 ;;; some text for testing
-(defvar test "
+(defvar lse-vcs::test "
 Before the conflict::
 <<<<<<< HEAD
 My version

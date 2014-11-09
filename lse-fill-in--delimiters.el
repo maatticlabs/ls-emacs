@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
- 
+
 ;;;;unix_ms_filename_correspondency lse-fill-in--delimiters:el lse_fidl:el
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -29,10 +29,11 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    12-Jun-1994 (CT) Creation (of comment)
-;;;;                     Error in lse_opt_fill-in_pattern and 
-;;;;                     lse_req_fill-in_pattern corrected
+;;;;                     Error in lse-fill-in::pattern:opt and
+;;;;                     lse-fill-in::pattern:req corrected
 ;;;;    27-Jul-1994 (CT) 7-bit delimiters added as comment
-;;;;-- 
+;;;;    ««revision-date»»···
+;;;;--
 (provide 'lse-fill-in--delimiters)
 
 ;;; required and optional head delimiters must start with the same character!!!
@@ -43,7 +44,7 @@
 (defconst lse_fill-in_name_delim_chars       "«»Š")
 (defconst lse_fill-in_delim_chars            "«Š»·")
 
-(defconst lse_req_fill-in_head_delim         "«")  
+(defconst lse_req_fill-in_head_delim         "«")
 (defconst lse_opt_fill-in_head_delim         "««")
 (defconst lse_req_fill-in_tail_delim         "»")
 (defconst lse_opt_fill-in_tail_delim         "»»")
@@ -66,7 +67,7 @@
 ;; (defconst lse_fill-in_name_delim_chars       "<>|")
 ;; (defconst lse_fill-in_delim_chars            ":<|>.")
 
-;; (defconst lse_req_fill-in_head_delim         ":<")  
+;; (defconst lse_req_fill-in_head_delim         ":<")
 ;; (defconst lse_opt_fill-in_head_delim         ":<<")
 ;; (defconst lse_req_fill-in_tail_delim         ">:")
 ;; (defconst lse_opt_fill-in_tail_delim         ">>:")
@@ -88,7 +89,7 @@
 ;; (make-variable-buffer-local 'lse_fill-in-not_head_start_chars)
 ;; (make-variable-buffer-local 'lse_fill-in_head_delim_chars)
 ;; (make-variable-buffer-local 'lse_fill-in_delim_chars)
-;; (make-variable-buffer-local 'lse_req_fill-in_head_delim) 
+;; (make-variable-buffer-local 'lse_req_fill-in_head_delim)
 ;; (make-variable-buffer-local 'lse_opt_fill-in_head_delim)
 ;; (make-variable-buffer-local 'lse_req_fill-in_tail_delim)
 ;; (make-variable-buffer-local 'lse_opt_fill-in_tail_delim)
@@ -98,9 +99,9 @@
 ;; (make-variable-buffer-local 'lse_opt_fill-in_head_delim_pattern)
 ;; (make-variable-buffer-local 'lse_opt_fill-in_tail_delim_pattern)
 ;; (make-variable-buffer-local 'lse_list_fill-in_trailer_pattern)
- 
+
 (defun lse_fill-in_not_in_name_chars ()
-  (concat 
+  (concat
      "\000-\037\177"                      ; control characters
      lse_fill-in_name_delim_chars         ; fill-in delimiters
   )
@@ -114,28 +115,30 @@
   )
 )
 
-(defun lse_opt_fill-in_pattern (&optional name)
+(defun lse-fill-in::pattern:opt (&optional name)
   (if name
       (setq name (concat "\\(" (regexp-quote name) "\\)")) ; 12-Jun-1994 \\(\\)
     (setq name (lse_fill-in_name_pattern))
   )
   (concat
      lse_opt_fill-in_head_delim_pattern
-     name 
+     name
      lse_opt_fill-in_tail_delim_pattern
      lse_list_fill-in_trailer_pattern
   )
-) 
+)
 
-(defun lse_req_fill-in_pattern (&optional name)
+(defun lse-fill-in::pattern:req (&optional name)
   (if name
       (setq name (concat "\\(" (regexp-quote name) "\\)")) ; 12-Jun-1994 \\(\\)
     (setq name (lse_fill-in_name_pattern))
   )
   (concat
      lse_req_fill-in_head_delim_pattern
-     name 
+     name
      lse_req_fill-in_tail_delim_pattern
      lse_list_fill-in_trailer_pattern
   )
-) 
+)
+
+;;; __END__ lse-fill-in--delimiters.el

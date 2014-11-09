@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -67,7 +67,7 @@
 ;;;;     1-Sep-2002 (CT) `negative-digit-argument` corrected
 ;;;;     1-Sep-2002 (CT) `lse-insert-num-*` added
 ;;;;    11-Sep-2002 (CT) `lse-previous-indentation` changed to consider
-;;;;                     `lse@hanging-indent`
+;;;;                     `lse::hanging-indent`
 ;;;;     4-Oct-2002 (CT) `lse-previous-indentation` changed to consider
 ;;;;                     text-property `hang-indent`
 ;;;;     9-Oct-2002 (CT) `lse-previous-indentation` changed back to start
@@ -83,9 +83,9 @@
 ;;;;                     `lse-tpu:save-pos-before-search`
 ;;;;    29-Jul-2009 (CT) Modernize use of backquotes
 ;;;;    19-Jan-2011 (CT) `lse-close-line-down` and `lse-close-line-up` added
-;;;;    19-Jan-2011 (CT) `lse@align-search-limit` reduced from `100` to `15`
+;;;;    19-Jan-2011 (CT) `lse:align-search-limit` reduced from `100` to `15`
 ;;;;    19-Jan-2011 (CT) `lse-find-pattern-alignment` fixed to really obey
-;;;;                     `lse@align-search-limit`
+;;;;                     `lse:align-search-limit`
 ;;;;    19-Jan-2011 (CT) `target-col` added to `lse-align-to-pattern`
 ;;;;    20-Jan-2011 (CT) `lse-line-startswith` added
 ;;;;    28-Jan-2011 (CT) `lse-line-endswith` added
@@ -557,7 +557,7 @@ previous line"
 ; lse-align-to-previous-word-and-down
 )
 
-(defconst lse@align-search-limit 15)
+(defconst lse:align-search-limit 15)
 
 (defun lse-align-and-down ()
   (interactive "*")
@@ -586,7 +586,7 @@ previous line"
         (target-pos nil)
         (distance   1)
        )
-    (while (and (< distance lse@align-search-limit)
+    (while (and (< distance lse:align-search-limit)
                 (not target-pos)
            )
       (save-excursion
@@ -803,8 +803,8 @@ previous line"
        )
     (if hang-indent
         (setq offset hang-indent)
-      (if lse@hanging-indent
-          (setq offset lse@hanging-indent)
+      (if lse::hanging-indent
+          (setq offset lse::hanging-indent)
         (save-excursion
           (if (equal (char-syntax (following-char)) ?\) )
               ;; for closing parenthetical characters return offset of associated
@@ -938,7 +938,7 @@ previous line"
           (found      nil)
           (distance   1)
          )
-      (while (and (< distance lse@align-search-limit)
+      (while (and (< distance lse:align-search-limit)
                   (not found)
              )
         (lse-scroll-vertically dir)
@@ -1045,7 +1045,7 @@ previous line"
         )
     (if (> ci 0)
         (save-excursion
-          (while (and (< distance lse@align-search-limit)
+          (while (and (< distance lse:align-search-limit)
                       (not (< ti ci))
                  )
             (lse-scroll-vertically dir)

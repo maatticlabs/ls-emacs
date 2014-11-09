@@ -976,7 +976,7 @@ Accepts a prefix argument of the number of characters to invert."
              (assq 'defining-kbd-macro minor-mode-alist)
          )
          (setq minor-mode-alist
-               (cons '(defining-kbd-macro lse@key-currently-learned@info)
+               (cons '(defining-kbd-macro lse-learn-key:current:info)
                      minor-mode-alist
                )
          )
@@ -2629,7 +2629,7 @@ With argument reinserts the text that many times."
 
 ;;;  6-Oct-2007
 (defun lse-tpu:search-again (n fct)
-  (let* ((lse_completion:index-start 0)
+  (let* ((lse-completion:index-start 0)
          (pat (cond
                 ((numberp n)
                  (nth n (lse-tpu:search-history-value))

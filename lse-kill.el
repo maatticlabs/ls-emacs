@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-kill:el lse_kill:el
-;;;; Copyright (C) 1994-2009 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -31,9 +31,9 @@
 ;;;;    24-May-1994 (CT) Creation (of comment)
 ;;;;    24-May-1994 (CT) Clarification
 ;;;;    26-May-1994 (CT) Interactive functions moved to lse-interactive
-;;;;     1-Jun-1994 (CT) Error removed from lse@kill_current_fill-in
+;;;;     1-Jun-1994 (CT) Error removed from lse-kill:current-fill-in:inner
 ;;;;    11-Jun-1994 (CT) Allow pattern in leading
-;;;;    22-Jan-1995 (CT) lse_unkill_fill_in put in here
+;;;;    22-Jan-1995 (CT) lse-kill:unkill put in here
 ;;;;                     (was contained inline in lse-unkill-fill-in in
 ;;;;                     lse-interactive.el)
 ;;;;    28-Jan-1995 (CT) Error corrected
@@ -49,8 +49,8 @@
 ;;;;    20-Mar-1995 (CT) Add killed fill-in to expansion history
 ;;;;    11-Oct-1996 (CT) Use lse-range:contents-np in lse-kill:enclosure
 ;;;;    31-Dec-1997 (CT) `lse-kill:join-sexp-boundary-maybe' added
-;;;;     5-Aug-2009 (CT) Guards against nil `lse_comment_head_delim_pattern`
-;;;;     5-Aug-2009 (CT) Use `mapc` instead of `mapcar` in `lse_unkill_fill_in`
+;;;;     5-Aug-2009 (CT) Guards against nil `lse-comment:head_delim_pattern`
+;;;;     5-Aug-2009 (CT) Use `mapc` instead of `mapcar` in `lse-kill:unkill`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-kill)
@@ -59,8 +59,8 @@
 (defun lse_kill:adjust_fill-in_leading (leading_range trailer_range)
   (save-excursion
     (goto-char (lse-range:head-pos leading_range))
-    (if (or (and lse_comment_head_delim_pattern
-              (looking-at (concat "[ \t\n]*" lse_comment_head_delim_pattern))
+    (if (or (and lse-comment:head_delim_pattern
+              (looking-at (concat "[ \t\n]*" lse-comment:head_delim_pattern))
             )
             (bolp)
         )
@@ -68,7 +68,7 @@
           (save-excursion
             (goto-char (lse-range:head-pos trailer_range))
             (if (looking-at
-                  (concat "[ \t]*" (or lse_comment_tail_delim_pattern "$"))
+                  (concat "[ \t]*" (or lse-comment:tail_delim_pattern "$"))
                 )
                 (setq needs-adjustment nil)
               (setq needs-adjustment t)
@@ -89,16 +89,16 @@
 
 ;;; 22-Jan-1995
 (defun lse_kill:adjust_fill-in_trailer (leading_range trailer_range)
-  (if lse_comment_tail_delim_pattern
+  (if lse-comment:tail_delim_pattern
       (save-excursion
         (goto-char (lse-range:head-pos trailer_range))
-        (if (looking-at (concat "[ \t\n]*" lse_comment_tail_delim_pattern))
+        (if (looking-at (concat "[ \t\n]*" lse-comment:tail_delim_pattern))
             (let (needs-adjustment)
               (save-excursion
                 (goto-char (lse-range:head-pos leading_range))
-                (if (and lse_comment_head_delim_pattern
+                (if (and lse-comment:head_delim_pattern
                       (looking-at
-                        (concat "[ \t\n]*" lse_comment_head_delim_pattern)
+                        (concat "[ \t\n]*" lse-comment:head_delim_pattern)
                       )
                     )
                     (setq needs-adjustment nil)
@@ -184,7 +184,7 @@
       (setq result (point-marker))
       (if (bolp)
           nil
-        (if (integerp (lse_comment:trailer_comment_tail_position))
+        (if (integerp (lse-comment:trailer_comment_tail_position))
             (setq result (point-marker))
         )
       )
@@ -307,8 +307,8 @@
              (<= (lse-tpu:line-tail-pos) (lse-range:tail-pos trailer_range))
         )
         ;; both leading and trailer are on different than current line
-        (if (and lse_comment_head_delim_pattern
-              (string-match lse_comment_head_delim_pattern
+        (if (and lse-comment:head_delim_pattern
+              (string-match lse-comment:head_delim_pattern
                 (lse-range:contents-np head_blank_line_range)
               )
             )
@@ -354,7 +354,7 @@
 ; lse-kill:enclosure
 )
 
-(defun lse@kill_current_fill-in ()
+(defun lse-kill:current-fill-in:inner ()
   (save-match-data
     (let* ((psym         (lse-fill-in:symbol      lse_current_fill-in))
            (range        (lse-fill-in:range       lse_current_fill-in))
@@ -380,7 +380,7 @@
       (setq lse_dead_fill-in    lse_current_fill-in)
       (setq lse_current_fill-in nil)
 
-      (lse-fill-in:change-state          lse_dead_fill-in 'lse@dead)
+      (lse-fill-in:change-state          lse_dead_fill-in 'lse::dead)
       (lse-fill-in:change-complement     lse_dead_fill-in dead)
       (lse-fill-in:change-enclosure      lse_dead_fill-in enclosure)
       (lse-fill-in:change-descendants    lse_dead_fill-in nil)
@@ -395,10 +395,10 @@
       )
     )
   )
-; lse@kill_current_fill-in
+; lse-kill:current-fill-in:inner
 )
 
-(defun lse_kill_current_fill-in ()
+(defun lse-kill:current-fill-in ()
   (if (not (lse_current_fill-in_is_optional))
       (if (not (y-or-n-p
                 (concat "fill-in  `"
@@ -411,8 +411,8 @@
       )
     ;; 24-Feb-1995 kill even if not replacement is allowed
   )
-  (lse@kill_current_fill-in)
-; lse_kill_current_fill-in
+  (lse-kill:current-fill-in:inner)
+; lse-kill:current-fill-in
 )
 
 (defun lse-kill:insert-enclosure (enclosure index head-pos)
@@ -431,11 +431,11 @@
 ; lse-kill:insert-enclosure
 )
 
-(defun lse_kill_current_fill-in_if_optional ()
+(defun lse-kill:current-fill-in-if-optional ()
   (if (lse_current_fill-in_is_optional)
-      (lse@kill_current_fill-in); 24-Feb-1995 kill even no-replacement fill-ins
+      (lse-kill:current-fill-in:inner); 24-Feb-1995 kill even no-replacement fill-ins
   )
-; lse_kill_current_fill-in_if_optional
+; lse-kill:current-fill-in-if-optional
 )
 
 ;;; 18-Feb-1995
@@ -449,7 +449,7 @@
         (while (and (> how-many 0)
                     (lse-goto-next-fill-in t name)
                )
-          (lse_kill_current_fill-in_if_optional)
+          (lse-kill:current-fill-in-if-optional)
           (lse-add-to-list descendants lse_dead_fill-in)
           (setq how-many (1- how-many))
         )
@@ -460,7 +460,7 @@
 ; lse-kill-future-fill-in
 )
 
-(defun lse@unkill_fill_in (lse_dead_fill-in)
+(defun lse-kill:unkill:inner (lse_dead_fill-in)
   (let* ((complement               (lse-fill-in:complement lse_dead_fill-in))
          (enclosure                (lse-fill-in:enclosure  lse_dead_fill-in))
          (range                    (lse-fill-in:range      lse_dead_fill-in))
@@ -477,28 +477,28 @@
     (lse-range:change-head-pos range head-pos)
     (lse-range:change-tail-pos range (+ head-pos (length complement)))
 
-    (lse-fill-in:change-state        lse_dead_fill-in 'lse@flat)
+    (lse-fill-in:change-state        lse_dead_fill-in 'lse::flat)
     (lse-fill-in:change-complement   lse_dead_fill-in nil)
     (lse-fill-in:change-enclosure    lse_dead_fill-in nil)
     (lse-fill-in:change-descendants  lse_dead_fill-in nil)
   )
   lse_dead_fill-in
-; lse@unkill_fill_in
+; lse-kill:unkill:inner
 )
 
-(defun lse_unkill_fill_in ()
+(defun lse-kill:unkill ()
   (if (not lse_dead_fill-in)
       (error "No fill-in to un-kill")
     (let* ((descendants (lse-fill-in:descendants lse_dead_fill-in)))
-      (setq lse_current_fill-in (lse@unkill_fill_in lse_dead_fill-in))
+      (setq lse_current_fill-in (lse-kill:unkill:inner lse_dead_fill-in))
       (setq lse_dead_fill-in    nil)
       (save-excursion
-        (mapc 'lse@unkill_fill_in descendants)
+        (mapc 'lse-kill:unkill:inner descendants)
       )
       (lse-goto-prev-fill-in)
     )
   )
-; lse_unkill_fill_in
+; lse-kill:unkill
 )
 
 ;;; 31-Dec-1997
@@ -525,4 +525,3 @@
   )
 ; lse-kill:join-sexp-boundary-maybe
 )
-

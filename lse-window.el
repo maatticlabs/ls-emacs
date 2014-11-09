@@ -320,7 +320,7 @@
   (unless horizontally
     (lse-scroll-to-bottom)
   )
-  (lse@initialize@window@mark@stack (split-window wdw size horizontally))
+  (lse-window:mark-stack:initialize (split-window wdw size horizontally))
   (if (not size) (lse-balance-windows));  7-Apr-2003
   (lse-set-home-mark-window (point-marker));  6-Jan-1995
   (lse-next-window)
@@ -338,7 +338,7 @@
 
 (defun lse-delete-window (&optional wdw)
   (interactive)
-  (lse@remove@window@mark@stack (or wdw (selected-window)))
+  (lse-window:mark-stack:remove (or wdw (selected-window)))
   (delete-window wdw)
   (lse-balance-windows)
 ; lse-delete-window
@@ -347,8 +347,8 @@
 (defun lse-delete-other-windows (&optional wdw)
   (interactive)
   (let ((w (or wdw (selected-window))))
-    (lse@delete@window@list)
-    (lse@initialize@window@mark@stack w)
+    (lse-window::list:delete)
+    (lse-window:mark-stack:initialize w)
     (delete-other-windows w)
   )
 ; lse-delete-other-windows
@@ -370,17 +370,17 @@
 ; lse-unset-selective-display
 )
 
-(defun lse@find@window@number (w)
+(defun lse-window::find-number (w)
   (setq lse-window::number (1+ lse-window::number))
-; lse@find@window@number
+; lse-window::find-number
 )
 
-(defun lse@find@window@length (w)
+(defun lse-window::find-length (w)
   (setq lse-window::length (+ lse-window::length (window-height w)))
-; lse@find@window@length
+; lse-window::find-length
 )
 
-(defun lse@balance@window (w)
+(defun lse-window::balance (w)
   (select-window w)
   (cond ((> lse-window::length (window-height w))
          (enlarge-window (- lse-window::length (window-height w)))
@@ -389,7 +389,7 @@
          (shrink-window (- (window-height w) lse-window::length))
         )
   )
-; lse@balance@window
+; lse-window::balance
 )
 
 (if (fboundp 'balance-windows) ;; 22-May-1997
@@ -397,12 +397,12 @@
   (defun lse-balance-windows ()
     (interactive)
     (setq lse-window::number 0)
-        (lse-iterate-windows 'lse@find@window@number)
+        (lse-iterate-windows 'lse-window::find-number)
     (setq lse-window::length 0)
-        (lse-iterate-windows 'lse@find@window@length)
+        (lse-iterate-windows 'lse-window::find-length)
     (setq lse-window::length (/ lse-window::length lse-window::number))
     (let ((w (selected-window)))
-        (lse-iterate-windows 'lse@balance@window)
+        (lse-iterate-windows 'lse-window::balance)
         (select-window w)
     )
   ; lse-balance-windows
@@ -458,13 +458,13 @@
   ;; corresponding mark-stacks
 )
 
-(defun lse@delete@window@list ()
+(defun lse-window::list:delete ()
   (mapc
     (function (lambda (ms) (lse-delete-mark-stack (cdr ms))))
     lse-window::list
   )
   (setq lse-window::list nil)
-; lse@delete@window@list
+; lse-window::list:delete
 )
 
 (defun lse-window-mark@stack (&optional no-create)
@@ -472,8 +472,8 @@
     (if entry
         (cdr entry)
       (if no-create
-          lse-global-mark@stack
-        (lse@initialize@window@mark@stack)
+          lse-mark-stack:global
+        (lse-window:mark-stack:initialize)
         (lse-window-mark@stack t)
       )
     )
@@ -481,7 +481,7 @@
 ; lse-window-mark@stack
 )
 
-(defun lse@initialize@window@mark@stack (&optional wdw)
+(defun lse-window:mark-stack:initialize (&optional wdw)
   (let ((w (or wdw (selected-window))))
     (or (assq w lse-window::list)
         (save-window-excursion
@@ -492,10 +492,10 @@
         )
     )
   )
-; lse@initialize@window@mark@stack
+; lse-window:mark-stack:initialize
 )
 
-(defun lse@remove@window@mark@stack (&optional wdw)
+(defun lse-window:mark-stack:remove (&optional wdw)
   (let* ((w     (or wdw (selected-window)))
          (entry (assq w lse-window::list))
         )
@@ -506,7 +506,7 @@
         )
     )
   )
-; lse@remove@window@mark@stack
+; lse-window:mark-stack:remove
 )
 
 (defun lse-goto-last-mark-window ()

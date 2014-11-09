@@ -65,7 +65,7 @@
     ;; indentation + \t allow the summary file to be used as completion buffer
     (set-buffer dst-buf)
     (setq head (point))
-    (indent-to lse_completion:left_margin)
+    (indent-to lse-completion:left_margin)
     (funcall make-entry-summary limit)
     (subst-char-in-region head (1- (point)) ?\n ?  t)
     (set-buffer src-buf)

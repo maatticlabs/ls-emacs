@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-deep-fill-in:el lse_dpfi:el
-;;;; Copyright (C) 1994-2010 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -34,13 +34,13 @@
 ;;;;    26-May-1994 (CT) Interactive functions moved to lse-interactive
 ;;;;    12-Jun-1994 (CT) Error corrected
 ;;;;    12-Jun-1994 (CT) Auto-replication added
-;;;;    22-Jan-1995 (CT) Error in lse_toggle_fill-in_expansion corrected
+;;;;    22-Jan-1995 (CT) Error in lse-fill-in:toggle-expansion corrected
 ;;;;                     (left blank line in some situations)
 ;;;;     4-Oct-1996 (CT) Call `lse-flat-fill-in:open-replacement-highlight'
-;;;;                     in `lse_toggle_fill-in_expansion' when toggling into
+;;;;                     in `lse-fill-in:toggle-expansion' when toggling into
 ;;;;                     the deep state
 ;;;;     9-Oct-1996 (CT) Added optional parameter `dont-highlight' to
-;;;;                     `lse_toggle_fill-in_expansion'
+;;;;                     `lse-fill-in:toggle-expansion'
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    ««revision-date»»···
 ;;;;--
@@ -49,7 +49,7 @@
 ;;;++
 ;;; Internals for un/re-expansion
 ;;;--
-(defun lse_toggle_fill-in_expansion (toggle_fill-in &optional dont-highlight)
+(defun lse-fill-in:toggle-expansion (toggle_fill-in &optional dont-highlight)
   (let* ((psym        (lse-fill-in:symbol        toggle_fill-in))
          (name        (lse-fill-in:name          toggle_fill-in))
          (complement  (lse-fill-in:complement    toggle_fill-in))
@@ -60,7 +60,7 @@
          (head-pos    (lse-range:head-pos        range))
          (tail-pos    (lse-range:tail-pos        range))
         )
-    (if (and (vectorp dupl-range) (eq other-state 'lse@flat))
+    (if (and (vectorp dupl-range) (eq other-state 'lse::flat))
         ;; when switching from deep to flat remove duplication if any
         (progn
           (lse-range:clean dupl-range)
@@ -83,38 +83,38 @@
     (setq tail-pos (+ head-pos (length complement)))
     (lse-range:change-tail-pos range tail-pos)
     (if (vectorp dupl-range)
-        (if (eq state 'lse@flat)
+        (if (eq state 'lse::flat)
             (save-excursion
               (goto-char tail-pos)
               (lse-fill-in:change-duplicate toggle_fill-in
-                   (lse_duplicate_current_fill-in psym name head-pos)
+                (lse-fill-in:duplicate-current psym name head-pos)
               )
             )
         )
     )
     (if (and (not dont-highlight);  9-Oct-1996
-             (eq other-state 'lse@deep);  4-Oct-1996
+             (eq other-state 'lse::deep);  4-Oct-1996
         )
         (lse-flat-fill-in:open-replacement-highlight head-pos tail-pos)
     )
-    (lse_goto_first_fill-in_of_range head-pos tail-pos)
+    (lse-fill-in:goto-first-of-range head-pos tail-pos)
     toggle_fill-in
   )
-; lse_toggle_fill-in_expansion
+; lse-fill-in:toggle-expansion
 )
 
-(defun lse_unfill_fill-in (msg)
-  (let ((last_fill-in (lse_fill-in_history:last_expansion))
+(defun lse-fill-in:unfill (msg)
+  (let ((lse-fill-in:last (lse_fill-in_history:last_expansion))
         )
-    (if (not last_fill-in)
+    (if (not lse-fill-in:last)
         (error "No fill-in to %s" msg)
       (lse_fill-in_history:remove_last_expansion)
       (lse_fill-in_history:add_unexpansion
-           (lse_toggle_fill-in_expansion last_fill-in)
+           (lse-fill-in:toggle-expansion lse-fill-in:last)
       )
       (save-excursion                         ; 12-Jun-1994 auto-replication
-        (mapc 'lse_toggle_fill-in_expansion
-          (lse-fill-in:descendants last_fill-in)
+        (mapc 'lse-fill-in:toggle-expansion
+          (lse-fill-in:descendants lse-fill-in:last)
         )
       )
     )

@@ -24,13 +24,13 @@
     '(
         (lse-language:initial-fill-in      "««c-root»»")
         (lse-language:tab-increment        4)
-        (lse_comment_delim_char_set        "/*")
-        (lse_comment_head_delim            "/\\*\\|^ *\\*\\*")
-        (lse_comment_head_delim_pattern
+        (lse-comment:delim_char_set        "/*")
+        (lse-comment:head_delim            "/\\*\\|^ *\\*\\*")
+        (lse-comment:head_delim_pattern
           "/\\*\\(\\+\\|-\\|\\*\\)* *\\|^ *\\*\\*+ *"
         )
-        (lse_comment_tail_delim            "\\*/")
-        (lse_comment_tail_delim_pattern    " *\\*+/")
+        (lse-comment:tail_delim            "\\*/")
+        (lse-comment:tail_delim_pattern    " *\\*+/")
         (lse-tpu:ident-group-chars         "_")
      )
     '(

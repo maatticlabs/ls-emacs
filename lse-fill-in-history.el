@@ -71,7 +71,7 @@
 
 ;;; 20-Mar-1995
 (defun lse-fill-in-history:last_expansion (&optional state)
-  (or state (setq state (list 'lse@deep)))
+  (or state (setq state (list 'lse::deep)))
   (let* ((pred lse_fill-in_history/expansion)
          (result (car pred))
        )
@@ -93,7 +93,7 @@
 ;;; 20-Mar-1995
 (defmacro lse_fill-in_history:purge_last_expansion
               (&optional replace-by state)
-  (or state (setq state (list 'lse@deep)))
+  (or state (setq state (list 'lse::deep)))
   (if lse_fill-in_history/expansion
       (if (car lse_fill-in_history/expansion); sometimes it's (nil)! why????
           `(let (pred)
@@ -199,15 +199,15 @@
        )
     (while (and (consp pred)
                 (lse-range:is-collapsed (lse-fill-in:range (car pred)))
-                ;; 20-Mar-1995 retain entries in state 'lse@dead
-                (not (equal (lse-fill-in:state (car pred)) 'lse@dead))
+                ;; 20-Mar-1995 retain entries in state 'lse::dead
+                (not (equal (lse-fill-in:state (car pred)) 'lse::dead))
            )
       (lse_fill-in_history:remove_last_expansion)
     )
 ;;; 20-Mar-1995
     (while (consp pred)
       (if (and (lse-range:is-collapsed (lse-fill-in:range (car (cdr pred))))
-               (not (equal (lse-fill-in:state (car (cdr pred))) 'lse@dead))
+               (not (equal (lse-fill-in:state (car (cdr pred))) 'lse::dead))
           )
           (setcdr pred (cdr (cdr pred)))
       )
@@ -231,7 +231,7 @@
 
 (defun lse_fill-in_history:assq (key history-alist &optional before state)
   (or before (setq before (point-marker)))
-  (or state  (setq state  (list 'lse@deep))); 20-Mar-1995
+  (or state  (setq state  (list 'lse::deep))); 20-Mar-1995
   (lse_fill-in_history:purge_collapsed)     ; 21-Mar-1995
   (let* ((pred (sort (copy-sequence history-alist) 'lse_fill-in_history:>))
          (result (car pred))
@@ -254,7 +254,7 @@
 
 ;;;; 10-Mar-1996
 (defun lse_fill-in_history:instances (key history-alist &optional state)
-  (or state  (setq state  (list 'lse@deep))); 20-Mar-1995
+  (or state  (setq state  (list 'lse::deep))); 20-Mar-1995
   (lse_fill-in_history:purge_collapsed)     ; 21-Mar-1995
   (let* ((pred (sort (copy-sequence history-alist) 'lse_fill-in_history:>))
          (instance (car pred))

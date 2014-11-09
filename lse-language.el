@@ -124,7 +124,7 @@
 )
 
 (defun lse-define-compiled-token (name tval)
-  (let ((tsym (intern (downcase name) lse_token_table))
+  (let ((tsym (intern (downcase name) lse::token-table))
        )
     (set  tsym tval)
     (fset tsym 'lse-expand-fill-in-token)
@@ -132,7 +132,7 @@
 )
 
 (defun lse-define-compiled-simple-token (name tval)
-  (let ((tsym (intern (downcase name) lse_token_table))
+  (let ((tsym (intern (downcase name) lse::token-table))
        )
     (set  tsym tval)
     (fset tsym nil)
@@ -206,7 +206,7 @@
   )
   (mapc 'lse-language:call-hook (get lsym 'hooks))
   (lse-tpu:set-word-char-for-idents)
-  (setq lse_token_table   (get lsym 'token-table))
+  (setq lse::token-table   (get lsym 'token-table))
   (setq lse_fill-in_table (get lsym 'fill-in-table))
   (setq lse-language:name (symbol-name lsym))
   (and (bobp) (eobp) initial lse-language:initial-fill-in
@@ -234,12 +234,12 @@
   (let ((lsym      (lse-language:pre-load name))
         (load-path lse-load-path)
        )
-    (setq lse_token_table   (get lsym 'token-table))
+    (setq lse::token-table   (get lsym 'token-table))
     (setq lse_fill-in_table (get lsym 'fill-in-table))
 
     (if (not (funcall load-fct lsym))
         (error "Error in definition of language %s" name); (setq lsym nil)
-      (put lsym 'token-table   lse_token_table)
+      (put lsym 'token-table   lse::token-table)
       (put lsym 'fill-in-table lse_fill-in_table)
       (put lsym 'loaded t)
     )

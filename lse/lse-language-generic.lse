@@ -20,9 +20,9 @@
 (lse-language:define "generic"
   '((lse-tpu:ident-group-chars         "_")
     (lse-language:tab-increment        2)
-    (lse_comment_head_delim            nil)
-    (lse_comment_head_delim_pattern    nil)
-    (lse_comment_delim_char_set        nil)
+    (lse-comment:head_delim            nil)
+    (lse-comment:head_delim_pattern    nil)
+    (lse-comment:delim_char_set        nil)
    )
   '()
   '()
