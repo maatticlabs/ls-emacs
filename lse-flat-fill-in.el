@@ -1,7 +1,7 @@
 ;-*- coding: utf-8 -*-
 
 ;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -160,6 +160,9 @@
 ;;;;     4-Jul-2012 (CT) Use `let`, not `setq`, to temporarily change
 ;;;;                     `lse@expansion@separator` in
 ;;;;                     `lse-flat-fill-in:expand-menu`
+;;;;     9-Nov-2014 (CT) Change `lse-flat-fill-in:replace-and-mouse-yank` to
+;;;;                     use `lse-tpu:mouse-paste:get-primary`
+;;;;                     and `lse-tpu:mouse-paste:insert`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -1585,30 +1588,19 @@ fill-in."
 This function is used as key-binding in `lse-flat-fill-in:keymap' for
 [mouse-2]."
   (interactive "e")
-  ;;; Lots of code copied from elisp function mouse-yank-primary (mouse.el)
-  ;;; because calling mouse-yank-primary fails most osbcurely
-
-  ;; Give temporary modes such as isearch a chance to turn off.
-  (run-hooks 'mouse-leave-buffer-hook)
-  (when select-active-regions
-    ;; Without this, confusing things happen upon e.g. inserting into
-    ;; the middle of an active region.
-    (deactivate-mark)
-  )
-  (mouse-set-point click)
-  (if (lse_inside_fill-in)
-      (while (lse_inside_fill-in)
-        (lse-replace-fill-in)
-      )
-    ;; if not inside fill-in remove text properties to avoid infinite regress
-    (lse-fill-in:remove-text-properties (point) (1+ (point)) lse-flat-fill-in:flat-properties)
-  )
   (setq this-command (this-command-keys))
-  (let ((primary (x-get-selection 'PRIMARY)))
-    (if primary
-        (insert primary)
-      (error "No primary selection")
+  (let ((primary (lse-tpu:mouse-paste:get-primary click))
+       )
+    (if (lse_inside_fill-in)
+        (while (lse_inside_fill-in)
+          (lse-replace-fill-in)
+        )
+      ;; if not inside fill-in remove text properties to avoid infinite regress
+      (lse-fill-in:remove-text-properties
+        (point) (1+ (point)) lse-flat-fill-in:flat-properties
+      )
     )
+    (lse-tpu:mouse-paste:insert primary)
   )
   (if (lse_inside_fill-in)
       (lse-flat-fill-in:highlight-current)
@@ -1764,3 +1756,5 @@ This function is used as key-binding in `lse-flat-fill-in:keymap' for
   )
 ; lse-flat-fill-in:highlight-all
 )
+
+;;; __END__ lse-flat-fill-in.el

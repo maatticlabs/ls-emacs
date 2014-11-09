@@ -161,6 +161,9 @@
 ;;;;     4-Nov-2014 (CT) Remove `lse-tpu:mark-flag` from `mode-line-format`
 ;;;;     7-Nov-2014 (CT) Fix `lse-tpu:mouse-paste` by copying and fixing code
 ;;;;                     from `/usr/share/emacs/24.4/lisp/mouse.el: mouse-yank-primary`
+;;;;     9-Nov-2014 (CT) Factor `lse-tpu:mouse-paste:get-primary` and
+;;;;                     `lse-tpu:mouse-paste:insert` from
+;;;;                     `lse-tpu:mouse-paste`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -2487,9 +2490,8 @@ With argument reinserts the text that many times."
          (setq deactivate-mark nil); 17-Mar-1995
         )
         (t
-         (lse-tpu:undelete num
-                           lse-tpu:pasted-region
-                           (- lse-tpu:pasted-region-dir)
+         (lse-tpu:undelete
+           num lse-tpu:pasted-region (- lse-tpu:pasted-region-dir)
          )
         )
   )
@@ -3484,12 +3486,11 @@ A repeat count means scroll that many sections."
 ;;; Move `(or mouse-yank-at-point (mouse-set-point click))` into `let` to
 ;;; solve the problem
 ;;;
-(defun lse-tpu:mouse-paste (click)
-  "Insert the primary selection at the position clicked on.
-Move point to the end of the inserted text, and set mark at
-beginning.  If `mouse-yank-at-point' is non-nil, insert at point
-regardless of where you click."
-  (interactive "e")
+(defun lse-tpu:mouse-paste:get-primary (click)
+  ;; factored from begin of mouse-yank-primary as found in
+  ;;     /usr/share/emacs/24.4/lisp/mouse.el
+  ;; `mouse-set-point` moved from before `let` into `let`
+
   ;; Give temporary modes such as isearch a chance to turn off.
   (run-hooks 'mouse-leave-buffer-hook)
   ;; Without this, confusing things happen upon e.g. inserting into
@@ -3497,7 +3498,7 @@ regardless of where you click."
   (when select-active-regions
     (let (select-active-regions)
       (deactivate-mark)))
-  (let ((primary
+  (let ((result
          (if (fboundp 'x-get-selection-value)
              (if (eq (framep (selected-frame)) 'w32)
                  ;; MS-Windows emulates PRIMARY in x-get-selection, but not
@@ -3514,11 +3515,37 @@ regardless of where you click."
            ;; FIXME: What about xterm-mouse-mode etc.?
            (x-get-selection 'PRIMARY))))
     (or mouse-yank-at-point (mouse-set-point click))
-    (unless primary
+    (unless result
       (error "No selection is available"))
-    (push-mark (point))
-    (insert-for-yank primary))
+    result
+  )
+; lse-tpu:mouse-paste:get-primary
 )
-
+
+(defun lse-tpu:mouse-paste:insert (primary)
+  ;; factored from end of mouse-yank-primary as found in
+  ;;     /usr/share/emacs/24.4/lisp/mouse.el
+  ;; (last two lines of mouse-yank-primary)
+  (push-mark (point))
+  (insert-for-yank primary)
+; lse-tpu:mouse-paste:insert
+)
+
+(defun lse-tpu:mouse-paste (click)
+  "Insert the primary selection at the position clicked on.
+Move point to the end of the inserted text, and set mark at
+beginning.  If `mouse-yank-at-point' is non-nil, insert at point
+regardless of where you click."
+  (interactive "e")
+  ;; factored from mouse-yank-primary as found in
+  ;;     /usr/share/emacs/24.4/lisp/mouse.el
+  ;; and split into two defuns
+  (let ((primary (lse-tpu:mouse-paste:get-primary click)))
+    (lse-tpu:mouse-paste:insert primary))
+; lse-tpu:mouse-paste
+)
+
 (provide 'lse-tpu)
+
+;;; __END__ lse-tpu.el
 ;;  LocalWords:  tpu

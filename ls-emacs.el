@@ -314,3 +314,5 @@
 )
 
 (add-hook 'after-init-hook 'lse-terminal-setup)
+
+;;; __END__ ls-emacs.el
