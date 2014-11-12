@@ -746,6 +746,7 @@ Accepts a prefix argument of the number of characters to invert."
   (setq lse-tpu:newline-and-indent-string " AI")
   (setq lse-tpu:newline-and-indent-p      t)
   (global-set-key [?\A-m]  'newline)
+  (global-set-key [return] 'newline-and-indent)
   (lse-tpu:update-mode-line)
 ; lse-tpu:newline-and-indent:on
 )
