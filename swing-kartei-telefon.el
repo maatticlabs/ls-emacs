@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
  
-;;;;unix_ms_filename_correspondency swing-kartei-telefon.el swi_ktlf.el
 (provide 'swing-kartei-phone)
 
 (defvar swing-kartei:phone:directory "/swing/tkartei/")

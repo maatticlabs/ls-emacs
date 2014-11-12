@@ -38,6 +38,7 @@
 ;;;;     4-Apr-2013 (CT) Change `show-paren-style` from `expression` to `mixed`
 ;;;;    17-May-2013 (CT) Use `whitespace-cleanup`, whitespace-mode;
 ;;;;                     set `whitespace-style`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -80,26 +81,18 @@
 
 (require 'ls-emacs)
 
-;;; 28-Nov-2001
-(if lse-emacs21-p
-    (if (boundp 'lse-toolbar-flag)
-        (progn
-          (tool-bar-mode lse-toolbar-flag)
-        )
-    )
+(when (boundp 'lse-toolbar-flag)
+  (tool-bar-mode lse-toolbar-flag)
 )
 
-(if lse-emacs19-p
-    (progn
-      (setq                 message-log-max t); 30-May-1996
-      (setq                 version-control t)
-      (setq-default         version-control t)
-      ;; replace all symbolic names with target names
-      (setq find-file-visit-truename t);  1-Jan-2000
-      ;; file-name-handler-alist not needed currently (no nfs used)
-      (setq                 file-name-handler-alist nil)
-    )
-)
+(setq                 message-log-max t)
+(setq                 version-control t)
+(setq-default         version-control t)
+
+;; replace all symbolic names with target names
+(setq find-file-visit-truename t);  1-Jan-2000
+;; file-name-handler-alist not needed currently (no nfs used)
+(setq                 file-name-handler-alist nil)
 
 ;;;  8-Oct-1996 ;  copied from files.el (19.34) and modified to avoid sh-mode
 (setq interpreter-mode-alist
@@ -184,10 +177,6 @@
 (setq ediff-ignore-similar-regions t); ignore whitespace
 
 (defun swing-terminal-setup ()
-  (if lse-emacs19-p
-      t
-    (lse-terminal-setup)
-  )
   (auto-fill-mode 1)
   (add-hook 'pre-command-hook 'lse-tpu:shift-mark-hook); 29-Dec-1997
 )
@@ -221,14 +210,10 @@
       (require 'paren)
       (setq show-paren-face 'highlight)
       (setq blink-matching-paren nil)
-      (if lse-emacs20-p ;  4-Dec-1997
-          (progn
-            ;; 'expression  : show the entire expression enclosed by the paren
-            ;; 'mixed       : show parens if both are visible else expression
-            ;; 'parenthesis : highlight the matching parentheses
-            (setq show-paren-style 'mixed)
-          )
-      )
+      ;; 'expression  : show the entire expression enclosed by the paren
+      ;; 'mixed       : show parens if both are visible else expression
+      ;; 'parenthesis : highlight the matching parentheses
+      (setq show-paren-style 'mixed)
       (show-paren-mode t)
 
       (setq x-display-name "Emacs")

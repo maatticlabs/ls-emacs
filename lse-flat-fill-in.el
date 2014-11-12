@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-flat-fill-in:el lse_flfi:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -163,6 +162,7 @@
 ;;;;     9-Nov-2014 (CT) Change `lse-flat-fill-in:replace-and-mouse-yank` to
 ;;;;                     use `lse-tpu:mouse-paste:get-primary`
 ;;;;                     and `lse-tpu:mouse-paste:insert`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -514,10 +514,6 @@
     (let ((head-pos (lse-range:head-pos range))
           (tail-pos (lse-range:tail-pos range))
          );  4-Oct-2002
-      (if (and lse-emacs20-p);  4-Dec-1997
-          t
-        (lse-flat-fill-in:highlight-all head-pos tail-pos)
-      )
       (if hang-indent;  4-Oct-2002
           (let* ((exp-indent
                    (save-excursion

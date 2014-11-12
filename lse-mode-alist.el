@@ -1,7 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-mode-alist:el lse_mode:el
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -70,6 +69,7 @@
 ;;;;    12-Oct-2007 (CT) Added keybindings for `lse-cal:diary:next-day` and
 ;;;;                     `lse-cal:diary:prev-day` to `lse-diary-mode`
 ;;;;    28-May-2011 (CT) `lse-git:setup-hook` added
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mode-alist)
@@ -267,29 +267,6 @@
     )
   )
 ; lse-check-isbn
-)
-
-;;;  4-Mar-1996
-(if lse-emacs20-p
-    t
-  (defun c++-mode-setup ()
-    (interactive)
-    (kill-all-local-variables)
-    (set-syntax-table c++-mode-syntax-table)
-    (setq major-mode     'c++-mode
-          mode-name      "C++"
-          comment-column 32
-    )
-    (set (make-local-variable 'comment-start) "// ")
-    (set (make-local-variable 'comment-end) "")
-    (set (make-local-variable 'comment-start-skip) "/\\*+ *\\|// *")
-    (set (make-local-variable 'paragraph-start) (concat "^$\\|" page-delimiter))
-    (set (make-local-variable 'paragraph-separate) paragraph-start)
-    (set (make-local-variable 'paragraph-ignore-fill-prefix) t)
-    (set (make-local-variable 'require-final-newline) t)
-    (set (make-local-variable 'parse-sexp-ignore-comments) nil)
-    (run-hooks 'c++-mode-hook)
-  )
 )
 
 (if lse-emacsX-p

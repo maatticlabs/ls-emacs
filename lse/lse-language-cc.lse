@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -39,8 +39,10 @@
 ;;;;    24-May-2000 (CT) Removed [?(] and [?)] from local key map
 ;;;;    27-May-2008 (CT) s/c-guess-basic-syntax/c-guess-basic-syntax-hide!/
 ;;;;                     (broken in Emacs 22.2 or earlier)
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
+
 (lse-language:define "cc"
     '(
         (lse-language:initial-fill-in      "««c++-root»»")
@@ -70,49 +72,27 @@
 (defvar lse-language:c:compile-switch "-g")
 (defvar lse-cc:customized nil)
 
-(if lse-emacs20-p
-    (progn
-      ;;; 28-Dec-1997
-      (defun lse-c++-mode-hook ()
-        (lse-cc:set-compile-command); 16-Oct-1995 factored out
-        (lse-language:use "cc")
-        (if lse-cc:customized
-            t
-          (setq lse-cc:customized t); 2-Jan-1998
-          (lse-cc:customize)
-        )
-        (setq indent-line-function 'lse-indent-line);                29-Dec-98
-        (setq comment-line-break-function 'indent-new-comment-line); 30-Dec-98
-
-        (local-set-key [C-next]  'lse-cc:goto-next-class-section); 29-Dec-1998
-        (local-set-key [C-prior] 'lse-cc:goto-prev-class-section); 29-Dec-1998
-
-        (local-set-key [red ?c]  'lse-cc:goto-class-head);         30-Dec-1998
-        (local-set-key [red ?g]  'lse-cc:goto-class-tail);         30-Dec-1998
-      ; lse-c++-mode-hook
-      )
-      (add-hook 'c++-mode-hook 'lse-c++-mode-hook)
-      (add-hook 'c++-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
-    )
-  ;;;+
-  ;;; Redefinition of c++-mode
-  ;;;
-  ;;; The function itself is redefined instead of using c++-mode-hook because
-  ;;; it sets too many hooks.
-  ;;;-
-  (load-library "cplus-md")
-  (defun c++-mode ()
-    "Major mode for editing C++ code.  Very much like editing C code.
-  Comments are delimited with /* ... */ {or with // ... <newline>}
-  Paragraphs are separated by blank lines only.
-  Turning on C++ mode calls the value of the variable `c++-mode-hook' with
-  no args if that value is non-nil."
-    (interactive)
-    (c++-mode-setup);              4-Mar-1996 factored out
-    (lse-cc:set-compile-command); 16-Oct-1995 factored out
-    (lse-language:use "cc")
+;;; 28-Dec-1997
+(defun lse-c++-mode-hook ()
+  (lse-cc:set-compile-command); 16-Oct-1995 factored out
+  (lse-language:use "cc")
+  (if lse-cc:customized
+      t
+    (setq lse-cc:customized t); 2-Jan-1998
+    (lse-cc:customize)
   )
+  (setq indent-line-function 'lse-indent-line);                29-Dec-98
+  (setq comment-line-break-function 'indent-new-comment-line); 30-Dec-98
+
+  (local-set-key [C-next]  'lse-cc:goto-next-class-section); 29-Dec-1998
+  (local-set-key [C-prior] 'lse-cc:goto-prev-class-section); 29-Dec-1998
+
+  (local-set-key [red ?c]  'lse-cc:goto-class-head);         30-Dec-1998
+  (local-set-key [red ?g]  'lse-cc:goto-class-tail);         30-Dec-1998
+; lse-c++-mode-hook
 )
+(add-hook 'c++-mode-hook 'lse-c++-mode-hook)
+(add-hook 'c++-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 
 ;;; 16-Oct-1995
 (defun lse-cc:set-compile-command ()
@@ -1051,4 +1031,3 @@
             (c-add-syntax 'friend))
         ;; return the syntax
         syntax))))
-

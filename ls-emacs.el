@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency ls-emacs:el ls_emacs:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -94,13 +93,16 @@
 ;;;;                     Use `version<`, not `string-lessp`
 ;;;;     4-Nov-2014 (CT) Don't set frame title in `lse-terminal-setup`
 ;;;;     6-Nov-2014 (CT) Add `lse-emacs24.3-p`
-;;;;     9-Nov-2014 (CT) Remove compiler warnings
+;;;;     9-Nov-2014 (CT) Remove compiler warnings, increase `lse-version`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions,
+;;;;                     increase `lse-version`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
-(defconst lse-version      "4.0.0"        "Version number of LS-Emacs.")
-(defconst lse-version-date " 9-Nov-2014 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "4.0.5"        "Version number of LS-Emacs.")
+(defconst lse-version-date "12-Nov-2014 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (version< emacs-version "19"))
   "Non-NIL if we are running GNU Emacs version 19."
@@ -138,7 +140,7 @@
   "Non-NIL if we are running GNU Emacs version 24.4."
 );  5-Sep-2013
 
-(defconst lse-emacsX-p window-system;  3-Oct-1996 ; (boundp 'x-no-window-manager); 18-Mar-1995
+(defconst lse-emacsX-p window-system
   "Non-NIL if running under X"
 )
 
@@ -208,37 +210,6 @@
     (lse-window:mark-stack:initialize)
     (lse-ring-bell)
   )
-)
-
-(if lse-emacs19-p
-    (progn
-      (if lse-emacs20-p ;  4-Dec-1997
-          (progn
-            t
-          )
-        ;; enable 8-bit mode
-        (require 'iso-syntax)
-        (require 'disp-table)
-        (standard-display-default   0  31)
-        (standard-display-8bit     32 126)
-        (standard-display-default 127 159)
-        (standard-display-8bit    160 255)
-        ;; 17-Dec-1997 `set-input-mode' only for lse-emacs19-p
-        (set-input-mode
-             t                            ; interrupt-driven input
-             nil                          ; no terminal flow control
-             "META"                       ; use all 8 bits of input unchanged
-        )
-      )
-      ;; Enable region highlight
-      (transient-mark-mode t)
-      ;; But only in the selected window
-      (setq highlight-nonselected-windows nil); 28-Dec-1997
-
-      (if (fboundp 'resize-minibuffer-mode); 11-Oct-1996 ; (>= emacs-minor-version 31);  2-Oct-1996
-          (resize-minibuffer-mode)
-      )
-    )
 )
 
 (require 'lse-basics)

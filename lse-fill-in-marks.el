@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-fill-in-marks:el lse_fmar:el
 ;;;; Copyright (C) 1997-2010 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 

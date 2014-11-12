@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-window:el lse_wndw:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -80,15 +79,14 @@
 ;;;;                     `imenu-default-goto-function`
 ;;;;     7-Nov-2014 (CT) Add `unsplittable` to lse-window:special-display-alist
 ;;;;                     Set `special-display-frame-alist` for Emacs 24.3+, too
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
 
-(if lse-emacs19-p
-    (defun lse-iterate-windows (apply)
-      (walk-windows apply 'no-minibuf)
-    ; lse-iterate-windows
-    )
+(defun lse-iterate-windows (apply)
+  (walk-windows apply 'no-minibuf)
+; lse-iterate-windows
 )
 
 ;;;+

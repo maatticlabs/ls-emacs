@@ -1,7 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-compilation:el lse_cmpi:el
-;;;; Copyright (C) 1995-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -45,7 +44,8 @@
 (provide 'lse-compilation)
 
 (require 'compile)
-(require 'lse-tpu-keys-v19)
+(require 'lse-tpu)
+(require 'lse-tpu-keys)
 
 (let ((map compilation-minor-mode-map))
   (define-key map           [?\A-f]    'compile-goto-error)
@@ -70,8 +70,8 @@
     (lse-define-alpha-key map [gold] "p" 'compilation-previous-file)
     (lse-define-alpha-key map [gold] "n" 'compilation-next-file)
   )
-  (auto-fill-mode)
-  (lse-tpu:toggle-newline-and-indent)
+  (lse-tpu:auto-fill-mode:on)
+  (lse-tpu:newline-and-indent:on)
 ; lse-compilation-mode-hook
 )
 
@@ -176,4 +176,3 @@ easily repeat a grep command."
   (set (make-local-variable 'compile-command) cc)
 ; lse-set-compile-command
 )
-

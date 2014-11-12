@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency swing-default.el swi_dflt.el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -79,38 +78,35 @@
 ;;;;    15-Mar-2012 (CT) Use `lse-frame:title-prefix` for `-Server` frame
 ;;;;    22-Oct-2014 (CT) Factor `lse-frame:make-server-window`
 ;;;;     5-Nov-2014 (CT) Remove call to `lse-frame:make-server-window`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (load "lse-config")
 
-(if lse-emacs19-p
-    (progn
-      (setq                 directory-abbrev-alist
-       '(
-          ("^/Node/[a-zA-Z0-9_]+/.swing"         . "/swing")
-          ("^/swing/.*/generic_folien"           . "/swing/folien")
-          ("^/swing/.*org/aufwandserfassung"     . "/swing/aufwand")
-          ("^/swing/.*org/buchhaltung"           . "/swing/buchhaltung")
-          ("^/swing/.*org/finanzplanung"         . "/swing/finanzplanung")
-          ("^/swing/.*org/kassabuch"             . "/swing/kassabuch")
-          ("^/swing/.*project/ek"                . "/swing/ek")
-          ("^/swing/.*/seminare/sb"              . "/swing/seminar_def")
-          ("^/swing/.*system/awk"                . "/swing/awk")
-          ("^/swing/.*system/com"                . "/swing/com")
-          ("^/swing/.*system/emacs"              . "/swing/emacs")
-          ("^/swing/.*system/kartei"             . "/swing/kartei")
-          ("^/swing/.*system/login"              . "/swing/login")
-          ("^/swing/.*system/perl"               . "/swing/perl")
-          ("^/swing/.*system/stydoc"             . "/swing/stydoc")
-          ("^/swing/work/marketing"              . "/swing/marketing")
-          ("^/swing/work/org"                    . "/swing/org")
-          ("^/swing/work/private"                . "/swing/private")
-          ("^/swing/work/project"                . "/swing/project")
-          ("^/swing/work/system"                 . "/swing/system")
-        )
-      )
-    )
+(setq                 directory-abbrev-alist
+ '(
+    ("^/Node/[a-zA-Z0-9_]+/.swing"         . "/swing")
+    ("^/swing/.*/generic_folien"           . "/swing/folien")
+    ("^/swing/.*org/aufwandserfassung"     . "/swing/aufwand")
+    ("^/swing/.*org/buchhaltung"           . "/swing/buchhaltung")
+    ("^/swing/.*org/finanzplanung"         . "/swing/finanzplanung")
+    ("^/swing/.*org/kassabuch"             . "/swing/kassabuch")
+    ("^/swing/.*project/ek"                . "/swing/ek")
+    ("^/swing/.*/seminare/sb"              . "/swing/seminar_def")
+    ("^/swing/.*system/awk"                . "/swing/awk")
+    ("^/swing/.*system/com"                . "/swing/com")
+    ("^/swing/.*system/emacs"              . "/swing/emacs")
+    ("^/swing/.*system/kartei"             . "/swing/kartei")
+    ("^/swing/.*system/login"              . "/swing/login")
+    ("^/swing/.*system/perl"               . "/swing/perl")
+    ("^/swing/.*system/stydoc"             . "/swing/stydoc")
+    ("^/swing/work/marketing"              . "/swing/marketing")
+    ("^/swing/work/org"                    . "/swing/org")
+    ("^/swing/work/private"                . "/swing/private")
+    ("^/swing/work/project"                . "/swing/project")
+    ("^/swing/work/system"                 . "/swing/system")
+  )
 )
 
 (require 'swing-command)
@@ -119,7 +115,7 @@
 
 ;;; 13-Oct-2007
 (lse-add-to-list lse-byte-compile:files "swing-default")
-(lse-add-to-list lse-byte-compile:files "swing-keys-v19")
+(lse-add-to-list lse-byte-compile:files "swing-keys")
 (lse-add-to-list lse-byte-compile:files "swing-kartei-bib")
 
 ;;;  3-Dec-2007

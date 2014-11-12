@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-menu:el lse-menu:el
 ;;;; Copyright (C) 1996-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -58,6 +57,7 @@
 ;;;;     7-Nov-2014 (CT) Add `Set font` sub-menu
 ;;;;     7-Nov-2014 (CT) Use `define-prefix-command`,
 ;;;;                     not `defvar... make-sparse-keymap`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -478,10 +478,8 @@
   (cons "LSE" menu-bar-lse-help-menu)
 )
 
-(if lse-emacs22-p ;  2-Oct-2007
-    (define-key menu-bar-help-menu [lse-show-emacs-version]
-      '("Show Emacs Version" . emacs-version)
-    )
+(define-key menu-bar-help-menu [lse-show-emacs-version]
+  '("Show Emacs Version" . emacs-version)
 )
 
 (define-key menu-bar-edit-menu [lse-repeat]

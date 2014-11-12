@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-pattern:el lse_ptrn:el
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
 ;;;;

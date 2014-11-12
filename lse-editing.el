@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-editing:el lse_edit:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -100,22 +99,10 @@
 ;;;;     2-Jul-2012 (CT) Add `lse-copy-current-word`, `lse-copy-current-bs-word`
 ;;;;    21-Nov-2013 (CT) Add `lse-insert-tdquotes`, `lse-remove-tdquotes` and
 ;;;;                     friends (typographic quotes: `“`, `‘`, `‚`, `„`)
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
-
-(if lse-emacs19-p
-    t
-  (defmacro save-match-data (&rest forms)
-    `(let ((old-match-data (match-data)))
-       (unwind-protect
-           (progn ,@forms)
-         ;; restore match-data of calling environment
-         (store-match-data old-match-data)
-       )
-     )
-  )
-)
 
 ;;; 19-Jan-2011
 (defun lse-line-empty-p ()

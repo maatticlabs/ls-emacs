@@ -1,7 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency swing-kartei--entry.el swi_kntr.el
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -142,16 +141,10 @@
 )
 
 (defun swing-kartei:entry:read-name (kartei-dir kartei-name)
-  (if lse-emacs19-p
-      (read-from-minibuffer
-           (format "Name of %s-entry: " kartei-name)
-           nil nil nil
-           (intern (concat "swing-kartei:" kartei-name "-history"))
-      )
-    (read-with-history-in
-         (intern (concat kartei-name "-history"))
-         (format "Name of %s-entry: " kartei-name)
-    )
+  (read-from-minibuffer
+       (format "Name of %s-entry: " kartei-name)
+       nil nil nil
+       (intern (concat "swing-kartei:" kartei-name "-history"))
   )
 )
 

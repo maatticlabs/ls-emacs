@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-interactive:el lse_intv:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -85,6 +84,7 @@
 ;;;;    18-Feb-2012 (CT) Remove `lse-goto-last-position`,
 ;;;;                     use `lse-tpu:put-prop:auto-save-position`
 ;;;;    18-Nov-2013 (CT) Change `lse-language:compile` to `coding: utf-8`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -782,16 +782,10 @@ trailers."
         )
         (and name (setq lse_language:last name)); 20-Mar-1995
       )
-      (if lse-emacs19-p
-          (setq name (completing-read
-                          "Language: " lse-language:table nil nil nil
-                          'minibuffer-history
-                     )
-          )
-        ;;        (setq name (completing-read-with-history-in
-        ;;                        'minibuffer-history "Language: " lse-language:table
-        ;;                   )
-        ;;        )
+      (setq name (completing-read
+                      "Language: " lse-language:table nil nil nil
+                      'minibuffer-history
+                 )
       )
   )
   name

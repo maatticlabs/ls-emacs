@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-;;;;unix_ms_filename_correspondency lse-tpu:el lse_tpu:el
 ;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
@@ -165,26 +164,19 @@
 ;;;;                     `lse-tpu:mouse-paste:insert` from
 ;;;;                     `lse-tpu:mouse-paste`
 ;;;;    12-Nov-2014 (CT) Factor `lse-tpu:newline-and-indent:off` and `...:on`
+;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
 (require 'picture)
 
-(load "vt-control")
-;;;
-;;;  Revision and Version Information
-;;;
-(defconst lse-tpu:version "4.0" "lse-tpu version number.")
-
-(defvar lse-tpu:edt-mode nil
-  "If non-nil, lse-tpu mode is active.")
-
-(defconst lse-tpu:emacs19-p lse-emacs19-p
-  "Non-NIL if we are running Lucid or GNU Emacs version 19.")
-
 ;;;+
 ;;; Variables
 ;;;-
+(defvar lse-tpu:edt-mode nil
+  "If non-nil, lse-tpu mode is active."
+)
+
 (defconst lse-tpu:have-ispell t
   "*If non-nil (default), TPU-edt uses ispell for spell checking.")
 
@@ -717,16 +709,6 @@ Accepts a prefix argument of the number of characters to invert."
         ); t
   )
 ; lse-tpu:change-case
-)
-
-(defun lse-tpu:version nil
-  "Print the lse-tpu version number."
-  (interactive)
-  (message
-   "lse-tpu version %s by Christian Tanzer"
-   lse-tpu:version
-  )
-; lse-tpu:version
 )
 
 ;;; 12-Nov-2014
@@ -1342,17 +1324,13 @@ Accepts a prefix argument of the number of characters to invert."
   (concat
      "\000-\011"                              ; ^@ - ^I
      "\016-\040"                              ; ^N - SPACE
-     (if (or lse-emacs19-p lse-emacs20.3-p)   ; lse-emacs20.3-p ; 24-May-1999
-       "\177-\240"                            ; 8-bit control-chararcters
-     )
+     "\177-\240"                              ; 8-bit control-chararcters
   )
 )
 (defconst lse-tpu:blank-sep-word-chars
   (concat
      "!-~"
-     (if lse-emacs19-p "\241-\376")
-     ;; should really be \377 but emacs's 19.22 skip-chars-forward hangs then
-     ;; (bug, oh bug)
+     "\241-\377"
   )
 )
 
