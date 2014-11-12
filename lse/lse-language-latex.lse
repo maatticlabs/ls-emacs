@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2008 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -18,8 +18,10 @@
 ;;;;     3-Jan-2000 (CT) `lse-menu:add-menubar-index' added to
 ;;;;                     `latex-mode-hook'
 ;;;;     4-Feb-2008 (CT) Don't alias `tex-mode` as `latex-mode`
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    ««revision-date»»···
 ;;;;--
+
 (lse-language:define "latex"
   '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
     (lse-tpu:ident-group-chars         "-\@_")
@@ -29,8 +31,8 @@
     (lse-comment:delim_char_set        "%")
     (lse-language:initial-fill-in      "««latex»»")
    )
-  '(lse-tpu:toggle-newline-and-indent
-    auto-fill-mode
+  '(lse-tpu:newline-and-indent:on
+    lse-tpu:auto-fill-mode:on
    )
   '("lse-templates-latex"
     "lse-templates-latex-swing"

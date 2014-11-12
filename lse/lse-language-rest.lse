@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2002-2007 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2002-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;;
 ;;;;++
@@ -12,9 +12,10 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    10-Sep-2002 (CT) Creation
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    ««revision-date»»···
 ;;;;--
-;;;;
+
 (lse-language:define "rest"
   '((lse-tpu:ident-group-chars       "-_")
     (lse-tpu:ident-chars             "A-Za-z0-9äöüßÄÖÜçÇàáèéóòùúíìÀÁÈÉÓÒÙÚÍÌ")
@@ -26,8 +27,8 @@
     (lse-language:initial-fill-in      "««rest-file»»")
     )
   '(
-    lse-tpu:toggle-newline-and-indent
-    auto-fill-mode
+    lse-tpu:newline-and-indent:on
+    lse-tpu:auto-fill-mode:on
    )
   '(
     "lse-templates-rest"

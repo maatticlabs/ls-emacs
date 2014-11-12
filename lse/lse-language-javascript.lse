@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2014 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of the LS-Emacs.
@@ -40,6 +40,7 @@
 ;;;;    17-Feb-2012 (CT) Add `(imenu-add-to-menubar "IM-JS")`
 ;;;;    18-Feb-2012 (CT) Factor `lse-js:goto-function-head...` to lse-tpu
 ;;;;    19-Feb-2012 (CT) Use `local-set-asp` instead of `local-set-smk`
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -54,8 +55,8 @@
         (lse-tpu:ident-group-chars         "$_")
      )
     '(
-        lse-tpu:toggle-newline-and-indent
-        auto-fill-mode
+        lse-tpu:newline-and-indent:on
+        lse-tpu:auto-fill-mode:on
      )
     '(
         "lse-templates-c-base"

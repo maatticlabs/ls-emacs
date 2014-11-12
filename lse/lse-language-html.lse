@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2009 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2014 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -28,8 +28,10 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    19-Jul-2009 (CT) Creation
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    ««revision-date»»···
 ;;;;--
+
 (lse-language:define "html"
     '(
         (lse-language:initial-fill-in      "««html-html»»")
@@ -40,8 +42,8 @@
         (lse-tpu:ident-group-chars         "_")
      )
     '(
-        lse-tpu:toggle-newline-and-indent
-        auto-fill-mode
+        lse-tpu:newline-and-indent:on
+        lse-tpu:auto-fill-mode:on
      )
     '(
         "lse-templates-html"

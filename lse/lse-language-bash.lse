@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -12,7 +12,9 @@
 ;;;; Revision Dates
 ;;;;    14-Jun-1994 (CT) Creation (of comment)
 ;;;;    14-Jun-1994 (CT) lse-bash-mode put in here
-;;;;-- 
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
+;;;;    ««revision-date»»···
+;;;;--
 (lse-language:define "bash"
   '(
     (lse-tpu:ident-group-chars         "_")
@@ -23,8 +25,8 @@
     (lse-language:initial-fill-in      "««bash»»")
    )
   '(
-    lse-tpu:toggle-newline-and-indent
-    auto-fill-mode
+    lse-tpu:newline-and-indent:on
+    lse-tpu:auto-fill-mode:on
    )
   '(
     "lse-templates-unix-generic"
@@ -45,4 +47,3 @@
   (text-mode)
   (lse-language:use "bash")
 )
-

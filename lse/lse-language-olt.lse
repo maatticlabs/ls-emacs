@@ -25,7 +25,7 @@
      )
     '(
         lse-tpu:toggle-newline-and-indent
-        auto-fill-mode
+        lse-tpu:auto-fill-mode:on
      )
     '(
         "lse-templates-c"

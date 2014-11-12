@@ -164,6 +164,7 @@
 ;;;;     9-Nov-2014 (CT) Factor `lse-tpu:mouse-paste:get-primary` and
 ;;;;                     `lse-tpu:mouse-paste:insert` from
 ;;;;                     `lse-tpu:mouse-paste`
+;;;;    12-Nov-2014 (CT) Factor `lse-tpu:newline-and-indent:off` and `...:on`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -173,7 +174,7 @@
 ;;;
 ;;;  Revision and Version Information
 ;;;
-(defconst lse-tpu:version "3.9" "lse-tpu version number.")
+(defconst lse-tpu:version "4.0" "lse-tpu version number.")
 
 (defvar lse-tpu:edt-mode nil
   "If non-nil, lse-tpu mode is active.")
@@ -728,25 +729,56 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:version
 )
 
+;;; 12-Nov-2014
+(defun lse-tpu:auto-fill-mode:off ()
+  "Turn auto-fill-mode on"
+  (interactive)
+  (auto-fill-mode nil)
+; lse-tpu:auto-fill-mode:off
+)
+
+;;; 12-Nov-2014
+(defun lse-tpu:auto-fill-mode:on ()
+  "Turn auto-fill-mode on"
+  (interactive)
+  (auto-fill-mode t)
+; lse-tpu:auto-fill-mode:on
+)
+
+;;; 12-Nov-2014
+(defun lse-tpu:newline-and-indent:off ()
+  "Turn 'newline and indent' off."
+  (interactive)
+  (setq lse-tpu:newline-and-indent-string "")
+  (setq lse-tpu:newline-and-indent-p      nil)
+  (global-set-key [?\A-m]  'newline-and-indent)
+  (global-set-key [return] 'newline)
+  (lse-tpu:update-mode-line)
+; lse-tpu:newline-and-indent:off
+)
+
+;;; 12-Nov-2014
+(defun lse-tpu:newline-and-indent:on ()
+  "Turn 'newline and indent' on."
+  (interactive)
+  (setq lse-tpu:newline-and-indent-string " AI")
+  (setq lse-tpu:newline-and-indent-p      t)
+  (global-set-key [?\A-m]  'newline)
+  (lse-tpu:update-mode-line)
+; lse-tpu:newline-and-indent:on
+)
+
 (defun lse-tpu:toggle-newline-and-indent (&optional print-message)
   "Toggle between 'newline and indent' and 'simple newline'."
   (interactive "p")
-  (cond (lse-tpu:newline-and-indent-p
-         (setq lse-tpu:newline-and-indent-string "")
-         (setq lse-tpu:newline-and-indent-p      nil)
-         ;;  4-Jan-1998 ;; use `global-set-key' instead of `local-set-key'
-         (global-set-key [?\A-m]  'newline-and-indent) ; 29-Dec-1997
-         (global-set-key [return] 'newline)            ; use [return] _and_ \C-m
-        )
-        (t
-         (setq lse-tpu:newline-and-indent-string " AI")
-         (setq lse-tpu:newline-and-indent-p      t)
-         ;;  4-Jan-1998 ;; use `global-set-key' instead of `local-set-key'
-         (global-set-key [?\A-m]  'newline)            ; 29-Dec-1997
-         (global-set-key [return] 'newline-and-indent) ; use [return] _and_ \C-m
-        )
+  (cond
+    (lse-tpu:newline-and-indent-p
+      (lse-tpu:newline-and-indent:off)
+    )
+    (t
+      (lse-tpu:newline-and-indent:on)
+    )
   )
-  (lse-tpu:update-mode-line)
   (when print-message
     (message "The <return> key inserts a newline%s"
       (if lse-tpu:newline-and-indent-p " and indents." ".")

@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1998-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -76,25 +76,27 @@
 ;;;;     4-Jul-2012 (CT) Add and bind `lse-python:goto-next-var`,
 ;;;;                     `lse-python:goto-next-doctest`
 ;;;;     8-Apr-2013 (CT) Add `condition-case` to `lse-python:indent-line`
+;;;;    12-Nov-2014 (CT) Adapt to `python-mode` 6.1.2
+;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (lse-language:define "python"
     '(
-        (lse-language:initial-fill-in      "««python-root»»")
-        (lse-language:tab-increment        4)
-        (lse-comment:delim_char_set        "#")
-        (lse-comment:head_delim            "#")
-        (lse-comment:head_delim_pattern    "#+ *")
-        (lse-tpu:ident-group-chars         "_")
+       (lse-language:initial-fill-in      "««python-root»»")
+       (lse-language:tab-increment        4)
+       (lse-comment:delim_char_set        "#")
+       (lse-comment:head_delim            "#")
+       (lse-comment:head_delim_pattern    "#+ *")
+       (lse-tpu:ident-group-chars         "_")
      )
     '(
-        ;; lse-tpu:toggle-newline-and-indent
-        auto-fill-mode
+       lse-tpu:newline-and-indent:on
+       lse-tpu:auto-fill-mode:on
      )
     '(
-        "lse-templates-python"
-        "lse-templates-python-MOM"
+       "lse-templates-python"
+       "lse-templates-python-MOM"
      )
     137
      67
@@ -139,12 +141,38 @@
 
 (fset 'lse:python-mode:std-python-mode (symbol-function 'python-mode))
 
+(setq py-imenu-create-index-function 'py-imenu-create-index-new)
+(setq py-imenu-create-index-p        t)
+(setq py-outline-minor-mode-p        nil)
+
+;;; 12-Nov-2014
+(defvar lse-python-mode:local-key-to-unset
+  (list
+    [(:)]
+    [(\#)]
+    [(backspace)]
+    [(control backspace)]
+    [(control j)]
+    [(control return)]
+    [(delete)]
+    [(esc) (tab)]
+    [(f1)]
+    [(meta i)]
+    [(meta tab)]
+    [(return)]
+    [(super backspace)]
+    [(super q)]
+    [(tab)]
+  )
+  "Override this in your .emacs file, if you want a different set of
+  keybindings defined by standard python-mode to be locally unset."
+)
+
 (defun python-mode ()
   (interactive)
   (lse:python-mode:std-python-mode)
   (setq comment-start      "#+ " )
   (setq comment-start-skip "#+ *")
-  (local-unset-key "\177")
   ;; revert ``extremely bad form'' of python-mode rebindings of
   ;; 'newline-and-indent and 'py-newline-and-indent
   (mapc
@@ -156,13 +184,8 @@
     (where-is-internal 'py-newline-and-indent)
   )
 
-  ;; 17-Aug-2006
-  (local-unset-key [f1]); disable broken py-doc binding
-
-  ;; move some local key bindings to local C-c keymap
-  ;; (lse-move-keys-to-prefix (current-local-map) [?\C-c] [?:])
-  ;; 9-Apr-1998
-  (local-unset-key [?:]); cannot move to [\C-c] because that's already bound
+  ;; unset locally defined keys listed by lse-python-mode:local-key-to-unset
+  (mapc #'local-unset-key lse-python-mode:local-key-to-unset)
 
   (local-set-asp   [red      ?a]     'lse-python:goto-function-head)
   (local-set-asp   [pink     ?a]     'lse-python:goto-next-function-head)
@@ -196,7 +219,6 @@
 
   (setq indent-line-function 'lse-python:indent-line)
   (lse-language:use "python")
-  (turn-on-font-lock)
 ; python-mode
 )
 
