@@ -62,6 +62,7 @@
 ;;;;    27-Feb-2012 (CT) Use `replace-regexp-in-string` instead of
 ;;;;                     `lse-tpu:remove-char-from-string`
 ;;;;                     (that macro gave a very obscure compilation warning)
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
@@ -361,61 +362,65 @@
 )
 
 (defun lse-completion:define_keys ()
-  (local-set-key [?\C-e]               'lse-completion:exit)
-  (local-set-key [?\A-e]               'lse-completion:exit)
-  (local-set-key [?\C-f]               'lse-tpu:search-forward);  5-Oct-2007
-  (local-set-key [?\s-f]               'lse-tpu:search-reverse);  5-Oct-2007
-  (local-set-key [?\C-g]               'lse-completion:abort)
-  (local-set-key [?\A-g]               'lse-completion:abort)
-  (local-set-key [tab]                 'lse-completion:exit)
-  (local-set-key [?\A-i]               'lse-completion:exit)
-  (local-set-key [?\C-j]               'lse-completion:delete_last_completion)
-  (local-set-key [?\A-j]               'lse-completion:delete_last_completion)
-  (local-set-key [?\C-k]               'lse-completion:abort)
-  (local-set-key [?\A-k]               'lse-completion:abort)
-  (local-set-key [?\C-m]               'lse-completion:exit)
-  (local-set-key [?\A-m]               'lse-completion:exit)
-  (local-set-key [return]              'lse-completion:exit)
-  (local-set-key [?\C-n]               'lse-tpu:search-again-forward); 5-Oct-2007
-  (local-set-key [?\C-o]               'lse-completion:help); 29-Jun-1994
-  (local-set-key [?\A-o]               'lse-completion:help); 29-Jun-1994
-  (local-set-key [?\C-p]               'lse-tpu:search-again-reverse); 5-Oct-2007
-  (local-set-key [?\C-u]               'lse-completion:delete_so_far)
-  (local-set-key [?\A-u]               'lse-completion:delete_so_far)
+  (lse-keys/define #'local-set-key
+    '(
+      ([?\C-e]          lse-completion:exit)
+      ([?\A-e]          lse-completion:exit)
+      ([?\C-f]          lse-tpu:search-forward);  5-Oct-2007
+      ([?\s-f]          lse-tpu:search-reverse);  5-Oct-2007
+      ([?\C-g]          lse-completion:abort)
+      ([?\A-g]          lse-completion:abort)
+      ([tab]            lse-completion:exit)
+      ([?\A-i]          lse-completion:exit)
+      ([?\C-j]          lse-completion:delete_last_completion)
+      ([?\A-j]          lse-completion:delete_last_completion)
+      ([?\C-k]          lse-completion:abort)
+      ([?\A-k]          lse-completion:abort)
+      ([?\C-m]          lse-completion:exit)
+      ([?\A-m]          lse-completion:exit)
+      ([return]         lse-completion:exit)
+      ([?\C-n]          lse-tpu:search-again-forward); 5-Oct-2007
+      ([?\C-o]          lse-completion:help); 29-Jun-1994
+      ([?\A-o]          lse-completion:help); 29-Jun-1994
+      ([?\C-p]          lse-tpu:search-again-reverse); 5-Oct-2007
+      ([?\C-u]          lse-completion:delete_so_far)
+      ([?\A-u]          lse-completion:delete_so_far)
 
-  (local-set-key [gold ?\C-e]     'lse-completion:abort)
-  (local-set-key [gold ?\A-e]     'lse-completion:abort)
-  (local-set-key [left]           'lse-tpu:pan-right)
-  (local-set-key [right]          'lse-tpu:pan-left)
-  (local-set-key [down]           'lse-completion:select_next)
-  (local-set-key [up]             'lse-completion:select_prev)
-  (local-set-key [help]           'lse-completion:help); 29-Jun-1994
-  (local-set-key [f1]             'help-command)
-  (local-set-key [prior]          (lse-key-cmd (lse-previous-screen 2)))
-  (local-set-key [next]           (lse-key-cmd (lse-next-screen 2)))
-  (local-set-key [C-home]         'lse-tpu:move-to-beginning)
-  (local-set-key [C-end]          'lse-tpu:move-to-end)
-  (local-set-key [gold ?>]        'lse-tpu:pan-right)
-  (local-set-key [gold ?<]        'lse-tpu:pan-left)
-  (local-set-key [gold ?^]        (lambda nil (interactive) (lse-frame:set-width 132)))
-  (local-set-key [blue ?^]        (lambda nil (interactive) (lse-frame:set-width 0)))
-  (local-set-key [gold ??]        'lse-completion:help); 29-Jun-1994
-  (local-set-key [gold ?s]        'lse-completion:sort)
-  (local-set-key "\177"           'lse-completion:delete_prev_char)
-  ;; (local-set-key [del]         'lse-completion:delete_prev_char)
+      ([gold ?\C-e]     lse-completion:abort)
+      ([gold ?\A-e]     lse-completion:abort)
+      ([left]           lse-tpu:pan-right)
+      ([right]          lse-tpu:pan-left)
+      ([down]           lse-completion:select_next)
+      ([up]             lse-completion:select_prev)
+      ([help]           lse-completion:help); 29-Jun-1994
+      ([f1]             help-command)
+      ([C-home]         lse-tpu:move-to-beginning)
+      ([C-end]          lse-tpu:move-to-end)
+      ([gold ?>]        lse-tpu:pan-right)
+      ([gold ?<]        lse-tpu:pan-left)
+      ([gold ??]        lse-completion:help); 29-Jun-1994
+      ([gold ?s]        lse-completion:sort)
+      ("\177"           lse-completion:delete_prev_char)
 
-  (local-set-key [mouse-1]        'mouse-set-point)      ; 11-Oct-1996
-  (local-set-key [mouse-2]        'lse-completion:mouse_exit); 17-Dec-1997
-  (local-set-key [mouse-3]        'mouse-set-point)      ; 11-Oct-1996
-  (if (fboundp 'mwheel-scroll); 12-Oct-2007
-      (progn
-        (local-set-key [mouse-4]  'mwheel-scroll)
-        (local-set-key [mouse-5]  'mwheel-scroll)
-      )
+      ([mouse-1]        mouse-set-point)      ;     11-Oct-1996
+      ([mouse-2]        lse-completion:mouse_exit); 17-Dec-1997
+      ([mouse-3]        mouse-set-point)      ;     11-Oct-1996
+      ([double-mouse-1] lse-completion:exit)  ;     11-Oct-1996
+      ([double-mouse-3] lse-completion:exit)  ;     11-Oct-1996
+    )
   )
-  (local-set-key [double-mouse-1] 'lse-completion:exit)  ; 11-Oct-1996
-  ;; (local-set-key [double-mouse-2] 'lse-completion:exit)  ; 11-Oct-1996
-  (local-set-key [double-mouse-3] 'lse-completion:exit)  ; 11-Oct-1996
+  (local-set-key [next]           (lse-key-cmd (lse-next-screen 2)))
+  (local-set-key [prior]          (lse-key-cmd (lse-previous-screen 2)))
+  (local-set-key [gold ?^]        (lse-key-cmd (lse-frame:set-width 132)))
+  (local-set-key [blue ?^]        (lse-key-cmd (lse-frame:set-width 0)))
+  (when (fboundp 'mwheel-scroll); 12-Oct-2007
+    (lse-keys/define #'local-set-key
+      '(
+        ([mouse-4]  mwheel-scroll)
+        ([mouse-5]  mwheel-scroll)
+       )
+    )
+  )
 
   (let ((i ? ))
     (while (< i ?~)

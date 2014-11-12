@@ -192,6 +192,8 @@
 ;;;;     7-Nov-2014 (CT) Add binding for `lse-menu:set-font` [S-down-mouse-2]
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    12-Nov-2014 (CT) Fold lse-tpu-keys-v19.el in here
+;;;;    12-Nov-2014 (CT) Move some functions in here from lse-keys.el
+;;;;    12-Nov-2014 (CT) Add and use `lse-keys/define`, `lse-keys/define-in-map`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -204,6 +206,52 @@ electric `(` inserts `()` and positions point between the parentheses..."
 ;;;  1-Sep-2002
 (defvar lse-tpu:use-control-keys-p nil
   "Bind some control keys to lse-tpu specific functions."
+)
+
+(defun lse-key-name (key-seq)
+  (interactive "kPress key ")
+  (concat "`" (key-description key-seq) "'")
+; lse-key-name
+)
+
+(defun lse-insert-key-name (key)
+  "The name of key is inserted into current buffer"
+  (interactive "kKey ")
+  (insert (key-description key))
+; lse-insert-key-name
+)
+
+(defun lse-insert-key-definition (key)
+  "The definition of key is inserted into current buffer"
+  (interactive "kKey to describe ")
+  (let ((binding (key-binding key))
+       )
+    (if (or (null binding) (integerp binding))
+        (message "%s is undefined" (key-description key))
+      (insert
+        (format "%s"
+                (if (symbolp binding) binding (prin1-to-string binding))
+        )
+      )
+    )
+  )
+; lse-insert-key-definition
+)
+
+(defmacro lse-key-cmd (&rest args)
+  `(lambda () (interactive) ,@args)
+)
+
+;;; 12-Nov-2014
+(defun lse-keys/define (cmd bindings)
+  (mapc (function (lambda (x) (apply cmd x))) bindings)
+; lse-keys/define
+)
+
+;;; 12-Nov-2014
+(defun lse-keys/define-in-map (cmd map bindings)
+  (mapc (function (lambda (x) (apply cmd map x))) bindings)
+; lse-keys/define-in-map
 )
 
 (defun lse-define-alpha-key (map prefix alpha command)
@@ -450,68 +498,88 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
 ;;;  1-Sep-2002
 (defun lse-tpu:define-keypad-num ()
-  (global-set-key  [kp-0]            'lse-insert-num-0)
-  (global-set-key  [kp-1]            'lse-insert-num-1)
-  (global-set-key  [kp-2]            'lse-insert-num-2)
-  (global-set-key  [kp-3]            'lse-insert-num-3)
-  (global-set-key  [kp-4]            'lse-insert-num-4)
-  (global-set-key  [kp-5]            'lse-insert-num-5)
-  (global-set-key  [kp-6]            'lse-insert-num-6)
-  (global-set-key  [kp-7]            'lse-insert-num-7)
-  (global-set-key  [kp-8]            'lse-insert-num-8)
-  (global-set-key  [kp-9]            'lse-insert-num-9)
-  (global-set-key  [kp-subtract]     'lse-insert-num-minus)
-  (global-set-key  [kp-separator]    'lse-insert-num-comma)
-  (global-set-key  [kp-decimal]      'lse-insert-num-point)
+  (lse-keys/define #'global-set-key
+    '(
+      ([kp-0]            lse-insert-num-0)
+      ([kp-1]            lse-insert-num-1)
+      ([kp-2]            lse-insert-num-2)
+      ([kp-3]            lse-insert-num-3)
+      ([kp-4]            lse-insert-num-4)
+      ([kp-5]            lse-insert-num-5)
+      ([kp-6]            lse-insert-num-6)
+      ([kp-7]            lse-insert-num-7)
+      ([kp-8]            lse-insert-num-8)
+      ([kp-9]            lse-insert-num-9)
+      ([kp-subtract]     lse-insert-num-minus)
+      ([kp-separator]    lse-insert-num-comma)
+      ([kp-decimal]      lse-insert-num-point)
+    )
+  )
 ; lse-tpu:define-keypad-num
 )
 
 ;;;  1-Sep-2002
 (defun lse-tpu:define-electric-inserts ()
-  (global-set-key  "("               'lse-insert-parentheses)
-  (global-set-key  "["               'lse-insert-brackets)
-  (global-set-key  "{"               'lse-insert-braces)
-  (global-set-key  ","               'lse-insert-comma)
-  (global-set-key  ";"               'lse-insert-semicolon)
-  (global-set-key  "\""              'lse-insert-dquotes)
-  (global-set-key  "“"               'lse-insert-tdquotes)
-  (global-set-key  "‘"               'lse-insert-tsquotes)
-  (global-set-key  "„"               'lse-insert-tgdquotes)
-  (global-set-key  "‚"               'lse-insert-tgsquotes)
+  (lse-keys/define #'global-set-key
+    '(
+      ("("               lse-insert-parentheses)
+      ("["               lse-insert-brackets)
+      ("{"               lse-insert-braces)
+      (","               lse-insert-comma)
+      (";"               lse-insert-semicolon)
+      ("\""              lse-insert-dquotes)
+      ("“"               lse-insert-tdquotes)
+      ("‘"               lse-insert-tsquotes)
+      ("”"               lse-insert-tgdquotes)
+      ("’"               lse-insert-tgsquotes)
+    )
+  )
 ; lse-tpu:define-electric-inserts
 )
 
 ;;;  7-Nov-2014
 (defun lse-tpu:define-mouse-keys ()
-  (global-set-key   [S-down-mouse-2]                  'lse-menu:set-font)
-  (global-set-key   [S-down-mouse-3]                  'imenu)
-  (global-unset-key [mode-line mouse-2])
-  (global-unset-key [mode-line mouse-3])
-  (global-unset-key [mode-line C-mouse-2])
-  (global-unset-key [mode-line C-mouse-3])
+  (lse-keys/define #'global-set-key
+    '(
+      ([S-down-mouse-2]  lse-menu:set-font)
+      ([S-down-mouse-3]  imenu)
+    )
+  )
 ; lse-tpu:define-mouse-keys
 )
 
 ;;;  1-Sep-2002
 (defun lse-tpu:redefine-some-control-keys ()
-  (lse-define-key-in-all-maps [?\C-w]    'lse-tpu:delete-prev-bs-word);  6-Jan-2002
-  (global-set-asp             [?\C-f]    'lse-tpu:search-forward);  5-Oct-2007
-  (global-set-asp             [?\s-F]    'lse-tpu:search-reverse);  5-Oct-200)
-  (global-set-asp             [?\C-n]    'lse-tpu:search-again-forward); 31-Aug-2002
-  (global-set-smk             [?\C-o]    'lse-open-line); 31-Aug-2002
-  (global-set-asp             [?\C-p]    'lse-tpu:search-again-reverse); 31-Aug-2002
-  (global-set-asp             [?\s-r]    'recenter); 30-Jan-2014
-  (global-set-key             [?\C-,]    'lse-tpu:unselect); 12-Nov-2002
-  (global-set-key             [?\C-']    'lse-insert-backquote-quote); 10-Jan-1998
-  (global-set-key             [?\C-|]    'lse-fill-range); 10-Jan-1998
-  (global-set-key             [?\C->]    'lse-unset-selective-display);  8-Sep-2002
-  (global-set-key             [?\C-^]    'lse-frame:set-width:std);  10-Jan-1998
-  (global-set-key             [?\C-`]    'lse-frame:set-width:wide);  7-Sep-2002
-  (global-set-key             [?\C-!]    'lse-frame:set-height:std);  8-Sep-2002
-  (global-set-key             [?\C-\s-.] 'lse-tpu:unselect); 17-Jun-2001
-  (global-set-key             [?\C-:]    'lse-tpu:replace); 30-Aug-2002
+  (lse-define-key-in-all-maps [?\C-w] 'lse-tpu:delete-prev-bs-word);  6-Jan-2002
+  (lse-keys/define #'global-set-asp
+    '(
+      ([(control f)]        lse-tpu:search-forward);  5-Oct-2007
+      ([(control n)]        lse-tpu:search-again-forward); 31-Aug-2002
+      ([(control p)]        lse-tpu:search-again-reverse); 31-Aug-2002
+      ([(super F)]          lse-tpu:search-reverse);  5-Oct-200)
+      ([(super r)]          recenter); 30-Jan-2014
+    )
+  )
+  (lse-keys/define #'global-set-smk
+    '(
+      ([(control o)]        lse-open-line); 31-Aug-2002
+    )
+  )
+  (lse-keys/define #'global-set-key
+    '(
+      ([(control \,)]       lse-tpu:unselect); 12-Nov-2002
+      ([(control \')]       lse-insert-backquote-quote); 10-Jan-1998
+      ([(control \|)]       lse-fill-range); 10-Jan-1998
+      ([(control \>)]       lse-unset-selective-display);  8-Sep-2002
+      ([(control \^)]       lse-frame:set-width:std);  10-Jan-1998
+      ([(control \`)]       lse-frame:set-width:wide);  7-Sep-2002
+      ([(control \!)]       lse-frame:set-height:std);  8-Sep-2002
+      ([(control super \.)] lse-tpu:unselect); 17-Jun-2001
+      ([(control \:)]       lse-tpu:replace); 30-Aug-2002
+    )
+  )
   (if (fboundp 'repeat)
-      (global-set-key  [?\C-z] 'repeat);  1-Jan-2000
+      (global-set-key  [(control z)] 'repeat);  1-Jan-2000
   )
 ; lse-tpu:redefine-some-control-keys
 )
@@ -526,21 +594,29 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (if lse-tpu:use-control-keys-p
       (lse-tpu:redefine-some-control-keys)
   )
-  (lse-define-key-in-all-maps        [?\A-_]     'undo); 10-Jan-1998
-  (lse-define-key-in-all-maps        [?\C-d]     'lse-tpu:delete-next-char);  6-Jan-2002
-  (lse-define-key-in-minibuffer-maps [?\A-g]     'abort-recursive-edit); 10-Jan-1998
-  (lse-define-key-in-all-maps        [?\A-j]     'lse-tpu:delete-prev-word); 10-Jan-1998
-  (lse-define-key-in-all-maps        [?\s-\A-j]  'lse-tpu:delete-prev-word-append); 10-Jan-1998
-  (lse-define-key-in-all-maps        [?\C-k]     'lse-tpu:delete-tail-of-line);  6-Jan-2002
-  (lse-define-key-in-minibuffer-maps [?\A-e]     'lse-tpu:current-end-of-line)
+  (lse-keys/define #'lse-define-key-in-all-maps
+    '(
+      ([?\A-_]     undo); 10-Jan-1998
+      ([?\C-d]     lse-tpu:delete-next-char);  6-Jan-2002
+      ([?\A-g]     abort-recursive-edit); 10-Jan-1998
+      ([?\A-j]     lse-tpu:delete-prev-word); 10-Jan-1998
+      ([?\s-\A-j]  lse-tpu:delete-prev-word-append); 10-Jan-1998
+      ([?\C-k]     lse-tpu:delete-tail-of-line);  6-Jan-2002
+      ([?\A-e]     lse-tpu:current-end-of-line)
+    )
+  )
 
-  (lse-define-key-in-minibuffer-maps [up]        'lse-tpu:previous-history-element)
-  (lse-define-key-in-minibuffer-maps [down]      'lse-tpu:next-history-element)
-  (lse-define-key-in-minibuffer-maps [tab]       'minibuffer-complete); 29-Dec-1997
-  (lse-define-key-in-minibuffer-maps [do]        'lse-tpu:previous-history-element)
-  (lse-define-key-in-minibuffer-maps [find]      'previous-matching-history-element)
-  (lse-define-key-in-minibuffer-maps [gold find] 'next-matching-history-element)
-  (lse-define-key-in-minibuffer-maps [home]      'beginning-of-line); 29-May-2002
+  (lse-keys/define #'lse-define-key-in-minibuffer-maps
+    '(
+      ([up]        lse-tpu:previous-history-element)
+      ([down]      lse-tpu:next-history-element)
+      ([tab]       minibuffer-complete)
+      ([do]        lse-tpu:previous-history-element)
+      ([find]      previous-matching-history-element)
+      ([gold find] next-matching-history-element)
+      ([home]      beginning-of-line)
+    )
+  )
 
   (lse-copy-key-in-minibuffer-maps   [?\C-m]     [return]);  4-Jan-1998
   (lse-copy-key-in-minibuffer-maps   [?\C-m]     [?\A-m]);  10-Jan-1998
@@ -557,108 +633,145 @@ electric `(` inserts `()` and positions point between the parentheses..."
     )
   )
 
-  (global-set-key  [?\A-']           'lse-insert-bquotes); 10-Jun-1998
-  (global-set-key  [?\A-|]           'lse-fill-range); 28-Apr-1996
-  (global-set-key  [?\A-<]           'lse-set-selective-display);    8-Sep-2002
-  (global-set-key  [?\A-^]           'lse-frame:set-width:std);  15-Jul-1997
-  (global-set-key  [?\A-`]           'lse-frame:set-width:wide);  7-Sep-2002
-  (global-set-key  [?\A-!]           'lse-frame:set-height:std);  8-Sep-2002
-  (global-set-key  [?\A-\s-.]        'lse-tpu:unselect); 17-Jun-2001
-  (global-set-key  [?\A-,]           'lse-tpu:select); 12-Nov-2002
+  (lse-keys/define #'global-set-key
+    '(
+      ([?\A-']           lse-insert-bquotes); 10-Jun-1998
+      ([?\A-|]           lse-fill-range); 28-Apr-1996
+      ([?\A-<]           lse-set-selective-display);    8-Sep-2002
+      ([?\A-^]           lse-frame:set-width:std);  15-Jul-1997
+      ([?\A-`]           lse-frame:set-width:wide);  7-Sep-2002
+      ([?\A-!]           lse-frame:set-height:std);  8-Sep-2002
+      ([?\A-\s-.]        lse-tpu:unselect); 17-Jun-2001
+      ([?\A-,]           lse-tpu:select); 12-Nov-2002
+    )
+  )
 
-  (global-mak-smk  [?\C-a])
-  (global-set-key  [?\A-a]           'lse-tpu:toggle-overwrite-mode)
-  (global-set-key  [?\s-a]           'delete-selection-mode); 28-Dec-1997
-  (global-set-key  [?\s-c]           'lse-tpu:copy-region); 12-Feb-1998
-  (global-set-key  [?\A-d]           'dabbrev-expand)
-  (global-set-key  [?\C-\A-d]        'dabbrev-completion);  3-Jan-2000
-  (global-set-key  [?\s-\A-d]        'ispell-complete-word);  6-Jan-2002
-  (global-set-key  [?\s-d]           'hippie-expand)       ; 29-Dec-1997
-  (global-mak-smk  [?\C-e])
-  (global-set-asp  [?\A-f]           'lse-compilation:next-error) ; 20-Feb-1995
-  (global-set-key  [?\A-g]           'keyboard-quit); 29-Dec-1997
-  (global-set-smk  [?\A-h]           'lse-tpu:next-beginning-of-line)
-  (global-set-key  [?\A-i]           'lse-tabulator); 19-Mar-1995
-  (global-set-key  [?\C-i]           'lse-tabulator); 13-Sep-2002
-  (global-set-key  [?\A-l]           'lse-tpu:insert-formfeed)
-  (global-set-asp  [?\M-l]           'goto-line); 31-Aug-2002
-  (global-set-key  [?\A-q]           'lse-insert-buffer-name); 28-Apr-1996
-  (global-set-key  [?\s-q]           'lse-insert-buffer-name-plus-extension);  8-Dec-2007
-  (global-set-key  [?\M-r]           'lse-scroll-to-top);  1-Sep-2002
-  (global-set-key  [?\M-R]           'lse-scroll-to-bottom);   3-Apr-2008
-  (global-set-key  [?\A-t]           'transpose-chars); 10-Jan-1998
-  (global-set-key  [?\A-u]           'lse-tpu:delete-head-of-line)
-  (global-set-key  [?\s-\A-u]        'lse-tpu:delete-head-of-line-append); 17-Dec-1997
-  (global-set-key  [?\A-v]           'lse-align-and-down); 15-Sep-1995
-  (global-set-key  [?\H-V]           'lse-align-to-previous-word-and-down) ; 27-Jul-1999
-  (global-set-key  [?\H-v]           'lse-align-to-next-word-and-up) ; 27-Jul-1999
-  (global-set-key  [?\M-v]           'lse-align-and-up); 15-Sep-1995
-  (global-set-key  [?\s-v]           'lse-tpu:paste-region); 12-Feb-1998
-  (global-set-key  [?\A-w]           'redraw-display)
-  (global-set-key  [?\s-x]           'lse-tpu:cut-region); 12-Feb-1998
-  (global-set-key  [?\C-x?5?1]       'lse-frame:make-full-height); 21-Oct-2014
-  (global-set-key  [?\C-x?5?2]       'lse-frame:make-std)        ; 21-Oct-2014
-  (global-set-key  [?\C-x?5?3]       'lse-frame:make-small)      ;  9-Apr-1998
-  (global-set-key  [?\C-x?5?^]       'lse-frame:fix-position)    ; 21-Oct-2014
-  (global-set-key  [?\A-z]           'lse-tpu:goto-last-position)
-  (global-set-key  [?\A-\\]          'quoted-insert)
-  (global-set-key  [?\C-\.]          'universal-argument) ; 28-Jun-1995
-  (global-set-key  [?\A-\.]          'universal-argument) ; 30-Dec-1997
-  (global-set-key  [?\A-\-]          'negative-argument)  ; 30-Dec-1997
-  (global-set-key  [?\C-\#]          'lse-number-to-register);  1-Jan-2000
-  (global-set-key  [?\s-\#]          'lse-increment-register);  1-Jan-2000
-  (global-set-key  [?\M-\#]          'lse-increment-register);  1-Jan-2000
-  (global-set-key  [?\A-\#]          'lse-insert-register);     1-Jan-2000
-  (global-set-asp  [?\A-\(]          'lse-tpu:goto-opening-char)
-  (global-set-asp  [?\A-\)]          'lse-tpu:goto-closing-char)
-  (global-set-asp  [?\A-<]           'lse-tpu:goto-opening-char)
-  (global-set-asp  [?\A->]           'lse-tpu:goto-closing-char)
-  (global-set-asp  [?\A-\[]          'lse-tpu:goto-opening-char)
-  (global-set-asp  [?\A-\]]          'lse-tpu:goto-closing-char)
-  (global-set-asp  [?\A-\{]          'lse-tpu:goto-opening-char)
-  (global-set-asp  [?\A-\}]          'lse-tpu:goto-closing-char)
-  (global-set-key  [?\s-|]           'lse-insert-bars); 20-Jan-2000
-  (global-set-key  [?\s-<]           'lse-insert-angles); 20-Jan-2000
-  (global-set-asp  [?\C-<]           'lse-tpu:goto-next-occurrence-current-char)
-  (global-set-asp  [?\C->]           'lse-tpu:goto-prev-occurrence-current-char)
-  (global-set-asp  [?\C-\(]          'forward-list)
-  (global-set-asp  [?\C-\)]          'backward-list)
-  (global-set-key  [?\A-:]           'lse-tpu:replace-all); 30-Aug-2002
-  (global-set-key  [?\A-\ ]          'lse-tabulator); 13-Sep-2002
+  (lse-keys/define #'global-mak-smk
+    '(
+      ([?\C-a])
+      ([?\C-e])
+    )
+  )
+  (lse-keys/define #'global-set-asp
+    '(
+      ([?\A-<]           lse-tpu:goto-opening-char)
+      ([?\A->]           lse-tpu:goto-closing-char)
+      ([?\A-\(]          lse-tpu:goto-opening-char)
+      ([?\A-\)]          lse-tpu:goto-closing-char)
+      ([?\A-\[]          lse-tpu:goto-opening-char)
+      ([?\A-\]]          lse-tpu:goto-closing-char)
+      ([?\A-\{]          lse-tpu:goto-opening-char)
+      ([?\A-\}]          lse-tpu:goto-closing-char)
+      ([?\A-f]           lse-compilation:next-error) ; 20-Feb-1995
+      ([?\C-<]           lse-tpu:goto-next-occurrence-current-char)
+      ([?\C->]           lse-tpu:goto-prev-occurrence-current-char)
+      ([?\C-\(]          forward-list)
+      ([?\C-\)]          backward-list)
+      ([?\M-l]           goto-line); 31-Aug-2002
+    )
+  )
+  (lse-keys/define #'global-set-key
+    '(
+      ([?\A-:]           lse-tpu:replace-all); 30-Aug-2002
+      ([?\A-\ ]          lse-tabulator); 13-Sep-2002
+      ([?\A-\#]          lse-insert-register);     1-Jan-2000
+      ([?\A-\-]          negative-argument)  ; 30-Dec-1997
+      ([?\A-\.]          universal-argument) ; 30-Dec-1997
+      ([?\A-\\]          quoted-insert)
+      ([?\A-a]           lse-tpu:toggle-overwrite-mode)
+      ([?\A-d]           dabbrev-expand)
+      ([?\A-g]           keyboard-quit); 29-Dec-1997
+      ([?\A-i]           lse-tabulator); 19-Mar-1995
+      ([?\A-l]           lse-tpu:insert-formfeed)
+      ([?\A-q]           lse-insert-buffer-name); 28-Apr-1996
+      ([?\A-t]           transpose-chars); 10-Jan-1998
+      ([?\A-u]           lse-tpu:delete-head-of-line)
+      ([?\A-v]           lse-align-and-down); 15-Sep-1995
+      ([?\A-w]           redraw-display)
+      ([?\A-z]           lse-tpu:goto-last-position)
+      ([?\C-\#]          lse-number-to-register);  1-Jan-2000
+      ([?\C-\.]          universal-argument) ; 28-Jun-1995
+      ([?\C-\A-d]        dabbrev-completion);  3-Jan-2000
+      ([?\C-i]           lse-tabulator); 13-Sep-2002
+      ([?\C-x?5?1]       lse-frame:make-full-height); 21-Oct-2014
+      ([?\C-x?5?2]       lse-frame:make-std)        ; 21-Oct-2014
+      ([?\C-x?5?3]       lse-frame:make-small)      ;  9-Apr-1998
+      ([?\C-x?5?^]       lse-frame:fix-position)    ; 21-Oct-2014
+      ([?\H-V]           lse-align-to-previous-word-and-down) ; 27-Jul-1999
+      ([?\H-v]           lse-align-to-next-word-and-up) ; 27-Jul-1999
+      ([?\M-R]           lse-scroll-to-bottom);   3-Apr-2008
+      ([?\M-\#]          lse-increment-register);  1-Jan-2000
+      ([?\M-r]           lse-scroll-to-top);  1-Sep-2002
+      ([?\M-v]           lse-align-and-up); 15-Sep-1995
+      ([?\s-<]           lse-insert-angles); 20-Jan-2000
+      ([?\s-\#]          lse-increment-register);  1-Jan-2000
+      ([?\s-\A-d]        ispell-complete-word);  6-Jan-2002
+      ([?\s-\A-u]        lse-tpu:delete-head-of-line-append); 17-Dec-1997
+      ([?\s-a]           delete-selection-mode); 28-Dec-1997
+      ([?\s-c]           lse-tpu:copy-region); 12-Feb-1998
+      ([?\s-d]           hippie-expand)       ; 29-Dec-1997
+      ([?\s-q]           lse-insert-buffer-name-plus-extension);  8-Dec-2007
+      ([?\s-v]           lse-tpu:paste-region); 12-Feb-1998
+      ([?\s-x]           lse-tpu:cut-region); 12-Feb-1998
+      ([?\s-|]           lse-insert-bars); 20-Jan-2000
+    )
+  )
+  (lse-keys/define #'global-set-smk
+    '(
+      ([?\A-h]           lse-tpu:next-beginning-of-line)
+    )
+  )
+
   (local-unset-key [?\C-i])
   (local-unset-key "\177")
   (local-unset-key [backspace])
 
-  (define-key      help-map [red]    'lse-tpu-keys:show-list-sexp-keys)
-  (define-key      help-map [?W]     'lse-tpu-keys:show-keys-matching); 28-Dec-97
-  (global-set-key  [do]              'repeat-complex-command)
+  (lse-keys/define-in-map 'define-key help-map
+    '(
+      ([red]             lse-tpu-keys:show-list-sexp-keys)
+      ([?W]              lse-tpu-keys:show-keys-matching); 28-Dec-97
+      ([(\')]            lse-key-name)
+    )
+  )
 
-  (global-set-smk  [home]            'lse-tpu:next-beginning-of-line)
-  (global-set-key  [red home]        'lse-scroll-to-top);  3-Apr-2008
-  (global-set-smk  [end]             'lse-tpu:next-end-of-line)
-  (global-set-key  [red end]         'lse-scroll-to-bottom);  3-Apr-2008
-  (global-set-key  [cancel]          'lse-tpu:unselect)
-  (global-set-key  [select]          'lse-tpu:select)
-  (global-set-key  [delete]          'lse-tpu:delete-next-char); 25-Feb-1998
-  (global-set-asp  [prior]           'lse-previous-screen-2)
-  (global-set-asp  [next]            'lse-next-screen-2)
-  (global-set-key  [A-prior]         'lse-scroll-other-window-back); 18-Jul-95
-  (global-set-key  [A-next]          'lse-scroll-other-window-forw); 18-Jul-95
+  (lse-keys/define #'global-set-asp
+    '(
+      ([next]            lse-next-screen-2)
+      ([prior]           lse-previous-screen-2)
+    )
+  )
 
-  (global-set-smk  [up]              'lse-tpu:previous-line)
-  (global-set-smk  [down]            'lse-tpu:next-line)
-  (global-set-smk  [left]            'lse-tpu:backward-char)
-  (global-set-smk  [right]           'lse-tpu:forward-char)
+  (lse-keys/define #'global-set-key
+    '(
+      ([A-S-left]        lse-tpu:pan-left);             20-Aug-1995
+      ([A-S-right]       lse-tpu:pan-right);            20-Aug-1995
+      ([A-down]          shrink-window);                18-Jul-1995
+      ([A-left]          lse-deindent-line-by-word);    18-Jul-1995
+      ([A-next]          lse-scroll-other-window-forw); 18-Jul-1995
+      ([A-prior]         lse-scroll-other-window-back); 18-Jul-1995
+      ([A-return]        lse-split-line-i);             27-Mar-1997
+      ([A-right]         lse-indent-line-by-word);      18-Jul-1995
+      ([A-up]            enlarge-window);               18-Jul-1995
+      ([cancel]          lse-tpu:unselect)
+      ([delete]          lse-tpu:delete-next-char);     25-Feb-1998
+      ([do]              repeat-complex-command)
+      ([gold A-return]   lse-toggle-lse-split-line);    27-Mar-1997
+      ([red end]         lse-scroll-to-bottom);          3-Apr-2008
+      ([red home]        lse-scroll-to-top);             3-Apr-2008
+      ([select]          lse-tpu:select)
+    )
+  )
 
-  (global-set-key  [A-right]         'lse-indent-line-by-word);   18-Jul-1995
-  (global-set-key  [A-left]          'lse-deindent-line-by-word); 18-Jul-1995
-  (global-set-key  [A-up]            'enlarge-window);            18-Jul-1995
-  (global-set-key  [A-down]          'shrink-window);             18-Jul-1995
-  (global-set-key  [A-S-right]       'lse-tpu:pan-right);         20-Aug-1995
-  (global-set-key  [A-S-left]        'lse-tpu:pan-left);          20-Aug-1995
-
-  (global-set-key  [A-return]        'lse-split-line-i);          27-Mar-1997
-  (global-set-key  [gold A-return]   'lse-toggle-lse-split-line); 27-Mar-1997
+  (lse-keys/define #'global-set-smk
+    '(
+      ([down]            lse-tpu:next-line)
+      ([end]             lse-tpu:next-end-of-line)
+      ([home]            lse-tpu:next-beginning-of-line)
+      ([left]            lse-tpu:backward-char)
+      ([right]           lse-tpu:forward-char)
+      ([up]              lse-tpu:previous-line)
+    )
+  )
 ; lse-define-tpu-keys
 )
 
@@ -712,348 +825,388 @@ electric `(` inserts `()` and positions point between the parentheses..."
   "Define Gold-Keys and related keys"
   (lse-define-key-in-minibuffer-maps [gold ??]   'minibuffer-completion-help)
 
-  (global-set-key [gold ?*]           'lse-show-buffers)
-  (global-set-key [gold ?,]           'self-insert-command)
-  (global-set-key [gold ?.]           'self-insert-command)
-  (global-set-key [gold ?/]           'lse-align-and-up)
-  (global-set-key [gold ?<]           'lse-tpu:pan-left)
-  (global-set-key [gold ?>]           'lse-tpu:pan-right)
-  (global-set-key [gold ?=]           'lse-split-window)
-  (global-set-key [gold ??]           'lse-insert-key-definition)
-  (global-set-key [gold ?\ ]          'lse-align-to-next-word)
-  (global-set-key [gold ?\"]          'self-insert-command)
-  (global-set-key [gold ?\']          'lse-insert-squotes)
-  (global-set-key [gold ?“]           'self-insert-command)
-  (global-set-key [gold ?‘]           'self-insert-command)
-  (global-set-key [gold ?„]           'self-insert-command)
-  (global-set-key [gold ?‚]           'self-insert-command)
-  (global-set-key [gold ?\(]          'self-insert-command)
-  (global-set-key [gold ?\)]          'backward-sexp)
-  (global-set-key [gold ?\;]          'self-insert-command)
-  (global-set-key [gold ?\[]          'self-insert-command)
-  (global-set-key [gold ?\\]          'self-insert-command)
-  (global-set-key [gold ?\]]          'backward-sexp)
-  (global-set-key [gold ?`]           'lse-frame:set-width:wide);    5-Mar-1997
-  (global-set-key [gold ?^]           'lse-frame:set-width:wide);    5-Mar-1997
-  (global-set-key [gold ?!]           'lse-frame:set-height:full);  21-Oct-2014
-  (global-set-key [gold ?:]           'lse-frame:set-height:small);  8-Sep-2002
-  (global-set-key [gold ?{]           'self-insert-command)
-  (global-set-key [gold ?|]           'lse-fill-range)
-  (global-set-key [gold ?}]           'backward-sexp)
-  (global-set-key [gold ?~]           'vt-narrow)
-  (global-set-key [gold ?+]           'lse-push-window-configuration)
-  (global-set-key [gold ?#]           'lse-insert-date-time-comment); 23-Jul-2010
+  (lse-keys/define #'global-set-key
+    '(
+      ([gold ?*]           lse-show-buffers)
+      ([gold ?,]           self-insert-command)
+      ([gold ?.]           self-insert-command)
+      ([gold ?/]           lse-align-and-up)
+      ([gold ?<]           lse-tpu:pan-left)
+      ([gold ?>]           lse-tpu:pan-right)
+      ([gold ?=]           lse-split-window)
+      ([gold ??]           lse-insert-key-definition)
+      ([gold ?\ ]          lse-align-to-next-word)
+      ([gold ?\"]          self-insert-command)
+      ([gold ?\']          lse-insert-squotes)
+      ([gold ?“]           self-insert-command)
+      ([gold ?‘]           self-insert-command)
+      ([gold ?”]           self-insert-command)
+      ([gold ?’]           self-insert-command)
+      ([gold ?\(]          self-insert-command)
+      ([gold ?\)]          backward-sexp)
+      ([gold ?\;]          self-insert-command)
+      ([gold ?\[]          self-insert-command)
+      ([gold ?\\]          self-insert-command)
+      ([gold ?\]]          backward-sexp)
+      ([gold ?`]           lse-frame:set-width:wide);    5-Mar-1997
+      ([gold ?^]           lse-frame:set-width:wide);    5-Mar-1997
+      ([gold ?!]           lse-frame:set-height:full);  21-Oct-2014
+      ([gold ?:]           lse-frame:set-height:small);  8-Sep-2002
+      ([gold ?{]           self-insert-command)
+      ([gold ?|]           lse-fill-range)
+      ([gold ?}]           backward-sexp)
+      ([gold ?~]           vt-narrow)
+      ([gold ?+]           lse-push-window-configuration)
+      ([gold ?#]           lse-insert-date-time-comment); 23-Jul-2010
+    )
+  )
 
-  (gset-alpha-key [gold] "A"          'occur)
-  (gset-alpha-key [gold] "B"          'lse-goto-last-mark-global)
-  (gset-alpha-key [gold] "C"          'lse-tpu:capitalize-weakly)
-  (gset-alpha-key [gold] "D"          'lse-insert-dd-mmm-yyyy+blank)
-  (gset-alpha-key [gold] "E"          'undefined)
-  (gset-alpha-key [gold] "F"          'lse-goto-buffer)
-  (gset-alpha-key [gold] "G"          'lse-goto-mark-and-pop-global)
-  (gset-alpha-key [gold] "H"          'lse-goto-home-mark-global)
-  (gset-alpha-key [gold] "I"          'lse-visit-file)
-  (gset-alpha-key [gold] "J"          'lse-frame:toggle-menu-bar); 28-Mar-2007
-  (gset-alpha-key [gold] "K"          'undefined)
-  (gset-alpha-key [gold] "L"          'lse-tpu:change-case-lower)
-  (gset-alpha-key [gold] "M"          'lse-push-mark-global)
-  (gset-alpha-key [gold] "N"          'lse-goto-next-buffer)
-  (gset-alpha-key [gold] "O"          'lse-change-output-file)
-  (gset-alpha-key [gold] "P"          'lse-insert-buffer)
-  (gset-alpha-key [gold] "Q"          'lse-insert-buffer-name)
-  (gset-alpha-key [gold] "R"          'lse-tpu:toggle-rectangle)
-  (gset-alpha-key [gold] "S"          'lse-insert-time+blank);  2-May-2006
-  (gset-alpha-key [gold] "T"          'lse-toggle-mark-global)
-  (gset-alpha-key [gold] "U"          'lse-tpu:change-case-upper)
-  (gset-alpha-key [gold] "V"          'lse-align-to-next-word-and-up)
-  (gset-alpha-key [gold] "W"          'lse-write-buffer)
-  (gset-alpha-key [gold] "X"          'suspend-emacs)
-  (gset-alpha-key [gold] "Y"          'eval-last-sexp)
-  (gset-alpha-key [gold] "Z"          'lse-insert-user-initials)
+  (lse-keys/define #'gset-alpha-key
+    '(
+      ([gold] "A"          occur)
+      ([gold] "B"          lse-goto-last-mark-global)
+      ([gold] "C"          lse-tpu:capitalize-weakly)
+      ([gold] "D"          lse-insert-dd-mmm-yyyy+blank)
+      ([gold] "E"          undefined)
+      ([gold] "F"          lse-goto-buffer)
+      ([gold] "G"          lse-goto-mark-and-pop-global)
+      ([gold] "H"          lse-goto-home-mark-global)
+      ([gold] "I"          lse-visit-file)
+      ([gold] "J"          lse-frame:toggle-menu-bar); 28-Mar-2007
+      ([gold] "K"          lse-insert-user-full-name); 13-Nov-2014
+      ([gold] "L"          lse-tpu:change-case-lower)
+      ([gold] "M"          lse-push-mark-global)
+      ([gold] "N"          lse-goto-next-buffer)
+      ([gold] "O"          lse-change-output-file)
+      ([gold] "P"          lse-insert-buffer)
+      ([gold] "Q"          lse-insert-buffer-name)
+      ([gold] "R"          lse-tpu:toggle-rectangle)
+      ([gold] "S"          lse-insert-yyyy-mm-dd+blank); 13-Nov-2014
+      ([gold] "T"          lse-toggle-mark-global)
+      ([gold] "U"          lse-tpu:change-case-upper)
+      ([gold] "V"          lse-align-to-next-word-and-up)
+      ([gold] "W"          lse-write-buffer)
+      ([gold] "X"          suspend-emacs)
+      ([gold] "Y"          eval-last-sexp)
+      ([gold] "Z"          lse-insert-user-initials)
+    )
+  )
 
-  (global-set-key [gold ?\A-d]        'ispell-complete-word);  4-Nov-1996
-  (global-set-key [gold ?\C-d]        'lse-tpu:undelete-char);  6-Jan-2002
-  (global-set-key [gold ?\C-f]        'lse-tpu:goto-pos-before-search); 31-Aug-2002
-  (global-set-key [gold ?\A-i]        'lse-indent-line); 19-Mar-1995
-  (global-set-key [gold tab]          'lse-indent-line); 19-Mar-1995
-  (global-set-key [gold ?\A-j]        'lse-tpu:undelete-word);  6-Jan-2002
-  (global-set-key [gold ?\C-k]        'lse-tpu:undelete-line);  6-Jan-2002
-  (global-set-key [gold ?\C-l]        'lse-scroll-to-top); 31-Aug-2002
-  (global-set-key [gold ?\M-l]        'lse-show-position); 31-Aug-2002
-  (global-set-key [gold ?\A-m]        'newline)
-  (global-set-key [gold ?\C-n]        'lse-tpu:goto-pos-before-search); 14-Nov-2002
-  (global-set-key [gold A-return]     'lse-toggle-lse-split-line); 27-Mar-1997
-  (global-set-key [gold ?\C-p]        'lse-tpu:goto-pos-before-search); 14-Nov-2002
-  (global-set-key [gold ?\M-r]        'move-to-window-line);  1-Sep-2002
-  (global-set-key [gold ?\A-u]        'lse-tpu:undelete-line);  8-Sep-2002
-  (global-set-key [gold ?\C-w]        'lse-tpu:undelete-word);  8-Sep-2002
-  (global-set-key [gold ?\C-,]        'lse-tpu:exchange-point-and-mark); 12-Nov-2002
+  (lse-keys/define #'global-set-key
+    '(
+      ([gold ?\A-d]    ispell-complete-word);  4-Nov-1996
+      ([gold ?\C-d]    lse-tpu:undelete-char);  6-Jan-2002
+      ([gold ?\C-f]    lse-tpu:goto-pos-before-search); 31-Aug-2002
+      ([gold ?\A-i]    lse-indent-line); 19-Mar-1995
+      ([gold tab]      lse-indent-line); 19-Mar-1995
+      ([gold ?\A-j]    lse-tpu:undelete-word);  6-Jan-2002
+      ([gold ?\C-k]    lse-tpu:undelete-line);  6-Jan-2002
+      ([gold ?\C-l]    lse-scroll-to-top); 31-Aug-2002
+      ([gold ?\M-l]    lse-show-position); 31-Aug-2002
+      ([gold ?\A-m]    newline)
+      ([gold ?\C-n]    lse-tpu:goto-pos-before-search); 14-Nov-2002
+      ([gold A-return] lse-toggle-lse-split-line); 27-Mar-1997
+      ([gold ?\C-p]    lse-tpu:goto-pos-before-search); 14-Nov-2002
+      ([gold ?\M-r]    move-to-window-line);  1-Sep-2002
+      ([gold ?\A-u]    lse-tpu:undelete-line);  8-Sep-2002
+      ([gold ?\C-w]    lse-tpu:undelete-word);  8-Sep-2002
+      ([gold ?\C-,]    lse-tpu:exchange-point-and-mark); 12-Nov-2002
 
-  (global-set-key [gold gold]         'universal-argument)
-  (global-set-key [gold blue]         'universal-argument)
+      ([gold gold]     universal-argument)
+      ([gold blue]     universal-argument)
 
-  (global-set-key [gold right]        (lse-key-cmd (lse-indent-rigidly (lse-tab-increment))))
-  (global-set-key [gold left]         (lse-key-cmd (lse-indent-rigidly (- (lse-tab-increment)))))
-  (global-set-key [gold up]           'lse-previous-window)
-  (global-set-key [gold down]         'lse-next-window)
+      ([gold up]       lse-previous-window)
+      ([gold down]     lse-next-window)
 
-  ;; 25-Feb-1998 ;; `home' instead of `insert'
-  (global-set-key [gold home]         'lse-select-current-line); 7-Apr-1997
-  (global-set-key [gold delete]       'lse-tpu:undelete-char)
-  (global-set-key [gold select]       'lse-tpu:unselect)
-  (global-set-key [gold cancel]       'lse-tpu:exchange-point-and-mark)
-  (global-set-key [gold prior]        'lse-previous-screen)
-  (global-set-key [gold next]         'lse-next-screen)
+      ;; 25-Feb-1998 ;; `home' instead of `insert'
+      ([gold home]     lse-select-current-line); 7-Apr-1997
+      ([gold delete]   lse-tpu:undelete-char)
+      ([gold select]   lse-tpu:unselect)
+      ([gold cancel]   lse-tpu:exchange-point-and-mark)
+      ([gold prior]    lse-previous-screen)
+      ([gold next]     lse-next-screen)
 
-  (global-set-key [gold do]           'lse-command:do); 31-Aug-2002
-  (global-set-key [red  do]           'undo);           31-Aug-2002
+      ([gold do]       lse-command:do); 31-Aug-2002
+      ([red  do]       undo);           31-Aug-2002
+    )
+  )
+  (global-set-key [gold right] (lse-key-cmd (lse-indent-rigidly (lse-tab-increment))))
+  (global-set-key [gold left]  (lse-key-cmd (lse-indent-rigidly (- (lse-tab-increment)))))
 ; lse-define-tpu-gold-keys
 )
 
 (defun lse-define-tpu-blue-keys ()
   "Define BLUE-keys"
-  (global-set-key [blue blue]        'lse-ring-bell)
+  (lse-keys/define #'global-set-key
+    '(
+      ([blue blue]        lse-ring-bell)
 
-  (global-set-key [blue find]        'find-tag)
-  (global-set-key [blue gold find]   'lse-grep); 20-Feb-1995
-  (global-set-asp [blue home]        'lse-indent:goto-indent-pos); 7-Apr-1997 ;  9-Jun-1995
-  (global-set-key [blue insert]      'lse-tpu:duplicate-previous-bs-word)
-  (global-set-key [blue delete]      'lse-tpu:duplicate-previous-char); 25-Feb-1998
-  (global-set-key [blue cancel]      'lse-tpu:exchange-point-and-mark); 26-Aug-2002
-  (global-set-key [blue gold cancel] 'lse-blink-select-mark); 26-Aug-2002
-  (global-set-key [blue select]      'lse-tpu:exchange-point-and-mark);  8-Sep-2002
-  (global-set-key [blue gold select] 'lse-select-current-bs-word)
+      ([blue find]        find-tag)
+      ([blue gold find]   lse-grep); 20-Feb-1995
+      ([blue home]        lse-indent:goto-indent-pos); 7-Apr-1997 ;  9-Jun-1995
+      ([blue insert]      lse-tpu:duplicate-previous-bs-word)
+      ([blue delete]      lse-tpu:duplicate-previous-char); 25-Feb-1998
+      ([blue cancel]      lse-tpu:exchange-point-and-mark); 26-Aug-2002
+      ([blue gold cancel] lse-blink-select-mark); 26-Aug-2002
+      ([blue select]      lse-tpu:exchange-point-and-mark);  8-Sep-2002
+      ([blue gold select] lse-select-current-bs-word)
 
-  (global-set-key [blue prior]       'lse-scroll-window-back)
-  (global-set-key [blue next]        'lse-scroll-window-forw)
-  (global-set-key [blue gold prior]  'lse-scroll-other-window-back)
-  (global-set-key [blue gold next]   'lse-scroll-other-window-forw)
+      ([blue prior]       lse-scroll-window-back)
+      ([blue next]        lse-scroll-window-forw)
+      ([blue gold prior]  lse-scroll-other-window-back)
+      ([blue gold next]   lse-scroll-other-window-forw)
 
+      ([blue gold right]  lse-indent-line-by-word)
+      ([blue gold left]   lse-deindent-line-by-word)
+      ([blue up]          lse-previous-window-all-frames); 28-Dec-1999 lse-previous-window
+      ([blue down]        lse-next-window-all-frames); 28-Dec-1999 lse-next-window
+      ([blue gold up]     enlarge-window)
+      ([blue gold down]   shrink-window)
+      ([blue help]        describe-key-briefly)
+      ([blue gold help]   help-command)
+      ([blue do]          execute-extended-command)
+    )
+  )
   (global-set-key [blue right]       (lse-key-cmd (lse-indent-rigidly (*  3 (lse-tab-increment)))))
   (global-set-key [blue left]        (lse-key-cmd (lse-indent-rigidly (* -3 (lse-tab-increment)))))
-  (global-set-key [blue gold right]  'lse-indent-line-by-word)
-  (global-set-key [blue gold left]   'lse-deindent-line-by-word)
-  (global-set-key [blue up]          'lse-previous-window-all-frames); 28-Dec-1999 lse-previous-window
-  (global-set-key [blue down]        'lse-next-window-all-frames); 28-Dec-1999 lse-next-window
-  (global-set-key [blue gold up]     'enlarge-window)
-  (global-set-key [blue gold down]   'shrink-window)
-  (global-set-key [blue help]        'describe-key-briefly)
-  (global-set-key [blue gold help]   'help-command)
-  (global-set-key [blue do]          'execute-extended-command)
 
-  (gset-alpha-key [blue]      "A"    'occur)
-  (gset-alpha-key [blue]      "B"    'lse-goto-last-mark-window)
-  (gset-alpha-key [blue gold] "B"    'lse-goto-last-mark-buffer)
-  (gset-alpha-key [blue]      "C"    'lse-tpu:capitalize-strongly)
-  (gset-alpha-key [blue gold] "C"    'lse-tpu:change-case); 31-Aug-2002
-  (gset-alpha-key [blue]      "D"    'lse-insert-dd-mm-yyyy+blank)
-  (gset-alpha-key [blue gold] "D"    'lse-insert-yyyy/mm/dd+blank);  2-May-2006
-  (gset-alpha-key [blue gold] "E"    'lse-kill-buffer)
-  (gset-alpha-key [blue]      "F"    'lse-goto-buffer+maybe-create)
-  (gset-alpha-key [blue gold] "F"    'lse-goto-buffer-other-window)
-  (gset-alpha-key [blue]      "G"    'lse-goto-mark-and-pop-window)
-  (gset-alpha-key [blue gold] "G"    'lse-goto-mark-and-pop-buffer)
-  (gset-alpha-key [blue]      "H"    'lse-goto-home-mark-window)
-  (gset-alpha-key [blue gold] "H"    'lse-set-home-mark-window)
-  (gset-alpha-key [blue]      "I"    'lse-visit-file-other-window)
-  (gset-alpha-key [blue gold] "I"    'lse-insert-file)
-  (gset-alpha-key [blue]      "J"    'lse-menu:toggle-menu-bar); 28-Mar-2007
-  (gset-alpha-key [blue]      "L"    'lse-learn-key)
-  (gset-alpha-key [blue gold] "L"    'lse-learn-named-key)
-  (gset-alpha-key [blue]      "M"    'lse-push-mark-window)
-  (gset-alpha-key [blue gold] "M"    'lse-push-mark-buffer)
-  (gset-alpha-key [blue]      "N"    'lse-goto-prev-buffer)
-  (gset-alpha-key [blue]      "O"    'lse-change-output-file-current)
-  (gset-alpha-key [blue gold] "O"    'lse-make-directory)
-  (gset-alpha-key [blue]      "P"    'lse-insert-buffer)
-  (gset-alpha-key [blue]      "Q"    'lse-tpu:special-insert); 31-Aug-2002
-  (gset-alpha-key [blue gold] "Q"    'lse-insert-buffer-name-plus-extension);  8-Dec-2007
-  (gset-alpha-key [blue gold] "R"    'lse-revert-buffer);  8-Sep-2002
-  (gset-alpha-key [blue]      "S"    'undefined)
-  (gset-alpha-key [blue]      "T"    'lse-toggle-mark-window)
-  (gset-alpha-key [blue gold] "T"    'lse-toggle-mark-buffer)
-  (gset-alpha-key [blue]      "V"    'lse-align-to-previous-word-and-down)
-  (gset-alpha-key [blue]      "W"    'lse-write-current-buffer)
-  (gset-alpha-key [blue gold] "W"    'lse-save-some-buffers); 5-Apr-1998
-  (gset-alpha-key [blue]      "X"    'lse-shell-command)
-  (gset-alpha-key [blue]      "Y"    'lse-compile); 20-Feb-1995
-  (gset-alpha-key [blue gold] "Y"    'lse-set-compile-command);  9-Jun-1995
-  (gset-alpha-key [blue]      "Z"    'lse-insert-user-full-name)
-  (gset-alpha-key [blue gold] "Z"    'lse-insert-user-name)
+  (lse-keys/define #'gset-alpha-key
+    '(
+      ([blue]      "A"    occur)
+      ([blue]      "B"    lse-goto-last-mark-window)
+      ([blue gold] "B"    lse-goto-last-mark-buffer)
+      ([blue]      "C"    lse-tpu:capitalize-strongly)
+      ([blue gold] "C"    lse-tpu:change-case); 31-Aug-2002
+      ([blue]      "D"    lse-insert-dd-mm-yyyy+blank)
+      ([blue gold] "D"    lse-insert-yyyy/mm/dd+blank);  2-May-2006
+      ([blue gold] "E"    lse-kill-buffer)
+      ([blue]      "F"    lse-goto-buffer+maybe-create)
+      ([blue gold] "F"    lse-goto-buffer-other-window)
+      ([blue]      "G"    lse-goto-mark-and-pop-window)
+      ([blue gold] "G"    lse-goto-mark-and-pop-buffer)
+      ([blue]      "H"    lse-goto-home-mark-window)
+      ([blue gold] "H"    lse-set-home-mark-window)
+      ([blue]      "I"    lse-visit-file-other-window)
+      ([blue gold] "I"    lse-insert-file)
+      ([blue]      "J"    lse-menu:toggle-menu-bar); 28-Mar-2007
+      ([blue]      "L"    lse-learn-key)
+      ([blue gold] "L"    lse-learn-named-key)
+      ([blue]      "M"    lse-push-mark-window)
+      ([blue gold] "M"    lse-push-mark-buffer)
+      ([blue]      "N"    lse-goto-prev-buffer)
+      ([blue]      "O"    lse-change-output-file-current)
+      ([blue gold] "O"    lse-make-directory)
+      ([blue]      "P"    lse-insert-buffer)
+      ([blue]      "Q"    lse-tpu:special-insert); 31-Aug-2002
+      ([blue gold] "Q"    lse-insert-buffer-name-plus-extension);  8-Dec-2007
+      ([blue gold] "R"    lse-revert-buffer);  8-Sep-2002
+      ([blue]      "S"    lse-insert-yyyymmdd+blank); 13-Nov-2014
+      ([blue gold] "S"    lse-insert-time+blank);     13-Nov-2014
+      ([blue]      "T"    lse-toggle-mark-window)
+      ([blue gold] "T"    lse-toggle-mark-buffer)
+      ([blue]      "V"    lse-align-to-previous-word-and-down)
+      ([blue]      "W"    lse-write-current-buffer)
+      ([blue gold] "W"    lse-save-some-buffers); 5-Apr-1998
+      ([blue]      "X"    lse-shell-command)
+      ([blue]      "Y"    lse-compile); 20-Feb-1995
+      ([blue gold] "Y"    lse-set-compile-command);  9-Jun-1995
+      ([blue]      "Z"    lse-insert-user-full-name)
+      ([blue gold] "Z"    lse-insert-user-name)
+    )
+  )
 
-  (global-set-key [blue      ?#]     'lse-count-matches)
-  (global-set-key [blue      ?*]     'lse-frame:list:show);  8-Dec-2009
-  (global-set-key [blue gold ?*]     'lse-show-all-buffers);  9-Dec-2009
-  (global-set-key [blue      ?/]     'lse-align-and-down)
-  (global-set-key [blue      ?=]     'lse-split-window-horizontally); 22-May-97
-  (global-set-key [blue      ??]     'lse-insert-key-name); 12-Jun-1994
-  (global-set-key [blue      ?\ ]    'lse-align-to-previous-word)
-  (global-set-asp [blue      ?\(]    'lse-select-bracketed-range)
-  (global-set-asp [blue      ?\<]    'lse-select-bracketed-range)
-  (global-set-asp [blue      ?\[]    'lse-select-bracketed-range)
-  (global-set-asp [blue      ?\{]    'lse-select-bracketed-range)
-  (global-set-asp [blue      ?\«]    'lse-select-bracketed-range)
-  (global-set-asp [pink      ?\(]    'lse-select-next-bracketed-range)
-  (global-set-asp [pink      ?\<]    'lse-select-next-bracketed-range)
-  (global-set-asp [pink      ?\[]    'lse-select-next-bracketed-range)
-  (global-set-asp [pink      ?\{]    'lse-select-next-bracketed-range)
-  (global-set-asp [pink      ?\«]    'lse-select-next-bracketed-range)
-  (global-set-key [blue      ?|]     'lse-insert-bars)
-  (global-set-key [blue      ?+]     'lse-pop+restore-window-configuration)
-  (global-set-key [blue      ?`]     'lse-frame:set-width:std);     5-Mar-1997
-  (global-set-key [blue      ?^]     'lse-frame:set-width:std);     5-Mar-1997
-  (global-set-key [blue      ?!]     'lse-frame:set-height:std);    8-Sep-2002
-  (global-set-key [blue      ?:]     'lse-frame:set-height:std);    8-Sep-2002
-  (global-set-key [blue gold ?`]     'lse-frame:set-width:double);  5-Mar-1997
-  (global-set-key [blue gold ?^]     'lse-frame:set-width:double);  5-Mar-1997
-  (global-set-key [blue gold ?!]     'lse-frame:set-height:small);  8-Sep-2002
-  (global-set-key [blue gold ?:]     'lse-frame:set-height:std);    8-Sep-2002
-  (global-set-key [blue      ?']     'lse-insert-backquote-quote); 26-Apr-1996
-  (global-set-key [blue      ?\"]    'lse-insert-double-backquote-quote); 26-Apr-1996
-  (global-set-key [blue      ?~]     'delete-trailing-whitespace)
-  (global-set-key [blue gold ?-]     'lse-delete-other-windows)
-  (global-set-key [blue gold ?=]     'lse-delete-window)
-  (global-set-key [blue gold ?\ ]    'set-fill-column)
-  (global-set-key [blue gold ?\(]    'lse-remove-parentheses)
-  (global-set-key [blue gold ?\[]    'lse-remove-brackets)
-  (global-set-key [blue gold ?\{]    'lse-remove-braces)
-  (global-set-key [blue gold ?\"]    'lse-remove-double-backquote-quote); 26-Apr-1996
-  (global-set-key [blue gold ?']     'lse-remove-backquote-quote); 26-Apr-1996
-  (global-set-key [blue gold ?~]     'lse-fill-range)
-  (global-set-key [blue ?-]          'negative-argument)
-  (global-set-key [blue      ?\C-f]  'lse-tpu:change-search-mode);  9-Oct-2007
-  (global-set-key [blue      ?\M-f]  'lse-grep); 31-Aug-2002
-  (global-set-key [blue gold ?\M-f]  'find-tag); 31-Aug-2002
-  (global-set-key [blue gold ?\C-f]  'lse-tpu:change-search-mode);  9-Oct-2007
-  (global-set-key [blue gold ?\A-i]  'auto-fill-mode)
-  (global-set-key [blue gold ?\C-i]  'auto-fill-mode)
-  (global-set-key [blue      ?\A-j]  'lse-tpu:delete-prev-word-append)
-  (global-set-key [blue      ?\A-m]  'lse-split-line-i)
-  (global-set-key [blue      ?\C-m]  'lse-split-line-i); 20-Jan-1998
-  (global-set-key [blue gold ?\A-m]  'lse-tpu:toggle-newline-and-indent)
-  (global-set-key [blue gold ?\C-m]  'lse-tpu:toggle-newline-and-indent)
-  (global-set-asp [blue      ?\C-n]  'lse-tpu:replace:goto-next);  7-Oct-2007
-  (global-set-asp [blue      ?\C-p]  'lse-tpu:replace:goto-prev);  7-Oct-2007
-  (global-set-key [blue      ?\A-w]  'lse-set-buffer-nowrite)
-  (global-set-key [blue gold ?\A-w]  'lse-set-buffer-write)
-  (global-set-key [blue      backspace] 'lse-tpu:delete-prev-char-append)
-  (global-set-key [blue      ?\C-:]     'lse-tpu:replace-all); 30-Aug-2002
-  (global-set-key [blue      ?\C-,]     'lse-tpu:exchange-point-and-mark); 12-Nov-2002
+  (lse-keys/define #'global-set-asp
+    '(
+      ([blue      ?\(]    lse-select-bracketed-range)
+      ([blue      ?\<]    lse-select-bracketed-range)
+      ([blue      ?\C-n]  lse-tpu:replace:goto-next);  7-Oct-2007
+      ([blue      ?\C-p]  lse-tpu:replace:goto-prev);  7-Oct-2007
+      ([blue      ?\[]    lse-select-bracketed-range)
+      ([blue      ?\{]    lse-select-bracketed-range)
+      ([blue      ?\«]    lse-select-bracketed-range)
+      ([pink      ?\(]    lse-select-next-bracketed-range)
+      ([pink      ?\<]    lse-select-next-bracketed-range)
+      ([pink      ?\[]    lse-select-next-bracketed-range)
+      ([pink      ?\{]    lse-select-next-bracketed-range)
+      ([pink      ?\«]    lse-select-next-bracketed-range)
+    )
+  )
+  (lse-keys/define #'global-set-key
+    '(
+      ([blue      ?!]        lse-frame:set-height:std);    8-Sep-2002
+      ([blue      ?#]        lse-count-matches)
+      ([blue      ?']        lse-insert-backquote-quote); 26-Apr-1996
+      ([blue      ?*]        lse-frame:list:show);  8-Dec-2009
+      ([blue      ?+]        lse-pop+restore-window-configuration)
+      ([blue      ?/]        lse-align-and-down)
+      ([blue      ?:]        lse-frame:set-height:std);    8-Sep-2002
+      ([blue      ?=]        lse-split-window-horizontally); 22-May-97
+      ([blue      ??]        lse-insert-key-name); 12-Jun-1994
+      ([blue      ?\ ]       lse-align-to-previous-word)
+      ([blue      ?\"]       lse-insert-double-backquote-quote); 26-Apr-1996
+      ([blue      ?\A-j]     lse-tpu:delete-prev-word-append)
+      ([blue      ?\A-m]     lse-split-line-i)
+      ([blue      ?\A-w]     lse-set-buffer-nowrite)
+      ([blue gold ?\C-w]     delete-frame); 13-Nov-2014
+      ([blue      ?\C-,]     lse-tpu:exchange-point-and-mark); 12-Nov-2002
+      ([blue      ?\C-:]     lse-tpu:replace-all); 30-Aug-2002
+      ([blue      ?\C-f]     lse-tpu:change-search-mode);  9-Oct-2007
+      ([blue      ?\C-m]     lse-split-line-i); 20-Jan-1998
+      ([blue      ?\M-f]     lse-grep); 31-Aug-2002
+      ([blue      ?^]        lse-frame:set-width:std);     5-Mar-1997
+      ([blue      ?`]        lse-frame:set-width:std);     5-Mar-1997
+      ([blue      ?|]        lse-insert-bars)
+      ([blue      ?~]        delete-trailing-whitespace)
+      ([blue      backspace] lse-tpu:delete-prev-char-append)
+      ([blue      ?-]        negative-argument)
+      ([blue gold ?!]        lse-frame:set-height:small);  8-Sep-2002
+      ([blue gold ?']        lse-remove-backquote-quote); 26-Apr-1996
+      ([blue gold ?*]        lse-show-all-buffers);  9-Dec-2009
+      ([blue gold ?-]        lse-delete-other-windows)
+      ([blue gold ?:]        lse-frame:set-height:std);    8-Sep-2002
+      ([blue gold ?=]        lse-delete-window)
+      ([blue gold ?\ ]       set-fill-column)
+      ([blue gold ?\"]       lse-remove-double-backquote-quote); 26-Apr-1996
+      ([blue gold ?\(]       lse-remove-parentheses)
+      ([blue gold ?\A-i]     auto-fill-mode)
+      ([blue gold ?\A-m]     lse-tpu:toggle-newline-and-indent)
+      ([blue gold ?\A-w]     lse-set-buffer-write)
+      ([blue gold ?\C-f]     lse-tpu:change-search-mode);  9-Oct-2007
+      ([blue gold ?\C-i]     auto-fill-mode)
+      ([blue gold ?\C-m]     lse-tpu:toggle-newline-and-indent)
+      ([blue gold ?\M-f]     find-tag); 31-Aug-2002
+      ([blue gold ?\[]       lse-remove-brackets)
+      ([blue gold ?\{]       lse-remove-braces)
+      ([blue gold ?^]        lse-frame:set-width:double);  5-Mar-1997
+      ([blue gold ?`]        lse-frame:set-width:double);  5-Mar-1997
+      ([blue gold ?~]        lse-fill-range)
+    )
+  )
 ; lse-define-tpu-blue-keys
 )
 
 ;;; 25-Aug-2002
 (defun lse-define-cursor-movements ()
   "Define cursor key combinations for char, word, and line movements"
-  (global-set-smk [left]            'lse-tpu:backward-char)
-  (global-set-smk [M-left]          'lse-tpu:next-beginning-of-line)
-  (global-set-smk [C-M-left]        'lse-tpu:previous-end-of-line)
-  (global-set-smk [C-left]          'lse-tpu:goto-prev-bs-word-head)
-  (global-set-smk [s-left]          'lse-tpu:goto-prev-word-head)
-  (global-set-smk [C-s-left]        'lse-tpu:goto-prev-bs-word-tail)
+  (lse-keys/define #'global-set-smk
+    '(
+      ([left]            lse-tpu:backward-char)
+      ([M-left]          lse-tpu:next-beginning-of-line)
+      ([C-M-left]        lse-tpu:previous-end-of-line)
+      ([C-left]          lse-tpu:goto-prev-bs-word-head)
+      ([s-left]          lse-tpu:goto-prev-word-head)
+      ([C-s-left]        lse-tpu:goto-prev-bs-word-tail)
 
-  (global-set-smk [right]           'lse-tpu:forward-char)
-  (global-set-smk [M-right]         'lse-tpu:forward-line)
-  (global-set-smk [C-M-right]       'lse-tpu:next-end-of-line)
-  (global-set-smk [C-right]         'lse-tpu:goto-next-word-head)
-  (global-set-smk [s-right]         'lse-tpu:goto-next-bs-word-tail)
-  (global-set-smk [C-s-right]       'lse-tpu:goto-next-word-tail)
+      ([right]           lse-tpu:forward-char)
+      ([M-right]         lse-tpu:forward-line)
+      ([C-M-right]       lse-tpu:next-end-of-line)
+      ([C-right]         lse-tpu:goto-next-word-head)
+      ([s-right]         lse-tpu:goto-next-bs-word-tail)
+      ([C-s-right]       lse-tpu:goto-next-word-tail)
+    )
+  )
 
-  (global-set-asp [C-up]            'lse-tpu:previous-paragraph); 18-May-2003
-  (global-set-asp [M-up]            'lse-tpu:previous-paragraph); 18-May-2003
-  (global-set-asp [C-down]          'lse-tpu:next-paragraph);     18-May-2003
-  (global-set-asp [M-down]          'lse-tpu:next-paragraph);     18-May-2003
+  (lse-keys/define #'global-set-asp
+    '(
+      ([C-up]            lse-tpu:previous-paragraph); 18-May-2003
+      ([M-up]            lse-tpu:previous-paragraph); 18-May-2003
+      ([C-down]          lse-tpu:next-paragraph);     18-May-2003
+      ([M-down]          lse-tpu:next-paragraph);     18-May-2003
 
-  (global-set-asp [gold M-left]     'lse-select-current-line)
-  (global-set-asp [gold C-left]     'lse-select-current-bs-word)
-  (global-set-asp [gold s-left]     'lse-select-current-word)
-  (global-set-asp [blue C-left]     'lse-copy-current-bs-word)
-  (global-set-asp [blue s-left]     'lse-copy-current-word)
+      ([gold M-left]     lse-select-current-line)
+      ([gold C-left]     lse-select-current-bs-word)
+      ([gold s-left]     lse-select-current-word)
+      ([blue C-left]     lse-copy-current-bs-word)
+      ([blue s-left]     lse-copy-current-word)
 
-  (global-set-asp [gold M-right]    'lse-select-current-line)
-  (global-set-asp [gold C-right]    'lse-select-current-word)
-  (global-set-asp [gold s-right]    'lse-select-current-bs-word)
-  (global-set-asp [blue C-right]    'lse-copy-current-word)
-  (global-set-asp [blue s-right]    'lse-copy-current-bs-word)
+      ([gold M-right]    lse-select-current-line)
+      ([gold C-right]    lse-select-current-word)
+      ([gold s-right]    lse-select-current-bs-word)
+      ([blue C-right]    lse-copy-current-word)
+      ([blue s-right]    lse-copy-current-bs-word)
 
-  (global-set-asp [A-end]           'lse-goto-last-fill-in);     11-Oct-2007
-  (global-set-asp [C-end]           'lse-tpu:move-to-end);       31-Aug-2002
-  (global-set-asp [A-home]          'lse-goto-first-fill-in);    11-Oct-2007
-  (global-set-asp [C-home]          'lse-tpu:move-to-beginning); 31-Aug-2002
-  (global-set-asp [C-next]          'lse-tpu:page-forward);      31-Aug-2002
-  (global-set-asp [C-prior]         'lse-tpu:page-backward);      8-Sep-2002
+      ([A-end]           lse-goto-last-fill-in);     11-Oct-2007
+      ([C-end]           lse-tpu:move-to-end);       31-Aug-2002
+      ([A-home]          lse-goto-first-fill-in);    11-Oct-2007
+      ([C-home]          lse-tpu:move-to-beginning); 31-Aug-2002
+      ([C-next]          lse-tpu:page-forward);      31-Aug-2002
+      ([C-prior]         lse-tpu:page-backward);      8-Sep-2002
+    )
+  )
 ; lse-define-cursor-movements
 )
 
 ;;; 25-Aug-2002
 (defun lse-define-deletion-keys ()
   "Define delete/backspace key combinations for char, word, and line deletions"
-  (global@set-smk [backspace]         'lse-tpu:delete-prev-char)
-  (global@set-smk [M-backspace]       'lse-tpu:delete-head-of-line)
-  (global@set-smk [?\e M-backspace]   'lse-tpu:delete-to-prev-tail-of-line)
-  (global@set-smk [C-M-backspace]     'lse-tpu:delete-to-prev-tail-of-line)
-  (global@set-smk [C-backspace]       'lse-tpu:delete-prev-bs-word)
-  (global@set-smk [s-backspace]       'lse-tpu:delete-prev-word)
-  (global@set-smk [C-s-backspace]     'lse-tpu:delete-prev-bs-word-tail)
+  (lse-keys/define #'global@set-smk
+    '(
+      ([backspace]         lse-tpu:delete-prev-char)
+      ([M-backspace]       lse-tpu:delete-head-of-line)
+      ([?\e C-backspace]   lse-tpu:delete-to-prev-tail-of-line)
+      ([C-M-backspace]     lse-tpu:delete-to-prev-tail-of-line)
+      ([C-backspace]       lse-tpu:delete-prev-bs-word)
+      ([s-backspace]       lse-tpu:delete-prev-word)
+      ([C-s-backspace]     lse-tpu:delete-prev-bs-word-tail)
 
-  (global@set-smk [delete]            'lse-tpu:delete-next-char)
-  (global@set-smk [M-delete]          'lse-tpu:delete-next-line)
-  (global@set-smk [?\e M-delete]      'lse-tpu:delete-tail-of-line)
-  (global@set-smk [C-M-delete]        'lse-tpu:delete-tail-of-line)
-  (global@set-smk [C-delete]          'lse-tpu:delete-next-word)
-  (global@set-smk [s-delete]          'lse-tpu:delete-next-bs-word-tail)
-  (global@set-smk [C-s-delete]        'lse-tpu:delete-next-word-tail)
+      ([delete]            lse-tpu:delete-next-char)
+      ([M-delete]          lse-tpu:delete-next-line)
+      ([?\e C-delete]      lse-tpu:delete-tail-of-line)
+      ([C-M-delete]        lse-tpu:delete-tail-of-line)
+      ([C-delete]          lse-tpu:delete-next-word)
+      ([s-delete]          lse-tpu:delete-next-bs-word-tail)
+      ([C-s-delete]        lse-tpu:delete-next-word-tail)
 
-  (global@set-smk [f34]               'lse-tpu:delete-prev-char-append)
-  (global@set-smk [M-f34]             'lse-tpu:delete-head-of-line-append)
-;  (global@set-smk [?\e M-f34]         'lse-tpu:delete-to-prev-tail-of-line-append)
-;  (global@set-smk [C-M-f34]           'lse-tpu:delete-to-prev-tail-of-line-append)
-;  (global@set-smk [C-f34]             'lse-tpu:delete-prev-bs-word-append)
-  (global@set-smk [s-f34]             'lse-tpu:delete-prev-word-append)
-;  (global@set-smk [C-s-f34]           'lse-tpu:delete-prev-bs-word-tail-append)
+      ([f34]               lse-tpu:delete-prev-char-append)
+      ([M-f34]             lse-tpu:delete-head-of-line-append)
+      ([s-f34]             lse-tpu:delete-prev-word-append)
 
-  (global@set-smk [f35]               'lse-tpu:delete-next-char-append)
-  (global@set-smk [M-f35]             'lse-tpu:delete-next-line-append)
-  (global@set-smk [?\e M-f35]         'lse-tpu:delete-tail-of-line-append)
-  (global@set-smk [C-M-f35]           'lse-tpu:delete-tail-of-line-append)
-  (global@set-smk [C-f35]             'lse-tpu:delete-next-word-append)
-;  (global@set-smk [s-f35]             'lse-tpu:delete-next-bs-word-tail-append)
-;  (global@set-smk [C-s-f35]           'lse-tpu:delete-next-word-tail-append)
+      ([f35]               lse-tpu:delete-next-char-append)
+      ([M-f35]             lse-tpu:delete-next-line-append)
+      ([?\e C-f35]         lse-tpu:delete-tail-of-line-append)
+      ([C-M-f35]           lse-tpu:delete-tail-of-line-append)
+      ([C-f35]             lse-tpu:delete-next-word-append)
+    )
+  )
 
-  (global-set-key [gold delete]       'lse-tpu:undelete-char)
-  (global-set-key [gold M-delete]     'lse-tpu:undelete-line)
-  (global-set-key [gold C-M-delete]   'lse-tpu:undelete-line)
-  (global-set-key [gold C-delete]     'lse-tpu:undelete-word)
-  (global-set-key [gold s-delete]     'lse-tpu:undelete-word)
-  (global-set-key [gold C-s-delete]   'lse-tpu:undelete-word)
+  (lse-keys/define #'global-set-key
+    '(
+      ([gold delete]       lse-tpu:undelete-char)
+      ([gold M-delete]     lse-tpu:undelete-line)
+      ([gold C-M-delete]   lse-tpu:undelete-line)
+      ([gold C-delete]     lse-tpu:undelete-word)
+      ([gold s-delete]     lse-tpu:undelete-word)
+      ([gold C-s-delete]   lse-tpu:undelete-word)
 
-  (global-set-key [A-delete]          'lse-tpu:cut-region)
-  (global-set-key [A-backspace]       'lse-tpu:cut-region)
-  (global-set-key [blue A-delete]     'lse-tpu:copy-region)
-  (global-set-key [blue A-backspace]  'lse-tpu:copy-region)
-  (global-set-key [A-f34]             'lse-tpu:cut-append-region)
-  (global-set-key [A-f35]             'lse-tpu:cut-append-region)
-  (global-set-key [blue A-f34]        'lse-tpu:copy-append-region)
-  (global-set-key [blue A-f35]        'lse-tpu:copy-append-region)
+      ([A-delete]          lse-tpu:cut-region)
+      ([A-backspace]       lse-tpu:cut-region)
+      ([blue A-delete]     lse-tpu:copy-region)
+      ([blue A-backspace]  lse-tpu:copy-region)
+      ([A-f34]             lse-tpu:cut-append-region)
+      ([A-f35]             lse-tpu:cut-append-region)
+      ([blue A-f34]        lse-tpu:copy-append-region)
+      ([blue A-f35]        lse-tpu:copy-append-region)
+    )
+  )
 ; lse-define-deletion-keys
 )
 
 ;;; 30-Aug-2002
 (defun lse-define-insertion-keys ()
   "Define insert key combinations for char, word, and line insertions"
-  (global-set-key [M-insert]         'lse-tpu:duplicate-previous-line)
-  (global-set-key [C-insert]         'lse-tpu:duplicate-previous-word)
-  (global-set-key [s-insert]         'lse-tpu:duplicate-previous-bs-word)
-  (global-set-key [C-M-insert]       'lse-tpu:duplicate-word-in-previous-line)
-
-  (global-set-key [insert]           'lse-tpu:paste-region); 2-Oct-2007
-  (global-set-key [gold insert]      'lse-tpu:paste-region)
-  (global-set-key [red  insert]      'lse-tpu:paste-region);  3-Apr-2008
+  (lse-keys/define #'global-set-key
+    '(
+      ([insert]           lse-tpu:paste-region); 2-Oct-2007
+      ([gold insert]      lse-tpu:paste-region)
+      ([red  insert]      lse-tpu:paste-region); 3-Apr-2008
+      ([M-insert]         lse-tpu:duplicate-previous-line)
+      ([C-insert]         lse-tpu:duplicate-previous-word)
+      ([s-insert]         lse-tpu:duplicate-previous-bs-word)
+      ([C-M-insert]       lse-tpu:duplicate-word-in-previous-line)
+    )
+  )
 ; lse-define-insertion-keys
 )
-
-;;; 29-Dec-1997
-(setq dos-keypad-mode t)
 
 ;;; 18-Dec-1997
 (defun lse-tpu-keys:where-is-1 (k show-all fmt)
@@ -1180,3 +1333,5 @@ electric `(` inserts `()` and positions point between the parentheses..."
   )
 ; lse-tpu-keys:matching-commands
 )
+
+;;; __END__ lse-tpu-keys.el

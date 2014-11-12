@@ -39,6 +39,7 @@
 ;;;;                     compilation keymap (they are too stupid!!!)
 ;;;;     9-Sep-1995 (CT) lse-compilation-mode-hook added
 ;;;;    10-Jan-1998 (CT) Moved Control-Keys to Alt-Keys
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define-in-map`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-compilation)
@@ -48,27 +49,43 @@
 (require 'lse-tpu-keys)
 
 (let ((map compilation-minor-mode-map))
-  (define-key map           [?\A-f]    'compile-goto-error)
-  (define-key map           [?\A-n]    'compilation-next-error)
-  (define-key map           [?\A-p]    'compilation-previous-error)
-  (define-key map           [?\ ]      nil);  7-Sep-1995
-  (define-key map           "\177"     nil);  7-Sep-1995
-  (lse-define-alpha-key map [gold] "b" 'lse-compilation:goto-last-mark)
-  (lse-define-alpha-key map [gold] "p" 'compilation-previous-file)
-  (lse-define-alpha-key map [gold] "n" 'compilation-next-file)
+  (lse-keys/define-in-map #'define-key map
+    '(
+      ([?\A-f]    compile-goto-error)
+      ([?\A-n]    compilation-next-error)
+      ([?\A-p]    compilation-previous-error)
+    )
+  )
+  (lse-keys/define-in-map #'lse-define-alpha-key map
+    '(
+      ([gold] "b" lse-compilation:goto-last-mark)
+      ([gold] "p" compilation-previous-file)
+      ([gold] "n" compilation-next-file)
+    )
+  )
+  (define-key map [?\ ]  nil);  7-Sep-1995
+  (define-key map "\177" nil);  7-Sep-1995
 )
 
 ;;;  9-Sep-1995
 (defun lse-compilation-mode-hook ()
   (let ((map (current-local-map)))
-    (define-key map           [?\A-f]    'compile-goto-error)
-    (define-key map           [?\A-n]    'compilation-next-error)
-    (define-key map           [?\A-p]    'compilation-previous-error)
-    (define-key map           [?\ ]      nil);  7-Sep-1995
-    (define-key map           "\177"     nil);  7-Sep-1995
-    (lse-define-alpha-key map [gold] "b" 'lse-compilation:goto-last-mark)
-    (lse-define-alpha-key map [gold] "p" 'compilation-previous-file)
-    (lse-define-alpha-key map [gold] "n" 'compilation-next-file)
+    (lse-keys/define-in-map #'define-key map
+      '(
+        ([?\A-f]    compile-goto-error)
+        ([?\A-n]    compilation-next-error)
+        ([?\A-p]    compilation-previous-error)
+      )
+    )
+    (lse-keys/define-in-map #'lse-define-alpha-key map
+      '(
+        ([gold] "b" lse-compilation:goto-last-mark)
+        ([gold] "p" compilation-previous-file)
+        ([gold] "n" compilation-next-file)
+      )
+    )
+    (define-key map [?\ ]  nil);  7-Sep-1995
+    (define-key map "\177" nil);  7-Sep-1995
   )
   (lse-tpu:auto-fill-mode:on)
   (lse-tpu:newline-and-indent:on)

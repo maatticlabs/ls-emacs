@@ -51,6 +51,7 @@
 ;;;;    10-Jan-1998 (CT) Moved most Control-Keys to Alt-Keys
 ;;;;    10-Nov-2010 (CT) Use `mapc` instead of `mapcar` where appropriate
 ;;;;    27-Feb-2012 (CT) Add `eval-when-compile` for `fset` (compile warning)
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define-in-map`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer-list)
@@ -79,31 +80,37 @@
 
 (defun lse-buffer-list::define-keys ()
   (let ((lmap (current-local-map)))
-    (define-key lmap [left]           'lse-tpu:goto-prev-bs-word-head)
-    (define-key lmap [right]          'lse-tpu:goto-next-bs-word-head)
-    (define-key lmap [kp-1]           'lse-tpu:goto-next-bs-word-head)
-    (define-key lmap [find]           'lse-buffer-list-goto-buffer)
-    (define-key lmap [select]         'lse-buffer-list-goto-buffer)
-    (define-key lmap [mouse-2]        'lse-buffer-list-mouse-goto-buffer)
+    (lse-keys/define-in-map #'define-key lmap
+      '(
+        ([left]           lse-tpu:goto-prev-bs-word-head)
+        ([right]          lse-tpu:goto-next-bs-word-head)
+        ([kp-1]           lse-tpu:goto-next-bs-word-head)
+        ([find]           lse-buffer-list-goto-buffer)
+        ([select]         lse-buffer-list-goto-buffer)
+        ([mouse-2]        lse-buffer-list-mouse-goto-buffer)
+        ([?\C-i]          lse-tpu:goto-next-bs-word-head)
+        ([tab]            lse-tpu:goto-next-bs-word-head)
+        ([?\A-i]          lse-tpu:goto-next-bs-word-head)
+        ([?\C-m]          lse-buffer-list-goto-buffer)
+        ([?\A-m]          lse-buffer-list-goto-buffer)
+        ([return]         lse-buffer-list-goto-buffer); 5-Jan-1998
+        ([?\C-z]          lse-goto-last-mark-global)
+        ([?\A-z]          lse-goto-last-mark-global)
+        (">"              lse-tpu:pan-right)
+        ("<"              lse-tpu:pan-left)
+      )
+    )
 
-    (define-key lmap [?\C-i]          'lse-tpu:goto-next-bs-word-head)
-    (define-key lmap [tab]            'lse-tpu:goto-next-bs-word-head)
-    (define-key lmap [?\A-i]          'lse-tpu:goto-next-bs-word-head)
-    (define-key lmap [?\C-m]          'lse-buffer-list-goto-buffer)
-    (define-key lmap [?\A-m]          'lse-buffer-list-goto-buffer)
-    (define-key lmap [return]         'lse-buffer-list-goto-buffer); 5-Jan-1998
-    (define-key lmap [?\C-z]          'lse-goto-last-mark-global)
-    (define-key lmap [?\A-z]          'lse-goto-last-mark-global)
-
-    (define-key lmap ">"              'lse-tpu:pan-right)
-    (define-key lmap "<"              'lse-tpu:pan-left)
-
-    (lse-define-alpha-key lmap [] "e" 'lse-buffer-list-delete-buffer)
-    (lse-define-alpha-key lmap [] "f" 'lse-buffer-list-goto-buffer)
-    (lse-define-alpha-key lmap [] "q" 'lse-goto-last-mark-global); 23-Jan-1995
-    (lse-define-alpha-key lmap [] "s" 'lse-buffer-list-sort)
-    (lse-define-alpha-key lmap [] "t" 'lse-buffer-list-toggle-field)
-    (lse-define-alpha-key lmap [] "w" 'lse-buffer-list-write-buffer)
+    (lse-keys/define-in-map #'lse-define-alpha-key lmap
+      '(
+        ([] "e" lse-buffer-list-delete-buffer)
+        ([] "f" lse-buffer-list-goto-buffer)
+        ([] "q" lse-goto-last-mark-global); 23-Jan-1995
+        ([] "s" lse-buffer-list-sort)
+        ([] "t" lse-buffer-list-toggle-field)
+        ([] "w" lse-buffer-list-write-buffer)
+      )
+    )
   )
 ; lse-buffer-list::define-keys
 )

@@ -73,6 +73,7 @@
 ;;;;    22-Oct-2014 (CT) Use `lse-face:font:6x13` instead of hard-coded value
 ;;;;     4-Nov-2014 (CT) Don't call `lse-set-shorthosted-frame-title`
 ;;;;     5-Nov-2014 (CT) Pass `frame-setup` parameter to `lse-frame:make`
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -415,15 +416,19 @@
   (lse-language:use "cal")
   (lse-cal:plan:setup-font-lock)
   (lse-key-template-tab-l); 10-Mar-2003
-  (local-set-key [M-down]  'lse-cal:plan:goto-day-forward)
-  (local-set-key [M-up]    'lse-cal:plan:goto-day-backward)
-  (local-set-key [M-home]  'lse-cal:plan:highlight-today)
-  (local-set-key [?\C-f]   'lse-cal:plan:search-forward);  5-Oct-2007
-  (local-set-key [?\s-f]   'lse-cal:plan:search-reverse);  5-Oct-2007
-  (local-set-key [?\C-n]   'lse-cal:plan:search-again-forward)
-  (local-set-key [?\C-p]   'lse-cal:plan:search-again-reverse)
-  (local-set-key [?\C-:]   'lse-cal:plan:replace)
-  (local-set-key [?\A-d]   'lse-cal:dabbrev-expand)
+  (lse-keys/define #'local-set-key
+    '(
+      ([M-down]  lse-cal:plan:goto-day-forward)
+      ([M-up]    lse-cal:plan:goto-day-backward)
+      ([M-home]  lse-cal:plan:highlight-today)
+      ([?\C-f]   lse-cal:plan:search-forward);  5-Oct-2007
+      ([?\s-f]   lse-cal:plan:search-reverse);  5-Oct-2007
+      ([?\C-n]   lse-cal:plan:search-again-forward)
+      ([?\C-p]   lse-cal:plan:search-again-reverse)
+      ([?\C-:]   lse-cal:plan:replace)
+      ([?\A-d]   lse-cal:dabbrev-expand)
+    )
+  )
   (set-buffer-modified-p nil)
   (lse-cal:plan:highlight-today)
 )
@@ -673,10 +678,14 @@
   "Major mode for calendar"
   (setq lse-cal:plan-buffer nil)
   (lse-cal:view:setup-font-lock)
-  (local-set-key [M-home] 'lse-cal:view:goto-month)
-  (local-set-key [down]   'lse-cal:view:goto-next-week)
-  (local-set-key [up]     'lse-cal:view:goto-prev-week)
-  (local-set-key [?\A-e]  'lse-cal:view:add-appointment)
+  (lse-keys/define #'local-set-key
+    '(
+      ([M-home] lse-cal:view:goto-month)
+      ([down]   lse-cal:view:goto-next-week)
+      ([up]     lse-cal:view:goto-prev-week)
+      ([?\A-e]  lse-cal:view:add-appointment)
+    )
+  )
   ; XXX setup key bindings for calendar navigation
   (setq mode-line-format (list (purecopy " Wk  Mo Tu We Th Fr Sa Su Month")))
   (set-buffer-modified-p nil)

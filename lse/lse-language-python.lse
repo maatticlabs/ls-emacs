@@ -78,6 +78,7 @@
 ;;;;     8-Apr-2013 (CT) Add `condition-case` to `lse-python:indent-line`
 ;;;;    12-Nov-2014 (CT) Adapt to `python-mode` 6.1.2
 ;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -186,37 +187,39 @@
 
   ;; unset locally defined keys listed by lse-python-mode:local-key-to-unset
   (mapc #'local-unset-key lse-python-mode:local-key-to-unset)
-
-  (local-set-asp   [red      ?a]     'lse-python:goto-function-head)
-  (local-set-asp   [pink     ?a]     'lse-python:goto-next-function-head)
-  (local-set-asp   [green    ?a]     'lse-python:goto-function-tail)
-  (local-set-asp   [red      ?b]     'lse-python:goto-begin-of-block)
-  (local-set-asp   [green    ?b]     'lse-python:goto-end-of-block)
-  (local-set-asp   [red      ?c]     'lse-python:goto-class-head)
-  (local-set-asp   [pink     ?c]     'lse-python:goto-next-class-head)
-  (local-set-asp   [green    ?c]     'lse-python:goto-class-tail)
-  (local-set-asp   [red      ?d]     'lse-python:goto-nearest-class-head)
-  (local-set-asp   [green    ?d]     'lse-python:goto-nearest-class-tail)
-  (local-set-asp   [red      ?e]     'lse-python:goto-function-tail)
-  (local-set-asp   [red      ?f]     'lse-python:goto-end-of-block)
-  (local-set-asp   [red      ?g]     'lse-python:goto-class-tail)
-  (local-set-asp   [red      ?i]     'lse-python:goto-nearest-function-head)
-  (local-set-asp   [green    ?i]     'lse-python:goto-nearest-function-tail)
-  (local-set-asp   [red      ?r]     'lse-python:goto-prev-statement)
-  (local-set-asp   [red      ?s]     'lse-python:goto-next-statement)
-  (local-set-asp   [green    ?s]     'lse-python:goto-prev-statement)
-  (local-set-asp   [red      ?t]     'lse-python:goto-next-doctest)
-  (local-set-asp   [green    ?t]     'lse-python:goto-prev-doctest)
-  (local-set-asp   [red      ?v]     'lse-python:goto-next-var-g)
-  (local-set-asp   [green    ?v]     'lse-python:goto-prev-var-g)
-  (local-set-asp   [red   right]     'lse-python:goto-next-statement)
-  (local-set-asp   [red   ?\C-e]     'lse-python:goto-next-statement-end)
-  (local-set-asp   [red    left]     'lse-python:goto-prev-statement)
-  (local-set-asp   [red   ?\C-a]     'lse-python:goto-prev-statement-end)
-  (local-set-asp   [red      up]     'lse-python:goto-begin-of-block)
-  (local-set-asp   [red    down]     'lse-python:goto-end-of-block)
-  (local-set-asp   [red  C-home]     'lse-python:goto-near-top-pos)
-
+  (lse-keys/define #'local-set-asp
+    '(
+      ([red      ?a]     lse-python:goto-function-head)
+      ([pink     ?a]     lse-python:goto-next-function-head)
+      ([green    ?a]     lse-python:goto-function-tail)
+      ([red      ?b]     lse-python:goto-begin-of-block)
+      ([green    ?b]     lse-python:goto-end-of-block)
+      ([red      ?c]     lse-python:goto-class-head)
+      ([pink     ?c]     lse-python:goto-next-class-head)
+      ([green    ?c]     lse-python:goto-class-tail)
+      ([red      ?d]     lse-python:goto-nearest-class-head)
+      ([green    ?d]     lse-python:goto-nearest-class-tail)
+      ([red      ?e]     lse-python:goto-function-tail)
+      ([red      ?f]     lse-python:goto-end-of-block)
+      ([red      ?g]     lse-python:goto-class-tail)
+      ([red      ?i]     lse-python:goto-nearest-function-head)
+      ([green    ?i]     lse-python:goto-nearest-function-tail)
+      ([red      ?r]     lse-python:goto-prev-statement)
+      ([red      ?s]     lse-python:goto-next-statement)
+      ([green    ?s]     lse-python:goto-prev-statement)
+      ([red      ?t]     lse-python:goto-next-doctest)
+      ([green    ?t]     lse-python:goto-prev-doctest)
+      ([red      ?v]     lse-python:goto-next-var-g)
+      ([green    ?v]     lse-python:goto-prev-var-g)
+      ([red   right]     lse-python:goto-next-statement)
+      ([red   ?\C-e]     lse-python:goto-next-statement-end)
+      ([red    left]     lse-python:goto-prev-statement)
+      ([red   ?\C-a]     lse-python:goto-prev-statement-end)
+      ([red      up]     lse-python:goto-begin-of-block)
+      ([red    down]     lse-python:goto-end-of-block)
+      ([red  C-home]     lse-python:goto-near-top-pos)
+    )
+  )
   (setq indent-line-function 'lse-python:indent-line)
   (lse-language:use "python")
 ; python-mode

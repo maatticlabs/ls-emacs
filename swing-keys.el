@@ -67,6 +67,7 @@
 ;;;;    12-Mar-2012 (CT) Bind `lse-tpu:goto-closing-char`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    12-Nov-2014 (CT) Fold swing-keys-v19.el in here
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -75,8 +76,6 @@
 
 (defun swing-define-gold-keys ()
   "Define Gold-Keys and related keys"
-  ;; 25-Feb-1998 ;; `find' isn't on the keyboard anymore
-  ;; (global-set-key [gold find]      'tags-search)
   (global-set-key [gold ?$]        'lse-check-isbn); 15-Oct-1995
 ; swing-define-gold-keys
 )
@@ -126,71 +125,82 @@
     '( ?\{ ?\[ ?\(
      )
   )
-  (global-set-asp [red      ?a]            'beginning-of-defun)
-  (global-set-asp [green    ?a]            'end-of-defun)
-  (global-set-asp [red      ?b]            'backward-sexp)
-  (global-set-asp [red      ?d]            'down-list)
-  (global-set-asp [green    ?d]            'up-list)
-  (global-set-asp [red      ?e]            'end-of-defun)
-  (global-set-asp [red      ?f]            'forward-sexp)
-  (global-set-asp [green    ?f]            'backward-sexp)
-  (global-set-asp [red      ?h]            'backward-up-list)
-  (global-set-asp [red      ?n]            'forward-list)
-  (global-set-asp [green    ?n]            'backward-list)
-  (global-set-asp [red      ?p]            'backward-list)
-  (global-set-asp [red      ?u]            'up-list)
-  (global-set-asp [red   ?\C-n]            'lse-tpu:goto-next-occurrence-current-word)
-  (global-set-asp [red   ?\C-p]            'lse-tpu:goto-prev-occurrence-current-word)
-  (global-set-key [red      ?y]            'lse-compile-defun)
-  (global-set-key [red      ?^]            'lse-tpu:add-at-bol); 17-Mar-1995
-  (global-set-key [green    ?^]            'global-hl-line-mode); 11-Nov-2001
-  (global-set-key [red      ?$]            'lse-tpu:add-at-eol); 17-Mar-1995
-  (global-set-asp [gray     ?\(]           'lse-tpu:goto-opening-char)
-  (global-set-asp [gray     ?\)]           'lse-tpu:goto-closing-char)
-  (global-set-asp [gray     ?\<]           'lse-tpu:goto-opening-char)
-  (global-set-asp [gray     ?\>]           'lse-tpu:goto-closing-char)
-  (global-set-asp [gray     ?\[]           'lse-tpu:goto-opening-char)
-  (global-set-asp [gray     ?\]]           'lse-tpu:goto-closing-char)
-  (global-set-asp [gray     ?\{]           'lse-tpu:goto-opening-char)
-  (global-set-asp [gray     ?\}]           'lse-tpu:goto-closing-char)
-  (global-set-asp [gray     ?\«]           'lse-tpu:goto-opening-char)
-  (global-set-key [red gold ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
-  (global-set-key [red gold ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
-  (global-set-key [gold red ?^]            'lse-tpu:remove-from-bol); 17-Mar-1995
-  (global-set-key [gold red ?$]            'lse-tpu:remove-from-eol); 17-Mar-1995
-  (global-set-key [red      select]        'mark-sexp)
-  (global-set-key [red      kp-6]          'lse-tpu:copy-current-defun)
-  (global-set-key [red      kp-7]          'lse-show-length);  5-Mar-1997
-  (global-set-key [red      pf4]           'lse-tpu:copy-current-line)
-  (global-set-key [red      insert]        'lse-tpu:copy-current-line); 31-Aug-2002
-  (global-set-key [red gold select]        'mark-defun)
-  (global-set-key [gold red select]        'mark-defun)
-  (global-set-key [red      ?\A-i]         'indent-sexp)
-  (global-set-key [red      ?\C-k]         'kill-sexp)
-  (global-set-key [red gold ?\C-k]         'yank)
-  (global-set-key [gold red ?\C-k]         'yank)
-  (global-set-key [red      ?\C-l]         'lse-show-length); 31-Aug-2002
-  (global-set-key [blue     red]           'ps-print-region-with-faces); 27-Sep-2000
-  (global-set-key [green    red]           'ps-print-buffer-with-faces); 10-Oct-2000
+  (lse-keys/define #'global-set-asp
+    '(
+      ([gray     ?\(]           lse-tpu:goto-opening-char)
+      ([gray     ?\)]           lse-tpu:goto-closing-char)
+      ([gray     ?\<]           lse-tpu:goto-opening-char)
+      ([gray     ?\>]           lse-tpu:goto-closing-char)
+      ([gray     ?\[]           lse-tpu:goto-opening-char)
+      ([gray     ?\]]           lse-tpu:goto-closing-char)
+      ([gray     ?\{]           lse-tpu:goto-opening-char)
+      ([gray     ?\}]           lse-tpu:goto-closing-char)
+      ([gray     ?\«]           lse-tpu:goto-opening-char)
+      ([green    ?a]            end-of-defun)
+      ([green    ?d]            up-list)
+      ([green    ?f]            backward-sexp)
+      ([green    ?n]            backward-list)
+      ([red      ?a]            beginning-of-defun)
+      ([red      ?b]            backward-sexp)
+      ([red      ?d]            down-list)
+      ([red      ?e]            end-of-defun)
+      ([red      ?f]            forward-sexp)
+      ([red      ?h]            backward-up-list)
+      ([red      ?n]            forward-list)
+      ([red      ?p]            backward-list)
+      ([red      ?u]            up-list)
+      ([red   ?\C-n]            lse-tpu:goto-next-occurrence-current-word)
+      ([red   ?\C-p]            lse-tpu:goto-prev-occurrence-current-word)
+    )
+  )
+  (lse-keys/define #'global-set-key
+    '(
+      ([blue     red]           ps-print-region-with-faces); 27-Sep-2000
+      ([gold red ?$]            lse-tpu:remove-from-eol); 17-Mar-1995
+      ([gold red ?\C-k]         yank)
+      ([gold red ?^]            lse-tpu:remove-from-bol); 17-Mar-1995
+      ([gold red select]        mark-defun)
+      ([green    ?^]            global-hl-line-mode); 11-Nov-2001
+      ([green    red]           ps-print-buffer-with-faces); 10-Oct-2000
+      ([red      ?$]            lse-tpu:add-at-eol); 17-Mar-1995
+      ([red      ?\A-i]         indent-sexp)
+      ([red      ?\C-k]         kill-sexp)
+      ([red      ?\C-l]         lse-show-length); 31-Aug-2002
+      ([red      ?^]            lse-tpu:add-at-bol); 17-Mar-1995
+      ([red      ?y]            lse-compile-defun)
+      ([red      insert]        lse-tpu:copy-current-line); 31-Aug-2002
+      ([red      kp-6]          lse-tpu:copy-current-defun)
+      ([red      kp-7]          lse-show-length);  5-Mar-1997
+      ([red      pf4]           lse-tpu:copy-current-line)
+      ([red      select]        mark-sexp)
+      ([red gold ?$]            lse-tpu:remove-from-eol); 17-Mar-1995
+      ([red gold ?\C-k]         yank)
+      ([red gold ?^]            lse-tpu:remove-from-bol); 17-Mar-1995
+      ([red gold select]        mark-defun)
+    )
+  )
 ; swing-define-red-keys
 )
 
 (defun swing-define-blue-tab-keys ()
   "Define keys of BLUE-TAB keymap"
-  (global-set-key [blue ?\C-i ?\ ]    'just-one-space)
-  (global-set-key [blue ?\C-i ?t]     'lse-tpu:toggle-newline-and-indent)
-  (global-set-key [blue ?\C-i ?<]     'lse-set-tab-increment)
-  (global-set-key [blue ?\C-i ?\{]    'lse-clean-empty-braces);   2-Jan-1998
-  (global-set-key [blue ?\C-i ?\[]    'lse-clean-empty-brackets); 2-Jan-1998
-  (global-set-key [blue ?\C-i ?\(]    'lse-clean-empty-parens);   2-Jan-1998
-  (global-set-key [blue ?\C-i ?\C-i]  'lse-set-tab-increment)
-  (global-set-key [blue ?\C-i ?\C-m]  'delete-blank-lines)
-  (global-set-key [blue ?\C-i ?\177]  'lse-close-line-up)
-  (global-set-key [blue ?\C-i delete] 'lse-close-line-down)
+  (lse-keys/define #'global-set-key
+    '(
+      ([blue ?\C-i ?\ ]    just-one-space)
+      ([blue ?\C-i ?t]     lse-tpu:toggle-newline-and-indent)
+      ([blue ?\C-i ?<]     lse-set-tab-increment)
+      ([blue ?\C-i ?\{]    lse-clean-empty-braces);   2-Jan-1998
+      ([blue ?\C-i ?\[]    lse-clean-empty-brackets); 2-Jan-1998
+      ([blue ?\C-i ?\(]    lse-clean-empty-parens);   2-Jan-1998
+      ([blue ?\C-i ?\C-i]  lse-set-tab-increment)
+      ([blue ?\C-i ?\C-m]  delete-blank-lines)
+      ([blue ?\C-i ?\177]  lse-close-line-up)
+      ([blue ?\C-i delete] lse-close-line-down)
 
-  (global-set-key [blue ?\C-i kp-0]   'split-line)
-  ;; 25-Feb-1998 ;; `home' instead of `insert'
-  (global-set-key [blue ?\C-i home]   'back-to-indentation)
+      ([blue ?\C-i kp-0]   split-line)
+      ([blue ?\C-i home]   back-to-indentation)
+    )
+  )
 ; swing-define-blue-tab-keys
 )
 

@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -57,6 +57,7 @@
 ;;;;                     fix for stray `»` at eob added
 ;;;;     1-Jun-2011 (CT) `lse-mail:exit` factored
 ;;;;     9-Jun-2011 (CT) `visual-line-mode` removed again
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 (lse-language:define "mail"
@@ -234,8 +235,12 @@
 (defun lse-mail:mh-setup-hook ()
   (when (integerp (string-match "^[1-9][0-9]*$" (buffer-name)))
     (lse-mail-mode)
-    (local-set-key [?\C-c ?\C-c] 'lse-mail:mh-exit)
-    (local-set-key [?\C-x ?#]    'lse-mail:mh-exit)
+    (lse-keys/define #'local-set-key
+      '(
+        ([?\C-c ?\C-c] lse-mail:mh-exit)
+        ([?\C-x ?#]    lse-mail:mh-exit)
+       )
+    )
     (lse-tpu:move-to-beginning)
     (lse-tpu:insert "\n"); insert extra blank line
     (lse-tpu:move-to-beginning)
@@ -307,8 +312,12 @@
 (defun lse-mail:pma-setup-hook ()
   (when (integerp (string-match "PMA/.drafts/" (buffer-file-name)))
     (lse-mail-mode)
-    (local-set-key [?\C-c ?\C-c] 'lse-mail:pma-exit)
-    (local-set-key [?\C-x ?#]    'lse-mail:pma-exit)
+    (lse-keys/define #'local-set-key
+      '(
+        ([?\C-c ?\C-c] lse-mail:pma-exit)
+        ([?\C-x ?#]    lse-mail:pma-exit)
+       )
+    )
     (lse-tpu:move-to-beginning)
     (lse-goto-next-fill-in)
   )

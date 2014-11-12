@@ -99,6 +99,7 @@
 ;;;;                     `lse-frame:make`
 ;;;;     7-Nov-2014 (CT) Add `(display :never)` to `frameset-filter-alist`
 ;;;;     7-Nov-2014 (CT) Add `lse-frame:never-save-parameters`
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -892,19 +893,19 @@
 
 ;;;  8-Dec-2009
 (defun lse-frame:list:define-keys ()
-  (let ((lmap (current-local-map)))
-    (local-set-key [?\A-g]          'lse-frame:list:abort)
-    (local-set-key [?\C-g]          'lse-frame:list:abort)
-
-    (local-set-key [gold ?f]        'lse-frame:list:restrict)
-    (local-set-key [blue ?f]        'lse-frame:list:unstrict)
-    (local-set-key [?r]             'lse-frame:list:restrict)
-    (local-set-key [?u]             'lse-frame:list:unstrict)
-
-    (local-set-key [mouse-2]        'lse-frame:list:select)
-    (local-set-key [return]         'lse-frame:list:select)
-    (local-set-key [select]         'lse-frame:list:select)
-    (local-set-key [tab]            'lse-frame:list:select)
+  (lse-keys/define #'local-set-key
+    '(
+      ([?\A-g]          lse-frame:list:abort)
+      ([?\C-g]          lse-frame:list:abort)
+      ([gold ?f]        lse-frame:list:restrict)
+      ([blue ?f]        lse-frame:list:unstrict)
+      ([?r]             lse-frame:list:restrict)
+      ([?u]             lse-frame:list:unstrict)
+      ([mouse-2]        lse-frame:list:select)
+      ([return]         lse-frame:list:select)
+      ([select]         lse-frame:list:select)
+      ([tab]            lse-frame:list:select)
+    )
   )
 ; lse-frame:list:define-keys
 )

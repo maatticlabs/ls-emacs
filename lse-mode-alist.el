@@ -70,6 +70,7 @@
 ;;;;                     `lse-cal:diary:prev-day` to `lse-diary-mode`
 ;;;;    28-May-2011 (CT) `lse-git:setup-hook` added
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-mode-alist)
@@ -158,9 +159,13 @@
                        (lookup-key (current-local-map) "\C-i")
         )
     )
-    (local-set-key [gold ?\"] 'lse-insert-dquotes); 7-Oct-1996 ; 'self-insert-pair
-    (local-set-key "\""       'self-insert-command)
-    (local-set-key ","        'lse-insert-comma-tex)
+    (lse-keys/define #'local-set-key
+      '(
+        ([gold ?\"] lse-insert-dquotes); 7-Oct-1996 ; 'self-insert-pair
+        ("\""       self-insert-command)
+        (","        lse-insert-comma-tex)
+      )
+    )
     (local-unset-key "\n")
     (local-unset-key "\C-j")
     (local-unset-key "{");  9-Mar-2003
@@ -213,10 +218,14 @@
   "Major mode for diary"
   (lse-language:use "diary")
   (lse-key-template-tab-l); 10-Mar-2003
-  (local-set-key [M-home]    'lse-cal:switch-diary)
-  (local-set-key [s-home]    'lse-cal:switch-diary)
-  (local-set-key [red right] 'lse-cal:diary:next-day)
-  (local-set-key [red left]  'lse-cal:diary:prev-day)
+  (lse-keys/define #'local-set-key
+    '(
+      ([M-home]    lse-cal:switch-diary)
+      ([s-home]    lse-cal:switch-diary)
+      ([red right] lse-cal:diary:next-day)
+      ([red left]  lse-cal:diary:prev-day)
+    )
+  )
 )
 
 ;;;  1-May-1999

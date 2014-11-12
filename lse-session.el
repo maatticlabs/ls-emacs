@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2012 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -67,6 +67,7 @@
 ;;;;    12-Nov-2009 (CT) `lse-new-site-info` and functions using it added
 ;;;;                     (and: site-specific function definitions removed)
 ;;;;    23-Jul-2010 (CT) `lse-insert-date-time-comment` added
+;;;;    13-Nov-2014 (CT) Add `lse-yyyy-mm-dd`, `lse-yyyymmdd` + insert functions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -141,9 +142,7 @@
 
 (defun lse-dd-mm-yyyy ()
   (format "%s.%s.%s"
-          (lse-date-day)
-          (lse-month-mm (lse-date-month))
-          (lse-date-year)
+    (lse-date-day) (lse-month-mm (lse-date-month)) (lse-date-year)
   );  6-Feb-2002
 )
 
@@ -159,9 +158,22 @@
 
 ;;; 26-Aug-1998
 (defun lse-yyyy/mm/dd ()
-  (format "%4s/%2.2d/%2s" (lse-date-year)
-                          (lse-month-mm (lse-date-month))
-                          (lse-date-day0)
+  (format "%4s/%2.2d/%2s"
+    (lse-date-year) (lse-month-mm (lse-date-month)) (lse-date-day0)
+  )
+)
+
+;;; 13-Nov-2014
+(defun lse-yyyy-mm-dd ()
+  (format "%4s-%2.2d-%2s"
+    (lse-date-year) (lse-month-mm (lse-date-month)) (lse-date-day0)
+  )
+)
+
+;;; 13-Nov-2014
+(defun lse-yyyymmdd ()
+  (format "%4s%2.2d%2s"
+    (lse-date-year) (lse-month-mm (lse-date-month)) (lse-date-day0)
   )
 )
 
@@ -175,6 +187,34 @@
 (defun lse-insert-yyyy/mm/dd+blank ()
   (interactive "*")
   (lse-insert+blank-maybe (format "%10s" (lse-yyyy/mm/dd)))
+)
+
+;;; 13-Nov-2014
+(defun lse-insert-yyyy-mm-dd ()
+  (interactive "*")
+  (lse-tpu:insert (format "%8s" (lse-yyyy-mm-dd)))
+; lse-insert-yyyy-mm-dd
+)
+
+;;; 13-Nov-2014
+(defun lse-insert-yyyy-mm-dd+blank ()
+  (interactive "*")
+  (lse-insert+blank-maybe (format "%8s" (lse-yyyy-mm-dd)))
+; lse-insert-yyyy-mm-dd+blank
+)
+
+;;; 13-Nov-2014
+(defun lse-insert-yyyymmdd ()
+  (interactive "*")
+  (lse-tpu:insert (format "%8s" (lse-yyyymmdd)))
+; lse-insert-yyyymmdd
+)
+
+;;; 13-Nov-2014
+(defun lse-insert-yyyymmdd+blank ()
+  (interactive "*")
+  (lse-insert+blank-maybe (format "%8s" (lse-yyyymmdd)))
+; lse-insert-yyyymmdd+blank
 )
 
 (defun lse-insert-time ()
@@ -462,3 +502,5 @@ This is correct only if the locally used domain is a valid internet domain.
     )
   )
 )
+
+;;; __END__ lse-session.el

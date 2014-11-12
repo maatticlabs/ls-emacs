@@ -40,6 +40,7 @@
 ;;;;    27-May-2008 (CT) s/c-guess-basic-syntax/c-guess-basic-syntax-hide!/
 ;;;;                     (broken in Emacs 22.2 or earlier)
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -84,11 +85,14 @@
   (setq indent-line-function 'lse-indent-line);                29-Dec-98
   (setq comment-line-break-function 'indent-new-comment-line); 30-Dec-98
 
-  (local-set-key [C-next]  'lse-cc:goto-next-class-section); 29-Dec-1998
-  (local-set-key [C-prior] 'lse-cc:goto-prev-class-section); 29-Dec-1998
-
-  (local-set-key [red ?c]  'lse-cc:goto-class-head);         30-Dec-1998
-  (local-set-key [red ?g]  'lse-cc:goto-class-tail);         30-Dec-1998
+  (lse-keys/define #'local-set-key
+    '(
+      ([C-next]  lse-cc:goto-next-class-section); 29-Dec-1998
+      ([C-prior] lse-cc:goto-prev-class-section); 29-Dec-1998
+      ([red ?c]  lse-cc:goto-class-head);         30-Dec-1998
+      ([red ?g]  lse-cc:goto-class-tail);         30-Dec-1998
+    )
+  )
 ; lse-c++-mode-hook
 )
 (add-hook 'c++-mode-hook 'lse-c++-mode-hook)

@@ -165,6 +165,7 @@
 ;;;;                     `lse-tpu:mouse-paste`
 ;;;;    12-Nov-2014 (CT) Factor `lse-tpu:newline-and-indent:off` and `...:on`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -733,8 +734,12 @@ Accepts a prefix argument of the number of characters to invert."
   (interactive)
   (setq lse-tpu:newline-and-indent-string "")
   (setq lse-tpu:newline-and-indent-p      nil)
-  (global-set-key [?\A-m]  'newline-and-indent)
-  (global-set-key [return] 'newline)
+  (lse-keys/define #'global-set-key
+    '(
+      ([?\A-m]  newline-and-indent)
+      ([return] newline)
+    )
+  )
   (lse-tpu:update-mode-line)
 ; lse-tpu:newline-and-indent:off
 )
@@ -745,8 +750,12 @@ Accepts a prefix argument of the number of characters to invert."
   (interactive)
   (setq lse-tpu:newline-and-indent-string " AI")
   (setq lse-tpu:newline-and-indent-p      t)
-  (global-set-key [?\A-m]  'newline)
-  (global-set-key [return] 'newline-and-indent)
+  (lse-keys/define #'global-set-key
+    '(
+      ([?\A-m]  newline)
+      ([return] newline-and-indent)
+    )
+  )
   (lse-tpu:update-mode-line)
 ; lse-tpu:newline-and-indent:on
 )

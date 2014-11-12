@@ -101,10 +101,14 @@
 ;;;;    21-Oct-2014 (CT) Add `[?\C-x?5?*]` to `lse-keys:emacs-bindings-to-unset`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    12-Nov-2014 (CT) Fold lse-keys-v19.el in here
+;;;;    12-Nov-2014 (CT) Move some functions to `lse-tpu-keys.el`
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-keys)
+
+(require 'lse-tpu-keys)
 
 ;;; 13-Nov-2009
 (if (fboundp 'normal-erase-is-backspace-mode)
@@ -120,6 +124,7 @@
       [?\C-x?6]
       [M-home] [M-end]
       [modeline C-mouse-2]
+      [mode-line C-mouse-3]
       [modeline mouse-2]
       [modeline mouse-3]
      )
@@ -148,39 +153,51 @@
 (defvar lse-key:toggle-tab-p nil)
 (make-variable-buffer-local 'lse-key:toggle-tab-p)
 
-(defmacro lse-key-cmd (&rest args)
-  `(lambda () (interactive) ,@args)
-)
-
 ;;; 22-Oct-2002
 (defun lse-key-std-tab-g ()
   (interactive)
-  (global-set-key [tab]   'lse-tabulator)
-  (global-set-key [C-tab] 'lse-goto-next-fill-in)
+  (lse-keys/define #'global-set-key
+    '(
+      ([tab]   lse-tabulator)
+      ([C-tab] lse-goto-next-fill-in)
+    )
+  )
 ; lse-key-std-tab-g
 )
 
 ;;; 22-Oct-2002
 (defun lse-key-template-tab-g ()
   (interactive)
-  (global-set-key [tab]   'lse-goto-next-fill-in)
-  (global-set-key [C-tab] 'lse-tabulator)
+  (lse-keys/define #'global-set-key
+    '(
+      ([tab]   lse-goto-next-fill-in)
+      ([C-tab] lse-tabulator)
+    )
+  )
 ; lse-key-template-tab-g
 )
 
 ;;; 22-Oct-2002
 (defun lse-key-std-tab-l ()
   (interactive)
-  (local-set-key  [tab]   'lse-tabulator)
-  (local-set-key  [C-tab] 'lse-goto-next-fill-in)
+  (lse-keys/define #'local-set-key
+    '(
+      ([tab]   lse-tabulator)
+      ([C-tab] lse-goto-next-fill-in)
+    )
+  )
 ; lse-key-std-tab-l
 )
 
 ;;; 22-Oct-2002
 (defun lse-key-template-tab-l ()
   (interactive)
-  (local-set-key  [tab]   'lse-goto-next-fill-in)
-  (local-set-key  [C-tab] 'lse-tabulator)
+  (lse-keys/define #'local-set-key
+    '(
+      ([tab]   lse-goto-next-fill-in)
+      ([C-tab] lse-tabulator)
+    )
+  )
 ; lse-key-template-tab-l
 )
 
@@ -243,101 +260,79 @@
   ;;--
 
   (lse-key-std-tab-g); 22-Oct-2002
-  (global-set-key [          ?\A-b] 'lse-goto-parent-expansion-head); 17-Oct-1996
-  (global-set-key [          ?\s-b] 'lse-goto-parent-expansion-head); 17-Oct-1996
-  (global-set-key [          ?\s-n] 'lse-goto-next-expansion); 11-Oct-1996
-  (global-set-key [          ?\M-n] 'lse-fill-in-marks:goto-next-head); 29-Dec-1997
-  (global-set-key [       ?\M-\s-n] 'lse-fill-in-marks:goto-next-tail); 29-Dec-1997
-  (global-set-key [          ?\s-p] 'lse-goto-prev-expansion); 11-Oct-1996
-  (global-set-key [          ?\M-p] 'lse-fill-in-marks:goto-prev-head); 29-Dec-1997
-  (global-set-key [       ?\M-\s-p] 'lse-fill-in-marks:goto-prev-tail); 29-Dec-1997
+  (lse-keys/define #'global-set-key
+    '(
+      ([          ?\A-b] lse-goto-parent-expansion-head); 17-Oct-1996
+      ([          ?\s-b] lse-goto-parent-expansion-head); 17-Oct-1996
+      ([          ?\s-n] lse-goto-next-expansion); 11-Oct-1996
+      ([          ?\M-n] lse-fill-in-marks:goto-next-head); 29-Dec-1997
+      ([       ?\M-\s-n] lse-fill-in-marks:goto-next-tail); 29-Dec-1997
+      ([          ?\s-p] lse-goto-prev-expansion); 11-Oct-1996
+      ([          ?\M-p] lse-fill-in-marks:goto-prev-head); 29-Dec-1997
+      ([       ?\M-\s-p] lse-fill-in-marks:goto-prev-tail); 29-Dec-1997
 
-  (global-set-key [          ?\A-e] 'lse-expand-token)
-  (global-set-key [gold      ?\A-e] 'lse-unexpand-fill-in); 28-Dec-1997
-  (global-set-key [blue      ?\A-e] 'lse-reexpand-fill-in);  2-Jan-1998
+      ([          ?\A-e] lse-expand-token)
+      ([gold      ?\A-e] lse-unexpand-fill-in); 28-Dec-1997
+      ([blue      ?\A-e] lse-reexpand-fill-in);  2-Jan-1998
 
-  (global-set-key [blue      ?\A-f] 'lse-window:restore-temp-hidden)
-  (global-set-key [          ?\M-f] 'lse-fill-in-marks:goto-open-tail); 18-Nov-2009
-  (global-set-key [          ?\M-b] 'lse-fill-in-marks:goto-open-head); 18-Nov-2009
+      ([blue      ?\A-f] lse-window:restore-temp-hidden)
+      ([          ?\M-f] lse-fill-in-marks:goto-open-tail); 18-Nov-2009
+      ([          ?\M-b] lse-fill-in-marks:goto-open-head); 18-Nov-2009
 
-  (global-set-key [          ?\A-k] 'lse-kill-fill-in)
-  (global-set-key [       ?\s-\A-k] 'lse-kill-fill-in-join-sexp);  1-Jan-1999
-  (global-set-key [gold      ?\A-k] 'lse-unkill-fill-in); 28-Dec-1997
-  (global-set-key [blue gold ?\A-k] 'lse-kill-all-optional-fill-ins);  2-Jan-1998
-  (global-set-key [red       ?\A-k] 'lse-kill-all-optional-fill-ins-line); 1-Jan-1999
+      ([          ?\A-k] lse-kill-fill-in)
+      ([       ?\s-\A-k] lse-kill-fill-in-join-sexp);  1-Jan-1999
+      ([gold      ?\A-k] lse-unkill-fill-in); 28-Dec-1997
+      ([blue gold ?\A-k] lse-kill-all-optional-fill-ins);  2-Jan-1998
+      ([red       ?\A-k] lse-kill-all-optional-fill-ins-line); 1-Jan-1999
 
-  (global-set-key [          ?\A-n] 'lse-goto-next-fill-in)
-  (global-set-key [gold      ?\A-n] 'lse-tpu:goto-last-position)
+      ([          ?\A-n] lse-goto-next-fill-in)
+      ([gold      ?\A-n] lse-tpu:goto-last-position)
 
-  (global-set-key [          ?\A-p] 'lse-goto-prev-fill-in); 11-Oct-1996
-  (global-set-key [gold      ?\A-p] 'lse-tpu:goto-last-position)
+      ([          ?\A-p] lse-goto-prev-fill-in); 11-Oct-1996
+      ([gold      ?\A-p] lse-tpu:goto-last-position)
 
-  (global-set-key [          ?\A-r] 'lse-replace-fill-in); 17-Dec-1997 ALT
-  (global-set-key [gold      ?\A-r] 'lse-unreplace-fill-in); 28-Dec-1997
-  (global-set-key [blue      ?\A-r] 'lse-rereplace-fill-in);  2-Jan-1998
-  (global-set-key [    ?\A-\M-\C-r] 'lse-flush-replacement); 20-Aug-1995
-  (global-set-key [          ?\A-s] 'lse-replicate-fill-in); 12-Dec-2002
+      ([          ?\A-r] lse-replace-fill-in); 17-Dec-1997 ALT
+      ([gold      ?\A-r] lse-unreplace-fill-in); 28-Dec-1997
+      ([blue      ?\A-r] lse-rereplace-fill-in);  2-Jan-1998
+      ([    ?\A-\M-\C-r] lse-flush-replacement); 20-Aug-1995
+      ([          ?\A-s] lse-replicate-fill-in); 12-Dec-2002
 
-  (global-set-key [blue gold ?\A-s] 'lse-replicate-fill-ins-line);  1-Jan-1999
+      ([blue gold ?\A-s] lse-replicate-fill-ins-line);  1-Jan-1999
+    )
+  )
 
   ;; 13-Dec-1997
   ;; Keys in text-property keymap for flat fill-ins
-  (lse-flat-fill-in:define-key [backspace]       'lse-kill-current-fill-in)
-  (lse-flat-fill-in:define-key [delete]          'lse-kill-current-fill-in)
-  (lse-flat-fill-in:define-key [help]            'lse-help-fill-in)
-  (lse-flat-fill-in:define-key [return]          'lse-flat-fill-in:open-line); 4-Jan-1998
-  (lse-flat-fill-in:define-key [tab]             'lse-expand)
-  (lse-flat-fill-in:define-key [C-tab]           'lse-tabulator); 22-Oct-2002
-  (lse-flat-fill-in:define-key [C-backspace]     'lse-flat-fill-in:remove-prev-blank-line); 13-Sep-2002
-  (lse-flat-fill-in:define-key [M-backspace]     'lse-flat-fill-in:remove-leading-whitespace); 13-Sep-2002
-  (lse-flat-fill-in:define-key [C-delete]        'lse-flat-fill-in:remove-next-blank-line); 13-Sep-2002
-  (lse-flat-fill-in:define-key [M-delete]        'lse-flat-fill-in:remove-trailing-whitespace); 13-Sep-2002
-  (lse-flat-fill-in:define-key [?\A-e]           'lse-expand)
-  (lse-flat-fill-in:define-key [?\A-i]           'lse-expand)
-  (lse-flat-fill-in:define-key [?\A-j]           'lse-flat-fill-in:remove-leading-whitespace); 18-Jan-1998
-  (lse-flat-fill-in:define-key [?\C-k]           'lse-flat-fill-in:remove-next-blank-line); 13-Sep-2002
-  (lse-flat-fill-in:define-key [?\C-m]           'lse-flat-fill-in:open-line); 4-Jan-1998
-  (lse-flat-fill-in:define-key [?\A-o]           'lse-describe-fill-in)
-  (lse-flat-fill-in:define-key [?\C-o]           'lse-flat-fill-in:open-line)
-  (lse-flat-fill-in:define-key [?\A-q]           'lse-replicate-menu); 10-Mar-1996
-  (lse-flat-fill-in:define-key [?\A-r]           'lse-replace-fill-in)
-  (lse-flat-fill-in:define-key [?\A-s]           'lse-replicate-fill-in)
-  (lse-flat-fill-in:define-key [?\A-u]           'lse-flat-fill-in:remove-prev-blank-line); 5-Jan-1998
-  (lse-flat-fill-in:define-key [blue ?\ ]        'lse-flat-fill-in:align-to-previous-word)
-  (lse-flat-fill-in:define-key [gold ?\ ]        'lse-flat-fill-in:align-to-next-word)
-  (lse-flat-fill-in:define-key [gold ?\A-o]      'lse-help-fill-in);  2-Jan-1998
-  (lse-flat-fill-in:define-key [mouse-2]         'lse-flat-fill-in:replace-and-mouse-yank)
-; lse-define-std-keys
-)
-
-(defun lse-key-name (key-seq)
-  (interactive "kPress key")
-  (concat "`" (key-description key-seq) "'")
-; lse-key-name
-)
-
-(defun lse-insert-key-name (key)
-  "The name of key is inserted into current buffer"
-  (interactive "kKey ")
-  (insert (key-description key))
-; lse-insert-key-name
-)
-
-(defun lse-insert-key-definition (key)
-  "The definition of key is inserted into current buffer"
-  (interactive "kKey to describe ")
-  (let ((binding (key-binding key))
-       )
-    (if (or (null binding) (integerp binding))
-        (message "%s is undefined" (key-description key))
-      (insert
-        (format "%s"
-                (if (symbolp binding) binding (prin1-to-string binding))
-        )
-      )
+  (lse-keys/define #'lse-flat-fill-in:define-key
+    '(
+      ([backspace]       lse-kill-current-fill-in)
+      ([delete]          lse-kill-current-fill-in)
+      ([help]            lse-help-fill-in)
+      ([return]          lse-flat-fill-in:open-line); 4-Jan-1998
+      ([tab]             lse-expand)
+      ([C-tab]           lse-tabulator); 22-Oct-2002
+      ([C-backspace]     lse-flat-fill-in:remove-prev-blank-line); 13-Sep-2002
+      ([M-backspace]     lse-flat-fill-in:remove-leading-whitespace); 13-Sep-2002
+      ([C-delete]        lse-flat-fill-in:remove-next-blank-line); 13-Sep-2002
+      ([M-delete]        lse-flat-fill-in:remove-trailing-whitespace); 13-Sep-2002
+      ([?\A-e]           lse-expand)
+      ([?\A-i]           lse-expand)
+      ([?\A-j]           lse-flat-fill-in:remove-leading-whitespace); 18-Jan-1998
+      ([?\C-k]           lse-flat-fill-in:remove-next-blank-line); 13-Sep-2002
+      ([?\C-m]           lse-flat-fill-in:open-line); 4-Jan-1998
+      ([?\A-o]           lse-describe-fill-in)
+      ([?\C-o]           lse-flat-fill-in:open-line)
+      ([?\A-q]           lse-replicate-menu); 10-Mar-1996
+      ([?\A-r]           lse-replace-fill-in)
+      ([?\A-s]           lse-replicate-fill-in)
+      ([?\A-u]           lse-flat-fill-in:remove-prev-blank-line); 5-Jan-1998
+      ([blue ?\ ]        lse-flat-fill-in:align-to-previous-word)
+      ([gold ?\ ]        lse-flat-fill-in:align-to-next-word)
+      ([gold ?\A-o]      lse-help-fill-in);  2-Jan-1998
+      ([mouse-2]         lse-flat-fill-in:replace-and-mouse-yank)
     )
   )
-; lse-insert-key-definition
+; lse-define-std-keys
 )
 
 ;;;  3-Oct-2007

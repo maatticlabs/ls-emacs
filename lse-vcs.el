@@ -30,6 +30,7 @@
 ;;;;    17-Jun-2011 (CT) `lse-vcs:conflict:head-pattern` and
 ;;;;                     `lse-vcs:conflict:tail-pattern` corrected (allow
 ;;;;                     multiple words)
+;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -189,17 +190,25 @@
 
 ;;; 29-May-2011
 (defun lse-vcs:conflict:define-keys ()
-  (define-key lse-vcs:conflict:keymap [?<]        'lse-vcs:conflict:choose-a)
-  (define-key lse-vcs:conflict:keymap [?>]        'lse-vcs:conflict:choose-b)
-  (define-key lse-vcs:conflict:keymap [?c]        'lse-vcs:conflict:choose-a+b)
-  (define-key lse-vcs:conflict:keymap [?+]        'lse-vcs:conflict:choose-a+b)
-  (define-key lse-vcs:conflict:keymap [?r]        'lse-vcs:conflict:resolved)
-  (define-key lse-vcs:conflict:keymap [?q]        'lse-vcs:conflict:reset)
-  (define-key lse-vcs:conflict:keymap [?s]        'lse-vcs:conflict:choose-b+a)
-  (define-key lse-vcs:conflict:keymap [?\A-n]     'lse-vcs:conflict:goto-next)
-  (define-key lse-vcs:conflict:keymap [?\C-n]     'lse-vcs:conflict:goto-next)
-  (global-set-key                     [red ?\A-c] 'lse-vcs:conflict:goto-next)
-  (global-set-key                     [red ?\C-c] 'lse-vcs:conflict:goto-next)
+  (lse-keys/define-in-map 'define-key lse-vcs:conflict:keymap
+    '(
+      ([?<]        lse-vcs:conflict:choose-a)
+      ([?>]        lse-vcs:conflict:choose-b)
+      ([?c]        lse-vcs:conflict:choose-a+b)
+      ([?+]        lse-vcs:conflict:choose-a+b)
+      ([?r]        lse-vcs:conflict:resolved)
+      ([?q]        lse-vcs:conflict:reset)
+      ([?s]        lse-vcs:conflict:choose-b+a)
+      ([?\A-n]     lse-vcs:conflict:goto-next)
+      ([?\C-n]     lse-vcs:conflict:goto-next)
+    )
+  )
+  (lse-keys/define #'global-set-key
+    '(
+      ([red ?\A-c] lse-vcs:conflict:goto-next)
+      ([red ?\C-c] lse-vcs:conflict:goto-next)
+    )
+  )
 ; lse-vcs:conflict:define-keys
 )
 
