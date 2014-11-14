@@ -74,6 +74,7 @@
 ;;;;     4-Nov-2014 (CT) Don't call `lse-set-shorthosted-frame-title`
 ;;;;     5-Nov-2014 (CT) Pass `frame-setup` parameter to `lse-frame:make`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    14-Nov-2014 (CT) Adapt to multiple search histories
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -355,8 +356,8 @@
 )
 
 ;;; 21-Apr-2003
-(defun lse-cal:plan:search-forward ()
-  (interactive)
+(defun lse-cal:plan:search-forward (&optional n)
+  (interactive "P")
   (let ((inhibit-point-motion-hooks t))
     (call-interactively 'lse-tpu:search-forward)
   )
@@ -364,8 +365,8 @@
 )
 
 ;;;  5-Oct-2007
-(defun lse-cal:plan:search-reverse ()
-  (interactive)
+(defun lse-cal:plan:search-reverse (&optional n)
+  (interactive "P")
   (let ((inhibit-point-motion-hooks t))
     (call-interactively 'lse-tpu:search-reverse)
   )
@@ -373,7 +374,7 @@
 )
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-again-forward ()
-  (interactive)
+  (interactive "P")
   (let ((inhibit-point-motion-hooks t))
     (call-interactively 'lse-tpu:search-again-forward)
   )
@@ -382,7 +383,7 @@
 
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-again-reverse ()
-  (interactive)
+  (interactive "P")
   (let ((inhibit-point-motion-hooks t))
     (call-interactively 'lse-tpu:search-again-reverse)
   )
@@ -391,9 +392,11 @@
 
 ;;; 21-Apr-2003
 (defun lse-cal:plan:replace (from to &optional head-limit tail-limit)
-  (interactive (list (lse-tpu:search-prompt-read "replace: ")
-                     (lse-tpu:search-prompt-read "by: ")
-               )
+  (interactive
+    (list
+      (lse-tpu:search-prompt-read "replace: " current-prefix-arg)
+      (lse-tpu:search-prompt-read "by: "      current-prefix-arg)
+    )
   )
   (let ((inhibit-point-motion-hooks t))
     (lse-tpu:replace from to head-limit tail-limit)

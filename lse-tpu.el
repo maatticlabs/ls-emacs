@@ -171,6 +171,8 @@
 ;;;;    14-Nov-2014 (CT) Change `interactive` of `lse-tpu:mouse-paste` to "^e"
 ;;;;    14-Nov-2014 (CT) Add `lse-tpu:replace@all/quickly`,
 ;;;;                     use in `lse-tpu:replace-all`
+;;;;    14-Nov-2014 (CT) Add `lse-tpu:restore-old-history`
+;;;;    14-Nov-2014 (CT) Adapt `lse-tpu:goto_occurence` to multiple histories
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -232,6 +234,18 @@
     'lse-tpu:search-history-9
   )
 )
+
+;;; 14-Nov-2014
+(defun lse-tpu:restore-old-history ()
+  (when (boundp 'lse-tpu:search-history-regexp)
+    (unless lse-tpu:search-history-0
+      (setq lse-tpu:search-history-0 lse-tpu:search-history-regexp)
+    )
+  )
+; lse-tpu:restore-old-history
+)
+
+(add-hook 'desktop-after-read-hook 'lse-tpu:restore-old-history)
 
 ;;;  9-Oct-2007
 (defvar lse-tpu:search-dir  lse-tpu:search-dir-forward
@@ -1912,7 +1926,7 @@ Accepts a prefix argument of the number of characters to invert."
     )
   )
   (while (> count 0)
-    (funcall search-fct pat)
+    (funcall search-fct nil pat)
     (setq count (1- count))
   )
 ; lse-tpu:goto_occurence
