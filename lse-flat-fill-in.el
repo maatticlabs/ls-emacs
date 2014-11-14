@@ -163,6 +163,8 @@
 ;;;;                     use `lse-tpu:mouse-paste:get-primary`
 ;;;;                     and `lse-tpu:mouse-paste:insert`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    14-Nov-2014 (CT) Change `interactive` of
+;;;;                     `lse-flat-fill-in:replace-and-mouse-yank` to "^e"
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -1584,7 +1586,7 @@ fill-in."
   "Open replacement of current fill-in if any and yank mouse selection.
 This function is used as key-binding in `lse-flat-fill-in:keymap' for
 [mouse-2]."
-  (interactive "e")
+  (interactive "^e")
   (setq this-command (this-command-keys))
   (let ((primary (lse-tpu:mouse-paste:get-primary click))
        )

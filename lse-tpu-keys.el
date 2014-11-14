@@ -194,6 +194,7 @@
 ;;;;    12-Nov-2014 (CT) Fold lse-tpu-keys-v19.el in here
 ;;;;    12-Nov-2014 (CT) Move some functions in here from lse-keys.el
 ;;;;    12-Nov-2014 (CT) Add and use `lse-keys/define`, `lse-keys/define-in-map`
+;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -556,7 +557,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control f)]        lse-tpu:search-forward);  5-Oct-2007
       ([(control n)]        lse-tpu:search-again-forward); 31-Aug-2002
       ([(control p)]        lse-tpu:search-again-reverse); 31-Aug-2002
-      ([(super F)]          lse-tpu:search-reverse);  5-Oct-200)
+      ([(super f)]          lse-tpu:search-reverse);  5-Oct-200)
       ([(super r)]          recenter); 30-Jan-2014
     )
   )
@@ -1050,7 +1051,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue gold ?\C-w]     delete-frame); 13-Nov-2014
       ([blue      ?\C-,]     lse-tpu:exchange-point-and-mark); 12-Nov-2002
       ([blue      ?\C-:]     lse-tpu:replace-all); 30-Aug-2002
-      ([blue      ?\C-f]     lse-tpu:change-search-mode);  9-Oct-2007
       ([blue      ?\C-m]     lse-split-line-i); 20-Jan-1998
       ([blue      ?\M-f]     lse-grep); 31-Aug-2002
       ([blue      ?^]        lse-frame:set-width:std);     5-Mar-1997
@@ -1071,7 +1071,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue gold ?\A-i]     auto-fill-mode)
       ([blue gold ?\A-m]     lse-tpu:toggle-newline-and-indent)
       ([blue gold ?\A-w]     lse-set-buffer-write)
-      ([blue gold ?\C-f]     lse-tpu:change-search-mode);  9-Oct-2007
       ([blue gold ?\C-i]     auto-fill-mode)
       ([blue gold ?\C-m]     lse-tpu:toggle-newline-and-indent)
       ([blue gold ?\M-f]     find-tag); 31-Aug-2002

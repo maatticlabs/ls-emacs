@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -41,6 +41,7 @@
 ;;;;     9-Oct-2007 (CT) `lse-tpu:toggle-regexp` replaced by
 ;;;;                     `lse-tpu:change-search-mode`
 ;;;;    13-Oct-2007 (CT) Byte compile commands added
+;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-command)
@@ -70,7 +71,6 @@
 (lse-command:add-new "byte compile LS-Emacs"       'lse-byte-compile:all)
 (lse-command:add-new "byte compile current buffer" 'lse-byte-compile:current)
 (lse-command:add-new "capitalize word"             'lse-tpu:capitalize-strongly)
-(lse-command:add-new "change search mode"          'lse-tpu:change-search-mode)
 (lse-command:add-new "check language"              'lse-language:check)
 (lse-command:add-new "compile language"            'lse-language:compile)
 (lse-command:add-new "emacs command"               'execute-extended-command)
@@ -103,3 +103,5 @@
 (lse-command:add-new "use language"                'lse-language:use)
 (lse-command:add-new "what line"                   'lse-show-position)
 (lse-command:add-new "write selection"             'write-region)
+
+;;; __END__ lse-command.el

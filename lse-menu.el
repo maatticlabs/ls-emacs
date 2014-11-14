@@ -58,6 +58,8 @@
 ;;;;     7-Nov-2014 (CT) Use `define-prefix-command`,
 ;;;;                     not `defvar... make-sparse-keymap`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
+;;;;    14-Nov-2014 (CT) Add `lse-tpu:replace-all`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -90,12 +92,12 @@
   (cons "LSE" lse-menu:lse-menu)
 )
 (define-key lse-menu:lse-menu [show-lse-language]
-              '("Show language" . lse-show-language)
+  '("Show language" . lse-show-language)
 )
 (put 'lse-show-language 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:lse-menu [lse-show-frames]
-              '("Show frames" . lse-frame:list:show)
+  '("Show frames" . lse-frame:list:show)
 )
 
 (define-key lse-menu:lse-menu [show-lse-position]
@@ -103,13 +105,17 @@
 );  8-Dec-2009
 
 (define-key lse-menu:lse-menu [lse-tpu:goto-last-position]
-  '("Goto last Position" . lse-tpu:goto-last-position)
+  '("Goto last position" . lse-tpu:goto-last-position)
 )
 
 (define-key lse-menu:lse-menu [lse-revert-buffers-same-anchor]
   '("Revert all buffers with same anchor" . lse-revert-buffers-same-anchor)
 ); 10-Nov-2010
 (put 'lse-revert-buffers-same-anchor 'menu-enable 'lse-buffer:anchor)
+
+(define-key lse-menu:lse-menu [lse-tpu:replace-all]
+  '("Replace all" . lse-tpu:replace-all)
+); 14-Nov-2014
 
 ;;;  7-Nov-2014
 ;;; Menu keymap for commands to set the font of the current frame
@@ -206,130 +212,130 @@
 (define-key lse-menu:lse-menu [fill-in] (cons "Fill-In" lse-menu:fill-in))
 
 (define-key lse-menu:fill-in [prev-mark-tail-fi]
-            '("Prev tail" . lse-fill-in-marks:goto-prev-tail)
+  '("Prev tail" . lse-fill-in-marks:goto-prev-tail)
 )
 (put 'lse-fill-in-marks:goto-prev-tail 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [prev-mark-head-fi]
-            '("Prev head" . lse-fill-in-marks:goto-prev-head)
+  '("Prev head" . lse-fill-in-marks:goto-prev-head)
 )
 (put 'lse-fill-in-marks:goto-prev-head 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [next-mark-tail-fi]
-            '("Next tail" . lse-fill-in-marks:goto-next-tail)
+  '("Next tail" . lse-fill-in-marks:goto-next-tail)
 )
 (put 'lse-fill-in-marks:goto-next-tail 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [next-mark-head-fi]
-            '("Next head" . lse-fill-in-marks:goto-next-head)
+  '("Next head" . lse-fill-in-marks:goto-next-head)
 )
 (put 'lse-fill-in-marks:goto-next-head 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [prev-exp]
-            '("Previous expansion" . lse-goto-prev-expansion)
+  '("Previous expansion" . lse-goto-prev-expansion)
 )
 (put 'lse-goto-prev-expansion 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [next-exp]
-            '("Next expansion" . lse-goto-next-expansion)
+  '("Next expansion" . lse-goto-next-expansion)
 )
 (put 'lse-goto-next-expansion 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [parent-fi]
-            '("Parent" . lse-goto-parent-expansion-head)
+  '("Parent" . lse-goto-parent-expansion-head)
 )
 (put 'lse-goto-parent-expansion-head 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [separator-fi-move-2]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [tail-replacement]
-            '("Tail of replacement" . lse-fill-in-marks:goto-open-tail)
+  '("Tail of replacement" . lse-fill-in-marks:goto-open-tail)
 )
 (put 'lse-fill-in-marks:goto-open-tail 'menu-enable 'lse_replaced_fill-in)
 
 (define-key lse-menu:fill-in [head-replacement]
-            '("Head of replacement" . lse-fill-in-marks:goto-open-head)
+  '("Head of replacement" . lse-fill-in-marks:goto-open-head)
 )
 (put 'lse-fill-in-marks:goto-open-head 'menu-enable 'lse_replaced_fill-in)
 
 (define-key lse-menu:fill-in [separator-fi-move-1]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [last-pos-fi]
-            '("Last Position" . lse-tpu:goto-last-position)
+  '("Last Position" . lse-tpu:goto-last-position)
 )
 
 (define-key lse-menu:fill-in [prev-fi]
-            '("Previous" . lse-goto-prev-fill-in)
+  '("Previous" . lse-goto-prev-fill-in)
 )
 (put 'lse-goto-prev-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [next-fi]
-            '("Next" . lse-goto-next-fill-in)
+  '("Next" . lse-goto-next-fill-in)
 )
 (put 'lse-goto-next-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [separator-fi-move]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [kill-fi]
-            '("Kill" . lse-kill-fill-in)
+  '("Kill" . lse-kill-fill-in)
 )
 (put 'lse-kill-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [unkill-fi]
-            '("Un-Kill" . lse-unkill-fill-in)
+  '("Un-Kill" . lse-unkill-fill-in)
 )
 (put 'lse-unkill-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [separator-fi-kill]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [reexpand-fi]
-            '("Re-Expand" . lse-reexpand-fill-in)
+  '("Re-Expand" . lse-reexpand-fill-in)
 )
 (put 'lse-reexpand-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [unexpand-fi]
-            '("Un-Expand" . lse-unexpand-fill-in)
+  '("Un-Expand" . lse-unexpand-fill-in)
 )
 (put 'lse-unexpand-fill-in 'menu-enable 'lse-language:name)
 
 (define-key lse-menu:fill-in [expand-fi]
-            '("Expand" . lse-expand)
+  '("Expand" . lse-expand)
 )
 (put 'lse-expand 'menu-enable '(lse_inside_fill-in))
 
 (define-key lse-menu:fill-in [separator-fi-expand]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [replicate-fi]
-            '("Replicate" . lse-replicate-fill-in)
+  '("Replicate" . lse-replicate-fill-in)
 )
 (put 'lse-replicate-fill-in 'menu-enable '(lse_inside_fill-in))
 
 (define-key lse-menu:fill-in [replicate-menu-fi]
-            '("Replicate Menu" . lse-replicate-menu)
+  '("Replicate Menu" . lse-replicate-menu)
 )
 (put 'lse-replicate-menu 'menu-enable '(lse_inside_fill-in))
 
 (define-key lse-menu:fill-in [separator-fi-replicate]
-            '("--")
+  '("--")
 )
 
 (define-key lse-menu:fill-in [help-fi]
-            '("Help" . lse-help-fill-in)
+  '("Help" . lse-help-fill-in)
 )
 (put 'lse-help-fill-in 'menu-enable '(lse_inside_fill-in))
 
 (define-key lse-menu:fill-in [describe-fi]
-            '("Describe" "bla bla" . lse-describe-fill-in)
+  '("Describe" "bla bla" . lse-describe-fill-in)
 )
 (put 'lse-describe-fill-in 'menu-enable '(lse_inside_fill-in))
 
@@ -345,21 +351,18 @@
       (define-key lse-menu:lse-menu [search-options]
         (cons "Search options" lse-menu:options:search)
       )
-      (define-key lse-menu:options:search [change-search-mode]
-         '("Search mode" . lse-tpu:change-search-mode)
-      )
       (define-key lse-menu:options:search [case-replace]
         (menu-bar-make-toggle toggle-case-replace case-replace
-                        "Case folding in replacements"
-                        "Case folding in replacements %s"
-                        "Case insensitive replacements"
+          "Case folding in replacements"
+          "Case folding in replacements %s"
+          "Case insensitive replacements"
         )
       )
       (define-key lse-menu:options:search [case-fold-search]
         (menu-bar-make-toggle toggle-case-fold-search case-fold-search
-                        "Search ignoring case"
-                        "Search ignoring case %s"
-                        "Case insensitive searches"
+          "Search ignoring case"
+          "Search ignoring case %s"
+          "Case insensitive searches"
         )
       )
 ;      (define-key lse-menu:options:search [smart-case-search-local]
@@ -372,68 +375,68 @@
 ;      )
 ;      (define-key lse-menu:options:search [smart-case-search]
 ;        (menu-bar-make-toggle toggle-smart-case-search lse-tpu:search:smart-case
-;                        "Use smart case for search"
-;                        "Use smart case for search %s"
-;                        "Case insensitive searches unless search string is mixed case"
+;          "Use smart case for search"
+;          "Use smart case for search %s"
+;          "Case insensitive searches unless search string is mixed case"
 ;        )
 ;      )
       (define-key lse-menu:options:editing [rectangular-mode]
         (menu-bar-make-toggle toggle-rectangular-mode
-                              lse-tpu:rectangular-p
-                              "Rectangular cut and paste"
-                              "Rectangular cut and paste %s"
-                              "Use rectangle mode for cut and paste"
-                              (lse-tpu:toggle-rectangle)
+          lse-tpu:rectangular-p
+          "Rectangular cut and paste"
+          "Rectangular cut and paste %s"
+          "Use rectangle mode for cut and paste"
+          (lse-tpu:toggle-rectangle)
         )
       )
       (define-key lse-menu:options:editing [overwrite-mode]
         (menu-bar-make-toggle toggle-overwrite-mode
-                              overwrite-mode
-                              "Overwrite mode" "Overwrite mode %s"
-                              "Overwrite mode"
-                              (lse-tpu:toggle-overwrite-mode)
+          overwrite-mode
+          "Overwrite mode" "Overwrite mode %s"
+          "Overwrite mode"
+          (lse-tpu:toggle-overwrite-mode)
         )
       )
       (define-key lse-menu:options:editing [newline-and-indent]
         (menu-bar-make-toggle toggle-newline-and-indent
-                              lse-tpu:newline-and-indent-p
-                              "Indent after newline" "Indent after newline %s"
-                              "Indent after newline"
-                              (lse-tpu:toggle-newline-and-indent)
+          lse-tpu:newline-and-indent-p
+          "Indent after newline" "Indent after newline %s"
+          "Indent after newline"
+          (lse-tpu:toggle-newline-and-indent)
         )
       )
       (define-key lse-menu:options:editing [lse-split-line]
         (menu-bar-make-toggle toggle-lse-split-line
-                              lse-key:toggle-tab-p
-                              "Tab binds to lse-tabulator"
-                              "Tab binds to lse-tabulator %s"
-                              "Tab binds to lse-tabulator"
-                              (lse-key:toggle-tab)
+          lse-key:toggle-tab-p
+          "Tab binds to lse-tabulator"
+          "Tab binds to lse-tabulator %s"
+          "Tab binds to lse-tabulator"
+          (lse-key:toggle-tab)
         )
       )
       (define-key lse-menu:options:editing [lse-tabulator]
         (menu-bar-make-toggle toggle-lse-tabulator
-                              lse-split-line:old-key
-                              "Return binds to newline"
-                              "Return binds to newline %s"
-                              "Return binds to newline"
-                              (lse-toggle-lse-split-line)
+          lse-split-line:old-key
+          "Return binds to newline"
+          "Return binds to newline %s"
+          "Return binds to newline"
+          (lse-toggle-lse-split-line)
         )
       )
       (define-key lse-menu:options:editing [case-fold-search]
         (menu-bar-make-toggle toggle-dabbrev-case-fold-search
-                              dabbrev-case-fold-search
-                              "Ignore case for dabbrev's"
-                              "Ignore case for dabbrev's %s"
-                              "Ignore case for dabbrev's"
+          dabbrev-case-fold-search
+          "Ignore case for dabbrev's"
+          "Ignore case for dabbrev's %s"
+          "Ignore case for dabbrev's"
         )
       )
       (define-key lse-menu:options:editing [auto-fill-mode]
         (menu-bar-make-toggle toggle-auto-fill-mode
-                              auto-fill-function
-                              "Auto Fill (word wrap)"
-                              "Auto Fill (word wrap) %s"
-                              "Auto fill mode"
+          auto-fill-function
+          "Auto Fill (word wrap)"
+          "Auto Fill (word wrap) %s"
+          "Auto fill mode"
           (if auto-fill-function
               (auto-fill-mode 0)
             (auto-fill-mode 1)
