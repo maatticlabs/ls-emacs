@@ -195,6 +195,9 @@
 ;;;;    12-Nov-2014 (CT) Move some functions in here from lse-keys.el
 ;;;;    12-Nov-2014 (CT) Add and use `lse-keys/define`, `lse-keys/define-in-map`
 ;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
+;;;;    15-Nov-2014 (CT) Bind (control F) to 'lse-tpu:search-reverse
+;;;;    15-Nov-2014 (CT) Bind (control t) to 'lse-tpu:goto-next-occurrence-char,
+;;;;                          (control T) to 'lse-tpu:goto-prev-occurrence-char
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -554,11 +557,14 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-define-key-in-all-maps [?\C-w] 'lse-tpu:delete-prev-bs-word);  6-Jan-2002
   (lse-keys/define #'global-set-asp
     '(
-      ([(control f)]        lse-tpu:search-forward);  5-Oct-2007
-      ([(control n)]        lse-tpu:search-again-forward); 31-Aug-2002
-      ([(control p)]        lse-tpu:search-again-reverse); 31-Aug-2002
-      ([(super f)]          lse-tpu:search-reverse);  5-Oct-200)
-      ([(super r)]          recenter); 30-Jan-2014
+      ([(control f)]        lse-tpu:search-forward);             5-Oct-2007
+      ([(control F)]        lse-tpu:search-reverse);            15-Nov-2014
+      ([(control n)]        lse-tpu:search-again-forward);      31-Aug-2002
+      ([(control p)]        lse-tpu:search-again-reverse);      31-Aug-2002
+      ([(control t)]        lse-tpu:goto-next-occurrence-char); 15-Nov-2014
+      ([(control T)]        lse-tpu:goto-prev-occurrence-char); 15-Nov-2014
+      ([(super f)]          lse-tpu:search-reverse);             5-Oct-2007
+      ([(super r)]          recenter);                          30-Jan-2014
     )
   )
   (lse-keys/define #'global-set-smk
@@ -603,7 +609,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-j]     lse-tpu:delete-prev-word); 10-Jan-1998
       ([?\s-\A-j]  lse-tpu:delete-prev-word-append); 10-Jan-1998
       ([?\C-k]     lse-tpu:delete-tail-of-line);  6-Jan-2002
-      ([?\A-e]     lse-tpu:current-end-of-line)
     )
   )
 

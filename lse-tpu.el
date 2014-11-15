@@ -173,6 +173,10 @@
 ;;;;                     use in `lse-tpu:replace-all`
 ;;;;    14-Nov-2014 (CT) Add `lse-tpu:restore-old-history`
 ;;;;    14-Nov-2014 (CT) Adapt `lse-tpu:goto_occurence` to multiple histories
+;;;;    15-Nov-2014 (CT) Rearrange `mode-line-format`
+;;;;    15-Nov-2014 (CT) Fold `lse-tpu:goto_occurence` into
+;;;;                     `lse-tpu:goto_occurrence` and fix its callers
+;;;;    15-Nov-2014 (CT) Add `lse-tpu:goto-next-occurrence-char`
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -949,27 +953,25 @@ Accepts a prefix argument of the number of characters to invert."
          (setq minor-mode-alist lse-tpu:original-mm-alist))
         (t
          (setq-default mode-line-format
-                       (list (purecopy "")
-                             'mode-line-modified
-                             ;; Emacs 20.n mode-line-format contains also:
-                             'mode-line-mule-info              ; 18-Dec-1997
-                             ;; 'mode-line-frame-identification   ; 18-Dec-1997
-                             'mode-line-buffer-identification
-                             (purecopy " ")
-                             'global-mode-string
-                             (purecopy " ")
-                             (purecopy "%[(")
-                             '(lse-language:name "«")
-                             'mode-name
-                             '(lse-language:name "»")
-                             'mode-line-process 'minor-mode-alist
-                             (purecopy "%n")
-                             (purecopy ")%]--")
-                             (purecopy '(line-number-mode "L%l--"))
-                             (purecopy '(column-number-mode "C%c--"))
-                             (purecopy '(-3 . "%p"))
-                             (purecopy "-%-")
-                       )
+           (list
+             (purecopy "")
+             'mode-line-mule-info              ; 18-Dec-1997
+             'mode-line-client
+             'mode-line-modified
+             'mode-line-buffer-identification
+             (purecopy " ")
+             'global-mode-string
+             (purecopy " ")
+             (purecopy "%[(")
+             '(lse-language:name "«")
+             'mode-name
+             '(lse-language:name "»")
+             'mode-line-process 'minor-mode-alist
+             (purecopy "%n")
+             (purecopy ")%]--")
+             'mode-line-position
+             (purecopy "-%-")
+           )
          )
          ;;; setting eol-mnemonic-unix trips 20.3
          ; (setq eol-mnemonic-unix "")
@@ -1035,10 +1037,11 @@ Accepts a prefix argument of the number of characters to invert."
   ;; 18-Dec-1997 removed SELECT-indication
   ;; (setq lse-tpu:mark-flag (if (lse-tpu:mark) " SELECT " ""))
   (setq lse-tpu:delete-sel-mode-flag
-        (if (and (lse-tpu:mark) delete-selection-mode) " Del-Sel")
+    (if (and (lse-tpu:mark) delete-selection-mode) " Del-Sel")
   )
-  (cond ((force-mode-line-update))
-        (t (set-buffer-modified-p (buffer-modified-p)) (sit-for 0))
+  (cond
+    ((force-mode-line-update))
+    (t (set-buffer-modified-p (buffer-modified-p)) (sit-for 0))
   )
 ; lse-tpu:update-mode-line
 )
@@ -1819,12 +1822,20 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-tail)
 
 ;;; 19-Feb-2012
-(defun lse-tpu:goto_occurrence (key limit count search-fct &optional at-head)
+(defun lse-tpu:goto_occurrence
+    (key limit count search-fct &optional at-head record)
   (let (result
         (cp (point))
        )
     (when (integerp key)
       (setq key (char-to-string key))
+    )
+    (when record
+      (let ((shs (lse-tpu:search-history-symbol record)))
+        (when shs
+          (add-to-history shs key)
+        )
+      )
     )
     (save-match-data
       (and at-head
@@ -1847,7 +1858,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 ;;; 19-Feb-2012
 (defun lse-tpu:goto-next-char (count &optional limit char)
-  "Goto next occurence of character"
+  "Goto next occurrence of character"
   (interactive "p")
   (setq char (or char (lse-tpu:cmd-char)))
   (lse-tpu:goto_occurrence char limit count 'search-forward)
@@ -1856,7 +1867,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 ;;; 19-Feb-2012
 (defun lse-tpu:goto-prev-char (count &optional limit char)
-  "Goto previous occurence of character"
+  "Goto previous occurrence of character"
   (interactive "p")
   (setq char (or char (lse-tpu:cmd-char)))
   (lse-tpu:goto_occurrence char limit count 'search-backward)
@@ -1917,61 +1928,62 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:goto-closing-char
 )
 
-;;; 12-Mar-2012
-(defun lse-tpu:goto_occurence (pat count limit search-fct)
-  (setq search-fct
-    (if (eq search-fct 'search-forward)
-        'lse-tpu:search-forward
-      'lse-tpu:search-reverse
-    )
-  )
-  (while (> count 0)
-    (funcall search-fct nil pat)
-    (setq count (1- count))
-  )
-; lse-tpu:goto_occurence
-)
-
 ;;; 20-Feb-2012
-(defun lse-tpu:goto_occurence_current_word (count limit search-fct)
+(defun lse-tpu:goto_occurrence_current_word (count limit search-fct)
   (let* ((head (lse-tpu:curr-word-head-pos))
          (tail (lse-tpu:curr-word-tail-pos))
          (word (regexp-quote (buffer-substring-no-properties head tail)))
         )
-    (lse-tpu:goto_occurence word count limit search-fct)
+    (lse-tpu:goto_occurrence word limit count search-fct t 0)
   )
-; lse-tpu:goto_occurence_current_word
+; lse-tpu:goto_occurrence_current_word
+)
+
+;;; 15-Nov-2014
+(defun lse-tpu:goto-next-occurrence-char (count &optional char limit)
+  "Goto next occurrence of character specified"
+  (interactive "p\ncPress character")
+  (lse-tpu:goto_occurrence char limit count 'search-forward)
+; lse-tpu:goto-next-occurrence-char
+)
+
+;;; 15-Nov-2014
+(defun lse-tpu:goto-prev-occurrence-char (count char &optional limit)
+  "Goto previous occurrence of character specified"
+  (interactive "p\ncPress character")
+  (lse-tpu:goto_occurrence char limit count 'search-backward)
+; lse-tpu:goto-prev-occurrence-char
 )
 
 ;;; 12-Mar-2012
 (defun lse-tpu:goto-next-occurrence-current-char (count &optional limit)
-  "Goto next occurence of current character"
+  "Goto next occurrence of current character"
   (interactive "p")
-  (lse-tpu:goto_occurence (lse-tpu:current-char) count limit 'search-forward)
+  (lse-tpu:goto_occurrence (lse-tpu:current-char) limit count 'search-forward)
 ; lse-tpu:goto-next-occurrence-current-char
 )
 
 ;;; 12-Mar-2012
 (defun lse-tpu:goto-prev-occurrence-current-char (count &optional limit)
-  "Goto previous occurence of current character"
+  "Goto previous occurrence of current character"
   (interactive "p")
-  (lse-tpu:goto_occurence (lse-tpu:current-char) count limit 'search-backward)
+  (lse-tpu:goto_occurrence (lse-tpu:current-char) limit count 'search-backward)
 ; lse-tpu:goto-prev-occurrence-current-char
 )
 
 ;;; 20-Feb-2012
 (defun lse-tpu:goto-next-occurrence-current-word (count &optional limit)
-  "Goto next occurence of current word"
+  "Goto next occurrence of current word"
   (interactive "p")
-  (lse-tpu:goto_occurence_current_word count limit 'search-forward)
+  (lse-tpu:goto_occurrence_current_word count limit 'search-forward)
 ; lse-tpu:goto-next-occurrence-current-word
 )
 
 ;;; 20-Feb-2012
 (defun lse-tpu:goto-prev-occurrence-current-word (count &optional limit)
-  "Goto previous occurence of current word"
+  "Goto previous occurrence of current word"
   (interactive "p")
-  (lse-tpu:goto_occurence_current_word count limit 'search-backward)
+  (lse-tpu:goto_occurrence_current_word count limit 'search-backward)
 ; lse-tpu:goto-prev-occurrence-current-word
 )
 
@@ -2646,7 +2658,7 @@ With argument reinserts the text that many times."
          (result (and shv (lse-complete "" shv t)))
         )
     (if result
-        (add-to-list shv result)
+        (add-to-history (lse-tpu:search-history-symbol n) result)
       (let ((shv0 (lse-tpu:search-history-value 0))
            )
         (when shv0
@@ -2654,6 +2666,7 @@ With argument reinserts the text that many times."
         )
       )
     )
+    result
   )
 ; lse-tpu:search-again/complete
 )
@@ -2969,7 +2982,7 @@ and backward a character after a failed search.  Arg means end of search."
 )
 
 (defun lse-tpu:replace-all (&optional from to head-limit tail-limit)
-  "Replace quickly all occurences of `from` by `to`."
+  "Replace quickly all occurrences of `from` by `to`."
   (interactive
     (list
       (lse-tpu:search-prompt-read "replace all" current-prefix-arg)
