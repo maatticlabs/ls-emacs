@@ -1,5 +1,10 @@
 ;-*- coding: utf-8 -*-
 
+(lse-define-fill-in "alias-symbol"
+    '(replacement-leading   "'")
+    '(replacement           @ name)
+)
+
 (lse-define-fill-in "and"
     '(token)
     '(description           "Evaluate embedded forms in order until one forms returns nil or return value of last form")
@@ -134,6 +139,17 @@
     '(description           "Name of defined entity")
     '(auto-replicate        1)
 ;;; def-name
+)
+
+;;; 16-Nov-2014
+(lse-define-fill-in "defalias"
+    '(token)
+    '(description           "Define an alias for a lisp symbol")
+    '(replacement
+        @ date-of-def
+        "(defalias «alias-symbol» «symbol» ««quoted-text»»)"
+     )
+;;; defalias
 )
 
 ;;; 29-Dec-1997

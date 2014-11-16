@@ -80,6 +80,8 @@
 ;;;;     7-Nov-2014 (CT) Add `unsplittable` to lse-window:special-display-alist
 ;;;;                     Set `special-display-frame-alist` for Emacs 24.3+, too
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    16-Nov-2014 (CT) Add to `imenu-after-jump-hook`,
+;;;;                     instead of advicing `imenu-default-goto-function`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -639,8 +641,8 @@
 ;;; (setq same-window-regexps (list "\\*[Cc]ompletions?\\*"));  6-Jan-2000;  3-Jan-2000
 
 (require 'imenu)
-(when (fboundp 'imenu-default-goto-function)
-  (advice-add 'imenu-default-goto-function :after #'lse-scroll-to-top:after)
+(when (boundp 'imenu-after-jump-hook)
+  (add-hook 'imenu-after-jump-hook #'lse-scroll-to-top:after)
 )
 
 ;;; __END__ lse-window.el

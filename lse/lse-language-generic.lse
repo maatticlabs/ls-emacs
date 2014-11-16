@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2007 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -14,6 +14,7 @@
 ;;;;    14-Jun-1994 (CT) lse-text-mode put in here
 ;;;;     5-Oct-2007 (CT) `lse-text-mode` changed to guard `lse-language:use`
 ;;;;                     call
+;;;;    16-Nov-2014 (CT) Enable `auto-fill-mode` and `newline-and-indent`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -24,7 +25,10 @@
     (lse-comment:head_delim_pattern    nil)
     (lse-comment:delim_char_set        nil)
    )
-  '()
+    '(
+       lse-tpu:newline-and-indent:on
+       lse-tpu:auto-fill-mode:on
+     )
   '()
 )
 
@@ -48,3 +52,5 @@
   (local-unset-key "\M-S")
   (local-unset-key "\M-C-i")
 )
+
+;;; __END__ lse-language-generic.lse

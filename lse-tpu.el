@@ -177,6 +177,8 @@
 ;;;;    15-Nov-2014 (CT) Fold `lse-tpu:goto_occurence` into
 ;;;;                     `lse-tpu:goto_occurrence` and fix its callers
 ;;;;    15-Nov-2014 (CT) Add `lse-tpu:goto-next-occurrence-char`
+;;;;    16-Nov-2014 (CT) Remove `^` from `interactive` of `lse-tpu:mouse-paste`
+;;;;                     (it breaks the fix for mouse-pasting)
 ;;;;    ««revision-date»»···
 ;;;;--
 ;;; we use picture-mode functions
@@ -271,10 +273,13 @@
 ;;; 14-Nov-2014
 (defvar lse-tpu:search-history-index 0 "Index of last search history used")
 (defun lse-tpu:search-history-index (n)
-  (cond
-    ((numberp n) (abs n));; numeric prefix     --> use search-history n
-    ((null n)    0)      ;; no prefix          --> use search-history 0
-    (t           nil)    ;; universal-argument --> no  search-history
+  (let ((last lse-tpu:search-history-index)
+       )
+    (cond
+      ((numberp n) (abs n));; numeric prefix     --> use search-history n
+      ((null n)    last)   ;; no prefix          --> use last search-history
+      (t           nil)    ;; universal-argument --> no  search-history
+    )
   )
 ; lse-tpu:search-history-index
 )
@@ -955,14 +960,14 @@ Accepts a prefix argument of the number of characters to invert."
          (setq-default mode-line-format
            (list
              (purecopy "")
+             'mode-line-front-space
              'mode-line-mule-info              ; 18-Dec-1997
              'mode-line-client
              'mode-line-modified
              'mode-line-buffer-identification
              (purecopy " ")
              'global-mode-string
-             (purecopy " ")
-             (purecopy "%[(")
+             (purecopy " %[(")
              '(lse-language:name "«")
              'mode-name
              '(lse-language:name "»")
@@ -970,6 +975,7 @@ Accepts a prefix argument of the number of characters to invert."
              (purecopy "%n")
              (purecopy ")%]--")
              'mode-line-position
+             (purecopy "%I")
              (purecopy "-%-")
            )
          )
@@ -1825,13 +1831,21 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto_occurrence
     (key limit count search-fct &optional at-head record)
   (let (result
-        (cp (point))
+        (cp  (point))
+        (shi
+          (when record
+            (if (numberp record)
+                record
+              lse-tpu:search-history-index
+            )
+          )
+        )
        )
     (when (integerp key)
       (setq key (char-to-string key))
     )
     (when record
-      (let ((shs (lse-tpu:search-history-symbol record)))
+      (let ((shs (lse-tpu:search-history-symbol shi)))
         (when shs
           (add-to-history shs key)
         )
@@ -3605,7 +3619,7 @@ A repeat count means scroll that many sections."
 Move point to the end of the inserted text, and set mark at
 beginning.  If `mouse-yank-at-point' is non-nil, insert at point
 regardless of where you click."
-  (interactive "^e")
+  (interactive "e")
   ;; factored from mouse-yank-primary as found in
   ;;     /usr/share/emacs/24.4/lisp/mouse.el
   ;; and split into two defuns

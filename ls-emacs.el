@@ -156,7 +156,7 @@
   (defvar lse-script-dir    (or lscripts "/swing/project/ls-emacs/scripts"))
 )
 (setq lse-load-path
-      (append (list lse-directory lse-src-directory) load-path nil)
+  (append (list lse-directory lse-src-directory) load-path nil)
 )
 
 ;;;+

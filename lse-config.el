@@ -39,6 +39,7 @@
 ;;;;    17-May-2013 (CT) Use `whitespace-cleanup`, whitespace-mode;
 ;;;;                     set `whitespace-style`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    16-Nov-2014 (CT) Use `setq-default` for `major-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -142,7 +143,7 @@
 (setq         case-replace nil)         ; do not change case of replacement
 (setq-default case-replace nil)         ; do not change case of replacement
 
-(setq         major-mode                  'text-mode)
+(setq-default major-mode                  'text-mode)
 
 (setq         initial-major-mode          'emacs-lisp-mode)
 (setq         inhibit-startup-message      t)

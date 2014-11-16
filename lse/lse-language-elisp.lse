@@ -17,6 +17,8 @@
 ;;;;    20-Feb-2012 (CT) Add `:` to `lse-tpu:ident-group-chars`
 ;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    15-Nov-2014 (CT) Turn `flyspell-mode` off
+;;;;    16-Nov-2014 (CT) Set `mode-name` to `Elisp` to shorten mode-line
+;;;;    16-Nov-2014 (CT) Add alias `elisp-mode` for `emacs-lisp-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -48,12 +50,15 @@
 (add-hook 'emacs-lisp-mode-hook 'lse-elisp-mode)
 (add-hook 'emacs-lisp-mode-hook 'lse-menu:add-menubar-index);  3-Jan-2000
 
+(defalias 'elisp-mode 'emacs-lisp-mode)
+
 (defun lse-elisp-mode ()
   (lse-language:use "elisp")
   (local-set-key [gold tab] 'lisp-indent-line)
   (local-unset-key  [tab])
   (local-unset-key  "\177")
   (setq indent-line-function 'lse-indent-line)
+  (setq mode-name "Elisp")
   (flyspell-mode 0)
 )
 
