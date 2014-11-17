@@ -179,79 +179,68 @@
 ;;;;    15-Nov-2014 (CT) Add `lse-tpu:goto-next-occurrence-char`
 ;;;;    16-Nov-2014 (CT) Remove `^` from `interactive` of `lse-tpu:mouse-paste`
 ;;;;                     (it breaks the fix for mouse-pasting)
+;;;;    17-Nov-2014 (CT) Add `lse-tpu:repeat-factor`
+;;;;    17-Nov-2014 (CT) Change `cut/copy/delete` functions to use prefix as
+;;;;                     indicator to `append` the text to the cut/copy/paste
+;;;;                     buffer in question
+;;;;    17-Nov-2014 (CT) Add support for multiple cut/copy/paste buffers per
+;;;;                     unit (char/word/line/region)
 ;;;;    ««revision-date»»···
 ;;;;--
+
 ;;; we use picture-mode functions
 (require 'picture)
 
 ;;;+
 ;;; Variables
 ;;;-
-(defvar lse-tpu:edt-mode nil
-  "If non-nil, lse-tpu mode is active."
-)
+;;;++
+;;; Direction of buffer movement
+;;;--
+(defconst lse-tpu:direction-forward  +1)
+(defconst lse-tpu:direction-backward -1)
 
-(defconst lse-tpu:have-ispell t
-  "*If non-nil (default), TPU-edt uses ispell for spell checking.")
-
-(defvar lse-tpu:percent-scroll 75
-  "*Percentage of the screen to scroll for next/previous screen commands.")
+;;; 17-Nov-2014
+(defvar lse-tpu:match-beginning-mark (make-marker))
+(defvar lse-tpu:match-end-mark       (make-marker))
 
 (defvar lse-tpu:pan-columns 16
   "*Number of columns the lse-tpu:pan functions scroll left or right."
 )
 
-(defvar lse-tpu:match-beginning-mark (make-marker))
-(defvar lse-tpu:match-end-mark       (make-marker))
+(defvar lse-tpu:percent-scroll 75
+  "*Percentage of the screen to scroll for next/previous screen commands.")
+
+;;; 17-Nov-2014
+(defvar lse-tpu:repeat-factor 1 "Repeat factor for next command.")
 
 ;;;  9-Oct-2007
 (defconst lse-tpu:search-dir-forward 1 "Search in forward direction.")
 (defconst lse-tpu:search-dir-reverse 0 "Search in reverse direction.")
+(defconst lse-tpu:search-dir-names   (vector "reverse" "forward"))
+
 (defconst lse-tpu:search-functions
   (vector 're-search-backward 're-search-forward)
   "Emacs search functions used for regular expression searching."
 )
 
 (defconst lse-tpu:search-prompt-dir  (vector " ^^^"    " vvv"))
-(defconst lse-tpu:search-dir-names   (vector "reverse" "forward"))
 
 ;;; 14-Nov-2014·
-(defvar lse-tpu:search-history-0 '() "Search history 0.")
-(defvar lse-tpu:search-history-1 '() "Search history 1.")
-(defvar lse-tpu:search-history-2 '() "Search history 2.")
-(defvar lse-tpu:search-history-3 '() "Search history 3.")
-(defvar lse-tpu:search-history-4 '() "Search history 4.")
-(defvar lse-tpu:search-history-5 '() "Search history 5.")
-(defvar lse-tpu:search-history-6 '() "Search history 6.")
-(defvar lse-tpu:search-history-7 '() "Search history 7.")
-(defvar lse-tpu:search-history-8 '() "Search history 8.")
-(defvar lse-tpu:search-history-9 '() "Search history 9.")
 (defvar lse-tpu:search-histories
   (vector
-    'lse-tpu:search-history-0
-    'lse-tpu:search-history-1
-    'lse-tpu:search-history-2
-    'lse-tpu:search-history-3
-    'lse-tpu:search-history-4
-    'lse-tpu:search-history-5
-    'lse-tpu:search-history-6
-    'lse-tpu:search-history-7
-    'lse-tpu:search-history-8
-    'lse-tpu:search-history-9
+    (defvar lse-tpu:search-history-0 '() "Search history 0.")
+    (defvar lse-tpu:search-history-1 '() "Search history 1.")
+    (defvar lse-tpu:search-history-2 '() "Search history 2.")
+    (defvar lse-tpu:search-history-3 '() "Search history 3.")
+    (defvar lse-tpu:search-history-4 '() "Search history 4.")
+    (defvar lse-tpu:search-history-5 '() "Search history 5.")
+    (defvar lse-tpu:search-history-6 '() "Search history 6.")
+    (defvar lse-tpu:search-history-7 '() "Search history 7.")
+    (defvar lse-tpu:search-history-8 '() "Search history 8.")
+    (defvar lse-tpu:search-history-9 '() "Search history 9.")
   )
 )
-
-;;; 14-Nov-2014
-(defun lse-tpu:restore-old-history ()
-  (when (boundp 'lse-tpu:search-history-regexp)
-    (unless lse-tpu:search-history-0
-      (setq lse-tpu:search-history-0 lse-tpu:search-history-regexp)
-    )
-  )
-; lse-tpu:restore-old-history
-)
-
-(add-hook 'desktop-after-read-hook 'lse-tpu:restore-old-history)
 
 ;;;  9-Oct-2007
 (defvar lse-tpu:search-dir  lse-tpu:search-dir-forward
@@ -377,6 +366,187 @@
 
 (add-hook 'activate-mark-hook   'lse-tpu:update-mode-line)
 (add-hook 'deactivate-mark-hook 'lse-tpu:update-mode-line)
+
+;;;+
+;;; Cut/copy/paste buffer handling
+;;;
+;;; =======  =============  =============
+;;; Unit     cut-forward    cut-backward
+;;; =======  =============  =============
+;;; char     delete         backspace
+;;; word     C-delete       C-backspace
+;;; line     M-delete       M-backspace
+;;; region   A-delete       A-backspace    both bindings do the same thing
+;;; =======  =============  =============
+;;;
+;;; The cut commands put the cut entity into the ccp-buffer of the
+;;; corresponding unit; a prefix argument means that the cut entity is
+;;; added to the current contents of the ccp-buffer.
+;;;
+;;; Paste is done by prefixing the cut-forward key by the `gold` key.
+;;;
+;;; There are ten cut/copy/paste buffers per unit.
+;;; The user switches with between these with `lse-tpu:ccp-buffer-index:set`.
+;;;-
+
+;;; 17-Nov-2014
+(defvar lse-tpu:ccp-buffer-index 0 "Currently used ccp-buffer index")
+(defvar lse-tpu:ccp-buffer-index:mode-line "")
+
+(defun lse-tpu:ccp-buffer-index:set (num)
+  "Choose index of cut/copy/paste buffer to use."
+  (interactive "Ncut/copy/paste buffer index: ")
+  (setq lse-tpu:ccp-buffer-index num)
+  (setq lse-tpu:ccp-buffer-index:mode-line
+    (if (= lse-tpu:ccp-buffer-index 0)
+        ""
+      (format " =%d=" lse-tpu:ccp-buffer-index)
+    )
+  )
+; lse-tpu:ccp-buffer-index:set
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:new ()
+  (vector "" lse-tpu:direction-forward)
+; lse-tpu:ccp-buffer:new
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:update (ccpb text dir &optional append)
+  (let* ((old-text (aref ccpb 0))
+         (new-text
+           (if append
+               (if (equal dir lse-tpu:direction-forward)
+                   (concat old-text text)
+                 (concat text old-text)
+               )
+             text
+           )
+         )
+       )
+    (aset ccpb 0 new-text)
+    (aset ccpb 1 dir)
+    ccpb
+  )
+; lse-tpu:ccp-buffer:update
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:text (ccpb)
+  (aref ccpb 0)
+; lse-tpu:ccp-buffer:text
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:dir (ccpb)
+  (aref ccpb 1)
+; lse-tpu:ccp-buffer:dir
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:new-symbol (unit-name number)
+  (let ((result
+         (intern (format "lse-tpu:ccp-%s-buffer-%d" unit-name number))
+        )
+        (value (lse-tpu:ccp-buffer:new))
+        (doc   (format "Cut/copy/paste %s-buffer %s." unit-name number))
+       )
+    (set result value)
+    (put result 'variable-documentation doc)
+    result
+  )
+; lse-tpu:ccp-buffer:new-symbol
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffers:new (unit-name)
+  (let ((result
+         (intern (format "lse-tpu:ccp-buffers:%s" unit-name))
+        )
+        (value
+          (vconcat
+            (mapcar
+              (function
+                (lambda (i)
+                  (lse-tpu:ccp-buffer:new-symbol unit-name i)
+                )
+              )
+              [0 1 2 3 4 5 6 7 8 9]
+            )
+          )
+        )
+        (doc   (format "Cut/copy/paste buffer for unit `%s`." unit-name))
+       )
+    (set result value)
+    (put result 'variable-documentation doc)
+    result
+  )
+; lse-tpu:ccp-buffers:new
+)
+
+(defvar lse-tpu:ccp-buffers
+  (vector
+    (lse-tpu:ccp-buffers:new "char")   ;; --> lse-tpu:ccp-buffers:char
+    (lse-tpu:ccp-buffers:new "word")   ;; --> lse-tpu:ccp-buffers:word
+    (lse-tpu:ccp-buffers:new "line")   ;; --> lse-tpu:ccp-buffers:line
+    (lse-tpu:ccp-buffers:new "region") ;; --> lse-tpu:ccp-buffers:region
+  )
+  "Cut/copy/paste buffers for units `char`, `word`, `line`, and `region`"
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:ccp-buffer:active (unit)
+  (condition-case nil
+      (let ((ccpbs
+             (cond
+               ((symbolp unit)
+                 unit
+               )
+               ((numberp unit)
+                 (aref lse-tpu:ccp-buffers unit)
+               )
+               (t nil)
+             )
+            )
+           )
+          (symbol-value (aref (symbol-value ccpbs) lse-tpu:ccp-buffer-index))
+      )
+    (error
+      (message "Wrong argument %s" unit)
+    )
+  )
+; lse-tpu:ccp-buffer:active
+)
+
+;;;+
+;;; Repeat factor for next command
+;;;-
+;;; 17-Nov-2014
+(defun lse-tpu:repeat-factor (&optional num)
+  (if num
+      (prefix-numeric-value num)
+    lse-tpu:repeat-factor
+  )
+; lse-tpu:repeat-factor
+)
+
+;;; 17-Nov-2014
+(defun lse-tpu:repeat-factor:reset ()
+  (unless (eq this-command 'lse-tpu:repeat-factor:set)
+    (setq lse-tpu:repeat-factor 1)
+  )
+; lse-tpu:repeat-factor:reset
+)
+
+(defun lse-tpu:repeat-factor:set (f)
+  "Set repeat factor for next command."
+  (interactive "Nrepeat factor: ")
+  (setq lse-tpu:repeat-factor f)
+; lse-tpu:repeat-factor:set
+)
+
+(add-hook 'post-command-hook 'lse-tpu:repeat-factor:reset)
 
 ;;;+
 ;;;  Match Markers -
@@ -702,26 +872,29 @@ Like emacs y-or-n-p, also accepts space as y and DEL as n."
 ; lse-tpu:invert-case-region
 )
 
-(defun lse-tpu:change-case (num)
+(defun lse-tpu:change-case (&optional count)
   "Change the case of the character under the cursor or region.
 Accepts a prefix argument of the number of characters to invert."
-  (interactive "p")
-  (cond ((lse-tpu:mark)
-         (lse-tpu:invert-case-region (lse-tpu:selection-head-pos)
-                                     (lse-tpu:selection-tail-pos)
-         )
-         (lse-tpu:unselect t)
-        ); lse-tpu:mark
-        ((lse-tpu:check-match)
-         (lse-tpu:invert-case-region (lse-tpu:match-beginning)
-                                     (lse-tpu:match-end)
-         )
-         (lse-tpu:unset-match)
-        ); lse-tpu:check-match
-        (t  ; neither selection nor search range are active
-         (lse-tpu:invert-case-region (point) (+ (point) num))
-         (goto-char (+ (point) num))
-        ); t
+  (interactive "P")
+  (let ((num (lse-tpu:repeat-factor count))
+       )
+    (cond ((lse-tpu:mark)
+           (lse-tpu:invert-case-region (lse-tpu:selection-head-pos)
+                                       (lse-tpu:selection-tail-pos)
+           )
+           (lse-tpu:unselect t)
+          ); lse-tpu:mark
+          ((lse-tpu:check-match)
+           (lse-tpu:invert-case-region (lse-tpu:match-beginning)
+                                       (lse-tpu:match-end)
+           )
+           (lse-tpu:unset-match)
+          ); lse-tpu:check-match
+          (t  ; neither selection nor search range are active
+           (lse-tpu:invert-case-region (point) (+ (point) num))
+           (goto-char (+ (point) num))
+          ); t
+    )
   )
 ; lse-tpu:change-case
 )
@@ -798,22 +971,11 @@ Accepts a prefix argument of the number of characters to invert."
   "Checks the spelling of the region, or of the entire buffer if no
  region is selected."
   (interactive)
-  (cond (lse-tpu:have-ispell
-         (if (lse-tpu:mark)
-             (ispell-region (lse-tpu:selection-head-pos)
-                            (lse-tpu:selection-tail-pos)
-             )
-           (ispell-buffer)
-         )
-        )
-        (t
-         (if (lse-tpu:mark)
-             (ispell-region
-               (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
-             )
-           (ispell-buffer)
-         )
-        )
+  (if (lse-tpu:mark)
+      (ispell-region
+        (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
+      )
+    (ispell-buffer)
   )
   (if (lse-tpu:mark) (lse-tpu:unselect t))
 ; lse-tpu:spell-check
@@ -870,10 +1032,11 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:special-insert
 )
 
-(defun lse-tpu:quoted-insert (num)
+(defun lse-tpu:quoted-insert (&optional count)
   "Read next input character and insert it. This is useful for inserting control characters."
-  (interactive "*p")
+  (interactive "*P")
   (let ((char (read-char))
+        (num (lse-tpu:repeat-factor count))
        )
     (if overwrite-mode (delete-char num))
     (insert-char char num)
@@ -967,6 +1130,7 @@ Accepts a prefix argument of the number of characters to invert."
              'mode-line-buffer-identification
              (purecopy " ")
              'global-mode-string
+             'lse-tpu:ccp-buffer-index:mode-line
              (purecopy " %[(")
              '(lse-language:name "«")
              'mode-name
@@ -975,7 +1139,7 @@ Accepts a prefix argument of the number of characters to invert."
              (purecopy "%n")
              (purecopy ")%]--")
              'mode-line-position
-             (purecopy "%I")
+             (purecopy " %I")
              (purecopy "-%-")
            )
          )
@@ -1026,7 +1190,6 @@ Accepts a prefix argument of the number of characters to invert."
                )
              )
          )
-
          ;; redefine some standard mode-line variables
          (setq-default mode-line-modified              (purecopy '("%1*%1+")))
          (setq-default mode-line-buffer-identification (purecopy '(" %15b")))
@@ -1061,11 +1224,6 @@ Accepts a prefix argument of the number of characters to invert."
   )
 ; lse-tpu:insert
 )
-;;;++
-;;; Direction of buffer movement
-;;;--
-(defconst lse-tpu:direction-forward  +1)
-(defconst lse-tpu:direction-backward -1)
 
 ;;;+
 ;;; line head and tail functions
@@ -1099,17 +1257,17 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:trim-line-end
 )
 
-(defun lse-tpu:pan-right (num)
+(defun lse-tpu:pan-right (&optional count)
   "Pan right lse-tpu:pan-columns (16 by default)."
-  (interactive "p")
-  (scroll-left (* lse-tpu:pan-columns num))
+  (interactive "P")
+  (scroll-left (* lse-tpu:pan-columns (lse-tpu:repeat-factor count)))
 ; lse-tpu:pan-right
 )
 
-(defun lse-tpu:pan-left (num)
+(defun lse-tpu:pan-left (&optional count)
   "Pan left lse-tpu:pan-columns (16 by default)."
-  (interactive "p")
-  (scroll-right (* lse-tpu:pan-columns num))
+  (interactive "P")
+  (scroll-right (* lse-tpu:pan-columns (lse-tpu:repeat-factor count)))
 ; lse-tpu:pan-left
 )
 
@@ -1161,7 +1319,9 @@ Accepts a prefix argument of the number of characters to invert."
          (lse-tpu:set-mark (point))
          (lse-tpu:update-mode-line)
          (add-hook 'post-command-hook 'lse-tpu:mark-active-hook)
-         (or quiet (message "Move the text cursor to select text."))
+         (or quiet (window-minibuffer-p)
+           (message "Move the text cursor to select text.")
+         )
         )
   )
 ; lse-tpu:select
@@ -1175,7 +1335,7 @@ Accepts a prefix argument of the number of characters to invert."
   (lse-tpu:unset-match); 22-Mar-1995
   (lse-tpu:update-mode-line)
   (remove-hook 'post-command-hook 'lse-tpu:mark-active-hook)
-  (or quiet (message "Selection canceled."))
+  (or quiet (window-minibuffer-p) (message "Selection canceled."))
 ; lse-tpu:unselect
 )
 
@@ -1625,59 +1785,59 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:prev-word-tail-pos
 )
 
-(defun lse-tpu:goto-next-word-head (num &optional limit)
+(defun lse-tpu:goto-next-word-head (&optional num limit)
   "Goto beginning of next word."
-  (interactive "p")
-  (goto-char (lse-tpu:next-word-head-pos num limit))
+  (interactive "P")
+  (goto-char (lse-tpu:next-word-head-pos (lse-tpu:repeat-factor num) limit))
 )
 
-(defun lse-tpu:goto-next-word-tail (num &optional limit)
+(defun lse-tpu:goto-next-word-tail (&optional num limit)
   "Goto end of next word."
-  (interactive "p")
-  (goto-char (lse-tpu:next-word-tail-pos num limit))
+  (interactive "P")
+  (goto-char (lse-tpu:next-word-tail-pos (lse-tpu:repeat-factor num) limit))
 )
 
-(defun lse-tpu:goto-prev-word-head (num &optional limit)
+(defun lse-tpu:goto-prev-word-head (&optional num limit)
   "Goto beginning of previous word."
-  (interactive "p")
-  (goto-char (lse-tpu:prev-word-head-pos num limit))
+  (interactive "P")
+  (goto-char (lse-tpu:prev-word-head-pos (lse-tpu:repeat-factor num) limit))
 )
 
-(defun lse-tpu:goto-prev-word-tail (num &optional limit)
+(defun lse-tpu:goto-prev-word-tail (&optional num limit)
   "Goto end of next word."
-  (interactive "p")
-  (goto-char (lse-tpu:prev-word-tail-pos num limit))
+  (interactive "P")
+  (goto-char (lse-tpu:prev-word-tail-pos (lse-tpu:repeat-factor num) limit))
 )
 
-(defun lse-tpu:goto-next-bs-word-head (num &optional limit)
+(defun lse-tpu:goto-next-bs-word-head (&optional num limit)
   "Goto to beginning of next word (using only blanks as separators.)"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-next-word-head num limit)
+    (lse-tpu:goto-next-word-head (lse-tpu:repeat-factor num) limit)
   )
 )
 
-(defun lse-tpu:goto-prev-bs-word-head (num &optional limit)
+(defun lse-tpu:goto-prev-bs-word-head (&optional num limit)
   "Goto to beginning of previous word (using only blanks as separators.)"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-prev-word-head num limit)
+    (lse-tpu:goto-prev-word-head (lse-tpu:repeat-factor num) limit)
   )
 )
 
-(defun lse-tpu:goto-next-bs-word-tail (num &optional limit)
+(defun lse-tpu:goto-next-bs-word-tail (&optional num limit)
   "Goto to beginning of next word (using only blanks as separators.)"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-next-word-tail num limit)
+    (lse-tpu:goto-next-word-tail (lse-tpu:repeat-factor num) limit)
   )
 )
 
-(defun lse-tpu:goto-prev-bs-word-tail (num &optional limit)
+(defun lse-tpu:goto-prev-bs-word-tail (&optional num limit)
   "Goto to beginning of previous word (using only blanks as separators.)"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-prev-word-tail num limit)
+    (lse-tpu:goto-prev-word-tail (lse-tpu:repeat-factor num) limit)
   )
 )
 
@@ -1735,11 +1895,14 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-nearest-stmt-block-head (count &optional limit)
+(defun lse-tpu:goto-nearest-stmt-block-head (&optional count limit)
   "Goto nearest head of statement block"
-  (interactive "p")
+  (interactive "P")
   (save-match-data
-    (let ((head (lse-tpu:stmt-block-head-pos limit count)))
+    (let ((head
+           (lse-tpu:stmt-block-head-pos limit (lse-tpu:repeat-factor count))
+          )
+         )
       (when (and head (marker-position head))
         (goto-char head)
         (lse-tpu:unset-match-highlight)
@@ -1753,14 +1916,14 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-nearest-stmt-block-head)
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-stmt-block-head (count &optional limit)
+(defun lse-tpu:goto-stmt-block-head (&optional count limit)
   "Goto head of current statement block"
-  (interactive "p")
+  (interactive "P")
   (save-match-data
     (let (tail)
       (save-excursion
         (unless (bobp) (backward-char 1))
-        (setq tail (lse-tpu:stmt-block-tail-pos count))
+        (setq tail (lse-tpu:stmt-block-tail-pos (lse-tpu:repeat-factor count)))
       )
       (when tail
         (goto-char tail)
@@ -1775,11 +1938,11 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-stmt-block-head)
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-stmt-block-tail (count)
+(defun lse-tpu:goto-stmt-block-tail (&optional count)
   "Goto tail of current statement block"
-  (interactive "p")
+  (interactive "P")
   (save-match-data
-    (let* ((tail (lse-tpu:stmt-block-tail-pos count))
+    (let* ((tail (lse-tpu:stmt-block-tail-pos (lse-tpu:repeat-factor count)))
           )
       (when tail
         (goto-char tail)
@@ -1792,11 +1955,11 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-stmt-block-tail)
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-nearest-function-head (count &optional limit)
+(defun lse-tpu:goto-nearest-function-head (&optional count limit)
   "Goto nearest head of function"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-nearest-stmt-block-head count limit)
+    (lse-tpu:goto-nearest-stmt-block-head (lse-tpu:repeat-factor count) limit)
   )
 ; lse-tpu:goto-nearest-function-head
 )
@@ -1804,11 +1967,11 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-nearest-function-head)
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-function-head (count &optional limit)
+(defun lse-tpu:goto-function-head (&optional count limit)
   "Goto head of current function"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-stmt-block-head count limit)
+    (lse-tpu:goto-stmt-block-head (lse-tpu:repeat-factor count) limit)
   )
 ; lse-tpu:goto-function-head
 )
@@ -1816,11 +1979,11 @@ Accepts a prefix argument of the number of characters to invert."
 (lse-tpu:put-prop:auto-save-position 'lse-tpu:goto-function-head)
 
 ;;; 18-Feb-2012
-(defun lse-tpu:goto-function-tail (count)
+(defun lse-tpu:goto-function-tail (&optional count)
   "Goto head of current function"
-  (interactive "p")
+  (interactive "P")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-stmt-block-tail count)
+    (lse-tpu:goto-stmt-block-tail (lse-tpu:repeat-factor count))
   )
 ; lse-tpu:goto-function-tail
 )
@@ -1871,29 +2034,34 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 19-Feb-2012
-(defun lse-tpu:goto-next-char (count &optional limit char)
+(defun lse-tpu:goto-next-char (&optional count limit char)
   "Goto next occurrence of character"
-  (interactive "p")
+  (interactive "P")
   (setq char (or char (lse-tpu:cmd-char)))
-  (lse-tpu:goto_occurrence char limit count 'search-forward)
+  (lse-tpu:goto_occurrence
+    char limit (lse-tpu:repeat-factor count) 'search-forward
+  )
 ; lse-tpu:goto-next-char
 )
 
 ;;; 19-Feb-2012
-(defun lse-tpu:goto-prev-char (count &optional limit char)
+(defun lse-tpu:goto-prev-char (&optional count limit char)
   "Goto previous occurrence of character"
-  (interactive "p")
+  (interactive "P")
   (setq char (or char (lse-tpu:cmd-char)))
-  (lse-tpu:goto_occurrence char limit count 'search-backward)
+  (lse-tpu:goto_occurrence
+    char limit (lse-tpu:repeat-factor count) 'search-backward
+  )
 ; lse-tpu:goto-prev-char
 )
 
 ;;; 19-Feb-2012
-(defun lse-tpu:goto-opening-char (count &optional limit char)
+(defun lse-tpu:goto-opening-char (&optional count limit char)
   "Goto opening character"
-  (interactive "p")
+  (interactive "P")
   (setq char (or char (lse-tpu:cmd-char)))
-  (let* ((cp   (point))
+  (let* ((cp    (point))
+         (count (lse-tpu:repeat-factor count) )
          (head
            (save-excursion
              (lse-tpu:goto-prev-char count nil char)
@@ -1925,15 +2093,15 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 12-Mar-2012
-(defun lse-tpu:goto-closing-char (count &optional limit char)
+(defun lse-tpu:goto-closing-char (&optional count limit char)
   "Goto closing character"
-  (interactive "p")
+  (interactive "P")
   (setq char (or char (lse-tpu:cmd-char)))
   (let ((cp (point))
         (oc (lse-tpu:opening-char char))
        )
     (when oc
-      (if (lse-tpu:goto-opening-char count limit oc)
+      (if (lse-tpu:goto-opening-char (lse-tpu:repeat-factor count) limit oc)
           (forward-list)
         (goto-char cp)
       )
@@ -1954,65 +2122,79 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 15-Nov-2014
-(defun lse-tpu:goto-next-occurrence-char (count &optional char limit)
+(defun lse-tpu:goto-next-occurrence-char (&optional count char limit)
   "Goto next occurrence of character specified"
-  (interactive "p\ncPress character")
-  (lse-tpu:goto_occurrence char limit count 'search-forward)
+  (interactive "P\ncPress character")
+  (lse-tpu:goto_occurrence
+    char limit (lse-tpu:repeat-factor count) 'search-forward
+  )
 ; lse-tpu:goto-next-occurrence-char
 )
 
 ;;; 15-Nov-2014
-(defun lse-tpu:goto-prev-occurrence-char (count char &optional limit)
+(defun lse-tpu:goto-prev-occurrence-char (&optional count char limit)
   "Goto previous occurrence of character specified"
-  (interactive "p\ncPress character")
-  (lse-tpu:goto_occurrence char limit count 'search-backward)
+  (interactive "P\ncPress character")
+  (lse-tpu:goto_occurrence
+    char limit (lse-tpu:repeat-factor count) 'search-backward
+  )
 ; lse-tpu:goto-prev-occurrence-char
 )
 
 ;;; 12-Mar-2012
-(defun lse-tpu:goto-next-occurrence-current-char (count &optional limit)
+(defun lse-tpu:goto-next-occurrence-current-char (&optional count limit)
   "Goto next occurrence of current character"
-  (interactive "p")
-  (lse-tpu:goto_occurrence (lse-tpu:current-char) limit count 'search-forward)
+  (interactive "P")
+  (lse-tpu:goto_occurrence
+    (lse-tpu:current-char) limit (lse-tpu:repeat-factor count) 'search-forward
+  )
 ; lse-tpu:goto-next-occurrence-current-char
 )
 
 ;;; 12-Mar-2012
-(defun lse-tpu:goto-prev-occurrence-current-char (count &optional limit)
+(defun lse-tpu:goto-prev-occurrence-current-char (&optional count limit)
   "Goto previous occurrence of current character"
-  (interactive "p")
-  (lse-tpu:goto_occurrence (lse-tpu:current-char) limit count 'search-backward)
+  (interactive "P")
+  (lse-tpu:goto_occurrence
+    (lse-tpu:current-char) limit (lse-tpu:repeat-factor count) 'search-backward
+  )
 ; lse-tpu:goto-prev-occurrence-current-char
 )
 
 ;;; 20-Feb-2012
-(defun lse-tpu:goto-next-occurrence-current-word (count &optional limit)
+(defun lse-tpu:goto-next-occurrence-current-word (&optional count limit)
   "Goto next occurrence of current word"
-  (interactive "p")
-  (lse-tpu:goto_occurrence_current_word count limit 'search-forward)
+  (interactive "P")
+  (lse-tpu:goto_occurrence_current_word
+    (lse-tpu:repeat-factor count) limit 'search-forward
+  )
 ; lse-tpu:goto-next-occurrence-current-word
 )
 
 ;;; 20-Feb-2012
-(defun lse-tpu:goto-prev-occurrence-current-word (count &optional limit)
+(defun lse-tpu:goto-prev-occurrence-current-word (&optional count limit)
   "Goto previous occurrence of current word"
-  (interactive "p")
-  (lse-tpu:goto_occurrence_current_word count limit 'search-backward)
+  (interactive "P")
+  (lse-tpu:goto_occurrence_current_word
+    (lse-tpu:repeat-factor count) limit 'search-backward
+  )
 ; lse-tpu:goto-prev-occurrence-current-word
 )
 
 ;;;++
 ;;; Deletion/Undeletion of chars, words, and lines
 ;;;--
-(defun lse-tpu:undelete (num deletion dir)
+(defun lse-tpu:undelete (num ccpb &optional dir-sign)
   (let ((head (point))
+        (text (lse-tpu:ccp-buffer:text ccpb))
+        (dir  (lse-tpu:ccp-buffer:dir  ccpb))
        )
     (while (> num 0)
-      (lse-tpu:insert deletion)
+      (lse-tpu:insert text)
       (setq num (1- num))
     )
-    (if (equal dir lse-tpu:direction-forward)
-        (goto-char head)
+    (when (equal dir (* (or dir-sign 1) lse-tpu:direction-forward))
+      (goto-char head)
     )
   )
   (setq deactivate-mark nil); 17-Mar-1995
@@ -2021,62 +2203,54 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:delete (head tail)
   (delete-region head tail)
-  (if overwrite-mode
-      (let ((cp (point)))
-        (insert-char (string-to-char " ") (- tail head))
-        (goto-char cp)
-      )
+  (when overwrite-mode
+    (let ((cp (point)))
+      (insert-char (string-to-char " ") (- tail head))
+      (goto-char cp)
+    )
   )
   (setq deactivate-mark nil); 17-Mar-1995
 ; lse-tpu:delete
 )
 
 ;;; 29-Aug-2002
-(defun lse-tpu:delete-entity (head tail dir append buffer buffer-dir)
-  (let ((deletion (buffer-substring head tail))
+(defun lse-tpu:delete-entity (head tail dir append ccpb)
+  (let ((text (buffer-substring head tail))
        )
-    (set buffer-dir dir)
-    (set buffer
-      (if append
-          (if (equal dir lse-tpu:direction-forward)
-              (concat buffer deletion)
-            (concat deletion buffer)
-          )
-        deletion
-      )
-    )
+    (lse-tpu:ccp-buffer:update ccpb text dir append)
     (lse-tpu:delete head tail)
   )
 ; lse-tpu:delete-entity
 )
 
 ;;; 29-Aug-2002
-(defun lse-tpu:delete-cwl (head tail dir append buffer buffer-dir)
+(defun lse-tpu:delete-cwl (head tail dir append ccpb)
   (if (lse-tpu:key-shifted-p (this-command-keys))
       (lse-tpu:delete-entity head tail dir append
-         'lse-tpu:pasted-region 'lse-tpu:pasted-region-dir
+         (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:region)
       )
-    (lse-tpu:delete-entity head tail dir append buffer buffer-dir)
+    (lse-tpu:delete-entity head tail dir append ccpb)
   )
 ; lse-tpu:delete-cwl
 )
 
-(defvar lse-tpu:char-deletion     "")
-(defvar lse-tpu:char-deletion-dir lse-tpu:direction-forward)
-
 (defun lse-tpu:delete-char (head tail dir &optional append)
   (lse-tpu:delete-cwl head tail dir append
-    'lse-tpu:char-deletion 'lse-tpu:char-deletion-dir
+    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:char)
   )
 ; lse-tpu:delete-char
 )
 
-(defun lse-tpu:delete-next-char (num &optional append)
-  "Delete next character and store for the undelete-char command"
-  (interactive "*p")
+(defun lse-tpu:delete-next-char (&optional append)
+  "Delete next character and store for the \\[lse-tpu:undelete-char] command.
+Prefix argument means: append to paste buffer."
+  (interactive "*P")
   (let ((head (point))
-        ;; 19-Dec-1997; (tail (+ (point) num))
-        (tail (save-excursion (lse-tpu:forward-char num) (point)))
+        (tail
+          (save-excursion
+            (lse-tpu:forward-char (lse-tpu:repeat-factor)) (point)
+          )
+        )
        )
     (if (not (eobp))
         (lse-tpu:delete-char head tail lse-tpu:direction-forward append)
@@ -2085,21 +2259,24 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:delete-next-char
 )
 
-(defun lse-tpu:delete-prev-char (num &optional append)
-  "Delete previous character and store for the \\[lse-tpu:undelete-char] command"
-  (interactive "*p")
-  (if (bobp)
-      t ; relax
-    (if (equal (preceding-char) ?\t)
-        (let ((cc (current-column))
-             )
-          (untabify (lse-tpu:line-head-pos) (lse-tpu:line-tail-pos))
-          (move-to-column cc)
-        )
+(defun lse-tpu:delete-prev-char (&optional append)
+  "Delete previous character and store for the \\[lse-tpu:undelete-char] command.
+Prefix argument means: append to paste buffer."
+  (interactive "*P")
+  (unless (bobp)
+    (when (equal (preceding-char) ?\t)
+      (let ((cc (current-column))
+           )
+        (untabify (lse-tpu:line-head-pos) (lse-tpu:line-tail-pos))
+        (move-to-column cc)
+      )
     )
     (let ((tail (point))
-          ;; 19-Dec-1997; (head (- (point) num))
-          (head (save-excursion (lse-tpu:backward-char num) (point)))
+          (head
+            (save-excursion
+              (lse-tpu:backward-char (lse-tpu:repeat-factor)) (point)
+            )
+          )
          )
       (lse-tpu:delete-char head tail lse-tpu:direction-backward append)
     )
@@ -2107,37 +2284,27 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:delete-prev-char
 )
 
-(defun lse-tpu:delete-next-char-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-next-char num t)
-)
-
-(defun lse-tpu:delete-prev-char-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-prev-char num t)
-)
-
-(defun lse-tpu:undelete-char (num)
-  (interactive "*p")
-  (lse-tpu:undelete num lse-tpu:char-deletion lse-tpu:char-deletion-dir)
+(defun lse-tpu:undelete-char (&optional count)
+  (interactive "*P")
+  (lse-tpu:undelete
+    (lse-tpu:repeat-factor count)
+    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:char)
+  )
 )
 
-(defvar lse-tpu:word-deletion     "")
-(defvar lse-tpu:word-deletion-dir lse-tpu:direction-forward)
-
 (defun lse-tpu:delete-word (head tail dir &optional append)
-  (if (/= head tail)
-      (lse-tpu:delete-cwl head tail dir append
-                         'lse-tpu:word-deletion 'lse-tpu:word-deletion-dir
-      )
+  (when (/= head tail)
+    (lse-tpu:delete-cwl head tail dir append
+      (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:word)
+    )
   )
 ; lse-tpu:delete-word
 )
 
-(defun lse-tpu:delete-next-word (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-next-word (&optional append)
+  (interactive "*P")
   (let ((head (point))
-        (tail (lse-tpu:next-word-head-pos num))
+        (tail (lse-tpu:next-word-head-pos (lse-tpu:repeat-factor)))
        )
     (lse-tpu:delete-word head tail lse-tpu:direction-forward append)
   )
@@ -2145,15 +2312,10 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 25-Aug-2002
-(defun lse-tpu:delete-next-word-tail (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-next-word-tail (&optional append)
+  (interactive "*P")
   (let ((head (point))
-        (tail
-          (save-excursion
-            (lse-tpu:goto-next-word-tail num)
-            (point)
-          )
-        )
+        (tail (lse-tpu:next-word-tail-pos (lse-tpu:repeat-factor)))
        )
     (lse-tpu:delete-word head tail lse-tpu:direction-forward append)
   )
@@ -2161,12 +2323,12 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 25-Aug-2002
-(defun lse-tpu:delete-next-bs-word-tail (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-next-bs-word-tail (&optional append)
+  (interactive "*P")
   (let ((head (point))
         (tail
           (save-excursion
-            (lse-tpu:goto-next-bs-word-tail num)
+            (lse-tpu:goto-next-bs-word-tail (lse-tpu:repeat-factor))
             (point)
           )
         )
@@ -2176,10 +2338,10 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:delete-next-bs-word-tail
 )
 
-(defun lse-tpu:delete-prev-word (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-prev-word (&optional append)
+  (interactive "*P")
   (let ((tail (point))
-        (head (lse-tpu:prev-word-head-pos num))
+        (head (lse-tpu:prev-word-head-pos (lse-tpu:repeat-factor)))
        )
     (lse-tpu:delete-word head tail lse-tpu:direction-backward append)
   )
@@ -2187,12 +2349,12 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;;  6-Jan-2002
-(defun lse-tpu:delete-prev-bs-word (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-prev-bs-word (&optional append)
+  (interactive "*P")
   (let ((tail (point))
         (head
           (save-excursion
-            (lse-tpu:goto-prev-bs-word-head num)
+            (lse-tpu:goto-prev-bs-word-head (lse-tpu:repeat-factor))
             (point)
           )
         )
@@ -2203,12 +2365,12 @@ Accepts a prefix argument of the number of characters to invert."
 )
 
 ;;; 25-Aug-2002
-(defun lse-tpu:delete-prev-bs-word-tail (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-prev-bs-word-tail (&optional append)
+  (interactive "*P")
   (let ((tail (point))
         (head
           (save-excursion
-            (lse-tpu:goto-prev-bs-word-tail num)
+            (lse-tpu:goto-prev-bs-word-tail (lse-tpu:repeat-factor))
             (point)
           )
         )
@@ -2218,37 +2380,27 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:delete-prev-bs-word-tail
 )
 
-(defun lse-tpu:delete-next-word-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-next-word num t)
-)
-
-(defun lse-tpu:delete-prev-word-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-prev-word num t)
-)
-
-(defun lse-tpu:undelete-word (num)
-  (interactive "*p")
-  (lse-tpu:undelete num lse-tpu:word-deletion lse-tpu:word-deletion-dir)
+(defun lse-tpu:undelete-word (&optional count)
+  (interactive "*P")
+  (lse-tpu:undelete
+    (lse-tpu:repeat-factor count)
+    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:word)
+  )
 )
 
-(defvar lse-tpu:line-deletion     "")
-(defvar lse-tpu:line-deletion-dir lse-tpu:direction-forward)
-
 (defun lse-tpu:delete-line (head tail dir &optional append)
-  (if (/= head tail)
-      (lse-tpu:delete-cwl head tail dir append
-                         'lse-tpu:line-deletion 'lse-tpu:line-deletion-dir
-      )
+  (when (/= head tail)
+    (lse-tpu:delete-cwl head tail dir append
+      (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:line)
+    )
   )
 ; lse-tpu:delete-line
 )
 
-(defun lse-tpu:delete-next-line (num &optional append)
-  (interactive "*p")
+(defun lse-tpu:delete-next-line (&optional append)
+  (interactive "*P")
   (let ((head (point))
-        (tail (lse-tpu:line-tail-pos num))
+        (tail (lse-tpu:line-tail-pos (lse-tpu:repeat-factor)))
        )
     (lse-tpu:delete-line
          head (min (point-max) (1+ tail)) lse-tpu:direction-forward append
@@ -2257,55 +2409,46 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:delete-next-line
 )
 
-(defun lse-tpu:delete-head-of-line (num &optional append)
-  (interactive "*p")
-  (let ((tail (point))
-        (head (lse-tpu:line-head-pos (- 2 (if (bolp) (1+ num) num))))
-       )
+(defun lse-tpu:delete-head-of-line (&optional append)
+  (interactive "*P")
+  (let* ((num  (lse-tpu:repeat-factor))
+         (head (lse-tpu:line-head-pos (- 2 (if (bolp) (1+ num) num))))
+         (tail (point))
+        )
     (lse-tpu:delete-line head tail lse-tpu:direction-backward append)
   )
 ; lse-tpu:delete-head-of-line
 )
 
 ;;; 25-Aug-2002
-(defun lse-tpu:delete-to-prev-tail-of-line (num &optional append)
-  (interactive "*p")
-  (let ((tail (point))
-        (head (1- (lse-tpu:line-head-pos (- 2 (if (bolp) (1+ num) num)))))
-       )
+(defun lse-tpu:delete-to-prev-tail-of-line (&optional append)
+  (interactive "*P")
+  (let* ((num  (lse-tpu:repeat-factor))
+         (head (1- (lse-tpu:line-head-pos (- 2 (if (bolp) (1+ num) num)))))
+         (tail (point))
+        )
     (lse-tpu:delete-line head tail lse-tpu:direction-backward append)
   )
 ; lse-tpu:delete-to-prev-tail-of-line
 )
 
-(defun lse-tpu:delete-tail-of-line (num &optional append)
-  (interactive "*p")
-  (let ((head (point))
-        (tail (lse-tpu:line-tail-pos (if (eolp) (1+ num) num)))
-       )
+(defun lse-tpu:delete-tail-of-line (&optional append)
+  (interactive "*P")
+  (let* ((num  (lse-tpu:repeat-factor))
+         (head (point))
+         (tail (lse-tpu:line-tail-pos (if (eolp) (1+ num) num)))
+        )
     (lse-tpu:delete-line head tail lse-tpu:direction-forward append)
   )
 ; lse-tpu:delete-tail-of-line
 )
 
-(defun lse-tpu:delete-next-line-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-next-line num t)
-)
-
-(defun lse-tpu:delete-head-of-line-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-head-of-line num t)
-)
-
-(defun lse-tpu:delete-tail-of-line-append (num)
-  (interactive "*p")
-  (lse-tpu:delete-tail-of-line num t)
-)
-
-(defun lse-tpu:undelete-line (num)
-  (interactive "*p")
-  (lse-tpu:undelete num lse-tpu:line-deletion lse-tpu:line-deletion-dir)
+(defun lse-tpu:undelete-line (&optional count)
+  (interactive "*P")
+  (lse-tpu:undelete
+    (lse-tpu:repeat-factor count)
+    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:line)
+  )
 )
 
 ;;;++
@@ -2357,38 +2500,35 @@ corners of a rectangle."
 ; lse-tpu:arrange-rectangle
 )
 
-(defvar lse-tpu:pasted-region     "")
 (defvar lse-tpu:pasted-region-dir lse-tpu:direction-forward)
 
-(defun lse-tpu:copy@range (head tail unselect-command)
-  (setq lse-tpu:pasted-region-dir
-        (if (> head tail)
-            lse-tpu:direction-backward
-          lse-tpu:direction-forward
+(defun lse-tpu:copy@range (head tail unselect-command append)
+  (let* ((ccpb (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:region))
+         (dir
+           (if (> head tail)
+               lse-tpu:direction-backward
+             lse-tpu:direction-forward
+           )
+         )
+         (text (buffer-substring head tail))
         )
-  )
-  (setq lse-tpu:pasted-region
-        (if (equal lse-tpu:pasted-region-dir lse-tpu:direction-forward)
-            (concat lse-tpu:pasted-region (buffer-substring head tail))
-          (concat (buffer-substring head tail) lse-tpu:pasted-region)
-        )
+    (lse-tpu:ccp-buffer:update ccpb text dir append)
   )
   (eval unselect-command)
-  ;; 28-Feb-2000;; (if interprogram-cut-function (funcall interprogram-cut-function lse-tpu:pasted-region nil))
 ; lse-tpu:copy@range
 )
 
-(defun lse-tpu:copy-selection (&optional last-action)
+(defun lse-tpu:copy-selection (append &optional last-action)
   (let ((head (lse-tpu:mark))
         (tail (point))
        )
-    (lse-tpu:copy@range head tail '(lse-tpu:unselect t))
+    (lse-tpu:copy@range head tail '(lse-tpu:unselect t) append)
     (if last-action (funcall last-action head tail))
   )
 ; lse-tpu:copy-selection
 )
 
-(defun lse-tpu:copy-match (&optional last-action)
+(defun lse-tpu:copy-match (append &optional last-action)
   (let (head
         tail
         (mhead (lse-tpu:match-beginning))
@@ -2403,7 +2543,7 @@ corners of a rectangle."
            (setq tail mtail)
           )
     )
-    (lse-tpu:copy@range head tail '(lse-tpu:unset-match))
+    (lse-tpu:copy@range head tail '(lse-tpu:unset-match) append)
     (if last-action (funcall last-action mhead mtail))
   )
 ; lse-tpu:copy-match
@@ -2420,137 +2560,111 @@ corners of a rectangle."
 ; lse-tpu:cut/copy-rectangle
 )
 
-(defun lse-tpu:copy-append-region (&optional last-action)
-  "Append the selected region to the paste buffer without deleting it.
-The text is saved for the paste command."
-  (interactive)
-  (cond ((lse-tpu:mark)
-           (if lse-tpu:rectangular-p
-               (error "Cannot append in rectangular mode.")
-             (lse-tpu:copy-selection (or last-action 'ignore))
-           )
-        )
-        ((lse-tpu:check-match)
-           (lse-tpu:copy-match (or last-action 'ignore))
-        )
-        (t
-           (error "No selection active.")
-        )
-  )
-; lse-tpu:copy-append-region
-)
-
-(defun lse-tpu:cut-append-region ()
-  "Delete the selected region and append it to the paste buffer.
-The text is saved for the paste command."
-  (interactive "*")
-  (lse-tpu:copy-append-region 'lse-tpu:delete)
-)
-
-(defun lse-tpu:copy-region (&optional last-action last-rectangle-action)
+(defun lse-tpu:copy-region (&optional append last-action last-rectangle-action)
   "Copy the selected region to the paste buffer without deleting it.
-The text is saved for the paste command."
-  (interactive)
-  (cond ((lse-tpu:mark)
-           (if lse-tpu:rectangular-p
-               (lse-tpu:cut/copy-rectangle
-                    (or last-rectangle-action
-                      '(setq picture-killed-rectangle
-                             (extract-rectangle (lse-tpu:selection-head-pos)
-                                                (lse-tpu:selection-tail-pos)
-                             )
-                       )
-                    )
-               )
-             (setq lse-tpu:pasted-region nil)
-             (lse-tpu:copy-selection (or last-action 'ignore))
-           )
-        )
-        ((lse-tpu:check-match)
-           (setq lse-tpu:pasted-region nil)
-           (lse-tpu:copy-match (or last-action 'ignore))
-        )
-        (t
-           (error "No selection active.")
-        )
+The text is saved for the paste command.
+Prefix argument means: append to paste buffer."
+  (interactive "P")
+  (cond
+    ((lse-tpu:mark)
+      (if lse-tpu:rectangular-p
+          (if append
+              (error "Cannot append in rectangular mode.")
+            (lse-tpu:cut/copy-rectangle
+              (or last-rectangle-action
+                '(setq picture-killed-rectangle
+                  (extract-rectangle
+                    (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
+                  )
+                 )
+              )
+            )
+          )
+        (lse-tpu:copy-selection append (or last-action 'ignore))
+      )
+    )
+    ((lse-tpu:check-match)
+      (lse-tpu:copy-match append (or last-action 'ignore))
+    )
+    (t (error "No selection active."))
   )
 ; lse-tpu:copy-region
 )
 
 (defun lse-tpu:copy-current-line (&optional append)
   "Copy current line into paste buffer.
-Prefix argument means: append to paste buffer"
+Prefix argument means: append to paste buffer."
   (interactive "P")
-  (if (not append)
-      (setq lse-tpu:pasted-region nil)
+  (lse-tpu:copy@range
+    (lse-tpu:line-head-pos) (lse-tpu:line-head-pos 2) nil append
   )
-  (lse-tpu:copy@range (lse-tpu:line-head-pos) (lse-tpu:line-head-pos 2) nil)
 ; lse-tpu:copy-current-line
 )
 
 (defun lse-tpu:copy-current-defun (&optional append)
   "Copy current function-sexp into paste buffer.
-Prefix argument means: append to paste buffer"
+Prefix argument means: append to paste buffer."
   (interactive "P")
   (let (head tail
        )
     (save-excursion
-      (beginning-of-defun) (setq  head (point))
-      (end-of-defun)       (setq  tail (point))
+      (beginning-of-defun) (setq head (point))
+      (end-of-defun)       (setq tail (point))
     )
-    (if (not append)
-        (setq lse-tpu:pasted-region nil)
-    )
-    (lse-tpu:copy@range head tail nil)
+    (lse-tpu:copy@range head tail nil append)
   )
 ; lse-tpu:copy-current-defun
 )
 
-(defun lse-tpu:cut-region ()
+(defun lse-tpu:cut-region (&optional append)
   "Delete the selected region and put it into the paste buffer.
-The text is saved for the paste command."
-  (interactive "*")
+The text is saved for the paste command.
+Prefix argument means: append to paste buffer."
+  (interactive "*P")
   (lse-tpu:copy-region
-       'lse-tpu:delete
-       '(picture-clear-rectangle
-             (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
-             (not overwrite-mode)
-        )
+    append
+    'lse-tpu:delete
+    '(picture-clear-rectangle
+          (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
+          (not overwrite-mode)
+     )
   )
 ; lse-tpu:cut-region
 )
 
-(defun lse-tpu:paste-region (num)
+(defun lse-tpu:paste-region (&optional count)
   "Insert the last region or rectangle of killed text.
 With argument reinserts the text that many times."
-  (interactive "p")
-  (cond (lse-tpu:rectangular-p
-         (let (tail)
-           (while (> num 0)
-             (save-excursion
-               (picture-yank-rectangle (not overwrite-mode))
-               (message "")
-               (setq tail (point))
+  (interactive "*P")
+  (let* ((num  (lse-tpu:repeat-factor count))
+         (ccpb (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:region))
+        )
+    (cond (lse-tpu:rectangular-p
+           (let (tail)
+             (while (> num 0)
+               (save-excursion
+                 (picture-yank-rectangle (not overwrite-mode))
+                 (message "")
+                 (setq tail (point))
+               )
+               (setq num (1- num))
              )
-             (setq num (1- num))
-           )
-           (if (equal lse-tpu:pasted-region-dir lse-tpu:direction-backward)
+             (when (= lse-tpu:pasted-region-dir lse-tpu:direction-backward)
                (goto-char tail)
+             )
            )
-         )
-         (setq deactivate-mark nil); 17-Mar-1995
-        )
-        (t
-         (lse-tpu:undelete
-           num lse-tpu:pasted-region (- lse-tpu:pasted-region-dir)
-         )
-        )
+           (setq deactivate-mark nil); 17-Mar-1995
+          )
+          (t
+           (lse-tpu:undelete num ccpb -1)
+          )
+    )
   )
 ; lse-tpu:paste-region
 )
 
-(defun lse-tpu:duplicate-previous-line (num)
-  (interactive "*p")
+(defun lse-tpu:duplicate-previous-line (&optional count)
+  (interactive "*P")
   (let (head tail delta)
     (if (and (bolp)
              ; 30-Jun-1996 ; (not (looking-at "[ \t]*$"))
@@ -2559,7 +2673,7 @@ With argument reinserts the text that many times."
     )
     (setq delta (max 0 (- (lse-tpu:line-tail-pos-sans-bs 1) (point))))
     (save-excursion
-      (lse-tpu:previous-line num)
+      (lse-tpu:previous-line (lse-tpu:repeat-factor count))
       (if (eolp)
           t; relax
         (setq head (point))
@@ -2572,12 +2686,12 @@ With argument reinserts the text that many times."
 ; lse-tpu:duplicate-previous-line
 )
 
-(defun lse-tpu:duplicate-word-in-previous-line (num)
-  (interactive "*p")
+(defun lse-tpu:duplicate-word-in-previous-line (&optional count)
+  (interactive "*P")
   (let (head tail
        )
     (save-excursion
-      (lse-tpu:previous-line num)
+      (lse-tpu:previous-line (lse-tpu:repeat-factor count))
       (if (eolp)
           t
         (setq head (point))
@@ -2590,24 +2704,28 @@ With argument reinserts the text that many times."
 ; lse-tpu:duplicate-word-in-previous-line
 )
 
-(defun lse-tpu:duplicate-previous-word (num)
-  (interactive "*p")
-  (insert (buffer-substring (lse-tpu:prev-word-head-pos num) (point)))
-  (setq deactivate-mark nil); 17-Mar-1995
+(defun lse-tpu:duplicate-previous-word (&optional count)
+  (interactive "*P")
+  (let ((head (lse-tpu:prev-word-head-pos (lse-tpu:repeat-factor count)))
+        (tail (point))
+       )
+    (insert (buffer-substring head tail))
+    (setq deactivate-mark nil); 17-Mar-1995
+  )
 ; lse-tpu:duplicate-previous-word
 )
 
-(defun lse-tpu:duplicate-previous-bs-word (num)
-  (interactive "*p")
+(defun lse-tpu:duplicate-previous-bs-word (&optional count)
+  (interactive "*P")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:duplicate-previous-word num)
+    (lse-tpu:duplicate-previous-word (lse-tpu:repeat-factor count))
   )
 ; lse-tpu:duplicate-previous-bs-word
 )
 
-(defun lse-tpu:duplicate-previous-char (num)
-  (interactive "*p")
-  (insert-char (preceding-char) num)
+(defun lse-tpu:duplicate-previous-char (&optional count)
+  (interactive "*P")
+  (insert-char (preceding-char) (lse-tpu:repeat-factor count))
   (setq deactivate-mark nil); 17-Mar-1995
 ; lse-tpu:duplicate-previous-char
 )
@@ -3235,21 +3353,21 @@ or from the current line if no region is selected."
 ;;;
 ;;;  Movement by character
 ;;;
-(defun lse-tpu:forward-char (num)
+(defun lse-tpu:forward-char (&optional count)
   "Move right ARG characters (left if ARG is negative)."
-  (interactive "p")
+  (interactive "P")
   (condition-case nil
-      (forward-char num)
+      (forward-char (lse-tpu:repeat-factor count))
     (error (lse-message ""))
   )
 ; lse-tpu:forward-char
 )
 
-(defun lse-tpu:backward-char (num)
+(defun lse-tpu:backward-char (&optional count)
   "Move left ARG characters (right if ARG is negative)."
-  (interactive "p")
+  (interactive "P")
   (condition-case nil
-      (backward-char num)
+      (backward-char (lse-tpu:repeat-factor count))
     (error (lse-message ""))
   )
 ; lse-tpu:backward-char
@@ -3270,10 +3388,10 @@ or from the current line if no region is selected."
   )
 )
 
-(defun lse-tpu:next-line-internal (num &optional command)
+(defun lse-tpu:next-line-internal (&optional count command)
   (condition-case nil
       (let (line-move-visual auto-window-vscroll)
-        (lse-tpu:std:line-move num)
+        (lse-tpu:std:line-move count)
         (and command (setq this-command command))
       )
     (error (lse-message ""))
@@ -3281,49 +3399,49 @@ or from the current line if no region is selected."
 ; lse-tpu:next-line-internal
 )
 
-(defun lse-tpu:next-line (num)
+(defun lse-tpu:next-line (&optional count)
   "Move to next line.
 Prefix argument serves as a repeat count."
-  (interactive "p")
-  (lse-tpu:next-line-internal num 'next-line)
+  (interactive "P")
+  (lse-tpu:next-line-internal (lse-tpu:repeat-factor count) 'next-line)
 ; lse-tpu:next-line
 )
 
-(defun lse-tpu:previous-line (num)
+(defun lse-tpu:previous-line (&optional count)
   "Move to previous line.
 Prefix argument serves as a repeat count."
-  (interactive "p")
-  (lse-tpu:next-line-internal (- num) 'previous-line)
+  (interactive "P")
+  (lse-tpu:next-line-internal (- (lse-tpu:repeat-factor count)) 'previous-line)
 ; lse-tpu:previous-line
 )
 
-(defun lse-tpu:next-beginning-of-line (num)
+(defun lse-tpu:next-beginning-of-line (&optional count)
   "Move to beginning of line; if at beginning, move to beginning of next line.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "p")
+  (interactive "P")
   (lse-tpu:backward-char 1)
-  (lse-tpu:forward-line  (- 1 num))
+  (lse-tpu:forward-line  (- 1 (lse-tpu:repeat-factor count)))
 ; lse-tpu:next-beginning-of-line
 )
 
-(defun lse-tpu:next-end-of-line (num)
+(defun lse-tpu:next-end-of-line (&optional count)
   "Move to end of line; if at end, move to end of next line.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "p")
+  (interactive "P")
   (lse-tpu:forward-char 1)
-  (end-of-line num)
+  (end-of-line (lse-tpu:repeat-factor count))
 ; lse-tpu:next-end-of-line
 )
 
-(defun lse-tpu:previous-end-of-line (num)
+(defun lse-tpu:previous-end-of-line (&optional count)
   "Move EOL upward.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "p")
-  (end-of-line (- 1 num))
+  (interactive "P")
+  (end-of-line (- 1 (lse-tpu:repeat-factor count)))
 ; lse-tpu:previous-end-of-line
 )
 
-(defun lse-tpu:current-end-of-line nil
+(defun lse-tpu:current-end-of-line ()
   "Move point to end of current line."
   (interactive)
   (let ((beg (point)))
@@ -3333,66 +3451,72 @@ Accepts a prefix argument for the number of lines to move."
 ; lse-tpu:current-end-of-line
 )
 
-(defun lse-tpu:forward-line (num)
+(defun lse-tpu:forward-line (&optional count)
   "Move to beginning of next line.
 Prefix argument serves as a repeat count."
-  (interactive "p")
+  (interactive "P")
   (condition-case nil
-      (forward-line num)
+      (forward-line (lse-tpu:repeat-factor count))
     (error (lse-message ""))
   )
 ; lse-tpu:forward-line
 )
 
-(defun lse-tpu:backward-line (num)
+(defun lse-tpu:backward-line (&optional count)
   "Move to beginning of previous line.
 Prefix argument serves as repeat count."
-  (interactive "p")
-  (lse-tpu:forward-line (- num))
+  (interactive "P")
+  (lse-tpu:forward-line (- (lse-tpu:repeat-factor count)))
 ; lse-tpu:backward-line
 )
 
 ;;;
 ;;;  Movement by paragraph
 ;;;
-(defun lse-tpu:next-paragraph (num)
+(defun lse-tpu:next-paragraph (&optional count)
   "Move to beginning of the next paragraph.
 Accepts a prefix argument for the number of paragraphs."
-  (interactive "p")
-  (beginning-of-line)
-  (while (and (not (eobp)) (> num 0))
-    (if (re-search-forward "^[ \t]*$" nil t)
-        (if (re-search-forward "[^ \t\n]" nil t)
-            (goto-char (match-beginning 0))
-          (goto-char (point-max))
-        )
+  (interactive "P")
+  (let ((num (lse-tpu:repeat-factor count))
+       )
+    (beginning-of-line)
+    (while (and (not (eobp)) (> num 0))
+      (if (re-search-forward "^[ \t]*$" nil t)
+          (if (re-search-forward "[^ \t\n]" nil t)
+              (goto-char (match-beginning 0))
+            (goto-char (point-max))
+          )
+      )
+      (setq num (1- num))
     )
-    (setq num (1- num))
+    (beginning-of-line)
   )
-  (beginning-of-line)
 ; lse-tpu:next-paragraph
 )
 
 
-(defun lse-tpu:previous-paragraph (num)
+(defun lse-tpu:previous-paragraph (&optional count)
   "Move to beginning of previous paragraph.
 Accepts a prefix argument for the number of paragraphs."
-  (interactive "p")
-  (end-of-line)
-  (while (and (not (bobp)) (> num 0))
-    (if (not (and (re-search-backward "^[ \t]*$" nil t)
-                  (re-search-backward "[^ \t\n]" nil t)
-                  (re-search-backward "^[ \t]*$" nil t)
-                  (progn (re-search-forward "[^ \t\n]" nil t)
-                         (goto-char (match-beginning 0))
-                  )
-             )
-        )
-        (goto-char (point-min))
+  (interactive "P")
+  (let ((num (lse-tpu:repeat-factor count))
+       )
+    (end-of-line)
+    (while (and (not (bobp)) (> num 0))
+      (if (not (and (re-search-backward "^[ \t]*$" nil t)
+                    (re-search-backward "[^ \t\n]" nil t)
+                    (re-search-backward "^[ \t]*$" nil t)
+                    (progn (re-search-forward "[^ \t\n]" nil t)
+                           (goto-char (match-beginning 0))
+                    )
+               )
+          )
+          (goto-char (point-min))
+      )
+      (setq num (1- num))
     )
-    (setq num (1- num))
+    (beginning-of-line)
   )
-  (beginning-of-line)
 ; lse-tpu:previous-paragraph
 )
 
@@ -3400,23 +3524,23 @@ Accepts a prefix argument for the number of paragraphs."
 ;;;  Movement by page
 ;;;
 ;;;  8-Sep-2002
-(defun lse-tpu:page-forward (num)
+(defun lse-tpu:page-forward (&optional count)
   "Mode to the end of the current page.
 A repeat count means move that many pages."
-  (interactive "p")
+  (interactive "P")
   (lse-tpu:save-pos-before-search)
-  (forward-page num)
+  (forward-page (lse-tpu:repeat-factor count))
   (if (eobp) (recenter -1))
 ; lse-tpu:page-forward
 )
 
 ;;;  8-Sep-2002
-(defun lse-tpu:page-backward (num)
+(defun lse-tpu:page-backward (&optional count)
   "Mode to the beginning of the current page.
 A repeat count means move that many pages."
-  (interactive "p")
+  (interactive "P")
   (lse-tpu:save-pos-before-search)
-  (backward-page num)
+  (backward-page (lse-tpu:repeat-factor count))
   (if (bobp) (recenter 1))
 ; lse-tpu:page-backward
 )
@@ -3430,13 +3554,14 @@ Top line is 0.  Counts each text line only once, even if it wraps."
   (+ (count-lines (window-start) (point)) (if (= (current-column) 0) 1 0) -1)
 )
 
-(defun lse-tpu:scroll-window-down (num)
+(defun lse-tpu:scroll-window-down (&optional count)
   "Scroll the display down to the next section.
 A repeat count means scroll that many sections."
-  (interactive "p")
-  (let* ((beg (lse-tpu:current-line))
+  (interactive "P")
+  (let* ((beg    (lse-tpu:current-line))
          (height (1- (window-height)))
-         (lines (* num (/ (* height lse-tpu:percent-scroll) 100)))
+         (num    (lse-tpu:repeat-factor count))
+         (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal (- lines))
     (if (> lines beg) (recenter 0))
@@ -3444,13 +3569,14 @@ A repeat count means scroll that many sections."
 ; lse-tpu:scroll-window-down
 )
 
-(defun lse-tpu:scroll-window-up (num)
+(defun lse-tpu:scroll-window-up (&optional count)
   "Scroll the display up to the next section.
 A repeat count means scroll that many sections."
-  (interactive "p")
-  (let* ((beg (lse-tpu:current-line))
+  (interactive "P")
+  (let* ((beg    (lse-tpu:current-line))
          (height (1- (window-height)))
-         (lines (* num (/ (* height lse-tpu:percent-scroll) 100)))
+         (num    (lse-tpu:repeat-factor count))
+         (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal lines)
     (if (>= (+ lines beg) height) (recenter -1))
@@ -3476,75 +3602,23 @@ A repeat count means scroll that many sections."
 ;;;
 ;;;  Emacs version 19 minibuffer history support
 ;;;
-(defun lse-tpu:next-history-element (n)
+(defun lse-tpu:next-history-element (&optional count)
   "Insert the next element of the minibuffer history into the minibuffer."
-  (interactive "p")
-  (next-history-element n)
+  (interactive "P")
+  (next-history-element (lse-tpu:repeat-factor count))
   (goto-char (point-max))
 ; lse-tpu:next-history-element
 )
 
-(defun lse-tpu:previous-history-element (n)
+(defun lse-tpu:previous-history-element (&optional count)
   "Insert the previous element of the minibuffer history into the minibuffer."
-  (interactive "p")
-  (previous-history-element n)
+  (interactive "P")
+  (previous-history-element (lse-tpu:repeat-factor count))
   (goto-char (point-max))
 ; lse-tpu:previous-history-element
 )
 
-(defun lse-tpu:arrow-history nil
-  "Modify minibuffer maps to use arrows for history recall."
-  (interactive)
-  (let ((loc (where-is-internal 'lse-tpu:previous-line))
-        (cur nil)
-       )
-    (while (setq cur (car loc))
-      (define-key read-expression-map             cur 'lse-tpu:previous-history-element)
-      (define-key minibuffer-local-map            cur 'lse-tpu:previous-history-element)
-      (define-key minibuffer-local-ns-map         cur 'lse-tpu:previous-history-element)
-      (define-key minibuffer-local-completion-map cur 'lse-tpu:previous-history-element)
-      (define-key minibuffer-local-must-match-map cur 'lse-tpu:previous-history-element)
-      (setq loc (cdr loc))
-    )
-    (setq loc (where-is-internal 'lse-tpu:next-line))
-    (while (setq cur (car loc))
-      (define-key read-expression-map             cur 'lse-tpu:next-history-element)
-      (define-key minibuffer-local-map            cur 'lse-tpu:next-history-element)
-      (define-key minibuffer-local-ns-map         cur 'lse-tpu:next-history-element)
-      (define-key minibuffer-local-completion-map cur 'lse-tpu:next-history-element)
-      (define-key minibuffer-local-must-match-map cur 'lse-tpu:next-history-element)
-      (setq loc (cdr loc))
-    )
-  )
-; lse-tpu:arrow-history
-)
-
 
-;;;
-;;;  Emacs version 19 X-windows key definition support
-;;;
-(defun lse-tpu:edt-on nil
-  "Turn on TPU/edt emulation."
-  (interactive)
-  (cond
-   ((not lse-tpu:edt-mode)
-    (lse-tpu:arrow-history)
-    (lse-tpu:set-mode-line t)
-    (lse-tpu:update-mode-line)
-    ;; set page delimiter, display line truncation, and scrolling like TPU
-    (setq-default page-delimiter "\f")
-    (setq-default truncate-lines t)
-    (setq scroll-step 1)
-    (setq lse-tpu:edt-mode t)
-   )
-  )
-; lse-tpu:edt-on
-)
-;;;
-;;;  Turn on lse-tpu and announce it as a feature
-;;;
-(lse-tpu:edt-on)
-
 ;;;
 ;;; Put 'delete-selection on some lse-tpu commands
 ;;;
@@ -3627,6 +3701,24 @@ regardless of where you click."
     (lse-tpu:mouse-paste:insert primary))
 ; lse-tpu:mouse-paste
 )
+
+;;; 14-Nov-2014
+(defun lse-tpu:restore-old-history ()
+  (when (boundp 'lse-tpu:search-history-regexp)
+    (unless lse-tpu:search-history-0
+      (setq lse-tpu:search-history-0 lse-tpu:search-history-regexp)
+    )
+  )
+; lse-tpu:restore-old-history
+)
+
+(add-hook 'desktop-after-read-hook 'lse-tpu:restore-old-history)
+
+(lse-tpu:set-mode-line t)
+(lse-tpu:update-mode-line)
+(setq-default page-delimiter "\f")
+(setq-default truncate-lines t)
+(setq scroll-step 1)
 
 (provide 'lse-tpu)
 

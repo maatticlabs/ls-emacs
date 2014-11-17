@@ -198,6 +198,9 @@
 ;;;;    15-Nov-2014 (CT) Bind (control F) to 'lse-tpu:search-reverse
 ;;;;    15-Nov-2014 (CT) Bind (control t) to 'lse-tpu:goto-next-occurrence-char,
 ;;;;                          (control T) to 'lse-tpu:goto-prev-occurrence-char
+;;;;    17-Nov-2014 (CT) Bind (control *) to `lse-tpu:repeat-factor:set`
+;;;;                     ditto for (control +)
+;;;;    17-Nov-2014 (CT) Bind (control =) to 'lse-tpu:ccp-buffer-index:set
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -569,24 +572,27 @@ electric `(` inserts `()` and positions point between the parentheses..."
   )
   (lse-keys/define #'global-set-smk
     '(
-      ([(control o)]        lse-open-line); 31-Aug-2002
+      ([(control o)]        lse-open-line);                     31-Aug-2002
     )
   )
   (lse-keys/define #'global-set-key
     '(
-      ([(control \,)]       lse-tpu:unselect); 12-Nov-2002
-      ([(control \')]       lse-insert-backquote-quote); 10-Jan-1998
-      ([(control \|)]       lse-fill-range); 10-Jan-1998
-      ([(control \>)]       lse-unset-selective-display);  8-Sep-2002
-      ([(control \^)]       lse-frame:set-width:std);  10-Jan-1998
-      ([(control \`)]       lse-frame:set-width:wide);  7-Sep-2002
-      ([(control \!)]       lse-frame:set-height:std);  8-Sep-2002
-      ([(control super \.)] lse-tpu:unselect); 17-Jun-2001
-      ([(control \:)]       lse-tpu:replace); 30-Aug-2002
+      ([(control \,)]       lse-tpu:unselect);                  12-Nov-2002
+      ([(control \')]       lse-insert-backquote-quote);        10-Jan-1998
+      ([(control \|)]       lse-fill-range);                    10-Jan-1998
+      ([(control \>)]       lse-unset-selective-display);        8-Sep-2002
+      ([(control \^)]       lse-frame:set-width:std);           10-Jan-1998
+      ([(control \`)]       lse-frame:set-width:wide);           7-Sep-2002
+      ([(control \!)]       lse-frame:set-height:std);           8-Sep-2002
+      ([(control \*)]       lse-tpu:repeat-factor:set);         17-Nov-2014
+      ([(control \+)]       lse-tpu:repeat-factor:set);         17-Nov-2014
+      ([(control \=)]       lse-tpu:ccp-buffer-index:set);      17-Nov-2014
+      ([(control super \.)] lse-tpu:unselect);                  17-Jun-2001
+      ([(control \:)]       lse-tpu:replace);                   30-Aug-2002
     )
   )
   (if (fboundp 'repeat)
-      (global-set-key  [(control z)] 'repeat);  1-Jan-2000
+      (global-set-key  [(control z)] 'repeat);                   1-Jan-2000
   )
 ; lse-tpu:redefine-some-control-keys
 )
@@ -607,7 +613,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\C-d]     lse-tpu:delete-next-char);  6-Jan-2002
       ([?\A-g]     abort-recursive-edit); 10-Jan-1998
       ([?\A-j]     lse-tpu:delete-prev-word); 10-Jan-1998
-      ([?\s-\A-j]  lse-tpu:delete-prev-word-append); 10-Jan-1998
       ([?\C-k]     lse-tpu:delete-tail-of-line);  6-Jan-2002
     )
   )
@@ -712,7 +717,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\s-<]           lse-insert-angles); 20-Jan-2000
       ([?\s-\#]          lse-increment-register);  1-Jan-2000
       ([?\s-\A-d]        ispell-complete-word);  6-Jan-2002
-      ([?\s-\A-u]        lse-tpu:delete-head-of-line-append); 17-Dec-1997
       ([?\s-a]           delete-selection-mode); 28-Dec-1997
       ([?\s-c]           lse-tpu:copy-region); 12-Feb-1998
       ([?\s-d]           hippie-expand)       ; 29-Dec-1997
@@ -1050,7 +1054,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue      ??]        lse-insert-key-name); 12-Jun-1994
       ([blue      ?\ ]       lse-align-to-previous-word)
       ([blue      ?\"]       lse-insert-double-backquote-quote); 26-Apr-1996
-      ([blue      ?\A-j]     lse-tpu:delete-prev-word-append)
       ([blue      ?\A-m]     lse-split-line-i)
       ([blue      ?\A-w]     lse-set-buffer-nowrite)
       ([blue gold ?\C-w]     delete-frame); 13-Nov-2014
@@ -1062,7 +1065,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue      ?`]        lse-frame:set-width:std);     5-Mar-1997
       ([blue      ?|]        lse-insert-bars)
       ([blue      ?~]        delete-trailing-whitespace)
-      ([blue      backspace] lse-tpu:delete-prev-char-append)
       ([blue      ?-]        negative-argument)
       ([blue gold ?!]        lse-frame:set-height:small);  8-Sep-2002
       ([blue gold ?']        lse-remove-backquote-quote); 26-Apr-1996
@@ -1142,10 +1144,12 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
 ;;; 25-Aug-2002
 (defun lse-define-deletion-keys ()
-  "Define delete/backspace key combinations for char, word, and line deletions"
+  "Define delete/backspace key combinations for char, word, line, and region
+deletions."
   (lse-keys/define #'global@set-smk
     '(
       ([backspace]         lse-tpu:delete-prev-char)
+      ([A-backspace]       lse-tpu:cut-region)
       ([M-backspace]       lse-tpu:delete-head-of-line)
       ([?\e C-backspace]   lse-tpu:delete-to-prev-tail-of-line)
       ([C-M-backspace]     lse-tpu:delete-to-prev-tail-of-line)
@@ -1154,42 +1158,27 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([C-s-backspace]     lse-tpu:delete-prev-bs-word-tail)
 
       ([delete]            lse-tpu:delete-next-char)
+      ([A-delete]          lse-tpu:cut-region)
       ([M-delete]          lse-tpu:delete-next-line)
       ([?\e C-delete]      lse-tpu:delete-tail-of-line)
       ([C-M-delete]        lse-tpu:delete-tail-of-line)
       ([C-delete]          lse-tpu:delete-next-word)
       ([s-delete]          lse-tpu:delete-next-bs-word-tail)
       ([C-s-delete]        lse-tpu:delete-next-word-tail)
-
-      ([f34]               lse-tpu:delete-prev-char-append)
-      ([M-f34]             lse-tpu:delete-head-of-line-append)
-      ([s-f34]             lse-tpu:delete-prev-word-append)
-
-      ([f35]               lse-tpu:delete-next-char-append)
-      ([M-f35]             lse-tpu:delete-next-line-append)
-      ([?\e C-f35]         lse-tpu:delete-tail-of-line-append)
-      ([C-M-f35]           lse-tpu:delete-tail-of-line-append)
-      ([C-f35]             lse-tpu:delete-next-word-append)
     )
   )
-
   (lse-keys/define #'global-set-key
     '(
       ([gold delete]       lse-tpu:undelete-char)
+      ([gold A-delete]     lse-tpu:paste-region)
       ([gold M-delete]     lse-tpu:undelete-line)
       ([gold C-M-delete]   lse-tpu:undelete-line)
       ([gold C-delete]     lse-tpu:undelete-word)
       ([gold s-delete]     lse-tpu:undelete-word)
       ([gold C-s-delete]   lse-tpu:undelete-word)
 
-      ([A-delete]          lse-tpu:cut-region)
-      ([A-backspace]       lse-tpu:cut-region)
       ([blue A-delete]     lse-tpu:copy-region)
       ([blue A-backspace]  lse-tpu:copy-region)
-      ([A-f34]             lse-tpu:cut-append-region)
-      ([A-f35]             lse-tpu:cut-append-region)
-      ([blue A-f34]        lse-tpu:copy-append-region)
-      ([blue A-f35]        lse-tpu:copy-append-region)
     )
   )
 ; lse-define-deletion-keys

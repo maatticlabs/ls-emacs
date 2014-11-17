@@ -650,24 +650,34 @@ previous line"
 )
 
 ;;;  2-Jul-2012
-(defun lse-copy-current-word (count)
-  "Copy the word under cursor to the paste buffer without deleting it."
-  (interactive "p")
-  (save-excursion
-    (lse-select-current-word count)
-    (lse-tpu:copy-region)
-    (message "Copied '%s' to paste buffer" lse-tpu:pasted-region)
+(defun lse-copy-current-word (&optional append)
+  "Copy the word under cursor to the paste buffer without deleting it.
+Prefix argument means: append to paste buffer."
+  (interactive "P")
+  (let ((count (lse-tpu:repeat-factor))
+        lse-tpu:rectangular-p
+       )
+    (save-excursion
+      (lse-select-current-word count)
+      (lse-tpu:copy-region append)
+      (message "Copied selected region to paste buffer")
+    )
   )
 ; lse-copy-current-word
 )
 
-(defun lse-copy-current-bs-word (count)
-  "Copy the blank-separated word under cursor to the paste buffer without deleting it."
-  (interactive "p")
-  (save-excursion
-    (lse-select-current-bs-word count)
-    (lse-tpu:copy-region)
-    (message "Copied to paste buffer")
+(defun lse-copy-current-bs-word (&optional append)
+  "Copy the blank-separated word under cursor to the paste buffer without deleting it.
+Prefix argument means: append to paste buffer."
+  (interactive "P")
+  (let ((count (lse-tpu:repeat-factor))
+        lse-tpu:rectangular-p
+       )
+    (save-excursion
+      (lse-select-current-bs-word count)
+      (lse-tpu:copy-region append)
+      (message "Copied selected region to paste buffer")
+    )
   )
 ; lse-copy-current-bs-word
 )
