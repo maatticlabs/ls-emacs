@@ -185,6 +185,9 @@
 ;;;;                     buffer in question
 ;;;;    17-Nov-2014 (CT) Add support for multiple cut/copy/paste buffers per
 ;;;;                     unit (char/word/line/region)
+;;;;    18-Nov-2014 (CT) Add optional `count` to search functions
+;;;;    18-Nov-2014 (CT) Fix handling of `lse-tpu:repeat-factor`
+;;;;                     (and use `lse-tpu:repeat-factor` only where necessary)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -213,6 +216,8 @@
 
 ;;; 17-Nov-2014
 (defvar lse-tpu:repeat-factor 1 "Repeat factor for next command.")
+(defvar lse-tpu:repeat-factor:reset nil)
+(defvar lse-tpu:repeat-factor:mode-line "")
 
 ;;;  9-Oct-2007
 (defconst lse-tpu:search-dir-forward 1 "Search in forward direction.")
@@ -524,17 +529,24 @@
 ;;;-
 ;;; 17-Nov-2014
 (defun lse-tpu:repeat-factor (&optional num)
-  (if num
-      (prefix-numeric-value num)
-    lse-tpu:repeat-factor
+  (let ((result
+         (cond
+           ((numberp num) num)
+           (num           (prefix-numeric-value num))
+           (t             lse-tpu:repeat-factor)
+         )
+        )
+       )
+    (setq lse-tpu:repeat-factor:reset t)
+    result
   )
 ; lse-tpu:repeat-factor
 )
 
 ;;; 17-Nov-2014
 (defun lse-tpu:repeat-factor:reset ()
-  (unless (eq this-command 'lse-tpu:repeat-factor:set)
-    (setq lse-tpu:repeat-factor 1)
+  (when lse-tpu:repeat-factor:reset
+    (lse-tpu:repeat-factor:set 1)
   )
 ; lse-tpu:repeat-factor:reset
 )
@@ -542,7 +554,17 @@
 (defun lse-tpu:repeat-factor:set (f)
   "Set repeat factor for next command."
   (interactive "Nrepeat factor: ")
+  (when (or (< f 1) (not (numberp f)))
+    (setq f 1)
+  )
   (setq lse-tpu:repeat-factor f)
+  (setq lse-tpu:repeat-factor:reset nil)
+  (setq lse-tpu:repeat-factor:mode-line
+    (if (= f 1)
+        ""
+      (format "  RF=%d " f)
+    )
+  )
 ; lse-tpu:repeat-factor:set
 )
 
@@ -872,29 +894,26 @@ Like emacs y-or-n-p, also accepts space as y and DEL as n."
 ; lse-tpu:invert-case-region
 )
 
-(defun lse-tpu:change-case (&optional count)
+(defun lse-tpu:change-case (&optional num)
   "Change the case of the character under the cursor or region.
 Accepts a prefix argument of the number of characters to invert."
-  (interactive "P")
-  (let ((num (lse-tpu:repeat-factor count))
-       )
-    (cond ((lse-tpu:mark)
-           (lse-tpu:invert-case-region (lse-tpu:selection-head-pos)
-                                       (lse-tpu:selection-tail-pos)
-           )
-           (lse-tpu:unselect t)
-          ); lse-tpu:mark
-          ((lse-tpu:check-match)
-           (lse-tpu:invert-case-region (lse-tpu:match-beginning)
-                                       (lse-tpu:match-end)
-           )
-           (lse-tpu:unset-match)
-          ); lse-tpu:check-match
-          (t  ; neither selection nor search range are active
-           (lse-tpu:invert-case-region (point) (+ (point) num))
-           (goto-char (+ (point) num))
-          ); t
-    )
+  (interactive "p")
+  (cond ((lse-tpu:mark)
+         (lse-tpu:invert-case-region (lse-tpu:selection-head-pos)
+                                     (lse-tpu:selection-tail-pos)
+         )
+         (lse-tpu:unselect t)
+        ); lse-tpu:mark
+        ((lse-tpu:check-match)
+         (lse-tpu:invert-case-region (lse-tpu:match-beginning)
+                                     (lse-tpu:match-end)
+         )
+         (lse-tpu:unset-match)
+        ); lse-tpu:check-match
+        (t  ; neither selection nor search range are active
+         (lse-tpu:invert-case-region (point) (+ (point) num))
+         (goto-char (+ (point) num))
+        ); t
   )
 ; lse-tpu:change-case
 )
@@ -1032,11 +1051,10 @@ Accepts a prefix argument of the number of characters to invert."
 ; lse-tpu:special-insert
 )
 
-(defun lse-tpu:quoted-insert (&optional count)
+(defun lse-tpu:quoted-insert (&optional num)
   "Read next input character and insert it. This is useful for inserting control characters."
-  (interactive "*P")
+  (interactive "*p")
   (let ((char (read-char))
-        (num (lse-tpu:repeat-factor count))
        )
     (if overwrite-mode (delete-char num))
     (insert-char char num)
@@ -1131,6 +1149,7 @@ Accepts a prefix argument of the number of characters to invert."
              (purecopy " ")
              'global-mode-string
              'lse-tpu:ccp-buffer-index:mode-line
+             'lse-tpu:repeat-factor:mode-line
              (purecopy " %[(")
              '(lse-language:name "«")
              'mode-name
@@ -1259,15 +1278,15 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:pan-right (&optional count)
   "Pan right lse-tpu:pan-columns (16 by default)."
-  (interactive "P")
-  (scroll-left (* lse-tpu:pan-columns (lse-tpu:repeat-factor count)))
+  (interactive "p")
+  (scroll-left (* lse-tpu:pan-columns count))
 ; lse-tpu:pan-right
 )
 
 (defun lse-tpu:pan-left (&optional count)
   "Pan left lse-tpu:pan-columns (16 by default)."
-  (interactive "P")
-  (scroll-right (* lse-tpu:pan-columns (lse-tpu:repeat-factor count)))
+  (interactive "p")
+  (scroll-right (* lse-tpu:pan-columns count))
 ; lse-tpu:pan-left
 )
 
@@ -1787,57 +1806,57 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:goto-next-word-head (&optional num limit)
   "Goto beginning of next word."
-  (interactive "P")
-  (goto-char (lse-tpu:next-word-head-pos (lse-tpu:repeat-factor num) limit))
+  (interactive "p")
+  (goto-char (lse-tpu:next-word-head-pos num limit))
 )
 
 (defun lse-tpu:goto-next-word-tail (&optional num limit)
   "Goto end of next word."
-  (interactive "P")
-  (goto-char (lse-tpu:next-word-tail-pos (lse-tpu:repeat-factor num) limit))
+  (interactive "p")
+  (goto-char (lse-tpu:next-word-tail-pos num limit))
 )
 
 (defun lse-tpu:goto-prev-word-head (&optional num limit)
   "Goto beginning of previous word."
-  (interactive "P")
-  (goto-char (lse-tpu:prev-word-head-pos (lse-tpu:repeat-factor num) limit))
+  (interactive "p")
+  (goto-char (lse-tpu:prev-word-head-pos num limit))
 )
 
 (defun lse-tpu:goto-prev-word-tail (&optional num limit)
   "Goto end of next word."
-  (interactive "P")
-  (goto-char (lse-tpu:prev-word-tail-pos (lse-tpu:repeat-factor num) limit))
+  (interactive "p")
+  (goto-char (lse-tpu:prev-word-tail-pos num limit))
 )
 
 (defun lse-tpu:goto-next-bs-word-head (&optional num limit)
   "Goto to beginning of next word (using only blanks as separators.)"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-next-word-head (lse-tpu:repeat-factor num) limit)
+    (lse-tpu:goto-next-word-head num limit)
   )
 )
 
 (defun lse-tpu:goto-prev-bs-word-head (&optional num limit)
   "Goto to beginning of previous word (using only blanks as separators.)"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-prev-word-head (lse-tpu:repeat-factor num) limit)
+    (lse-tpu:goto-prev-word-head num limit)
   )
 )
 
 (defun lse-tpu:goto-next-bs-word-tail (&optional num limit)
   "Goto to beginning of next word (using only blanks as separators.)"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-next-word-tail (lse-tpu:repeat-factor num) limit)
+    (lse-tpu:goto-next-word-tail num limit)
   )
 )
 
 (defun lse-tpu:goto-prev-bs-word-tail (&optional num limit)
   "Goto to beginning of previous word (using only blanks as separators.)"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars))
-    (lse-tpu:goto-prev-word-tail (lse-tpu:repeat-factor num) limit)
+    (lse-tpu:goto-prev-word-tail num limit)
   )
 )
 
@@ -1897,10 +1916,10 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-nearest-stmt-block-head (&optional count limit)
   "Goto nearest head of statement block"
-  (interactive "P")
+  (interactive "p")
   (save-match-data
     (let ((head
-           (lse-tpu:stmt-block-head-pos limit (lse-tpu:repeat-factor count))
+           (lse-tpu:stmt-block-head-pos limit count)
           )
          )
       (when (and head (marker-position head))
@@ -1918,12 +1937,12 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-stmt-block-head (&optional count limit)
   "Goto head of current statement block"
-  (interactive "P")
+  (interactive "p")
   (save-match-data
     (let (tail)
       (save-excursion
         (unless (bobp) (backward-char 1))
-        (setq tail (lse-tpu:stmt-block-tail-pos (lse-tpu:repeat-factor count)))
+        (setq tail (lse-tpu:stmt-block-tail-pos count))
       )
       (when tail
         (goto-char tail)
@@ -1940,9 +1959,9 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-stmt-block-tail (&optional count)
   "Goto tail of current statement block"
-  (interactive "P")
+  (interactive "p")
   (save-match-data
-    (let* ((tail (lse-tpu:stmt-block-tail-pos (lse-tpu:repeat-factor count)))
+    (let* ((tail (lse-tpu:stmt-block-tail-pos count))
           )
       (when tail
         (goto-char tail)
@@ -1957,9 +1976,9 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-nearest-function-head (&optional count limit)
   "Goto nearest head of function"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-nearest-stmt-block-head (lse-tpu:repeat-factor count) limit)
+    (lse-tpu:goto-nearest-stmt-block-head count limit)
   )
 ; lse-tpu:goto-nearest-function-head
 )
@@ -1969,9 +1988,9 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-function-head (&optional count limit)
   "Goto head of current function"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-stmt-block-head (lse-tpu:repeat-factor count) limit)
+    (lse-tpu:goto-stmt-block-head count limit)
   )
 ; lse-tpu:goto-function-head
 )
@@ -1981,9 +2000,9 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; 18-Feb-2012
 (defun lse-tpu:goto-function-tail (&optional count)
   "Goto head of current function"
-  (interactive "P")
+  (interactive "p")
   (let ((lse-tpu:block-stmt-pat lse-tpu:function-pat))
-    (lse-tpu:goto-stmt-block-tail (lse-tpu:repeat-factor count))
+    (lse-tpu:goto-stmt-block-tail count)
   )
 ; lse-tpu:goto-function-tail
 )
@@ -2285,10 +2304,9 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-char (&optional count)
-  (interactive "*P")
+  (interactive "*p")
   (lse-tpu:undelete
-    (lse-tpu:repeat-factor count)
-    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:char)
+    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:char)
   )
 )
 
@@ -2381,10 +2399,9 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-word (&optional count)
-  (interactive "*P")
+  (interactive "*p")
   (lse-tpu:undelete
-    (lse-tpu:repeat-factor count)
-    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:word)
+    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:word)
   )
 )
 
@@ -2444,10 +2461,9 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-line (&optional count)
-  (interactive "*P")
+  (interactive "*p")
   (lse-tpu:undelete
-    (lse-tpu:repeat-factor count)
-    (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:line)
+    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:line)
   )
 )
 
@@ -2635,8 +2651,8 @@ Prefix argument means: append to paste buffer."
 (defun lse-tpu:paste-region (&optional count)
   "Insert the last region or rectangle of killed text.
 With argument reinserts the text that many times."
-  (interactive "*P")
-  (let* ((num  (lse-tpu:repeat-factor count))
+  (interactive "*p")
+  (let* ((num  count)
          (ccpb (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:region))
         )
     (cond (lse-tpu:rectangular-p
@@ -2770,17 +2786,17 @@ With argument reinserts the text that many times."
 ; lse-tpu:search-prompt-read
 )
 
-(defun lse-tpu:search-forward (&optional n pat)
+(defun lse-tpu:search-forward (&optional n pat count)
   "Search for a string or regular expression in forward direction."
   (interactive "P")
-  (lse-tpu:search lse-tpu:search-dir-forward n pat)
+  (lse-tpu:search lse-tpu:search-dir-forward n pat nil nil nil nil count)
 ; lse-tpu:search-forward
 )
 
-(defun lse-tpu:search-reverse (&optional n pat)
+(defun lse-tpu:search-reverse (&optional n pat count)
   "Search for a string or regular expression reverse direction."
   (interactive "P")
-  (lse-tpu:search lse-tpu:search-dir-reverse n pat)
+  (lse-tpu:search lse-tpu:search-dir-reverse n pat nil nil nil nil count)
 ; lse-tpu:search-reverse
 )
 
@@ -2810,11 +2826,12 @@ With argument reinserts the text that many times."
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:search-again (n fct)
+(defun lse-tpu:search-again (n fct &optional count)
   (unless n
     (setq n lse-tpu:search-history-index)
   )
-  (let* ((lse-completion:index-start 0)
+  (let* ((count (lse-tpu:repeat-factor count))
+         (lse-completion:index-start 0)
          (pat
            (cond
              ((numberp n)                                 ; digit-argument
@@ -2833,35 +2850,35 @@ With argument reinserts the text that many times."
          )
         )
     (unless (or (null pat) (string= "" pat))
-      (funcall fct n pat)
+      (funcall fct n pat count)
     )
   )
 ; lse-tpu:search-again
 )
 
 ;;; 31-Aug-2002
-(defun lse-tpu:search-again-forward (n)
+(defun lse-tpu:search-again-forward (n &optional count)
   "Search for the same string or regular expression as last time in forward
 direction."
   (interactive "P")
-  (lse-tpu:search-again n 'lse-tpu:search-forward)
+  (lse-tpu:search-again n 'lse-tpu:search-forward count)
 ; lse-tpu:search-again-forward
 )
 
 ;;; 31-Aug-2002
-(defun lse-tpu:search-again-reverse (n)
+(defun lse-tpu:search-again-reverse (n &optional count)
   "Search for the same string or regular expression as last time in reverse
 direction."
   (interactive "P")
-  (lse-tpu:search-again n 'lse-tpu:search-reverse)
+  (lse-tpu:search-again n 'lse-tpu:search-reverse count)
 ; lse-tpu:search-again-reverse
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:search+goto (pat &optional limit stay-at-bob)
+(defun lse-tpu:search+goto (pat &optional limit stay-at-bob count)
   (lse-tpu:unset-match)
   (lse-tpu:adjust-search nil stay-at-bob)
-  (let ((result (funcall (lse-tpu:search-function) pat limit t))
+  (let ((result (funcall (lse-tpu:search-function) pat limit t count))
        )
     (when result
       (goto-char (match-beginning 0))
@@ -2875,39 +2892,38 @@ direction."
 )
 
 ;;;  6-Oct-2007
-(defun lse-tpu:search+goto+set-match (pat &optional limit stay-at-bob)
-  (if (lse-tpu:search+goto pat limit stay-at-bob)
-      (progn
-        (lse-tpu:set-match)
-        t
-      )
+(defun lse-tpu:search+goto+set-match (pat &optional limit stay-at-bob count)
+  (when (lse-tpu:search+goto pat limit stay-at-bob count)
+    (lse-tpu:set-match)
+    t
   )
 ; lse-tpu:search+goto+set-match
 )
 
 (defun lse-tpu:search
-    (dir n pat &optional quiet limit dont-look-other-dir stay-at-bob)
-  (when (or (not pat) (string= "" pat))
-    (setq pat (lse-tpu:search-prompt-read "Search" n t dir))
-  )
+    (dir n pat &optional quiet limit dont-look-other-dir stay-at-bob count)
   (let ((found nil)
-        (lse-tpu:search-dir  dir)
+        (lse-tpu:search-dir dir)
         (case-fold-search
           (if (and nil lse-tpu:search:smart-case)
               (not (string-mixed-case-p pat))
             case-fold-search
           )
         )
+        (count (lse-tpu:repeat-factor count))
        )
+    (when (or (not pat) (string= "" pat))
+      (setq pat (lse-tpu:search-prompt-read "Search" n t dir))
+    )
     (lse-tpu:save-pos-before-search pat)
-    (cond ((lse-tpu:search+goto+set-match pat limit stay-at-bob)
+    (cond ((lse-tpu:search+goto+set-match pat limit stay-at-bob count)
             t
           )
           ((not dont-look-other-dir)
             (lse-tpu:adjust-search t)
             (save-excursion
               (let ((lse-tpu:search-dir (- 1 lse-tpu:search-dir)))
-                (setq found (lse-tpu:search+goto pat nil stay-at-bob))
+                (setq found (lse-tpu:search+goto pat nil stay-at-bob count))
                 (unless quiet
                   (if found
                       (lse-message "Found in %s direction. "
@@ -2956,8 +2972,8 @@ and backward a character after a failed search.  Arg means end of search."
 (defun lse-tpu:goto-pos-before-search ()
   "Move point to position before last search."
   (interactive)
-  (and lse-tpu:last-pos-before-search
-       (goto-char lse-tpu:last-pos-before-search)
+  (when lse-tpu:last-pos-before-search
+    (goto-char lse-tpu:last-pos-before-search)
   )
 ; lse-tpu:goto-pos-before-search
 )
@@ -3355,9 +3371,9 @@ or from the current line if no region is selected."
 ;;;
 (defun lse-tpu:forward-char (&optional count)
   "Move right ARG characters (left if ARG is negative)."
-  (interactive "P")
+  (interactive "p")
   (condition-case nil
-      (forward-char (lse-tpu:repeat-factor count))
+      (forward-char count)
     (error (lse-message ""))
   )
 ; lse-tpu:forward-char
@@ -3365,9 +3381,9 @@ or from the current line if no region is selected."
 
 (defun lse-tpu:backward-char (&optional count)
   "Move left ARG characters (right if ARG is negative)."
-  (interactive "P")
+  (interactive "p")
   (condition-case nil
-      (backward-char (lse-tpu:repeat-factor count))
+      (backward-char count)
     (error (lse-message ""))
   )
 ; lse-tpu:backward-char
@@ -3402,42 +3418,42 @@ or from the current line if no region is selected."
 (defun lse-tpu:next-line (&optional count)
   "Move to next line.
 Prefix argument serves as a repeat count."
-  (interactive "P")
-  (lse-tpu:next-line-internal (lse-tpu:repeat-factor count) 'next-line)
+  (interactive "p")
+  (lse-tpu:next-line-internal count 'next-line)
 ; lse-tpu:next-line
 )
 
 (defun lse-tpu:previous-line (&optional count)
   "Move to previous line.
 Prefix argument serves as a repeat count."
-  (interactive "P")
-  (lse-tpu:next-line-internal (- (lse-tpu:repeat-factor count)) 'previous-line)
+  (interactive "p")
+  (lse-tpu:next-line-internal (- count) 'previous-line)
 ; lse-tpu:previous-line
 )
 
 (defun lse-tpu:next-beginning-of-line (&optional count)
   "Move to beginning of line; if at beginning, move to beginning of next line.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "P")
+  (interactive "p")
   (lse-tpu:backward-char 1)
-  (lse-tpu:forward-line  (- 1 (lse-tpu:repeat-factor count)))
+  (lse-tpu:forward-line  (- 1 count))
 ; lse-tpu:next-beginning-of-line
 )
 
 (defun lse-tpu:next-end-of-line (&optional count)
   "Move to end of line; if at end, move to end of next line.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "P")
+  (interactive "p")
   (lse-tpu:forward-char 1)
-  (end-of-line (lse-tpu:repeat-factor count))
+  (end-of-line count)
 ; lse-tpu:next-end-of-line
 )
 
 (defun lse-tpu:previous-end-of-line (&optional count)
   "Move EOL upward.
 Accepts a prefix argument for the number of lines to move."
-  (interactive "P")
-  (end-of-line (- 1 (lse-tpu:repeat-factor count)))
+  (interactive "p")
+  (end-of-line (- 1 count))
 ; lse-tpu:previous-end-of-line
 )
 
@@ -3454,9 +3470,9 @@ Accepts a prefix argument for the number of lines to move."
 (defun lse-tpu:forward-line (&optional count)
   "Move to beginning of next line.
 Prefix argument serves as a repeat count."
-  (interactive "P")
+  (interactive "p")
   (condition-case nil
-      (forward-line (lse-tpu:repeat-factor count))
+      (forward-line count)
     (error (lse-message ""))
   )
 ; lse-tpu:forward-line
@@ -3465,8 +3481,8 @@ Prefix argument serves as a repeat count."
 (defun lse-tpu:backward-line (&optional count)
   "Move to beginning of previous line.
 Prefix argument serves as repeat count."
-  (interactive "P")
-  (lse-tpu:forward-line (- (lse-tpu:repeat-factor count)))
+  (interactive "p")
+  (lse-tpu:forward-line (- count))
 ; lse-tpu:backward-line
 )
 
@@ -3476,8 +3492,8 @@ Prefix argument serves as repeat count."
 (defun lse-tpu:next-paragraph (&optional count)
   "Move to beginning of the next paragraph.
 Accepts a prefix argument for the number of paragraphs."
-  (interactive "P")
-  (let ((num (lse-tpu:repeat-factor count))
+  (interactive "p")
+  (let ((num count)
        )
     (beginning-of-line)
     (while (and (not (eobp)) (> num 0))
@@ -3494,12 +3510,11 @@ Accepts a prefix argument for the number of paragraphs."
 ; lse-tpu:next-paragraph
 )
 
-
 (defun lse-tpu:previous-paragraph (&optional count)
   "Move to beginning of previous paragraph.
 Accepts a prefix argument for the number of paragraphs."
-  (interactive "P")
-  (let ((num (lse-tpu:repeat-factor count))
+  (interactive "p")
+  (let ((num count)
        )
     (end-of-line)
     (while (and (not (bobp)) (> num 0))
@@ -3527,9 +3542,9 @@ Accepts a prefix argument for the number of paragraphs."
 (defun lse-tpu:page-forward (&optional count)
   "Mode to the end of the current page.
 A repeat count means move that many pages."
-  (interactive "P")
+  (interactive "p")
   (lse-tpu:save-pos-before-search)
-  (forward-page (lse-tpu:repeat-factor count))
+  (forward-page count)
   (if (eobp) (recenter -1))
 ; lse-tpu:page-forward
 )
@@ -3538,9 +3553,9 @@ A repeat count means move that many pages."
 (defun lse-tpu:page-backward (&optional count)
   "Mode to the beginning of the current page.
 A repeat count means move that many pages."
-  (interactive "P")
+  (interactive "p")
   (lse-tpu:save-pos-before-search)
-  (backward-page (lse-tpu:repeat-factor count))
+  (backward-page count)
   (if (bobp) (recenter 1))
 ; lse-tpu:page-backward
 )
@@ -3557,10 +3572,10 @@ Top line is 0.  Counts each text line only once, even if it wraps."
 (defun lse-tpu:scroll-window-down (&optional count)
   "Scroll the display down to the next section.
 A repeat count means scroll that many sections."
-  (interactive "P")
+  (interactive "p")
   (let* ((beg    (lse-tpu:current-line))
          (height (1- (window-height)))
-         (num    (lse-tpu:repeat-factor count))
+         (num    count)
          (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal (- lines))
@@ -3572,10 +3587,10 @@ A repeat count means scroll that many sections."
 (defun lse-tpu:scroll-window-up (&optional count)
   "Scroll the display up to the next section.
 A repeat count means scroll that many sections."
-  (interactive "P")
+  (interactive "p")
   (let* ((beg    (lse-tpu:current-line))
          (height (1- (window-height)))
-         (num    (lse-tpu:repeat-factor count))
+         (num    count)
          (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal lines)
@@ -3604,16 +3619,16 @@ A repeat count means scroll that many sections."
 ;;;
 (defun lse-tpu:next-history-element (&optional count)
   "Insert the next element of the minibuffer history into the minibuffer."
-  (interactive "P")
-  (next-history-element (lse-tpu:repeat-factor count))
+  (interactive "p")
+  (next-history-element count)
   (goto-char (point-max))
 ; lse-tpu:next-history-element
 )
 
 (defun lse-tpu:previous-history-element (&optional count)
   "Insert the previous element of the minibuffer history into the minibuffer."
-  (interactive "P")
-  (previous-history-element (lse-tpu:repeat-factor count))
+  (interactive "p")
+  (previous-history-element count)
   (goto-char (point-max))
 ; lse-tpu:previous-history-element
 )

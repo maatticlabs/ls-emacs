@@ -1,6 +1,5 @@
 ;-*- coding: utf-8 -*-
 
-
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
 ;;;;
 ;;;; Like GNU Emacs, LS-Emacs is free software; you can redistribute it and/or
@@ -41,7 +40,4 @@
   "\\(^).*\\)"                         ; \\1 the entire line
 )
 
-; (lse-tpu:search-forward lse-pattern:args-of-defun)
-; (lse-tpu:search-forward lse-pattern:head-of-defun)
-; (lse-tpu:search-forward lse-pattern:tail-of-defun)
-
+;;; __END__ lse-pattern.el
