@@ -40,6 +40,8 @@
 ;;;;                     set `whitespace-style`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    16-Nov-2014 (CT) Use `setq-default` for `major-mode`
+;;;;    18-Nov-2014 (CT) Add `[letter-prefix]` to
+;;;;                     `lse-keys:function-key-map-bindings`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -50,9 +52,6 @@
 (when (eq system-type 'windows-nt)
   (require 'lse-w32)
 )
-
-; (setq debug-on-error t)
-; (setq debug-on-error nil)
 
 (setq vc-handled-backends nil);  1-Oct-2007
 
@@ -65,7 +64,7 @@
        ([s-kp-f1]       [gray])
        ([s-kp-f2]       [pink])
        ([s-f17]         [green])
-       ;; Bindings copied from lse-keys-v19.el
+       ;; Bindings copied from lse-keys.el
        ([pause]         [gold])
        ([scroll]        [blue]); Windows NT
        ([scroll_lock]   [blue]); GNU/Linux (Gentoo)
@@ -75,6 +74,7 @@
        ([s-scroll]      [pink])
        ([s-scroll_lock] [pink])
        ([s-print]       [green])
+       ([(super \#)]    [letter-prefix])
      )
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."

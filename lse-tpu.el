@@ -188,18 +188,47 @@
 ;;;;    18-Nov-2014 (CT) Add optional `count` to search functions
 ;;;;    18-Nov-2014 (CT) Fix handling of `lse-tpu:repeat-factor`
 ;;;;                     (and use `lse-tpu:repeat-factor` only where necessary)
+;;;;    18-Nov-2014 (CT) Add `lse-tpu:letter-argument`,
+;;;;                     define `letter-prefix` bindings,
+;;;;                     increase number of ccp-buffers and search-histories
 ;;;;    ««revision-date»»···
 ;;;;--
 
 ;;; we use picture-mode functions
 (require 'picture)
 
+;;; 18-Nov-2014
+(defconst lse-tpu:digit+letter-prefixes
+  [;; digit-argument
+    0  1  2  3  4  5  6  7  8  9
+   ;; lse-tpu:letter-argument a..z
+   10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+  ]
+  "Prefixes for lse-tpu commands generated with digit-argument and
+lse-tpu:letter-argument. "
+)
+
+;;; 18-Nov-2014
+(defun lse-tpu:new-numbered-symbol (name number value doc)
+  (let* ((key
+           (if (< number 10)
+               number                             ; digit-argument          0..9
+             (char-to-string (+ number (- ?a 10))); lse-tpu:letter-argument a..z
+           )
+         )
+         (result (intern (format "%s-%s" name key)))
+         (doc    (format "%s %s." doc key))
+        )
+    (set result value)
+    (put result 'variable-documentation doc)
+    result
+  )
+; lse-tpu:new-numbered-symbol
+)
+
 ;;;+
-;;; Variables
-;;;-
-;;;++
 ;;; Direction of buffer movement
-;;;--
+;;;-
 (defconst lse-tpu:direction-forward  +1)
 (defconst lse-tpu:direction-backward -1)
 
@@ -231,20 +260,21 @@
 
 (defconst lse-tpu:search-prompt-dir  (vector " ^^^"    " vvv"))
 
-;;; 14-Nov-2014·
+;;; 14-Nov-2014
 (defvar lse-tpu:search-histories
-  (vector
-    (defvar lse-tpu:search-history-0 '() "Search history 0.")
-    (defvar lse-tpu:search-history-1 '() "Search history 1.")
-    (defvar lse-tpu:search-history-2 '() "Search history 2.")
-    (defvar lse-tpu:search-history-3 '() "Search history 3.")
-    (defvar lse-tpu:search-history-4 '() "Search history 4.")
-    (defvar lse-tpu:search-history-5 '() "Search history 5.")
-    (defvar lse-tpu:search-history-6 '() "Search history 6.")
-    (defvar lse-tpu:search-history-7 '() "Search history 7.")
-    (defvar lse-tpu:search-history-8 '() "Search history 8.")
-    (defvar lse-tpu:search-history-9 '() "Search history 9.")
+  (vconcat
+    (mapcar
+      (function
+        (lambda (i)
+          (lse-tpu:new-numbered-symbol
+            "lse-tpu:search-history" i '() "Search history"
+          )
+        )
+      )
+      lse-tpu:digit+letter-prefixes
+    )
   )
+  "Search histories 0..9 and a..z"
 )
 
 ;;;  9-Oct-2007
@@ -408,6 +438,7 @@
       (format " =%d=" lse-tpu:ccp-buffer-index)
     )
   )
+  (lse-tpu:update-mode-line)
 ; lse-tpu:ccp-buffer-index:set
 )
 
@@ -451,15 +482,11 @@
 
 ;;; 17-Nov-2014
 (defun lse-tpu:ccp-buffer:new-symbol (unit-name number)
-  (let ((result
-         (intern (format "lse-tpu:ccp-%s-buffer-%d" unit-name number))
+  (let* ((name  (format "lse-tpu:ccp-%s-buffer"    unit-name))
+         (doc   (format "Cut/copy/paste %s-buffer" unit-name))
+         (value (lse-tpu:ccp-buffer:new))
         )
-        (value (lse-tpu:ccp-buffer:new))
-        (doc   (format "Cut/copy/paste %s-buffer %s." unit-name number))
-       )
-    (set result value)
-    (put result 'variable-documentation doc)
-    result
+    (lse-tpu:new-numbered-symbol name number value doc)
   )
 ; lse-tpu:ccp-buffer:new-symbol
 )
@@ -477,7 +504,7 @@
                   (lse-tpu:ccp-buffer:new-symbol unit-name i)
                 )
               )
-              [0 1 2 3 4 5 6 7 8 9]
+              lse-tpu:digit+letter-prefixes
             )
           )
         )
@@ -821,10 +848,43 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
          (char  (event-basic-type key))
         )
     (when (integerp char)
-      (char-to-string char)
+      char
     )
   )
 ; lse-tpu:cmd-char
+)
+
+(defun lse-tpu:cmd-char-as-string ()
+  (char-to-string (lse-tpu:cmd-char))
+; lse-tpu:cmd-char-as-string
+)
+
+;;; 18-Nov-2014
+(defun lse-tpu:letter-argument ()
+  "Use numeric value of letter as prefix"
+  (interactive)
+  (let* ((char  last-command-event)
+         (x     (char-to-string char))
+         (value (logand char 255 #b1011111))
+        )
+    (setq prefix-arg (- value (- ?A 10)))
+  )
+; lse-tpu:letter-argument
+)
+
+(let ((c ?a)
+     )
+  (while (<= c ?z)
+    (global-set-key (vector 'letter-prefix c) 'lse-tpu:letter-argument)
+    (setq c (1+ c))
+  )
+)
+
+(let ((i ?0))
+  (while (<= i ?9)
+    (global-set-key (vector 'letter-prefix i) 'digit-argument)
+    (setq i (1+ i))
+  )
 )
 
 (defun lse-tpu:mark nil
@@ -2056,7 +2116,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-next-char (&optional count limit char)
   "Goto next occurrence of character"
   (interactive "P")
-  (setq char (or char (lse-tpu:cmd-char)))
+  (setq char (or char (lse-tpu:cmd-char-as-string)))
   (lse-tpu:goto_occurrence
     char limit (lse-tpu:repeat-factor count) 'search-forward
   )
@@ -2067,7 +2127,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-prev-char (&optional count limit char)
   "Goto previous occurrence of character"
   (interactive "P")
-  (setq char (or char (lse-tpu:cmd-char)))
+  (setq char (or char (lse-tpu:cmd-char-as-string)))
   (lse-tpu:goto_occurrence
     char limit (lse-tpu:repeat-factor count) 'search-backward
   )
@@ -2078,7 +2138,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-opening-char (&optional count limit char)
   "Goto opening character"
   (interactive "P")
-  (setq char (or char (lse-tpu:cmd-char)))
+  (setq char (or char (lse-tpu:cmd-char-as-string)))
   (let* ((cp    (point))
          (count (lse-tpu:repeat-factor count) )
          (head
@@ -2115,7 +2175,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:goto-closing-char (&optional count limit char)
   "Goto closing character"
   (interactive "P")
-  (setq char (or char (lse-tpu:cmd-char)))
+  (setq char (or char (lse-tpu:cmd-char-as-string)))
   (let ((cp (point))
         (oc (lse-tpu:opening-char char))
        )

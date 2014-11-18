@@ -103,6 +103,8 @@
 ;;;;    12-Nov-2014 (CT) Fold lse-keys-v19.el in here
 ;;;;    12-Nov-2014 (CT) Move some functions to `lse-tpu-keys.el`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    18-Nov-2014 (CT) Add `[letter-prefix]` to
+;;;;                     `lse-keys:function-key-map-bindings`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -144,6 +146,7 @@
        ([s-scroll]      [pink])
        ([s-scroll_lock] [pink])
        ([s-print]       [green])
+       ([(super \#)]    [letter-prefix])
      )
   "Override this in your .emacs file to define which keys to use for [gold],
   [blue], [red], ..."
