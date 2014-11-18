@@ -201,6 +201,9 @@
 ;;;;    17-Nov-2014 (CT) Bind (control *) to `lse-tpu:repeat-factor:set`
 ;;;;                     ditto for (control +)
 ;;;;    17-Nov-2014 (CT) Bind (control =) to 'lse-tpu:ccp-buffer-index:set
+;;;;    18-Nov-2014 (CT) Bind (meta -) to `lse-number-at-point:decrement`,
+;;;;                     (meta +), to `lse-number-at-point:increment`,
+;;;;                     remove bindings for `lse-*-register` functions
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -685,7 +688,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
     '(
       ([?\A-:]           lse-tpu:replace-all); 30-Aug-2002
       ([?\A-\ ]          lse-tabulator); 13-Sep-2002
-      ([?\A-\#]          lse-insert-register);     1-Jan-2000
       ([?\A-\-]          negative-argument)  ; 30-Dec-1997
       ([?\A-\.]          universal-argument) ; 30-Dec-1997
       ([?\A-\\]          quoted-insert)
@@ -700,7 +702,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-v]           lse-align-and-down); 15-Sep-1995
       ([?\A-w]           redraw-display)
       ([?\A-z]           lse-tpu:goto-last-position)
-      ([?\C-\#]          lse-number-to-register);  1-Jan-2000
       ([?\C-\.]          universal-argument) ; 28-Jun-1995
       ([?\C-\A-d]        dabbrev-completion);  3-Jan-2000
       ([?\C-i]           lse-tabulator); 13-Sep-2002
@@ -710,12 +711,14 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\C-x?5?^]       lse-frame:fix-position)    ; 21-Oct-2014
       ([?\H-V]           lse-align-to-previous-word-and-down) ; 27-Jul-1999
       ([?\H-v]           lse-align-to-next-word-and-up) ; 27-Jul-1999
+      ([?\M-\-]          lse-number-at-point:decrement); 18-Nov-2014
+      ([?\M-\+]          lse-number-at-point:increment); 18-Nov-2014
       ([?\M-R]           lse-scroll-to-bottom);   3-Apr-2008
-      ([?\M-\#]          lse-increment-register);  1-Jan-2000
       ([?\M-r]           lse-scroll-to-top);  1-Sep-2002
       ([?\M-v]           lse-align-and-up); 15-Sep-1995
+      ([?\s-\-]          lse-number-at-point:decrement); 18-Nov-2014
+      ([?\s-\+]          lse-number-at-point:increment); 18-Nov-2014
       ([?\s-<]           lse-insert-angles); 20-Jan-2000
-      ([?\s-\#]          lse-increment-register);  1-Jan-2000
       ([?\s-\A-d]        ispell-complete-word);  6-Jan-2002
       ([?\s-a]           delete-selection-mode); 28-Dec-1997
       ([?\s-c]           lse-tpu:copy-region); 12-Feb-1998

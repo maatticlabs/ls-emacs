@@ -100,6 +100,8 @@
 ;;;;    21-Nov-2013 (CT) Add `lse-insert-tdquotes`, `lse-remove-tdquotes` and
 ;;;;                     friends (typographic quotes: `“`, `‘`, `‚`, `„`)
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    18-Nov-2014 (CT) Replace `lse-*-register` by
+;;;;                     `lse-number-at-point:increment`...
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -686,8 +688,8 @@ Prefix argument means: append to paste buffer."
 (defun lse-select-bracketed-range ()
   "Select surrounding range bracketed by character"
   (interactive)
-  (let ((starter (lse-tpu:cmd-char))
-        head tail
+  (let (head
+        tail
        )
     (when (lse-tpu:goto-opening-char 1)
       (setq head (1+ (point)))
@@ -1257,32 +1259,48 @@ Prefix argument means: append to paste buffer."
 ; lse-remove-prev-blank-lines
 )
 
-;;;; functions for putting number into Emacs registers
-;;;  1-Jan-2000
-(defun lse-number-to-register (register number)
-  "Store a number into register"
-  (interactive "cPress key naming register to put number into\nnNumber to store: ")
-  (number-to-register (or number 0) register)
-; lse-number-to-register
+;;;; Functions for incrementing/decrementing number at point
+;;; 18-Nov-2014
+(defun lse-number-at-point:range ()
+  (save-excursion
+    (let ((head (progn (skip-chars-forward  "0-9") (point)))
+          (tail (progn (skip-chars-backward "0-9") (point)))
+         )
+      (unless (equal head tail)
+        (lse-range:new head tail)
+      )
+    )
+  )
+; lse-number-at-point:range
 )
 
-;;;  1-Jan-2000
-(defun lse-insert-register (register)
-  "Insert contents of register REGISTER into current buffer."
-  (interactive "*cPress key naming register to insert")
-  (insert-register register t)
-; lse-insert-register
+;;; 18-Nov-2014
+(defun lse-number-at-point:increment (&optional delta)
+  "Increment number at point by `delta` (default 1)."
+  (interactive "*p")
+  (let ((nap-range (lse-number-at-point:range))
+       )
+    (when (and nap-range (not (= delta 0)))
+      (let* ((old (string-to-number (lse-range:contents-np nap-range)))
+             (new (+ old delta))
+            )
+        (lse-range:replace-contents nap-range (number-to-string new))
+        (goto-char (lse-range:tail-pos nap-range))
+      )
+    )
+  )
+; lse-number-at-point:increment
 )
 
-;;;  1-Jan-2000
-(defun lse-increment-register (register inc)
-  "Increment number in register REGISTER by increment INC (default = 1)."
-  (interactive "*cPress key naming register to increment\np")
-  (if (eq inc 0) (setq inc 1))
-  (increment-register inc register)
-; lse-increment-register
+;;; 18-Nov-2014
+(defun lse-number-at-point:decrement (&optional delta)
+  "Decrement number at point by `delta` (default 1)."
+  (interactive "*p")
+  (lse-number-at-point:increment (- delta))
+; lse-number-at-point:decrement
 )
 
+;;;; Numeric keypad ...
 ;;;  1-Sep-2002
 (defun negative-digit-argument (arg)
   "negative-argument followed by digit-argument"
