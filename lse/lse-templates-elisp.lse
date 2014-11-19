@@ -46,7 +46,10 @@
   '(token                 "case")
   '(description           "Choose among an arbitrary number of alternatives in textual order")
   '(replacement
-      "(cond «cond-clause»···"
+      "(cond"
+        lse-indent+1
+        "«cond-clause»···"
+        lse-indent-1
       ")"
    )
 )
@@ -242,6 +245,7 @@
       let*
       or
       not
+      pcase
       progn
       prog1
       prog2
@@ -392,6 +396,137 @@
     '(token)
     '(description           "Evaluate embedded forms in order until one forms returns non-nil or return nil")
     '(replacement           "(or «form»···)")
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase"
+  '(token)
+  '(description           "Perform pattern matching on expression.")
+  '(replacement
+     "(pcase «form»"
+       lse-indent+1
+       "«pcase-clause»···"
+       lse-indent-1
+     ")"
+   )
+;;; pcase
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-clause"
+  '(token)
+  '(replacement
+    "(«pcase-upattern»"
+    lse-indent+1
+    "«form»···"
+    lse-indent-1
+    ")"
+   )
+;;; pcase-clause
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-qpattern"
+  '(token)
+  '(description           "Matches if the qpattern matches.")
+  '(replacement-leading   "`")
+  '(menu
+      pcase-qpattern:atom
+      pcase-qpattern:string
+      pcase-qpattern:cons
+      pcase-qpattern:upattern
+   )
+;;; pcase-qpattern
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-qpattern:atom"
+  '(description           "Matches if the object is `eq' to ATOM.")
+;;; pcase-qpattern:atom
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-qpattern:cons"
+  '(description           "Matches if QPAT1 matches the car and QPAT2 the cdr.")
+  '(replacement           "(«pcase-qpattern» . «pcase-qpattern»)")
+;;; pcase-qpattern:cons
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-qpattern:string"
+  '(description           "Matches if the object is `equal' to STRING.")
+  '(replacement           @ quoted-text)
+;;; pcase-qpattern:string
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-qpattern:upattern"
+  '(description           "Matches if the UPattern UPAT matches.")
+  '(replacement-leading   ",")
+  '(replacement           @ pcase-upattern)
+;;; pcase-qpattern:upattern
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern"
+  '(token)
+  '(description           "Upattern to match against expression of pcase")
+  '(menu
+      pcase-qpattern
+      pcase-upattern:self-quoting
+      pcase-upattern:symbol
+      ("_"     "Matches anything without binding")
+      pcase-upattern:or
+      pcase-upattern:and
+      pcase-upattern:pred
+      pcase-upattern:guard
+   )
+;;; pcase-upattern
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:and"
+  '(description           "Matches if all the patterns match.")
+  '(replacement           "(and «pcase-upattern»···)")
+;;; pcase-upattern:and
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:guard"
+  '(description
+    "Matches if boolean form evaluates to non-nil. Typically used inside `and` pattern."
+   )
+  '(replacement           "(guard «form»)")
+;;; pcase-upattern:guard
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:or"
+  '(description           "Matches if any of the patterns matches.")
+  '(replacement           "(or «pcase-upattern»···)")
+;;; pcase-upattern:or
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:pred"
+  '(description           "Matches if form applied to the object returns non-nil.")
+  '(replacement           "(pred «form»)")
+;;; pcase-upattern:pred
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:self-quoting"
+  '(description
+    "Matches itself. That includes keywords, numbers, and strings."
+   )
+;;; pcase-upattern:self-quoting
+)
+
+;;; 19-Nov-2014
+(lse-define-fill-in "pcase-upattern:symbol"
+  '(description           "Matches anything and binds it to SYMBOL.")
+  '(replacement           @ name)
+;;; pcase-upattern:symbol
 )
 
 (lse-define-fill-in "prog1"
