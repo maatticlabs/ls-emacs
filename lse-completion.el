@@ -63,29 +63,33 @@
 ;;;;                     `lse-tpu:remove-char-from-string`
 ;;;;                     (that macro gave a very obscure compilation warning)
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    19-Nov-2014 (CT) Add `lse-completion:hide-leader`,
+;;;;                     `lse-completion:desc-indent`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-completion)
 
-(defvar lse-completion:buffer  nil)
-(defvar lse-completion:keymap  (make-keymap))
+(defvar   lse-completion:buffer         nil)
+(defvar   lse-completion:keymap         (make-keymap))
 
-(defvar                        lse-completion:end_pos        nil)
-(defvar                        lse-completion:sorted         nil)
-(defvar                        lse-completion:current        nil)
-(defvar                        lse-completion:so_far         nil)
-(defvar                        lse-completion:starter        nil)
-(defvar                        lse-completion:last           nil)
-(defvar                        lse-completion:list           nil)
-(defvar                        lse-completion:last_key       nil)
-(defvar                        lse-completion:saved_wdw_conf nil)
-(defvar                        lse-completion:helped         nil); 29-Jun-1994
-(defvar                        lse-completion:case-fold      nil);  8-Sep-1994
-(defconst                      lse-completion:left_margin    6)
-(defvar                        lse-completion:index-start    1);    8-Oct-2007
-(defvar                        lse-completion:overlay        nil); 19-Mar-1995
+(defvar   lse-completion:case-fold      nil)                       ;  8-Sep-1994
+(defvar   lse-completion:current        nil)
+(defvar   lse-completion:desc-indent    18)                        ; 19-Nov-2014
+(defvar   lse-completion:end_pos        nil)
+(defvar   lse-completion:helped         nil)                       ; 29-Jun-1994
+(defvar   lse-completion:hide-leader    nil)                       ; 19-Nov-2014
+(defvar   lse-completion:index-start    1)                         ; 8-Oct-2007
+(defvar   lse-completion:last           nil)
+(defvar   lse-completion:last_key       nil)
+(defconst lse-completion:left_margin    6)
+(defvar   lse-completion:list           nil)
+(defvar   lse-completion:overlay        nil)                       ; 19-Mar-1995
+(defvar   lse-completion:saved_wdw_conf nil)
+(defvar   lse-completion:so_far         nil)
+(defvar   lse-completion:sorted         nil)
+(defvar   lse-completion:starter        nil)
 
-(make-variable-buffer-local   'lse-completion:end_pos)
+(make-variable-buffer-local             'lse-completion:end_pos)
 
 (defun lse-completion:widen ()
   (if (equal (current-buffer) lse-completion:buffer)
@@ -443,12 +447,13 @@
     (setq indent-tabs-mode nil)
     (setq tab-width        2)
     (setq mode-line-format
-          (list (purecopy (concat "%%%% " buf-nam ": `"))
-                'lse-completion:so_far
-                (purecopy "'                  `")
-                'lse-completion:current
-                (purecopy "'")
-          )
+      (list
+        (purecopy (concat "%%%% " buf-nam ": `"))
+        'lse-completion:so_far
+        (purecopy "'                  `")
+        'lse-completion:current
+        (purecopy "'")
+      )
     )
   )
 )
@@ -456,9 +461,10 @@
 (defun lse-completion:buffer (buf-nam)
   (if (not (bufferp lse-completion:buffer))
       (save-current-buffer
-        (set-buffer (setq lse-completion:buffer
-                          (get-buffer-create (concat " $" buf-nam " buffer$"))
-                    )
+        (set-buffer
+          (setq lse-completion:buffer
+            (get-buffer-create (concat " $" buf-nam " buffer$"))
+          )
         )
         (lse-completion:initialize_buffer buf-nam)
         ;;  19-Mar-1995
@@ -473,13 +479,13 @@
   (let ((opoint (point))
         desc
        )
-    (if (not head)
+    (if (or (not head) lse-completion:hide-leader)
         (lse-indent)
       (lse-fill-in-insert (propertize head 'face 'fringe))
       (indent-to lse-completion:left_margin)
     )
     (lse-fill-in-insert entry "\C-i")
-    (indent-to 25)
+    (indent-to (+ lse-completion:left_margin lse-completion:desc-indent))
     (add-text-properties opoint (point) '(mouse-face lse-face:completion-m))
     (setq desc
       (if (stringp description)
@@ -502,16 +508,16 @@
   (let ((completions (all-completions starter oba))
        )
     (lse-completion:show_alist
-         starter
-         (mapcar
-            (function
-              (lambda (x)
-                (cons x (or (get (intern-soft x oba) 'description) ""))
-              )
-            )
-            completions
-         )
-         dont-sort
+      starter
+      (mapcar
+        (function
+          (lambda (x)
+            (cons x (or (get (intern-soft x oba) 'description) ""))
+          )
+        )
+        completions
+      )
+      dont-sort
     )
   )
 )
@@ -522,11 +528,11 @@
 
 (defun lse-completion:show_alist (starter the-completions dont-sort)
   (let ((completions
-             (if dont-sort
-                 the-completions
-               (setq lse-completion:sorted t)
-               (sort (copy-sequence the-completions) 'lse-completion:<)
-             )
+         (if dont-sort
+             the-completions
+           (setq lse-completion:sorted t)
+           (sort (copy-sequence the-completions) 'lse-completion:<)
+         )
         )
         (n lse-completion:index-start)
         head lead next tail
@@ -541,10 +547,13 @@
          (setq tail (cdr next))
         )
         ((symbolp next)
-         (setq head (format "%s" (cond ((boundp  next) (symbol-value next))
-                                       ((fboundp next) (symbol-name  next))
-                                 )
-                    )
+         (setq head
+           (format "%s"
+             (cond
+               ((boundp  next) (symbol-value next))
+               ((fboundp next) (symbol-name  next))
+             )
+           )
          )
          (setq tail next)
         )

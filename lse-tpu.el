@@ -195,6 +195,8 @@
 ;;;;                     * Factor `lse-tpu:prefix-to-name`
 ;;;;                     * Factor `lse-tpu:ccp-buffers`
 ;;;;    19-Nov-2014 (CT) Add guard for `ccpb` to `lse-tpu:undelete`
+;;;;    19-Nov-2014 (CT) Use `lse-completion:hide-leader`, `...:desc-indent`
+;;;;                     to improve `lse-tpu:ccp-buffer:complete`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -607,6 +609,8 @@ lse-tpu:letter-argument. "
              ccpbs
            )
          )
+         (lse-completion:desc-indent 4)
+         (lse-completion:hide-leader t)
          (result
            (lse-complete "" completions t
              nil t (lse-tpu:prefix-to-name lse-tpu:ccp-buffer-index) t
