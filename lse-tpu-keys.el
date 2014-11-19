@@ -204,6 +204,9 @@
 ;;;;    18-Nov-2014 (CT) Bind (meta -) to `lse-number-at-point:decrement`,
 ;;;;                     (meta +), to `lse-number-at-point:increment`,
 ;;;;                     remove bindings for `lse-*-register` functions
+;;;;    19-Nov-2014 (CT) Bind `lse-frame` functions for `:set-height` and
+;;;;                     `:set-width` to `[C-x 5]`, remove old bindings for them
+;;;;    19-Nov-2014 (CT) Add bindings for `iconify-frame`, `lower-frame`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -584,9 +587,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control \')]       lse-insert-backquote-quote);        10-Jan-1998
       ([(control \|)]       lse-fill-range);                    10-Jan-1998
       ([(control \>)]       lse-unset-selective-display);        8-Sep-2002
-      ([(control \^)]       lse-frame:set-width:std);           10-Jan-1998
-      ([(control \`)]       lse-frame:set-width:wide);           7-Sep-2002
-      ([(control \!)]       lse-frame:set-height:std);           8-Sep-2002
       ([(control \*)]       lse-tpu:repeat-factor:set);         17-Nov-2014
       ([(control \+)]       lse-tpu:repeat-factor:set);         17-Nov-2014
       ([(control \=)]       lse-tpu:ccp-buffer-index:set);      17-Nov-2014
@@ -602,7 +602,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
 (defun lse-define-tpu-keys ()
   "Redefine keys defined by standard EMACS modes"
-  (lse-tpu:define-keypad-num);  3-Oct-2007
+  (lse-tpu:define-keypad-num)                                     ;  3-Oct-2007
   (lse-tpu:define-mouse-keys)
   (if lse-tpu:electric-inserts-p
       (lse-tpu:define-electric-inserts)
@@ -612,11 +612,11 @@ electric `(` inserts `()` and positions point between the parentheses..."
   )
   (lse-keys/define #'lse-define-key-in-all-maps
     '(
-      ([?\A-_]     undo); 10-Jan-1998
-      ([?\C-d]     lse-tpu:delete-next-char);  6-Jan-2002
-      ([?\A-g]     abort-recursive-edit); 10-Jan-1998
-      ([?\A-j]     lse-tpu:delete-prev-word); 10-Jan-1998
-      ([?\C-k]     lse-tpu:delete-tail-of-line);  6-Jan-2002
+      ([?\A-_]     undo)                                          ; 10-Jan-1998
+      ([?\C-d]     lse-tpu:delete-next-char)                      ;  6-Jan-2002
+      ([?\A-g]     abort-recursive-edit)                          ; 10-Jan-1998
+      ([?\A-j]     lse-tpu:delete-prev-word)                      ; 10-Jan-1998
+      ([?\C-k]     lse-tpu:delete-tail-of-line)                   ;  6-Jan-2002
     )
   )
 
@@ -632,8 +632,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
     )
   )
 
-  (lse-copy-key-in-minibuffer-maps   [?\C-m]     [return]);  4-Jan-1998
-  (lse-copy-key-in-minibuffer-maps   [?\C-m]     [?\A-m]);  10-Jan-1998
+  (lse-copy-key-in-minibuffer-maps   [?\C-m]     [return])        ;  4-Jan-1998
+  (lse-copy-key-in-minibuffer-maps   [?\C-m]     [?\A-m])         ; 10-Jan-1998
 
   ;;  1-Sep-2002
   ;; Define [?\A-<i>] as lse-set-tab-increment-i
@@ -649,14 +649,11 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
   (lse-keys/define #'global-set-key
     '(
-      ([?\A-']           lse-insert-bquotes); 10-Jun-1998
-      ([?\A-|]           lse-fill-range); 28-Apr-1996
-      ([?\A-<]           lse-set-selective-display);    8-Sep-2002
-      ([?\A-^]           lse-frame:set-width:std);  15-Jul-1997
-      ([?\A-`]           lse-frame:set-width:wide);  7-Sep-2002
-      ([?\A-!]           lse-frame:set-height:std);  8-Sep-2002
-      ([?\A-\s-.]        lse-tpu:unselect); 17-Jun-2001
-      ([?\A-,]           lse-tpu:select); 12-Nov-2002
+      ([?\A-']           lse-insert-bquotes)                      ; 10-Jun-1998
+      ([?\A-|]           lse-fill-range)                          ; 28-Apr-1996
+      ([?\A-<]           lse-set-selective-display)               ;  8-Sep-2002
+      ([?\A-\s-.]        lse-tpu:unselect)                        ; 17-Jun-2001
+      ([?\A-,]           lse-tpu:select)                          ; 12-Nov-2002
     )
   )
 
@@ -676,57 +673,72 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-\]]          lse-tpu:goto-closing-char)
       ([?\A-\{]          lse-tpu:goto-opening-char)
       ([?\A-\}]          lse-tpu:goto-closing-char)
-      ([?\A-f]           lse-compilation:next-error) ; 20-Feb-1995
+      ([?\A-f]           lse-compilation:next-error)              ; 20-Feb-1995
       ([?\C-<]           lse-tpu:goto-next-occurrence-current-char)
       ([?\C->]           lse-tpu:goto-prev-occurrence-current-char)
       ([?\C-\(]          forward-list)
       ([?\C-\)]          backward-list)
-      ([?\M-l]           goto-line); 31-Aug-2002
+      ([?\M-l]           goto-line)                               ; 31-Aug-2002
     )
   )
   (lse-keys/define #'global-set-key
     '(
-      ([?\A-:]           lse-tpu:replace-all); 30-Aug-2002
-      ([?\A-\ ]          lse-tabulator); 13-Sep-2002
-      ([?\A-\-]          negative-argument)  ; 30-Dec-1997
-      ([?\A-\.]          universal-argument) ; 30-Dec-1997
+      ([?\A-:]           lse-tpu:replace-all)                     ; 30-Aug-2002
+      ([?\A-\ ]          lse-tabulator)                           ; 13-Sep-2002
+      ([?\A-\-]          negative-argument)                       ; 30-Dec-1997
+      ([?\A-\.]          universal-argument)                      ; 30-Dec-1997
       ([?\A-\\]          quoted-insert)
       ([?\A-a]           lse-tpu:toggle-overwrite-mode)
       ([?\A-d]           dabbrev-expand)
-      ([?\A-g]           keyboard-quit); 29-Dec-1997
-      ([?\A-i]           lse-tabulator); 19-Mar-1995
+      ([?\A-g]           keyboard-quit)                           ; 29-Dec-1997
+      ([?\A-i]           lse-tabulator)                           ; 19-Mar-1995
       ([?\A-l]           lse-tpu:insert-formfeed)
-      ([?\A-q]           lse-insert-buffer-name); 28-Apr-1996
-      ([?\A-t]           transpose-chars); 10-Jan-1998
+      ([?\A-q]           lse-insert-buffer-name)                  ; 28-Apr-1996
+      ([?\A-t]           transpose-chars)                         ; 10-Jan-1998
       ([?\A-u]           lse-tpu:delete-head-of-line)
-      ([?\A-v]           lse-align-and-down); 15-Sep-1995
+      ([?\A-v]           lse-align-and-down)                      ; 15-Sep-1995
       ([?\A-w]           redraw-display)
       ([?\A-z]           lse-tpu:goto-last-position)
-      ([?\C-\.]          universal-argument) ; 28-Jun-1995
-      ([?\C-\A-d]        dabbrev-completion);  3-Jan-2000
-      ([?\C-i]           lse-tabulator); 13-Sep-2002
-      ([?\C-x?5?1]       lse-frame:make-full-height); 21-Oct-2014
-      ([?\C-x?5?2]       lse-frame:make-std)        ; 21-Oct-2014
-      ([?\C-x?5?3]       lse-frame:make-small)      ;  9-Apr-1998
-      ([?\C-x?5?^]       lse-frame:fix-position)    ; 21-Oct-2014
-      ([?\H-V]           lse-align-to-previous-word-and-down) ; 27-Jul-1999
-      ([?\H-v]           lse-align-to-next-word-and-up) ; 27-Jul-1999
-      ([?\M-\-]          lse-number-at-point:decrement); 18-Nov-2014
-      ([?\M-\+]          lse-number-at-point:increment); 18-Nov-2014
-      ([?\M-R]           lse-scroll-to-bottom);   3-Apr-2008
-      ([?\M-r]           lse-scroll-to-top);  1-Sep-2002
-      ([?\M-v]           lse-align-and-up); 15-Sep-1995
-      ([?\s-\-]          lse-number-at-point:decrement); 18-Nov-2014
-      ([?\s-\+]          lse-number-at-point:increment); 18-Nov-2014
-      ([?\s-<]           lse-insert-angles); 20-Jan-2000
-      ([?\s-\A-d]        ispell-complete-word);  6-Jan-2002
-      ([?\s-a]           delete-selection-mode); 28-Dec-1997
-      ([?\s-c]           lse-tpu:copy-region); 12-Feb-1998
-      ([?\s-d]           hippie-expand)       ; 29-Dec-1997
-      ([?\s-q]           lse-insert-buffer-name-plus-extension);  8-Dec-2007
-      ([?\s-v]           lse-tpu:paste-region); 12-Feb-1998
-      ([?\s-x]           lse-tpu:cut-region); 12-Feb-1998
-      ([?\s-|]           lse-insert-bars); 20-Jan-2000
+      ([?\C-\.]          universal-argument)                      ; 28-Jun-1995
+      ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
+      ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002
+      ([?\C-x?5?1]       lse-frame:make-full-height)              ; 21-Oct-2014
+      ([?\C-x?5?2]       lse-frame:make-std)                      ; 21-Oct-2014
+      ([?\C-x?5?3]       lse-frame:make-small)                    ;  9-Apr-1998
+      ([?\C-x?5?\-]      lse-frame:set-width:std)                 ; 19-Nov-2014
+      ([?\C-x?5?\–]      lse-frame:set-width:wide)                ; 19-Nov-2014
+      ([?\C-x?5?\—]      lse-frame:set-width:double)              ; 19-Nov-2014
+      ([?\C-x?5?\:]      lse-frame:set-height:full)               ; 19-Nov-2014
+      ([?\C-x?5?\,]      lse-frame:set-height:large)              ; 19-Nov-2014
+      ([?\C-x?5?\.]      lse-frame:set-height:small)              ; 19-Nov-2014
+      ([?\C-x?5?^]       lse-frame:fix-position)                  ; 21-Oct-2014
+      ([?\C-x?5?h?f]     lse-frame:set-height:full)               ; 19-Nov-2014
+      ([?\C-x?5?h?l]     lse-frame:set-height:large)              ; 19-Nov-2014
+      ([?\C-x?5?h?n]     lse-frame:set-height:std)                ; 19-Nov-2014
+      ([?\C-x?5?h?s]     lse-frame:set-height:small)              ; 19-Nov-2014
+      ([?\C-x?5?i]       iconify-frame)                           ; 19-Nov-2014
+      ([?\C-x?5?l]       lower-frame)                             ; 19-Nov-2014
+      ([?\C-x?5?w?d]     lse-frame:set-width:double)              ; 19-Nov-2014
+      ([?\C-x?5?w?s]     lse-frame:set-width:std)                 ; 19-Nov-2014
+      ([?\C-x?5?w?w]     lse-frame:set-width:wide)                ; 19-Nov-2014
+      ([?\H-V]           lse-align-to-previous-word-and-down)     ; 27-Jul-1999
+      ([?\H-v]           lse-align-to-next-word-and-up)           ; 27-Jul-1999
+      ([?\M-\-]          lse-number-at-point:decrement)           ; 18-Nov-2014
+      ([?\M-\+]          lse-number-at-point:increment)           ; 18-Nov-2014
+      ([?\M-R]           lse-scroll-to-bottom)                    ;  3-Apr-2008
+      ([?\M-r]           lse-scroll-to-top)                       ;  1-Sep-2002
+      ([?\M-v]           lse-align-and-up)                        ; 15-Sep-1995
+      ([?\s-\-]          lse-number-at-point:decrement)           ; 18-Nov-2014
+      ([?\s-\+]          lse-number-at-point:increment)           ; 18-Nov-2014
+      ([?\s-<]           lse-insert-angles)                       ; 20-Jan-2000
+      ([?\s-\A-d]        ispell-complete-word)                    ;  6-Jan-2002
+      ([?\s-a]           delete-selection-mode)                   ; 28-Dec-1997
+      ([?\s-c]           lse-tpu:copy-region)                     ; 12-Feb-1998
+      ([?\s-d]           hippie-expand)                           ; 29-Dec-1997
+      ([?\s-q]           lse-insert-buffer-name-plus-extension)   ;  8-Dec-2007
+      ([?\s-v]           lse-tpu:paste-region)                    ; 12-Feb-1998
+      ([?\s-x]           lse-tpu:cut-region)                      ; 12-Feb-1998
+      ([?\s-|]           lse-insert-bars)                         ; 20-Jan-2000
     )
   )
   (lse-keys/define #'global-set-smk
@@ -742,7 +754,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-keys/define-in-map 'define-key help-map
     '(
       ([red]             lse-tpu-keys:show-list-sexp-keys)
-      ([?W]              lse-tpu-keys:show-keys-matching); 28-Dec-97
+      ([?W]              lse-tpu-keys:show-keys-matching)         ; 28-Dec-1997
       ([(\')]            lse-key-name)
     )
   )
@@ -756,21 +768,21 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
   (lse-keys/define #'global-set-key
     '(
-      ([A-S-left]        lse-tpu:pan-left);             20-Aug-1995
-      ([A-S-right]       lse-tpu:pan-right);            20-Aug-1995
-      ([A-down]          shrink-window);                18-Jul-1995
-      ([A-left]          lse-deindent-line-by-word);    18-Jul-1995
-      ([A-next]          lse-scroll-other-window-forw); 18-Jul-1995
-      ([A-prior]         lse-scroll-other-window-back); 18-Jul-1995
-      ([A-return]        lse-split-line-i);             27-Mar-1997
-      ([A-right]         lse-indent-line-by-word);      18-Jul-1995
-      ([A-up]            enlarge-window);               18-Jul-1995
+      ([A-S-left]        lse-tpu:pan-left)                        ; 20-Aug-1995
+      ([A-S-right]       lse-tpu:pan-right)                       ; 20-Aug-1995
+      ([A-down]          shrink-window)                           ; 18-Jul-1995
+      ([A-left]          lse-deindent-line-by-word)               ; 18-Jul-1995
+      ([A-next]          lse-scroll-other-window-forw)            ; 18-Jul-1995
+      ([A-prior]         lse-scroll-other-window-back)            ; 18-Jul-1995
+      ([A-return]        lse-split-line-i)                        ; 27-Mar-1997
+      ([A-right]         lse-indent-line-by-word)                 ; 18-Jul-1995
+      ([A-up]            enlarge-window)                          ; 18-Jul-1995
       ([cancel]          lse-tpu:unselect)
-      ([delete]          lse-tpu:delete-next-char);     25-Feb-1998
+      ([delete]          lse-tpu:delete-next-char)                ; 25-Feb-1998
       ([do]              repeat-complex-command)
-      ([gold A-return]   lse-toggle-lse-split-line);    27-Mar-1997
-      ([red end]         lse-scroll-to-bottom);          3-Apr-2008
-      ([red home]        lse-scroll-to-top);             3-Apr-2008
+      ([gold A-return]   lse-toggle-lse-split-line)               ; 27-Mar-1997
+      ([red end]         lse-scroll-to-bottom)                    ;  3-Apr-2008
+      ([red home]        lse-scroll-to-top)                       ;  3-Apr-2008
       ([select]          lse-tpu:select)
     )
   )
@@ -861,10 +873,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([gold ?\[]          self-insert-command)
       ([gold ?\\]          self-insert-command)
       ([gold ?\]]          backward-sexp)
-      ([gold ?`]           lse-frame:set-width:wide);    5-Mar-1997
-      ([gold ?^]           lse-frame:set-width:wide);    5-Mar-1997
-      ([gold ?!]           lse-frame:set-height:full);  21-Oct-2014
-      ([gold ?:]           lse-frame:set-height:small);  8-Sep-2002
       ([gold ?{]           self-insert-command)
       ([gold ?|]           lse-fill-range)
       ([gold ?}]           backward-sexp)
@@ -1046,13 +1054,11 @@ electric `(` inserts `()` and positions point between the parentheses..."
   )
   (lse-keys/define #'global-set-key
     '(
-      ([blue      ?!]        lse-frame:set-height:std);    8-Sep-2002
       ([blue      ?#]        lse-count-matches)
       ([blue      ?']        lse-insert-backquote-quote); 26-Apr-1996
       ([blue      ?*]        lse-frame:list:show);  8-Dec-2009
       ([blue      ?+]        lse-pop+restore-window-configuration)
       ([blue      ?/]        lse-align-and-down)
-      ([blue      ?:]        lse-frame:set-height:std);    8-Sep-2002
       ([blue      ?=]        lse-split-window-horizontally); 22-May-97
       ([blue      ??]        lse-insert-key-name); 12-Jun-1994
       ([blue      ?\ ]       lse-align-to-previous-word)
@@ -1064,16 +1070,12 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue      ?\C-:]     lse-tpu:replace-all); 30-Aug-2002
       ([blue      ?\C-m]     lse-split-line-i); 20-Jan-1998
       ([blue      ?\M-f]     lse-grep); 31-Aug-2002
-      ([blue      ?^]        lse-frame:set-width:std);     5-Mar-1997
-      ([blue      ?`]        lse-frame:set-width:std);     5-Mar-1997
       ([blue      ?|]        lse-insert-bars)
       ([blue      ?~]        delete-trailing-whitespace)
       ([blue      ?-]        negative-argument)
-      ([blue gold ?!]        lse-frame:set-height:small);  8-Sep-2002
       ([blue gold ?']        lse-remove-backquote-quote); 26-Apr-1996
       ([blue gold ?*]        lse-show-all-buffers);  9-Dec-2009
       ([blue gold ?-]        lse-delete-other-windows)
-      ([blue gold ?:]        lse-frame:set-height:std);    8-Sep-2002
       ([blue gold ?=]        lse-delete-window)
       ([blue gold ?\ ]       set-fill-column)
       ([blue gold ?\"]       lse-remove-double-backquote-quote); 26-Apr-1996
@@ -1086,8 +1088,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue gold ?\M-f]     find-tag); 31-Aug-2002
       ([blue gold ?\[]       lse-remove-brackets)
       ([blue gold ?\{]       lse-remove-braces)
-      ([blue gold ?^]        lse-frame:set-width:double);  5-Mar-1997
-      ([blue gold ?`]        lse-frame:set-width:double);  5-Mar-1997
       ([blue gold ?~]        lse-fill-range)
     )
   )

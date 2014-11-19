@@ -100,6 +100,12 @@
 ;;;;     7-Nov-2014 (CT) Add `(display :never)` to `frameset-filter-alist`
 ;;;;     7-Nov-2014 (CT) Add `lse-frame:never-save-parameters`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    19-Nov-2014 (CT) Improve `lse-frame:fix-position`
+;;;;                     * add `lse-frame:pos-par`
+;;;;                     * change `lse-frame:wbc-wd` to positive
+;;;;    19-Nov-2014 (CT) Fix `lse-frame:max-height`
+;;;;    19-Nov-2014 (CT) Fix `lse-frame:set-height`, `lse-frame:set-width`
+;;;;                     * Remove code done by  `lse-frame:fix-position`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -231,38 +237,47 @@
   "Fix position of frame relative to display to avoid off-display parts."
   (interactive)
   (or fram (setq fram (selected-frame)))
-  (let* ((d-height    (x-display-pixel-height))
-         (d-width     (x-display-pixel-width))
-         (f-height    (frame-pixel-height fram))
-         (f-width     (frame-pixel-width  fram))
-         (params      (frame-parameters   fram))
-         (f-left      (cdr                (assoc 'left           params)))
-         (f-top       (cdr                (assoc 'top            params)))
-         (menu-bar    (cdr                (assoc 'menu-bar-lines params)))
-         (f-bottom    (+ f-top            f-height))
-         (f-right     (+ f-left           f-width))
-         (h-correct   (+ (* lse-frame:wbc-ht (+ menu-bar 1)) 6))
-         (w-correct   lse-frame:wbc-wd)
-         (h-delta     (- f-bottom         d-height))
-         (w-delta     (- f-right          d-width))
-        )
-    (cond ((> f-height d-height)
-           (setq f-top 0)
-           (set-frame-position fram f-left f-top)
-          )
-          ((> h-delta 0)
-           (setq f-top (- f-top h-delta h-correct))
-           (set-frame-position fram f-left f-top)
-          )
+  (let ((d-height (x-display-pixel-height))
+        (d-width  (x-display-pixel-width))
+        (f-height (frame-pixel-height fram))
+        (f-width  (frame-pixel-width  fram))
+       )
+    (when (> (frame-pixel-height fram) d-height)
+      (set-frame-height d-height nil t)
     )
-    (cond ((> f-width d-width)
-           (setq f-left 0)
-           (set-frame-position fram f-left f-top)
+    (when (> (frame-pixel-width fram) d-width)
+      (set-frame-width d-width nil t)
+    )
+    (let* ((params      (frame-parameters   fram))
+           (menu-bar    (cdr                (assoc 'menu-bar-lines params)))
+           (h-correct   (+ (* lse-frame:wbc-ht (+ menu-bar 1)) 12))
+           (w-correct   lse-frame:wbc-wd)
+           (f-left      (lse-frame:pos-par 'left params d-width))
+           (f-top       (lse-frame:pos-par 'top  params d-height))
+           (f-bottom    (+ f-height         f-top))
+           (f-right     (+ f-width          f-left))
+           (h-delta     (- d-height         f-bottom))
+           (w-delta     (- d-width          f-right))
           )
-          ((> w-delta 0)
-           (setq f-left (- f-left w-delta w-correct))
-           (set-frame-position fram f-left f-top)
-          )
+      (when (< f-top 0)
+        (setq h-delta (min (+ h-delta f-top) f-top))
+      )
+      (when (< f-left 0)
+        (setq w-delta (+ w-delta f-left))
+      )
+      (when (> f-height d-height)
+        (setq f-top  0)
+      )
+      (when (> f-width d-width)
+        (setq f-left 0)
+      )
+      (when (< h-delta 0)
+        (setq f-top  (max 0 (+ f-top h-delta)))
+      )
+      (when (< w-delta 0)
+        (setq f-left (max 0 (+ f-left w-delta)))
+      )
+      (set-frame-position fram f-left f-top)
     )
   )
 ; lse-frame:fix-position
@@ -277,12 +292,12 @@
     (when (stringp tps)
       (lse-frame:set-parameter 'title-prefix-suffix tps result)
     )
-    (lse-frame:fix-position result)
     (select-frame result)
     (lse-scroll-to-top)
     (when frame-setup
       (lse-frame:do-setup result frame-setup)
     )
+    (lse-frame:fix-position result)
     result
   )
 ; lse-frame:make
@@ -365,8 +380,10 @@
 ;;; 21-Oct-2014
 (defun lse-frame:max-height ()
   (let* ((c-height  (frame-char-height))
-         (d-height  (- (x-display-pixel-height) lse-frame:wbc-ht))
-         (result    (- (/ d-height c-height) 2))
+         (menu-bar  (lse-frame:parameter 'menu-bar-lines))
+         (d-corr    (* lse-frame:wbc-ht (+ menu-bar 1)))
+         (d-height  (- (x-display-pixel-height) d-corr))
+         (result    (- (/ d-height c-height) 1))
         )
     result
   )
@@ -378,6 +395,25 @@
   (or fram (setq fram (selected-frame)))
   (cdr (assoc nsym (frame-parameters fram)))
 ; lse-frame:parameter
+)
+
+;;; 19-Nov-2014
+(defun lse-frame:pos-par (nsym params ddim)
+  (when (framep params)
+    (setq params (frame-parameters params))
+  )
+  (let ((result (cdr (assoc nsym params)))
+       )
+    (setq result
+      (pcase result
+        (`(+ ,l) l)           ; relative to left/top     edge
+        (`(- ,r) (- ddim r))  ; relative to right/bottom edge --> convert
+        (_       result)
+      )
+    )
+    result
+  )
+; lse-frame:pos-par
 )
 
 ;;; 17-Nov-2009
@@ -396,7 +432,7 @@
 )
 
 ;;;  5-Mar-1997
-(defvar lse-frame:wbc-wd -5)    ; window border correction for width
+(defvar lse-frame:wbc-wd  +5)   ; window border correction for width
 (defvar lse-frame:wbc-ht +22)   ; window border correction for height
                                 ;    1-May-1998 `22' ; instead of `12'
 
@@ -409,57 +445,16 @@
   "Set width of frame to `wd'"
   (interactive "NFrame-width: ")
   (or fram (setq fram (selected-frame)))
-  (let ((old-wd (frame-width fram))
-        (saved-wd (if (assoc fram lse-frame:save-wd-table)
-                      (cdr (assoc fram lse-frame:save-wd-table))
-                    0
-                  )
-        )
+  (let* ((old-wd (frame-width fram))
+         (saved-wd-cons (assoc fram lse-frame:save-wd-table))
+         (saved-wd (if saved-wd-cons (cdr saved-wd-cons) lse-frame:std-width))
+         (new-wd   (if (> wd 0) wd saved-wd))
        )
-    (or (> wd 0)  (setq wd saved-wd))
-    (if (eq wd old-wd)
-        t
-      (set-frame-size fram wd (frame-height fram))
-      (or (assoc fram lse-frame:save-wd-table)
-          (setq lse-frame:save-wd-table
-                (cons (cons fram old-wd) lse-frame:save-wd-table)
-          )
-      )
-      (let ((delta (- (x-display-pixel-width) (frame-pixel-width fram)))
-           )
-        (if (> wd old-wd)
-            (if (> (lse-frame:parameter 'left fram) delta)
-                (progn
-                  (or (assoc fram lse-frame:save-pos-table-w)
-                      (setq lse-frame:save-pos-table-w
-                            (cons (cons fram (lse-frame:parameter 'left fram))
-                                  lse-frame:save-pos-table-w
-                            )
-                      )
-                  )
-                  (set-frame-position fram
-                      (- delta
-                         (or (lse-frame:parameter 'scroll-bar-width fram) 0)
-                      )
-                      (max (- (lse-frame:parameter 'top fram) lse-frame:wbc-ht)
-                           lse-frame:wbc-ht
-                      )
-                  )
-                )
-            )
-          (let ((saved (assoc fram lse-frame:save-pos-table-w))
-               )
-            (if saved
-                (progn
-                  (set-frame-position fram (cdr saved)
-                      (max (- (lse-frame:parameter 'top fram) lse-frame:wbc-ht)
-                           lse-frame:wbc-ht
-                      )
-                  )
-                  (delete saved lse-frame:save-pos-table-w)
-                )
-            )
-          )
+    (unless (eq new-wd old-wd)
+      (set-frame-width fram wd)
+      (unless (assoc fram lse-frame:save-wd-table)
+        (setq lse-frame:save-wd-table
+          (cons (cons fram old-wd) lse-frame:save-wd-table)
         )
       )
     )
@@ -501,53 +496,21 @@
   "Set height of frame to `ht'"
   (interactive "NFrame-height: ")
   (or fram (setq fram (selected-frame)))
-;;;  8-Sep-2002 (or (< ht lse-frame:large-height) (setq ht lse-frame:large-height))
-  (let ((old-ht   (frame-height fram))
-        (saved-ht (if (assoc fram lse-frame:save-ht-table)
-                      (cdr (assoc fram lse-frame:save-ht-table))
-                    0
-                  )
-        )
-       )
-    (or (> ht 0) (setq ht saved-ht))
-    (if (eq ht old-ht)
-        t
-      (set-frame-size fram (frame-width fram) ht)
-      (or (assoc fram lse-frame:save-ht-table)
-          (setq lse-frame:save-ht-table
-                (cons (cons fram old-ht) lse-frame:save-ht-table)
-          )
-      )
-      (let ((delta (- (x-display-pixel-height) (frame-pixel-height fram)))
+  (let* ((old-ht   (frame-height fram))
+         (d-height (x-display-pixel-height))
+         (saved-ht
+           (if (assoc fram lse-frame:save-ht-table)
+               (cdr (assoc fram lse-frame:save-ht-table))
+             lse-frame:std-height
            )
-        (if (> ht old-ht)
-            (if (> (lse-frame:parameter 'top fram) delta)
-                (progn
-                  (or (assoc fram lse-frame:save-pos-table-h)
-                      (setq lse-frame:save-pos-table-h
-                            (cons (cons fram (lse-frame:parameter 'top fram))
-                                  lse-frame:save-pos-table-h
-                            )
-                      )
-                  )
-                  (set-frame-position fram
-                      (lse-frame:parameter 'left fram)
-                      (- delta lse-frame:wbc-wd)
-                  )
-                )
-            )
-          (let ((saved (assoc fram lse-frame:save-pos-table-h))
-               )
-            (if saved
-                (progn
-                  (set-frame-position fram
-                                      (lse-frame:parameter 'left fram)
-                                      (cdr saved)
-                  )
-                  (delete saved lse-frame:save-pos-table-h)
-                )
-            )
-          )
+         )
+         (new-ht (if (> ht 0) ht saved-ht))
+        )
+    (unless (eq new-ht old-ht)
+      (set-frame-height fram new-ht)
+      (unless (assoc fram lse-frame:save-ht-table)
+        (setq lse-frame:save-ht-table
+          (cons (cons fram old-ht) lse-frame:save-ht-table)
         )
       )
     )
