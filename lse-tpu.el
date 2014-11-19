@@ -194,6 +194,7 @@
 ;;;;    19-Nov-2014 (CT) Add and use `lse-tpu:ccp-buffer:complete`
 ;;;;                     * Factor `lse-tpu:prefix-to-name`
 ;;;;                     * Factor `lse-tpu:ccp-buffers`
+;;;;    19-Nov-2014 (CT) Add guard for `ccpb` to `lse-tpu:undelete`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -2349,15 +2350,19 @@ Accepts a prefix argument of the number of characters to invert."
             )
           )
          )
-         (text (lse-tpu:ccp-buffer:text ccpb))
-         (dir  (lse-tpu:ccp-buffer:dir  ccpb))
         )
+    (when ccpb
+      (let ((text (lse-tpu:ccp-buffer:text ccpb))
+            (dir  (lse-tpu:ccp-buffer:dir  ccpb))
+           )
         (while (> n 0)
           (lse-tpu:insert text)
           (setq n (1- n))
         )
-    (when (equal dir (* (or dir-sign 1) lse-tpu:direction-forward))
-      (goto-char head)
+        (when (equal dir (* (or dir-sign 1) lse-tpu:direction-forward))
+          (goto-char head)
+        )
+      )
     )
   )
   (setq deactivate-mark nil); 17-Mar-1995
