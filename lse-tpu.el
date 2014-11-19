@@ -191,6 +191,9 @@
 ;;;;    18-Nov-2014 (CT) Add `lse-tpu:letter-argument`,
 ;;;;                     define `letter-prefix` bindings,
 ;;;;                     increase number of ccp-buffers and search-histories
+;;;;    19-Nov-2014 (CT) Add and use `lse-tpu:ccp-buffer:complete`
+;;;;                     * Factor `lse-tpu:prefix-to-name`
+;;;;                     * Factor `lse-tpu:ccp-buffers`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -208,14 +211,29 @@
 lse-tpu:letter-argument. "
 )
 
+;;; 19-Nov-2014
+(defun lse-tpu:prefix-to-name (number)
+  (if (< number 10)
+      (number-to-string number)           ; digit-argument          0..9
+    (char-to-string (+ number (- ?a 10))) ; lse-tpu:letter-argument a..z
+  )
+; lse-tpu:prefix-to-name
+)
+
+;;; 19-Nov-2014
+(defun lse-tpu:name-to-prefix (name)
+  (let* ((char  (string-to-char name))
+         (value (if (<= char  ?9) char (logand char #b1011111)))
+         (delta (if (<= value ?9) ?0 (- ?A 10)))
+        )
+    (- value delta)
+  )
+; lse-tpu:name-to-prefix
+)
+
 ;;; 18-Nov-2014
 (defun lse-tpu:new-numbered-symbol (name number value doc)
-  (let* ((key
-           (if (< number 10)
-               number                             ; digit-argument          0..9
-             (char-to-string (+ number (- ?a 10))); lse-tpu:letter-argument a..z
-           )
-         )
+  (let* ((key    (lse-tpu:prefix-to-name number))
          (result (intern (format "%s-%s" name key)))
          (doc    (format "%s %s." doc key))
         )
@@ -435,7 +453,7 @@ lse-tpu:letter-argument. "
   (setq lse-tpu:ccp-buffer-index:mode-line
     (if (= lse-tpu:ccp-buffer-index 0)
         ""
-      (format " =%d=" lse-tpu:ccp-buffer-index)
+      (format " =%s=" (lse-tpu:prefix-to-name lse-tpu:ccp-buffer-index))
     )
   )
   (lse-tpu:update-mode-line)
@@ -470,12 +488,14 @@ lse-tpu:letter-argument. "
 
 ;;; 17-Nov-2014
 (defun lse-tpu:ccp-buffer:text (ccpb)
+  (when (symbolp ccpb) (setq ccpb (symbol-value ccpb)))
   (aref ccpb 0)
 ; lse-tpu:ccp-buffer:text
 )
 
 ;;; 17-Nov-2014
 (defun lse-tpu:ccp-buffer:dir (ccpb)
+  (when (symbolp ccpb) (setq ccpb (symbol-value ccpb)))
   (aref ccpb 1)
 ; lse-tpu:ccp-buffer:dir
 )
@@ -527,28 +547,76 @@ lse-tpu:letter-argument. "
   "Cut/copy/paste buffers for units `char`, `word`, `line`, and `region`"
 )
 
+;;; 19-Nov-2014
+(defun lse-tpu:ccp-buffers (unit)
+  (let ((result
+          (pcase unit
+            (:char          lse-tpu:ccp-buffers:char)
+            (:word          lse-tpu:ccp-buffers:word)
+            (:line          lse-tpu:ccp-buffers:line)
+            (:region        lse-tpu:ccp-buffers:region)
+            ((pred numberp) (aref lse-tpu:ccp-buffers unit))
+            ((pred symbolp) unit)
+            ((pred vectorp) unit)
+            (_              nil)
+          )
+        )
+       )
+    (if result
+        (if (symbolp result)
+            (symbol-value result)
+          result
+        )
+      (error (message "Wrong argument `%s`" unit))
+    )
+  )
+; lse-tpu:ccp-buffers
+)
+
 ;;; 17-Nov-2014
 (defun lse-tpu:ccp-buffer:active (unit)
-  (condition-case nil
-      (let ((ccpbs
-             (cond
-               ((symbolp unit)
-                 unit
-               )
-               ((numberp unit)
-                 (aref lse-tpu:ccp-buffers unit)
-               )
-               (t nil)
-             )
-            )
-           )
-          (symbol-value (aref (symbol-value ccpbs) lse-tpu:ccp-buffer-index))
+  (let ((ccpbs (lse-tpu:ccp-buffers unit))
+       )
+    (condition-case nil
+        (symbol-value (aref ccpbs lse-tpu:ccp-buffer-index))
+      (error
+        (message "Wrong argument `%s`" unit)
       )
-    (error
-      (message "Wrong argument %s" unit)
     )
   )
 ; lse-tpu:ccp-buffer:active
+)
+
+;;; 19-Nov-2014
+(defun lse-tpu:ccp-buffer:complete (unit)
+  (let* ((ccpbs (lse-tpu:ccp-buffers unit))
+         (i 0)
+         (completions
+           (mapcar
+             (function
+               (lambda (ccp)
+                 (prog1
+                   (cons
+                     (lse-tpu:prefix-to-name i) (lse-tpu:ccp-buffer:text ccp)
+                   )
+                   (setq i (1+ i))
+                 )
+               )
+             )
+             ccpbs
+           )
+         )
+         (result
+           (lse-complete "" completions t
+             nil t (lse-tpu:prefix-to-name lse-tpu:ccp-buffer-index) t
+           )
+         )
+        )
+    (when result
+      (symbol-value (aref ccpbs (lse-tpu:name-to-prefix result)))
+    )
+  )
+; lse-tpu:ccp-buffer:complete
 )
 
 ;;;+
@@ -2263,15 +2331,31 @@ Accepts a prefix argument of the number of characters to invert."
 ;;;++
 ;;; Deletion/Undeletion of chars, words, and lines
 ;;;--
-(defun lse-tpu:undelete (num ccpb &optional dir-sign)
-  (let ((head (point))
-        (text (lse-tpu:ccp-buffer:text ccpb))
-        (dir  (lse-tpu:ccp-buffer:dir  ccpb))
-       )
-    (while (> num 0)
-      (lse-tpu:insert text)
-      (setq num (1- num))
-    )
+(defun lse-tpu:undelete (n unit &optional dir-sign)
+  (unless n (setq n 1))
+  (let* ((head (point))
+         (ccpb
+          (pcase n
+            ((pred numberp)
+              (if (>= n 0)
+                  (lse-tpu:ccp-buffer:active unit)
+                (setq n (abs n))
+                (lse-tpu:ccp-buffer:complete unit)
+              )
+            )
+            (_
+              (setq n 1)
+              (lse-tpu:ccp-buffer:complete unit)
+            )
+          )
+         )
+         (text (lse-tpu:ccp-buffer:text ccpb))
+         (dir  (lse-tpu:ccp-buffer:dir  ccpb))
+        )
+        (while (> n 0)
+          (lse-tpu:insert text)
+          (setq n (1- n))
+        )
     (when (equal dir (* (or dir-sign 1) lse-tpu:direction-forward))
       (goto-char head)
     )
@@ -2364,10 +2448,8 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-char (&optional count)
-  (interactive "*p")
-  (lse-tpu:undelete
-    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:char)
-  )
+  (interactive "*P")
+  (lse-tpu:undelete count :char)
 )
 
 (defun lse-tpu:delete-word (head tail dir &optional append)
@@ -2459,10 +2541,8 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-word (&optional count)
-  (interactive "*p")
-  (lse-tpu:undelete
-    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:word)
-  )
+  (interactive "*P")
+  (lse-tpu:undelete count :word)
 )
 
 (defun lse-tpu:delete-line (head tail dir &optional append)
@@ -2521,10 +2601,8 @@ Prefix argument means: append to paste buffer."
 )
 
 (defun lse-tpu:undelete-line (&optional count)
-  (interactive "*p")
-  (lse-tpu:undelete
-    count (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:line)
-  )
+  (interactive "*P")
+  (lse-tpu:undelete count :line)
 )
 
 ;;;++
@@ -2711,29 +2789,28 @@ Prefix argument means: append to paste buffer."
 (defun lse-tpu:paste-region (&optional count)
   "Insert the last region or rectangle of killed text.
 With argument reinserts the text that many times."
-  (interactive "*p")
-  (let* ((num  count)
-         (ccpb (lse-tpu:ccp-buffer:active 'lse-tpu:ccp-buffers:region))
-        )
-    (cond (lse-tpu:rectangular-p
-           (let (tail)
-             (while (> num 0)
-               (save-excursion
-                 (picture-yank-rectangle (not overwrite-mode))
-                 (message "")
-                 (setq tail (point))
-               )
-               (setq num (1- num))
-             )
-             (when (= lse-tpu:pasted-region-dir lse-tpu:direction-backward)
-               (goto-char tail)
-             )
-           )
-           (setq deactivate-mark nil); 17-Mar-1995
+  (interactive "*P")
+  (cond
+    (lse-tpu:rectangular-p
+     (let ((num (prefix-numeric-value count))
+           tail
           )
-          (t
-           (lse-tpu:undelete num ccpb -1)
-          )
+       (while (> num 0)
+         (save-excursion
+           (picture-yank-rectangle (not overwrite-mode))
+           (message "")
+           (setq tail (point))
+         )
+         (setq num (1- num))
+       )
+       (when (= lse-tpu:pasted-region-dir lse-tpu:direction-backward)
+         (goto-char tail)
+       )
+     )
+     (setq deactivate-mark nil); 17-Mar-1995
+    )
+    (t
+     (lse-tpu:undelete count :region -1)
     )
   )
 ; lse-tpu:paste-region
