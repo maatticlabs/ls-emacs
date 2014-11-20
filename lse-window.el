@@ -82,6 +82,7 @@
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    16-Nov-2014 (CT) Add to `imenu-after-jump-hook`,
 ;;;;                     instead of advicing `imenu-default-goto-function`
+;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-window)
@@ -177,21 +178,21 @@
 
 (defun lse-next-screen (&optional arg)
   "Scroll forward"
-  (interactive "p")
+  (interactive "^p")
   (lse-scroll-vertically (lse-scroll-unit) arg)
 ) ; lse-next-screen
 
 ;;; 29-Dec-1997
-(defsubst lse-next-screen-2 () (interactive) (lse-next-screen 2))
+(defsubst lse-next-screen-2 () (interactive "^") (lse-next-screen 2))
 
 (defun lse-previous-screen (&optional arg)
   "Scroll backward"
-  (interactive "p")
+  (interactive "^p")
   (lse-scroll-vertically (- (lse-scroll-unit)) arg)
 ) ; lse-previous-screen
 
 ;;; 29-Dec-1997
-(defsubst lse-previous-screen-2 () (interactive) (lse-previous-screen 2))
+(defsubst lse-previous-screen-2 () (interactive "^") (lse-previous-screen 2))
 
 (defvar lse-window::number 0)
 (defvar lse-window::length 0)

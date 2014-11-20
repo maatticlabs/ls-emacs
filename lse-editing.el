@@ -102,6 +102,7 @@
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    18-Nov-2014 (CT) Replace `lse-*-register` by
 ;;;;                     `lse-number-at-point:increment`...
+;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -494,7 +495,7 @@
 (defun lse-align-to-word (&optional dir in-fill-in)
   "Align position of next word with the position of the corresponding word of
 line in direction dir"
-  (interactive "*p")
+  (interactive "^*p")
   (or dir (setq dir 1))
   (let ((target-pos 0)
         (cc         (current-column))
@@ -514,13 +515,13 @@ line in direction dir"
 (defun lse-align-to-next-word (&optional num)
   "Align position of next word with the position of the corresponding word of
 next line"
-  (interactive "*p")
+  (interactive "^*p")
   (lse-align-to-word num)
 ; lse-align-to-next-word
 )
 
 (defun lse-align-to-next-word-and-up (&optional num)
-  (interactive "*p")
+  (interactive "^*p")
   (save-excursion
     (lse-align-to-next-word num)
   )
@@ -531,13 +532,13 @@ next line"
 (defun lse-align-to-previous-word (&optional num)
   "Align position of next word with the position of the corresponding word of
 previous line"
-  (interactive "*p")
+  (interactive "^*p")
   (lse-align-to-word -1)
 ; lse-align-to-previous-word
 )
 
 (defun lse-align-to-previous-word-and-down (&optional num)
-  (interactive "*p")
+  (interactive "^*p")
   (let ((cp (point)))
     (lse-align-to-previous-word num)
     (goto-char cp); for some reason save-excursion does not work properly here
@@ -549,13 +550,13 @@ previous line"
 (defconst lse:align-search-limit 15)
 
 (defun lse-align-and-down ()
-  (interactive "*")
+  (interactive "^*")
   (lse-align (following-char) -1)
 ; lse-align-and-down
 )
 
 (defun lse-align-and-up ()
-  (interactive "*")
+  (interactive "^*")
   (lse-align (following-char) +1)
 ; lse-align-and-up
 )
@@ -842,7 +843,7 @@ Prefix argument means: append to paste buffer."
 (setq indent-line-function 'lse-indent-line)
 
 (defun lse-open-line ()
-  (interactive "*")
+  (interactive "^*")
   (let ((cp (point-marker)))
     (lse-split-line)
     (goto-char (marker-position cp))
@@ -1022,7 +1023,7 @@ Prefix argument means: append to paste buffer."
 ;;; 17-Dec-1994
 (defun lse-indent-line-by-word (&optional dir)
   "Align first word of line to word of line in direction `dir'"
-  (interactive "*")
+  (interactive "^*")
   (or dir (setq dir -1))
   (let ((pos (save-excursion (unless (eobp) (forward-char 1)) (point-marker))))
     (beginning-of-line)

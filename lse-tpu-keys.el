@@ -207,6 +207,8 @@
 ;;;;    19-Nov-2014 (CT) Bind `lse-frame` functions for `:set-height` and
 ;;;;                     `:set-width` to `[C-x 5]`, remove old bindings for them
 ;;;;    19-Nov-2014 (CT) Add bindings for `iconify-frame`, `lower-frame`
+;;;;    20-Nov-2014 (CT) Remove functions for shifted keys activating mark
+;;;;                     (use standard Emacs' `shift-select-mode` instead)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -292,107 +294,34 @@ electric `(` inserts `()` and positions point between the parentheses..."
 (defun lse-tpu-keys:shifted (k)
   (if (symbolp k)
       (intern (concat "S-" (symbol-name k)))
-    (if (integerp k)
-        (let* ((k-modifiers  (event-modifiers  k))
-               (k-unmodified (event-basic-type k))
+    (when (integerp k)
+      (let* ((k-modifiers  (event-modifiers  k))
+             (k-unmodified (event-basic-type k))
+            )
+        (cond ((memq 'shift k-modifiers)
+               (delq 'shift k-modifiers)
+               (event-convert-list (append k-modifiers (list k-unmodified)))
               )
-          (cond ((memq 'shift k-modifiers)
-                 (delq 'shift k-modifiers)
-                 (event-convert-list (append k-modifiers (list k-unmodified)))
-                )
-                ((< k-unmodified ?\ ) ; if it is a control control-char
-                 (event-convert-list (append 'shift k-modifiers k-unmodified))
-                )
-                ((and (>= k-unmodified ?a) (<= k-unmodified ?z))
-                 (event-convert-list
-                   (append k-modifiers (list (upcase k-unmodified)))
-                 )
-                )
-                (t nil)
-          )
+              ((< k-unmodified ?\ ) ; if it is a control control-char
+               (event-convert-list (append 'shift k-modifiers k-unmodified))
+              )
+              ((and (>= k-unmodified ?a) (<= k-unmodified ?z))
+               (event-convert-list
+                 (append k-modifiers (list (upcase k-unmodified)))
+               )
+              )
+              (t nil)
         )
+      )
     )
   )
 ; lse-tpu-keys:shifted
 )
 
-;;; 29-Aug-2002
-(defun @set-smk (key command key-set-fct)
-  "Define a key for which the shifted version activates the mark."
-  (if (symbolp command)
-      (progn
-        (let* ((i    (1- (length key)))
-               (k    (aref key i))
-               (sk   (lse-tpu-keys:shifted k))
-               (skey (copy-sequence key))
-              )
-          (aset skey i sk)
-          (apply key-set-fct (list key  command))
-          (if sk
-              (apply key-set-fct (list skey command))
-          )
-        )
-      )
-    (error "Key %s is not bound to a lisp-symbol, but to %s" key command)
-  )
-; @set-smk
-)
-
-;;; 29-Aug-2002
-(defun global@set-smk (key command)
-  "Define a global key for which the shifted version activates the mark."
-  (@set-smk key command 'global-set-key)
-; global@set-smk
-)
-
-;;; 13-Apr-1998
-(defun set-smk (key command key-set-fct)
-  "Define a key for which the shifted version activates the mark."
-  (@set-smk key command key-set-fct); 29-Aug-2002
-  (put command 'shift-mark t)
-; set-smk
-)
-
-;;; 13-Apr-1998
-(defun local-set-smk (key command)
-  "Define a local key for which the shifted version activates the mark."
-  (set-smk key command 'local-set-key)
-)
-
-;;; 29-Dec-1997
-(defun global-set-smk (key command)
-  "Define a global key for which the shifted version activates the mark."
-  (set-smk key command 'global-set-key)
-; global-set-smk
-)
-
-;;; 30-Dec-1997
-(defun global-mak-smk (key)
-  "Define the shifted version of a global `key' to activate the mark."
-  (let* ((i       (1- (length key)))
-         (k       (aref key i))
-         (sk      (lse-tpu-keys:shifted k))
-         (skey    (copy-sequence key))
-         (command (global-key-binding key))
-        )
-    (if (symbolp command)
-        (progn
-          (aset skey i sk)
-          (if sk
-              (global-set-key skey command)
-          )
-          (put command 'shift-mark t)
-        )
-      (error "Key %s is not bound to a lisp-symbol, but to %s" key command)
-    )
-  )
-; global-mak-smk
-)
-
 ;;; 19-Feb-2012
 (defun global-set-asp (key command)
   "Define a global key marked for 'auto-save-position"
-  (global-set-smk key command)
+  (global-set-key key command)
   (lse-tpu:put-prop:auto-save-position command)
 ; global-set-asp
 )
@@ -400,7 +329,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
 ;;; 19-Feb-2012
 (defun local-set-asp (key command)
   "Define a local key marked for 'auto-save-position"
-  (local-set-smk key command)
+  (local-set-key key command)
   (lse-tpu:put-prop:auto-save-position command)
 ; local-set-asp
 )
@@ -573,16 +502,11 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control t)]        lse-tpu:goto-next-occurrence-char); 15-Nov-2014
       ([(control T)]        lse-tpu:goto-prev-occurrence-char); 15-Nov-2014
       ([(super f)]          lse-tpu:search-reverse);             5-Oct-2007
-      ([(super r)]          recenter);                          30-Jan-2014
-    )
-  )
-  (lse-keys/define #'global-set-smk
-    '(
-      ([(control o)]        lse-open-line);                     31-Aug-2002
     )
   )
   (lse-keys/define #'global-set-key
     '(
+      ([(control o)]        lse-open-line);                     31-Aug-2002
       ([(control \,)]       lse-tpu:unselect);                  12-Nov-2002
       ([(control \')]       lse-insert-backquote-quote);        10-Jan-1998
       ([(control \|)]       lse-fill-range);                    10-Jan-1998
@@ -592,6 +516,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control \=)]       lse-tpu:ccp-buffer-index:set);      17-Nov-2014
       ([(control super \.)] lse-tpu:unselect);                  17-Jun-2001
       ([(control \:)]       lse-tpu:replace);                   30-Aug-2002
+      ([(super r)]          recenter);                          30-Jan-2014
     )
   )
   (if (fboundp 'repeat)
@@ -647,22 +572,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
     )
   )
 
-  (lse-keys/define #'global-set-key
-    '(
-      ([?\A-']           lse-insert-bquotes)                      ; 10-Jun-1998
-      ([?\A-|]           lse-fill-range)                          ; 28-Apr-1996
-      ([?\A-<]           lse-set-selective-display)               ;  8-Sep-2002
-      ([?\A-\s-.]        lse-tpu:unselect)                        ; 17-Jun-2001
-      ([?\A-,]           lse-tpu:select)                          ; 12-Nov-2002
-    )
-  )
-
-  (lse-keys/define #'global-mak-smk
-    '(
-      ([?\C-a])
-      ([?\C-e])
-    )
-  )
   (lse-keys/define #'global-set-asp
     '(
       ([?\A-<]           lse-tpu:goto-opening-char)
@@ -683,14 +592,18 @@ electric `(` inserts `()` and positions point between the parentheses..."
   )
   (lse-keys/define #'global-set-key
     '(
+      ([?\A-']           lse-insert-bquotes)                      ; 10-Jun-1998
+      ([?\A-,]           lse-tpu:select)                          ; 12-Nov-2002
       ([?\A-:]           lse-tpu:replace-all)                     ; 30-Aug-2002
       ([?\A-\ ]          lse-tabulator)                           ; 13-Sep-2002
       ([?\A-\-]          negative-argument)                       ; 30-Dec-1997
       ([?\A-\.]          universal-argument)                      ; 30-Dec-1997
       ([?\A-\\]          quoted-insert)
+      ([?\A-\s-.]        lse-tpu:unselect)                        ; 17-Jun-2001
       ([?\A-a]           lse-tpu:toggle-overwrite-mode)
       ([?\A-d]           dabbrev-expand)
       ([?\A-g]           keyboard-quit)                           ; 29-Dec-1997
+      ([?\A-h]           lse-tpu:next-beginning-of-line)
       ([?\A-i]           lse-tabulator)                           ; 19-Mar-1995
       ([?\A-l]           lse-tpu:insert-formfeed)
       ([?\A-q]           lse-insert-buffer-name)                  ; 28-Apr-1996
@@ -699,6 +612,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-v]           lse-align-and-down)                      ; 15-Sep-1995
       ([?\A-w]           redraw-display)
       ([?\A-z]           lse-tpu:goto-last-position)
+      ([?\A-|]           lse-fill-range)                          ; 28-Apr-1996
       ([?\C-\.]          universal-argument)                      ; 28-Jun-1995
       ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
       ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002
@@ -721,6 +635,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\C-x?5?w?d]     lse-frame:set-width:double)              ; 19-Nov-2014
       ([?\C-x?5?w?s]     lse-frame:set-width:std)                 ; 19-Nov-2014
       ([?\C-x?5?w?w]     lse-frame:set-width:wide)                ; 19-Nov-2014
+      ([?\C-x?5?\C-w]    delete-frame)                            ; 20-Nov-2014
       ([?\H-V]           lse-align-to-previous-word-and-down)     ; 27-Jul-1999
       ([?\H-v]           lse-align-to-next-word-and-up)           ; 27-Jul-1999
       ([?\M-\-]          lse-number-at-point:decrement)           ; 18-Nov-2014
@@ -739,11 +654,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\s-v]           lse-tpu:paste-region)                    ; 12-Feb-1998
       ([?\s-x]           lse-tpu:cut-region)                      ; 12-Feb-1998
       ([?\s-|]           lse-insert-bars)                         ; 20-Jan-2000
-    )
-  )
-  (lse-keys/define #'global-set-smk
-    '(
-      ([?\A-h]           lse-tpu:next-beginning-of-line)
     )
   )
 
@@ -768,6 +678,10 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
   (lse-keys/define #'global-set-key
     '(
+      ([cancel]          lse-tpu:unselect)
+      ([delete]          lse-tpu:delete-next-char)                ; 25-Feb-1998
+      ([do]              repeat-complex-command)
+      ([select]          lse-tpu:select)
       ([A-S-left]        lse-tpu:pan-left)                        ; 20-Aug-1995
       ([A-S-right]       lse-tpu:pan-right)                       ; 20-Aug-1995
       ([A-down]          shrink-window)                           ; 18-Jul-1995
@@ -777,26 +691,12 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([A-return]        lse-split-line-i)                        ; 27-Mar-1997
       ([A-right]         lse-indent-line-by-word)                 ; 18-Jul-1995
       ([A-up]            enlarge-window)                          ; 18-Jul-1995
-      ([cancel]          lse-tpu:unselect)
-      ([delete]          lse-tpu:delete-next-char)                ; 25-Feb-1998
-      ([do]              repeat-complex-command)
       ([gold A-return]   lse-toggle-lse-split-line)               ; 27-Mar-1997
       ([red end]         lse-scroll-to-bottom)                    ;  3-Apr-2008
       ([red home]        lse-scroll-to-top)                       ;  3-Apr-2008
-      ([select]          lse-tpu:select)
     )
   )
 
-  (lse-keys/define #'global-set-smk
-    '(
-      ([down]            lse-tpu:next-line)
-      ([end]             lse-tpu:next-end-of-line)
-      ([home]            lse-tpu:next-beginning-of-line)
-      ([left]            lse-tpu:backward-char)
-      ([right]           lse-tpu:forward-char)
-      ([up]              lse-tpu:previous-line)
-    )
-  )
 ; lse-define-tpu-keys
 )
 
@@ -1097,8 +997,12 @@ electric `(` inserts `()` and positions point between the parentheses..."
 ;;; 25-Aug-2002
 (defun lse-define-cursor-movements ()
   "Define cursor key combinations for char, word, and line movements"
-  (lse-keys/define #'global-set-smk
+  (lse-keys/define #'global-set-key
     '(
+      ([down]            lse-tpu:next-line)
+      ([end]             lse-tpu:next-end-of-line)
+      ([home]            lse-tpu:next-beginning-of-line)
+
       ([left]            lse-tpu:backward-char)
       ([M-left]          lse-tpu:next-beginning-of-line)
       ([C-M-left]        lse-tpu:previous-end-of-line)
@@ -1112,6 +1016,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([C-right]         lse-tpu:goto-next-word-head)
       ([s-right]         lse-tpu:goto-next-bs-word-tail)
       ([C-s-right]       lse-tpu:goto-next-word-tail)
+
+      ([up]              lse-tpu:previous-line)
     )
   )
 
@@ -1149,7 +1055,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
 (defun lse-define-deletion-keys ()
   "Define delete/backspace key combinations for char, word, line, and region
 deletions."
-  (lse-keys/define #'global@set-smk
+  (lse-keys/define #'global-set-key
     '(
       ([backspace]         lse-tpu:delete-prev-char)
       ([A-backspace]       lse-tpu:cut-region)
@@ -1168,10 +1074,7 @@ deletions."
       ([C-delete]          lse-tpu:delete-next-word)
       ([s-delete]          lse-tpu:delete-next-bs-word-tail)
       ([C-s-delete]        lse-tpu:delete-next-word-tail)
-    )
-  )
-  (lse-keys/define #'global-set-key
-    '(
+
       ([gold delete]       lse-tpu:undelete-char)
       ([gold A-delete]     lse-tpu:paste-region)
       ([gold M-delete]     lse-tpu:undelete-line)

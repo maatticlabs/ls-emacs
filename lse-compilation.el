@@ -40,6 +40,7 @@
 ;;;;     9-Sep-1995 (CT) lse-compilation-mode-hook added
 ;;;;    10-Jan-1998 (CT) Moved Control-Keys to Alt-Keys
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define-in-map`
+;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-compilation)
@@ -100,7 +101,7 @@
 
 (defun lse-compilation:next-error (&optional prefix)
   "Visit the locus of the next compiler error message or grep match"
-  (interactive "P")
+  (interactive "^P")
   (let ((lse-compilation:cp (point-marker))
        )
     (condition-case nil
@@ -118,7 +119,7 @@
 
 (defun lse-compilation:goto-last-mark ()
   "Return to position before last next-error command"
-  (interactive)
+  (interactive "^")
   (if (markerp lse-compilation:last@mark)
       (lse-goto-mark lse-compilation:last@mark 'ignore)
   )

@@ -68,6 +68,7 @@
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    12-Nov-2014 (CT) Fold swing-keys-v19.el in here
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    20-Nov-2014 (CT) Use `global-set-key`, not `global-set-smk`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -83,8 +84,8 @@
 ;;; 18-Feb-2012
 (defun swing-define-goto-last-position-key (key)
   (unless (consp key) (setq key (list key)))
-  (global-set-smk (vconcat [gold red] key) 'lse-tpu:goto-last-position)
-  (global-set-smk (vconcat [red gold] key) 'lse-tpu:goto-last-position)
+  (global-set-key (vconcat [gold red] key) 'lse-tpu:goto-last-position)
+  (global-set-key (vconcat [red gold] key) 'lse-tpu:goto-last-position)
 ; swing-define-goto-last-position-key
 )
 

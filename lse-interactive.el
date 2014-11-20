@@ -85,6 +85,7 @@
 ;;;;                     use `lse-tpu:put-prop:auto-save-position`
 ;;;;    18-Nov-2013 (CT) Change `lse-language:compile` to `coding: utf-8`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-interactive)
@@ -538,7 +539,7 @@
 ;;; 11-Oct-2007
 (defun lse-goto-first-fill-in (&optional quiet name)
   "Move point to first flat fill-in in buffer."
-  (interactive "P")
+  (interactive "^P")
   (let ((last-pos (point-marker)))
     (lse-tpu:move-to-beginning)
     (lse-goto-next-fill-in quiet name)
@@ -550,7 +551,7 @@
 
 (defun lse-goto-last-fill-in (&optional quiet name)
   "Move point to last flat fill-in in buffer."
-  (interactive "P")
+  (interactive "^P")
   (let ((last-pos (point-marker)))
     (lse-tpu:move-to-end)
     (lse-goto-prev-fill-in quiet name)
@@ -562,7 +563,7 @@
 
 (defun lse-goto-next-fill-in (&optional quiet name)
   "Move point to next flat fill-in."
-  (interactive "P")
+  (interactive "^P")
   (if (eobp)
       nil
     (lse-fill-in:goto 'lse_search_fill-in:forward 'eobp quiet name)
@@ -573,7 +574,7 @@
 
 (defun lse-goto-prev-fill-in (&optional quiet name)
   "Move point to previous flat fill-in."
-  (interactive "P")
+  (interactive "^P")
   (if (bobp)
       nil
     (let ((cp (point))
@@ -620,7 +621,7 @@
 ;;; 11-Oct-1996
 (defun lse-goto-next-expansion ()
   "Goto next expansion of fill-in in buffer."
-  (interactive)
+  (interactive "^")
   (lse-goto-@-expansion 'next-single-property-change 'lse-fill-in:id)
 ; lse-goto-next-expansion
 )
@@ -628,7 +629,7 @@
 ;;; 11-Oct-1996
 (defun lse-goto-prev-expansion ()
   "Goto previous expansion of fill-in in buffer."
-  (interactive)
+  (interactive "^")
   (lse-goto-@-expansion 'previous-single-property-change 'lse-fill-in:id)
 ; lse-goto-next-expansion
 )
@@ -636,7 +637,7 @@
 ;;; 17-Oct-1996
 (defun lse-goto-parent-expansion-head ()
   "Goto head of expansion of parent fill-in."
-  (interactive)
+  (interactive "^")
   (let ((pid (or (get-text-property (point) 'lse-fill-in:parent-id)
                  (and lse_replaced_fill-in
                       (lse-fill-in:parent-id lse_replaced_fill-in)
@@ -670,7 +671,7 @@
 ;;;--
 (defun lse-split-line (&optional no-indent)
   "Split line. Takes care of comment leaders and trailers."
-  (interactive "*")
+  (interactive "^*")
   (if (bolp)
       (lse-fill-in-insert "\n"); (newline) not used to avoid marker confusion
     (if (integerp lse::current-expansion-indent)
@@ -698,7 +699,7 @@
 (defun lse-split-line-i ()
   "Split line without adding indentation. Takes care of comment leaders and
 trailers."
-  (interactive "*")
+  (interactive "^*")
   (lse-split-line 'no-indent)
 ; lse-split-line-i
 )
@@ -762,7 +763,7 @@ trailers."
 
 (defun lse-expand-or-goto-next ()
   "Expand fill-in if in any or goto next flat fill-in."
-  (interactive "*")
+  (interactive "^*")
   (if (lse_inside_fill-in)
       (lse-expand)
     (lse-goto-next-fill-in)

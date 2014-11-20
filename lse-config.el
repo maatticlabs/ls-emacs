@@ -42,6 +42,8 @@
 ;;;;    16-Nov-2014 (CT) Use `setq-default` for `major-mode`
 ;;;;    18-Nov-2014 (CT) Add `[letter-prefix]` to
 ;;;;                     `lse-keys:function-key-map-bindings`
+;;;;    20-Nov-2014 (CT) Remove adding of pre-command-hook for
+;;;;                     'lse-tpu:shift-mark-hook
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -179,7 +181,6 @@
 
 (defun swing-terminal-setup ()
   (auto-fill-mode 1)
-  (add-hook 'pre-command-hook 'lse-tpu:shift-mark-hook); 29-Dec-1997
 )
 
 (put     'minibuffer-history 'hist-ignore "self-insert-command")

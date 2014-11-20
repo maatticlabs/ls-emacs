@@ -97,12 +97,13 @@
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions,
 ;;;;                     increase `lse-version`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;    20-Nov-2014 (CT) Increase `lse-version`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
-(defconst lse-version      "4.0.5"        "Version number of LS-Emacs.")
-(defconst lse-version-date "12-Nov-2014 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "4.1.0"        "Version number of LS-Emacs.")
+(defconst lse-version-date "20-Nov-2014 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (version< emacs-version "19"))
   "Non-NIL if we are running GNU Emacs version 19."
