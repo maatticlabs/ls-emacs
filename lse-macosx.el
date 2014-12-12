@@ -30,34 +30,45 @@
 ;;;;    14-May-2009 (CT) Creation
 ;;;;     3-Jun-2011 (CT) `provide` added
 ;;;;     7-Nov-2014 (CT) Add guard
+;;;;    12-Dec-2014 (CT) Remove Aquamacs specific code
+;;;;    12-Dec-2014 (CT) Add `lse-macosx:define-keys:german-keyboard`
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-macosx)
 
-(when (fboundp 'osx-key-mode)
-  (osx-key-mode nil)
+;;; http://emacsformacosx.com/tips
 
-  (defvar lse-keys:function-key-map-bindings
-     '( ([f11]        [blue])
-        ([f12]        [gold])
-      )
-  )
-
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier  'alt)
-  (setq osx-key-mode-map (make-osx-key-mode-map))
-
-  (defvar lse-tpu:electric-inserts-p t)
-  (defvar lse-tpu:use-control-keys-p t)
-
-  (setq load-path
-    (append (list "/Developer/Tools/ls-emacs" "/Developer/Tools/ls-emacs/lsc") load-path)
-  )
-
-  (setq lse-directory        "/Developer/Tools/ls-emacs/lse")
-  (setq lse-src-directory    "/Developer/Tools/ls-emacs/lse")
-  (setq lse-script-directory "/Developer/Tools/ls-emacs/scripts")
+(setq
+  mac-command-modifier 'meta
+  mac-option-modifier  'alt
 )
 
-;;;; __END__ lse-config.el
+(defvar lse-keys:function-key-map-bindings
+  '(
+    ([f11]        [blue])
+    ([f12]        [gold])
+   )
+)
+
+;;; 12-Dec-2014
+(defvar lse-macosx:german-keyboard:bindings
+  '(
+    ([?\A-l] [?\@])
+    ([?\A-5] [?\[])
+    ([?\A-6] [?\]])
+    ([?\A-7] [?\|])
+    ([?\A-8] [?\{])
+    ([?\A-9] [?\}])
+    ([?\A-/] [?\\])
+   )
+)
+
+(defun lse-macosx:define-keys:german-keyboard ()
+  (lse-keys/define 'lse-key/define-in-function-key-map
+    lse-macosx:german-keyboard:bindings
+  )
+; lse-macosx:define-keys:german-keyboard
+)
+
+;;;; __END__ lse-macosx.el
