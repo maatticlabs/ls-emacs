@@ -202,6 +202,8 @@
 ;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;    20-Nov-2014 (CT) Remove `lse-tpu:shift-mark-hook`,
 ;;;;                     `lse-tpu:set-mark-if-shift`, `lse-tpu:key-shifted-p`
+;;;;    12-Dec-2014 (CT) Remove `lse-tpu:turn-on-shift-selection` because it
+;;;;                     breaks 'handle-select-window and 'handle-switch-frame
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -1437,36 +1439,6 @@ Accepts a prefix argument of the number of characters to invert."
   "Inhibit deactivation of selection by buffer changes"
   (setq deactivate-mark nil)
 ; lse-tpu:mark-active-hook
-)
-
-;;; 20-Nov-2014
-(defun lse-tpu:turn-on-shift-selection ()
-  "Activate mark on invocation thru shift translation.
-Keep mark active on invocation without shift.
-
-`lse-tpu:turn-on-shift-selection' replaces Emacs function
-`handle-shift-selection' which deactivates the mark on invocation without
-shift. The original definition of `handle-shift-selection' is saved in
-`lse-tpu:original:handle-shift-selection'.
-"
-  (when (and shift-select-mode this-command-keys-shift-translated)
-    (unless (lse-tpu:mark)
-      (lse-tpu:select)
-    )
-  )
-; lse-tpu:turn-on-shift-selection
-)
-
-(unless (eq (symbol-function 'handle-shift-selection)
-            (symbol-function 'lse-tpu:turn-on-shift-selection)
-        )
-  ;; save original value of 'handle-shift-selection and replace by our own
-  (fset 'lse-tpu:original:handle-shift-selection
-    (symbol-function 'handle-shift-selection)
-  )
-  (fset 'handle-shift-selection
-    (symbol-function 'lse-tpu:turn-on-shift-selection)
-  )
 )
 
 (defun lse-tpu:select (&optional quiet)
