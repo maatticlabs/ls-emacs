@@ -209,6 +209,10 @@
 ;;;;    19-Nov-2014 (CT) Add bindings for `iconify-frame`, `lower-frame`
 ;;;;    20-Nov-2014 (CT) Remove functions for shifted keys activating mark
 ;;;;                     (use standard Emacs' `shift-select-mode` instead)
+;;;;    12-Dec-2014 (CT) Bind (control t) to 'transpose-chars, again
+;;;;                     bind `C-,` to 'lse-tpu:goto-next-occurrence-char,
+;;;;                     bind `C-;` to 'lse-tpu:goto-prev-occurrence-char
+;;;;    12-Dec-2014 (CT) Add `lse-key/define-in-function-key-map`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -255,6 +259,13 @@ electric `(` inserts `()` and positions point between the parentheses..."
 
 (defmacro lse-key-cmd (&rest args)
   `(lambda () (interactive) ,@args)
+)
+
+;;; 12-Dec-2014
+(defun lse-key/define-in-function-key-map (key binding)
+  (global-unset-key key)
+  (define-key function-key-map key binding)
+; lse-key/define-in-function-key-map
 )
 
 ;;; 12-Nov-2014
@@ -499,15 +510,15 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control F)]        lse-tpu:search-reverse);            15-Nov-2014
       ([(control n)]        lse-tpu:search-again-forward);      31-Aug-2002
       ([(control p)]        lse-tpu:search-again-reverse);      31-Aug-2002
-      ([(control t)]        lse-tpu:goto-next-occurrence-char); 15-Nov-2014
-      ([(control T)]        lse-tpu:goto-prev-occurrence-char); 15-Nov-2014
+      ([(control \,)]       lse-tpu:goto-next-occurrence-char); 12-Dec-2014
+      ([(control \;)]       lse-tpu:goto-prev-occurrence-char); 12-Dec-2014
       ([(super f)]          lse-tpu:search-reverse);             5-Oct-2007
     )
   )
   (lse-keys/define #'global-set-key
     '(
       ([(control o)]        lse-open-line);                     31-Aug-2002
-      ([(control \,)]       lse-tpu:unselect);                  12-Nov-2002
+      ([(control t)]        transpose-chars);                   12-Dec-2014
       ([(control \')]       lse-insert-backquote-quote);        10-Jan-1998
       ([(control \|)]       lse-fill-range);                    10-Jan-1998
       ([(control \>)]       lse-unset-selective-display);        8-Sep-2002
