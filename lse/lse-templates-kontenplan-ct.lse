@@ -96,6 +96,7 @@
 (lse-define-fill-in "9498 " '(token) '(replacement "9498 ") '(max-line-move 0) '(description "Investitionsrücklage   1998"))
 (lse-define-fill-in "9499 " '(token) '(replacement "9499 ") '(max-line-move 0) '(description "Investitionsrücklage   1999"))
 (lse-define-fill-in "9800 " '(token) '(replacement "9800 ") '(max-line-move 0) '(description "Gehalt Funkfeuer"))
+(lse-define-fill-in "9900 " '(token) '(replacement "9900 ") '(max-line-move 0) '(description "Familienbeihilfe"))
 (lse-define-fill-in "9997 " '(token) '(replacement "9997 ") '(max-line-move 0) '(description "Einfuhrumsatzsteuer Gegenkonto"))
 (lse-define-fill-in "9998 " '(token) '(replacement "9998 ") '(max-line-move 0) '(description "Vorsteuer innergem. Erwerb Gegenkonto"))
 (lse-define-fill-in "9999 " '(token) '(replacement "9999 ") '(max-line-move 0) '(description "Vor- und Umsatzsteuer Gegenkonto"))
