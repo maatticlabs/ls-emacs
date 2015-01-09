@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2007-2014 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2015 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -44,6 +44,7 @@
 ;;;;                     `lse-keys:function-key-map-bindings`
 ;;;;    20-Nov-2014 (CT) Remove adding of pre-command-hook for
 ;;;;                     'lse-tpu:shift-mark-hook
+;;;;     9-Jan-2015 (CT) Increase `fill-column` from 77 to 79
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -140,8 +141,8 @@
                                         ; (don't like tabs)
 
 (auto-fill-mode 1)                      ; turn on auto fill mode
-(setq         fill-column 77)           ; don't waste too much space
-(setq-default fill-column 77)           ; don't waste too much space
+(setq         fill-column 79)           ; don't waste too much space
+(setq-default fill-column 79)           ; don't waste too much space
 (setq         case-replace nil)         ; do not change case of replacement
 (setq-default case-replace nil)         ; do not change case of replacement
 
