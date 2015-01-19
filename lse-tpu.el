@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -204,6 +204,7 @@
 ;;;;                     `lse-tpu:set-mark-if-shift`, `lse-tpu:key-shifted-p`
 ;;;;    12-Dec-2014 (CT) Remove `lse-tpu:turn-on-shift-selection` because it
 ;;;;                     breaks 'handle-select-window and 'handle-switch-frame
+;;;;    19-Jan-2015 (CT) Add `lse-tpu:in-comment-p`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -252,6 +253,15 @@ lse-tpu:letter-argument. "
     result
   )
 ; lse-tpu:new-numbered-symbol
+)
+
+;;; 19-Jan-2015
+(defun lse-tpu:in-comment-p ()
+  "Return 't if the cursor is inside of a comment block."
+  ;; http://www.wisdomandwonder.com/article/9436/how-to-handle-the-enter-key-while-inside-of-comment-blocks
+  (interactive)
+  (nth 4 (syntax-ppss))
+; lse-tpu:in-comment-p
 )
 
 ;;;+
