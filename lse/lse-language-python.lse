@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1998-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -79,6 +79,7 @@
 ;;;;    12-Nov-2014 (CT) Adapt to `python-mode` 6.1.2
 ;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
+;;;;    21-Jan-2015 (CT) Adapt to changes between python-mode 5.2 and 6.1
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -225,6 +226,38 @@
 ; python-mode
 )
 
+;;;++ <begin of copy from python-mode.el "5.2.0">
+;;; plus patches::
+;;; + s/py-goto-initial-line/py-beginning-of-statement/g
+;;; + s/py-goto-block-up/py-beginning-of-block/g
+(defun py-go-up-tree-to-keyword (key)
+  "Go to begining of statement starting with KEY, at or preceding point.
+
+KEY is a regular expression describing a Python keyword.  Skip blank
+lines and non-indenting comments.  If the statement found starts with
+KEY, then stop, otherwise go back to first enclosing block starting
+with KEY.  If successful, leave point at the start of the KEY line and
+return t.  Otherwise, leave point at an undefined place and return nil."
+  ;; skip blanks and non-indenting #
+  (py-beginning-of-statement)
+  (while (and
+          (looking-at "[ \t]*\\($\\|#[^ \t\n]\\)")
+          (zerop (forward-line -1)))    ; go back
+    nil)
+  (py-beginning-of-statement)
+  (let* ((re (concat "[ \t]*" key "\\>"))
+         (case-fold-search nil)         ; let* so looking-at sees this
+         (found (looking-at re))
+         (dead nil))
+    (while (not (or found dead))
+      (condition-case nil               ; in case no enclosing block
+          (py-beginning-of-block)
+        (error (setq dead t)))
+      (or dead (setq found (looking-at re))))
+    (beginning-of-line)
+    found))
+;;;-- <begin of copy from python-mode.el "5.2.0">
+
 ;;; py-in-literal: returns "string" or "comment" if (point) is inside either
 
 ;;;  9-Mar-1998
@@ -286,7 +319,7 @@
     )
     (when (lse-python:goto_block_head name)
       (setq block-indent (current-indentation))
-      (py-goto-beyond-block)
+      (py-end-of-block-or-clause)
       (while (and
                (not (eobp))
                (or
@@ -337,7 +370,7 @@
 (defun lse-python:goto-nearest-class-head ()
   "Goto nearest head of class."
   (interactive)
-  (py-beginning-of-def-or-class t)
+  (py-beginning-of-def-or-class)
 ; lse-python:goto-nearest-class-head
 )
 
@@ -345,7 +378,7 @@
 (defun lse-python:goto-nearest-class-tail ()
   "Goto to nearest tail of class."
   (interactive)
-  (py-end-of-def-or-class t)
+  (py-end-of-def-or-class)
 ; lse-python:goto-nearest-class-tail
 )
 
@@ -401,7 +434,7 @@
 (defun lse-python:goto-begin-of-block ()
   "Goto begin of current python block"
   (interactive)
-  (py-goto-block-up t)
+  (py-beginning-of-block)
 ; lse-python:goto-begin-of-block
 )
 
@@ -411,17 +444,19 @@
   (interactive)
   (if (py-statement-opens-block-p)
       t
-    (py-goto-block-up t)
+    (py-beginning-of-block)
   )
-  (py-goto-beyond-block)
+  (py-end-of-block-or-clause)
   (back-to-indentation)            ;  18-Nov-2002
 ; lse-python:goto-end-of-block
 )
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-next-statement (num)
-  (py-next-statement (or num 1))
-  (back-to-indentation)
+  (dotimes (i (if (and (numberp num) (> num 0)) num 1))
+    (unless (eolp) (lse-tpu:next-end-of-line 1))
+    (py-goto-statement-below)
+  )
 ; lse-python@goto-next-statement
 )
 
@@ -461,8 +496,10 @@
 
 ;;; 18-Nov-2002
 (defun lse-python@goto-prev-statement (num)
-  (py-previous-statement (or num (if (py-continuation-line-p) 0 1)))
-  (back-to-indentation)
+  (dotimes (i (if (and (numberp num) (> num 0)) num 1))
+    (py-beginning-of-statement)
+    (back-to-indentation)
+  )
 ; lse-python@goto-prev-statement
 )
 
