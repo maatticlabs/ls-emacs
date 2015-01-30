@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -51,6 +51,7 @@
   (local-unset-key "\M-s")
   (local-unset-key "\M-S")
   (local-unset-key "\M-C-i")
+  (local-unset-key "\"")
 )
 
 ;;; __END__ lse-language-generic.lse

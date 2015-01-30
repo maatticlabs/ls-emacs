@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -136,8 +136,9 @@
 ;;;+
 ;;; functions used by a number of languages
 ;;;-
+(defvar                      lse-latex-mode:keymap (make-sparse-keymap))
 (defvar                      lse-tex-mode:keys@defined nil)
-(make-variable-buffer-local 'lse-tex-mode:keys@defined)
+; (make-variable-buffer-local 'lse-tex-mode:keys@defined)
 
 (defun lse-insert-comma-tex ()
   (interactive)
@@ -154,6 +155,7 @@
   (if lse-tex-mode:keys@defined
       t
     (setq lse-tex-mode:keys@defined t)
+    (use-local-map lse-latex-mode:keymap)
     (if (current-local-map)
         (local-set-key [gold ?\C-i]
                        (lookup-key (current-local-map) "\C-i")
