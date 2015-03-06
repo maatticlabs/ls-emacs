@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1997-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -39,6 +39,7 @@
 ;;;;    17-Feb-2012 (CT) Add and use `:setup-source-dir`, `:extra-source-dirs`
 ;;;;    16-May-2013 (CT) Remove `lse-fill-in--search` from `black-list`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
+;;;;     6-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -206,6 +207,41 @@ into Emacs."
     )
   )
 ; lse-byte-compile:setup-source-dir
+)
+
+;;;  6-Mar-2015
+(defun lse-byte-compile:test-dot-emacs ()
+  ;; http://oremacs.com/2015/03/05/testing-init-sanity/
+  (interactive)
+  (require 'async)
+  (async-start
+    (lambda ()
+      (shell-command-to-string
+        "emacs --batch --eval \"
+(condition-case e
+    (progn
+      (load \\\"~/.emacs\\\")
+      (message \\\"-OK-\\\")
+    )
+  (error
+   (message \\\"ERROR!\\\")
+   (signal (car e) (cdr e)))
+)\""
+      )
+    )
+   `(lambda (output)
+      (if (string-match "-OK-" output)
+          (when ,(called-interactively-p 'any)
+            (message "All is well with .emacs")
+          )
+        (switch-to-buffer-other-window "*startup error*")
+        (delete-region (point-min) (point-max))
+        (insert output)
+        (search-backward "ERROR!")
+      )
+    )
+  )
+; lse-byte-compile:test-dot-emacs
 )
 
 ;;;  __END__ lse-byte-compile.el
