@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1996-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -60,6 +60,7 @@
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
 ;;;;    14-Nov-2014 (CT) Add `lse-tpu:replace-all`
+;;;;    10-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -491,6 +492,10 @@
 
 ;;; 13-Oct-2007
 (define-key emacs-lisp-mode-map [menu-bar emacs-lisp separator-LSE] '("--"))
+
+(define-key emacs-lisp-mode-map [menu-bar emacs-lisp lse-byte-compile-test-dot-emacs]
+  '("Test validity of .emacs file" . lse-byte-compile:test-dot-emacs)
+)
 
 (define-key emacs-lisp-mode-map [menu-bar emacs-lisp lse-byte-compile-all]
   '("Byte-compile All LS-Emacs Files" . lse-byte-compile:all)
