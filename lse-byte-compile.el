@@ -40,6 +40,7 @@
 ;;;;    16-May-2013 (CT) Remove `lse-fill-in--search` from `black-list`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;     6-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
+;;;;    15-Jul-2015 (CT) Add `lse-python` to `lse-byte-compile:files`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -108,6 +109,7 @@
     "lse-mark-stack"
     "lse-menu"
     "lse-mode-alist"
+    "lse-python"
     "lse-range"
     "lse-session"
     "lse-tpu-keys"

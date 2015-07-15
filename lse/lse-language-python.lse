@@ -80,6 +80,7 @@
 ;;;;    12-Nov-2014 (CT) Use `lse-tpu:newline-and-indent:on`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    21-Jan-2015 (CT) Adapt to changes between python-mode 5.2 and 6.1
+;;;;    15-Jul-2015 (CT) Factor `lse-python`; use `python`, not `python-mode`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -106,46 +107,10 @@
 )
 
 (require 'lse-tpu)
-
-(defvar py-imenu-class-regexp
-  (concat                               ; <<classes>>
-   "\\("                                ;
-   "^[ \t]*"                            ; newline and maybe whitespace
-   "\\(class[ \t]+[a-zA-Z0-9_]+\\)"     ; class name
-
-   ;; CT: elide detail here that breaks in case of continuation lines
-   ;; "\\([ \t]*\\((\\([a-zA-Z0-9_,. \t\n]\\)*)\\)?\\)" ; this is from python-mode 5.2.0
-   "\\(\\(\\([^:#]*\\)\\)\\)"
-
-   "\\)"                                ; >>classes<<
-   )
-  "Regexp for Python classes for use with the Imenu package."
-  )
-
-(defvar py-imenu-method-regexp
-  (concat                               ; <<methods and functions>>
-   "\\("                                ;
-   "^[ \t]*"                            ; new line and maybe whitespace
-   "\\(def[ \t]+"                       ; function definitions start with def
-   "\\([a-zA-Z0-9_]+\\)"                ;   name is here
-
-   ;; CT: elide detail here that breaks in case of continuation lines
-   ;; "[ \t]*(\\([^:#]*\\))"            ; this is from python-mode 5.2.0
-   "[ \t]*\\([^:#]*\\))"
-
-   "\\)"                                ; end of def
-   "\\)"                                ; >>methods and functions<<
-   )
-  "Regexp for Python methods/functions for use with the Imenu package."
-  )
-
-(require 'python-mode)
+(require 'lse-python)
+(require 'python)
 
 (fset 'lse:python-mode:std-python-mode (symbol-function 'python-mode))
-
-(setq py-imenu-create-index-function 'py-imenu-create-index-new)
-(setq py-imenu-create-index-p        t)
-(setq py-outline-minor-mode-p        nil)
 
 ;;; 12-Nov-2014
 (defvar lse-python-mode:local-key-to-unset
@@ -175,16 +140,6 @@
   (lse:python-mode:std-python-mode)
   (setq comment-start      "#+ " )
   (setq comment-start-skip "#+ *")
-  ;; revert ``extremely bad form'' of python-mode rebindings of
-  ;; 'newline-and-indent and 'py-newline-and-indent
-  (mapc
-    #'(lambda (key) (local-unset-key key))
-    (where-is-internal 'newline-and-indent)
-  )
-  (mapc
-    #'(lambda (key) (local-unset-key key))
-    (where-is-internal 'py-newline-and-indent)
-  )
 
   ;; unset locally defined keys listed by lse-python-mode:local-key-to-unset
   (mapc #'local-unset-key lse-python-mode:local-key-to-unset)
@@ -198,13 +153,9 @@
       ([red      ?c]     lse-python:goto-class-head)
       ([pink     ?c]     lse-python:goto-next-class-head)
       ([green    ?c]     lse-python:goto-class-tail)
-      ([red      ?d]     lse-python:goto-nearest-class-head)
-      ([green    ?d]     lse-python:goto-nearest-class-tail)
       ([red      ?e]     lse-python:goto-function-tail)
       ([red      ?f]     lse-python:goto-end-of-block)
       ([red      ?g]     lse-python:goto-class-tail)
-      ([red      ?i]     lse-python:goto-nearest-function-head)
-      ([green    ?i]     lse-python:goto-nearest-function-tail)
       ([red      ?r]     lse-python:goto-prev-statement)
       ([red      ?s]     lse-python:goto-next-statement)
       ([green    ?s]     lse-python:goto-prev-statement)
@@ -221,375 +172,11 @@
       ([red  C-home]     lse-python:goto-near-top-pos)
     )
   )
+  (imenu-add-to-menubar "Index")
+  (easy-menu-remove-item python-mode-map '("Python") "Skeletons")
   (setq indent-line-function 'lse-python:indent-line)
   (lse-language:use "python")
 ; python-mode
-)
-
-;;;++ <begin of copy from python-mode.el "5.2.0">
-;;; plus patches::
-;;; + s/py-goto-initial-line/py-beginning-of-statement/g
-;;; + s/py-goto-block-up/py-beginning-of-block/g
-(defun py-go-up-tree-to-keyword (key)
-  "Go to begining of statement starting with KEY, at or preceding point.
-
-KEY is a regular expression describing a Python keyword.  Skip blank
-lines and non-indenting comments.  If the statement found starts with
-KEY, then stop, otherwise go back to first enclosing block starting
-with KEY.  If successful, leave point at the start of the KEY line and
-return t.  Otherwise, leave point at an undefined place and return nil."
-  ;; skip blanks and non-indenting #
-  (py-beginning-of-statement)
-  (while (and
-          (looking-at "[ \t]*\\($\\|#[^ \t\n]\\)")
-          (zerop (forward-line -1)))    ; go back
-    nil)
-  (py-beginning-of-statement)
-  (let* ((re (concat "[ \t]*" key "\\>"))
-         (case-fold-search nil)         ; let* so looking-at sees this
-         (found (looking-at re))
-         (dead nil))
-    (while (not (or found dead))
-      (condition-case nil               ; in case no enclosing block
-          (py-beginning-of-block)
-        (error (setq dead t)))
-      (or dead (setq found (looking-at re))))
-    (beginning-of-line)
-    found))
-;;;-- <begin of copy from python-mode.el "5.2.0">
-
-;;; py-in-literal: returns "string" or "comment" if (point) is inside either
-
-;;;  9-Mar-1998
-(defun lse-python:indent-line ()
-  (interactive "*")
-  (if (or (equal      (char-syntax (following-char)) ?\) )
-          (looking-at "[-+*/,]")
-      )
-       (lse-indent-line)
-    (condition-case nil
-        (py-indent-line)
-      (error (lse-indent-line))
-    )
-  )
-; lse-python:indent-line
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto_block_head (name)
-  (let ((cp (point))
-        result
-       )
-    (beginning-of-line)
-    (while (and
-            (not (bobp))
-            (or
-              (looking-at (concat " *" name " "))
-              (looking-at (concat " *# end " name))
-              (looking-at " *[#@]")
-              (looking-at "^ *$")
-            )
-          )
-      (forward-line -1)
-    )
-    (setq result (py-go-up-tree-to-keyword name))
-    (unless result
-      (message "No %s statement around point found" name)
-      (goto-char cp)
-    )
-    result
-  )
-; lse-python:goto_block_head
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto_block_tail (name)
-  (let ((cp (point))
-        block-indent
-       )
-    (beginning-of-line)
-    (if (looking-at (concat " *" name " "))
-        (forward-line 1)
-      (when (looking-at (concat " *# end " name))
-        (forward-line 1)
-      )
-      (while (looking-at "^ *$")
-        (forward-line 1)
-      )
-    )
-    (when (lse-python:goto_block_head name)
-      (setq block-indent (current-indentation))
-      (py-end-of-block-or-clause)
-      (while (and
-               (not (eobp))
-               (or
-                 (looking-at "^ *$")
-                 (> (current-indentation) block-indent)
-               )
-             )
-        (forward-line 1)
-      )
-    )
-  )
-; lse-python:goto_block_tail
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-class-head ()
-  "Goto head of containing class"
-  (interactive)
-  (lse-python:goto_block_head "class")
-; lse-python:goto-class-head
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-class-tail ()
-  "Goto tail of containing class"
-  (interactive)
-  (lse-python:goto_block_tail "class")
-; lse-python:goto-class-tail
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-function-head ()
-  "Goto head of containing function"
-  (interactive)
-  (lse-python:goto_block_head "def")
-; lse-python:goto-function-head
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-function-tail ()
-  "Goto tail of containing function"
-  (interactive)
-  (lse-python:goto_block_tail "def")
-; lse-python:goto-function-tail
-)
-
-;;; 13-Apr-1998
-(defun lse-python:goto-nearest-class-head ()
-  "Goto nearest head of class."
-  (interactive)
-  (py-beginning-of-def-or-class)
-; lse-python:goto-nearest-class-head
-)
-
-;;; 13-Apr-1998
-(defun lse-python:goto-nearest-class-tail ()
-  "Goto to nearest tail of class."
-  (interactive)
-  (py-end-of-def-or-class)
-; lse-python:goto-nearest-class-tail
-)
-
-;;;  4-Jul-2012
-(defun lse-python:goto-next-doctest (count &optional limit)
-  "Goto next doctest"
-  (interactive "p")
-  (lse-tpu:goto_occurrence "^ +>>> " limit count 're-search-forward t)
-; lse-python:goto-next-doctest
-)
-
-;;;  4-Jul-2012
-(defun lse-python:goto-prev-doctest (count &optional limit)
-  "Goto previous doctest"
-  (interactive "p")
-  (lse-tpu:goto_occurrence "^ +>>> " limit count 're-search-backward t)
-; lse-python:goto-prev-doctest
-)
-
-;;; 24-Sep-1999
-(defun lse-python:goto-nearest-function-head ()
-  "Goto nearest head of function."
-  (interactive)
-  (py-beginning-of-def-or-class)
-; lse-python:goto-nearest-function-head
-)
-
-;;; 24-Sep-1999
-(defun lse-python:goto-nearest-function-tail ()
-  "Goto to nearest tail of function."
-  (interactive)
-  (py-end-of-def-or-class)
-; lse-python:goto-nearest-function-tail
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-next-class-head (count &optional limit)
-  "Goto next head of class."
-  (interactive "p")
-  (lse-tpu:goto_occurrence "^ *class " limit count 're-search-forward t)
-; lse-python:goto-next-class-head
-)
-
-;;; 24-Feb-2012
-(defun lse-python:goto-next-function-head (count &optional limit)
-  "Goto next head of function."
-  (interactive "p")
-  (lse-tpu:goto_occurrence "^ *def " limit count 're-search-forward t)
-; lse-python:goto-next-function-head
-)
-
-;;; 24-Sep-1999
-(defun lse-python:goto-begin-of-block ()
-  "Goto begin of current python block"
-  (interactive)
-  (py-beginning-of-block)
-; lse-python:goto-begin-of-block
-)
-
-;;; 24-Sep-1999
-(defun lse-python:goto-end-of-block ()
-  "Got end of current python block"
-  (interactive)
-  (if (py-statement-opens-block-p)
-      t
-    (py-beginning-of-block)
-  )
-  (py-end-of-block-or-clause)
-  (back-to-indentation)            ;  18-Nov-2002
-; lse-python:goto-end-of-block
-)
-
-;;; 18-Nov-2002
-(defun lse-python@goto-next-statement (num)
-  (dotimes (i (if (and (numberp num) (> num 0)) num 1))
-    (unless (eolp) (lse-tpu:next-end-of-line 1))
-    (py-goto-statement-below)
-  )
-; lse-python@goto-next-statement
-)
-
-;;;  8-Sep-2002
-(defun lse-python:goto-next-statement (num)
-  "Goto next statement"
-  (interactive "P")
-  (lse-python@goto-next-statement num)
-; lse-python:goto-next-statement
-)
-
-;;; 18-Nov-2002
-(defun lse-python@goto-end-of-last-statement ()
-  (lse-tpu:next-end-of-line 0)
-  (while (and (save-excursion
-                (beginning-of-line)
-                (looking-at py-blank-or-comment-re)
-              )
-              (not (bobp))
-         )
-    (lse-tpu:next-end-of-line -1)
-  )
-; lse-python@goto-end-of-last-statement
-)
-
-;;; 18-Nov-2002
-(defun lse-python:goto-next-statement-end (num)
-  "Goto end of current statement"
-  (interactive "P")
-  (if (eolp)
-      (lse-python@goto-next-statement 1)
-  )
-  (lse-python@goto-next-statement num)
-  (lse-python@goto-end-of-last-statement)
-; lse-python:goto-next-statement-end
-)
-
-;;; 18-Nov-2002
-(defun lse-python@goto-prev-statement (num)
-  (dotimes (i (if (and (numberp num) (> num 0)) num 1))
-    (py-beginning-of-statement)
-    (back-to-indentation)
-  )
-; lse-python@goto-prev-statement
-)
-
-;;;  8-Sep-2002
-(defun lse-python:goto-prev-statement (num)
-  "Goto previous statement"
-  (interactive "P")
-  (lse-python@goto-prev-statement num)
-; lse-python:goto-prev-statement
-)
-
-;;; 18-Nov-2002
-(defun lse-python:goto-prev-statement-end (num)
-  "Goto end of previous statement"
-  (interactive  "P")
-  (lse-python:goto-prev-statement num)
-  (lse-python@goto-end-of-last-statement)
-; lse-python:goto-prev-statement-end
-)
-
-;;;  4-Jul-2012
-(defvar lse-python:var-def-pattern "^ *[a-zA-Z_0-9]+ *=")
-(defvar lse-python:var-def-pattern-g "^[a-zA-Z_0-9]+ *=")
-
-;;;  4-Jul-2012
-(defun lse-python:goto-next-var (count &optional limit)
-  "Got next variable definition"
-  (interactive "p")
-  (lse-tpu:goto_occurrence
-     lse-python:var-def-pattern limit count 're-search-forward t
-  )
-; lse-python:goto-next-var
-)
-
-;;;  4-Jul-2012
-(defun lse-python:goto-prev-var (count &optional limit)
-  "Got previous variable definition"
-  (interactive "p")
-  (lse-tpu:goto_occurrence
-     lse-python:var-def-pattern limit count 're-search-backward t
-  )
-; lse-python:goto-next-var
-)
-
-;;;  4-Jul-2012
-(defun lse-python:goto-next-var-g (count &optional limit)
-  "Got next global variable definition"
-  (interactive "p")
-  (lse-tpu:goto_occurrence
-     lse-python:var-def-pattern-g limit count 're-search-forward t
-  )
-; lse-python:goto-next-var
-)
-
-;;;  4-Jul-2012
-(defun lse-python:goto-prev-var-g (count &optional limit)
-  "Got previous global variable definition"
-  (interactive "p")
-  (lse-tpu:goto_occurrence
-     lse-python:var-def-pattern-g limit count 're-search-backward t
-  )
-; lse-python:goto-next-var
-)
-
-;;; 30-Aug-2010
-(defun lse-python:near-top-pos ()
-  (save-excursion
-    (save-match-data
-      (lse-tpu:move-to-beginning)
-      (re-search-forward "^#--")
-      (skip-chars-forward " \t\n")
-      (if (looking-at "\"\"\"")
-          (progn
-            (lse-tpu:forward-char 3)
-            (re-search-forward "\"\"\"")
-            (skip-chars-forward " \t\n")
-          )
-      )
-      (point)
-    )
-  )
-; lse-python:near-top-pos
-)
-
-;;; 30-Aug-2010
-(defun lse-python:goto-near-top-pos ()
-  "Goto position near the top of a Python module."
-  (interactive)
-  (let ((ntp (lse-python:near-top-pos))) (if ntp (goto-char ntp)))
-; lse-python:goto-near-top-pos
 )
 
 ;;;  4-Oct-2007
@@ -694,7 +281,7 @@ return t.  Otherwise, leave point at an undefined place and return nil."
 ;;; Setup python menu for menu bar
 
 ;; remove Python menu defined by std-python-mode
-(define-key py-mode-map [menu-bar Python] nil)
+; (define-key py-mode-map [menu-bar Python] nil)
 
 ;; define Python menu with bindings to lse-python functions
 ;;; 24-Feb-2012
@@ -703,8 +290,6 @@ return t.  Otherwise, leave point at an undefined place and return nil."
     "-"
     ["Goto start of containing class"  lse-python:goto-class-head            t]
     ["Goto end of containing class"    lse-python:goto-class-tail            t]
-    ["Go up to start of nearest class" lse-python:goto-nearest-class-head    t]
-    ["Goto to end of nearest class"    lse-python:goto-nearest-class-tail    t]
     ["Goto start of next class"        lse-python:goto-next-class-head       t]
   )
   "Specification for class-specific Python menu"
@@ -716,8 +301,6 @@ return t.  Otherwise, leave point at an undefined place and return nil."
     "-"
     ["Goto start of containing def"    lse-python:goto-function-head         t]
     ["Goto end of containing def"      lse-python:goto-function-tail         t]
-    ["Go up to start of nearest def"   lse-python:goto-nearest-function-head t]
-    ["Goto to end of nearest def"      lse-python:goto-nearest-function-tail t]
     ["Goto start of next def"          lse-python:goto-next-function-head    t]
   )
   "Specification for function-specific Python menu"
@@ -741,15 +324,11 @@ return t.  Otherwise, leave point at an undefined place and return nil."
   "Specification for block-specific Python menu"
 )
 
-(require 'easymenu)
-(easy-menu-define py-menu py-mode-map "Python Mode menu"
+(easy-menu-define python-menu python-mode-map "Python Mode menu"
   ( append
     ( list "Python"
       ["Goto position near the top" lse-python:goto-near-top-pos t]
       ["Indent current line"        lse-python:indent-line       t]
-      "-"
-      ["Comment Out Region"   py-comment-region  '(mark)]
-      ["Uncomment Region"     (py-comment-region (point) (mark) '(4)) '(mark)]
    )
    lse-python:menu:class-spec
    lse-python:menu:function-spec

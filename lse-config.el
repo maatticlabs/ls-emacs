@@ -45,6 +45,7 @@
 ;;;;    20-Nov-2014 (CT) Remove adding of pre-command-hook for
 ;;;;                     'lse-tpu:shift-mark-hook
 ;;;;     9-Jan-2015 (CT) Increase `fill-column` from 77 to 79
+;;;;    15-Jul-2015 (CT) Use `python-mode-map`, not `py-mode-map`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -327,10 +328,10 @@
 
 (global-set-key [red gold ?V] 'Py-Version-Update)
 
-(when (boundp 'py-mode-map);; 18-May-2011
+(when (boundp 'python-mode-map);; 18-May-2011
   ;;;  9-Sep-2008
-  (define-key py-mode-map [menu-bar Python separator-LSE] '("--"))
-  (define-key py-mode-map [menu-bar Python Py-Version-Update]
+  (define-key python-mode-map [menu-bar Python separator-LSE] '("--"))
+  (define-key python-mode-map [menu-bar Python Py-Version-Update]
     '("Py-Version-Update" . Py-Version-Update)
   )
 )
