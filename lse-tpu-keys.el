@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -213,6 +213,7 @@
 ;;;;                     bind `C-,` to 'lse-tpu:goto-next-occurrence-char,
 ;;;;                     bind `C-;` to 'lse-tpu:goto-prev-occurrence-char
 ;;;;    12-Dec-2014 (CT) Add `lse-key/define-in-function-key-map`
+;;;;    15-Jul-2015 (CT) Remove binding of `[S-delete]`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -671,6 +672,11 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (local-unset-key [?\C-i])
   (local-unset-key "\177")
   (local-unset-key [backspace])
+
+  ;;; Remove binding for `[S-delete]` (bound by Emacs to `kill-region`)
+  ;;; because it interferes with shift-translation of `[delete]` (which allows
+  ;;; for keeping the region active while deleting the next character)
+  (global-unset-key [S-delete])
 
   (lse-keys/define-in-map 'define-key help-map
     '(
