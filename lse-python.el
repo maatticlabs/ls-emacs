@@ -153,13 +153,19 @@ via `match-string'."
 ;;;  9-Mar-1998
 (defun lse-python:indent-line ()
   (interactive "*")
-  (if (or (equal      (char-syntax (following-char)) ?\) )
-          (looking-at "[-+*/,]")
-      )
-       (lse-indent-line)
-    (condition-case nil
-        (python-indent-line)
-      (error (lse-indent-line))
+  (cond
+    ((or
+        (python-syntax-context 'string)
+        (equal                 (char-syntax (following-char)) ?\) )
+        (looking-at            "[-+*/,]")
+     )
+     (lse-indent-line)
+    )
+    (t
+     (condition-case nil
+         (python-indent-line)
+       (error (lse-indent-line))
+     )
     )
   )
 ; lse-python:indent-line
