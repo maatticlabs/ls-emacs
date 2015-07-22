@@ -29,6 +29,9 @@
 ;;;; Revision Dates
 ;;;;    15-Jul-2015 (CT) Creation (factored from `lse-language-python`)
 ;;;;                     + Use `python`, not `python-mode`
+;;;;    22-Jul-2015 (CT) Add `lse-python:in-comment-p` and friends
+;;;;                     - Use of `python-syntax-context` triggers a compiler
+;;;;                       error due to eval-when-compile in python.el
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -150,14 +153,53 @@ via `match-string'."
 (defvar lse-python:var-def-pattern "^ *[a-zA-Z_0-9]+ *=")
 (defvar lse-python:var-def-pattern-g "^[a-zA-Z_0-9]+ *=")
 
+;;; 22-Jul-2015
+;;; the following lse-python:in-... functions are defined here because
+;;; `python-syntax-context` of python.el depends on a compile-time macro
+;;; using `python-syntax-context` here triggers::
+;;;   Compiler-macro error for python-syntax-context:
+;;;       (void-function python-syntax--context-compiler-macro)
+
+(defun lse-python:in-comment-p ()
+  (let ((ppss (syntax-ppss))
+       )
+    (and (nth 4 ppss) (nth 8 ppss))
+  )
+; lse-python:in-comment-p
+)
+
+(defun lse-python:in-comment-or-string-p ()
+  (let ((ppss (syntax-ppss))
+       )
+    (nth 8 ppss)
+  )
+; lse-python:in-comment-or-string-p
+)
+
+(defun lse-python:in-paren-p ()
+  (let ((ppss (syntax-ppss))
+       )
+    (nth 1 ppss)
+  )
+; lse-python:in-paren-p
+)
+
+(defun lse-python:in-string-p ()
+  (let ((ppss (syntax-ppss))
+       )
+    (and (nth 3 ppss) (nth 8 ppss))
+  )
+; lse-python:in-string-p
+)
+
 ;;;  9-Mar-1998
 (defun lse-python:indent-line ()
   (interactive "*")
   (cond
     ((or
-        (python-syntax-context 'string)
-        (equal                 (char-syntax (following-char)) ?\) )
-        (looking-at            "[-+*/,]")
+        (lse-python:in-string-p)
+        (equal      (char-syntax (following-char)) ?\) )
+        (looking-at "[-+*/,]")
      )
      (lse-indent-line)
     )
@@ -383,7 +425,7 @@ via `match-string'."
 
 ;;; 15-Jul-2015
 (defun lse-python::looking-at-line (regexp &optional no-syntax)
-  (and (or no-syntax (not (python-syntax-context-type (syntax-ppss))))
+  (and (or no-syntax (not (lse-python:in-comment-or-string-p)))
        (save-excursion
          (beginning-of-line 1)
          (looking-at regexp)
