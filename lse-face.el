@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -66,6 +66,7 @@
 ;;;;    22-Oct-2014 (CT) Add `lse-face:font:6x13` and `lse-face:font:7x13`
 ;;;;     7-Nov-2014 (CT) Change font definitions to `75-75-`; add more fonts
 ;;;;                     (`100-100-` doesn't work on all Gentoo machines)
+;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -215,6 +216,17 @@
 (defconst lse-face:font:10x20
   "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1"
   "Standard X-Window fixed width font with old style designation 10x20"
+)
+
+;;; 15-Sep-2015
+(defconst lse-face:font:hack-10
+  "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1"
+  "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
+)
+
+(defconst lse-face:font:hack-12
+  "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"
+  "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
 )
 
 (defconst lse-face:font:small   lse-face:font:6x13)

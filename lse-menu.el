@@ -61,6 +61,7 @@
 ;;;;    14-Nov-2014 (CT) Remove `lse-tpu:change-search-mode`
 ;;;;    14-Nov-2014 (CT) Add `lse-tpu:replace-all`
 ;;;;    10-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
+;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12` to `set-font` menu
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -159,6 +160,16 @@
 
 (define-key lse-menu:set-font [6x10]
   (cons "Use font 6x10" (lse-key-cmd (lse-frame:set-font lse-face:font:6x10)))
+)
+
+(define-key lse-menu:set-font [separator-set-font] '("--"))
+
+(define-key lse-menu:set-font [hack-10]
+  (cons "Use font Hack 10" (lse-key-cmd (lse-frame:set-font lse-face:font:hack-10)))
+)
+
+(define-key lse-menu:set-font [hack-12]
+  (cons "Use font Hack 12" (lse-key-cmd (lse-frame:set-font lse-face:font:hack-12)))
 )
 
 (define-key lse-menu:set-font [separator-set-font] '("--"))
