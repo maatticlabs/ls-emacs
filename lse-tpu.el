@@ -205,6 +205,7 @@
 ;;;;    12-Dec-2014 (CT) Remove `lse-tpu:turn-on-shift-selection` because it
 ;;;;                     breaks 'handle-select-window and 'handle-switch-frame
 ;;;;    19-Jan-2015 (CT) Add `lse-tpu:in-comment-p`
+;;;;     7-Nov-2015 (CT) Add `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -2321,6 +2322,29 @@ Accepts a prefix argument of the number of characters to invert."
     (lse-tpu:repeat-factor count) limit 'search-backward
   )
 ; lse-tpu:goto-prev-occurrence-current-word
+)
+
+;;;+
+;;; Join line functions
+;;;-
+;;;  7-Nov-2015
+(defun lse-tpu:join-line-head ()
+  "Join this line to previous."
+  (interactive "*")
+  (save-excursion
+    (join-line)
+  )
+; lse-tpu:join-line-head
+)
+
+;;;  7-Nov-2015
+(defun lse-tpu:join-line-tail ()
+  "Join this line to next."
+  (interactive "*")
+  (save-excursion
+    (join-line +1)
+  )
+; lse-tpu:join-line-tail
 )
 
 ;;;++

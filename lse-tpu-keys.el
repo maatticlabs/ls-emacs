@@ -214,6 +214,7 @@
 ;;;;                     bind `C-;` to 'lse-tpu:goto-prev-occurrence-char
 ;;;;    12-Dec-2014 (CT) Add `lse-key/define-in-function-key-map`
 ;;;;    15-Jul-2015 (CT) Remove binding of `[S-delete]`
+;;;;     7-Nov-2015 (CT) Bind `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -626,6 +627,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-z]           lse-tpu:goto-last-position)
       ([?\A-|]           lse-fill-range)                          ; 28-Apr-1996
       ([?\C-\.]          universal-argument)                      ; 28-Jun-1995
+      ([?\C-^]           lse-tpu:join-line-head)                  ;  7-Nov-2015
+      ([?\C-$]           lse-tpu:join-line-tail)                  ;  7-Nov-2015
       ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
       ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002
       ([?\C-x?5?1]       lse-frame:make-full-height)              ; 21-Oct-2014
@@ -726,6 +729,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-replace-binding-for-all-keys 'find-alternate-file       'lse-visit-alternate-file)
   (lse-replace-binding-for-all-keys 'find-file                 'lse-visit-file)
   (lse-replace-binding-for-all-keys 'find-file-other-window    'lse-visit-file-other-window)
+  (lse-replace-binding-for-all-keys 'join-line                 'lse-tpu:join-line-head)
+  (lse-replace-binding-for-all-keys 'delete-indentation        'lse-tpu:join-line-head)
   (lse-replace-binding-for-all-keys 'kill-buffer               'lse-kill-buffer)
   (lse-replace-binding-for-all-keys 'mouse-yank-primary        'lse-tpu:mouse-paste); 20-Oct-2014
   (lse-replace-binding-for-all-keys 'revert-buffer             'lse-revert-buffer)
