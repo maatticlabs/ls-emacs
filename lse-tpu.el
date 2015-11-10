@@ -206,6 +206,7 @@
 ;;;;                     breaks 'handle-select-window and 'handle-switch-frame
 ;;;;    19-Jan-2015 (CT) Add `lse-tpu:in-comment-p`
 ;;;;     7-Nov-2015 (CT) Add `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
+;;;;    10-Nov-2015 (CT) Add `lse-tpu:join-line:inner` to remove comment leader
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -2332,7 +2333,7 @@ Accepts a prefix argument of the number of characters to invert."
   "Join this line to previous."
   (interactive "*")
   (save-excursion
-    (join-line)
+    (lse-tpu:join-line:inner nil)
   )
 ; lse-tpu:join-line-head
 )
@@ -2342,9 +2343,21 @@ Accepts a prefix argument of the number of characters to invert."
   "Join this line to next."
   (interactive "*")
   (save-excursion
-    (join-line +1)
+    (lse-tpu:join-line:inner +1)
   )
 ; lse-tpu:join-line-tail
+)
+
+;;; 10-Nov-2015
+(defun lse-tpu:join-line:inner (arg)
+  (join-line arg)
+  (save-match-data
+    (when (looking-at lse-comment:head_delim_pattern)
+      (delete-region (match-beginning 0) (match-end 0))
+      (insert " ")
+    )
+  )
+; lse-tpu:join-line:inner
 )
 
 ;;;++
