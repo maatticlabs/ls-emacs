@@ -10,7 +10,6 @@
         "««py-doc-string»»"
         ""
         @ py-future-3
-        ""
         "««py-import»»"
         ""
         "««py-statement»»···"
