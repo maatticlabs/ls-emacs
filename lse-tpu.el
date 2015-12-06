@@ -207,6 +207,7 @@
 ;;;;    19-Jan-2015 (CT) Add `lse-tpu:in-comment-p`
 ;;;;     7-Nov-2015 (CT) Add `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
 ;;;;    10-Nov-2015 (CT) Add `lse-tpu:join-line:inner` to remove comment leader
+;;;;     6-Dec-2015 (CT) Add `lse-tpu:snap-point-to-mouse-click`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3817,6 +3818,19 @@ A repeat count means scroll that many sections."
 (put 'lse-tpu:undelete-char       'delete-selection 'kill)
 (put 'lse-tpu:paste-region        'delete-selection 'kill)
 
+;;;  6-Dec-2015
+(defun lse-tpu:snap-point-to-mouse-click ()
+  "If current command was invoked with a mouse button, move point to the
+position clicked. Stolen/factored from `browse-url-interactive-arg`."
+  (let ((event (elt (this-command-keys) 0))
+       )
+    (when (listp event)
+      (mouse-set-point event)
+    )
+  )
+; lse-tpu:snap-point-to-mouse-click
+)
+
 ;;;  7-Nov-2014
 ;;; Replacement for `mouse-yank-primary` to do the right thing.
 ;;;

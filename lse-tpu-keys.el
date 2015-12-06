@@ -215,6 +215,7 @@
 ;;;;    12-Dec-2014 (CT) Add `lse-key/define-in-function-key-map`
 ;;;;    15-Jul-2015 (CT) Remove binding of `[S-delete]`
 ;;;;     7-Nov-2015 (CT) Bind `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
+;;;;     6-Dec-2015 (CT) Bind `browse-url-at-point` to [A-/]
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -612,6 +613,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-\-]          negative-argument)                       ; 30-Dec-1997
       ([?\A-\.]          universal-argument)                      ; 30-Dec-1997
       ([?\A-\\]          quoted-insert)
+      ([?\A-/]           browse-url-at-point)                     ;  6-Dec-2015
       ([?\A-\s-.]        lse-tpu:unselect)                        ; 17-Jun-2001
       ([?\A-a]           lse-tpu:toggle-overwrite-mode)
       ([?\A-d]           dabbrev-expand)

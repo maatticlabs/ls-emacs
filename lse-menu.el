@@ -62,6 +62,7 @@
 ;;;;    14-Nov-2014 (CT) Add `lse-tpu:replace-all`
 ;;;;    10-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12` to `set-font` menu
+;;;;     6-Dec-2015 (CT) Add `browse-url-at-point` to `lse-menu` menu
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -108,6 +109,10 @@
 
 (define-key lse-menu:lse-menu [lse-tpu:goto-last-position]
   '("Goto last position" . lse-tpu:goto-last-position)
+)
+
+(define-key lse-menu:lse-menu [browse-url-at-point]
+  '("Browse url at point" . browse-url-at-point)
 )
 
 (define-key lse-menu:lse-menu [lse-revert-buffers-same-anchor]
