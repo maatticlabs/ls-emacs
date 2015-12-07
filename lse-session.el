@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -68,6 +68,9 @@
 ;;;;                     (and: site-specific function definitions removed)
 ;;;;    23-Jul-2010 (CT) `lse-insert-date-time-comment` added
 ;;;;    13-Nov-2014 (CT) Add `lse-yyyy-mm-dd`, `lse-yyyymmdd` + insert functions
+;;;;     7-Dec-2015 (CT) Add `lse-insert-yyyy-mm-dd-time+blank`
+;;;;                     and `lse-insert-yyyy-mm-dd-time-comment`;
+;;;;                     factor `lse-insert-date-time`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -130,6 +133,28 @@
   )
 )
 
+;;;  7-Dec-2015
+(defun lse-insert-date-time ()
+  (interactive "*")
+  (lse-insert-dd-mmm-yyyy+blank)
+  (lse-insert-time+blank)
+; lse-insert-date-time
+)
+
+;;; 23-Jul-2010
+(defun lse-insert-date-time-comment ()
+  (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
+  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
+  (lse-tpu:insert " ")
+  (lse-insert-date-time)
+  (if lse-comment:tail_delim
+      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
+  )
+  (newline-and-indent)
+; lse-insert-date-time-comment
+)
+
 (defun lse-insert-dd-mmm-yyyy ()
   (interactive "*")
   (lse-tpu:insert (format "%11s" (lse-dd-mmm-yyyy)))
@@ -192,15 +217,37 @@
 ;;; 13-Nov-2014
 (defun lse-insert-yyyy-mm-dd ()
   (interactive "*")
-  (lse-tpu:insert (format "%8s" (lse-yyyy-mm-dd)))
+  (lse-tpu:insert (format "%10s" (lse-yyyy-mm-dd)))
 ; lse-insert-yyyy-mm-dd
 )
 
 ;;; 13-Nov-2014
 (defun lse-insert-yyyy-mm-dd+blank ()
   (interactive "*")
-  (lse-insert+blank-maybe (format "%8s" (lse-yyyy-mm-dd)))
+  (lse-insert+blank-maybe (format "%10s" (lse-yyyy-mm-dd)))
 ; lse-insert-yyyy-mm-dd+blank
+)
+
+;;;  7-Dec-2015
+(defun lse-insert-yyyy-mm-dd-time+blank ()
+  (interactive "*")
+  (lse-insert-yyyy-mm-dd+blank)
+  (lse-insert-time+blank)
+; lse-insert-yyyy-mm-dd-time+blank
+)
+
+;;;  7-Dec-2015
+(defun lse-insert-yyyy-mm-dd-time-comment ()
+  (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
+  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
+  (lse-tpu:insert " ")
+  (lse-insert-yyyy-mm-dd-time+blank)
+  (if lse-comment:tail_delim
+      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
+  )
+  (newline-and-indent)
+; lse-insert-yyyy-mm-dd-time-comment
 )
 
 ;;; 13-Nov-2014
@@ -230,21 +277,6 @@
 (defun lse-insert-year ()
   (interactive "*")
   (lse-tpu:insert (lse-date-year))
-)
-
-;;; 23-Jul-2010
-(defun lse-insert-date-time-comment ()
-  (interactive "*")
-  (lse_start_replacement_if_in_fill-in)
-  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
-  (lse-tpu:insert " ")
-  (lse-insert-dd-mmm-yyyy+blank)
-  (lse-insert-time+blank)
-  (if lse-comment:tail_delim
-      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
-  )
-  (newline-and-indent)
-; lse-insert-date-time-comment
 )
 
 (defun lse-user-name ()

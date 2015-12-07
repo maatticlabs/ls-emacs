@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -69,6 +69,7 @@
 ;;;;    12-Nov-2014 (CT) Fold swing-keys-v19.el in here
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    20-Nov-2014 (CT) Use `global-set-key`, not `global-set-smk`
+;;;;     7-Dec-2015 (CT) Bind `lse-insert-yyyy-mm-dd-time+blank`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -149,6 +150,7 @@
       ([red      ?h]            backward-up-list)
       ([red      ?n]            forward-list)
       ([red      ?p]            backward-list)
+      ([red      ?s]            lse-insert-yyyy-mm-dd-time+blank)
       ([red      ?u]            up-list)
       ([red   ?\C-n]            lse-tpu:goto-next-occurrence-current-word)
       ([red   ?\C-p]            lse-tpu:goto-prev-occurrence-current-word)

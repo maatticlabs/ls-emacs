@@ -216,6 +216,9 @@
 ;;;;    15-Jul-2015 (CT) Remove binding of `[S-delete]`
 ;;;;     7-Nov-2015 (CT) Bind `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
 ;;;;     6-Dec-2015 (CT) Bind `browse-url-at-point` to [A-/]
+;;;;     7-Dec-2015 (CT) Bind `lse-insert-yyyy-mm-dd-time+blank`to [C-#],
+;;;;                     bind `lse-insert-yyyy-mm-dd-time-comment` to
+;;;;                     [blue gold ?#]
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -631,6 +634,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\C-\.]          universal-argument)                      ; 28-Jun-1995
       ([?\C-^]           lse-tpu:join-line-head)                  ;  7-Nov-2015
       ([?\C-$]           lse-tpu:join-line-tail)                  ;  7-Nov-2015
+      ([?\C-#]           lse-insert-yyyy-mm-dd-time+blank)        ;  7-Dec-2015
       ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
       ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002
       ([?\C-x?5?1]       lse-frame:make-full-height)              ; 21-Oct-2014
@@ -979,6 +983,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-keys/define #'global-set-key
     '(
       ([blue      ?#]        lse-count-matches)
+      ([blue gold ?#]        lse-insert-yyyy-mm-dd-time-comment)
       ([blue      ?']        lse-insert-backquote-quote); 26-Apr-1996
       ([blue      ?*]        lse-frame:list:show);  8-Dec-2009
       ([blue      ?+]        lse-pop+restore-window-configuration)
