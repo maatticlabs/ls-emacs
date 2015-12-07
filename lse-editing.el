@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -103,6 +103,7 @@
 ;;;;    18-Nov-2014 (CT) Replace `lse-*-register` by
 ;;;;                     `lse-number-at-point:increment`...
 ;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
+;;;;     7-Dec-2015 (CT) Change `lse-insert+blank-maybe` to consider `""`...
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -144,15 +145,29 @@
 )
 
 (defun lse-insert+blank-maybe (text)
-  (lse-tpu:insert text)
-  (if (looking-at "[^ \t]")
-      (lse-tpu:insert " ")
-    (lse-tpu:forward-char 1);  1-Mar-2001
-  )
-  (if (> (current-column) fill-column)   ;  4-Apr-1994
-      (and auto-fill-function            ; 18-May-1994
-           (funcall auto-fill-function)
+  ( save-match-data
+    (let ((inside-pair
+           (and (looking-at "[])}\"']") (looking-behind-at "[[({\"']" 1))
+          )
+         )
+      (lse-tpu:insert text)
+      (cond
+        (inside-pair
+         nil ; don't add blank nor move forward
+        )
+        ((looking-at "[^ \t]")
+         (lse-tpu:insert " ")
+        )
+        (t
+         (lse-tpu:forward-char 1)
+        )
       )
+      (if (> (current-column) fill-column)
+          (and auto-fill-function
+               (funcall auto-fill-function)
+          )
+      )
+    )
   )
 ; lse-insert+blank-maybe
 )
