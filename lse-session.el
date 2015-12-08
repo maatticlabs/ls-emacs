@@ -71,6 +71,9 @@
 ;;;;     7-Dec-2015 (CT) Add `lse-insert-yyyy-mm-dd-time+blank`
 ;;;;                     and `lse-insert-yyyy-mm-dd-time-comment`;
 ;;;;                     factor `lse-insert-date-time`
+;;;;     8-Dec-2015 (CT) Add optional argument `ignore-pairs`
+;;;;     8-Dec-2015 (CT) Change date+time inserting functions to a single call
+;;;;                     of `lse-insert+blank-maybe`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -126,59 +129,17 @@
   )
 )
 
-(defun lse-dd-mmm-yyyy ()
-  (concat (lse-date-day)   "-"
-          (lse-date-month) "-"
-          (lse-date-year)
-  )
-)
-
-;;;  7-Dec-2015
-(defun lse-insert-date-time ()
-  (interactive "*")
-  (lse-insert-dd-mmm-yyyy+blank)
-  (lse-insert-time+blank)
-; lse-insert-date-time
-)
-
-;;; 23-Jul-2010
-(defun lse-insert-date-time-comment ()
-  (interactive "*")
-  (lse_start_replacement_if_in_fill-in)
-  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
-  (lse-tpu:insert " ")
-  (lse-insert-date-time)
-  (if lse-comment:tail_delim
-      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
-  )
-  (newline-and-indent)
-; lse-insert-date-time-comment
-)
-
-(defun lse-insert-dd-mmm-yyyy ()
-  (interactive "*")
-  (lse-tpu:insert (format "%11s" (lse-dd-mmm-yyyy)))
-)
-
-(defun lse-insert-dd-mmm-yyyy+blank ()
-  (interactive "*")
-  (lse-insert+blank-maybe (format "%11s" (lse-dd-mmm-yyyy)))
-)
-
 (defun lse-dd-mm-yyyy ()
   (format "%s.%s.%s"
     (lse-date-day) (lse-month-mm (lse-date-month)) (lse-date-year)
   );  6-Feb-2002
 )
 
-(defun lse-insert-dd-mm-yyyy ()
-  (interactive "*")
-  (lse-tpu:insert (format "%10s" (lse-dd-mm-yyyy)))
-)
-
-(defun lse-insert-dd-mm-yyyy+blank ()
-  (interactive "*")
-  (lse-insert+blank-maybe (format "%10s" (lse-dd-mm-yyyy)))
+(defun lse-dd-mmm-yyyy ()
+  (concat (lse-date-day)   "-"
+          (lse-date-month) "-"
+          (lse-date-year)
+  )
 )
 
 ;;; 26-Aug-1998
@@ -201,6 +162,47 @@
     (lse-date-year) (lse-month-mm (lse-date-month)) (lse-date-day0)
   )
 )
+
+;;;  7-Dec-2015
+(defun lse-insert-date-time ()
+  (interactive "*")
+  (lse-insert+blank-maybe (format "%11s %s" (lse-dd-mmm-yyyy) (lse-date-time)))
+; lse-insert-date-time
+)
+
+;;; 23-Jul-2010
+(defun lse-insert-date-time-comment ()
+  (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
+  (dotimes (i 3) (lse-tpu:insert (or lse-comment:head_delim "#")))
+  (lse-tpu:insert " ")
+  (lse-insert-date-time)
+  (if lse-comment:tail_delim
+      (dotimes (i 3) (lse-tpu:insert lse-comment:tail_delim))
+  )
+  (newline-and-indent)
+; lse-insert-date-time-comment
+)
+
+(defun lse-insert-dd-mmm-yyyy ()
+  (interactive "*")
+  (lse-tpu:insert (format "%11s" (lse-dd-mmm-yyyy)))
+)
+
+(defun lse-insert-dd-mmm-yyyy+blank (&optional ignore-pairs)
+  (interactive "*")
+  (lse-insert+blank-maybe (format "%11s" (lse-dd-mmm-yyyy)) ignore-pairs)
+)
+
+(defun lse-insert-dd-mm-yyyy ()
+  (interactive "*")
+  (lse-tpu:insert (format "%10s" (lse-dd-mm-yyyy)))
+)
+
+(defun lse-insert-dd-mm-yyyy+blank (&optional ignore-pairs)
+  (interactive "*")
+  (lse-insert+blank-maybe (format "%10s" (lse-dd-mm-yyyy)) ignore-pairs)
+)
 
 ;;; 26-Aug-1998
 (defun lse-insert-yyyy/mm/dd ()
@@ -209,9 +211,9 @@
 )
 
 ;;; 26-Aug-1998
-(defun lse-insert-yyyy/mm/dd+blank ()
+(defun lse-insert-yyyy/mm/dd+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (format "%10s" (lse-yyyy/mm/dd)))
+  (lse-insert+blank-maybe (format "%10s" (lse-yyyy/mm/dd)) ignore-pairs)
 )
 
 ;;; 13-Nov-2014
@@ -222,17 +224,19 @@
 )
 
 ;;; 13-Nov-2014
-(defun lse-insert-yyyy-mm-dd+blank ()
+(defun lse-insert-yyyy-mm-dd+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (format "%10s" (lse-yyyy-mm-dd)))
+  (lse-insert+blank-maybe (format "%10s" (lse-yyyy-mm-dd)) ignore-pairs)
 ; lse-insert-yyyy-mm-dd+blank
 )
 
 ;;;  7-Dec-2015
-(defun lse-insert-yyyy-mm-dd-time+blank ()
+(defun lse-insert-yyyy-mm-dd-time+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert-yyyy-mm-dd+blank)
-  (lse-insert-time+blank)
+  (lse-insert+blank-maybe
+    (format "%10s %s" (lse-yyyy-mm-dd) (lse-date-time))
+    ignore-pairs
+  )
 ; lse-insert-yyyy-mm-dd-time+blank
 )
 
@@ -258,9 +262,9 @@
 )
 
 ;;; 13-Nov-2014
-(defun lse-insert-yyyymmdd+blank ()
+(defun lse-insert-yyyymmdd+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (format "%8s" (lse-yyyymmdd)))
+  (lse-insert+blank-maybe (format "%8s" (lse-yyyymmdd)) ignore-pairs)
 ; lse-insert-yyyymmdd+blank
 )
 
@@ -269,9 +273,9 @@
   (lse-tpu:insert (lse-date-time))
 )
 
-(defun lse-insert-time+blank ()
+(defun lse-insert-time+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (lse-date-time))
+  (lse-insert+blank-maybe (lse-date-time) ignore-pairs)
 )
 
 (defun lse-insert-year ()
@@ -363,24 +367,24 @@ This is correct only if the locally used domain is a valid internet domain.
   (lse-tpu:insert (lse-user-initials-tex))
 )
 
-(defun lse-insert-user-name+blank ()
+(defun lse-insert-user-name+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (lse-user-name))
+  (lse-insert+blank-maybe (lse-user-name) ignore-pairs)
 )
 
-(defun lse-insert-user--name+blank ()
+(defun lse-insert-user--name+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (lse-user-full-name))
+  (lse-insert+blank-maybe (lse-user-full-name) ignore-pairs)
 )
 
-(defun lse-insert-user-initials+blank ()
+(defun lse-insert-user-initials+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (lse-user-initials))
+  (lse-insert+blank-maybe (lse-user-initials) ignore-pairs)
 )
 
-(defun lse-insert-user-initials-tex+blank ()
+(defun lse-insert-user-initials-tex+blank (&optional ignore-pairs)
   (interactive "*")
-  (lse-insert+blank-maybe (lse-user-initials-tex))
+  (lse-insert+blank-maybe (lse-user-initials-tex) ignore-pairs)
 )
 
 (defun lse-insert-buffer-name (&optional buf)
