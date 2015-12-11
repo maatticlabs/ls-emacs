@@ -105,6 +105,7 @@
 ;;;;    20-Nov-2014 (CT) Add `^` to `interactive` spec of movement commands
 ;;;;     7-Dec-2015 (CT) Change `lse-insert+blank-maybe` to consider `""`...
 ;;;;     8-Dec-2015 (CT) Add `ignore-pairs` to `lse-insert+blank-maybe`
+;;;;    11-Dec-2015 (CT) Fix pair-matching of `lse-insert+blank-maybe`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -149,7 +150,10 @@
   ( save-match-data
     (let ((inside-pair
            (and (not ignore-pairs)
-             (looking-at "[])}\"']") (looking-behind-at "[[({\"']" 1)
+             (looking-behind-at
+               "\\[\\]\\|()\\|\\{\\}\\|\"\"\\|''"
+               1
+             )
            )
           )
          )
