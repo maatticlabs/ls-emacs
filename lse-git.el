@@ -29,6 +29,7 @@
 ;;;;    12-May-2012 (CT) Add `set-fill-column` to `72` to `:setup-hook`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    14-Sep-2015 (CT) Change `set-fill-column` to `70`
+;;;;    27-Dec-2015 (CT) Add `magit`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-git)
@@ -72,5 +73,7 @@
 )
 
 (add-hook 'server-switch-hook 'lse-git:setup-hook)
+
+(defvar lse-git:magit-p (require 'magit nil t))
 
 ;;;; __END__ lse-git
