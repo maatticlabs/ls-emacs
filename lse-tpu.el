@@ -210,6 +210,7 @@
 ;;;;     6-Dec-2015 (CT) Add `lse-tpu:snap-point-to-mouse-click`
 ;;;;     4-Jan-2016 (CT) Use `:propertize` to highlight mode-line components
 ;;;;     4-Jan-2016 (CT) Display search-history-index in mode-line
+;;;;     4-Jan-2016 (CT) Remove display of time from mode-line
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -1407,7 +1408,7 @@ Accepts a prefix argument of the number of characters to invert."
          ;; redefine some standard mode-line variables
          (setq-default mode-line-modified              (purecopy '("%1*%1+")))
          (setq-default mode-line-buffer-identification (purecopy '(" %15b")))
-         (display-time)
+         (display-time-mode 0)
         )
   )
 ; lse-tpu:set-mode-line
