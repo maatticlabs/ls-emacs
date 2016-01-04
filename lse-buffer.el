@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -70,6 +70,7 @@
 ;;;;    22-Nov-2013 (CT) Add `lse-face:thin-space` to `lse-buffer:initialize`
 ;;;;    22-Oct-2014 (CT) Set `electric-indent-inhibit` in
 ;;;;                     `lse-buffer:initialize`
+;;;;     4-Jan-2016 (CT) Add `lse-buffer:orig-name`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -173,18 +174,21 @@
 (defvar lse-buffer:new_n      0)   ; Hack for lse-buffer:initialize-hack-19.30+
 
 (defvar lse-buffer:file-name  nil) ; Original file name of buffer
+(defvar lse-buffer:orig-name  nil) ; Original name of buffer
 (defvar lse-buffer:base-name  nil) ; Base name of buffer
 (defvar lse-buffer:anchor     nil) ; Relative directory anchor matching buffer
 (defvar lse-buffer:next       nil) ; Pointer to next buffer
 (defvar lse-buffer:prev       nil) ; Pointer to prev buffer
 (defvar lse-buffer:n          nil) ; Number of buffer
 (make-variable-buffer-local 'lse-buffer:file-name)
+(make-variable-buffer-local 'lse-buffer:orig-name)
 (make-variable-buffer-local 'lse-buffer:base-name);  3-Apr-2003
 (make-variable-buffer-local 'lse-buffer:anchor); 10-Nov-2010
 (make-variable-buffer-local 'lse-buffer:next)
 (make-variable-buffer-local 'lse-buffer:prev)
 (make-variable-buffer-local 'lse-buffer:n)
 (put 'lse-buffer:file-name  'permanent-local t)
+(put 'lse-buffer:orig-name  'permanent-local t)
 (put 'lse-buffer:base-name  'permanent-local t);  3-Apr-2003
 (put 'lse-buffer:anchor     'permanent-local t); 10-Nov-2010
 (put 'lse-buffer:next       'permanent-local t)
@@ -307,6 +311,7 @@
 (defun lse-buffer:initialize ()
   ;; store original file name
   (setq lse-buffer:file-name buffer-file-name)
+  (setq lse-buffer:orig-name (buffer-name))
   (setq lse-buffer:base-name (lse-buffer:base-name (current-buffer)))
   (lse-buffer:rename-unique-anchored-name)
   ;; create buffer-local mark-stack
