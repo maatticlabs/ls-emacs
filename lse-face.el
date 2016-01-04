@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -67,6 +67,7 @@
 ;;;;     7-Nov-2014 (CT) Change font definitions to `75-75-`; add more fonts
 ;;;;                     (`100-100-` doesn't work on all Gentoo machines)
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12`
+;;;;     4-Jan-2016 (CT) Add `lse-face:ml:highlight`, `:mouse`, `:overwrite`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -141,6 +142,9 @@
   (lse-face:define 'lse-face:fl:frame       "Deep Sky Blue" "Gray95")
   (lse-face:define 'lse-face:fl:buffer      "Gray88"        "Gray30")
   (lse-face:define 'lse-face:fl:current     "Yellow"        "Red")
+  (lse-face:define 'lse-face:ml:highlight   "Deep Sky Blue" "Light Yellow")
+  (lse-face:define 'lse-face:ml:mouse       "Yellow"        "Red")
+  (lse-face:define 'lse-face:ml:overwrite   "Red"           "Yellow")
 
   (set-face-background 'mode-line            "Grey")           ; 28-Dec-1997
   (set-face-foreground 'mode-line            "Light Yellow")   ; 28-Dec-1997

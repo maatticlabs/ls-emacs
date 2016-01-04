@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -208,6 +208,7 @@
 ;;;;     7-Nov-2015 (CT) Add `lse-tpu:join-line-head`, `lse-tpu:join-line-tail`
 ;;;;    10-Nov-2015 (CT) Add `lse-tpu:join-line:inner` to remove comment leader
 ;;;;     6-Dec-2015 (CT) Add `lse-tpu:snap-point-to-mouse-click`
+;;;;     4-Jan-2016 (CT) Use `:propertize` to highlight mode-line components
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -1301,8 +1302,18 @@ Accepts a prefix argument of the number of characters to invert."
              'mode-line-buffer-identification
              (purecopy " ")
              'global-mode-string
-             'lse-tpu:ccp-buffer-index:mode-line
-             'lse-tpu:repeat-factor:mode-line
+             '(:propertize
+                lse-tpu:ccp-buffer-index:mode-line
+                help-echo  "Cut/copy/paste buffer currently selected"
+                face       lse-face:ml:highlight
+                mouse-face lse-face:ml:mouse
+             )
+             '(:propertize
+                lse-tpu:repeat-factor:mode-line
+                help-echo  "Repeat factor for next command"
+                face       lse-face:ml:highlight
+                mouse-face lse-face:ml:mouse
+             )
              (purecopy " %[(")
              '(lse-language:name "«")
              'mode-name
@@ -1351,6 +1362,20 @@ Accepts a prefix argument of the number of characters to invert."
          (setq minor-mode-alist
                (cons '(defining-kbd-macro lse-learn-key:current:info)
                      minor-mode-alist
+               )
+         )
+         ;; overwrite (change emacs default)
+         (lse-remove-from-list
+             minor-mode-alist
+             (assq 'overwrite-mode minor-mode-alist)
+         )
+         (setq minor-mode-alist
+               (cons
+                 '(:propertize
+                     (overwrite-mode overwrite-mode)
+                     face       lse-face:ml:overwrite
+                  )
+                 minor-mode-alist
                )
          )
          ;;

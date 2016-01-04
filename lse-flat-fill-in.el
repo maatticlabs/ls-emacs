@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -167,6 +167,7 @@
 ;;;;                     `lse-flat-fill-in:replace-and-mouse-yank` to "^e"
 ;;;;    16-Nov-2014 (CT) Change back `interactive` of
 ;;;;                     `lse-flat-fill-in:replace-and-mouse-yank` to "e"
+;;;;     4-Jan-2016 (CT) Use `:propertize` for mode-line
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -1002,8 +1003,12 @@
 ;;; install fill-in-replacement as a minor mode
 ;;;
 (or (assq 'lse_replaced_fill-in minor-mode-alist)
-    (lse-add-to-list minor-mode-alist
-                       '(lse_replaced_fill-in lse-fill-in:currently-replaced)
+    (lse-add-to-list
+      minor-mode-alist
+      '(:propertize
+         (lse_replaced_fill-in lse-fill-in:currently-replaced)
+         face lse-face:open-replacement
+       )
     )
 )
 
