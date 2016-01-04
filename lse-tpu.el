@@ -209,6 +209,7 @@
 ;;;;    10-Nov-2015 (CT) Add `lse-tpu:join-line:inner` to remove comment leader
 ;;;;     6-Dec-2015 (CT) Add `lse-tpu:snap-point-to-mouse-click`
 ;;;;     4-Jan-2016 (CT) Use `:propertize` to highlight mode-line components
+;;;;     4-Jan-2016 (CT) Display search-history-index in mode-line
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -338,14 +339,24 @@ lse-tpu:letter-argument. "
 
 ;;; 14-Nov-2014
 (defvar lse-tpu:search-history-index 0 "Index of last search history used")
+(defvar lse-tpu:search-history-index:mode-line "")
 (defun lse-tpu:search-history-index (n)
-  (let ((last lse-tpu:search-history-index)
-       )
-    (cond
-      ((numberp n) (abs n));; numeric prefix     --> use search-history n
-      ((null n)    last)   ;; no prefix          --> use last search-history
-      (t           nil)    ;; universal-argument --> no  search-history
+  (let* ((last lse-tpu:search-history-index)
+         (result
+          (cond
+            ((numberp n) (abs n)); numeric prefix     -> use search-history n
+            ((null n)    last)   ; no prefix          -> use last search-history
+            (t           nil)    ; universal-argument -> no  search-history
+          )
+         )
+        )
+    (setq lse-tpu:search-history-index:mode-line
+      (if (and result (not (eq result 0)))
+          (format " /%s/" (lse-tpu:prefix-to-name result))
+        ""
+      )
     )
+    result
   )
 ; lse-tpu:search-history-index
 )
@@ -1305,6 +1316,12 @@ Accepts a prefix argument of the number of characters to invert."
              '(:propertize
                 lse-tpu:ccp-buffer-index:mode-line
                 help-echo  "Cut/copy/paste buffer currently selected"
+                face       lse-face:ml:highlight
+                mouse-face lse-face:ml:mouse
+             )
+             '(:propertize
+                lse-tpu:search-history-index:mode-line
+                help-echo  "Search history currently selected"
                 face       lse-face:ml:highlight
                 mouse-face lse-face:ml:mouse
              )
