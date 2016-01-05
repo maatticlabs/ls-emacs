@@ -213,6 +213,9 @@
 ;;;;     4-Jan-2016 (CT) Remove display of time from mode-line
 ;;;;     5-Jan-2016 (CT) Fix `lse-tpu:search-again`
 ;;;;                     * Don't use `lse-tpu:search-history-index`
+;;;;     5-Jan-2016 (CT) Change `lse-tpu:search-again` to set
+;;;;                     `lse-tpu:search-history-index` and use it when no
+;;;;                     prefix argument
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3051,6 +3054,7 @@ With argument reinserts the text that many times."
          (pat
            (cond
              ((numberp n)                                 ; digit-argument
+              (setq lse-tpu:search-history-index (abs n))
               (if (< n 0)
                   (lse-tpu:search-again/complete (abs n))
                 (lse-tpu:search-again/last n)
@@ -3060,7 +3064,7 @@ With argument reinserts the text that many times."
               (lse-tpu:search-again/complete 0)
              )
              (t                                           ; no prefix argument
-              (lse-tpu:search-again/last 0)
+              (lse-tpu:search-again/last (or lse-tpu:search-history-index 0))
              )
            )
          )
