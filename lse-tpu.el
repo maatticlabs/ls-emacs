@@ -211,6 +211,8 @@
 ;;;;     4-Jan-2016 (CT) Use `:propertize` to highlight mode-line components
 ;;;;     4-Jan-2016 (CT) Display search-history-index in mode-line
 ;;;;     4-Jan-2016 (CT) Remove display of time from mode-line
+;;;;     5-Jan-2016 (CT) Fix `lse-tpu:search-again`
+;;;;                     * Don't use `lse-tpu:search-history-index`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3044,9 +3046,6 @@ With argument reinserts the text that many times."
 
 ;;;  6-Oct-2007
 (defun lse-tpu:search-again (n fct &optional count)
-  (unless n
-    (setq n lse-tpu:search-history-index)
-  )
   (let* ((count (lse-tpu:repeat-factor count))
          (lse-completion:index-start 0)
          (pat
