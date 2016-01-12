@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This template is part of the LS-Emacs.
@@ -32,35 +32,12 @@
 ;;;;    19-Oct-2011 (CT) Deprecated `live` and `die` (use `delegate` instead)
 ;;;;    26-Nov-2011 (CT) Factor `jq-plugin-function`
 ;;;;    28-Mar-2012 (CT) Add `use-strict` to `jq-plugin`
+;;;;    11-Jan-2016 (CT) Rename token `.children` to `.children-jq`,
+;;;;                     ditto for `.next`
+;;;;    22-Jan-2016 (CT) Prefix jquery specific tokens with `jq-`
+;;;;    22-Jan-2016 (CT) Factor general fill-ins to lse-templates-javascript
 ;;;;    ««revision-date»»···
 ;;;;--
-
-;;; 21-Jan-2011
-(lse-define-fill-in "content"
-    '(leading               ",")
-    '(description
-        "An element, HTML string, jQuery object, or function that returns an HTML string, to insert."
-    )
-;;; content
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "context"
-    '(leading               ",")
-    '(description
-        "The point in the document at which the selector should begin matching."
-    )
-;;; context
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "duration"
-    '(trailing              ",")
-    '(description
-        "A string or number determining how long the animation will run (milliseconds)."
-     )
-;;; duration
-)
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "easing"
@@ -72,40 +49,12 @@
 )
 
 ;;; 21-Jan-2011
-(lse-define-fill-in "ev."
-    '(token)
-    '(description           "Properties of event object")
-    '(replacement-leading   "ev.")
-    '(sort)
-    '(menu
-        ("currentTarget"                    "The current DOM element within the event bubbling phase. This property will typically be equal to the this of the function.")
-        ("data"                             "The optional data passed to jQuery.fn.bind when the current executing handler was bound. ")
-        ("isDefaultPrevented ()"            "Returns whether event.preventDefault() was ever called on this event object. ")
-        ("isImmediatePropagationStopped ()" "Returns whether event.stopImmediatePropagation() was ever called on this event object. ")
-        ("isPropagationStopped ()"          "Returns whether event.stopPropagation() was ever called on this event object. ")
-        ("namespace"                        "The namespace specified when the event was triggered.")
-        ("pageX"                            "The mouse position relative to the left edge of the document. ")
-        ("pageY"                            "The mouse position relative to the top edge of the document. ")
-        ("preventDefault ()"                "If this method is called, the default action of the event will not be triggered. For example, clicked anchors will not take the browser to a new URL. We can use event.isDefaultPrevented() to determine if this method has been called by an event handler that was triggered by this event.")
-        ("relatedTarget"                    "The other DOM element involved in the event, if any. For mouseout, indicates the element being entered; for mousein, indicates the element being exited. ")
-        ("result"                           "The last value returned by an event handler that was triggered by this event, unless the value was undefined. ")
-        ("stopImmediatePropagation ()"      "Keeps the rest of the handlers from being executed and prevents the event from bubbling up the DOM tree. In addition to keeping any additional handlers on an element from being executed, this method also stops the bubbling by implicitly calling event.stopPropagation(). To simply prevent the event from bubbling to ancestor elements but allow other event handlers to execute on the same element, we can use event.stopPropagation() instead.")
-        ("stopPropagation"                  "Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event. Note that this will not prevent other handlers on the same element from running. ")
-        ("target"                           "The DOM element that initiated the event. The target property can be the element that registered for the event or a descendant of it. It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. This property is very useful in event delegation, when events bubble.")
-        ("timeStamp"                        "The difference in milliseconds between the time an event is triggered and January 1, 1970. This property can be useful for profiling the performance of certain jQuery functions by getting the event.timeStamp value at two points in the code and noting the difference.")
-        ("type"                             "Describes the nature of the event. ")
-        ("which"                            "For key or button events, this attribute indicates the specific button or key that was pressed. event.which normalizes event.keyCode and event.charCode. It is recommended to watch event.which for keyboard key input. For more detail, read about event.charCode on the MDC. ")
-     )
-;;; ev.
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "event-data"
+(lse-define-fill-in "jq-event-data"
     '(trailing              ",")
     '(description
         "A JavaScript object that will be passed to the event handler."
      )
-;;; event-data
+;;; jq-event-data
 )
 
 ;;; 21-Jan-2011
@@ -682,7 +631,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-add-class"
     '(token)
-    '(token                 ".addClass")
+    '(token                 ".jq-addClass")
     '(description
         "Adds the specified class(es) to each of the set of matched elements."
      )
@@ -693,7 +642,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-add-elements"
     '(token)
-    '(token                 ".add")
+    '(token                 ".jq-add")
     '(description
         "Add elements to the set of matched elements (expression can be selector, element, or array)."
      )
@@ -704,7 +653,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-after"
     '(token)
-    '(token                 ".after")
+    '(token                 ".jq-after")
     '(description
         "Insert content after each element in the set of matched elements."
      )
@@ -715,7 +664,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-and-self"
     '(token)
-    '(token                 ".andSelf")
+    '(token                 ".jq-andSelf")
     '(description
         "Add the previous set of elements on the stack to the current set."
      )
@@ -726,7 +675,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-append"
     '(token)
-    '(token                 ".append")
+    '(token                 ".jq-append")
     '(description
         "Insert content to the end of each element in the set of matched elements."
      )
@@ -737,7 +686,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-append-to"
     '(token)
-    '(token                 ".appendTo")
+    '(token                 ".jq-appendTo")
     '(description
         "Insert every element in the set of matched elements to the end of the target(s)."
      )
@@ -747,7 +696,7 @@
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-attr"
-    '(token                 ".attr")
+    '(token                 ".jq-attr")
     '(description
         "Get or set the value of an attribute of the set of matched elements."
      )
@@ -762,7 +711,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-attr-get"
     '(token)
-    '(token                 ".get_attr")
+    '(token                 ".jq-get_attr")
     '(description
         "Get the value of an attribute for the first element in the set of matched elements."
      )
@@ -773,7 +722,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-attr-set-1"
     '(token)
-    '(token                 ".set_attr")
+    '(token                 ".jq-set_attr")
     '(description
         "Set one attribute for the set of matched elements."
      )
@@ -784,7 +733,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-attr-set-many"
     '(token)
-    '(token                 ".set_attrs")
+    '(token                 ".jq-set_attrs")
     '(description
         "Set several attributes for the set of matched elements."
      )
@@ -795,7 +744,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-before"
     '(token)
-    '(token                 ".before")
+    '(token                 ".jq-before")
     '(description
         "Insert content before each element in the set of matched elements."
      )
@@ -806,18 +755,18 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-bind"
     '(token)
-    '(token                 ".bind")
+    '(token                 ".jq-bind")
     '(description
         "Attach a handler to an event for the elements. Passing `false` for callback attaches a function that prevents the default action from occurring and stops the event from bubbling."
      )
-    '(replacement           ".bind («event-type», ««event-data»», «callback»)")
+    '(replacement           ".bind («event-type», ««jq-event-data»», «callback»)")
 ;;; jq-wrapper-bind
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-bind-map"
     '(token)
-    '(token                 ".bind_map")
+    '(token                 ".jq-bind_map")
     '(description
         "Bind all events specified by object to the specified handlers."
      )
@@ -828,40 +777,40 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-blur"
     '(token)
-    '(token                 ".blur")
+    '(token                 ".jq-blur")
     '(description
         "This method is a shortcut for .bind('blur', handler) in the first variation, and .trigger('blur') in the second."
      )
-    '(replacement           ".blur (««event-data»», ««callback»»)")
+    '(replacement           ".blur (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-blur
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-change"
     '(token)
-    '(token                 ".change")
+    '(token                 ".jq-change")
     '(description
         "This method is a shortcut for .bind('change', handler) in the first variation, and .trigger('change') in the second."
      )
-    '(replacement           ".change (««event-data»», ««callback»»)")
+    '(replacement           ".change (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-change
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-click"
     '(token)
-    '(token                 ".click")
+    '(token                 ".jq-click")
     '(description
         "This method is a shortcut for .bind('click', handler) in the first variation, and .trigger('click') in the second."
      )
-    '(replacement           ".click (««event-data»», ««callback»»)")
+    '(replacement           ".click (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-click
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-children"
     '(token)
-    '(token                 ".children")
+    '(token                 ".jq-children-jq")
     '(description
         "Get the children of each element in the set of matched elements, optionally filtered by a selector."
      )
@@ -872,7 +821,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-clone"
     '(token)
-    '(token                 ".clone")
+    '(token                 ".jq-clone")
     '(description
         "Create a deep copy of the set of matched elements."
      )
@@ -892,7 +841,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-closest"
     '(token)
-    '(token                 ".closest")
+    '(token                 ".jq-closest")
     '(description
         "Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree."
      )
@@ -903,7 +852,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-contents"
     '(token)
-    '(token                 ".contents")
+    '(token                 ".jq-contents")
     '(description
         "Get the children of each element in the set of matched elements, including text and comment nodes."
      )
@@ -914,7 +863,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-css"
     '(token)
-    '(token                 ".css")
+    '(token                 ".jq-css")
     '(description
         "Get the value of a style property for the first element, or set the value of a style property for all elements, in the set of matched elements."
      )
@@ -925,25 +874,25 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-dblclick"
     '(token)
-    '(token                 ".dblclick")
+    '(token                 ".jq-dblclick")
     '(description
         "This method is a shortcut for .bind('dblclick', handler) in the first variation, and .trigger('dblclick') in the second. "
      )
-    '(replacement           ".dblclick (««event-data»», ««callback»»)")
+    '(replacement           ".dblclick (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-dblclick
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-delegate"
     '(token)
-    '(token                 ".delegate")
+    '(token                 ".jq-delegate")
     '(description
         "Attach a handler to one or more events for all elements that match "
         "the selector, now or in the future, based on a specific set of "
         "root elements."
      )
     '(replacement
-        ".delegate («selector», «event-type», ««event-data»», «callback»)"
+        ".delegate («selector», «event-type», ««jq-event-data»», «callback»)"
      )
 ;;; jq-wrapper-delegate
 )
@@ -951,7 +900,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-detach"
     '(token)
-    '(token                 ".detach")
+    '(token                 ".jq-detach")
     '(description           "Remove the set of matched elements from the DOM.")
     '(replacement           ".detach (««selector»»)")
 ;;; jq-wrapper-detach
@@ -960,7 +909,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-die"
     '(token)
-    '(token                 ".die")
+    '(token                 ".jq-die")
     '(description
         "*** Use $(document).undelegate instead ***"
         "*** http://www.cmlenz.net/archives/2011/06/jquery-event-delegation"
@@ -975,7 +924,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-each"
     '(token)
-    '(token                 ".each")
+    '(token                 ".jq-each")
     '(description
         "Execute a callback function for each element in the set of matched elements."
      )
@@ -986,7 +935,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-empty"
     '(token)
-    '(token                 ".empty")
+    '(token                 ".jq-empty")
     '(description
         "Remove all child nodes of the set of matched elements from the DOM."
      )
@@ -997,7 +946,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-end"
     '(token)
-    '(token                 ".end")
+    '(token                 ".jq-end")
     '(description
         "End the most recent filtering operation in the current chain and return the set of matched elements to its previous state."
      )
@@ -1008,7 +957,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-eq"
     '(token)
-    '(token                 ".eq")
+    '(token                 ".jq-eq")
     '(description
         "Reduce the set of matched elements to the one at the specified index (negative counts from the end)."
      )
@@ -1019,18 +968,18 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-error"
     '(token)
-    '(token                 ".error")
+    '(token                 ".jq-error")
     '(description
         "This method is a shortcut for .bind('error', handler)."
      )
-    '(replacement           ".error (««event-data»», «callback»)")
+    '(replacement           ".error (««jq-event-data»», «callback»)")
 ;;; jq-wrapper-error
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-fade-in"
     '(token)
-    '(token                 ".fadeIn")
+    '(token                 ".jq-fadeIn")
     '(description
         "Display the matched elements by fading them to opaque."
      )
@@ -1041,7 +990,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-fade-out"
     '(token)
-    '(token                 ".fadeOut")
+    '(token                 ".jq-fadeOut")
     '(description
         "Hide the matched elements by fading them to transparent."
      )
@@ -1052,7 +1001,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-fade-to"
     '(token)
-    '(token                 ".fadeTo")
+    '(token                 ".jq-fadeTo")
     '(description           "Adjust the opacity of the matched elements.")
     '(replacement
         ".fadeTo («duration», «opacity», ««easing»», ««callback»»)"
@@ -1063,7 +1012,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-fade-toggle"
     '(token)
-    '(token                 ".fadeToggle")
+    '(token                 ".jq-fadeToggle")
     '(description
         "Display or hide the matched elements by animating their opacity."
      )
@@ -1076,7 +1025,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-filter"
     '(token)
-    '(token                 ".filter")
+    '(token                 ".jq-filter")
     '(description
         "Reduce the set of matched elements to those that match the selector or pass the function's test (expression can be selector, element, array, or function)."
      )
@@ -1087,7 +1036,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-find"
     '(token)
-    '(token                 ".find")
+    '(token                 ".jq-find")
     '(description
         "Get the descendants of each element in the current set of matched elements, filtered by a selector."
      )
@@ -1098,7 +1047,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-first"
     '(token)
-    '(token                 ".first")
+    '(token                 ".jq-first")
     '(description
         "Reduce the set of matched elements to the first in the set."
      )
@@ -1109,41 +1058,41 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-focus"
     '(token)
-    '(token                 ".focus")
+    '(token                 ".jq-focus")
     '(description
         "This method is a shortcut for .bind('focus', handler) in the "
         "first variation, and .trigger('focus') in the second."
      )
-    '(replacement           ".focus (««event-data»», ««callback»»)")
+    '(replacement           ".focus (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-focus
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-focus-in"
     '(token)
-    '(token                 ".focusin")
+    '(token                 ".jq-focusin")
     '(description
         "This method is a shortcut for .bind('focusin', handler)."
      )
-    '(replacement           ".focusin (««event-data»», «callback»)")
+    '(replacement           ".focusin (««jq-event-data»», «callback»)")
 ;;; jq-wrapper-focus-in
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-focus-out"
     '(token)
-    '(token                 ".focusout")
+    '(token                 ".jq-focusout")
     '(description
         "This method is a shortcut for .bind('focusout', handler)."
      )
-    '(replacement           ".focusout (««event-data»», «callback»)")
+    '(replacement           ".focusout (««jq-event-data»», «callback»)")
 ;;; jq-wrapper-focus-out
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-has"
     '(token)
-    '(token                 ".has")
+    '(token                 ".jq-has")
     '(description
         "Reduce the set of matched elements to those that have a descendant that matches the selector or DOM element."
      )
@@ -1154,7 +1103,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-has-class"
     '(token)
-    '(token                 ".hasClass")
+    '(token                 ".jq-hasClass")
     '(description
         "Determine whether any of the matched elements are assigned the given class."
      )
@@ -1165,7 +1114,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-height"
     '(token)
-    '(token                 ".height")
+    '(token                 ".jq-height")
     '(description
         "Get the current computed height for the first element, or set the CSS height of all elements, in the set of matched elements."
      )
@@ -1176,7 +1125,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-hide"
     '(token)
-    '(token                 ".hide")
+    '(token                 ".jq-hide")
     '(description           "Hide the matched elements.")
     '(replacement           ".hide (««duration»», ««easing»», ««callback»»)")
 ;;; jq-wrapper-hide
@@ -1185,7 +1134,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-hover"
     '(token)
-    '(token                 ".hover")
+    '(token                 ".jq-hover")
     '(description
         "Bind two handlers to the matched elements, to be executed when "
         "the mouse pointer enters and leaves the elements. "
@@ -1201,7 +1150,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-html"
     '(token)
-    '(token                 ".html")
+    '(token                 ".jq-html")
     '(description
         "Get the HTML contents of the first element, or set the HTML contents of all elements, in the set of matched elements."
      )
@@ -1212,7 +1161,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-inner-height"
     '(token)
-    '(token                 ".innerHeight")
+    '(token                 ".jq-innerHeight")
     '(description
         "Get the current computed height for the first element in the set of matched elements, including padding but not border."
      )
@@ -1223,7 +1172,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-inner-width"
     '(token)
-    '(token                 ".innerWidth")
+    '(token                 ".jq-innerWidth")
     '(description
         "Get the current computed width for the first element in the set of matched elements, including padding but not border."
      )
@@ -1234,7 +1183,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-insert-after"
     '(token)
-    '(token                 ".insertAfter")
+    '(token                 ".jq-insertAfter")
     '(description
         "Insert every element in the set of matched elements after the target."
      )
@@ -1245,7 +1194,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-insert-before"
     '(token)
-    '(token                 ".insertBefore")
+    '(token                 ".jq-insertBefore")
     '(description
         "Insert every element in the set of matched elements before the target."
      )
@@ -1256,7 +1205,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-is"
     '(token)
-    '(token                 ".is")
+    '(token                 ".jq-is")
     '(description
         "Check the current matched set of elements against a selector and return true if at least one of these elements matches the selector."
      )
@@ -1267,43 +1216,43 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-keydown"
     '(token)
-    '(token                 ".keydown")
+    '(token                 ".jq-keydown")
     '(description
         "This method is a shortcut for .bind('keydown', handler) in the "
         "first variation, and .trigger('keydown') in the second."
      )
-    '(replacement           ".keydown (««event-data»», ««callback»»)")
+    '(replacement           ".keydown (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-keydown
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-keypress"
     '(token)
-    '(token                 ".keypress")
+    '(token                 ".jq-keypress")
     '(description
         "This method is a shortcut for .bind('keypress', handler) in the "
         "first variation, and .trigger('keypress') in the second."
      )
-    '(replacement           ".keypress (««event-data»», ««callback»»)")
+    '(replacement           ".keypress (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-keypress
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-keyup"
     '(token)
-    '(token                 ".keyup")
+    '(token                 ".jq-keyup")
     '(description
         "This method is a shortcut for .bind('keyup', handler) in the "
         "first variation, and .trigger('keyup') in the second."
      )
-    '(replacement           ".keyup (««event-data»», ««callback»»)")
+    '(replacement           ".keyup (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-keyup
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-last"
     '(token)
-    '(token                 ".last")
+    '(token                 ".jq-last")
     '(description
         "Reduce the set of matched elements to the final one in the set."
      )
@@ -1314,7 +1263,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-live"
     '(token)
-    '(token                 ".live")
+    '(token                 ".jq-live")
     '(description
         "*** Use $(document).delegate instead ***"
         "*** http://www.cmlenz.net/archives/2011/06/jquery-event-delegation"
@@ -1327,14 +1276,14 @@
         "that get introduced later do not, so they would require another "
         ".bind() call. "
      )
-    ; '(replacement           ".live («event-type», ««event-data»», «callback»)")
+    ; '(replacement           ".live («event-type», ««jq-event-data»», «callback»)")
 ;;; jq-wrapper-live
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-load-ajax"
     '(token)
-    '(token                 ".load_ajax")
+    '(token                 ".jq-load_ajax")
     '(description
         "Load data from the server and place the returned HTML into the "
         "matched element."
@@ -1346,18 +1295,18 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-load-handler"
     '(token)
-    '(token                 ".load_handler")
+    '(token                 ".jq-load_handler")
     '(description
         "This method is a shortcut for .bind('load', handler)."
      )
-    '(replacement           ".load (««event-data»», «callback»)")
+    '(replacement           ".load (««jq-event-data»», «callback»)")
 ;;; jq-wrapper-load-handler
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-map"
     '(token)
-    '(token                 ".map")
+    '(token                 ".jq-map")
     '(description
         "Pass each element in the current matched set through a function, producing a new jQuery object containing the return values."
      )
@@ -1368,103 +1317,103 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-down"
     '(token)
-    '(token                 ".mousedown")
+    '(token                 ".jq-mousedown")
     '(description
         "This method is a shortcut for .bind('mousedown', handler) in the "
         "first variation, and .trigger('mousedown') in the second."
      )
-    '(replacement           ".mousedown (««event-data»», ««callback»»)")
+    '(replacement           ".mousedown (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-down
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-enter"
     '(token)
-    '(token                 ".mouseenter")
+    '(token                 ".jq-mouseenter")
     '(description
         "This method is a shortcut for .bind('mouseenter', handler) in "
         "the first variation, and .trigger('mouseenter') in the second."
      )
-    '(replacement           ".mouseenter (««event-data»», ««callback»»)")
+    '(replacement           ".mouseenter (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-enter
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-leave"
     '(token)
-    '(token                 ".mouseleave")
+    '(token                 ".jq-mouseleave")
     '(description
         "This method is a shortcut for .bind('mouseleave', handler) in the "
         "first variation, and .trigger('mouseleave') in the second."
      )
-    '(replacement           ".mouseleave (««event-data»», ««callback»»)")
+    '(replacement           ".mouseleave (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-leave
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-move"
     '(token)
-    '(token                 ".mousemove")
+    '(token                 ".jq-mousemove")
     '(description
         "This method is a shortcut for .bind('mousemove', handler) in "
         "the first variation, and .trigger('mousemove') in the second."
      )
-    '(replacement           ".mousemove (««event-data»», ««callback»»)")
+    '(replacement           ".mousemove (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-move
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-out"
     '(token)
-    '(token                 ".mouseout")
+    '(token                 ".jq-mouseout")
     '(description
         "This method is a shortcut for .bind('mouseout', handler) in the "
         "first variation, and .trigger('mouseout') in the second."
      )
-    '(replacement           ".mouseout (««event-data»», ««callback»»)")
+    '(replacement           ".mouseout (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-out
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-over"
     '(token)
-    '(token                 ".mouseover")
+    '(token                 ".jq-mouseover")
     '(description
         "This method is a shortcut for .bind('mouseover', handler) in the W
         first variation, and .trigger('mouseover') in the second."
      )
-    '(replacement           ".mouseover (««event-data»», ««callback»»)")
+    '(replacement           ".mouseover (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-over
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-mouse-up"
     '(token)
-    '(token                 ".mouseup")
+    '(token                 ".jq-mouseup")
     '(description
         "This method is a shortcut for .bind('mouseup', handler) in the "
         "first variation, and .trigger('mouseup') in the second."
      )
-    '(replacement           ".mouseup (««event-data»», ««callback»»)")
+    '(replacement           ".mouseup (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-mouse-up
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-one"
     '(token)
-    '(token                 ".one")
+    '(token                 ".jq-one")
     '(description
         "This method is identical to .bind(), except that the handler is "
         "unbound after its first invocation. "
      )
-    '(replacement           ".one («event-type», ««event-data»», «callback»)")
+    '(replacement           ".one («event-type», ««jq-event-data»», «callback»)")
 ;;; jq-wrapper-one
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-next"
     '(token)
-    '(token                 ".next")
+    '(token                 ".jq-next-jq")
     '(description
         "Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector."
      )
@@ -1475,7 +1424,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-next-all"
     '(token)
-    '(token                 ".nextAll")
+    '(token                 ".jq-nextAll")
     '(description
         "Get all following siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
@@ -1486,7 +1435,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-next-until"
     '(token)
-    '(token                 ".nextUntil")
+    '(token                 ".jq-nextUntil")
     '(description
         "Get all following siblings of each element up to but not including the element matched by the selector."
      )
@@ -1497,7 +1446,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-not"
     '(token)
-    '(token                 ".not")
+    '(token                 ".jq-not")
     '(description
         "Remove elements from the set of matched elements (expression can be selector, element, array, or function)."
      )
@@ -1508,7 +1457,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-offset"
     '(token)
-    '(token                 ".offset")
+    '(token                 ".jq-offset")
     '(description
         "Get the current coordinates of the first element in the set of matched elements, relative to the document. "
         "With argument: set the current coordinates of every element in the set of matched elements, relative to the document."
@@ -1520,7 +1469,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-offset-parent"
     '(token)
-    '(token                 ".offsetParent")
+    '(token                 ".jq-offsetParent")
     '(description
         "Get the closest positioned parent of the first element in the matched set."
      )
@@ -1531,7 +1480,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-outer-height"
     '(token)
-    '(token                 ".outerHeight")
+    '(token                 ".jq-outerHeight")
     '(description
         "Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin."
      )
@@ -1542,7 +1491,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-outer-width"
     '(token)
-    '(token                 ".outerWidth")
+    '(token                 ".jq-outerWidth")
     '(description
           "Get the current computed width for the first element in the set of matched elements, including padding and border."
       )
@@ -1553,7 +1502,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-parent"
     '(token)
-    '(token                 ".parent")
+    '(token                 ".jq-parent")
     '(description
         "Get the parent of each element in the current set of matched elements, optionally filtered by a selector."
      )
@@ -1564,7 +1513,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-parents"
     '(token)
-    '(token                 ".parents")
+    '(token                 ".jq-parents")
     '(description
         "Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector."
      )
@@ -1575,7 +1524,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-parents-until"
     '(token)
-    '(token                 ".parentsUntil")
+    '(token                 ".jq-parentsUntil")
     '(description
         "Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector."
      )
@@ -1586,7 +1535,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-position"
     '(token)
-    '(token                 ".position")
+    '(token                 ".jq-position")
     '(description
           "Get the current coordinates of the first element in the set of matched elements, relative to the offset parent."
       )
@@ -1597,7 +1546,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-prepend"
     '(token)
-    '(token                 ".prepend")
+    '(token                 ".jq-prepend")
     '(description
           "Insert content to the beginning of each element in the set of matched elements."
       )
@@ -1608,7 +1557,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-prepend-to"
     '(token)
-    '(token                 ".prependTo")
+    '(token                 ".jq-prependTo")
     '(description
           "Insert every element in the set of matched elements to the beginning of the target."
       )
@@ -1619,7 +1568,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-prev"
     '(token)
-    '(token                 ".prev")
+    '(token                 ".jq-prev")
     '(description
         "Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector."
      )
@@ -1630,7 +1579,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-prev-all"
     '(token)
-    '(token                 ".prevAll")
+    '(token                 ".jq-prevAll")
     '(description
         "Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
@@ -1641,7 +1590,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-prev-until"
     '(token)
-    '(token                 ".prevUntil")
+    '(token                 ".jq-prevUntil")
     '(description
         "Get all preceding siblings of each element up to but not including the element matched by the selector."
      )
@@ -1652,7 +1601,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-remove"
     '(token)
-    '(token                 ".remove")
+    '(token                 ".jq-remove")
     '(description           "Remove the set of matched elements from the DOM.")
     '(replacement           ".remove (««selector»»)")
 ;;; jq-wrapper-remove
@@ -1661,7 +1610,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-remove-attr"
     '(token)
-    '(token                 ".removeAttr")
+    '(token                 ".jq-removeAttr")
     '(description
         "Remove an attribute from each element in the set of matched elements."
      )
@@ -1672,7 +1621,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-remove-class"
     '(token)
-    '(token                 ".removeClass")
+    '(token                 ".jq-removeClass")
     '(description
         "Remove a single class, multiple classes, or all classes from each element in the set of matched elements."
      )
@@ -1683,7 +1632,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-replace-all"
     '(token)
-    '(token                 ".replaceAll")
+    '(token                 ".jq-replaceAll")
     '(description
           "Replace each target element with the set of matched elements."
       )
@@ -1694,7 +1643,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-replace-with"
     '(token)
-    '(token                 ".replaceWith")
+    '(token                 ".jq-replaceWith")
     '(description
           "Replace each element in the set of matched elements with the new content."
       )
@@ -1705,31 +1654,31 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-resize"
     '(token)
-    '(token                 ".resize")
+    '(token                 ".jq-resize")
     '(description
         "This method is a shortcut for .bind('resize', handler) in the "
         "first variation, and .trigger('resize') in the second."
      )
-    '(replacement           ".resize (««event-data»», ««callback»»)")
+    '(replacement           ".resize (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-resize
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-scroll"
     '(token)
-    '(token                 ".scroll")
+    '(token                 ".jq-scroll")
     '(description
         "This method is a shortcut for .bind('scroll', handler) in the "
         "first variation, and .trigger('scroll') in the second."
      )
-    '(replacement           ".scroll (««event-data»», ««callback»»)")
+    '(replacement           ".scroll (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-scroll
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-scroll-left"
     '(token)
-    '(token                 ".scrollLeft")
+    '(token                 ".jq-scrollLeft")
     '(description
           "Get the current horizontal position of the scroll bar for the first element in the set of matched elements. "
           "With argument: set the current horizontal position of the scroll bar for each of the set of matched elements."
@@ -1741,7 +1690,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-scroll-top"
     '(token)
-    '(token                 ".scrollTop")
+    '(token                 ".jq-scrollTop")
     '(description
           "Get the current vertical position of the scroll bar for the first element in the set of matched elements. "
           "With argument: set the current vertical position of the scroll bar for each of the set of matched elements."
@@ -1753,19 +1702,19 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-select"
     '(token)
-    '(token                 ".select")
+    '(token                 ".jq-select")
     '(description
         "This method is a shortcut for .bind('select', handler) in the "
         "first variation, and .trigger('select') in the second."
      )
-    '(replacement           ".select (««event-data»», ««callback»»)")
+    '(replacement           ".select (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-select
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-serialize"
     '(token)
-    '(token                 ".serialize")
+    '(token                 ".jq-serialize")
     '(description
         "Encode a set of form elements as a string for submission."
      )
@@ -1776,7 +1725,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-serialize-array"
     '(token)
-    '(token                 ".serializeArray")
+    '(token                 ".jq-serializeArray")
     '(description
         "Encode a set of form elements as an array of names and values."
      )
@@ -1787,7 +1736,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-show"
     '(token)
-    '(token                 ".show")
+    '(token                 ".jq-show")
     '(description           "Display the matched elements.")
     '(replacement           ".show (««duration»», ««easing»», ««callback»»)")
 ;;; jq-wrapper-show
@@ -1796,7 +1745,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-siblings"
     '(token)
-    '(token                 ".siblings")
+    '(token                 ".jq-siblings")
     '(description
         "Get the siblings of each element in the set of matched elements, optionally filtered by a selector."
      )
@@ -1807,7 +1756,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-slice"
     '(token)
-    '(token                 ".slice")
+    '(token                 ".jq-slice")
     '(description
         "Reduce the set of matched elements to a subset specified by a range of indices."
      )
@@ -1818,7 +1767,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-slide-down"
     '(token)
-    '(token                 ".slideDown")
+    '(token                 ".jq-slideDown")
     '(description
         "Display the matched elements with a sliding motion."
      )
@@ -1829,7 +1778,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-slide-toggle"
     '(token)
-    '(token                 ".slideToggle")
+    '(token                 ".jq-slideToggle")
     '(description
         "Display or hide the matched elements with a sliding motion."
      )
@@ -1842,7 +1791,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-slide-up"
     '(token)
-    '(token                 ".slideUp")
+    '(token                 ".jq-slideUp")
     '(description           "Hide the matched elements with a sliding motion.")
     '(replacement           ".slideUp (««duration»», ««easing»», ««callback»»)")
 ;;; jq-wrapper-slide-up
@@ -1851,19 +1800,19 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-submit"
     '(token)
-    '(token                 ".submit")
+    '(token                 ".jq-submit")
     '(description
         "This method is a shortcut for .bind('submit', handler) in the "
         "first variation, and .trigger('submit') in the second."
      )
-    '(replacement           ".submit (««event-data»», ««callback»»)")
+    '(replacement           ".submit (««jq-event-data»», ««callback»»)")
 ;;; jq-wrapper-submit
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-text"
     '(token)
-    '(token                 ".text")
+    '(token                 ".jq-text")
     '(description
           "Get the combined text contents of each element in the set of matched elements, including their descendants. "
           "With argument: set the content of each element in the set of matched elements to the specified text."
@@ -1875,7 +1824,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-toggle-display"
     '(token)
-    '(token                 ".toggle_display")
+    '(token                 ".jq-toggle_display")
     '(description           "Display or hide the matched elements.")
     '(replacement
         ".toggle_display (««duration»», ««easing»», ««callback»»)"
@@ -1886,7 +1835,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-toggle-handler"
     '(token)
-    '(token                 ".toggle_handler")
+    '(token                 ".jq-toggle_handler")
     '(description
         "Bind two or more handlers to the matched elements, to be "
         "executed on alternate clicks. "
@@ -1902,7 +1851,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-toggle-class"
     '(token)
-    '(token                 ".toggleClass")
+    '(token                 ".jq-toggleClass")
     '(description
         "Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument."
      )
@@ -1921,7 +1870,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-trigger"
     '(token)
-    '(token                 ".trigger")
+    '(token                 ".jq-trigger")
     '(description
         "Execute all handlers and behaviors attached to the matched "
         "elements for the given event type."
@@ -1933,7 +1882,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-trigger-handler"
     '(token)
-    '(token                 ".triggerHandler")
+    '(token                 ".jq-triggerHandler")
     '(description
         "The .triggerHandler() method behaves similarly to .trigger(), "
         "with the following exceptions:\n"
@@ -1949,7 +1898,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-unbind"
     '(token)
-    '(token                 ".unbind")
+    '(token                 ".jq-unbind")
     '(description
         "Remove a previously-attached event handler from the elements."
      )
@@ -1960,7 +1909,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-undelegate"
     '(token)
-    '(token                 ".undelegate")
+    '(token                 ".jq-undelegate")
     '(description
         "Remove a handler from the event for all elements which match the "
         "current selector, now or in the future, based upon a specific "
@@ -1975,18 +1924,18 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-unload"
     '(token)
-    '(token                 ".unload")
+    '(token                 ".jq-unload")
     '(description
         "This method is a shortcut for .bind('unload', handler)."
      )
-    '(replacement           ".unload (««event-data»», «callback»)")
+    '(replacement           ".unload (««jq-event-data»», «callback»)")
 ;;; jq-wrapper-unload
 )
 
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-unwrap"
     '(token)
-    '(token                 ".unwrap")
+    '(token                 ".jq-unwrap")
     '(description
           "Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place."
       )
@@ -1997,7 +1946,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-val"
     '(token)
-    '(token                 ".val")
+    '(token                 ".jq-val")
     '(description
         "Get the current value of the first (form) element, or set the value of each element, in the set of matched elements."
      )
@@ -2008,7 +1957,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-width"
     '(token)
-    '(token                 ".width")
+    '(token                 ".jq-width")
     '(description
           "Get the current computed width for the first element in the set of matched elements. "
           "With argument: set the CSS width of each element in the set of matched elements."
@@ -2020,7 +1969,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-wrap"
     '(token)
-    '(token                 ".wrap")
+    '(token                 ".jq-wrap")
     '(description
           "Wrap an HTML structure around each element in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
@@ -2032,7 +1981,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-wrap-all"
     '(token)
-    '(token                 ".wrapAll")
+    '(token                 ".jq-wrapAll")
     '(description
           "Wrap an HTML structure around all elements in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
@@ -2044,7 +1993,7 @@
 ;;; 21-Jan-2011
 (lse-define-fill-in "jq-wrapper-wrap-inner"
     '(token)
-    '(token                 ".wrapInner")
+    '(token                 ".jq-wrapInner")
     '(description
           "Wrap an HTML structure around the content of each element in the set of matched elements. "
           "(expression can be a HTML snippet, selector, element, array, or function)"
@@ -2054,69 +2003,11 @@
 )
 
 ;;; 21-Jan-2011
-(lse-define-fill-in "object"
-    '(leading               ",")
-    '(description           "A JavaScript object")
-;;; object
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "opacity"
-    '(description
-        "A number between 0 and 1 denoting the target opacity."
-     )
-;;; opacity
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "req-data"
-    '(trailing            ",")
-    '(description
-        "A map or string that is sent to the server with the request."
-     )
-;;; req-data
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "req-data-type"
-    '(trailing            ",")
-    '(description
-        "A map or string that is sent to the server with the request."
-     )
-  '(menu
-       "json"
-       "jsonp"
-       "html"
-       "script"
-       "text"
-       "xml"
-   )
-;;; req-data
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "selector"
-    '(token)
-    '(description
-        "Selector expression for matching elements of the DOM"
-     )
-;;; selector
-)
-
-;;; 21-Jan-2011
 (lse-define-fill-in "selectors"
     '(description
         "An array or string containing selector expression(s) for matching elements of the DOM"
      )
 ;;; selectors
-)
-
-;;; 21-Jan-2011
-(lse-define-fill-in "target"
-    '(description
-        "A selector, element, HTML string, or jQuery object"
-     )
-;;; target
 )
 
 ;;;; __END__ lse-templates-javascript-jquery.lse

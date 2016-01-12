@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2014 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This template is part of the LS-Emacs.
@@ -37,6 +37,10 @@
 ;;;;     4-May-2011 (CT) `use-strict` added and used
 ;;;;    12-Oct-2011 (CT) Add `undefined` to `functional-constructor`
 ;;;;    28-Mar-2012 (CT) Move `use-strict` to `scope`
+;;;;    11-Jan-2016 (CT) Add DOM properties and functions
+;;;;    22-Jan-2016 (CT) Factor general fill-ins from
+;;;;                     lse-templates-javascript-jquery in here
+;;;;    22-Jan-2016 (CT) Add a few event properties and functions
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -53,6 +57,27 @@
         "// __END__ " & lse-insert-buffer-name-plus-extension
      )
 ;;; js-root
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "add-event-listener"
+    '(token)
+    '(token                 ".addEventListener")
+    '(description
+        "This method registers the specified listener function as "
+        "an event handler for events of the specified type. "
+        "THe first argument is an event name string and does not "
+        "include an “on” prefix. "
+        "The third argument should be true if this is a "
+        "capturing event handler being registered on a document ancestor "
+        "of the true event target. Note that some browsers still "
+        "require you to pass a third argument to this function, and "
+        "you must pass false to register an ordinary noncapturing handler."
+     )
+    '(replacement
+        lse-js:remove-period & ".addEventListener («name», «callback», false)"
+     )
+;;; add-event-listener
 )
 
 ;;; 22-Jan-2011
@@ -116,6 +141,7 @@
 )
 
 (lse-define-fill-in "block-comment"
+  ('token         "//")
   '(description   "Block of comment statements")
   '(replacement
       "//+"
@@ -205,7 +231,6 @@
 (lse-define-fill-in "comment"
   '(token)
   '(token                 "inline-comment")
-  '(token                 "//")
   '(description           "Inline comment")
   '(replacement
       "// «text» "
@@ -218,6 +243,24 @@
     '(description           "Use constructor property of a javascript object")
     '(replacement           lse-js:remove-period & ".constructor")
 ;;; constructor
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "content"
+    '(leading               ",")
+    '(description
+        "An element, HTML string, jQuery object, or function that returns an HTML string, to insert."
+    )
+;;; content
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "context"
+    '(leading               ",")
+    '(description
+        "The point in the document at which the selector should begin matching."
+    )
+;;; context
 )
 
 ;;; 21-Jan-2011
@@ -236,6 +279,26 @@
 ;;; count
 )
 
+;;; 11-Jan-2016
+(lse-define-fill-in "create-element"
+    '(token                 ".createElement")
+    '(description
+      "Creates an element of the type specified (method of Document object)."
+     )
+    '(replacement
+      lse-js:remove-period & ".createElement («tag-name»)"
+     )
+;;; create-element
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "create-text-node"
+    '(token                 ".createTextNode")
+    '(description           "Create a text node (method of Document object).")
+    '(replacement           ".createTextNode («expression»)")
+;;; create-text-node
+)
+
 (lse-define-fill-in "declarator"
   '(separator         ", ")
   '(replacement       identifier)
@@ -247,6 +310,1175 @@
     '(description           "Delete an object")
     '(replacement           "delete «expression»")
 ;;; delete
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "dispatch-event"
+    '(token)
+    '(token                 ".dispatchEvent")
+    '(description
+        "This method dispatches a synthetic event to this event target. "
+        "Create a new Event object with document.createEvent(Events), "
+        "passing the event name (such as “event” for simple events). "
+        "Next, call the event initialization method for the Event object "
+        "you created: for a simple event, this will be initEvent(). "
+        "Next, pass the initialized event to this method to dispatch "
+        "it. In modern browsers, every Event object has an isTrusted "
+        "property. That property will be false for any synthetic event "
+        "dispatched by JavaScript. Every kind of event object defines "
+        "a type-specific initialization method. Those methods are "
+        "infrequently used, have long and cumbersome argument lists. "
+        "If you need to create, initialize, and dispatch synthetic "
+        "events of some type more complex than a basic Event, "
+        "you’ll have to look up the initialization method online."
+     )
+    '(replacement
+        lse-js:remove-period & ".dispatchEvent («expression»)"
+     )
+;;; dispatch-event
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-active-element"
+    '(token)
+    '(token                 "active-element")
+    '(token                 "focused-element")
+    '(token                 "document.activeElement")
+    '(description
+        "The document element that currently has the keyboard focus."
+     )
+    '(replacement           "document.activeElement")
+;;; document-active-element
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-adopt-node"
+    '(token)
+    '(token                 "document.adoptNode")
+    '(description
+        "This method removes node from whatever document it is "
+        "currently part of and changes its ownerDocument property to "
+        "this document, making it ready for insertion into this document. "
+        "Contrast this with importNode(), which copies a node from "
+        "another document without removing it."
+     )
+    '(replacement           "document.adoptNode («node»)")
+;;; document-adopt-node
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-compat-mode"
+    '(token)
+    '(token                 "document.compatMode")
+    '(token                 "document.quirksMode")
+    '(description
+        "This property is the string “BackCompat” if the document is "
+        "being rendered in CSS “quirks mode” for backward compatibility "
+        "with very old browsers. Otherwise, this property is “CSS1Compat”."
+     )
+    '(replacement           "document.compatMode")
+;;; document-compat-mode
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-cookie"
+    '(token)
+    '(token                 "cookie")
+    '(token                 "document.cookie")
+    '(description
+        "This property allows you to read, create, modify, and delete "
+        "the cookie or cookies that apply to the current document."
+        ""
+        "Client-side JavaScript code can also read and write cookies "
+        "with this property."
+     )
+    '(replacement           "document.cookie")
+;;; document-cookie
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-create-comment"
+    '(token)
+    '(token                 "document.createComment")
+    '(description
+        "Create and return a new Comment node with the specified content."
+     )
+    '(replacement           "document.createComment («expression»)")
+;;; document-create-comment
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-create-element"
+    '(token)
+    '(token                 "document.createElement")
+    '(description
+        "Create and return a new, empty Element node with the specified "
+        "tag name. In HTML documents, the tag name is converted to uppercase."
+     )
+    '(replacement           "document" & @ create-element)
+;;; document-create-element
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-create-event"
+    '(token)
+    '(token                 "document.createEvent")
+    '(description
+        "Create and return an uninitialized synthetic Event object. "
+        "The argument must specify the type of event, and the argument "
+        "should be a string such as “Event”, “UIEvent”, “MouseEvent”, "
+        "“MessageEvent”, or so on. After creating an Event object, "
+        "you can initialize its read-only properties by calling an "
+        "appropriate event-initialization method on it, such as initEvent(), "
+        "initUIEvent(), initMouseEvent(), or so on."
+     )
+    '(replacement           "document.createEvent («name»)")
+;;; document-create-event
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-create-text-node"
+    '(token)
+    '(token                 "document.createTextNode")
+    '(description
+    "Creates and returns a new Text node to represent the specified text."
+     )
+    '(replacement           "document" & @ create-text-node)
+;;; document-create-text-node
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-default-view"
+    '(token)
+    '(token                 "document.defaultView")
+    '(description
+        "The web browser Window object in which this document is displayed."
+     )
+    '(replacement           "document.defaultView")
+;;; document-default-view
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-domain"
+    '(token)
+    '(token                 "document.domain")
+    '(description
+        "The hostname of the server from which the document was loaded, "
+        "or null if there is none."
+        "You can set this property to a suffix of itself in order "
+        "to relax the same-origin policy and grant access to documents "
+        "served from related domains."
+     )
+    '(replacement           "document.domain")
+;;; document-domain
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-element"
+    '(token)
+    '(token                 "root-element")
+    '(token                 "document.documentElement")
+    '(description
+        "The root element of the document. For HTML documents, "
+        "this property is always the Element object representing "
+        "the <html> tag."
+     )
+    '(replacement           "document.documentElement")
+;;; document-element
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-element-from-point"
+    '(token)
+    '(token                 "document.elementFromPoint")
+    '(description
+        "Return the most deeply nested Element at window coordinates (x, y)."
+     )
+    '(replacement
+        "document.elementFromPoint («expression», «expression»)"
+     )
+;;; document-element-from-point
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-exec-command"
+    '(token)
+    '(token                 "document.execCommand")
+    '(description
+        "Execute the editing command named by the commandId "
+        "argument in whatever editable element has the insertion cursor."
+        ""
+        "Some of these commands (such as “createLink”) require an "
+        "argument value. If the second argument to execCommand() is false, "
+        "the third argument gives the argument that the command "
+        "is to use. Otherwise, the browser will prompt the user "
+        "for the necessary value."
+     )
+    '(replacement
+        "document.execCommand («name», false, ««expression»»)"
+     )
+;;; document-exec-command
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-forms"
+    '(token)
+    '(token                 "document.forms")
+    '(description
+        "An array-like object of all Form elements in the document."
+     )
+    '(replacement           "document.forms")
+;;; document-forms
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-get-element-by-id"
+    '(token)
+    '(token                 "document.getElementById")
+    '(description
+        "This method searches the document for an Element node with "
+        "an id attribute whose value is elementId and returns that Element. "
+        "If no such Element is found, it returns null. "
+        ""
+        "The value of the id attribute is intended to be unique "
+        "within a document, but if this method finds more than one "
+        "Element with the specified elementId, it returns the first."
+     )
+    '(replacement           "document.getElementById («expression»)")
+;;; document-get-element-by-id
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-get-elements-by-name"
+    '(token)
+    '(token                 "document.getElementsByName")
+    '(description
+        "This method returns a live, read-only, array-like object of "
+        "Elements that have a name attribute whose value is elementName. "
+        "If there are no matching elements, it returns a NodeList with "
+        "length 0."
+     )
+    '(replacement           "document.getElementsByName («name»)")
+;;; document-get-elements-by-name
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-has-focus"
+    '(token)
+    '(token                 "document.hasFocus")
+    '(description
+        "This method returns true if this document’s Window has "
+        "the keyboard focus (and, if that window is not a top-level "
+        "window, all of its ancestors are focused)."
+     )
+    '(replacement           "document.hasFocus ()")
+;;; document-has-focus
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-head"
+    '(token)
+    '(token                 "document.head")
+    '(description
+        "For HTML documents, this property refers to the <head> element."
+     )
+    '(replacement           "document.head")
+;;; document-head
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-images"
+    '(token)
+    '(token                 "document.images")
+    '(description
+        "An array-like object of all Image elements in the document."
+     )
+    '(replacement           "document.images")
+;;; document-images
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-import-node"
+    '(token)
+    '(token                 "document.importNode")
+    '(description
+        "This method is passed a node defined in another document and "
+        "returns a copy of the node that is suitable for insertion into "
+        "this document. If the second argument is true, "
+        "all descendants of the node are also copied. "
+        "The original node and its descendants are not "
+        "modified in any way. The returned copy has its ownerDocument "
+        "property set to this document but has a parentNode of "
+        "null because it has not yet been inserted into the document. "
+        "Event-listener functions registered on the original node or "
+        "tree are not copied."
+     )
+    '(replacement           "document.importNode («node», «boolean-value»)")
+;;; document-import-node
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-last-modified"
+    '(token)
+    '(token                 "document.lastModified")
+    '(description
+        "Specifies the date and time of the most recent modification "
+        "to the document. This value comes from the Last-Modified HTTP "
+        "header that is optionally sent by the web server."
+     )
+    '(replacement           "document.lastModified")
+;;; document-last-modified
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-links"
+    '(token)
+    '(token                 "document.links")
+    '(description
+        "An array-like object of all hyperlinks in the document. "
+        ""
+        "This HTMLCollection contains all <a> and <area> elements "
+        "that have href attributes, and does not include <link> elements."
+     )
+    '(replacement           "document.links")
+;;; document-links
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-location"
+    '(token)
+    '(token                 "document.location")
+    '(description           "A synonym for Window.location.")
+    '(replacement           "document.location")
+;;; document-location
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-query-command-enabled"
+    '(token)
+    '(token                 "document.queryCommandEnabled")
+    '(description
+        "Returns true if it is currently meaningful to pass "
+        "«name» to execCommand() and false otherwise. "
+        "The “undo” command, for example, is not enabled "
+        "if there is nothing to undo."
+     )
+    '(replacement           "document.queryCommandEnabled («name»)")
+;;; document-query-command-enabled
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-query-command-supported"
+    '(token)
+    '(token                 "document.queryCommandSupported")
+    '(description
+        "Returns true if the browser supports the specified command "
+        "and false otherwise."
+     )
+    '(replacement           "document.queryCommandSupported («name»)")
+;;; document-query-command-supported
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-ready-state"
+    '(token)
+    '(token                 "document.readyState")
+    '(description
+        "This property is the string “loading” if the document "
+        "is still loading and “complete” if it is fully loaded. "
+        "The browser fires a readystatechange event at the Document when "
+        "this property changes to “complete”."
+     )
+    '(replacement           "document.readyState")
+;;; document-ready-state
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-referrer"
+    '(token)
+    '(token                 "document.referrer")
+    '(description
+        "The URL of the document that linked to this document, "
+        "or null if this document was not accessed through a hyperlink "
+        "or if the web server did not report the referring document. "
+        ""
+        "This property allows client-side JavaScript to access the "
+        "HTTP referer header."
+     )
+    '(replacement           "document.referrer")
+;;; document-referrer
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-scripts"
+    '(token)
+    '(token                 "document.scripts")
+    '(description
+        "An array-like object of all the <script> elements in the document."
+     )
+    '(replacement           "document.scripts")
+;;; document-scripts
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-style-sheets"
+    '(token)
+    '(token                 "document.styleSheets")
+    '(description
+        "A collection of objects representing all stylesheets "
+        "embedded in or linked into a document. "
+        "In HTML documents, this includes stylesheets defined with "
+        "<link> and <style> tags."
+     )
+    '(replacement           "document.styleSheets")
+;;; document-style-sheets
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-title"
+    '(token)
+    '(token                 "document.title")
+    '(description
+        "The plain-text content of the <title> tag for this document."
+     )
+    '(replacement           "document.title")
+;;; document-title
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "document-url"
+    '(token)
+    '(token                 "document.url")
+    '(description
+        "The URL from which the document was loaded. This value is "
+        "often the same as the location.href property, but if a "
+        "script changes the fragment identifier (the location.hash property), "
+        "the location property and the URL property will no longer "
+        "refer to the same URL. Don’t confuse Document.URL with Window.URL."
+     )
+    '(replacement           "document.url")
+;;; document-url
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "duration"
+    '(trailing              ",")
+    '(description
+        "A string or number determining how long the animation will run (milliseconds)."
+     )
+;;; duration
+)
+
+;;; 14-Jan-2016
+(lse-define-fill-in "element-add-class"
+    '(token)
+    '(token                 ".add_class")
+    '(description           "Add a class to element")
+    '(replacement
+        lse-js:remove-period & ".classList.add («expression»)"
+     )
+;;; element-add-class
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-attributes"
+    '(token)
+    '(token                 ".attributes")
+    '(description
+        "An array-like object of Attr objects that represent the HTML "
+        "or XML attributes of this element. Element objects generally "
+        "make attributes accessible through JavaScript properties, "
+        "however, so it is never really necessary to use this "
+        "attributes[] array."
+     )
+    '(replacement           lse-js:remove-period & ".attributes")
+;;; element-attributes
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-blur"
+    '(token)
+    '(token                 ".blur")
+    '(description
+        "This method transfers keyboard focus to the body "
+        "element of the containing Document object."
+     )
+    '(replacement           lse-js:remove-period & ".blur ()")
+;;; element-blur
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-children"
+    '(token)
+    '(token                 ".children")
+    '(description
+      "Element property returning NodeList containing only Element objects")
+    '(replacement           lse-js:remove-period & ".children")
+;;; element-children
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-class-list"
+    '(token)
+    '(token                 ".classList")
+    '(description
+        "The class attribute of an element is a space-separated list "
+        "of class names. This property allows access to the individual "
+        "elements of that list and defines methods for querying, "
+        "adding, removing, and toggling class names."
+     )
+    '(replacement           lse-js:remove-period & ".classList")
+;;; element-class-list
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-class"
+    '(token)
+    '(token                 ".className")
+    '(description
+        "This property represents the class attribute of the element. "
+        "class is a reserved word in JavaScript, so the JavaScript "
+        "property is className instead of class. Note that this property"
+        "name is misleading, since the class attribute often includes "
+        "more than one class name."
+     )
+    '(replacement           lse-js:remove-period & ".className")
+;;; element-class
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-click"
+    '(token)
+    '(token                 ".click")
+    '(description
+        "This method simulates a click on this element. "
+        "If clicking on this element would normally make something "
+        "happen (following a link, for example), this method makes "
+        "that happen, too. Otherwise, calling this method just "
+        "triggers a click event on the element."
+     )
+    '(replacement           lse-js:remove-period & ".click ()")
+;;; element-click
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-client-height"
+    '(token)
+    '(token                 ".clientHeight")
+    '(description
+        "If this element is the root element (document.documentElement), "
+        "return the height of the Window. "
+        "These are the inner or viewport dimensions that exclude scrollbars "
+        "and other browser “chrome”. Otherwise, "
+        "return the height of the element’s content plus padding."
+     )
+    '(replacement           lse-js:remove-period & ".clientHeight")
+;;; element-client-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-client-left"
+    '(token)
+    '(token                 ".clientLeft")
+    '(description
+        "Number of pixels between the left edge of the element’s "
+        "border and the left edge of its padding. Normally, this is just "
+        "the left border width, but may also include the width of a "
+        "scrollbar if one is rendered on the left of the element."
+     )
+    '(replacement           lse-js:remove-period & ".clientLeft")
+;;; element-client-left
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-client-top"
+    '(token)
+    '(token                 ".clientTop")
+    '(description
+        "Number of pixels between the top edge of the element’s "
+        "border and the top edge of its padding. Normally, this is just "
+        "the top border width, but may also include the width of a "
+        "scrollbar if one is rendered on the top of the element."
+     )
+    '(replacement           lse-js:remove-period & ".clientTop")
+;;; element-client-top
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-client-width"
+    '(token)
+    '(token                 ".clientWidth")
+    '(description
+        "If this element is the root element (document.documentElement), "
+        "return the width of the Window. "
+        "These are the inner or viewport dimensions that exclude scrollbars "
+        "and other browser “chrome”. Otherwise, "
+        "return the width of the element’s content plus padding."
+     )
+    '(replacement           lse-js:remove-period & ".clientWidth")
+;;; element-client-width
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-first-element-child"
+    '(token)
+    '(token                 ".firstElementChild")
+    '(description           "Like firstChild but for Element children only.")
+    '(replacement           lse-js:remove-period & ".firstElementChild")
+;;; element-first-element-child
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-focus"
+    '(token)
+    '(token                 ".focus")
+    '(description           "Transfer keyboard focus to this element.")
+    '(replacement           lse-js:remove-period & ".focus ()")
+;;; element-focus
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-get-attribute"
+    '(token)
+    '(token                 ".getAttribute")
+    '(description
+        "Get an attribute of an element (returns string). "
+        "Note that the HTMLElement object defines JavaScript "
+        "properties that match each of the standard HTML attributes, "
+        "so you need to use this method with HTML documents only if "
+        "you are querying the value of nonstandard attributes. "
+        "In HTML documents, attribute name comparisons are case-insensitive."
+     )
+    '(replacement           lse-js:remove-period & ".getAttribute («name»)")
+;;; element-get-attribute
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-get-bounding-client-rect"
+    '(token)
+    '(token                 ".getBoundingClientRect")
+    '(description
+        "Returns a ClientRect object that describes the bounding box "
+        "of this element."
+     )
+    '(replacement           lse-js:remove-period & ".getBoundingClientRect ()")
+;;; element-get-bounding-client-rect
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-get-client-rects"
+    '(token)
+    '(token                 ".getClientRects")
+    '(description
+        "Returns an array-like object of ClientRects that describes "
+        "one or more rectangles occupied by this element. "
+        ""
+        "(Inline elements that span more than one line usually require more "
+        "than one rectangle to accurately describe their region of the window)."
+     )
+    '(replacement           lse-js:remove-period & ".getClientRects ()")
+;;; element-get-client-rects
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "element-get-elements-by-class-name"
+    '(token)
+    '(token                 ".getElementsByClassName")
+    '(description
+        "Returns an array-like object of elements that have a "
+        "class attribute that includes all of the specified classNames. "
+        "classNames may be a single class or a space-separated list "
+        "of classes. The returned NodeList object is live and is "
+        "automatically updated as the document changes. The elements "
+        "in the returned NodeList appear in the same order as "
+        "they appear in the document."
+     )
+    '(replacement
+        lse-js:remove-period & ".getElementsByClassName («name»)"
+     )
+;;; element-get-elements-by-class-name
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "element-get-elements-by-tag-name"
+    '(token)
+    '(token                 ".getElementsByTagName")
+    '(description
+        "This method returns a read-only array-like object that contains "
+        "all Element nodes from the document or element that have the "
+        "specified tag name, in the order in which they appear in the "
+        "document source. "
+        ""
+        "The NodeList is “live”—its contents are automatically updated "
+        "as necessary when the document changes. For HTML elements, tag "
+        "name comparison is case-insensitive. As a special case, the tag "
+        "name “*” matches all elements in a document."
+     )
+    '(replacement
+        lse-js:remove-period & ".getElementsByTagName («name»)"
+     )
+;;; element-get-elements-by-tag-name
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-has-attribute"
+    '(token)
+    '(token                 ".hasAttribute")
+    '(description           "True if element has an attribute with «name»")
+    '(replacement           lse-js:remove-period & ".hasAttribute («name»)")
+;;; element-has-attribute
+)
+
+;;; 14-Jan-2016
+(lse-define-fill-in "element-has-class"
+    '(token)
+    '(token                 ".has_class")
+    '(description           "Check if element has class")
+    '(replacement
+        lse-js:remove-period & ".classList.contains («expression»)"
+     )
+;;; element-has-class
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-inner-html"
+    '(token)
+    '(token                 ".innerHTML")
+    '(description
+        "Content of element as a string of markup."
+        ""
+        "A read/write string that specifies the HTML or XML markup "
+        "that is contained within the element, not including the "
+        "opening and closing tags of the element itself. "
+        ""
+        "Querying this property returns the content of the element "
+        "as a string of HTML or XML text. "
+        ""
+        "Setting this property to a string of HTML or XML text replaces "
+        "the content of the element with the parsed representation "
+        "of that text."
+     )
+    '(replacement           lse-js:remove-period & ".innerHTML")
+;;; element-inner-html
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-insert-adjacent-html"
+    '(token)
+    '(token                 ".insertAdjacentHTML")
+    '(description
+        "Insert a string of arbitrary HTML markup “adjacent” "
+        "to the specified element."
+        ""
+        "The markup is passed as the second argument to this method, "
+        "and the precise meaning of “adjacent” depends on the value "
+        "of the first argument. "
+        ""
+        "This first argument should be a string with one of the values "
+        "“beforebegin”, “afterbegin”, “beforeend” or “afterend”."
+     )
+    '(replacement
+        lse-js:remove-period &
+        ".insertAdjacentHTML («insert-adjacent-html-point», «expression»)"
+     )
+;;; element-insert-adjacent-html
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-insert-adjacent-html-point"
+    '(description
+      "Insertion point for insert-adjacent-html call."
+     )
+    '(menu
+        ("beforebegin"           "Just before opening tag of element")
+        ("afterbegin"            "Right after opening tag of element")
+        ("beforeend"             "Just before closing tag of element")
+        ("afterend"              "Right after closing tag of element")
+     )
+;;; element-insert-adjacent-html-point
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-is-content-editable"
+    '(token)
+    '(token                 ".isContentEditable")
+    '(description
+        "This property is true if the element is editable or "
+        "false otherwise. An element may be editable because of "
+        "the contenteditable property on it or an ancestor or because of the"
+        "designMode property of the containing Document."
+     )
+    '(replacement           lse-js:remove-period & ".isContentEditable")
+;;; element-is-content-editable
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-last-child"
+    '(token)
+    '(token                 ".lastChild")
+    '(description
+      "The last child node of a node, or null if the node has no children."
+     )
+    '(replacement           lse-js:remove-period & ".lastChild")
+;;; element-last-child
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-last-element-child"
+    '(token)
+    '(token                 ".lastElementChild")
+    '(description           "Like lastChild but for Element children only.")
+    '(replacement           lse-js:remove-period & ".lastElementChild")
+;;; element-last-element-child
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-next-element-sibling"
+    '(token)
+    '(token                 ".nextElementSibling")
+    '(description           "Like nextSibling but for Element siblings only.")
+    '(replacement           lse-js:remove-period & ".nextElementSibling")
+;;; element-next-element-sibling
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-offset-height"
+    '(token)
+    '(token                 ".height")
+    '(token                 ".offsetHeight")
+    '(description
+        "The visible height in pixels, of the element and all its content, "
+        "including the element’s CSS padding and border, but not its margin."
+        ""
+        "To get the overall height, use .scrollHeight"
+     )
+    '(replacement           lse-js:remove-period & ".offsetHeight")
+;;; element-offset-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-offset-left"
+    '(token)
+    '(token                 ".offsetLeft")
+    '(description
+        "The X coordinate of the upper left corner of the CSS border "
+        "of the element relative to the offsetParent container element."
+     )
+    '(replacement           lse-js:remove-period & ".offsetLeft")
+;;; element-offset-left
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-offset-parent"
+    '(token)
+    '(token                 ".offsetParent")
+    '(description
+        "Specifies the container element that defines the "
+        "coordinate system in which offsetLeft and offsetTop are measured. "
+        ""
+        "For most elements, offsetParent is the <body> element that "
+        "contains them. However, if an element has a dynamically "
+        "positioned container, the dynamically positioned element is "
+        "the offsetParent, and if the element is in a table, a "
+        "<td>, <th>, or <table> element may be the offsetParent."
+     )
+    '(replacement           lse-js:remove-period & ".offsetParent")
+;;; element-offset-parent
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-offset-top"
+    '(token)
+    '(token                 ".offsetTop")
+    '(description
+        "The Y coordinate of the upper top corner of the CSS border "
+        "of the element relative to the offsetParent container element."
+     )
+    '(replacement           lse-js:remove-period & ".offsetTop")
+;;; element-offset-top
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-offset-width"
+    '(token)
+    '(token                 ".width")
+    '(token                 ".offsetWidth")
+    '(description
+        "The visible width in pixels, of the element and all its content, "
+        "including the element’s CSS padding and border, but not its margin."
+        ""
+        "To get the overall width, use .scrollWidth"
+     )
+    '(replacement           lse-js:remove-period & ".offsetWidth")
+;;; element-offset-width
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-outer-html"
+    '(token)
+    '(token                 ".outerHTML")
+    '(description
+        "Content of element as a string of markup, "
+        "including the opening and closing tags of the element."
+        ""
+        "When you set outerHTML on an element, "
+        "the new content replaces the element itself."
+    )
+    '(replacement           lse-js:remove-period & ".outerHTML")
+;;; element-outer-html
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-prev-element-sibling"
+    '(token                 ".previousElementSibling")
+    '(description
+        "Like previousSibling but for Element siblings only."
+     )
+    '(replacement           lse-js:remove-period & ".previousElementSibling")
+;;; element-prev-element-sibling
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "element-query-selector"
+    '(token)
+    '(token                 ".querySelector")
+    '(description
+        "Returns the first descendant of this element that matches "
+        "the specified CSS selectors (this may be a single CSS selector "
+        "or a comma-separated group of selectors)."
+     )
+    '(replacement
+        lse-js:remove-period & ".querySelector («selector»)"
+     )
+;;; element-query-selector
+)
+
+;;; 12-Jan-2016
+(lse-define-fill-in "element-query-selector-all"
+    '(token)
+    '(token                 ".querySelectorAll")
+    '(description
+        "Returns an array-like object containing all descendants of "
+        "this Element that match the specified selectors "
+        "(this may be a single CSS selector or a comma-separated "
+        "group of selectors). Unlike the NodeList returned by "
+        "getElementsByTagName(), the NodeList returned by this "
+        "method is not live: it is just a static snapshot of the "
+        "elements that matched when the method was called."
+     )
+    '(replacement
+        lse-js:remove-period & ".querySelectorAll («selector»)"
+     )
+;;; element-query-selector-all
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-remove-attribute"
+    '(token)
+    '(token                 ".removeAttribute")
+    '(description
+        "Remove an attribute of an element. "
+        "Attempts to remove nonexistent attributes are silently ignored. "
+        "In HTML documents, attribute names are caseinsensitive."
+     )
+    '(replacement           lse-js:remove-period & ".removeAttribute («name»)")
+;;; element-remove-attribute
+)
+
+;;; 14-Jan-2016
+(lse-define-fill-in "element-remove-class"
+    '(token)
+    '(token                 ".remove_class")
+    '(description           "Remove a class from element")
+    '(replacement
+        lse-js:remove-period & ".classList.remove («expression»)"
+     )
+;;; element-remove-class
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-scroll-height"
+    '(token)
+    '(token                 ".height")
+    '(token                 ".scrollHeight")
+    '(description
+        "The overall height, in pixels, of an element. When an element "
+        "has scrollbars (because of the CSS overflow attribute, "
+        "for example), these differs from offsetHeight, which simply "
+        "reports the size of the visible portion of the element."
+        ""
+        "To get the visible height, use .offsetHeight"
+     )
+    '(replacement           lse-js:remove-period & ".scrollHeight")
+;;; element-scroll-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-scroll-into-view"
+    '(token)
+    '(token                 ".scrollIntoView")
+    '(description
+        "If an HTML element is not currently visible in the window, "
+        "this method scrolls the document so that it becomes visible. "
+        "The argument is an optional hint about whether the element "
+        "should be positioned near the top or bottom of the window. "
+        "If true or omitted, the browser will attempt to position the "
+        "element near the top. If false, the browser will attempt to "
+        "position the element near the bottom. For elements that accept "
+        "the keyboard focus, such as Input elements, the focus() method "
+        "implicitly performs this same scroll-into-view operation. See "
+        "also the scrollTo() method of Window."
+     )
+    '(replacement
+        lse-js:remove-period & ".scrollIntoView («boolean-value»)"
+     )
+;;; element-scroll-into-view
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-scroll-left"
+    '(token)
+    '(token                 ".scrollLeft")
+    '(description
+        "The number of pixels that have scrolled off the left edge "
+        "of the element. Useful only for elements with scrollbars, such as "
+        "elements with the CSS overflow attribute set to auto. "
+        "When these properties are queried on the <html> element, "
+        "they specify the amount of scrolling for the document as a whole. "
+        "Note that these properties do not specify the amount "
+        "of scrolling in an <iframe> tag. You can set these properties "
+        "to scroll an element or the entire document."
+     )
+    '(replacement           ".scrollLeft")
+;;; element-scroll-left
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-scroll-top"
+    '(token)
+    '(token                 ".scrollTop")
+    '(description
+        "The number of pixels that have scrolled off the top edge "
+        "of the element. Useful only for elements with scrollbars, such as "
+        "elements with the CSS overflow attribute set to auto. "
+        "When these properties are queried on the <html> element, "
+        "they specify the amount of scrolling for the document as a whole. "
+        "Note that these properties do not specify the amount "
+        "of scrolling in an <iframe> tag. You can set these properties "
+        "to scroll an element or the entire document."
+     )
+    '(replacement           ".scrollTop")
+;;; element-scroll-top
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-scroll-width"
+    '(token)
+    '(token                 ".scrollWidth")
+    '(description
+        "The overall width, in pixels, of an element. When an element "
+        "has scrollbars (because of the CSS overflow attribute, "
+        "for example), these differs from offsetWidth, which simply "
+        "reports the size of the visible portion of the element."
+        ""
+        "To get the visible width, use .offsetWidth"
+     )
+    '(replacement           lse-js:remove-period & ".scrollWidth")
+;;; element-scroll-width
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-set-attribute"
+    '(token)
+    '(token                 ".setAttribute")
+    '(description
+        "Set attribute of an element to value. "
+        ""
+        "If no attribute by that name already exists, a new one is "
+        "created. In HTML documents, the attribute name is converted to "
+        "lowercase before being set. Note that HTMLElement objects of an "
+        "HTML document define JavaScript properties that correspond to "
+        "all standard HTML attributes, and you can set attributes "
+        "directly with those properties. Thus, you need to use this "
+        "method only if you want to set a nonstandard attribute."
+     )
+    '(replacement
+        lse-js:remove-period & ".setAttribute («name», «expression»)"
+     )
+;;; element-set-attribute
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-style"
+    '(token)
+    '(token                 ".sytle")
+    '(description
+        "The value of the style attribute that specifies "
+        "inline CSS styles for this element. Note that the value of "
+        "this property is not a string but an object with "
+        "read/write properties that correspond to CSS style attributes."
+        ""
+        "To set the inline style object, use el.setAttribute ('style', style)."
+        ""
+        "To get the currently active style, use window.getComputedStyle (el)."
+     )
+    '(replacement           lse-js:remove-period & ".sytle")
+;;; element-style
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-tag-name"
+    '(token)
+    '(token                 ".tagName")
+    '(description
+        "The tag name of the element. For HTML documents, the tag name "
+        "is returned in uppercase, regardless of its capitalization in "
+        "the document source, so a <p> element would have a tagName "
+        "property of “P”. XML documents are case-sensitive, and the "
+        "tag name is returned exactly as it is written in the document "
+        "source. This property has the same value as the inherited "
+        "nodeName property of the Node interface."
+     )
+    '(replacement           lse-js:remove-period & ".tagName")
+;;; element-tag-name
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "element-text-content"
+    '(token)
+    '(token                 ".textContent")
+    '(description
+      "The textual content of an element."
+      ""
+      "Assigning plain text to `.textContent` will quote "
+      "angle brackets and ampersands."
+     )
+    '(replacement           lse-js:remove-period & ".textContent")
+;;; element-text-content
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "element-title"
+    '(token)
+    '(token                 ".title")
+    '(description
+        "The value of the title attribute of the element. "
+        "Many browsers display the value of this attribute in a tool "
+        "tip when the mouse hovers over the element."
+     )
+    '(replacement           lse-js:remove-period & ".title")
+;;; element-title
+)
+
+;;; 14-Jan-2016
+(lse-define-fill-in "element-toggle-class"
+    '(token)
+    '(token                 ".toggle_class")
+    '(description           "Toggle a class to/from element")
+    '(replacement
+        lse-js:remove-period & ".classList.toggle («expression»)"
+     )
+;;; element-toggle-class
 )
 
 ;;; 25-Jan-2011
@@ -271,6 +1503,400 @@
      )
     '(replacement           "new Error («argument»)")
 ;;; Error
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-alt-key"
+    '(token)
+    '(token                 "ev.altKey")
+    '(description
+        "Whether the Alt key was held down when the event occurred. "
+        "Defined for mouse and key events and also by IE events."
+     )
+    '(replacement           "ev.altKey")
+;;; event-alt-key
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-bubbles"
+    '(token)
+    '(token                 "ev.bubbles")
+    '(description
+        "true if the event is of a type that bubbles "
+        "(unless stopPropagation() is called); false otherwise. "
+        "Not defined by IE events."
+     )
+    '(replacement           "ev.bubbles")
+;;; event-bubbles
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-button"
+    '(token)
+    '(token                 "ev.button")
+    '(description
+        "Which mouse button changed state during a mousedown, "
+        "mouseup, or click event. A value of 0 indicates the left "
+        "button, a value of 2 indicates the right button, and a value of "
+        "1 indicates the middle mouse button. Note that this property is "
+        "defined when a button changes state; it is not used to report "
+        "whether a button is held down during a mousemove event, "
+        "for example. Also, this property is not a bitmap: it cannot "
+        "tell you if more than one button is held down. Finally, some "
+        "browsers only generate events for left button clicks."
+        ""
+        "IE events define an incompatible button property. In that "
+        "browser, this property is a bit mask: the 1 bit is set if "
+        "the left button was pressed, the 2 bit is set if the right "
+        "button was pressed, and the 4 bit is set if the middle "
+        "button (of a three-button mouse) was pressed. "
+        ""
+        "jQuery does not emulate the standard button property in IE, "
+        "but see the which property instead."
+     )
+    '(replacement           "ev.button")
+;;; event-button
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-cancelable"
+    '(token)
+    '(token                 "ev.cancelable")
+    '(description
+        "true if the default action associated with the event can be "
+        "canceled with pre vent Default() ; false otherwise. "
+        "Defined by all standard event types, but not by IE events."
+     )
+    '(replacement           "ev.cancelable")
+;;; event-cancelable
+)
+
+;;; 22-Jan-2016
+(lse-define-fill-in "event-char-code"
+    '(token)
+    '(token                 "ev.charCode")
+    '(description
+        "A legacy KeyboardEvent property that gives the Unicode codepoint "
+        "number of a character key pressed during a keypress event."
+     )
+    '(replacement           "ev.charCode")
+;;; event-char-code
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-client-X"
+    '(token)
+    '(token                 "ev.clientX")
+    '(description
+        "The X coordinate of the mouse pointer relative to the client area, "
+        "or browser window. Note that these coordinates do not take "
+        "document scrolling into account. These properties are defined for "
+        "all types of mouse events. "
+        "These properties are defined for IE events as well as standard "
+        "events. "
+        ""
+        "See also pageX and pageY."
+     )
+    '(replacement           "ev.clientX")
+;;; event-client-X
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-client-Y"
+    '(token)
+    '(token                 "ev.clientY")
+    '(description
+        "The Y coordinate of the mouse pointer relative to the client area, "
+        "or browser window. Note that these coordinates do not take "
+        "document scrolling into account; if an event occurs at the very "
+        "top of the window, clientY is 0 regardless of how far down the "
+        "document has been scrolled. These properties are defined for "
+        "all types of mouse events. "
+        "These properties are defined for IE events as well as standard "
+        "events. "
+        ""
+        "See also pageX and pageY."
+     )
+    '(replacement           "ev.clientY")
+;;; event-client-Y
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-control-key"
+    '(token)
+    '(token                 "ev.ctrlKey")
+    '(description
+        "Whether the Ctrl key was held down when the event occurred. "
+        "Defined for mouse and key events and also by IE events."
+     )
+    '(replacement           "ev.ctrlKey")
+;;; event-control-key
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-current-target"
+    '(token)
+    '(token                 "ev.currentTarget")
+    '(description
+        "The Element, Document, or Window that is currently handling "
+        "this event. During capturing and bubbling, this is different "
+        "from target. Not defined by IE events but emulated by jQuery events."
+        ""
+        "This property will typically be equal to the this of the function."
+     )
+    '(replacement           "ev.currentTarget")
+;;; event-current-target
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-data-transfer"
+    '(token)
+    '(token                 "ev.dataTransfer")
+    '(description
+        "For drag-and-drop events, this property specifies the "
+        "DataTransfer object that coordinates the entire drag-and-drop "
+        "operation. Drag-and-drop events are a kind of mouse event; "
+        "any event that has this property set will also have "
+        "clientX, clientY, and other mouse event properties. "
+        "The drag-and-drop events are dragstart; drag and drag end on "
+        "the drag source; and dragenter, dragover, dragleave, and "
+        "drop on the drop target."
+     )
+    '(replacement           "ev.dataTransfer")
+;;; event-data-transfer
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-detail"
+    '(token)
+    '(token                 "ev.detail")
+    '(description
+        "A numeric detail about the event. For click, mousedown, and "
+        "mouseup events, this field is the click count: "
+        "1 for a single-click, 2 for a double-click, 3 for a triple-click, "
+        "and so on."
+     )
+    '(replacement           "ev.detail")
+;;; event-detail
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-key-code"
+    '(token)
+    '(token                 "ev.keyCode")
+    '(description
+        "The virtual keycode of the key that was pressed. "
+        "This property is used for all types of keyboard events. "
+        "Keycodes may be browser-, OS-, and keyboard-hardware-dependent. "
+        "Typically, when a key displays a printing character on it, "
+        "the virtual keycode for that key is the same as the encoding "
+        "of the character. Key codes for nonprinting function keys "
+        "may vary more, but see [Fla11, p.488, Example 17-8] for a "
+        "set of commonly used codes. This property has not been "
+        "standardized but is defined by all browsers, including IE."
+     )
+    '(replacement           "ev.keyCode")
+;;; event-key-code
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-meta-key"
+    '(token)
+    '(token                 "ev.metaKey")
+    '(description
+        "Whether the Meta key was held down when the event occurred. "
+        "Defined for mouse and key events and also by IE events."
+     )
+    '(replacement           "ev.metaKey")
+;;; event-meta-key
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-page-X"
+    '(token)
+    '(token                 "ev.pageX")
+    '(description
+        "The mouse position relative to the left edge of the document. "
+        ""
+        "These nonstandard, but widely supported, properties are like "
+        "clientX and clientY, but use document coordinates rather than "
+        "window coordinates. "
+        ""
+        "IE events do not define these properties, but jQuery emulates "
+        "them for all browsers."
+     )
+    '(replacement           "ev.pageX")
+;;; event-page-X
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-page-Y"
+    '(token)
+    '(token                 "ev.pageY")
+    '(description
+        "The mouse position relative to the top edge of the document. "
+        ""
+        "These nonstandard, but widely supported, properties are like "
+        "clientX and clientY, but use document coordinates rather than "
+        "window coordinates. "
+        ""
+        "IE events do not define these properties, but jQuery emulates "
+        "them for all browsers."
+     )
+    '(replacement           "ev.pageY")
+;;; event-page-Y
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-prevent-default"
+    '(token)
+    '(token                 "ev.preventDefault")
+    '(description
+        "Tells the web browser not to perform the default action "
+        "associated with this event, if there is one. If the event "
+        "is not of a type that is cancelable, this method has no "
+        "effect. This method is not defined on IE event objects, "
+        "but is emulated by jQuery. In the IE event model, set the "
+        "returnValue property to false instead."
+     )
+    '(replacement
+        "(ev.preventDefault ? ev.preventDefault () : ev.returnValue = false)"
+     )
+;;; event-prevent-default
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-related-target"
+    '(token)
+    '(token                 "ev.relatedTarget")
+    '(description
+        "Refers to an event target (usually a document element) that is "
+        "related to the target node of the event. For mouseover events, "
+        "it is the element the mouse left when it moved over "
+        "the target. For mouseout events, it is the element the mouse "
+        "entered when leaving the target; for mousein, indicates the "
+        "element being exited. "
+        ""
+        "This property is not defined by IE events but is emulated by "
+        "jQuery events. See the IE properties fromElement and toElement."
+     )
+    '(replacement           "ev.relatedTarget")
+;;; event-related-target
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-shift-key"
+    '(token)
+    '(token                 "ev.shiftKey")
+    '(description
+        "Whether the Shift key was held down when the event occurred. "
+        "Defined for mouse and key events and also by IE events."
+     )
+    '(replacement           "ev.shiftKey")
+;;; event-shift-key
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-stop-propagation"
+    '(token)
+    '(token                 "ev.stopPropagation")
+    '(description
+        "Stops the event from propagating any further through the "
+        "capturing, target, or bubbling phases of event propagation. "
+        "After this method is called, any other event handlers for the same "
+        "event on the same node are called, but the event is not "
+        "dispatched to any other nodes. "
+        ""
+        "This method is not supported in the IE event model, "
+        "but it is emulated by jQuery. "
+        "In IE, set cancelBubble to true instead of calling stopPropagation()."
+     )
+    '(replacement
+        "(ev.stopPropagation ? ev.stopPropagation () : ev.cancelBubble = true)"
+     )
+;;; event-stop-propagation
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-stop-propagation-immediate"
+    '(token)
+    '(token                 "ev.stopImmediatePropagation")
+    '(description
+        "Like stopPropagation(), but in addition, prevent the invocation "
+        "of any other handlers registered on the same document element. "
+        ""
+        "Keeps the rest of the handlers from being executed and prevents the "
+        "event from bubbling up the DOM tree. In addition to keeping any "
+        "additional handlers on an element from being executed, this "
+        "method also stops the bubbling by implicitly calling "
+        "event.stopPropagation(). "
+        ""
+        "This method is a new addition to the standard event "
+        "model and may not be implemented in all browsers. "
+        "It is not supported in the IE event model but is emulated by jQuery."
+     )
+    '(replacement
+        "(ev.stopPropagation ? ev.stopPropagation () : ev.cancelBubble = true)"
+     )
+;;; event-stop-propagation-immediate
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-target"
+    '(token)
+    '(token                 "ev.target")
+    '(description
+        "The target object for this event—i.e., the object on which "
+        "the event was triggered. (All objects that can be event targets "
+        "implement the methods of EventTarget.) "
+        ""
+        "The DOM element that initiated the event. The target property can "
+        "be the element that registered for the event or a descendant of it. "
+        "It is often useful to compare event.target to this in order to "
+        "determine if the event is being handled due to event bubbling. "
+        "This property is very useful in event delegation, when events bubble."
+        ""
+        "This property is not defined for IE events, but it is emulated by "
+        "jQuery events. See srcElement."
+     )
+    '(replacement           "ev.target || ev.srcElement")
+;;; event-target
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "event-type"
+    '(token)
+    '(token                 "ev.type")
+    '(description
+        "The name of the event that this Event object represents. "
+        "This is the name under which the event handler was registered "
+        "or the name of the event-handler property with the leading "
+        "“on” removed—for example, “click”, “load”, or “submit”. "
+        "This property is defined by standard events and IE events."
+     )
+    '(replacement           "ev.type")
+;;; event-type
+)
+
+;;; 22-Jan-2016
+(lse-define-fill-in "event-which"
+    '(token)
+    '(token                 "ev.which")
+    '(description
+        "For key or button events, this attribute indicates the "
+        "specific button or key that was pressed. event.which "
+        "normalizes event.keyCode and event.charCode. It is "
+        "recommended to watch event.which for keyboard key input. "
+        "For more detail, read about event.charCode on the MDC. "
+        ""
+        "For mouse events, it is one more than the button property: "
+        "1 means the left button, 2 means the middle button, and "
+        "3 means the right button. "
+        ""
+        "For key events, it has the same value as keyCode."
+     )
+    '(replacement           "ev.which")
+;;; event-which
 )
 
 ;;; 25-Jan-2011
@@ -311,6 +1937,18 @@
         $ _block_tail
      )
 ;;; for-array
+)
+
+;;; 22-Jan-2016
+(lse-define-fill-in "for-each"
+    '(token)
+    '(token                 "for_each")
+    '(token                 "$.for_each")
+    '(description
+        "Apply the Array forEach method to the argument."
+     )
+    '(replacement           "$.for_each («array», «callback»)")
+;;; for-each
 )
 
 ;;; 22-Jan-2011
@@ -395,7 +2033,6 @@
 (lse-define-fill-in "function-statement"
     '(token)
     '(token                 "def")
-    '(token                 "function")
     '(description           "Define a named function")
     '(replacement
         "var «function-name» = " & $ function-literal & ";"
@@ -449,14 +2086,130 @@
 ;;; is-nan
 )
 
-;;; 23-Jan-2011
-(lse-define-fill-in "lvalue"
-  '(description     "An expression referring to an object")
-  '(menu
-      identifier
-      array-reference
-      @ member-reference
-  )
+;;; 13-Jan-2016
+(lse-define-fill-in "location-assign"
+    '(token                 "location.assign")
+    '(description
+        "Load and display the contents of the specified url, "
+        "as if the href property had been set to url."
+     )
+    '(replacement           "location.assign («url»)")
+;;; location-assign
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-hash"
+    '(token                 "location.hash")
+    '(description
+        "The anchor portion of the URL, including the leading "
+        "hash (#) mark—for example, “#results”. This portion of "
+        "the document URL specifies the name of an anchor within "
+        "the document."
+     )
+    '(replacement           "location.hash")
+;;; location-hash
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-host"
+    '(token                 "location.host")
+    '(description
+        "The hostname and port portions of the URL—for example, "
+        "“http://www.oreilly.com:1234”."
+     )
+    '(replacement           "location.host")
+;;; location-host
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-host-name"
+    '(token                 "location.hostname")
+    '(description
+        "The hostname of the URL—for example, "
+        "“http://www.oreilly.com”."
+     )
+    '(replacement           "location.hostname")
+;;; location-host
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-href"
+    '(token                 "location.href")
+    '(description
+        "The complete text of the document’s URL, unlike other "
+        "Location properties that specify only portions of the URL. "
+        "Setting this property to a new URL causes the browser "
+        "to read and display the contents of the new URL. "
+        "Assigning a value directly to a Location object sets this "
+        "property, and using a Location object as a string uses "
+        "the value of this property."
+     )
+    '(replacement           "location.href")
+;;; location-href
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-pathname"
+    '(token                 "location.pathname")
+    '(description
+        "The pathname portion of a URL—for example, “/catalog/search.html”."
+     )
+    '(replacement           "location.pathname")
+;;; location-pathname
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-port"
+    '(token                 "location.port")
+    '(description
+        "The port portion of a URL— for example, “1234”. "
+        "Note that this property is a string, not a number."
+     )
+    '(replacement           "location.port")
+;;; location-port
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-protocol"
+    '(token                 "location.protocol")
+    '(description
+        "The protocol portion of a URL, including the "
+        "trailing colon—for example, “http:”."
+     )
+    '(replacement           "location.protocol")
+;;; location-protocol
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-reload"
+    '(token                 "location.reload")
+    '(description           "Reloads the document that is currently displayed.")
+    '(replacement           "location.reload ()")
+;;; location-reload
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-replace"
+    '(token                 "location.replace")
+    '(description
+        "Load and display the contents of the specified url, "
+        "replacing the current document in the browsing history so "
+        "that the browser’s Back button will not take the browser "
+        "back to the previously displayed document."
+     )
+    '(replacement           "location.replace («url»)")
+;;; location-replace
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "location-search"
+    '(token                 "location.search")
+    '(description
+        "The query portion of a URL, including the "
+        "leading question mark—for example, “?q=JavaScript&m=10”."
+     )
+    '(replacement           "location.search")
+;;; location-search
 )
 
 ;;; 10-Mar-2011
@@ -476,6 +2229,17 @@
   '(replacement           "item")
 ;;; loop-item
 )
+
+;;; 23-Jan-2011
+(lse-define-fill-in "lvalue"
+  '(description     "An expression referring to an object")
+  '(menu
+      identifier
+      array-reference
+      @ member-reference
+  )
+)
+
 (lse-define-fill-in "Math."
     '(token)
     '(replacement-leading   "Math.")
@@ -516,11 +2280,284 @@
   )
 )
 
+;;; 13-Jan-2016
+(lse-define-fill-in "navigator-geolocation"
+    '(token)
+    '(token                 "navigator.geolocation")
+    '(description
+        "A reference to the Geolocation object for this browser. "
+        "The methods of that object allow a script to request the "
+        "current geographical location of the user."
+     )
+    '(replacement           "navigator.geolocation")
+;;; navigator-geolocation
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "navigator-on-line"
+    '(token)
+    '(token                 "navigator.onLine")
+    '(description
+        "This property is false if the browser will not attempt to "
+        "download anything from the network. This might be because the "
+        "browser is certain that the computer is not connected to the "
+        "network or because the user has configured the browser to "
+        "perform no networking. "
+        ""
+        "If the browser will attempt downloads (because the computer "
+        "might be online), this property is true. The browser fires "
+        "online and offline events at the Window object when "
+        "the state of this property changes."
+     )
+    '(replacement           "navigator.onLine")
+;;; navigator-on-line
+)
+
 (lse-define-fill-in "new"
     '(token)
     '(description           "Create a new object")
     '(replacement           "new «expression»")
 ;;; new
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node"
+    '(description           "Node of the document tree")
+;;; node
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-append-child"
+    '(token)
+    '(token                 ".appendChild")
+    '(description
+        "Append a node to this node."
+        ""
+        "If you call appendChild() to insert a node "
+        "that is already in the document, that node will automatically "
+        "be removed from its current position and reinserted "
+        "at its new position: there is no need to explicitly remove the node."
+        ""
+        "If newChild is a DocumentFragment node, it is not inserted itself; "
+        "instead, all its children are appended, in order, to the end of "
+        "this node’s childNodes[] array."
+        ""
+        "Note that a node from (or created by) one document cannot be "
+        "inserted into a different document. That is, the ownerDocument "
+        "property of newChild must be the same as the ownerDocument "
+        "property of this node. (See Document.adoptNode()). "
+        "This method returns the Node that was passed to it."
+     )
+    '(replacement
+        lse-js:remove-period & ".appendChild («expression»)"
+     )
+;;; node-append-child
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "node-base-URI"
+    '(token)
+    '(token                 ".baseURI")
+    '(description
+        "This property specifies the base URL of this Node against "
+        "which relative URLs are resolved. For all nodes in HTML "
+        "documents, this is the URL specified by the <base> element "
+        "of the document, or just the Document.URL with the "
+        "fragment identifier removed."
+     )
+    '(replacement           lse-js:remove-period & ".baseURI")
+;;; node-base-URI
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-child-nodes"
+    '(token)
+    '(token                 ".childNodes")
+    '(description
+      "A NodeList that is a live representation of a Node’s child nodes."
+     )
+    '(replacement           lse-js:remove-period & ".childNodes")
+;;; node-child-nodes
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-clone-node"
+    '(token)
+    '(token                 ".cloneNode")
+    '(description
+      "Returns a new copy of the node. "
+      "Pass true to recursively copy all descendants as well, "
+      "or false to only make a shallow copy."
+      ""
+      "The returned node is not part of the document tree, and its "
+      "parentNode property is null. When an Element node is cloned, all "
+      "of its attributes are also cloned. Note, however, that "
+      "event-listener functions registered on a node are not cloned."
+     )
+    '(replacement
+        lse-js:remove-period & ".cloneNode («boolean-value»)"
+     )
+;;; node-clone-node
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-first-child"
+    '(token)
+    '(token                 ".firstChild")
+    '(description
+      "The first child node of a node, or null if the node has no children."
+     )
+    '(replacement           lse-js:remove-period & ".firstChild")
+;;; node-first-child
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-last-child"
+    '(token)
+    '(token                 ".lastChild")
+    '(description
+      "The last child node of a node, or null if the node has no children."
+     )
+    '(replacement           lse-js:remove-period & ".lastChild")
+;;; node-last-child
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-next-sibling"
+    '(token)
+    '(token                 ".nextSibling")
+    '(description           "The next sibling of a node.")
+    '(replacement           lse-js:remove-period & ".nextSibling")
+;;; node-next-sibling
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-insert-before"
+    '(token)
+    '(token                 ".insertBefore")
+    '(description
+        "Insert a node before the child specified as second argument. "
+        "This method must be invoked on the parent node."
+        ""
+        "If you call insertBefore() to insert a node "
+        "that is already in the document, that node will automatically "
+        "be removed from its current position and reinserted "
+        "at its new position: there is no need to explicitly remove the node."
+     )
+    '(replacement
+        lse-js:remove-period & ".insertBefore («node», «node»)"
+     )
+;;; node-insert-before
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "node-is-equal-node"
+    '(token)
+    '(token                 ".isEqualNode")
+    '(description
+        "Returns true if this node and other are identical, with "
+        "equal type, tagname, attributes, and (recursively) children. "
+        "Returns false if the two nodes are not equal."
+     )
+    '(replacement           lse-js:remove-period & ".isEqualNode («node»)")
+;;; node-is-equal-node
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "node-name"
+    '(token)
+    '(token                 ".nodeName")
+    '(description
+        "The name of the node. For Element nodes, specifies the tag "
+        "name of the element, which can also be retrieved with the "
+        "tagName property of the Element interface. For most other "
+        "types of nodes, the value is a constant string that depends "
+        "on the node type."
+     )
+    '(replacement           lse-js:remove-period & ".nodeName")
+;;; node-name
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-parent-node"
+    '(token)
+    '(token                 ".parentNode")
+    '(description
+        "The Node that is the parent of this one, or null for nodes "
+        "like the Document object that have no parent."
+     )
+    '(replacement           lse-js:remove-period & ".parentNode")
+;;; node-parent-node
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-prev-sibling"
+    '(token)
+    '(token                 ".previousSibling")
+    '(description           "The prev sibling of a node.")
+    '(replacement           lse-js:remove-period & ".previousSibling")
+;;; node-prev-sibling
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-remove-child"
+    '(token)
+    '(token                 ".removeChild")
+    '(description
+        "Remove child from document tree."
+        "This method must be invoked on the parent node."
+     )
+    '(replacement
+        lse-js:remove-period & ".removeChild («node»)"
+     )
+;;; node-remove-child
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-replace-child"
+    '(token)
+    '(token                 ".replaceChild")
+    '(description
+        "Replace an old child (2nd arg) of the element with a new child "
+        "(1st arg). "
+        "This method must be invoked on the parent node. "
+        "Returns first argument. "
+        ""
+        "If the new child is already part of the document, it is first "
+        "removed from the document before being reinserted at its new "
+        "position. If new child is a DocumentFragment, it is not inserted "
+        "itself; instead, each of its children is inserted, in order, "
+        "at the position formerly occupied by old child."
+     )
+    '(replacement
+        lse-js:remove-period & ".replaceChild («node», «node»)"
+     )
+;;; node-replace-child
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "node-text-content"
+    '(token)
+    '(token                 ".textContent")
+    '(description
+        "For Text and Comment nodes, this property is just a synonym "
+        "for the data property. For Element and DocumentFragment nodes, "
+        "querying this property returns the concatenated text content of "
+        "all Text node descendants. Setting this property on a Element "
+        "or DocumentFragment replaces all descendants of that element "
+        "or fragment with a single new Text node that holds the "
+        "specified value."
+     )
+    '(replacement           lse-js:remove-period & ".textContent")
+;;; node-text-content
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "node-value"
+    '(token                 ".nodeValue")
+    '(description           "The textual content of a Text or Comment node.")
+    '(replacement           lse-js:remove-period & ".nodeValue")
+;;; node-value
 )
 
 ;;; 23-Jan-2011
@@ -529,6 +2566,13 @@
     '(description           "Null value")
     '(replacement           "null")
 ;;; null
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "object"
+    '(leading               ",")
+    '(description           "A JavaScript object")
+;;; object
 )
 
 ;;; 19-Jan-2011
@@ -570,6 +2614,14 @@
         (lse-align-to-pattern ":" nil t (+ (lse-indent:level:curr) 16))
      )
 ;;; object-property-name
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "opacity"
+    '(description
+        "A number between 0 and 1 denoting the target opacity."
+     )
+;;; opacity
 )
 
 (lse-define-fill-in "operator-equal"
@@ -627,7 +2679,7 @@
     '(description
         "Returns true if object has a property with name that would be enumerated in for/in"
      )
-    '(replacement           ".propertyIsEnumerable")
+    '(replacement           lse-js:remove-period & ".propertyIsEnumerable")
 ;;; property-is-enumerable
 )
 
@@ -637,6 +2689,47 @@
     '(description           "Use prototype property of a javascript object")
     '(replacement           lse-js:remove-period & ".prototype")
 ;;; prototype
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "remove-event-listener"
+    '(token)
+    '(token                 ".removeEventListener")
+    '(description
+        "This method removes a registered event listener function. "
+        "It takes the same arguments as addEventListener()."
+     )
+    '(replacement
+        lse-js:remove-period &
+          ".removeEventListener («name», «callback», false)"
+     )
+;;; remove-event-listener
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "req-data"
+    '(trailing            ",")
+    '(description
+        "A map or string that is sent to the server with the request."
+     )
+;;; req-data
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "req-data-type"
+    '(trailing            ",")
+    '(description
+        "A map or string that is sent to the server with the request."
+     )
+  '(menu
+       "json"
+       "jsonp"
+       "html"
+       "script"
+       "text"
+       "xml"
+   )
+;;; req-data
 )
 
 ;;; 18-Jan-2011
@@ -651,11 +2744,82 @@
         $ _block_head
         "««use-strict»»"
         "««statement»»···"
-        $ _block_tail
+        "  " & $ _block_tail
         "(««argument»»···)"
         ");" & lse-js:remove-period
      )
 ;;; scope
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "screen-avail-height"
+    '(token)
+    '(token                 "screen.availHeight")
+    '(description
+        "Specifies the available height, in pixels, of the screen on "
+        "which the web browser is displayed. "
+        "This available height does not include vertical space "
+        "allocated to permanent desktop features, such as a bar or "
+        "dock at the bottom of the screen."
+     )
+    '(replacement           "screen.availHeight")
+;;; screen-avail-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "screen-avail-width"
+    '(token)
+    '(token                 "screen.availWidth")
+    '(description
+        "Specifies the available width, in pixels, of the screen on "
+        "which the web browser is displayed. "
+        "This available width does not include horizontal space "
+        "allocated to permanent desktop features."
+     )
+    '(replacement           "screen.availWidth")
+;;; screen-avail-width
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "screen-color-depth"
+    '(token)
+    '(token                 "screen.colorDepth")
+    '(description           "Color depth of the screen in bits per pixel.")
+    '(replacement           "screen.colorDepth")
+;;; screen-color-depth
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "screen-height"
+    '(token)
+    '(token                 "screen.height")
+    '(description
+        "Specifies the total height, in pixels, of the screen on which "
+        "the web browser is displayed."
+     )
+    '(replacement           "screen.height")
+;;; screen-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "screen-width"
+    '(token)
+    '(token                 "screen.width")
+    '(description
+        "Specifies the total width, in pixels, of the screen on which "
+        "the web browser is displayed."
+     )
+    '(replacement           "screen.width")
+;;; screen-width
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "selector"
+    '(token)
+    '(description
+        "Selector expression for matching elements of the DOM"
+     )
+;;; selector
 )
 
 ;;; 18-Jan-2011
@@ -688,6 +2852,20 @@
         "«expression»;"
      )
 ;;; statement
+)
+
+;;; 11-Jan-2016
+(lse-define-fill-in "tag-name"
+    '(description           "Tag name of an HTML element, e.g., 'div'")
+;;; tag-name
+)
+
+;;; 21-Jan-2011
+(lse-define-fill-in "target"
+    '(description
+        "A selector, element, HTML string, or jQuery object"
+     )
+;;; target
 )
 
 ;;; 22-Jan-2011
@@ -822,6 +3000,596 @@
         )
      )
 ;;; variable-declaration
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "web-socket"
+    '(description
+        "A WebSocket represents a long-lived, bidirectional, socket-like "
+        "network connection to a server that supports the WebSocket protocol. "
+        "This is a fundamentally different networking model "
+        "than the request/response model of HTTP. Create a new connection "
+        "with the WebSocket() constructor. Use send() to send textual "
+        "messages to the server, and register a handler for "
+        "message events to receive messages from the server."
+     )
+;;; web-socket
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "web-socket-buffered-amount"
+    '(token)
+    '(token                 ".bufferedAmount")
+    '(description
+        "The number of characters of text that have been passed to "
+        "send() but not yet actually sent. If you need to send large "
+        "amounts of data, you can use this property to ensure that "
+        "you are not sending messages faster than they can be transmitted."
+     )
+    '(replacement           lse-js:remove-period & ".bufferedAmount")
+;;; web-socket-buffered-amount
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "web-socket-close"
+    '(token)
+    '(token                 ".close")
+    '(description
+        "If the connection is not already closed or closing, this "
+        "method begins the process of closing it, setting readyState "
+        "to CLOSING. Message events may continue to be fired even after "
+        "close() is called, until readyState changes to CLOSED and the "
+        "close event is fired."
+     )
+    '(replacement           lse-js:remove-period & ".close ()")
+;;; web-socket-close
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "web-socket-new"
+    '(token)
+    '(token                 "web-socket")
+    '(token                 "WebSocket")
+    '(description
+        "Create a new WebSocket object and begin the (asynchronous) "
+        "process of establishing a connection to a WebSocket server. "
+        "The url argument specifies the server to connect to and must "
+        "be an absolute URL that uses the ws:// or wss:// URL scheme. "
+        "The protocols argument is an array of subprotocol names. If the "
+        "argument is specified, it is the client’s way of telling the "
+        "server which communication protocols or which protocol versions "
+        "it is able to “speak.” The server must choose one and inform "
+        "the client as part of the connection process. protocols may also "
+        "be specified as a single string instead of an array: in "
+        "this case, it is treated as an array of length 1."
+     )
+    '(replacement           "new WebSocket («url», «argument»)")
+;;; web-socket-new
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "web-socket-send"
+    '(token)
+    '(token                 ".send")
+    '(description
+        "This method sends the specified data to the server at the "
+        "other end of the WebSocket connection. "
+        "This method throws an exception if called before the open "
+        "event has been triggered, while readyState is still CONNECTING. "
+        "The WebSocket protocol supports binary data, but at the "
+        "time of this writing, the WebSocket API only allows strings "
+        "to be sent and received."
+     )
+    '(replacement           lse-js:remove-period & ".send («expression»)")
+;;; web-socket-send
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-alert"
+    '(token                 "window.alert")
+    '(token                 "alert")
+    '(description
+        "The alert() method displays the specified plain-text message "
+        "to the user in a dialog box. The dialog box contains an OK "
+        "button the user can click to dismiss it. The dialog box is "
+        "typically modal (at least for the current tab), and the call "
+        "to alert() blocks until the dialog is dismissed."
+     )
+    '(replacement           "alert («expression»)")
+;;; window-alert
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-atob"
+    '(token                 "window.atob")
+    '(token                 "atob")
+    '(description
+        "This utility function accepts a base64-encoded string and "
+        "decodes it into a JavaScript binary string in which each "
+        "character represents a single byte. Use the charCodeAt() "
+        "method of the returned string to extract byte values. "
+        "See also btoa()."
+     )
+    '(replacement           "atob («expression»)")
+;;; window-atob
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-blur"
+    '(token                 "window.blur")
+    '(description
+        "The blur() method removes keyboard focus from the "
+        "top-level browser window specified by the Window object. "
+        "It is unspecified which window gains keyboard focus as a "
+        "result. In some browsers and/or platforms, this method may "
+        "have no effect."
+     )
+    '(replacement           "window.blur ()")
+;;; window-blur
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-btoa"
+    '(token                 "window.btoa")
+    '(token                 "btoa")
+    '(description
+        "This utility function accepts a JavaScript binary string "
+        "(in which each character represents a single byte) as an "
+        "argument and returns the base64 encoding of it. Use "
+        "String.fromCharCode() to create a binary string from an "
+        "arbitrary sequence of byte values. See also atob()."
+     )
+    '(replacement           "btoa («expression»)")
+;;; window-btoa
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-clear-interval"
+    '(token                 "window.clearInterval")
+    '(token                 "clearInterval")
+    '(description
+        "clearInterval() stops the repeated execution of code that "
+        "was started by a call to setInterval(). "
+        "The argument must be the intervalId value that was returned "
+        "by a call to setInterval()."
+     )
+    '(replacement           "clearInterval («expression»)")
+;;; window-clear-interval
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-clear-timeout"
+    '(token                 "window.clearTimeout")
+    '(token                 "clearTimeout")
+    '(description
+        "clearTimeout() cancels the execution of code that has been "
+        "deferred with the setTimeout() method. The timeoutId argument "
+        "is a value returned by the call to setTimeout() and identifies "
+        "which deferred code to cancel."
+     )
+    '(replacement           "clearTimeout («expression»)")
+;;; window-clear-timeout
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-close"
+    '(token                 "window.close")
+    '(description
+        "The close() method closes the top-level browser window on "
+        "which it is invoked. Scripts are generally only allowed to "
+        "close windows that they opened."
+     )
+    '(replacement           "window.close ()")
+;;; window-close
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-document"
+    '(token                 "window.document")
+    '(description
+        "The Document object that describes the content of this window"
+     )
+    '(replacement           "window.document")
+;;; window-document
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-event"
+    '(token                 "window.event")
+    '(description
+        "In Internet Explorer, this property refers to the Event object "
+        "that describes the most recent event. In IE8 and before, "
+        "the event object is not always passed to the event handler and "
+        "must sometimes be accessed through this property."
+     )
+    '(replacement           "window.event")
+;;; window-event
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-focus"
+    '(token                 "window.focus")
+    '(description
+        "This method gives keyboard focus to the browser window. "
+        "On most platforms, a top-level window is brought forward "
+        "to the top of the window stack so that it becomes visible when it "
+        "is given focus."
+     )
+    '(replacement           "window.focus ()")
+;;; window-focus
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-frame-element"
+    '(token                 "window.frameElement")
+    '(description
+        "If this Window is within an <iframe>, this property refers to "
+        "that IFrame element. For toplevel windows, this property is null."
+     )
+    '(replacement           "window.frameElement")
+;;; window-frame-element
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-get-computed-style"
+    '(token                 "window.getComputedStyle")
+    '(token                 "getComputedStyle")
+    '(description
+        "An element in a document can obtain style information from an "
+        "inline style attribute and from any number of stylesheets in "
+        "the stylesheet “cascade.” Before the element can actually "
+        "be displayed in a window, its style information must be "
+        "extracted from the cascade, and styles specified with relative "
+        "units (such as percentages or “ems”) must be “computed” to "
+        "convert to pixels. These computed values are sometimes also "
+        "called “used” values. "
+        ""
+        "This method returns a read-only CSSStyleDeclaration object "
+        "that represents the CSS style values actually used to display "
+        "the element. All dimensions will be in pixels. "
+        ""
+        "The second argument to this method is usually omitted or null, "
+        "but you can also pass the CSS pseudoelement “::before” or "
+        "“::after” to determine the styles used for CSS-generated content. "
+        ""
+        "Contrast getComputedStyle() with the style property of an "
+        "HTMLElement, which gives you access only to the inline styles "
+        "of an element, in whatever units they were specified, and tells "
+        "you nothing about stylesheet styles that apply to the element. "
+        ""
+        "This method is not implemented in IE8 and before, but "
+        "similar functionality is available through the nonstandard "
+        "currentStyle property of each HTMLElement object."
+     )
+    '(replacement           "window.getComputedStyle («expression», ««argument»»)")
+;;; window-get-computed-style
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-history"
+    '(token)
+    '(token                 "window.history")
+    '(description           "The History object of this window.")
+    '(replacement           "window.history")
+;;; window-history
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-inner-height"
+    '(token                 "window.innerHeight")
+    '(description
+        "The height, in pixels, of the document display area of this window. "
+        "These properties are not supported in IE8 and before."
+     )
+    '(replacement           "window.innerHeight")
+;;; window-inner-height
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-inner-width"
+    '(token                 "window.innerWidth")
+    '(description
+        "The width, in pixels, of the document display area of this window. "
+        "These properties are not supported in IE8 and before."
+     )
+    '(replacement           "window.innerWidth")
+;;; window-inner-width
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-local-storage"
+    '(token                 "window.localStorage")
+    '(description
+        "This property refers to a Storage object that provides "
+        "client-side storage for name/value pairs. Data stored "
+        "through localStorage is visible to and shared with any documents "
+        "with the same origin, and persists until deleted by the user "
+        "or by a script."
+     )
+    '(replacement           "window.localStorage")
+;;; window-local-storage
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-location"
+    '(token                 "window.location")
+    '(description
+        "The Location object for this window. This object specifies the "
+        "URL of the currently loaded document. Setting this property to "
+        "a new URL string causes the browser to load and display the "
+        "contents of that URL."
+     )
+    '(replacement           "window.location")
+;;; window-location
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-name"
+    '(token                 "window.name")
+    '(description
+        "The name of the window. The name is optionally specified when "
+        "the window is created with the open() method or with the name "
+        "attribute of a <frame> tag. The name of a window can be used "
+        "as the value of a target attribute of an <a> or <form> tag. "
+        "Using the target attribute in this way specifies that the "
+        "hyperlinked document or the results of form submission "
+        "should be displayed in the named window or frame."
+     )
+    '(replacement           "window.name")
+;;; window-name
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-navigator"
+    '(token                 "window.navigator")
+    '(description
+        "A reference to the Navigator object, which provides version "
+        "and configuration information about the web browser."
+     )
+    '(replacement           "window.navigator")
+;;; window-navigator
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-open"
+    '(token                 "window.open")
+    '(description
+        "The open() method loads and displays the specified url in "
+        "a new or existing browser window or tab. "
+        "The first argument specifies the URL of the document to load. "
+        "If not specified, “about:blank” is used. "
+        ""
+        "The second argument specifies the name of the window into "
+        "which the url should be loaded. If not specified, “_blank” is "
+        "used. If target is “_blank”, or if there is no existing window "
+        "with the specified name, a new window is created to display "
+        "the contents of url. Otherwise, the url is loaded into the "
+        "existing window with the specified name. "
+        ""
+        "The third argument used to specify the window position, "
+        "size, and features (such as menubar, toolbar, etc.). In "
+        "modern browsers that support tabs, it is often ignored, and "
+        "it is not documented here. "
+        ""
+        "When you use Window.open() to load a new document into an "
+        "existing window, the fourth argument specifies whether the "
+        "new document has its own entry in the window’s browsing "
+        "history or whether it replaces the history entry of the "
+        "current document. If replace is true, the new document "
+        "replaces the old. If this argument is false or is not "
+        "specified, the new document has its own entry in the "
+        "Window’s browsing history. This argument provides functionality "
+        "much like that of the Location.replace() method."
+     )
+    '(replacement           "window.open (««argument»»···)")
+;;; window-open
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-opener"
+    '(token                 "window.opener")
+    '(description
+        "A read/write reference to the Window object that contained "
+        "the script that called open() to open this browser window, "
+        "or null for windows that were not created in that way. This "
+        "property is valid only for Window objects that represent "
+        "top-level windows, not those that represent frames. The "
+        "opener property is useful so that a newly created window can "
+        "refer to properties and functions defined in the window that created "
+        "it."
+     )
+    '(replacement           "window.opener")
+;;; window-opener
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-page-X-offset"
+    '(token                 "window.pageXOffset")
+    '(description
+        "The number of pixels that the current document has been scrolled "
+        "to the right. These properties are not supported in IE8 and before."
+     )
+    '(replacement           "window.pageXOffset")
+;;; window-page-X-offset
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-page-Y-offset"
+    '(token                 "window.pageYOffset")
+    '(description
+        "The number of pixels that the current document has been scrolled "
+        "down. These properties are not supported in IE8 and before."
+     )
+    '(replacement           "window.pageYOffset")
+;;; window-page-Y-offset
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-parent"
+    '(token                 "window.parent")
+    '(description
+        "The Window object that contains this one. If this window is a "
+        "top-level window, parent refers to the window itself. "
+        "If this window is a frame, the parent property refers to "
+        "the window or frame that contains it."
+     )
+    '(replacement           "window.parent")
+;;; window-parent
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-print"
+    '(token                 "window.print")
+    '(description
+        "Calling print() causes the browser to behave as if the "
+        "user had selected the browser’s Print button or menu item. "
+        "Usually, this brings up a dialog box that enables the user "
+        "to cancel or customize the print request."
+     )
+    '(replacement           "window.print ()")
+;;; window-print
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-screen"
+    '(token                 "window.screen")
+    '(description
+        "The Screen object that specifies information about the screen: "
+        "the number of available pixels and the number of available colors."
+     )
+    '(replacement           "window.screen")
+;;; window-screen
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-screen-X"
+    '(token                 "window.screenX")
+    '(description
+        "The X coordinate of the upper left corner of the window on the screen."
+     )
+    '(replacement           "window.screenX")
+;;; window-screen-X
+)
+
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-screen-Y"
+    '(token                 "window.screenY")
+    '(description
+        "The Y coordinate of the upper left corner of the window on the screen."
+     )
+    '(replacement           "window.screenY")
+;;; window-screen-Y
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-scroll-by"
+    '(token                 "window.scrollBy")
+    '(token                 "scrollBy")
+    '(description
+        "scrollBy() scrolls the document displayed in window by the "
+        "relative amounts specified by the arguments dx and dy."
+     )
+    '(replacement           "scrollBy («argument», «argument»)")
+;;; window-scroll-by
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-scroll-to"
+    '(token                 "window.scrollTo")
+    '(token                 "scrollTo")
+    '(description
+        "scrollTo() scrolls the document displayed within window so the "
+        "point in the document specified by the x and y coordinates is "
+        "displayed in the upper left corner, if possible."
+     )
+    '(replacement           "scrollTo («argument», «argument»)")
+;;; window-scroll-to
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-self"
+    '(token                 "window.self")
+    '(token                 "self")
+    '(description
+        "A reference to this window itself. "
+        "This is a synonym for the window property."
+     )
+    '(replacement           "window.self")
+;;; window-self
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-set-interval"
+    '(token                 "window.setInterval")
+    '(token                 "setInterval")
+    '(description
+        "setInterval() registers the function specified by the first "
+        "argument to be invoked after the interval milliseconds specified "
+        "by the second argument and then to be repeatedly invoked at "
+        "that specified interval. The function will be invoked with the Window "
+        "as its this value, and will be passed any additional args "
+        "that were passed to setInterval(). "
+        ""
+        "setInterval() returns a number that can later be passed to "
+        "Window.clearInterval() to cancel the execution of code."
+        ""
+        "Use setTimeout() when you want to defer the execution of code "
+        "but do not want it to be repeatedly executed."
+     )
+    '(replacement
+        "setInterval («callback», «expression», ««argument»»···)"
+     )
+;;; window-set-interval
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-set-timeout"
+    '(token                 "window.setTimeout")
+    '(token                 "setTimeout")
+    '(description
+        "setTimeout() is like setInterval(), except that it invokes "
+        "the specified function only once: it registers the function "
+        "to be invoked after timeout milliseconds have been elapsed "
+        "and returns a number that can later be passed to "
+        "clearTimeout() to cancel the pending invocation. "
+        "When the specified time has passed, the function will be "
+        "invoked as a method of the Window and will be passed any "
+        "specified args."
+     )
+    '(replacement
+        "setTimeout («callback», «expression», ««argument»»···)"
+     )
+;;; window-set-timeout
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-session-storage"
+    '(token                 "window.sessionStorage")
+    '(description
+        "This property refers to a Storage object that provides "
+        "client-side storage for name/value pairs. Data stored "
+        "through sessionStorage is visible only to same-origin "
+        "documents within the same top-level window or tab, and "
+        "persists only for the duration of the browsing session."
+     )
+    '(replacement           "window.sessionStorage")
+;;; window-session-storage
+)
+
+;;; 13-Jan-2016
+(lse-define-fill-in "window-top"
+    '(token                 "window.top")
+    '(description
+        "The top-level window that contains this window. "
+        "If this window is a top-level window itself, the top "
+        "property simply refers to the window itself. "
+        "If this window is a frame, the top property refers to the "
+        "top-level window that contains the frame. Contrast with the "
+        "parent property."
+     )
+    '(replacement           "window.top")
+;;; window-top
 )
 
 ;;;; __END__ lse-templates-javascript.lse
