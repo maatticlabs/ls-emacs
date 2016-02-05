@@ -41,6 +41,7 @@
 ;;;;    22-Jan-2016 (CT) Factor general fill-ins from
 ;;;;                     lse-templates-javascript-jquery in here
 ;;;;    22-Jan-2016 (CT) Add a few event properties and functions
+;;;;     5-Feb-2016 (CT) Fix typo in `block-comment`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -141,7 +142,7 @@
 )
 
 (lse-define-fill-in "block-comment"
-  ('token         "//")
+  '(token         "//")
   '(description   "Block of comment statements")
   '(replacement
       "//+"
