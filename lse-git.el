@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2015 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This library is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    14-Sep-2015 (CT) Change `set-fill-column` to `70`
 ;;;;    27-Dec-2015 (CT) Add `magit`
+;;;;     5-Feb-2016 (CT) Remove `magit`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-git)
@@ -74,6 +75,6 @@
 
 (add-hook 'server-switch-hook 'lse-git:setup-hook)
 
-(defvar lse-git:magit-p (require 'magit nil t))
+;; (defvar lse-git:magit-p (require 'magit nil t))
 
 ;;;; __END__ lse-git
