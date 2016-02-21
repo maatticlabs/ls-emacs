@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -219,6 +219,8 @@
 ;;;;     7-Dec-2015 (CT) Bind `lse-insert-yyyy-mm-dd-time+blank`to [C-#],
 ;;;;                     bind `lse-insert-yyyy-mm-dd-time-comment` to
 ;;;;                     [blue gold ?#]
+;;;;    21-Feb-2016 (CT) Bind `lse-tpu:highlight-search` and friends to [s-h],
+;;;;                     [s-u], [gold s-h], [gold s-u]
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -531,6 +533,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control \*)]       lse-tpu:repeat-factor:set);         17-Nov-2014
       ([(control \+)]       lse-tpu:repeat-factor:set);         17-Nov-2014
       ([(control \=)]       lse-tpu:ccp-buffer-index:set);      17-Nov-2014
+      ([(control \/)]       lse-tpu:search-history-index:set);  21-Feb-2016
       ([(control super \.)] lse-tpu:unselect);                  17-Jun-2001
       ([(control \:)]       lse-tpu:replace);                   30-Aug-2002
       ([(super r)]          recenter);                          30-Jan-2014
@@ -671,7 +674,9 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\s-a]           delete-selection-mode)                   ; 28-Dec-1997
       ([?\s-c]           lse-tpu:copy-region)                     ; 12-Feb-1998
       ([?\s-d]           hippie-expand)                           ; 29-Dec-1997
+      ([?\s-h]           lse-tpu:highlight-search)               ; 21-Feb-2016
       ([?\s-q]           lse-insert-buffer-name-plus-extension)   ;  8-Dec-2007
+      ([?\s-u]           lse-tpu:unhighlight-search)             ; 21-Feb-2016
       ([?\s-v]           lse-tpu:paste-region)                    ; 12-Feb-1998
       ([?\s-x]           lse-tpu:cut-region)                      ; 12-Feb-1998
       ([?\s-|]           lse-insert-bars)                         ; 20-Jan-2000
@@ -846,6 +851,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([gold ?\A-d]    ispell-complete-word);  4-Nov-1996
       ([gold ?\C-d]    lse-tpu:undelete-char);  6-Jan-2002
       ([gold ?\C-f]    lse-tpu:goto-pos-before-search); 31-Aug-2002
+      ([gold ?\s-h]    lse-tpu:highlight-last-search); 21-Feb-2016
       ([gold ?\A-i]    lse-indent-line); 19-Mar-1995
       ([gold tab]      lse-indent-line); 19-Mar-1995
       ([gold ?\A-j]    lse-tpu:undelete-word);  6-Jan-2002
@@ -858,6 +864,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([gold ?\C-p]    lse-tpu:goto-pos-before-search); 14-Nov-2002
       ([gold ?\M-r]    move-to-window-line);  1-Sep-2002
       ([gold ?\A-u]    lse-tpu:undelete-line);  8-Sep-2002
+      ([gold ?\s-u]    lse-tpu:unhighlight-last-search); 21-Feb-2016
       ([gold ?\C-w]    lse-tpu:undelete-word);  8-Sep-2002
       ([gold ?\C-,]    lse-tpu:exchange-point-and-mark); 12-Nov-2002
 

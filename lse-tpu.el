@@ -216,6 +216,8 @@
 ;;;;     5-Jan-2016 (CT) Change `lse-tpu:search-again` to set
 ;;;;                     `lse-tpu:search-history-index` and use it when no
 ;;;;                     prefix argument
+;;;;    21-Feb-2016 (CT) Add `lse-tpu:highlight-search` and friends
+;;;;    21-Feb-2016 (CT) Add `lse-tpu:search-history-index:set`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -365,6 +367,23 @@ lse-tpu:letter-argument. "
     result
   )
 ; lse-tpu:search-history-index
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:search-history-index:set (i)
+  "Set search history index."
+  (interactive "NSearch history index: ")
+  (when (or (< i 1) (not (numberp i)))
+    (setq i 0)
+  )
+  (setq lse-tpu:search-history-index i)
+  (setq lse-tpu:search-history-index:mode-line
+      (if (and i (not (eq i 0)))
+          (format " /%s/" (lse-tpu:prefix-to-name i))
+        ""
+      )
+  )
+; lse-tpu:search-history-index:set
 )
 
 ;;; 10-Oct-2007
@@ -3196,6 +3215,56 @@ and backward a character after a failed search.  Arg means end of search."
     (goto-char lse-tpu:last-pos-before-search)
   )
 ; lse-tpu:goto-pos-before-search
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:highlight-search:fct (n pat &optional count)
+  (highlight-regexp pat 'lse-face:regexp-highlight)
+; lse-tpu:highlight-search:fct
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:unhighlight-search:fct (n pat &optional count)
+  (unhighlight-regexp pat)
+; lse-tpu:unhighlight-search:fct
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:highlight-search (&optional n pat)
+  "Highlight all occurrences of a regular expression"
+  (interactive "^P")
+  (when (or (not pat) (string= "" pat))
+      (setq pat (lse-tpu:search-prompt-read "Highlight" n))
+  )
+  (lse-tpu:highlight-search:fct n pat)
+; lse-tpu:highlight-search
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:unhighlight-search (&optional n pat)
+  "Unhighlight all occurrences of a regular expression"
+  (interactive "^P")
+  (when (or (not pat) (string= "" pat))
+      (setq pat (lse-tpu:search-prompt-read "Unhighlight" n))
+  )
+  (lse-tpu:unhighlight-search:fct n pat)
+; lse-tpu:unhighlight-search
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:highlight-last-search (&optional n pat)
+  "Highlight all occurrences of a regular expression of last search"
+  (interactive "^P")
+  (lse-tpu:search-again n 'lse-tpu:highlight-search:fct)
+; lse-tpu:highlight-search
+)
+
+;;; 21-Feb-2016
+(defun lse-tpu:unhighlight-last-search (&optional n pat)
+  "Unhighlight all occurrences of regular expression of last search"
+  (interactive "^P")
+  (lse-tpu:search-again n 'lse-tpu:unhighlight-search:fct)
+; lse-tpu:unhighlight-search
 )
 
 ;;;  7-Oct-2007

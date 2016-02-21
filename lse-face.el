@@ -68,6 +68,7 @@
 ;;;;                     (`100-100-` doesn't work on all Gentoo machines)
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12`
 ;;;;     4-Jan-2016 (CT) Add `lse-face:ml:highlight`, `:mouse`, `:overwrite`
+;;;;    21-Feb-2016 (CT) Add `'lse-face:regexp-highlight`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -108,10 +109,11 @@
   (lse-face:define 'lse-face:current-fill-in-menu        nil      "Blue")
   (lse-face:define 'lse-face:current-fill-in-function    nil      "Brown")
 
-  (lse-face:define 'lse-face:search-match    "Cyan")
-  (lse-face:define 'lse-face:search-match-bg "Yellow")
-  (lse-face:define 'lse-face:completion      "Yellow"       "Red")
-  (lse-face:define 'lse-face:completion-m    "LightGray"    "Red")
+  (lse-face:define 'lse-face:regexp-highlight            "Gray88"       "blue")
+  (lse-face:define 'lse-face:search-match                "Cyan")
+  (lse-face:define 'lse-face:search-match-bg             "Yellow")
+  (lse-face:define 'lse-face:completion                  "Yellow"       "Red")
+  (lse-face:define 'lse-face:completion-m                "LightGray"    "Red")
 
   (lse-face:define 'lse-face:current-line-hl "Gray95")
 
