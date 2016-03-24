@@ -17,12 +17,18 @@
 )
 
 (lse-define-fill-in "bash"
-    '(description           "Root fill-in for bash language")
-    '(replacement
-        "#! /swing/bin/bash" ;;; 11-Feb-1997 /swing/bin/bash for /bin/bash
-        "#««header-comment»»"
-        "««command»»···"
-     )
+  ;;; http://redsymbol.net/articles/unofficial-bash-strict-mode/ explains
+  ;;; `set and IFS`
+  '(description           "Root fill-in for bash language")
+  '(replacement
+      "#! /swing/bin/bash" ;;; 11-Feb-1997 /swing/bin/bash for /bin/bash
+      "#««header-comment»»"
+      ""
+      "set -euo pipefail"
+      "IFS=$'\n\t'"
+      ""
+      "««command»»···"
+   )
 )
 
 (lse-define-fill-in "bash-command"
@@ -671,7 +677,7 @@
 
 (lse-define-fill-in "times"
   '(description   "Print accumulated user and system times for the shell and subprocesses")
-  '(token)   
+  '(token)
   '(replacement   "times")
 )
 
@@ -802,4 +808,3 @@
       ("simple"       "Always make simple (unnumbered) backups")
    )
 )
-
