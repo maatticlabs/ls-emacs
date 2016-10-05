@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1998-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1998-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; ****************************************************************************
@@ -83,6 +83,8 @@
 ;;;;    15-Jul-2015 (CT) Factor `lse-python`; use `python`, not `python-mode`
 ;;;;    21-Jul-2015 (CT) Turn off `flyspell-mode` (messes up `mouse-2`)
 ;;;;    10-Aug-2015 (CT) Remove turn off of `flyspell-mode`: give it another try
+;;;;     5-Oct-2016 (CT) Turn off `flyspell-mode` (messes up `mouse-2`)
+;;;;                     * it just interferes to much will normal `mouse-2` usage
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -140,6 +142,10 @@
 (defun python-mode ()
   (interactive)
   (lse:python-mode:std-python-mode)
+  (when (fboundp 'flyspell-mode)
+    ;; turn it off: redefines mouse-2 to correct allegedly misspelled word
+    (flyspell-mode -1)
+  )
   (setq comment-start      "#+ " )
   (setq comment-start-skip "#+ *")
 
