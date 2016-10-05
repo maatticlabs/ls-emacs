@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1996-2014 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 1996-2016 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -106,6 +106,8 @@
 ;;;;    19-Nov-2014 (CT) Fix `lse-frame:max-height`
 ;;;;    19-Nov-2014 (CT) Fix `lse-frame:set-height`, `lse-frame:set-width`
 ;;;;                     * Remove code done by  `lse-frame:fix-position`
+;;;;     5-Oct-2016 (CT) Change `lse-frame:set-height:full` to initialize
+;;;;                     `lse-frame:full-height` if necessary
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -547,6 +549,9 @@
 (defun lse-frame:set-height:full (ht &optional fram)
   "Set height of frame `fram` to prefix argument or full height"
   (interactive "P")
+  (unless lse-frame:full-height
+    (setq lse-frame:full-height (lse-frame:max-height))
+  )
   (lse-frame:set-height (or ht lse-frame:full-height) fram)
 ; lse-frame:set-height:full
 )
