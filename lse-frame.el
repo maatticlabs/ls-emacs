@@ -108,6 +108,7 @@
 ;;;;                     * Remove code done by  `lse-frame:fix-position`
 ;;;;     5-Oct-2016 (CT) Change `lse-frame:set-height:full` to initialize
 ;;;;                     `lse-frame:full-height` if necessary
+;;;;     5-Oct-2016 (CT) Add `visibility` to `lse-frame:list:show`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -986,31 +987,38 @@
                  (left        (cdr (assoc 'left        params)))
                  (name        (cdr (assoc 'name        params)))
                  (top         (cdr (assoc 'top         params)))
+                 (visibility  (cdr (assoc 'visibility  params)))
                  (width       (cdr (assoc 'width       params)))
                 )
-            (princ (format "%-40s %dx%d+%d+%d\n" name height width left top))
-            (add-text-properties head (point) (list 'face  'lse-face:fl:frame))
-            (dolist (window (lse-frame:window-list frame))
-              (let* ((head (point))
-                     (buffer (window-buffer window))
-                     (bufnam (buffer-name   buffer))
-                     (height (window-height window))
-                     (top    (nth 1         (window-edges window)))
-                    )
-                (when (and bufnam (lse-buffer:is-lse-buffer buffer))
-                  (princ (format "    %-50s %4d @%4d\n" bufnam height top))
-                  (add-text-properties head (point)
-                    (list
-                      'face   'lse-face:fl:buffer
-                      'window window
-                    )
-                  )
-                  (lse-hash:mms:put lse-frame:list:buffer-map bufnam frame)
+            (when visibility
+              (princ
+                (format "%-40s %dx%d+%d+%d  %s\n"
+                  name height width left top visibility
                 )
               )
+              (add-text-properties head (point) (list 'face  'lse-face:fl:frame))
+              (dolist (window (lse-frame:window-list frame))
+                (let* ((head (point))
+                       (buffer (window-buffer window))
+                       (bufnam (buffer-name   buffer))
+                       (height (window-height window))
+                       (top    (nth 1         (window-edges window)))
+                      )
+                  (when (and bufnam (lse-buffer:is-lse-buffer buffer))
+                    (princ (format "    %-50s %4d @%4d\n" bufnam height top))
+                    (add-text-properties head (point)
+                      (list
+                        'face   'lse-face:fl:buffer
+                        'window window
+                      )
+                    )
+                    (lse-hash:mms:put lse-frame:list:buffer-map bufnam frame)
+                  )
+                )
+              )
+              (add-text-properties head (point) (list 'frame frame))
+              (princ "\n")
             )
-            (add-text-properties head (point) (list 'frame frame))
-            (princ "\n")
           )
         )
         (goto-char (point-min))
