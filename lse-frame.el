@@ -356,7 +356,6 @@
             '(desktop-dont-save . t)
             '(height            . 40)
             '(width             . 80)
-            '(visibility        . icon)
           )
         )
       )
@@ -364,6 +363,7 @@
       ;; do it separately here, then
       (lse-frame:set-font lse-face:font:7x13 server-window)
       (lse-goto-buffer "*scratch*")
+      (iconify-frame server-window)
       (select-frame start-frame)
     )
   )
@@ -768,11 +768,11 @@
 
 ;;; 17-Nov-2009
 ;;; reset title-prefix after reading .emacs.desktop to get rid of legacy values
-(add-hook 'desktop-after-read-hook 'lse-frame:set-title-prefix)
-(add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
 (if (and lse-frame:setup-server-window-p lse-emacsX-p)
     (add-hook 'desktop-after-read-hook 'lse-frame:make-server-window)
 )
+(add-hook 'desktop-after-read-hook 'lse-frame:set-title-prefix)
+(add-hook 'desktop-after-read-hook 'lse-frame:restore-saved-config)
 
 (if lse-emacs24.4-p
     (progn
