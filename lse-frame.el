@@ -109,6 +109,9 @@
 ;;;;     5-Oct-2016 (CT) Change `lse-frame:set-height:full` to initialize
 ;;;;                     `lse-frame:full-height` if necessary
 ;;;;     5-Oct-2016 (CT) Add `visibility` to `lse-frame:list:show`
+;;;;     6-Oct-2016 (CT) Add `lse-frame:frameset-filter-height` and
+;;;;                     `lse-frame:frameset-filter-width` to fix desktop-save
+;;;;                     breakage (introduced by some change in gtk???)
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -777,6 +780,30 @@
 (if lse-emacs24.4-p
     (progn
       (require 'frameset)
+      ;; Since an update to gtk, iconified frames are saved with wrong width
+      ;; and height
+      ;;;  6-Oct-2016
+      (defun lse-frame:frameset-filter-height (current filtered _parameters saving)
+        (let ((val (cdr current))
+             )
+          (when (< val 10)
+            (setq val lse-frame:large-height)
+          )
+          (cons (car current) val)
+        )
+      ; lse-frame:frameset-filter-height
+      )
+      ;;;  6-Oct-2016
+      (defun lse-frame:frameset-filter-width (current filtered _parameters saving)
+        (let ((val (cdr current))
+             )
+          (when (< val 10)
+            (setq val lse-frame:std-width)
+          )
+          (cons (car current) val)
+        )
+      ; lse-frame:frameset-filter-width
+      )
       ;; without the following modification of `frameset-filter-alist`,
       ;; `desktop-restore-frames` looses the position of iconified frames
       ;; `frameset.el` claims that `left` and `top` of iconified frames are
@@ -816,6 +843,8 @@
             (top      . frameset-filter-shelve-param)
             (GUI:left . frameset-filter-unshelve-param)
             (GUI:top  . frameset-filter-unshelve-param)
+            (height   . lse-frame:frameset-filter-height);  6-Oct-2016
+            (width    . lse-frame:frameset-filter-width) ;  6-Oct-2016
            )
           (copy-tree frameset-filter-alist)
         )
