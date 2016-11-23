@@ -69,6 +69,8 @@
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12`
 ;;;;     4-Jan-2016 (CT) Add `lse-face:ml:highlight`, `:mouse`, `:overwrite`
 ;;;;    21-Feb-2016 (CT) Add `'lse-face:regexp-highlight`
+;;;;    23-Nov-2016 (CT) Change `font` of `mode-line-inactive`
+;;;;                     * Fix atrocity committed by Emacs 25
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -238,4 +240,30 @@
 (defconst lse-face:font:small   lse-face:font:6x13)
 (defconst lse-face:font:default lse-face:font:7x13)
 
+;;; 23-Nov-2016
+;;; if the `font` of `mode-line-inactive` is larger than the font used by
+;;; the buffer, the mode line is totally broken in Emacs 25.1
+(when (and lse-emacsX-p (symbolp 'mode-line-inactive))
+  (custom-set-faces
+    '(mode-line-inactive
+      ((t
+        (:foreground "Grey30" :background "Gray90"
+         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+        )
+       )
+       (((class color) (min-colors 88) (background light))
+        (:foreground "Grey30" :background "Gray90"
+         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+        )
+       )
+       (((class color) (min-colors 88) (background dark))
+        (:foreground "Grey90" :background "Gray50"
+         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+        )
+       )
+      )
+      t
+    )
+  )
+)
 ;;; __END__ lse-face.el
