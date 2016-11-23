@@ -168,6 +168,7 @@
 ;;;;    16-Nov-2014 (CT) Change back `interactive` of
 ;;;;                     `lse-flat-fill-in:replace-and-mouse-yank` to "e"
 ;;;;     4-Jan-2016 (CT) Use `:propertize` for mode-line
+;;;;    23-Nov-2016 (CT) Add and use `lse-flat-fill-in:replacement:recode`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -348,6 +349,7 @@
   (let* ((flat-range  (lse-fill-in:range                lse_current_fill-in))
          (inner-range (lse-fill-in:inner-range          lse_current_fill-in))
          (head-pos    (lse-range:head-pos               flat-range))
+         (tail-pos    (lse-range:tail-pos               flat-range))
          (complement  (lse-range:contents               flat-range))
          (rleading    (lse-fill-in:replacement-leading  psym))
          (rtrailer    (lse-fill-in:replacement-trailer  psym))
@@ -357,8 +359,7 @@
         )
     (goto-char head-pos)
     (lse-fill-in:remove-text-properties; 19-Mar-1995
-         head-pos (lse-range:tail-pos flat-range)
-         lse-flat-fill-in:flat-properties
+         head-pos tail-pos lse-flat-fill-in:flat-properties
     )
     (lse-fill-in:add-text-properties head-pos (lse-range:tail-pos flat-range)
          (list 'lse-fill-in:id (lse-fill-in:id lse_current_fill-in))
@@ -457,6 +458,17 @@
 ; lse-flat-fill-in:close-replacement
 )
 
+;;; 23-Nov-2016
+(defun lse-flat-fill-in:replacement:recode (head-pos tail-pos)
+  (let ((bcs buffer-file-coding-system)
+       )
+    (unless (eq bcs 'utf-8-unix)
+      (recode-region head-pos tail-pos 'utf-8 bcs)
+    )
+  )
+; lse-flat-fill-in:replacement:recode
+)
+
 ;;; 31-Dec-1997
 ;;; recompletion-action to remove whitespace around sexp
 (defun lse-flat:join-sexp-boundary-maybe ()
@@ -519,6 +531,7 @@
     (let ((head-pos (lse-range:head-pos range))
           (tail-pos (lse-range:tail-pos range))
          );  4-Oct-2002
+      (lse-flat-fill-in:replacement:recode head-pos tail-pos)
       (if hang-indent;  4-Oct-2002
           (let* ((exp-indent
                    (save-excursion
