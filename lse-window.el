@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -247,7 +247,7 @@
 
 (defun lse-scroll-window-forw ()
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (scroll-down (/ (window-height) 3))
   )
   (if (pos-visible-in-window-p (point)); 26-Feb-1997
@@ -259,7 +259,7 @@
 
 (defun lse-scroll-window-back ()
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (scroll-up   (/ (window-height) 3))
   )
   (if (pos-visible-in-window-p (point)); 26-Feb-1997
@@ -278,7 +278,7 @@
        )
     (recenter (or arg 0))
     (if (pos-visible-in-window-p (point-max))
-        (save-excursion
+        (save-mark-and-excursion
           (lse-tpu:move-to-end)
           (lse-tpu:backward-char 1)
           (setq pos-2 (point))
@@ -435,7 +435,7 @@
     (let ((hmark (lse-home-mark (lse-window-mark@stack)))
          )
       (if (markerp hmark)
-          (save-excursion
+          (save-mark-and-excursion
             (lse-goto-position hmark)
             (princ (format "%s (%d, %d)"
                            (buffer-name (marker-buffer hmark))

@@ -250,6 +250,7 @@
       prog1
       prog2
       save-excursion
+      save-mark-and-excursion
       save-match-data
       save-restriction
       save-window-excursion
@@ -581,8 +582,14 @@
 
 (lse-define-fill-in "save-excursion"
     '(token)
-    '(description           "Executes «form»··· in sequence, preserving the current buffer and its values of point and mark, but not window-buffer correspondeces")
+    '(description           "Executes «form»··· in sequence, preserving the current buffer and its values of point, but not window-buffer correspondeces")
     '(replacement           "(save-excursion " @ form-list & ")")
+)
+
+(lse-define-fill-in "save-mark-and-excursion"
+    '(token)
+    '(description           "Executes «form»··· in sequence, preserving the current buffer and its values of point and mark, but not window-buffer correspondeces")
+    '(replacement           "(save-mark-and-excursion " @ form-list & ")")
 )
 
 (lse-define-fill-in "save-match-data"
@@ -593,7 +600,7 @@
 
 (lse-define-fill-in "save-restriction"
     '(token)
-    '(description           "Executes «form»··· in sequence, preserving the narrowing bounds currently in effect (use inside save-excursion if both are necessary)")
+    '(description           "Executes «form»··· in sequence, preserving the narrowing bounds currently in effect (use inside save-mark-and-excursion if both are necessary)")
     '(replacement           "(save-restriction " @form-list ")")
 )
 

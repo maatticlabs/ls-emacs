@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -100,7 +100,7 @@
 
 ;;; 16-Oct-1995
 (defun lse-cc:set-compile-command ()
-  (save-excursion                             ;  16-Oct-1995
+  (save-mark-and-excursion                             ;  16-Oct-1995
     (lse-tpu:move-to-beginning)               ;  16-Oct-1995
     (if (re-search-forward "main *(" nil t)   ;  16-Oct-1995
         (set (make-local-variable 'compile-command)
@@ -125,7 +125,7 @@
 
 ;;; 30-Dec-1998
 (defun lse-cc:at-class-head-p ()
-  (save-excursion
+  (save-mark-and-excursion
     (if (not (bolp)) (lse-tpu:next-beginning-of-line 1))
     (looking-at lse-cc:class-pattern)
   )
@@ -217,7 +217,7 @@
 ;;; For the elements of a for-list 'arglist-cont-nonempty is used instead (a
 ;;; separate syntax category would be nice)
 (defun c-guess-basic-syntax-hide! ()
-  (save-excursion
+  (save-mark-and-excursion
     (save-restriction
       (beginning-of-line)
       (let* ((indent-point (point))
@@ -233,7 +233,7 @@
              ;; narrow out any enclosing class or extern "C" block
              (inclass-p (c-narrow-out-enclosing-class state indent-point))
              (inextern-p (and inclass-p
-                              (save-excursion
+                              (save-mark-and-excursion
                                 (save-restriction
                                   (widen)
                                   (goto-char (aref inclass-p 0))
@@ -242,7 +242,7 @@
 
         ;; get the buffer position of the most nested opening brace,
         ;; if there is one, and it hasn't been narrowed out
-        (save-excursion
+        (save-mark-and-excursion
           (goto-char indent-point)
           (skip-chars-forward " \t}")
           (skip-chars-backward " \t")
@@ -309,7 +309,7 @@
            ((eq char-after-ip ?{)
             (cond
              ;; CASE 5A.1: extern declaration
-             ((save-excursion
+             ((save-mark-and-excursion
                 (goto-char indent-point)
                 (skip-chars-forward " \t")
                 (and (c-safe (progn (backward-sexp 2) t))
@@ -322,7 +322,7 @@
               (goto-char placeholder)
               (c-add-syntax 'extern-lang-open (c-point 'boi)))
              ;; CASE 5A.2: we are looking at a class opening brace
-             ((save-excursion
+             ((save-mark-and-excursion
                 (goto-char indent-point)
                 (skip-chars-forward " \t{")
                 ;; TBD: watch out! there could be a bogus
@@ -343,7 +343,7 @@
                   ))
               (c-add-syntax 'class-open placeholder))
              ;; CASE 5A.3: brace list open
-             ((save-excursion
+             ((save-mark-and-excursion
                 (c-beginning-of-statement-1 lim)
                 ;; c-b-o-s could have left us at point-min
                 (and (bobp)
@@ -354,7 +354,7 @@
                 (setq placeholder (c-point 'boi))
                 (and (or (looking-at "enum[ \t\n]+")
                          (eq char-before-ip ?=))
-                     (save-excursion
+                     (save-mark-and-excursion
                        (skip-chars-forward "^;(" indent-point)
                        (not (memq (char-after) '(?\; ?\()))
                        )))
@@ -388,7 +388,7 @@
               (if (eq (char-before) ?\))
                   (backward-sexp 1))
               (setq placeholder (point))
-              (save-excursion
+              (save-mark-and-excursion
                 (and (c-safe (backward-sexp 1) t)
                      (looking-at "throw[^_]")
                      (c-safe (backward-sexp 1) t)
@@ -413,12 +413,12 @@
            ((or (and c-baseclass-key (looking-at c-baseclass-key))
                 (and (or (eq char-before-ip ?:)
                          ;; watch out for scope operator
-                         (save-excursion
+                         (save-mark-and-excursion
                            (and (eq char-after-ip ?:)
                                 (c-safe (progn (forward-char 1) t))
                                 (not (eq (char-after) ?:))
                                 )))
-                     (save-excursion
+                     (save-mark-and-excursion
                        (c-backward-syntactic-ws lim)
                        (if (eq char-before-ip ?:)
                            (progn
@@ -428,11 +428,11 @@
                        (looking-at c-class-key)))
                 ;; for Java
                 (and (eq major-mode 'java-mode)
-                     (let ((fence (save-excursion
+                     (let ((fence (save-mark-and-excursion
                                     (c-beginning-of-statement-1 lim)
                                     (point)))
                            cont done)
-                       (save-excursion
+                       (save-mark-and-excursion
                          (while (not done)
                            (cond ((looking-at c-Java-special-key)
                                   (setq injava-inher (cons cont (point))
@@ -500,7 +500,7 @@
              ;; CASE 5D.1: hanging member init colon, but watch out
              ;; for bogus matches on access specifiers inside classes.
              ((and (eq (char-before) ?:)
-                   (save-excursion
+                   (save-mark-and-excursion
                      (forward-word -1)
                      (not (looking-at c-access-key))))
               (goto-char indent-point)
@@ -520,7 +520,7 @@
              ((looking-at c-inher-key)
               (c-add-syntax 'inher-cont (c-point 'boi)))
              ;; CASE 5D.4: perhaps a template list continuation?
-             ((save-excursion
+             ((save-mark-and-excursion
                 (goto-char indent-point)
                 (skip-chars-backward "^<" lim)
                 ;; not sure if this is the right test, but it should
@@ -554,7 +554,7 @@
            ;; enclosing nested class decl
            ((and inclass-p
                  (eq char-after-ip ?})
-                 (save-excursion
+                 (save-mark-and-excursion
                    (save-restriction
                      (widen)
                      (forward-char 1)
@@ -575,10 +575,10 @@
                  ;; look.  The assumption is made that argdecls are
                  ;; indented at least one space and that function
                  ;; headers are not indented.
-                 (let ((limit (save-excursion
+                 (let ((limit (save-mark-and-excursion
                                 (re-search-backward "^[^ \^L\t\n#]" nil 'move)
                                 (point))))
-                   (save-excursion
+                   (save-mark-and-excursion
                      (c-backward-syntactic-ws limit)
                      (setq placeholder (point))
                      (while (and (memq (char-before) '(?\; ?,))
@@ -599,7 +599,7 @@
                                            (looking-at c-class-key))
                                          )))))
                      ))
-                 (save-excursion
+                 (save-mark-and-excursion
                    (c-beginning-of-statement-1)
                    (not (looking-at "typedef[ \t\n]+"))))
             (goto-char placeholder)
@@ -611,7 +611,7 @@
               (while (and inclass-p
                           c-access-key
                           (not (bobp))
-                          (save-excursion
+                          (save-mark-and-excursion
                             (c-safe (progn (backward-sexp 1) t))
                             (looking-at c-access-key)))
                 (backward-sexp 1)
@@ -665,7 +665,7 @@
             (c-add-syntax 'arglist-intro (c-point 'boi)))
            ;; CASE 6C: we are inside a conditional test clause. treat
            ;; these things as statements
-           ((save-excursion
+           ((save-mark-and-excursion
              (goto-char containing-sexp)
              (and (c-safe (progn (forward-sexp -1) t))
                   (looking-at "\\<for\\>[^_]")))
@@ -683,7 +683,7 @@
            ;; the opening bracket is not an identifier.
            ((and c-method-key
                  (eq (char-after containing-sexp) ?\[)
-                 (save-excursion
+                 (save-mark-and-excursion
                    (goto-char (1- containing-sexp))
                    (c-backward-syntactic-ws (c-point 'bod))
                    (if (not (looking-at c-symbol-key))
@@ -694,11 +694,11 @@
            ;; opening paren.  This case includes multi-line
            ;; mathematical paren groupings, but we could be on a
            ;; for-list continuation line
-           ((and (save-excursion
+           ((and (save-mark-and-excursion
                    (goto-char (1+ containing-sexp))
                    (skip-chars-forward " \t")
                    (not (eolp)))
-                 (save-excursion
+                 (save-mark-and-excursion
                    (c-beginning-of-statement-1 lim)
                    (skip-chars-backward " \t([")
                    (<= (point) containing-sexp)))
@@ -713,7 +713,7 @@
            ))
          ;; CASE 7: func-local multi-inheritance line
          ((and c-baseclass-key
-               (save-excursion
+               (save-mark-and-excursion
                  (goto-char indent-point)
                  (skip-chars-forward " \t")
                  (looking-at c-baseclass-key)))
@@ -743,7 +743,7 @@
                  (= (point) containing-sexp))
             (c-add-syntax 'brace-list-close (c-point 'boi)))
            ;; CASE 8B: we're looking at the first line in a brace-list
-           ((save-excursion
+           ((save-mark-and-excursion
               (goto-char indent-point)
               (c-backward-syntactic-ws containing-sexp)
               (= (point) (1+ containing-sexp)))
@@ -761,14 +761,14 @@
          ;; CASE 9: A continued statement
          ((and (not (memq char-before-ip '(?\; ?} ?:)))
                (> (point)
-                  (save-excursion
+                  (save-mark-and-excursion
                     (c-beginning-of-statement-1 containing-sexp)
                     (setq placeholder (point))))
                (/= placeholder containing-sexp))
           (goto-char indent-point)
           (skip-chars-forward " \t")
           (let ((after-cond-placeholder
-                 (save-excursion
+                 (save-mark-and-excursion
                    (goto-char placeholder)
                    (if (looking-at c-conditional-key)
                        (progn
@@ -792,7 +792,7 @@
              ((eq char-after-ip ?{)
               (cond
                ;; CASE 9B.1: class-open
-               ((save-excursion
+               ((save-mark-and-excursion
                   (goto-char indent-point)
                   (skip-chars-forward " \t{")
                   (let ((decl (c-search-uplist-for-classkey (c-parse-state))))
@@ -801,7 +801,7 @@
                     ))
                 (c-add-syntax 'class-open placeholder))
                ;; CASE 9B.2: brace-list-open
-               ((or (save-excursion
+               ((or (save-mark-and-excursion
                       (goto-char placeholder)
                       (looking-at "\\<enum\\>"))
                     (eq char-before-ip ?=))
@@ -853,7 +853,7 @@
             (goto-char indent-point)
             (skip-chars-forward " \t")
             (and (looking-at "while\\b[^_]")
-                 (save-excursion
+                 (save-mark-and-excursion
                    (c-backward-to-start-of-do containing-sexp)
                    (setq placeholder (point))
                    (looking-at "do\\b[^_]"))
@@ -874,7 +874,7 @@
          ;; the class
          ((eq char-after-ip ?})
           (let* ((lim (c-safe-position containing-sexp fullstate))
-                 (relpos (save-excursion
+                 (relpos (save-mark-and-excursion
                            (goto-char containing-sexp)
                            (if (/= (point) (c-point 'boi))
                                (c-beginning-of-statement-1 lim))
@@ -946,13 +946,13 @@
            ;; what came before was not a label, and what comes after
            ;; is not a globally scoped function call!
            ((or (and (memq char-before-ip '(?: ??))
-                     (save-excursion
+                     (save-mark-and-excursion
                        (goto-char indent-point)
                        (c-backward-syntactic-ws lim)
                        (back-to-indentation)
                        (not (looking-at c-label-key))))
                 (and (memq char-after-ip '(?: ??))
-                     (save-excursion
+                     (save-mark-and-excursion
                        (goto-char indent-point)
                        (skip-chars-forward " \t")
                        ;; watch out for scope operator
@@ -967,7 +967,7 @@
               ;; It is possible we're on the brace that opens a nested
               ;; function.
               (if (and (eq (char-after) ?{)
-                       (save-excursion
+                       (save-mark-and-excursion
                          (c-backward-syntactic-ws safepos)
                          (not (eq (char-before) ?\;))))
                   (c-beginning-of-statement-1 safepos))
@@ -992,7 +992,7 @@
            ;; statement in a top-level defun. we can tell this is it
            ;; if there are no enclosing braces that haven't been
            ;; narrowed out by a class, i.e. don't use bod here!
-           ((save-excursion
+           ((save-mark-and-excursion
               (save-restriction
                 (widen)
                 (goto-char containing-sexp)

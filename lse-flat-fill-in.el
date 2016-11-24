@@ -169,6 +169,7 @@
 ;;;;                     `lse-flat-fill-in:replace-and-mouse-yank` to "e"
 ;;;;     4-Jan-2016 (CT) Use `:propertize` for mode-line
 ;;;;    23-Nov-2016 (CT) Add and use `lse-flat-fill-in:replacement:recode`
+;;;;    28-Nov-2016 (CT) Add `cursor-intangible` (Emacs 25.1)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-flat-fill-in)
@@ -186,7 +187,7 @@
          lse::expansion-line-leading-indent
          lse::expansion-line-trailer-indent
         )
-     (save-excursion
+     (save-mark-and-excursion
        (and ,pos (goto-char ,pos))
        (setq lse::current-expansion-indent     (current-column))
        (setq lse::original-expansion-indent    (current-column))
@@ -318,7 +319,7 @@
        (delete-overlay lse-flat-fill-in:replacement-overlay)
   )
   (if lse-flat-fill-in:open-replacement-bobp
-      (save-excursion
+      (save-mark-and-excursion
         (goto-char (point-min))
         (lse-tpu:delete-next-char 1)
       )
@@ -328,7 +329,7 @@
 
 ;;; 28-Dec-1999
 (defvar lse-flat-fill-in:flat-properties
-        '(category nil intangible nil read-only t)
+        '(category nil cursor-intangible nil intangible nil read-only t)
 )
 
 (defun lse-flat-fill-in:open-replacement (psym name fill-type)
@@ -337,7 +338,7 @@
   (let ((rvanguard (lse-fill-in:replacement-vanguard psym)); 26-Jun-1994
        )
     (if (and rvanguard (not lse-flat-fill-in:no-vanguard))
-        (save-excursion ; 18-Mar-1997
+        (save-mark-and-excursion ; 18-Mar-1997
           (goto-char
                (lse-range:head-pos (lse-fill-in:range lse_current_fill-in))
           )
@@ -376,7 +377,7 @@
         (lse-flat-fill-in:interpret-replacement_in_env rleading)
     )
     (setq p (point-marker))
-    (save-excursion
+    (save-mark-and-excursion
       (or lse-flat-fill-in:auto-replicating; 26-Feb-1995
           (lse-flat-fill-in:interpret-replacement_in_env rtrailer head-pos)
       )
@@ -421,7 +422,7 @@
     ); 18-Mar-1995
     (if lazy ;  19-Aug-1995
         t    ;  19-Aug-1995
-      (save-excursion
+      (save-mark-and-excursion
         (and rcleading
              (goto-char head-pos)
              (lse-flat-fill-in:interpret-replacement_in_env rcleading)
@@ -473,7 +474,7 @@
 ;;; recompletion-action to remove whitespace around sexp
 (defun lse-flat:join-sexp-boundary-maybe ()
   (if lse_current_fill-in
-      (if (not (save-excursion
+      (if (not (save-mark-and-excursion
                  (skip-chars-forward  " \t\n")
                  (lse_looking_at_fill-in)
                )
@@ -534,7 +535,7 @@
       (lse-flat-fill-in:replacement:recode head-pos tail-pos)
       (if hang-indent;  4-Oct-2002
           (let* ((exp-indent
-                   (save-excursion
+                   (save-mark-and-excursion
                      (goto-char head-pos)
                      (current-column)
                    )
@@ -568,14 +569,14 @@
         (head-pos  (point))
        )
     (lse-flat-fill-in:interpret-replacement_in_env rleading)
-    (save-excursion
+    (save-mark-and-excursion
         (lse-flat-fill-in:interpret-replacement_in_env rtrailer head-pos)
     )
     (if expansion
         (lse-fill-in-insert expansion)
       (lse-flat-fill-in:interpret-replacement_in_env psym)
     )
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char head-pos)
       (lse-flat-fill-in:interpret-replacement_in_env rcleading)
     )
@@ -657,7 +658,7 @@
         (if body
             (progn
               (if (eobp)
-                  (save-excursion            ; otherwise strange things happen!
+                  (save-mark-and-excursion   ; otherwise strange things happen!
                     (lse-fill-in-insert " ")
                     (lse-newline)
                   )
@@ -727,7 +728,7 @@
         (delete-region token-head token-tail)
         (let ((rvanguard (lse-fill-in:replacement-vanguard psym))); 18-Mar-1997
           (and rvanguard
-               (save-excursion
+               (save-mark-and-excursion
                   (lse-flat-fill-in:interpret-replacement_in_env rvanguard)
                )
           )
@@ -983,7 +984,8 @@
     (if (or
           (bobp)
           (not (> et bt))
-          (save-excursion (skip-chars-backward " \t") (and (bolp) (setq bt et))
+          (save-mark-and-excursion
+            (skip-chars-backward " \t") (and (bolp) (setq bt et))
           );  4-May-2007
         )
         (setq token "\n"); 27-Apr-2003
@@ -1154,7 +1156,7 @@
 (defun lse-replacement@allowed ()
   ;; this functions assumes that current position is inside a flat fill-in
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (skip-chars-backward (concat "^" lse_fill-in_head_delim_chars))
       (lse-tpu:forward-char -1)
       (setq result (not (looking-at lse_no_replacement_fill-in_marker)))
@@ -1192,7 +1194,7 @@
         lse_replaced_fill-in                 ; avoid infinite recursion
         current-fill-in
        )
-    (save-excursion
+    (save-mark-and-excursion
       (while (and (> auto-replicate 0)
                   (lse-goto-next-fill-in t name)
              )
@@ -1221,7 +1223,7 @@
               lse_replaced_fill-in          ; avoid infinite recursion
               descendants current-fill-in
              )
-          (save-excursion
+          (save-mark-and-excursion
             (while (and (> auto-replicate 0)
                         (lse-goto-next-fill-in t name)
                    )
@@ -1434,7 +1436,7 @@
 
 ;;; 16-Feb-1995
 (defun lse-expand-future-fill-in (name how-many)
-  (save-excursion
+  (save-mark-and-excursion
     (let (lse_current_fill-in
          )
       (while (and (> how-many 0)
@@ -1726,7 +1728,7 @@ This function is used as key-binding in `lse-flat-fill-in:keymap' for
         (lse-fill-in:add-text-properties
              (lse-range:head-pos (lse-fill-in:inner-range lse_current_fill-in))
              (lse-range:tail-pos (lse-fill-in:inner-range lse_current_fill-in))
-             (list 'intangible t); 28-Dec-1999
+             (list 'intangible t 'cursor-intangible t)
         )
         (and  lse-fill-in:current-overlay; 25-Mar-1995
               (delete-overlay lse-fill-in:current-overlay)
@@ -1756,7 +1758,7 @@ This function is used as key-binding in `lse-flat-fill-in:keymap' for
 ;;; 13-Oct-1996
 (defun lse-flat-fill-in:highlight-all (head tail)
   ;; highlights all flat fill-in's in range `HEAD' and `TAIL'
-  (save-excursion
+  (save-mark-and-excursion
     (save-restriction
       (narrow-to-region head tail)
       (goto-char head)

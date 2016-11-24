@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2003-2014 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2003-2016 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -299,7 +299,7 @@
             (progn
               (setq head (car day))
               (setq tail
-                    (save-excursion
+                    (save-mark-and-excursion
                       (goto-char (or (cdr day) (point-max)))
                       (lse-tpu:line-head-pos 2)
                     )
@@ -791,7 +791,7 @@
 
 ;;; 12-Oct-2007
 (defun lse-cal:diary:process-buffer ()
-  (save-excursion
+  (save-mark-and-excursion
     (let ((b (get-buffer-create " *Diary Process Buffer*")))
       (set-buffer b)
       (erase-buffer)

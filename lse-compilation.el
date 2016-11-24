@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -129,7 +129,7 @@
 (defun lse-compile-defun ()
   "Evaluates the current lisp defun"
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-defun)
     (eval-defun nil)
   )

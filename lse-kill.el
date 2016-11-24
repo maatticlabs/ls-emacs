@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -56,7 +56,7 @@
 
 ;;; 22-Jan-1995
 (defun lse_kill:adjust_fill-in_leading (leading_range trailer_range)
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char (lse-range:head-pos leading_range))
     (if (or (and lse-comment:head_delim_pattern
               (looking-at (concat "[ \t\n]*" lse-comment:head_delim_pattern))
@@ -64,7 +64,7 @@
             (bolp)
         )
         (let (needs-adjustment)
-          (save-excursion
+          (save-mark-and-excursion
             (goto-char (lse-range:head-pos trailer_range))
             (if (looking-at
                   (concat "[ \t]*" (or lse-comment:tail_delim_pattern "$"))
@@ -89,11 +89,11 @@
 ;;; 22-Jan-1995
 (defun lse_kill:adjust_fill-in_trailer (leading_range trailer_range)
   (if lse-comment:tail_delim_pattern
-      (save-excursion
+      (save-mark-and-excursion
         (goto-char (lse-range:head-pos trailer_range))
         (if (looking-at (concat "[ \t\n]*" lse-comment:tail_delim_pattern))
             (let (needs-adjustment)
-              (save-excursion
+              (save-mark-and-excursion
                 (goto-char (lse-range:head-pos leading_range))
                 (if (and lse-comment:head_delim_pattern
                       (looking-at
@@ -121,7 +121,7 @@
 
 (defun lse_leading_head_position_sans_delim (fill-in_info)
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (lse-range:head-pos (lse-fill-in:range fill-in_info)))
       (if (not (eolp))
           (lse-skip-whitespace+empty-comments-backward
@@ -137,7 +137,7 @@
 
 (defun lse_leading_head_position_with_delim (fill-in_info leading)
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (lse-range:head-pos (lse-fill-in:range fill-in_info)))
       (skip-chars-backward " \t\n")
       (setq result (point-marker))
@@ -175,7 +175,7 @@
 
 (defun lse_trailer_tail_position_sans_delim (fill-in_info)
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (lse-range:tail-pos (lse-fill-in:range fill-in_info)))
       (if (not (bolp))
         (skip-chars-forward " \t")
@@ -195,7 +195,7 @@
 
 (defun lse_trailer_tail_position_with_delim (fill-in_info trailer)
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (lse-range:tail-pos (lse-fill-in:range fill-in_info)))
       (skip-chars-forward " \t\n")
       (if (looking-at trailer)
@@ -226,7 +226,7 @@
 
 (defun lse_kill:leading_blank_line_range (head)
   (let (p q)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char head)
       (setq p (point))
       (lse-skip-whitespace+empty-comments-backward
@@ -244,7 +244,7 @@
 
 (defun lse_kill:trailing_blank_line_range (tail)
   (let (p q)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char tail)
       (setq p (point))
       (lse-skip-whitespace+empty-comments-forward
@@ -441,7 +441,7 @@
 (defun lse-kill-future-fill-in (name how-many)
   (let ((descendants (lse-fill-in:descendants lse_dead_fill-in)); 26-Feb-1995
        )
-    (save-excursion
+    (save-mark-and-excursion
       (let (lse_current_fill-in
             lse_dead_fill-in
            )
@@ -491,7 +491,7 @@
     (let* ((descendants (lse-fill-in:descendants lse_dead_fill-in)))
       (setq lse_current_fill-in (lse-kill:unkill:inner lse_dead_fill-in))
       (setq lse_dead_fill-in    nil)
-      (save-excursion
+      (save-mark-and-excursion
         (mapc 'lse-kill:unkill:inner descendants)
       )
       (lse-goto-prev-fill-in)
@@ -503,7 +503,7 @@
 ;;; 31-Dec-1997
 (defun lse-kill:join-sexp-boundary-maybe ()
   (if lse_dead_fill-in
-      (if (not (save-excursion
+      (if (not (save-mark-and-excursion
                  (skip-chars-forward  " \t\n")
                  (lse_looking_at_fill-in)
                )

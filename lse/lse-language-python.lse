@@ -203,7 +203,7 @@
 (defun lse-python:update-patchlevel ()
   "Update patchlevel/date of a Python Version file."
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (save-match-data
       (if (verify-visited-file-modtime (current-buffer))
           t
@@ -274,7 +274,7 @@
 
 ;;;  5-Oct-2007
 (defun lse-python:update-patchlevel-one (name)
-  (save-excursion
+  (save-mark-and-excursion
     (if (get-buffer name)
         (progn
           (set-buffer name)

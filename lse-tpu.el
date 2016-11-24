@@ -218,6 +218,7 @@
 ;;;;                     prefix argument
 ;;;;    21-Feb-2016 (CT) Add `lse-tpu:highlight-search` and friends
 ;;;;    21-Feb-2016 (CT) Add `lse-tpu:search-history-index:set`
+;;;;    24-Nov-2016 (CT) Add `lse-tpu:move-to-line`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -962,7 +963,7 @@ Otherwise sets the lse-tpu:match markers to nil and returns nil."
    `len` if `pat` contains regexp quotes.
   "
   (save-match-data
-    (save-excursion
+    (save-mark-and-excursion
       (or len (setq len (length pat)))
       (backward-char len)
       (looking-at pat)
@@ -1468,15 +1469,15 @@ Accepts a prefix argument of the number of characters to invert."
 ;;; line head and tail functions
 ;;;-
 (defun lse-tpu:line-head-pos (&optional count)
-  (save-excursion (beginning-of-line count) (point))
+  (save-mark-and-excursion (beginning-of-line count) (point))
 )
 
 (defun lse-tpu:line-tail-pos (&optional count)
-  (save-excursion (end-of-line count) (point))
+  (save-mark-and-excursion (end-of-line count) (point))
 )
 
 (defun lse-tpu:line-tail-pos-sans-bs (&optional count)
-  (save-excursion
+  (save-mark-and-excursion
     (end-of-line count)
     (skip-chars-backward " \t")
     (point)
@@ -1621,7 +1622,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:enclose-range (begin end leader trailer)
   ;; Enclose range between begin and end by leader and trailer.
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char begin) (insert leader)
     (goto-char end)   (insert trailer)
   )
@@ -1637,7 +1638,7 @@ Accepts a prefix argument of the number of characters to invert."
     (if (equal br er)
         (progn
           (insert leader)
-          (save-excursion (insert trailer))
+          (save-mark-and-excursion (insert trailer))
         )
       (lse-tpu:enclose-range br (1+ er) leader trailer)
       (setq deactivate-mark nil); 17-Mar-1995
@@ -1648,7 +1649,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:nearby@start (pos pat)
   ;; Checks if `pat' starts near position `pos'. Return start-position or nil.
-  (save-excursion
+  (save-mark-and-excursion
     (let ((len    (chars-in-string pat))
           (i      0)
           (result nil)
@@ -1680,7 +1681,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:de-enclose-range (begin end leader trailer)
   ;; Remove leader and trailer from boundaries of range between begin and end.
   ;; Returns amount by which end marked is affected.
-  (save-excursion
+  (save-mark-and-excursion
     (let ((b (lse-tpu:nearby@start begin leader ))
           (e (lse-tpu:nearby@start end   trailer))
          )
@@ -1772,7 +1773,7 @@ Accepts a prefix argument of the number of characters to invert."
         tail
         (wpat (concat "[" lse-tpu:word-chars "]"))
        )
-    (save-excursion
+    (save-mark-and-excursion
       (if (or (looking-at (concat wpat))
               (re-search-backward wpat)
               (prog1
@@ -1781,11 +1782,11 @@ Accepts a prefix argument of the number of characters to invert."
               )
           )
           (progn
-            (save-excursion
+            (save-mark-and-excursion
               (skip-chars-backward lse-tpu:word-chars)
               (setq head (point))
             )
-            (save-excursion
+            (save-mark-and-excursion
               (skip-chars-forward lse-tpu:word-chars)
               (setq tail (1- (point))); 15-Oct-1995 (1- ...)
             )
@@ -1817,7 +1818,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 (defun lse-tpu:capitalize-region@weakly (head tail)
   (let ((lse-tpu:word-chars lse-tpu:ident-chars))
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char head)
       (while (< (point) tail)
         (capitalize-region (point) (1+ (point)))
@@ -1868,7 +1869,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:curr-word-head-pos ()
   (let (result)
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (if (looking-at (concat "[" lse-tpu:word-chars "]"))
             (progn
               (skip-chars-backward lse-tpu:word-chars)
@@ -1889,7 +1890,7 @@ Accepts a prefix argument of the number of characters to invert."
         (word-pat (concat "[" lse-tpu:word-chars "]"))
        )
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (when (looking-at lse-tpu:word-whitespace-chars)
           (skip-chars-backward lse-tpu:word-whitespace-chars)
         )
@@ -1907,7 +1908,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:next-word-head-pos (num &optional limit)
   (let ((result (point)))
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (or limit (setq limit (point-max)))
         (while (and (> num 0) (< (point) limit))
           (if (looking-at (concat "[" (lse-tpu:punctuation-chars) "]"))
@@ -1930,7 +1931,7 @@ Accepts a prefix argument of the number of characters to invert."
         at-punctuation
        )
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (or limit (setq limit (point-max)))
         (while (and (> num 0) (< (point) limit))
           (skip-chars-forward lse-tpu:word-whitespace-chars)
@@ -1954,7 +1955,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:prev-word-head-pos (num &optional limit)
   (let ((result (point)))
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (or limit (setq limit (point-min)))
         (while (and (> num 0) (> (point) limit))
           (skip-chars-backward lse-tpu:word-whitespace-chars)
@@ -1977,7 +1978,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:prev-word-tail-pos (num &optional limit)
   (let ((result (point)))
     (save-match-data
-      (save-excursion
+      (save-mark-and-excursion
         (or limit (setq limit (point-min)))
         (while (and (> num 0) (> (point) limit))
           (lse-tpu:forward-char -1)
@@ -2067,7 +2068,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 ;;; 18-Feb-2012
 (defun lse-tpu:stmt-block-head-pos (&optional limit count)
-  (save-excursion
+  (save-mark-and-excursion
     (when (or
             (looking-at lse-tpu:block-stmt-pat)
             (re-search-backward lse-tpu:block-stmt-pat limit t count)
@@ -2080,7 +2081,7 @@ Accepts a prefix argument of the number of characters to invert."
 
 ;;; 18-Feb-2012
 (defun lse-tpu:stmt-block-tail-pos (count)
-  (save-excursion
+  (save-mark-and-excursion
     (let* ((cp   (point))
            (head (lse-tpu:stmt-block-head-pos nil count))
            (i    count)
@@ -2133,7 +2134,7 @@ Accepts a prefix argument of the number of characters to invert."
   (interactive "^p")
   (save-match-data
     (let (tail)
-      (save-excursion
+      (save-mark-and-excursion
         (unless (bobp) (backward-char 1))
         (setq tail (lse-tpu:stmt-block-tail-pos count))
       )
@@ -2275,7 +2276,7 @@ Accepts a prefix argument of the number of characters to invert."
   (let* ((cp    (point))
          (count (lse-tpu:repeat-factor count) )
          (head
-           (save-excursion
+           (save-mark-and-excursion
              (lse-tpu:goto-prev-char count nil char)
              (point-marker)
            )
@@ -2293,7 +2294,7 @@ Accepts a prefix argument of the number of characters to invert."
           )
         (goto-char cp)
         (setq head
-          (save-excursion (lse-tpu:goto-prev-char i nil char) (point-marker))
+          (save-mark-and-excursion (lse-tpu:goto-prev-char i nil char) (point-marker))
         )
       )
     )
@@ -2400,7 +2401,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:join-line-head ()
   "Join this line to previous."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (lse-tpu:join-line:inner nil)
   )
 ; lse-tpu:join-line-head
@@ -2410,7 +2411,7 @@ Accepts a prefix argument of the number of characters to invert."
 (defun lse-tpu:join-line-tail ()
   "Join this line to next."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (lse-tpu:join-line:inner +1)
   )
 ; lse-tpu:join-line-tail
@@ -2514,7 +2515,7 @@ Prefix argument means: append to paste buffer."
   (interactive "*P")
   (let ((head (point))
         (tail
-          (save-excursion
+          (save-mark-and-excursion
             (lse-tpu:forward-char (lse-tpu:repeat-factor)) (point)
           )
         )
@@ -2540,7 +2541,7 @@ Prefix argument means: append to paste buffer."
     )
     (let ((tail (point))
           (head
-            (save-excursion
+            (save-mark-and-excursion
               (lse-tpu:backward-char (lse-tpu:repeat-factor)) (point)
             )
           )
@@ -2591,7 +2592,7 @@ Prefix argument means: append to paste buffer."
   (interactive "*P")
   (let ((head (point))
         (tail
-          (save-excursion
+          (save-mark-and-excursion
             (lse-tpu:goto-next-bs-word-tail (lse-tpu:repeat-factor))
             (point)
           )
@@ -2617,7 +2618,7 @@ Prefix argument means: append to paste buffer."
   (interactive "*P")
   (let ((tail (point))
         (head
-          (save-excursion
+          (save-mark-and-excursion
             (lse-tpu:goto-prev-bs-word-head (lse-tpu:repeat-factor))
             (point)
           )
@@ -2633,7 +2634,7 @@ Prefix argument means: append to paste buffer."
   (interactive "*P")
   (let ((tail (point))
         (head
-          (save-excursion
+          (save-mark-and-excursion
             (lse-tpu:goto-prev-bs-word-tail (lse-tpu:repeat-factor))
             (point)
           )
@@ -2865,7 +2866,7 @@ Prefix argument means: append to paste buffer."
   (interactive "P")
   (let (head tail
        )
-    (save-excursion
+    (save-mark-and-excursion
       (beginning-of-defun) (setq head (point))
       (end-of-defun)       (setq tail (point))
     )
@@ -2900,7 +2901,7 @@ With argument reinserts the text that many times."
            tail
           )
        (while (> num 0)
-         (save-excursion
+         (save-mark-and-excursion
            (picture-yank-rectangle (not overwrite-mode))
            (message "")
            (setq tail (point))
@@ -2929,7 +2930,7 @@ With argument reinserts the text that many times."
         (open-line 1)
     )
     (setq delta (max 0 (- (lse-tpu:line-tail-pos-sans-bs 1) (point))))
-    (save-excursion
+    (save-mark-and-excursion
       (lse-tpu:previous-line (lse-tpu:repeat-factor count))
       (if (eolp)
           t; relax
@@ -2947,7 +2948,7 @@ With argument reinserts the text that many times."
   (interactive "*P")
   (let (head tail
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-tpu:previous-line (lse-tpu:repeat-factor count))
       (if (eolp)
           t
@@ -3160,7 +3161,7 @@ direction."
           )
           ((not dont-look-other-dir)
             (lse-tpu:adjust-search t)
-            (save-excursion
+            (save-mark-and-excursion
               (let ((lse-tpu:search-dir (- 1 lse-tpu:search-dir)))
                 (setq found (lse-tpu:search+goto pat nil stay-at-bob count))
                 (unless quiet
@@ -3349,7 +3350,7 @@ and backward a character after a failed search.  Arg means end of search."
   (let ((go-on t)
         (repl-number 0)
        )
-    (save-excursion
+    (save-mark-and-excursion
       (while go-on
         (lse-tpu:replace-one to)
         (setq repl-number (1+ repl-number))
@@ -3362,7 +3363,7 @@ and backward a character after a failed search.  Arg means end of search."
 )
 
 (defun lse-tpu:replace@all (from to head-limit tail-limit)
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char head-limit)
     (unless (looking-at from)
       (lse-tpu:search+goto+set-match from tail-limit)
@@ -3375,7 +3376,7 @@ and backward a character after a failed search.  Arg means end of search."
 ;;; 14-Nov-2014
 (defun lse-tpu:replace@all/quickly (from to head-limit tail-limit)
   (let ((repl-number 0))
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char head-limit)
       (while (re-search-forward from tail-limit t)
         (replace-match to (not case-replace))
@@ -3459,7 +3460,7 @@ and backward a character after a failed search.  Arg means end of search."
         (let ((found nil)
               (match-pos nil)
              )
-          (save-excursion
+          (save-mark-and-excursion
             (goto-char head-limit)
             (lse-tpu:adjust-search nil t)
             (setq found (lse-tpu:search+goto+set-match from cp))
@@ -3533,7 +3534,7 @@ or to the current line if no region is selected."
   )
   (if (string= "" text) (error "No string specified."))
   (cond ((lse-tpu:mark)
-         (save-excursion
+         (save-mark-and-excursion
            (if (> (point) (lse-tpu:mark)) (lse-tpu:exchange-point-and-mark))
            (while (and (< (point) (lse-tpu:mark))
                        (re-search-forward "^" (lse-tpu:mark) t)
@@ -3543,7 +3544,7 @@ or to the current line if no region is selected."
          )
         )
         (t
-         (save-excursion
+         (save-mark-and-excursion
            (if (not (bolp))
                (lse-tpu:next-beginning-of-line 1)
            )
@@ -3563,7 +3564,7 @@ or to the current line if no region is selected."
   )
   (if (string= "" text) (error "No string specified."))
   (cond ((lse-tpu:mark)
-         (save-excursion
+         (save-mark-and-excursion
            (if (> (point) (lse-tpu:mark)) (lse-tpu:exchange-point-and-mark))
            (while (< (point) (lse-tpu:mark))
              (end-of-line)
@@ -3573,7 +3574,7 @@ or to the current line if no region is selected."
          )
         )
         (t
-         (save-excursion
+         (save-mark-and-excursion
            (if (not (eolp))
                (lse-tpu:next-end-of-line 1)
            )
@@ -3593,7 +3594,7 @@ or from the current line if no region is selected."
   )
   (if (string= "" text) (error "No string specified."))
   (cond ((lse-tpu:mark)
-         (save-excursion
+         (save-mark-and-excursion
            (if (> (point) (lse-tpu:mark)) (lse-tpu:exchange-point-and-mark))
            (while (and (< (point) (lse-tpu:mark))
                        (re-search-forward (concat "^" text) (lse-tpu:mark) t)
@@ -3605,7 +3606,7 @@ or from the current line if no region is selected."
          )
         )
         (t
-         (save-excursion
+         (save-mark-and-excursion
            (if (not (bolp))
                (lse-tpu:next-beginning-of-line 1)
            )
@@ -3627,7 +3628,7 @@ or from the current line if no region is selected."
   )
   (if (string= "" text) (error "No string specified."))
   (cond ((lse-tpu:mark)
-         (save-excursion
+         (save-mark-and-excursion
            (if (> (point) (lse-tpu:mark)) (lse-tpu:exchange-point-and-mark))
            (while (and (< (point) (lse-tpu:mark))
                        (re-search-forward (concat text "$") (lse-tpu:mark) t)
@@ -3639,7 +3640,7 @@ or from the current line if no region is selected."
          )
         )
         (t
-         (save-excursion
+         (save-mark-and-excursion
            (save-restriction
              (narrow-to-region
                   (lse-tpu:line-head-pos) (1+ (lse-tpu:line-tail-pos))
@@ -3901,6 +3902,15 @@ A repeat count means scroll that many sections."
   (goto-char (point-max))
   (recenter -1)
 ; lse-tpu:move-to-end
+)
+
+;;; 24-Nov-2016
+(defun lse-tpu:move-to-line (number)
+  "Goto line `number' in buffer"
+  (interactive "^NLine number: ")
+  (goto-char (point-min))
+  (forward-line (1- number))
+; lse-tpu:move-to-line
 )
 
 ;;;

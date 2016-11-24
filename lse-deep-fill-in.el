@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -66,7 +66,7 @@
           (if (equal (lse-range:tail range)          ; 22-Jan-1995
                      (lse-range:head dupl-range)     ; 22-Jan-1995
               )                                      ; 22-Jan-1995
-              (save-excursion                        ; 22-Jan-1995
+              (save-mark-and-excursion               ; 22-Jan-1995
                 (goto-char (lse-range:tail range))   ; 22-Jan-1995
                 (lse-tpu:delete-next-char 1)         ; 22-Jan-1995
               )                                      ; 22-Jan-1995
@@ -83,7 +83,7 @@
     (lse-range:change-tail-pos range tail-pos)
     (if (vectorp dupl-range)
         (if (eq state 'lse::flat)
-            (save-excursion
+            (save-mark-and-excursion
               (goto-char tail-pos)
               (lse-fill-in:change-duplicate toggle_fill-in
                 (lse-fill-in:duplicate-current psym name head-pos)
@@ -111,7 +111,7 @@
       (lse_fill-in_history:add_unexpansion
            (lse-fill-in:toggle-expansion lse-fill-in:last)
       )
-      (save-excursion                         ; 12-Jun-1994 auto-replication
+      (save-mark-and-excursion                         ; 12-Jun-1994 auto-replication
         (mapc 'lse-fill-in:toggle-expansion
           (lse-fill-in:descendants lse-fill-in:last)
         )

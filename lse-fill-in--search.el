@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -75,7 +75,7 @@
 (defun lse_current_fill-in_is_optional ()
   (let (result)
     (if lse_current_fill-in
-        (save-excursion
+        (save-mark-and-excursion
           (goto-char
              (lse-range:head-pos (lse-fill-in:range lse_current_fill-in))
           )
@@ -221,7 +221,7 @@
                       )
                  )
                    ;; check if the current fill-in is still valid
-                   (save-excursion
+                   (save-mark-and-excursion
                      (goto-char
                           (lse-range:head-pos
                                (lse-fill-in:inner-range lse_current_fill-in)
@@ -238,7 +238,7 @@
                    ;; we are already inside an flat fill-in
                   )
                 (t ;; outside the currently considered flat fill-in
-                   (save-excursion
+                   (save-mark-and-excursion
                      (let (found)
                        (save-restriction
                          (narrow-to-region

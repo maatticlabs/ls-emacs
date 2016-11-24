@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -100,7 +100,7 @@
 
 ;;; 20-Jan-2011
 (defun lse-indent:level:curr ()
-  (save-excursion
+  (save-mark-and-excursion
     (lse-indent:goto-indent-pos 0)
     (if (and (bolp) (integerp lse::current-expansion-indent))
         lse::current-expansion-indent
@@ -151,7 +151,7 @@
 
 ;;; 20-Jan-2011
 (defun lse-indent:level:prev (&optional delta)
-  (save-excursion
+  (save-mark-and-excursion
     (lse-indent:goto-indent-pos (if (integerp delta) delta 1))
     (if (bolp)
         (if (and
@@ -373,7 +373,7 @@
 (defun lse-indent:add-end-of-defun-comment ()
   "Add comment with defun-name to end of current defun"
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-defun)
     (let* ((lse-tpu:word-chars lse-tpu:blank-sep-word-chars)
            (d-name
@@ -386,7 +386,7 @@
            comment
           )
       (forward-list)
-      (save-excursion
+      (save-mark-and-excursion
         (lse-tpu:next-beginning-of-line 2)
         (if (looking-at comment-pat)
             (progn
@@ -409,17 +409,17 @@
   "Format defun to be readable by GNU hackers."
   (interactive "*")
   (lse-indent:add-end-of-defun-comment)
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-defun)
     (let* ((start (point))
-           (end   (save-excursion (forward-list) (point-marker)))
+           (end   (save-mark-and-excursion (forward-list) (point-marker)))
            (indent-line-function 'lisp-indent-line)
            head
            tail
           )
       (lse-safe
         (while t
-          (save-excursion
+          (save-mark-and-excursion
             (forward-list)
             (down-list -1)
             (setq tail (point-marker))
@@ -427,7 +427,9 @@
                   ;; whitespace before ')'
                   (< (skip-chars-backward " \t\n") 0)
                   ;; not in comment
-                  (= (point) (save-excursion (forward-comment -1) (point)))
+                  (= (point)
+                     (save-mark-and-excursion (forward-comment -1) (point))
+                  )
                 )
                 (progn
                   (delete-region (point) tail)
@@ -460,17 +462,17 @@
 (defun lse-indent:format-defun-ct ()
   "Format defun to be readable by CT."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-defun)
     (let* ((start (point))
-           (end   (save-excursion (forward-list) (point-marker)))
+           (end   (save-mark-and-excursion (forward-list) (point-marker)))
            (indent-line-function 'lse-indent-line)
            h-eol
           )
       (lse-safe
         (while t
-          (setq h-eol (save-excursion (end-of-line) (point)))
-          (save-excursion
+          (setq h-eol (save-mark-and-excursion (end-of-line) (point)))
+          (save-mark-and-excursion
             (forward-list)
             (down-list -1)
             (if (< h-eol (point)) (newline-and-indent))
@@ -490,7 +492,7 @@
 
 ;;;  2-Jan-1998
 (defun lse-indent:format-defuns (formatter)
-  (save-excursion
+  (save-mark-and-excursion
     (lse-tpu:move-to-beginning)
     (while (re-search-forward "^(defun " nil t)
       (funcall formatter)
@@ -512,7 +514,7 @@
   "Apply `lse-indent:format-defun-ct' to all defuns in buffer."
   (interactive "*")
   (lse-indent:format-defuns 'lse-indent:format-defun-ct)
-  (save-excursion
+  (save-mark-and-excursion
     (lse-tpu:move-to-beginning)
     (lse-tpu:replace-all ")\n\\([ \\t]*\n\\)+)" ")\n)")
   )

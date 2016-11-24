@@ -10,11 +10,11 @@
       (lse-language:initial-fill-in      "««ebnf-production»»···")
      )
     '(lse-tpu:toggle-newline-and-indent
-      lse-tpu:auto-fill-mode:on 
+      lse-tpu:auto-fill-mode:on
      )
     '(
       "lse-templates-ebnf"
-      "lse-templates-ebnf-xbw"; 18-Mar-1997 
+      "lse-templates-ebnf-xbw"; 18-Mar-1997
      )
     137
      67
@@ -30,7 +30,7 @@
 ;;; 18-Mar-1997
 (defun xbw-ebnf-add-prev-eof-comment ()
   (if (eq (current-column) (current-indentation))
-      (save-excursion
+      (save-mark-and-excursion
         (lse-tpu:previous-end-of-line 1)
         (skip-chars-backward " \t")
         (insert "%")

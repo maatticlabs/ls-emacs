@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -190,9 +190,9 @@
         ;; position in other windows showing the same buffer
         ;; (shame on emacs!!! at least I don't understand why this happens)
         (save-window-excursion
-          (save-excursion
+          (save-mark-and-excursion
             (if (eobp)
-                (save-excursion
+                (save-mark-and-excursion
                   (lse-fill-in-insert " \n")
                   (setq th (point-marker))
                   (lse-fill-in-insert
@@ -220,7 +220,7 @@
             (and th tt (delete-region th tt))
             (setq th nil)
             (setq tt nil)
-          ); save-excursion
+          ); save-mark-and-excursion
         ); save-window-excursion
         (goto-char p)
         (setq p nil)
@@ -368,7 +368,7 @@
         (lse_fill-in_history:add_expansion
              (lse-fill-in:toggle-expansion lse-fill-in:last)
         )
-        (save-excursion                         ; 12-Jun-1994 auto-replication
+        (save-mark-and-excursion                 ; 12-Jun-1994 auto-replication
           (mapc 'lse-fill-in:toggle-expansion
             (lse-fill-in:descendants lse-fill-in:last)
           )
@@ -450,7 +450,7 @@
             )
         (lse-kill:current-fill-in)
         (if kaction         ; 18-Feb-1995
-            (save-excursion ; 18-Feb-1995
+            (save-mark-and-excursion ; 18-Feb-1995
               (lse-flat-fill-in:interpret-replacement_in_env kaction);18-Feb-95
             )
         )

@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2014 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;; This file is part of the LS-Emacs.
@@ -144,7 +144,7 @@
 (defun lse-js:catch-semicolon ()
   "Remove whitespace to immediately following semicolon, if any."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (let ((cp (point-marker)))
       (skip-chars-forward " \t\n")
       (if (looking-at ";")
@@ -173,7 +173,7 @@
   (let ((cp (point-marker))
         behind-brace
        )
-    (save-excursion
+    (save-mark-and-excursion
       (skip-chars-backward "; \t\n")
       (if (progn (backward-char 1) (setq behind-brace (looking-at "}")))
           (progn
@@ -195,7 +195,7 @@
 (defun lse-js:remove-period ()
   "Remove prev period."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (let ((cp (point-marker)))
       (skip-chars-backward " \t\n")
       (if (progn (backward-char 1) (looking-at "\\."))
@@ -210,7 +210,7 @@
 (defun lse-js:remove-semicolon (&optional both-directions)
   "Remove next semicolon."
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (if both-directions (skip-chars-backward "; \t\n"))
     (let ((cp (point-marker)))
       (skip-chars-forward " \t\n")
@@ -268,7 +268,7 @@
         )
         (t
          (let* ((after-comma
-                  (save-excursion
+                  (save-mark-and-excursion
                     (lse-tpu:previous-line 1)
                     (lse-line-startswith " *, \\w+ *: *")
                   )

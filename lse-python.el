@@ -1,6 +1,6 @@
 ;-*- coding: utf-8; -*-
 
-;;;; Copyright (C) 2015 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2015-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This file is part of the LS-Emacs, a package built on top of GNU Emacs.
@@ -215,7 +215,7 @@ via `match-string'."
 
 ;;; 15-Jul-2015
 (defun lse-python::end-comment-pos (indent)
-  (save-excursion
+  (save-mark-and-excursion
     (save-match-data
       (catch 'result
         (while (not (eobp))
@@ -269,7 +269,7 @@ via `match-string'."
 ;;; 18-Nov-2002
 (defun lse-python::goto-end-of-last-statement ()
   (lse-tpu:next-end-of-line 0)
-  (while (and (save-excursion
+  (while (and (save-mark-and-excursion
                 (beginning-of-line)
                 (looking-at lse-python:blank-or-comment-re)
               )
@@ -426,7 +426,7 @@ via `match-string'."
 ;;; 15-Jul-2015
 (defun lse-python::looking-at-line (regexp &optional no-syntax)
   (and (or no-syntax (not (lse-python:in-comment-or-string-p)))
-       (save-excursion
+       (save-mark-and-excursion
          (beginning-of-line 1)
          (looking-at regexp)
        )
@@ -606,7 +606,7 @@ via `match-string'."
 
 ;;; 30-Aug-2010
 (defun lse-python:near-top-pos ()
-  (save-excursion
+  (save-mark-and-excursion
     (save-match-data
       (lse-tpu:move-to-beginning)
       (re-search-forward "^#--")

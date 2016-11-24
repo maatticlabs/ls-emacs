@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -152,7 +152,7 @@
 
 (defun swing-kartei:map-entries (map-fct)
   (let (ce)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (point-min))
       (while (setq ce (swing-kartei:entry:value ".+"))
         (funcall map-fct ce)
@@ -182,7 +182,7 @@
            (src-buf dst-buf limit field-name &optional trailer indent)
   (let (field)
     (set-buffer src-buf)
-    (save-excursion
+    (save-mark-and-excursion
       (setq field (or (swing-kartei:field-value limit field-name) ""))
     )
     (set-buffer dst-buf)
@@ -223,7 +223,7 @@
 (defun swing-kartei:copy-field+tail-option
            (src-buf dst-buf limit field-name &optional trailer indent)
   (set-buffer src-buf)
-  (save-excursion
+  (save-mark-and-excursion
     (if (re-search-forward
            (concat "\\\\" field-name swing-kartei:pattern:arg-of-macro)
            limit
@@ -272,7 +272,7 @@
                       (error "Buffer and file for kartei %s do not match"
                              full-name
                       )
-                    (save-excursion
+                    (save-mark-and-excursion
                       (lse-kill-buffer rbuf)
                       (setq rbuf (find-file-noselect full-name))
                     )
@@ -284,7 +284,7 @@
                 (error "Kartei %s not found" full-name)
             )
             (if read-only
-                (save-excursion
+                (save-mark-and-excursion
                   (set-buffer rbuf)
                   (setq buffer-read-only t)
                 )
@@ -309,7 +309,7 @@
         )
     (if (not entry-name)
         t                               ; relax
-      (save-excursion
+      (save-mark-and-excursion
         (set-buffer (swing-kartei:get-file-buffer
                           kartei-dir kartei-name "summary"
                     )
@@ -354,7 +354,7 @@
         )
     (if (not entry-name)
         t                               ; relax
-      (save-excursion
+      (save-mark-and-excursion
         (set-buffer (swing-kartei:get-file-buffer
                           kartei-dir kartei-name "kartei" t
                     )
@@ -378,7 +378,7 @@
 
 (defun swing-kartei:assert-consistency
            (entry-name initial-value with-buffer kartei-case-fold-search)
-  (save-excursion
+  (save-mark-and-excursion
     (let (old-entry)
       (set-buffer with-buffer)
       (setq case-fold-search kartei-case-fold-search)
@@ -398,7 +398,7 @@
   (if (not swing-kartei:entry:kartei-name)
       (error "Current buffer does not contain a kartei entry")
   )
-  (save-excursion
+  (save-mark-and-excursion
     (if (fboundp swing-kartei:entry:commit-entry-hook)
         (funcall swing-kartei:entry:commit-entry-hook)
     )
@@ -469,7 +469,7 @@
           swing-kartei:entry:kartei-name
       )
     ); let
-  ); save-excursion
+  ); save-mark-and-excursion
   (set-buffer-modified-p nil)
   (lse-kill-buffer (current-buffer))
 ; swing-kartei:commit-entry
@@ -480,7 +480,7 @@
             make-entry-summary limit src-buf kartei-case-fold-search
            )
   (let ((successor ""))
-    (save-excursion
+    (save-mark-and-excursion
       (set-buffer (swing-kartei:get-file-buffer
                        kartei-dir kartei-name "summary"
                   )
@@ -509,7 +509,7 @@
   (if (not swing-kartei:entry:kartei-name)
       (error "Current buffer does not contain a kartei entry")
   )
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char 1)
     (let* ((kartei-buf    (swing-kartei:get-file-buffer
                                swing-kartei:entry:kartei-dir
@@ -546,7 +546,7 @@
           swing-kartei:entry:kartei-name
       )
     ); let
-  ); save-excursion
+  ); save-mark-and-excursion
   (set-buffer-modified-p nil)
   (lse-kill-buffer (current-buffer))
 ; swing-kartei:delete-entry
@@ -558,7 +558,7 @@
   (if (not swing-kartei:entry:kartei-name)
       (error "Current buffer does not contain a kartei entry")
   )
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char 1)
     (let* ((kartei-buf       (swing-kartei:get-file-buffer
                                 swing-kartei:entry:kartei-dir
@@ -607,7 +607,7 @@
           swing-kartei:entry:kartei-name
       )
     ); let
-  ); save-excursion
+  ); save-mark-and-excursion
 ; swing-kartei:rename-entry
 )
 
@@ -617,7 +617,7 @@
   (if (not swing-kartei:entry:kartei-name)
       (error "Current buffer does not contain a kartei entry")
   )
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char 1)
     (if (equal (swing-kartei:entry:value
                    (lse-file-name-sans-extension (buffer-name)) 'quiet
@@ -639,7 +639,7 @@
 )
 
 (defun swing-kartei:save_buffers (kartei_buf summary_buf)
-  (save-excursion
+  (save-mark-and-excursion
     (set-buffer  kartei-buf)
     (save-buffer nil)
     (set-buffer  summary-buf)
@@ -649,7 +649,7 @@
 )
 
 (defun swing-kartei:log (mode entry dir name)
-  (save-excursion
+  (save-mark-and-excursion
     (set-buffer
         (swing-kartei:get-file-buffer dir (concat "." name) mode nil t)
     )

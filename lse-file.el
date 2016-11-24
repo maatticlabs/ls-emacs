@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -82,7 +82,7 @@
     (let (buf
           error
          )
-      (save-excursion
+      (save-mark-and-excursion
         (setq buf (create-file-buffer filename))
         (set-buffer buf)
         (erase-buffer)
@@ -167,7 +167,7 @@
   "Reads file into a new buffer and displays it in another window."
   (interactive "P")
   (let ((w (selected-window)))
-    (save-excursion
+    (save-mark-and-excursion
       (lse-file::visit
            'switch-to-buffer-other-window file (not must-not-exist)
       )
@@ -336,7 +336,7 @@ Doesn't overrule file protection."
 (defun lse-file:update-copyright ()
   "Update copyright in current buffer"
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (save-match-data
       (lse-tpu:move-to-beginning)
       (while (re-search-forward lse-file:copyright-pattern (buffer-size) t)

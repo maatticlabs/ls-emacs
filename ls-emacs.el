@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -98,12 +98,14 @@
 ;;;;                     increase `lse-version`
 ;;;;    12-Nov-2014 (CT) Remove support for ancient Emacs versions
 ;;;;    20-Nov-2014 (CT) Increase `lse-version`
+;;;;    24-Nov-2016 (CT) Add `lse-emacs25`
+;;;;    28-Nov-2016 (CT) Increase `lse-version`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'ls-emacs)
 
-(defconst lse-version      "4.1.0"        "Version number of LS-Emacs.")
-(defconst lse-version-date "20-Nov-2014 " "Date of last change of LS-Emacs.")
+(defconst lse-version      "4.2.0"        "Version number of LS-Emacs.")
+(defconst lse-version-date "28-Nov-2016 " "Date of last change of LS-Emacs.")
 
 (defconst lse-emacs19-p (not (version< emacs-version "19"))
   "Non-NIL if we are running GNU Emacs version 19."
@@ -141,6 +143,10 @@
   "Non-NIL if we are running GNU Emacs version 24.4."
 );  5-Sep-2013
 
+(defconst lse-emacs25-p (not (version< emacs-version "25"))
+  "Non-NIL if we are running GNU Emacs version 25."
+); 24-Nov-2016
+
 (defconst lse-emacsX-p window-system
   "Non-NIL if running under X"
 )
@@ -158,6 +164,11 @@
 )
 (setq lse-load-path
   (append (list lse-directory lse-src-directory) load-path nil)
+)
+
+;;; 24-Nov-2016 17:13
+(unless (fboundp 'save-mark-and-excursion)
+  (fset 'save-mark-and-excursion (symbol-function 'save-excursion))
 )
 
 ;;;+

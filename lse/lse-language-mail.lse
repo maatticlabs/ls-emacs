@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -94,7 +94,7 @@
 
 (defun lse-mail-setup-hook ()
   (lse-tpu:move-to-beginning)
-  (save-excursion
+  (save-mark-and-excursion
     (if (lse-tpu:search+goto "^CC:" nil t)
         (lse-tpu:delete-next-line 1)
     )
@@ -218,7 +218,7 @@
 (defun lse-mail:insert-if-missing (tag &rest text)
   (let ((case-fold-search t))
     (save-match-data
-      (if (save-excursion
+      (if (save-mark-and-excursion
             (lse-tpu:move-to-beginning)
             (re-search-forward tag nil t)
           );  8-Feb-1998 ; avoid duplicate field

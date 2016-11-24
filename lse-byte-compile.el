@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1997-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1997-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -160,7 +160,7 @@ into Emacs."
       (setq full-name (substring full-name 0 -1))
     )
     (if (member file lse-byte-compile:black-list)
-        (save-excursion
+        (save-mark-and-excursion
           (message
             "File %s is not safe for compiling, evaluating it instead." file
           )

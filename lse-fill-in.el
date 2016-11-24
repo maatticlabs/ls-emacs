@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -65,7 +65,7 @@
         (br                (point-marker))
         dupl-range
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-fill-in:expand-separator fill-in_separator ref-pos)
       (lse-fill-in-insert   lse_opt_fill-in_head_delim
                             name
@@ -90,7 +90,7 @@
         (br                (point-marker))
         dupl-range
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-fill-in:expand-separator fill-in_separator nil)
       (if (looking-at lse_opt_fill-in_head_delim_pattern)
           nil

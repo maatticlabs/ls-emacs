@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
- 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -13,7 +13,7 @@
 ;;;;    16-Aug-1994 (CT) Creation (of comment)
 ;;;;    16-Aug-1994 (CT) case-fold-search added
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide 'swing-kartei--summary)
 
 (defun swing-kartei:summary:entry-name-pattern (&optional name)
@@ -81,7 +81,7 @@
 
 (defun swing-kartei:summary:delete
            (entry-name in-buffer kartei-case-fold-search)
-  (save-excursion
+  (save-mark-and-excursion
     (set-buffer in-buffer)
     (setq case-fold-search kartei-case-fold-search)
     (if (looking-at (swing-kartei:summary:entry-line-pattern entry-name))

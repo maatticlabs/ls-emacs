@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -64,7 +64,7 @@
 (defun lse-comment:setup_expansion_leading ()
   (if lse-comment:head_delim_pattern
       (save-match-data
-        (save-excursion
+        (save-mark-and-excursion
           (if (lse-comment:leading_comment_head_position)
               (progn
                 (setq lse::expansion-line-leading
@@ -96,7 +96,7 @@
 (defun lse-comment:setup_expansion_trailer ()
   (if lse-comment:tail_delim_pattern
       (save-match-data
-        (save-excursion
+        (save-mark-and-excursion
           (if (lse-comment:trailer_comment_tail_position)
               (progn
                 (setq lse::expansion-line-trailer

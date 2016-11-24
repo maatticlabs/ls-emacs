@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -118,7 +118,7 @@
 
 ;;; 28-Jan-2011
 (defun lse-line-endswith (pat &optional len num)
-  (save-excursion
+  (save-mark-and-excursion
     (if (not (integerp len)) (setq len (length pat)))
     (if (not (integerp num)) (setq num 0))
     (lse-tpu:previous-end-of-line num)
@@ -137,7 +137,7 @@
 
 ;;; 20-Jan-2011
 (defun lse-line-startswith (pat)
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-line)
     (save-match-data
       (looking-at pat)
@@ -416,7 +416,7 @@
 )
 
 (defun lse-line-number (&optional p)
-  (save-excursion
+  (save-mark-and-excursion
     (save-restriction
       (widen)
       (if (integerp p) (goto-char p))
@@ -428,7 +428,7 @@
 )
 
 (defun lse-lines-in-buffer (&optional buf)
-  (save-excursion
+  (save-mark-and-excursion
     (if buf (set-buffer (get-buffer buf)))
     (lse-line-number (point-max))
   )
@@ -436,7 +436,7 @@
 )
 
 (defun lse-current-line-length ()
-  (save-excursion
+  (save-mark-and-excursion
     (end-of-line)
     (1+ (current-column))
   )
@@ -477,7 +477,7 @@
 (defun lse-count-matches ()
   "Count number of occurences of regexp in buffer"
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char (point-min))
     (call-interactively 'count-matches)
   )
@@ -497,8 +497,9 @@
 (defun lse-untabify-line ()
   "Remove tabs from line (replaced by the appropriate number of blanks)"
   (interactive "*")
-  (untabify (save-excursion (beginning-of-line) (point))
-            (save-excursion (end-of-line)       (point))
+  (untabify
+    (save-mark-and-excursion (beginning-of-line) (point))
+    (save-mark-and-excursion (end-of-line)       (point))
   )
 ; lse-untabify-line
 )
@@ -522,7 +523,7 @@ line in direction dir"
   (let ((target-pos 0)
         (cc         (current-column))
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-find-word-alignment dir)
       (setq target-pos (current-column))
     )
@@ -544,7 +545,7 @@ next line"
 
 (defun lse-align-to-next-word-and-up (&optional num)
   (interactive "^*p")
-  (save-excursion
+  (save-mark-and-excursion
     (lse-align-to-next-word num)
   )
   (lse-tpu:next-line-internal (- 1))
@@ -601,13 +602,15 @@ previous line"
     (while (and (< distance lse:align-search-limit)
                 (not target-pos)
            )
-      (save-excursion
+      (save-mark-and-excursion
         (lse-scroll-vertically (* distance dir))
         ;;      (lse-untabify-line)
-        (if (re-search-forward pat (save-excursion (end-of-line) (point)) t)
+        (if (re-search-forward pat
+              (save-mark-and-excursion (end-of-line) (point)) t
+            )
             (setq target-pos (- (current-column) (length pat)))
           (if (re-search-backward
-                 pat (save-excursion (beginning-of-line) (point)) t
+                 pat (save-mark-and-excursion (beginning-of-line) (point)) t
               )
               (setq target-pos (1- (current-column)))
           )
@@ -636,12 +639,12 @@ previous line"
           (lse-tpu:next-line-internal (- dir))
           (or (progn
                 (re-search-forward pat
-                                   (save-excursion (end-of-line) (point)) t
+                  (save-mark-and-excursion (end-of-line) (point)) t
                 )
                 (lse-tpu:backward-char  (length pat))
               )
               (re-search-backward  pat
-                   (save-excursion (beginning-of-line) (point)) t
+                (save-mark-and-excursion (beginning-of-line) (point)) t
               )
           )
         )
@@ -662,7 +665,7 @@ previous line"
 (defun lse-blink-select-mark ()
   "Blink position of select-mark."
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
     (if (lse-tpu:position-of-select-mark)
         (progn
           (goto-char (lse-tpu:position-of-select-mark))
@@ -682,7 +685,7 @@ Prefix argument means: append to paste buffer."
   (let ((count (lse-tpu:repeat-factor))
         lse-tpu:rectangular-p
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-select-current-word count)
       (lse-tpu:copy-region append)
       (message "Copied selected region to paste buffer")
@@ -698,7 +701,7 @@ Prefix argument means: append to paste buffer."
   (let ((count (lse-tpu:repeat-factor))
         lse-tpu:rectangular-p
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-select-current-bs-word count)
       (lse-tpu:copy-region append)
       (message "Copied selected region to paste buffer")
@@ -776,7 +779,7 @@ Prefix argument means: append to paste buffer."
 (defun lse-fill-range ()
   (interactive "*")
   (let ((fill-prefix; 15-Dec-1997
-          (save-excursion
+          (save-mark-and-excursion
             (move-to-left-margin)
             (while (and (not (bobp)) (looking-at "^\\s-*$"))
               ;; while in empty line go up
@@ -802,15 +805,15 @@ Prefix argument means: append to paste buffer."
          (lse-tpu:selection-head-pos) (lse-tpu:selection-tail-pos)
          (or amount 2)
       )
-    (save-excursion
+    (save-mark-and-excursion
       (move-to-left-margin)
       (while (and (bolp) (not (bobp)) (looking-at "^\\s-*$"))
         ;; while in empty line go up
         (lse-tpu:next-beginning-of-line 1)
       )
       (indent-rigidly
-         (save-excursion (beginning-of-line 1)     (point))
-         (save-excursion (end-of-line       1) (1+ (point)))
+         (save-mark-and-excursion (beginning-of-line 1)     (point))
+         (save-mark-and-excursion (end-of-line       1) (1+ (point)))
          (or amount 2)
       )
     )
@@ -827,7 +830,7 @@ Prefix argument means: append to paste buffer."
         (setq offset hang-indent)
       (if lse::hanging-indent
           (setq offset lse::hanging-indent)
-        (save-excursion
+        (save-mark-and-excursion
           (if (equal (char-syntax (following-char)) ?\) )
               ;; for closing parenthetical characters return offset of associated
               ;; opening character
@@ -852,7 +855,7 @@ Prefix argument means: append to paste buffer."
 
 (defun lse-indent-line ()
   (interactive "*")
-  (save-excursion
+  (save-mark-and-excursion
     (if (not (bolp))
         (lse-tpu:next-beginning-of-line 1)
     )
@@ -879,12 +882,12 @@ Prefix argument means: append to paste buffer."
   (interactive "*")
   (if (lse-line-empty-p)
       (let (bh bt)
-        (save-excursion
+        (save-mark-and-excursion
           (while (lse-line-empty-p) (lse-tpu:previous-line 1))
           (lse-tpu:forward-line 1)
           (setq bh (point-marker))
         )
-        (save-excursion
+        (save-mark-and-excursion
           (while (lse-line-empty-p) (lse-tpu:forward-line 1))
           (setq bt (point-marker))
         )
@@ -914,7 +917,7 @@ Prefix argument means: append to paste buffer."
 (defun lse-next-indentation ()
   (let ((offset 0)
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-tpu:forward-line 1)
       (while (= offset 0)
         (skip-chars-forward " \t")
@@ -950,7 +953,7 @@ Prefix argument means: append to paste buffer."
 
 ;;; 23-Sep-1994
 (defun lse-find-pattern-alignment (pat &optional dir)
-  (save-excursion
+  (save-mark-and-excursion
     (or (not (equal pat ?\ ))
         (error "Cannot align blanks")
     )
@@ -966,12 +969,14 @@ Prefix argument means: append to paste buffer."
         (lse-scroll-vertically dir)
         ;;      (lse-untabify-line)
         (if (setq found
-              (re-search-forward pat (save-excursion (end-of-line) (point)) t)
+              (re-search-forward pat
+                (save-mark-and-excursion (end-of-line) (point)) t
+              )
             )
             (goto-char (match-beginning 0))
           (if (setq found
                 (re-search-backward
-                   pat (save-excursion (beginning-of-line) (point)) t
+                   pat (save-mark-and-excursion (beginning-of-line) (point)) t
                 )
               )
               (goto-char (match-beginning 0))
@@ -1032,7 +1037,7 @@ Prefix argument means: append to paste buffer."
 ;;; 25-Mar-1995
 (defun lse-current-indentation ()
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (beginning-of-line)
       (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
       (setq result (current-column))
@@ -1047,7 +1052,12 @@ Prefix argument means: append to paste buffer."
   "Align first word of line to word of line in direction `dir'"
   (interactive "^*")
   (or dir (setq dir -1))
-  (let ((pos (save-excursion (unless (eobp) (forward-char 1)) (point-marker))))
+  (let ((pos
+          (save-mark-and-excursion
+            (unless (eobp) (forward-char 1)) (point-marker)
+          )
+        )
+       )
     (beginning-of-line)
     (lse-skip-whitespace+empty-comments-forward (lse-tpu:line-tail-pos))
     (lse-align-to-word              dir)
@@ -1066,7 +1076,7 @@ Prefix argument means: append to paste buffer."
          i
         )
     (if (> ci 0)
-        (save-excursion
+        (save-mark-and-excursion
           (while (and (< distance lse:align-search-limit)
                       (not (< ti ci))
                  )
@@ -1086,7 +1096,7 @@ Prefix argument means: append to paste buffer."
     )
     (if (< ti ci)
         (let (pos)
-          (save-excursion
+          (save-mark-and-excursion
             (lse-tpu:forward-char 1)
             (setq pos (point-marker))
           )
@@ -1106,14 +1116,14 @@ Prefix argument means: append to paste buffer."
 (defun lse-clean-empty-range (head-char tail-char)
   (let* (in-empty-braces
          (head
-           (save-excursion
+           (save-mark-and-excursion
              (skip-chars-backward " \t\n")
              (setq in-empty-braces (eq (preceding-char) head-char))
              (point)
            )
          )
          (tail
-           (save-excursion
+           (save-mark-and-excursion
              (skip-chars-forward  " \t\n")
              (setq in-empty-braces
                    (and in-empty-braces (eq (following-char) tail-char))
@@ -1157,7 +1167,7 @@ Prefix argument means: append to paste buffer."
   (interactive "*")
   (let* (h-head h-tail h-col dont-join lim
          (h-eol
-           (save-excursion
+           (save-mark-and-excursion
              (lse-safe
                (backward-up-list 1) (setq lim (point))
                (end-of-line)
@@ -1171,17 +1181,18 @@ Prefix argument means: append to paste buffer."
          )
          t-head t-tail t-col
          (t-eol
-           (save-excursion
+           (save-mark-and-excursion
              (skip-chars-forward  " \t\n") (end-of-line) (point-marker)
            )
          )
          (may-join
-           (save-excursion
+           (save-mark-and-excursion
              (lse-safe
                (backward-up-list -1)
                (lse-tpu:forward-char -1)     (setq t-tail (point-marker))
                (setq t-col
-                     (- (save-excursion (end-of-line) (point)) (point)))
+                 (- (save-mark-and-excursion (end-of-line) (point)) (point))
+               )
                (skip-chars-backward " \t\n") (setq t-head (point-marker))
                (and h-eol
                     (looking-at "[ \t]*$")
@@ -1198,7 +1209,7 @@ Prefix argument means: append to paste buffer."
         )
     (if (and may-join (not dont-join) (<= joined-cols fill-column))
         (progn
-          (save-excursion
+          (save-mark-and-excursion
             (goto-char t-head)
             (if (equal (char-syntax (preceding-char)) ?.)
                 (progn
@@ -1216,14 +1227,14 @@ Prefix argument means: append to paste buffer."
           (delete-region t-head t-tail)
           (if (< h-tail t-head)
               (progn
-                (save-excursion
+                (save-mark-and-excursion
                   (goto-char h-head)
                   (if (or need-tspace
                         (not (or  (string-match "[[{( \t]"
-                                           (char-to-string (preceding-char))
+                                    (char-to-string (preceding-char))
                                   ); no space after opening paren or space
                                   (and (= (char-syntax (preceding-char)) ?\))
-                                     (save-excursion (goto-char h-tail)
+                                     (save-mark-and-excursion (goto-char h-tail)
                                        (= (char-syntax (following-char)) ?\))
                                      )
                                   ); no space between two closing parens; 2-Jan-98
@@ -1285,7 +1296,7 @@ Prefix argument means: append to paste buffer."
 ;;;; Functions for incrementing/decrementing number at point
 ;;; 18-Nov-2014
 (defun lse-number-at-point:range ()
-  (save-excursion
+  (save-mark-and-excursion
     (let ((head (progn (skip-chars-forward  "0-9") (point)))
           (tail (progn (skip-chars-backward "0-9") (point)))
          )

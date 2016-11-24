@@ -1,6 +1,6 @@
 ;;; picture.el --- "Picture mode" -- editing using quarter-plane screen model
 
-;; Copyright (C) 1985, 1994, 2001, 2002, 2003, 2004,
+;; Copyright (C) 1985-2016, 1994, 2001, 2002, 2003, 2004,
 ;;   2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 
 ;; Author: K. Shane Hartman
@@ -282,7 +282,7 @@ Do \\[command-apropos] `picture-movement' to see those commands."
     (setq pos (point))
     (move-to-column original-col)
     (delete-region pos (point))
-    (save-excursion
+    (save-mark-and-excursion
      (indent-to (max target-col original-col))))
   (setq picture-desired-column (current-column)))
 
@@ -322,14 +322,14 @@ always moves to the beginning of a line."
   "Insert an empty line after the current line.
 With positive argument insert that many lines."
   (interactive "p")
-  (save-excursion
+  (save-mark-and-excursion
    (end-of-line)
    (open-line arg)))
 
 (defun picture-duplicate-line ()
   "Insert a duplicate of the current line, below it."
   (interactive)
-  (save-excursion
+  (save-mark-and-excursion
    (let ((contents
 	  (buffer-substring
 	   (progn (beginning-of-line) (point))
@@ -398,7 +398,7 @@ by whitespace.  Interesting characters are defined by the variable
 With ARG, just (re)set `tab-stop-list' to its default value.  The tab
 stops computed are displayed in the minibuffer with `:' at each stop."
   (interactive "P")
-  (save-excursion
+  (save-mark-and-excursion
     (let (tabs)
       (if arg
 	  (setq tabs (default-value 'tab-stop-list))
@@ -427,7 +427,7 @@ line.  The character must be preceded by whitespace.
 If no such character is found, move to beginning of line."
   (interactive "P")
   (let ((target (current-column)))
-    (save-excursion
+    (save-mark-and-excursion
       (if (and (not arg)
 	       (progn
 		 (beginning-of-line)
@@ -438,7 +438,7 @@ If no such character is found, move to beginning of line."
 	  (move-to-column target))
       (if (re-search-forward
 	   (concat "[ \t]+[" (regexp-quote picture-tab-chars) "]")
-	   (save-excursion (end-of-line) (point))
+	   (save-mark-and-excursion (end-of-line) (point))
 	   'move)
 	  (setq target (1- (current-column)))
 	(setq target nil)))
@@ -484,7 +484,7 @@ prefix argument, the rectangle is actually killed, shifting remaining text."
 (defun picture-snarf-rectangle (start end &optional killp)
   (let ((column (current-column))
 	(indent-tabs-mode nil))
-    (prog1 (save-excursion
+    (prog1 (save-mark-and-excursion
              (if killp
                  (delete-extract-rectangle start end)
                (prog1 (extract-rectangle start end)
@@ -530,7 +530,7 @@ Optional argument INSERTP, if non-nil causes RECTANGLE to be inserted.
 Leaves the region surrounding the rectangle."
   (let ((indent-tabs-mode nil))
     (if (not insertp)
-	(save-excursion
+	(save-mark-and-excursion
 	  (delete-rectangle (point)
 			    (progn
 			      (picture-forward-column (length (car rectangle)))
@@ -559,7 +559,8 @@ Leaves the region surrounding the rectangle."
          (left   (min c1 c2))
          (top    (min r1 r2))
          (bottom (max r1 r2)))
-    (goto-line top)
+    (goto-char (point-min))
+    (forward-line (1- top))
     (move-to-column left t)
     (picture-update-desired-column t)
 
@@ -580,7 +581,8 @@ Leaves the region surrounding the rectangle."
     (picture-insert picture-rectangle-v (- (picture-current-line) top))
 
     (picture-set-motion pvs phs)
-    (goto-line sl)
+    (goto-char (point-min))
+    (forward-line (1- sl))
     (move-to-column sc t)))
 
 

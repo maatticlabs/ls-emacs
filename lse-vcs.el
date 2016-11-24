@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2011-2014 Mag. Christian Tanzer All rights reserved
+;;;; Copyright (C) 2011-2016 Mag. Christian Tanzer All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; #*** <License> ************************************************************#
 ;;;; This library is free software; you can redistribute it and/or modify
@@ -132,7 +132,7 @@
       (lse-range:tail-pos lse-vcs:conflict:range:h)
       lse-vcs:conflict:text-props
     )
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (1- (lse-range:head-pos lse-vcs:conflict:range:h)))
       (lse-vcs:conflict:add-buttons)
     )
@@ -178,7 +178,7 @@
   "Choose variant 'b' followed by variant 'a' of conflict"
   (interactive)
   (unless (lse-range:is-collapsed lse-vcs:conflict:range:a)
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char (lse-range:head-pos lse-vcs:conflict:range:a))
       (insert (lse-range:contents-np lse-vcs:conflict:range:b) "\n")
     )
@@ -315,7 +315,7 @@
 
 ;;; 29-May-2011
 (defun lse-vcs:conflict:p ()
-  (save-excursion
+  (save-mark-and-excursion
     (save-match-data
       (goto-char 1)
       (re-search-forward lse-vcs:conflict:head-pattern nil t)

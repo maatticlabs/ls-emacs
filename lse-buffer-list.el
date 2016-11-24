@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -140,7 +140,7 @@
 
 (defun lse-buffer-list::selected-buffer ()
   (let (result)
-    (save-excursion
+    (save-mark-and-excursion
       (lse-buffer-list-goto-line-begin)
       (let ((b (point)))
         (skip-chars-forward (concat "^" lse-buffer-list::name-terminator))
@@ -156,10 +156,10 @@
   (let ((cp (point))
         (n  -1)
        )
-    (save-excursion
+    (save-mark-and-excursion
       (lse-buffer-list-goto-line-begin)
       (save-restriction
-        (narrow-to-region (point) (save-excursion (end-of-line 1)(1+ (point))))
+        (narrow-to-region (point) (save-mark-and-excursion (end-of-line 1)(1+ (point))))
         (while (not (> (point) cp))
           (lse-tpu:goto-next-bs-word-tail 1)
           (lse-tpu:goto-next-bs-word-head 1)
@@ -174,7 +174,7 @@
 
 (defun lse-buffer-list-delete-buffer ()
   (interactive)
-  (save-excursion (lse-kill-buffer (lse-buffer-list::selected-buffer) t))
+  (save-mark-and-excursion (lse-kill-buffer (lse-buffer-list::selected-buffer) t))
   (beginning-of-line)
   (lse-tpu:delete-next-line 1)
   (set-buffer-modified-p nil)
@@ -281,7 +281,7 @@
 )
 
 (defun lse-reverse-video-current-line ()
-  (save-excursion
+  (save-mark-and-excursion
     (beginning-of-line)
     (setq overlay-arrow-string   "###>")
     (setq overlay-arrow-position (point-marker))
@@ -312,8 +312,12 @@
 (defun lse-buffer-list-sort-lines (); not used(sort-regexp-fields is better)
   (interactive)
   (sort-lines nil
-    (save-excursion (lse-buffer-list-goto-begin) (beginning-of-line) (point))
-    (save-excursion (lse-buffer-list-goto-end)   (end-of-line)       (point))
+    (save-mark-and-excursion
+      (lse-buffer-list-goto-begin) (beginning-of-line) (point)
+    )
+    (save-mark-and-excursion
+      (lse-buffer-list-goto-end)   (end-of-line)       (point)
+    )
   )
   (set-buffer-modified-p nil)
 )
@@ -322,8 +326,12 @@
   (interactive)
   (sort-regexp-fields nil
     "^......\\([^\\t]*\\).+$" "\\1"
-    (save-excursion (lse-buffer-list-goto-begin) (beginning-of-line) (point))
-    (save-excursion (lse-buffer-list-goto-end)   (end-of-line)       (point))
+    (save-mark-and-excursion
+      (lse-buffer-list-goto-begin) (beginning-of-line) (point)
+    )
+    (save-mark-and-excursion
+      (lse-buffer-list-goto-end)   (end-of-line)       (point)
+    )
   )
   (set-buffer-modified-p nil)
 )

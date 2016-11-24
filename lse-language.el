@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2013 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -53,7 +53,7 @@
         (eol (lse-tpu:line-tail-pos))
         state
        )
-    (save-excursion
+    (save-mark-and-excursion
       (beginning-of-line)
       (down-list 1)
       (setq prev (point))
@@ -216,7 +216,7 @@
          (lse-goto-next-fill-in)
          (if lse-language:expand-initial
              (lse-expand)
-           (save-excursion
+           (save-mark-and-excursion
              (goto-char (point-max))
              (insert "\n\n")
            )

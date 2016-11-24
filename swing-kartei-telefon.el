@@ -1,26 +1,26 @@
 ;-*- coding: utf-8 -*-
- 
+
 (provide 'swing-kartei-phone)
 
 (defvar swing-kartei:phone:directory "/swing/tkartei/")
 (defvar swing-kartei:phone:file-name "phone")
 
-(defun swing-kartei:phone:extract-entry 
+(defun swing-kartei:phone:extract-entry
            (limit phone-macro-name get-leading)
   (let ((leading (funcall get-leading limit))
         phone-val
         key-val
         head
        )
-    (while (setq phone-val 
+    (while (setq phone-val
                  (swing-kartei:field+option-values limit phone-macro-name)
            )
       (set-buffer dst-buf)
       (setq head (point))
-      (insert leading "\t" 
+      (insert leading "\t"
               (if (stringp phone-val)
                   phone-val
-                (concat 
+                (concat
                     (if (stringp (setq key-val (nth 1 phone-val)))
                         (concat key-val "\t")
                       "\t"
@@ -40,18 +40,18 @@
 )
 
 (defun swing-kartei:phone:extract
-           (phone-kartei-dir  phone-kartei-name 
+           (phone-kartei-dir  phone-kartei-name
             kartei-dir        kartei-name
             phone-macro-name  leading
            )
   (save-window-excursion
     (let ((swing-kartei:n 0)
           (gc-cons-threshold 100000); all other values take much more time!!!
-          (src-buf (swing-kartei:get-file-buffer 
+          (src-buf (swing-kartei:get-file-buffer
                         kartei-dir kartei-name "kartei"
                    )
           )
-          (dst-buf (swing-kartei:get-file-buffer       
+          (dst-buf (swing-kartei:get-file-buffer
                         phone-kartei-dir phone-kartei-name "summary"
                    )
           )
@@ -78,11 +78,17 @@
   (let ((leading "")
         field
        )
-    (save-excursion (setq field (swing-kartei:field-value limit "DefName")))
+    (save-mark-and-excursion
+      (setq field (swing-kartei:field-value limit "DefName"))
+    )
     (if field (setq leading field))
-    (save-excursion (setq field (swing-kartei:field-value limit "DefVorname")))
+    (save-mark-and-excursion
+      (setq field (swing-kartei:field-value limit "DefVorname"))
+    )
     (if field (setq leading (concat leading " " field)))
-    (save-excursion (setq field (swing-kartei:field-value limit "DefTitel")))
+    (save-mark-and-excursion
+      (setq field (swing-kartei:field-value limit "DefTitel"))
+    )
     (if field (setq leading (concat leading ", " field)))
     (if (not (equal leading ""))
         leading
@@ -91,18 +97,18 @@
 ; swing-kartei:phone:person-leading
 )
 
-(defun swing-kartei:phone:extract-person 
-           (&optional phone-kartei-dir  phone-kartei-name 
+(defun swing-kartei:phone:extract-person
+           (&optional phone-kartei-dir  phone-kartei-name
                       person-kartei-dir person-kartei-name
            )
   "Extract phone numbers from person kartei"
   (interactive)
-  (swing-kartei:phone:extract 
+  (swing-kartei:phone:extract
        (or phone-kartei-dir   swing-kartei:phone:directory)
        (or phone-kartei-name  swing-kartei:phone:file-name)
        (or person-kartei-dir  swing-kartei:person:directory)
        (or person-kartei-name swing-kartei:person:file-name)
-       "DefTelefon"     
+       "DefTelefon"
        'swing-kartei:phone:person-leading
   )
 )
@@ -113,14 +119,14 @@
         abbr
         name
        )
-    (save-excursion 
+    (save-mark-and-excursion
       (setq abbr (swing-kartei:field-value limit "DefFirmaKurz"))
     )
     (if abbr (setq leading abbr))
-    (save-excursion 
+    (save-mark-and-excursion
       (setq name (swing-kartei:field-value limit "DefFirmenName"))
     )
-    (if name 
+    (if name
         (if abbr
             (if (string-match (regexp-quote abbr) name)
                 (setq leading name)
@@ -136,30 +142,30 @@
 ; swing-kartei:phone:firma-leading
 )
 
-(defun swing-kartei:phone:extract-firma 
-           (&optional phone-kartei-dir  phone-kartei-name 
+(defun swing-kartei:phone:extract-firma
+           (&optional phone-kartei-dir  phone-kartei-name
                       firma-kartei-dir firma-kartei-name
            )
   "Extract phone numbers from firma kartei"
   (interactive)
-  (swing-kartei:phone:extract 
+  (swing-kartei:phone:extract
        (or phone-kartei-dir   swing-kartei:phone:directory)
        (or phone-kartei-name  swing-kartei:phone:file-name)
        (or firma-kartei-dir   swing-kartei:firma:directory)
        (or firma-kartei-name  swing-kartei:firma:file-name)
-       "DefFirmenTelefon"     
+       "DefFirmenTelefon"
        'swing-kartei:phone:firma-leading
   )
 )
 
-(defun swing-kartei:phone:generate 
-           (&optional phone-kartei-dir   phone-kartei-name 
+(defun swing-kartei:phone:generate
+           (&optional phone-kartei-dir   phone-kartei-name
                       person-kartei-dir  person-kartei-name
                       firma-kartei-dir   firma-kartei-name
            )
   "Generate new phone kartei from person and firma kartei."
   (interactive)
-  (let ((dst-buf (swing-kartei:get-file-buffer       
+  (let ((dst-buf (swing-kartei:get-file-buffer
                     (or phone-kartei-dir  swing-kartei:phone:directory)
                     (or phone-kartei-name swing-kartei:phone:file-name)
                     "summary"
@@ -169,12 +175,12 @@
     (save-window-excursion
       (switch-to-buffer dst-buf)
       (erase-buffer)
-      (swing-kartei:phone:extract-person 
-           phone-kartei-dir  phone-kartei-name 
+      (swing-kartei:phone:extract-person
+           phone-kartei-dir  phone-kartei-name
            person-kartei-dir person-kartei-name
       )
-      (swing-kartei:phone:extract-firma 
-           phone-kartei-dir phone-kartei-name 
+      (swing-kartei:phone:extract-firma
+           phone-kartei-dir phone-kartei-name
            firma-kartei-dir firma-kartei-name
       )
     )

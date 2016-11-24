@@ -1004,7 +1004,7 @@
   "Show a list of frames with the buffers displayed inside."
   (interactive)
   (lse-frame:list:setup-buffer)
-  (save-excursion
+  (save-mark-and-excursion
     (let ((inhibit-read-only t))
       (set-buffer lse-frame:list:buffer)
       (erase-buffer)

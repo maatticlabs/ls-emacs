@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
- 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -14,7 +14,7 @@
 ;;;;    26-Aug-1994 (CT) swing-kartei-quot:change-directory added
 ;;;;     2-Oct-1996 (CT) swing-kartei:quot:ispell defined
 ;;;;    ««revision-date»»···
-;;;;-- 
+;;;;--
 (provide       'swing-kartei-quot)
 
 (defconst swing-kartei:quot:directory      swing-kartei:directory)
@@ -46,16 +46,16 @@
 
 (defvar swing-kartei:quot:check-spelling t);  2-Oct-1996
 
-;;;  2-Oct-1996 
+;;;  2-Oct-1996
 (defun swing-kartei:quot:ispell ()
   "Check spelling of QuotContents with ispell"
   (interactive)
   (let ((ispell-command-options "-p /swing/kartei/.ispell_words"))
-    (save-excursion 
+    (save-mark-and-excursion
       (goto-char (point-min))
       (if (and swing-kartei:quot:check-spelling
             (re-search-forward
-               (concat "\\\\" "QuotContents/" swing-kartei:pattern:arg-of-macro) 
+               (concat "\\\\" "QuotContents/" swing-kartei:pattern:arg-of-macro)
                nil
                t
             )
@@ -75,7 +75,7 @@
   (interactive)
   (let ((ispell-command-options "-p /swing/kartei/.ispell_words")
        )
-    (swing-kartei:change 
+    (swing-kartei:change
          swing-kartei:quot:directory
          swing-kartei:quot:file-name
          swing-kartei:quot:file-directory
@@ -91,7 +91,7 @@
 (defun swing-kartei:quot:add ()
   "Add entry to quotation kartei"
   (interactive)
-  (swing-kartei:add 
+  (swing-kartei:add
        swing-kartei:quot:directory
        swing-kartei:quot:file-name
        swing-kartei:quot:file-directory
@@ -106,7 +106,7 @@
 (defun swing-kartei:quot:split ()
   "Split quot kartei into one file per entry"
   (interactive)
-  (swing-kartei:split 
+  (swing-kartei:split
        swing-kartei:quot:directory
        swing-kartei:quot:file-name
        swing-kartei:quot:file-directory
@@ -133,4 +133,4 @@
   )
   (setq swing-kartei:quot:directory val)
 ; swing-kartei:quot:change-directory
-) 
+)

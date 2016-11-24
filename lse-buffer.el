@@ -290,7 +290,7 @@
           (set-buffer start)
           (setq lse-buffer:prev prev)
           (or silent (message "Rebuilding buffer chain: done"))
-        ); save-excursion
+        ); save-current-buffer
       (setq start nil)
     ); if
     start
@@ -487,7 +487,7 @@
         )
   )
   (if (not dont-move) (lse-goto-last-mark-window));  5-May-1998
-  (save-excursion
+  (save-mark-and-excursion
     (kill-buffer buf)
   )
 ; lse-kill-buffer
@@ -528,7 +528,7 @@
 Optional argument (the prefix) non-nil means save all with no questions."
   (interactive "P")
   (save-window-excursion
-    (save-excursion
+    (save-mark-and-excursion
       (let ((inhibit-point-motion-hooks t); 18-May-2003
             (inhibit-read-only          t); 18-May-2003
            )

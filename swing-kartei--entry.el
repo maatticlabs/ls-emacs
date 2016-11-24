@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -120,7 +120,7 @@
          result
          blank
         )
-    (save-excursion
+    (save-mark-and-excursion
       (set-buffer lse-completion:buffer)
       (lse-completion:initialize_buffer kartei-name)
       (setq lse-completion:end_pos (1- (point-max)))
@@ -167,7 +167,7 @@
   (setq swing-kartei:entry:case-fold-search   (not not-case-fold-search))
   (if (stringp entry) (insert entry))
   (if kartei-language (lse-language:use kartei-language))
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char 1)
     (insert (make-string 79 ?·) "\n")
     (goto-char (point-max))
@@ -187,7 +187,7 @@
 
 (defun swing-kartei:entry:delete (entry-name in-buffer)
   ;; returns position of successor of deleted entry
-  (save-excursion
+  (save-mark-and-excursion
     (set-buffer in-buffer)
     (let (buffer-read-only)
       (if (looking-at (swing-kartei:entry:pattern entry-name))
@@ -203,7 +203,7 @@
 )
 
 (defun swing-kartei:entry:insert (entry successor in-buffer)
-  (save-excursion
+  (save-mark-and-excursion
     (set-buffer in-buffer)
     (let (buffer-read-only)
       (if successor

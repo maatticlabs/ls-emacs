@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -188,7 +188,7 @@
 (defun lse-range:replace-contents (range replacement)
   (if (lse-range:is-collapsed range)
       (error "Cannot replace collapsed region")
-    (save-excursion
+    (save-mark-and-excursion
       (goto-char       (lse-range:head-pos range))
       (lse-range:clean range)
       (insert          replacement)
@@ -224,4 +224,3 @@
     )
   )
 )
-
