@@ -221,6 +221,7 @@
 ;;;;                     [blue gold ?#]
 ;;;;    21-Feb-2016 (CT) Bind `lse-tpu:highlight-search` and friends to [s-h],
 ;;;;                     [s-u], [gold s-h], [gold s-u]
+;;;;    24-Nov-2016 (CT) Don't replace 'mouse-yank-primary binding for Emacs 25
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -743,7 +744,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-replace-binding-for-all-keys 'join-line                 'lse-tpu:join-line-head)
   (lse-replace-binding-for-all-keys 'delete-indentation        'lse-tpu:join-line-head)
   (lse-replace-binding-for-all-keys 'kill-buffer               'lse-kill-buffer)
-  (lse-replace-binding-for-all-keys 'mouse-yank-primary        'lse-tpu:mouse-paste); 20-Oct-2014
   (lse-replace-binding-for-all-keys 'revert-buffer             'lse-revert-buffer)
   (lse-replace-binding-for-all-keys 'set-visited-file-name     'lse-change-output-file)
   (lse-replace-binding-for-all-keys 'shell-command             'lse-shell-command)
@@ -759,6 +759,9 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (lse-replace-binding-for-all-keys 'print-buffer              'lpr-buffer); 29-Apr-1998
   (lse-replace-binding-for-all-keys 'print-region              'lpr-region); 29-Apr-1998
 
+  (when (and lse-emacs24-p (not lse-emacs25-p))
+    (lse-replace-binding-for-all-keys 'mouse-yank-primary 'lse-tpu:mouse-paste); 20-Oct-2014
+  )
   (when (fboundp 'electric-newline-and-maybe-indent)
     (lse-replace-binding-for-all-keys
       'electric-newline-and-maybe-indent 'newline-and-indent

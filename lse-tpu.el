@@ -219,6 +219,8 @@
 ;;;;    21-Feb-2016 (CT) Add `lse-tpu:highlight-search` and friends
 ;;;;    21-Feb-2016 (CT) Add `lse-tpu:search-history-index:set`
 ;;;;    24-Nov-2016 (CT) Add `lse-tpu:move-to-line`
+;;;;    24-Nov-2016 (CT) Factor `gui-get-primary-selection`
+;;;;                     + Use built-in `gui-get-primary-selection` in Emacs 25
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3956,6 +3958,35 @@ position clicked. Stolen/factored from `browse-url-interactive-arg`."
 ; lse-tpu:snap-point-to-mouse-click
 )
 
+;;; 24-Nov-2016
+(unless (fboundp 'gui-get-primary-selection)
+  ;;; 24-Nov-2016
+  ;; In Emacs 25, byte-compiler gives the warning::
+  ;;     ‘x-get-selection’ is an obsolete function (as of 25.1);
+  ;;     use ‘gui-get-selection’ instead.
+  (defun gui-get-primary-selection ()
+    "Return the PRIMARY selection, or the best emulation thereof."
+    ;; factored from begin of mouse-yank-primary as found in
+    ;;     /usr/share/emacs/24.4/lisp/mouse.el
+    (if (fboundp 'x-get-selection-value)
+             (if (eq (framep (selected-frame)) 'w32)
+                 ;; MS-Windows emulates PRIMARY in x-get-selection, but not
+                 ;; in x-get-selection-value (the latter only accesses the
+                 ;; clipboard).  So try PRIMARY first, in case they selected
+                 ;; something with the mouse in the current Emacs session.
+                 (or (x-get-selection 'PRIMARY)
+                     (x-get-selection-value))
+               ;; Else MS-DOS or X.
+               ;; On X, x-get-selection-value supports more formats and
+               ;; encodings, so use it in preference to x-get-selection.
+               (or (x-get-selection-value)
+                   (x-get-selection 'PRIMARY)))
+           ;; FIXME: What about xterm-mouse-mode etc.?
+           (x-get-selection 'PRIMARY))
+  ; gui-get-primary-selection
+  )
+)
+
 ;;;  7-Nov-2014
 ;;; Replacement for `mouse-yank-primary` to do the right thing.
 ;;;
@@ -3982,22 +4013,8 @@ position clicked. Stolen/factored from `browse-url-interactive-arg`."
   (when select-active-regions
     (let (select-active-regions)
       (deactivate-mark)))
-  (let ((result
-         (if (fboundp 'x-get-selection-value)
-             (if (eq (framep (selected-frame)) 'w32)
-                 ;; MS-Windows emulates PRIMARY in x-get-selection, but not
-                 ;; in x-get-selection-value (the latter only accesses the
-                 ;; clipboard).  So try PRIMARY first, in case they selected
-                 ;; something with the mouse in the current Emacs session.
-                 (or (x-get-selection 'PRIMARY)
-                     (x-get-selection-value))
-               ;; Else MS-DOS or X.
-               ;; On X, x-get-selection-value supports more formats and
-               ;; encodings, so use it in preference to x-get-selection.
-               (or (x-get-selection-value)
-                   (x-get-selection 'PRIMARY)))
-           ;; FIXME: What about xterm-mouse-mode etc.?
-           (x-get-selection 'PRIMARY))))
+  (let ((result (gui-get-selection))
+       )
     (or mouse-yank-at-point (mouse-set-point click))
     (unless result
       (error "No selection is available"))
