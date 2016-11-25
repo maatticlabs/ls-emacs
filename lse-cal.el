@@ -75,6 +75,16 @@
 ;;;;     5-Nov-2014 (CT) Pass `frame-setup` parameter to `lse-frame:make`
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    14-Nov-2014 (CT) Adapt to multiple search histories
+;;;;    25-Nov-2016 (CT) Adapt `lse-cal:plan:highlight-today` to Emacs 25.1
+;;;;                     + Add guard for `view-buffer`
+;;;;                     + Add `with-selected-window` to avoid::
+;;;;                         error 'recenter'ing a window that does not
+;;;;                         display current-buffer
+;;;;    25-Nov-2016 (CT) Adapt `lse-cal:setup-year-frame` to Emacs 25.1
+;;;;    28-Nov-2016 (CT) Change `lse-cal:view:setup-font-lock` to leave gaps
+;;;;                     between `cursor-intangible` properties
+;;;;    28-Nov-2016 (CT) Use `lse-cal:post-command-hook:sync`,
+;;;;                     not 'point-entered properties
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -88,14 +98,12 @@
 ;;; The plan and view buffers are linked (by `lse-cal:setup-year`) so that
 ;;; movements of point in one buffer result in approbriate movements of point
 ;;; in the other -- both buffers should always show the same selected day.
-;;; The point linkage is provided by binding `lse-cal:plan:sync-to-view` and
-;;; `lse-cal:view:sync-to-plan` to `point-entered` text-properties.
+;;; The point linkage is provided by the post-command-hook
+;;; `lse-cal:post-command-hook:sync`.
 ;;;
-;;; To avoid spurious linkage, many functions of this module must temporarily
-;;; let `inhibit-point-motion-hooks` before moving point in one of the
-;;; buffers. As the view buffer is completely read-only, and the day-header
-;;; lines of the plan buffer are also read-only, some functions also need to
-;;; let `inhibit-read-only` before trying to do changes.
+;;; As the view buffer is completely read-only, and the day-header lines
+;;; of the plan buffer are also read-only, some functions also need to let
+;;; `inhibit-read-only` before trying to do changes.
 ;;;
 
 (provide 'lse-cal)
@@ -117,15 +125,19 @@
 
 (defvar lse-cal:current-day-overlay             nil)
 (defvar lse-cal:plan-buffer                     nil)
+(defvar lse-cal:plan:last-pos                   nil)
 (defvar lse-cal:plan:today-overlay              nil)
 (defvar lse-cal:view-buffer                     nil)
+(defvar lse-cal:view:last-pos                   nil)
 (defvar lse-cal:view:today-month-overlay        nil)
 (defvar lse-cal:view:today-overlay              nil)
 (defvar lse-cal:view:today-week-overlay         nil)
 (make-variable-buffer-local 'lse-cal:current-day-overlay)
 (make-variable-buffer-local 'lse-cal:plan-buffer)
+(make-variable-buffer-local 'lse-cal:plan:last-pos)
 (make-variable-buffer-local 'lse-cal:plan:today-overlay)
 (make-variable-buffer-local 'lse-cal:view-buffer)
+(make-variable-buffer-local 'lse-cal:view:last-pos)
 (make-variable-buffer-local 'lse-cal:view:today-month-overlay)
 (make-variable-buffer-local 'lse-cal:view:today-overlay)
 (make-variable-buffer-local 'lse-cal:view:today-week-overlay)
@@ -194,7 +206,8 @@
 
 ;;;  5-Apr-2003
 (defun lse-cal:next-match (pat &optional n)
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (if (re-search-forward pat nil t)
         (goto-char (match-beginning (or n 0)))
       (goto-char (point-max))
@@ -206,7 +219,8 @@
 
 ;;;  5-Apr-2003
 (defun lse-cal:prev-match (pat)
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (if (re-search-backward pat nil t)
         (goto-char (match-beginning 0))
       (goto-char (point-min))
@@ -232,35 +246,33 @@
 
 ;;;  6-Apr-2003
 (defun lse-cal:plan:sync-to-view (old-p new-p)
-  (if lse-cal:view-buffer
-      (let* ((w  (get-text-property new-p 'week))
-             (_d (get-text-property new-p 'date))
-             (d  (and _d (substring _d 8 10)))
-             (vw (get-buffer-window lse-cal:view-buffer))
-             (pw (selected-window))
-             (inhibit-point-motion-hooks t)
-            )
-        (if (and vw w d)
-            (progn
-              (if (string= (substring d 0 1) "0")
-                  (setq d (concat " " (substring d 1 2)))
-              )
-              (select-window vw)
-              (let (lse-cal:plan-buffer ;  break recursion
-                    (inhibit-point-motion-hooks t)
-                   )
-                (lse-tpu:move-to-beginning)
-                (lse-cal:next-match
-                  (concat "^" w "\\( [ 0-3][0-9]\\)*\\( " d " \\)") 2
-                )
-                (lse-tpu:forward-char 1)
-                (lse-cal:view:highlight-current-day)
-                (lse-scroll-to-top 3)
-                (select-window pw)
-              )
-            )
+  (when lse-cal:view-buffer
+    (let* ((w  (get-text-property new-p 'week))
+           (_d (get-text-property new-p 'date))
+           (d  (and _d (substring _d 8 10)))
+           (pw (selected-window))
+           (vw (get-buffer-window lse-cal:view-buffer))
+           (inhibit-point-motion-hooks t)
+          )
+      (when (and vw w d)
+        (select-window vw)             ;; cannot use `with-selected-window` here
+        (if (string= (substring d 0 1) "0")
+            (setq d (concat " " (substring d 1 2)))
+        )
+        (let (lse-cal:plan-buffer      ;; break recursion
+              (inhibit-point-motion-hooks t)
+             )
+          (lse-tpu:move-to-beginning)
+          (lse-cal:next-match
+            (concat "^" w "\\( [ 0-3][0-9]\\)*\\( " d " \\)") 2
+          )
+          (lse-tpu:forward-char 1)
+          (lse-cal:view:highlight-current-day)
+          (lse-scroll-to-top 3)
+          (select-window pw)           ;; needs to happen inside `let`
         )
       )
+    )
   )
 ; lse-cal:plan:sync-to-view
 )
@@ -305,19 +317,23 @@
                     )
               )
               (add-text-properties head tail
-                (list 'point-entered 'lse-cal:plan:sync-to-view
+                (list 'date          (match-string-no-properties 1)
                       'day-of-year   i
-                      'date          (match-string-no-properties 1)
                       'weekday       (match-string-no-properties 2)
                       'week          (match-string-no-properties 3)
                 )
               )
-              (add-text-properties head eol (list 'intangible i))
+              (add-text-properties head eol
+                (list 'intangible i 'cursor-intangible t)
+              )
               (setq i (1+ i))
             )
           (lse-tpu:move-to-end); out of here
         )
       )
+    )
+    (when (fboundp 'cursor-intangible-mode)
+      (cursor-intangible-mode)
     )
   )
 ; lse-cal:plan:setup-font-lock
@@ -326,30 +342,33 @@
 ;;;  5-Apr-2003
 (defun lse-cal:plan:highlight-today ()
   (interactive)
-  (let ((old-p (point))
-        (inhibit-point-motion-hooks t)
-       )
-    (with-current-buffer lse-cal:view-buffer
-      (lse-cal:view:goto-month)
-    )
-    (if lse-cal:plan:today-overlay
-        (delete-overlay lse-cal:plan:today-overlay)
-    )
-    (lse-tpu:move-to-beginning)
-    (if (re-search-forward (lse-yyyy/mm/dd) nil t)
-        (let (head tail)
-          (goto-char (match-beginning 0))
-          (beginning-of-line)
-          (setq head (point))
-          (lse-tpu:forward-char 1)
-          (setq tail (progn (lse-cal:next-day) (lse-tpu:line-head-pos 0)))
-          (setq lse-cal:plan:today-overlay
-              (lse-cal:highlight head tail 'lse-face:cal:today)
-          )
-          (goto-char head)
-          (lse-scroll-to-top 3)
-          (lse-tpu:next-line 1);  9-Feb-2007
+  (when lse-cal:view-buffer
+    (let ((inhibit-point-motion-hooks t)
+         )
+      (with-current-buffer lse-cal:view-buffer
+        (with-selected-window (get-buffer-window lse-cal:view-buffer)
+          (lse-cal:view:goto-month)
         )
+      )
+      (if lse-cal:plan:today-overlay
+          (delete-overlay lse-cal:plan:today-overlay)
+      )
+      (lse-tpu:move-to-beginning)
+      (if (re-search-forward (lse-yyyy/mm/dd) nil t)
+          (let (head tail)
+            (goto-char (match-beginning 0))
+            (beginning-of-line)
+            (setq head (point))
+            (lse-tpu:forward-char 1)
+            (setq tail (progn (lse-cal:next-day) (lse-tpu:line-head-pos 0)))
+            (setq lse-cal:plan:today-overlay
+                (lse-cal:highlight head tail 'lse-face:cal:today)
+            )
+            (goto-char head)
+            (lse-scroll-to-top 3)
+            (lse-tpu:next-line 1);  9-Feb-2007
+          )
+      )
     )
   )
 ; lse-cal:plan:highlight-today
@@ -358,7 +377,8 @@
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-forward (&optional n)
   (interactive "P")
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (call-interactively 'lse-tpu:search-forward)
   )
 ; lse-cal:plan:search-forward
@@ -367,7 +387,8 @@
 ;;;  5-Oct-2007
 (defun lse-cal:plan:search-reverse (&optional n)
   (interactive "P")
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (call-interactively 'lse-tpu:search-reverse)
   )
 ; lse-cal:plan:search-reverse
@@ -375,7 +396,8 @@
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-again-forward ()
   (interactive "P")
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (call-interactively 'lse-tpu:search-again-forward)
   )
 ; lse-cal:plan:search-again-forward
@@ -384,7 +406,8 @@
 ;;; 21-Apr-2003
 (defun lse-cal:plan:search-again-reverse ()
   (interactive "P")
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (call-interactively 'lse-tpu:search-again-reverse)
   )
 ; lse-cal:plan:search-again-reverse
@@ -398,7 +421,8 @@
       (lse-tpu:search-prompt-read "by: "      current-prefix-arg)
     )
   )
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (lse-tpu:replace from to head-limit tail-limit)
   )
 ; lse-cal:plan:replace
@@ -407,7 +431,8 @@
 ;;;  3-Jul-2003
 (defun lse-cal:dabbrev-expand ()
   (interactive)
-  (let ((inhibit-point-motion-hooks t))
+  (let ((inhibit-point-motion-hooks t)
+       )
     (call-interactively 'dabbrev-expand)
   )
 ; lse-cal:dabbrev-expand
@@ -574,30 +599,28 @@
 
 ;;;  6-Apr-2003
 (defun lse-cal:view:sync-to-plan (old-p new-p)
-  (if lse-cal:plan-buffer
-      (let ((w  (get-text-property new-p 'week))
-            (d  (get-text-property new-p 'weekday))
-            (pw (get-buffer-window lse-cal:plan-buffer))
-            (vw (selected-window))
-            (inhibit-point-motion-hooks t)
-           )
-        (lse-cal:view:highlight-current-day)
-        (if (and pw w d)
-            (progn
-              (select-window pw)
-              (let (lse-cal:view-buffer ;  break recursion
-                    (inhibit-point-motion-hooks t)
-                   )
-                (lse-tpu:move-to-beginning)
-                (lse-cal:next-match (concat d "#" w))
-                (lse-tpu:next-beginning-of-line 2)
-                (lse-cal:plan:goto-day-forward 1)
-                (lse-scroll-to-top 3)
-                (select-window vw)
-              )
-            )
+  (when lse-cal:plan-buffer
+    (let ((w  (get-text-property new-p 'week))
+          (d  (get-text-property new-p 'weekday))
+          (pw (get-buffer-window lse-cal:plan-buffer))
+          (vw (selected-window))
+          (inhibit-point-motion-hooks t)
+         )
+      (lse-cal:view:highlight-current-day)
+      (when (and pw w d)
+        (select-window pw)             ;; cannot use `with-selected-window` here
+        (let (lse-cal:view-buffer      ;; break recursion
+              (inhibit-point-motion-hooks t)
+             )
+          (lse-tpu:move-to-beginning)
+          (lse-cal:next-match (concat d "#" w))
+          (lse-tpu:next-beginning-of-line 2)
+          (lse-cal:plan:goto-day-forward 1)
+          (lse-scroll-to-top 3)
+          (select-window vw)           ;; needs to happen inside `let`
         )
       )
+    )
   )
 ; lse-cal:view:sync-to-plan
 )
@@ -648,16 +671,17 @@
                 (tail (lse-tpu:line-tail-pos 1))
                 (days '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
                )
-            (add-text-properties p (+ p 3) '(intangible 6))
+            (add-text-properties p (+ p 3) '(intangible 6 cursor-intangible t))
             (add-text-properties p tail
               (list 'week (buffer-substring-no-properties p (+ p 2)))
             )
             (forward-char 3)
             (setq p (point))
             (while (< i 7)
-              (add-text-properties p (+ p 3)
-                (list 'intangible i 'weekday (nth i days)
-                      'point-entered 'lse-cal:view:sync-to-plan
+              (add-text-properties p      (+ p 3) (list 'weekday (nth i days)))
+              (add-text-properties (1+ p) (+ p 3) (list 'cursor-intangible t))
+              (unless lse-emacs25-p
+                (add-text-properties p    (+ p 3) (list 'intangible        i)
                 )
               )
               (forward-char 3)
@@ -665,13 +689,18 @@
               (setq i (1+ i))
             )
             (forward-char -1)
-            (add-text-properties p (1+ tail) '(intangible 6))
+            (add-text-properties p (1+ tail)
+              '(intangible 6 cursor-intangible t)
+            )
           )
       )
       (lse-tpu:forward-line 1)
     )
     (lse-tpu:move-to-beginning)
     (add-text-properties (point-min) (point-max) '(read-only t))
+    (when (fboundp 'cursor-intangible-mode)
+      (cursor-intangible-mode)
+    )
   )
 ; lse-cal:view:setup-font-lock
 )
@@ -700,34 +729,35 @@
   (unless (and (stringp year) (not (string= year "")))
     (setq year (lse-date-year))
   )
-  (let ((current-year-p (string= year (lse-date-year))))
+  (let ((current-year-p (string= year (lse-date-year)))
+       )
     (select-frame fram)
     (lse-frame:disable-menu-bar fram); 28-Mar-2007
-    (let (pbuf vbuf)
-      (lse-split-window-horizontally nil 34)
-      (lse-goto-buffer
-        (or (get-buffer (concat year ":plan"))
-            (find-file  (concat "~/diary/" year "/plan"))
-        )
-      )
-      (setq pbuf (current-buffer))
+    (lse-split-window-horizontally nil 34)
+    (let ((pbuf
+            (or (get-buffer (concat year ":plan"))
+                (lse-find-file-noselect (concat "~/diary/" year "/plan"))
+            )
+          )
+          (vbuf
+            (or (get-buffer (concat year ":view"))
+                (lse-find-file-noselect (concat "~/diary/" year "/view"))
+            )
+          )
+         )
+      (lse-goto-buffer pbuf);    pbuf in right window
+      (setq lse-cal:view-buffer vbuf)
       (lse-next-window)
-      (lse-goto-buffer
-        (or (get-buffer (concat year ":view"))
-            (find-file  (concat "~/diary/" year "/view"))
-        )
-      )
-      (setq vbuf (current-buffer))
+      (lse-goto-buffer vbuf);    vbuf in left  window
       (setq lse-cal:plan-buffer pbuf)
       (lse-tpu:move-to-beginning)
-      (if current-year-p
-          (lse-cal:view:goto-month)
+      (unless current-year-p
         (lse-cal:view:goto-month "1" "1")
       )
-      (lse-next-window)
-      (lse-tpu:move-to-beginning)
-      (setq lse-cal:view-buffer vbuf)
-      (and current-year-p (lse-cal:plan:highlight-today))
+      (lse-next-window); back to pbuf in right window
+      (when current-year-p
+        (lse-cal:plan:highlight-today)
+      )
     )
   )
 ; lse-cal:setup-year-frame
@@ -739,15 +769,22 @@
   (unless (and (stringp year) (not (string= year "")))
     (setq year (lse-date-year))
   )
+  (unless wd
+    (setq wd 115)
+  )
+  (unless ht
+    (setq ht 24)
+  )
   (let ((fram (lse-frame:make
                nil
                (cons (or x 284) (or y 341))
-               (cons (or wd 115) (or ht 24))
+               (cons wd ht)
                (list (cons 'font lse-face:font:6x13))
                (list 'lse-cal:setup-year-frame 'frame year)
               )
         )
        )
+    (set-frame-size fram wd ht)
   )
 ; lse-cal:setup-year
 )
@@ -851,6 +888,27 @@
   (lse-cal:diary:next-day (- n))
 ; lse-cal:diary:prev-day
 )
+
+;;; 28-Nov-2016
+(defun lse-cal:post-command-hook:sync ()
+  "Sync plan and view position"
+  (let ((new-p (point))
+       )
+    (cond
+      ((and lse-cal:view-buffer (not (eq lse-cal:plan:last-pos new-p)))
+       (lse-cal:plan:sync-to-view lse-cal:plan:last-pos new-p)
+       (setq lse-cal:plan:last-pos new-p)
+      )
+      ((and lse-cal:plan-buffer (not (eq lse-cal:view:last-pos new-p)))
+       (lse-cal:view:sync-to-plan lse-cal:view:last-pos new-p)
+       (setq lse-cal:view:last-pos new-p)
+      )
+    )
+  )
+; lse-cal:post-command-hook:sync
+)
+
+(add-hook 'post-command-hook 'lse-cal:post-command-hook:sync)
 
 ;;; A view of half a year needs an emacs window with 29 lines
 ;;; View and plan combined need 115x45 for a 80 column plan and 40 week view
