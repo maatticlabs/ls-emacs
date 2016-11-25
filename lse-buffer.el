@@ -71,6 +71,7 @@
 ;;;;    22-Oct-2014 (CT) Set `electric-indent-inhibit` in
 ;;;;                     `lse-buffer:initialize`
 ;;;;     4-Jan-2016 (CT) Add `lse-buffer:orig-name`
+;;;;    25-Nov-2016 (CT) Modernize `lse--goto-buffer`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-buffer)
@@ -595,44 +596,38 @@ Optional argument (the prefix) non-nil means save all with no questions."
   ;; If 'buf' does not exist, it is created when 'may-create' is non-nil.
   ;; 'temporary' disables output file for newly created buffer
   ;; The last position is marked unless no-mark is non-nil.
-  (setq buf
-        (or buf (lse-buffer:read-name "Goto buffer: "
-                    (or default (lse-tpu:selection) (other-buffer))
-                    (not may-create)
-                )
-        )
+  (unless buf
+    (setq buf
+      (lse-buffer:read-name "Goto buffer: "
+        (or default (lse-tpu:selection) (other-buffer))
+        (not may-create)
+      )
+    )
   )
-  (if buf
-      (let (buf-is-new)
-        (if (not (get-buffer buf))
-            (if (not (get-buffer (file-name-nondirectory buf)))
-                (setq buf-is-new t)
-            )
+  (when buf
+    (let (buf-is-new)
+      (unless (get-buffer buf)
+        (unless (get-buffer (file-name-nondirectory buf))
+          (setq buf-is-new t)
         )
-        (if (equal (current-buffer) (get-buffer buf))
-            nil
-          (if no-mark
-              nil
-            (lse-set-last-mark-all)
-          )
-          (funcall switch-cmd
-                   (if (bufferp buf) buf (file-name-nondirectory buf))
-          )
-          ;; here the name of the output file of the created buffer should be set
-          ;; more appropriately
-          (if buf-is-new
-              (progn
-                (if (not temporary)
-                    (progn
-                      (setq buffer-file-name buf)
-                      (set-buffer-modified-p nil)
-                      (after-find-file); calls also (lse-buffer:initialize)
-                    )
-                )
-              )
+      )
+      (unless (equal (current-buffer) (get-buffer buf))
+        (unless no-mark
+          (lse-set-last-mark-all)
+        )
+        (funcall switch-cmd
+          (if (bufferp buf) buf (file-name-nondirectory buf))
+        )
+        (when buf-is-new
+          (unless temporary
+            ;; set the name of the output file of the newly created buffer
+            (setq buffer-file-name buf)
+            (set-buffer-modified-p nil)
+            (after-find-file); calls also (lse-buffer:initialize)
           )
         )
       )
+    )
   )
 )
 
