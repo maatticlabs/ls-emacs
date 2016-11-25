@@ -221,6 +221,7 @@
 ;;;;    24-Nov-2016 (CT) Add `lse-tpu:move-to-line`
 ;;;;    24-Nov-2016 (CT) Factor `gui-get-primary-selection`
 ;;;;                     + Use built-in `gui-get-primary-selection` in Emacs 25
+;;;;    25-Nov-2016 (CT) Factor `lse-tpu:recenter`; add guard for buffer-window
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -1320,6 +1321,21 @@ Accepts a prefix argument of the number of characters to invert."
   (lse-ring-bell)
   (if text (apply 'message text))
 ; lse-message
+)
+
+;;; 25-Nov-2016
+(defun lse-tpu:recenter (&optional pos)
+  ;;; Emacs 25.1 fails if the current buffer is not displayed in the current
+  ;;; window
+  (let ((w (get-buffer-window (current-buffer)))
+       )
+    (when w
+      (with-selected-window w
+        (recenter pos)
+      )
+    )
+  )
+; lse-tpu:recenter
 )
 
 (defvar lse-tpu:original-mode-line mode-line-format)
@@ -3125,7 +3141,7 @@ direction."
     (when result
       (goto-char (match-beginning 0))
       (when (not (pos-visible-in-window-p (lse-tpu:line-head-pos 2)))
-        (recenter)
+        (lse-tpu:recenter)
       )
     )
     result
@@ -3837,7 +3853,7 @@ A repeat count means move that many pages."
   (interactive "^p")
   (lse-tpu:save-pos-before-search)
   (forward-page count)
-  (if (eobp) (recenter -1))
+  (if (eobp) (lse-tpu:recenter -1))
 ; lse-tpu:page-forward
 )
 
@@ -3848,7 +3864,7 @@ A repeat count means move that many pages."
   (interactive "^p")
   (lse-tpu:save-pos-before-search)
   (backward-page count)
-  (if (bobp) (recenter 1))
+  (if (bobp) (lse-tpu:recenter 1))
 ; lse-tpu:page-backward
 )
 
@@ -3871,7 +3887,7 @@ A repeat count means scroll that many sections."
          (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal (- lines))
-    (if (> lines beg) (recenter 0))
+    (if (> lines beg) (lse-tpu:recenter 0))
   )
 ; lse-tpu:scroll-window-down
 )
@@ -3886,7 +3902,7 @@ A repeat count means scroll that many sections."
          (lines  (* num (/ (* height lse-tpu:percent-scroll) 100)))
         )
     (lse-tpu:next-line-internal lines)
-    (if (>= (+ lines beg) height) (recenter -1))
+    (if (>= (+ lines beg) height) (lse-tpu:recenter -1))
   )
 ; lse-tpu:scroll-window-up
 )
@@ -3902,7 +3918,7 @@ A repeat count means scroll that many sections."
   "Move cursor to the end of buffer, but don't set the mark."
   (interactive "^")
   (goto-char (point-max))
-  (recenter -1)
+  (lse-tpu:recenter -1)
 ; lse-tpu:move-to-end
 )
 
