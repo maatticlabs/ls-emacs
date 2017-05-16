@@ -386,17 +386,18 @@
 ;;; py-class-delslice
 )
 
-;;; 28-Dec-1998
+;;; 16-May-2017
 (lse-define-fill-in "py-class-div"
     '(token)
     '(token                 "__div__")
+    '(token                 "__truediv__")
     '(description
         "Implement binary operator `/' for objects of class."
      )
     '(replacement
-        "def __div__ (self, rhs) :"
+        "def __truediv__ (self, rhs) :"
         @ py-function-body
-        "# end def __div__"
+        "# end def __truediv__"
         ""
      )
 ;;; py-class-div
@@ -478,6 +479,22 @@
         ""
      )
 ;;; py-class-float
+)
+
+;;; 16-May-2017
+(lse-define-fill-in "py-class-floordiv"
+    '(token)
+    '(token                 "__floordiv__")
+    '(description
+        "Implement binary operator `//' for objects of class."
+     )
+    '(replacement
+        "def __floordiv__ (self, rhs) :"
+        @ py-function-body
+        "# end def __floordiv__"
+        ""
+     )
+;;; py-class-div
 )
 
 ;;;  24-Sep-2009
