@@ -1,0 +1,150 @@
+;-*- coding: utf-8; -*-
+
+;;; 21-Jun-2017
+(lse-define-fill-in "company"
+    '(token)
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern ":"))
+    '(auto-expand)
+    '(sort)
+    '(menu
+        "AT&T Inc"
+        "Apple Inc"
+        "Berkshire Hathaway Inc"
+        "CBS Corp Cl B"
+        "Comcast Corp Cl A"
+        "Facebook Inc"
+        "Ford Motor Co"
+        "General Electric Co"
+        "Hess Corp"
+        "IBM Corp"
+        "Johnson & Johnson Com"
+        "PepsiCo Inc"
+        "Southwest Airls Co"
+        "Walt Disney Co"
+     )
+;;; company
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "date"
+    '(description           "Enter a date as yyyy-mm-dd")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern ":"))
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "dividend"
+    '(token)
+    '(description           "Dividend payment for a parcel of shares")
+    '(replacement
+        "Dividend   :"
+        & " «date» :"
+        & " «company» :"
+        & " «value_usd»"
+     )
+;;; dividend
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "entry"
+    '(token)
+    '(token                 "\n")
+    '(auto-expand)
+    '(menu
+        dividend
+        stock-dividend
+        purchase
+        sale
+        split
+     )
+;;; entry
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "purchase"
+    '(token)
+    '(description           "Purchase of a parcel of shares")
+    '(replacement
+        "Purchase   :"
+        & @ transaction-args
+     )
+;;; purchase
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "sale"
+    '(token)
+    '(description           "Sale of a number of shares")
+    '(replacement
+        "Sale       :"
+        & @ transaction-args
+     )
+;;; purchase
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "shares"
+    '(description           "Number of shares purchased or sold in transaction")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern ":"))
+;;; shares
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "split"
+    '(token)
+    '(description           "Stock split")
+    '(replacement
+        "Split      :"
+        & " «date» :"
+        & " «company» :"
+        & " «split-factor»"
+     )
+;;; purchase
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "split-factor"
+    '(description           "Factor of stock split, e.g., 7 if the split is 1:7")
+    '(rcompletion-trailer   just-one-space (lse-align-to-pattern ":"))
+;;; shares
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "stock-dividend"
+    '(token)
+    '(description
+        "Stock dividend: divident paid as fractional number of shares")
+    '(replacement
+        "Stock-Div  :"
+        & @ transaction-args
+     )
+;;; purchase
+)
+
+(lse-define-fill-in "stock-file"
+    '(rcompletion-trailer   delete-blank-lines); 24-Jan-2011
+    '(replacement
+        "Type       : Dat        : Company name                             : Shares      : Value"
+        "«entry»···"
+        "%%% __END__ " & lse-insert-buffer-name ; 24-Jan-2011
+     )
+;;; stock-file
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "transaction-args"
+    '(replacement
+        " «date» :"
+        & " «company» :"
+        & " «shares» :"
+        & " «value_usd»"
+     )
+;;; transaction-args
+)
+
+;;; 21-Jun-2017
+(lse-define-fill-in "value_usd"
+    '(description           "Transaction value in US dollars")
+;;; value_usd
+)
+
+;;;; __END__ lse-templates-buchhaltung-uss

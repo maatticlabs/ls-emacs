@@ -1,0 +1,38 @@
+;-*- coding: utf-8; -*-
+
+(lse-language:define "buchhaltung-uss"
+    '(
+        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:tab-increment        2)
+        (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
+        (lse-tpu:ident-group-chars         "-\@_")
+        (lse-comment:head_delim            "%")
+        (lse-comment:head_delim_pattern    "%+ *")
+        (lse-comment:delim_char_set        "%")
+        (lse-language:expand-initial       t)
+     )
+    '(
+     )
+    '(
+        "lse-templates-buchhaltung-uss"
+     )
+    137
+     67
+;;; buchhaltung
+)
+
+;;;
+;;; buchhaltung mode
+;;;
+(define-derived-mode lse-buchhaltung-uss-mode lse-buchhaltung-mode
+                     "US Stock Buchhaltung"
+  "Major mode for accounting.
+\\{lse-buchhaltung-mode-map}"
+  (if (lse_inside_fill-in)
+      (erase-buffer)
+  )
+  (lse-language:use "buchhaltung-uss")
+)
+
+
+;;;; __END__ lse-buchhaltung-uss
