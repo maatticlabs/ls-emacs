@@ -2,7 +2,7 @@
 
 (lse-language:define "buchhaltung-uss"
     '(
-        (lse-language:initial-fill-in      "«buchhaltung-file»")
+        (lse-language:initial-fill-in      "«stock-file»")
         (lse-language:tab-increment        2)
         (lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
         (lse-tpu:ident-group-chars         "-\@_")
