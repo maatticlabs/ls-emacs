@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2017 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -222,6 +222,8 @@
 ;;;;    21-Feb-2016 (CT) Bind `lse-tpu:highlight-search` and friends to [s-h],
 ;;;;                     [s-u], [gold s-h], [gold s-u]
 ;;;;    24-Nov-2016 (CT) Don't replace 'mouse-yank-primary binding for Emacs 25
+;;;;    18-Aug-2017 (CT) Bind `lse-tabulator` to [C-\ ]
+;;;;    18-Aug-2017 (CT) Bind `lse-tpu:select` to [?\A-\s-,]
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -615,6 +617,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
     '(
       ([?\A-']           lse-insert-bquotes)                      ; 10-Jun-1998
       ([?\A-,]           lse-tpu:select)                          ; 12-Nov-2002
+      ([?\A-\s-,]        lse-tpu:select)                          ; 18-Aug-2017
       ([?\A-:]           lse-tpu:replace-all)                     ; 30-Aug-2002
       ([?\A-\ ]          lse-tabulator)                           ; 13-Sep-2002
       ([?\A-\-]          negative-argument)                       ; 30-Dec-1997
@@ -641,6 +644,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\C-#]           lse-insert-yyyy-mm-dd-time+blank)        ;  7-Dec-2015
       ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
       ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002
+      ([?\C-\ ]          lse-tabulator)                           ; 18-Aug-2017
       ([?\C-x?5?1]       lse-frame:make-full-height)              ; 21-Oct-2014
       ([?\C-x?5?2]       lse-frame:make-std)                      ; 21-Oct-2014
       ([?\C-x?5?3]       lse-frame:make-small)                    ;  9-Apr-1998
