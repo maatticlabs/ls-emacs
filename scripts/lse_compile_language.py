@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 1994-2011 Mag. Christian Tanzer. All rights reserved
+# Copyright (C) 1994-2017 Mag. Christian Tanzer. All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 #
 #++
@@ -16,6 +16,8 @@
 #                     script
 #     6-Mar-2012 (MG) Use `subprocess` instead of `os.system` to call
 #                     emacs binary
+#    29-Aug-2017 (MG) Switch to python 3
+#    29-Aug-2017 (MG) Remove dependency to external libraries
 #    ««revision-date»»···
 #--
 
@@ -52,10 +54,10 @@ def compile_language (* languages, ** kw) :
                         ((lse_language.replace ("\\", "/"), match.group (1)))
         files.extend (new_files)
         if not new_files :
-            print "No laguages found for pattern `%s`" % (lang_pattern, )
+            print ("No laguages found for pattern `%s`" % (lang_pattern, ))
     if files :
         correct_path = lambda s : s.replace (os.path.sep, "/")
-        print "Compile languages %s" % (", ".join (n for f, n in files), )
+        print ("Compile languages %s" % (", ".join (n for f, n in files), ))
         emacs_cmd = \
             [ '(setq load-path\n'
               '  (append (list "%s" "%s") load-path)\n'
@@ -72,26 +74,26 @@ def compile_language (* languages, ** kw) :
             subprocess.check_call \
                 ([emacs_binary,  "-batch",  "-l", emacs_cmd_file])
         except :
-            print "Error compiling language"
+            print ("Error compiling language")
         if os.path.isfile (emacs_cmd_file) :
             os.unlink (emacs_cmd_file)
 # end def compile_language
 
 if __name__ == "__main__" :
-    from _TFL.Command_Line import Command_Line
+    import argparse
 
-    cmd = Command_Line \
-        ( arg_spec    = ("language:S",)
-        , option_spec =
-            ( "emacs_binary:S=emacs"
-            , "emacs_cmd_file:S=lse_compile_language_cmdfile"
-            )
+    parser = argparse.ArgumentParser ()
+    parser.add_argument ("language", type = str, nargs = "+")
+    parser.add_argument ("-b", "--emacs_binary", type = str, default="emacs")
+    parser.add_argument \
+        ( "-c", "--emacs_cmd_file", type = str
+        , default="lse_compile_language_cmdfile"
         )
-    if len (cmd.argv) == 1 and cmd.argv [0] == None :
-        raise ValueError ("At least one languge or language-file required")
+    cmd = parser.parse_args ()
+
     compile_language \
         ( emacs_binary   = cmd.emacs_binary
         , emacs_cmd_file = cmd.emacs_cmd_file
-        , * cmd.argv
+        , * cmd.language
         )
 ### __END__ lse_compile_language
