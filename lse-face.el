@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1995-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1995-2017 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -71,6 +71,7 @@
 ;;;;    21-Feb-2016 (CT) Add `'lse-face:regexp-highlight`
 ;;;;    23-Nov-2016 (CT) Change `font` of `mode-line-inactive`
 ;;;;                     * Fix atrocity committed by Emacs 25
+;;;;    29-Aug-2017 (CT) Don't use XLFD font names for windows-nt
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -243,26 +244,28 @@
 ;;; 23-Nov-2016
 ;;; if the `font` of `mode-line-inactive` is larger than the font used by
 ;;; the buffer, the mode line is totally broken in Emacs 25.1
-(when (and lse-emacsX-p (symbolp 'mode-line-inactive))
-  (custom-set-faces
-    '(mode-line-inactive
-      ((t
-        (:foreground "Grey30" :background "Gray90"
-         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+(unless (eq system-type 'windows-nt)
+  (when (and lse-emacsX-p (symbolp 'mode-line-inactive))
+    (custom-set-faces
+      '(mode-line-inactive
+        ((t
+          (:foreground "Grey30" :background "Gray90"
+           :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+          )
+         )
+         (((class color) (min-colors 88) (background light))
+          (:foreground "Grey30" :background "Gray90"
+           :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+          )
+         )
+         (((class color) (min-colors 88) (background dark))
+          (:foreground "Grey90" :background "Gray50"
+           :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+          )
+         )
         )
-       )
-       (((class color) (min-colors 88) (background light))
-        (:foreground "Grey30" :background "Gray90"
-         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
-        )
-       )
-       (((class color) (min-colors 88) (background dark))
-        (:foreground "Grey90" :background "Gray50"
-         :font       "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
-        )
-       )
+        t
       )
-      t
     )
   )
 )
