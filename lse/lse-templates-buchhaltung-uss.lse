@@ -7,6 +7,7 @@
     '(auto-expand)
     '(sort)
     '(menu
+        ""
         "AT&T Inc"
         "Apple Inc"
         "Berkshire Hathaway Inc"
@@ -52,11 +53,25 @@
     '(menu
         dividend
         stock-dividend
+        interest
         purchase
         sale
         split
      )
 ;;; entry
+)
+
+;;; 27-Sep-2017
+(lse-define-fill-in "interest"
+    '(token)
+    '(description           "Interest payment")
+    '(replacement
+        "Interest   :"
+        & " «date» :"
+        & " Cash (Raymond James) :"
+        & " «value_usd»"
+     )
+;;; dividend
 )
 
 ;;; 21-Jun-2017
