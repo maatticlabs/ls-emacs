@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2009-2014 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2017 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -32,43 +32,52 @@
 ;;;;     7-Nov-2014 (CT) Add guard
 ;;;;    12-Dec-2014 (CT) Remove Aquamacs specific code
 ;;;;    12-Dec-2014 (CT) Add `lse-macosx:define-keys:german-keyboard`
+;;;;    11-Dec-2017 (CT) Adapt to Cocoa-based Emacs
 ;;;;    ««revision-date»»···
 ;;;;--
 
 (provide 'lse-macosx)
 
-;;; http://emacsformacosx.com/tips
+;;; https://emacsformacosx.com/tips
 
 (setq
-  mac-command-modifier 'meta
-  mac-option-modifier  'alt
+  ns-command-modifier         'alt
+  ns-function-modifier        nil
+  ns-option-modifier          'super
+  ns-right-alternate-modifier  nil
+  ns-right-command-modifier    nil
 )
 
 (defvar lse-keys:function-key-map-bindings
   '(
+    ([f9]         [insert])
+    ([f10]        [red])
     ([f11]        [blue])
     ([f12]        [gold])
+    ([s-f12]      [do])
+    ;; Bindings copied from lse-config.el
+    ([(super \#)] [letter-prefix])
    )
 )
 
-;;; 12-Dec-2014
-(defvar lse-macosx:german-keyboard:bindings
-  '(
-    ([?\A-l] [?\@])
-    ([?\A-5] [?\[])
-    ([?\A-6] [?\]])
-    ([?\A-7] [?\|])
-    ([?\A-8] [?\{])
-    ([?\A-9] [?\}])
-    ([?\A-/] [?\\])
-   )
-)
+;;; Putting "…" into function-key-map doesn't work --> put it into
+;;; key-translation-map instead
+(define-key key-translation-map "…"    [cancel])
+(define-key key-translation-map "∞"    [select])
+(define-key key-translation-map [S-f9] [select])
 
-(defun lse-macosx:define-keys:german-keyboard ()
-  (lse-keys/define 'lse-key/define-in-function-key-map
-    lse-macosx:german-keyboard:bindings
-  )
-; lse-macosx:define-keys:german-keyboard
-)
+;;; As we don't have a free key for Meta, map `ESC key` to `M-key`
+(define-key input-decode-map [escape deletechar]     [M-delete])
+(define-key input-decode-map [escape C-deletechar]   [C-M-delete])
+(define-key input-decode-map [escape down]           [M-down])
+(define-key input-decode-map [escape backspace]      [M-backspace])
+(define-key input-decode-map [escape C-backspace]    [C-M-backspace])
+(define-key input-decode-map [escape f9]             [M-insert])
+(define-key input-decode-map [escape C-f9]           [C-M-insert])
+(define-key input-decode-map [escape left]           [M-left])
+(define-key input-decode-map [escape C-left]         [C-M-left])
+(define-key input-decode-map [escape right]          [M-right])
+(define-key input-decode-map [escape C-right]        [C-M-right])
+(define-key input-decode-map [escape up]             [M-up])
 
 ;;;; __END__ lse-macosx.el

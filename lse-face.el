@@ -72,6 +72,7 @@
 ;;;;    23-Nov-2016 (CT) Change `font` of `mode-line-inactive`
 ;;;;                     * Fix atrocity committed by Emacs 25
 ;;;;    29-Aug-2017 (CT) Don't use XLFD font names for windows-nt
+;;;;    10-Dec-2017 (CT) Add support for macOS (darwin)
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-face)
@@ -160,6 +161,24 @@
   (set-face-background 'trailing-whitespace  "Gray80")         ;  3-Mar-2008
 )
 
+;;; 10-Dec-2017
+;;; https://www.emacswiki.org/emacs/SetFonts
+;;; Use `M-x describe-font` to find name of default font on macOS
+(when (eq system-type 'darwin)
+  (defconst lse-face:font:6x13
+    "-*-Menlo-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1"
+  )
+  (defconst lse-face:font:7x13
+    "-*-Menlo-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"
+  )
+  (defconst lse-face:font:hack-10
+    "-*-Menlo-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1"
+  )
+  (defconst lse-face:font:hack-12
+    "-*-Menlo-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"
+  )
+)
+
 ;;; 22-Oct-2014
 ;;; Used `xlsfonts` + experimentation to find the XLFD names of fixed fonts
 ;;; /usr/share/fonts/misc/fonts.alias is also interesting
@@ -181,62 +200,63 @@
 ;;;    -misc-fixed-medium-r-semicondensed--0-0-75-75-c-0-iso10646-1
 ;;;    -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso10646-1
 ;;;    -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
+(when (eq window-system 'x)
+  (defconst lse-face:font:6x10
+    "-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 6x10"
+  )
 
-(defconst lse-face:font:6x10
-  "-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 6x10"
-)
+  (defconst lse-face:font:6x12
+    "-misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 6x12"
+  )
 
-(defconst lse-face:font:6x12
-  "-misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 6x12"
-)
+  (defconst lse-face:font:6x13
+    "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 6x13"
+  )
 
-(defconst lse-face:font:6x13
-  "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 6x13"
-)
+  (defconst lse-face:font:7x13
+    "-misc-fixed-medium-r-normal--13-120-75-75-c-70-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 7x13"
+  )
 
-(defconst lse-face:font:7x13
-  "-misc-fixed-medium-r-normal--13-120-75-75-c-70-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 7x13"
-)
+  (defconst lse-face:font:7x14
+    "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 7x14"
+  )
 
-(defconst lse-face:font:7x14
-  "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 7x14"
-)
+  (defconst lse-face:font:8x13
+    "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 8x13"
+  )
 
-(defconst lse-face:font:8x13
-  "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 8x13"
-)
+  (defconst lse-face:font:8x16
+    "-misc-fixed-medium-r-normal--16-120-75-75-c-80-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 8x16"
+  )
 
-(defconst lse-face:font:8x16
-  "-misc-fixed-medium-r-normal--16-120-75-75-c-80-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 8x16"
-)
+  (defconst lse-face:font:9x15
+    "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 9x15"
+  )
 
-(defconst lse-face:font:9x15
-  "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 9x15"
-)
+  (defconst lse-face:font:10x20
+    "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1"
+    "Standard X-Window fixed width font with old style designation 10x20"
+  )
 
-(defconst lse-face:font:10x20
-  "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1"
-  "Standard X-Window fixed width font with old style designation 10x20"
-)
+  ;;; 15-Sep-2015
+  (defconst lse-face:font:hack-10
+    "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1"
+    "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
+  )
 
-;;; 15-Sep-2015
-(defconst lse-face:font:hack-10
-  "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1"
-  "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
-)
-
-(defconst lse-face:font:hack-12
-  "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"
-  "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
-)
+  (defconst lse-face:font:hack-12
+    "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"
+    "Hack font http://sourcefoundry.org/hack/,  https://github.com/chrissimpkins/Hack"
+  )
+); window-system == x
 
 (defconst lse-face:font:small   lse-face:font:6x13)
 (defconst lse-face:font:default lse-face:font:7x13)
@@ -244,7 +264,7 @@
 ;;; 23-Nov-2016
 ;;; if the `font` of `mode-line-inactive` is larger than the font used by
 ;;; the buffer, the mode line is totally broken in Emacs 25.1
-(unless (eq system-type 'windows-nt)
+(when (eq system-type 'x)
   (when (and lse-emacsX-p (symbolp 'mode-line-inactive))
     (custom-set-faces
       '(mode-line-inactive

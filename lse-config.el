@@ -46,10 +46,11 @@
 ;;;;                     'lse-tpu:shift-mark-hook
 ;;;;     9-Jan-2015 (CT) Increase `fill-column` from 77 to 79
 ;;;;    15-Jul-2015 (CT) Use `python-mode-map`, not `py-mode-map`
+;;;;    10-Dec-2017 (CT) Add `ns` to `lse-macosx` guard
 ;;;;    ««revision-date»»···
 ;;;;--
 
-(when (eq window-system 'mac)
+(when (or (eq window-system 'mac) (eq window-system 'ns))
   (require 'lse-macosx)
 )
 
