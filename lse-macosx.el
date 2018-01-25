@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2009-2017 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2018 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -33,6 +33,7 @@
 ;;;;    12-Dec-2014 (CT) Remove Aquamacs specific code
 ;;;;    12-Dec-2014 (CT) Add `lse-macosx:define-keys:german-keyboard`
 ;;;;    11-Dec-2017 (CT) Adapt to Cocoa-based Emacs
+;;;;    25-Jan-2018 (CT) Add more translations for `escape <key>` to `M-<key>`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -79,5 +80,30 @@
 (define-key input-decode-map [escape right]          [M-right])
 (define-key input-decode-map [escape C-right]        [C-M-right])
 (define-key input-decode-map [escape up]             [M-up])
+
+(define-key input-decode-map [escape ?b]             [?\M-b])
+(define-key input-decode-map [escape ?f]             [?\M-f])
+(define-key input-decode-map [escape ?l]             [?\M-l])
+(define-key input-decode-map [escape ?n]             [?\M-n])
+(define-key input-decode-map [escape ?\s-n]          [?\M-\s-n])
+(define-key input-decode-map [escape ?p]             [?\M-p])
+(define-key input-decode-map [escape ?\s-p]          [?\M-\s-p])
+(define-key input-decode-map [escape ?R]             [?\M-R])
+(define-key input-decode-map [escape ?r]             [?\M-r])
+(define-key input-decode-map [escape ?v]             [?\M-v])
+
+(define-key input-decode-map [escape ?0]             [?\M-0])
+(define-key input-decode-map [escape ?1]             [?\M-1])
+(define-key input-decode-map [escape ?2]             [?\M-2])
+(define-key input-decode-map [escape ?3]             [?\M-3])
+(define-key input-decode-map [escape ?4]             [?\M-4])
+(define-key input-decode-map [escape ?5]             [?\M-5])
+(define-key input-decode-map [escape ?6]             [?\M-6])
+(define-key input-decode-map [escape ?7]             [?\M-7])
+(define-key input-decode-map [escape ?8]             [?\M-8])
+(define-key input-decode-map [escape ?9]             [?\M-9])
+
+(define-key input-decode-map [escape ?\-]            [?\M-\-])
+(define-key input-decode-map [escape ?\+]            [?\M-\+])
 
 ;;;; __END__ lse-macosx.el
