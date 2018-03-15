@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -45,6 +45,7 @@
 ;;;;    20-Jan-2011 (CT) `lse-indent-to-pattern` added
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added
 ;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added
+;;;;    15-Mar-2018 (CT) Add `lse-indent:remove-trailing-whitespace`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -81,6 +82,15 @@
     (delete-region (point) cp)
   )
 ; lse-indent:remove-leading-indentation
+)
+
+;;; 15-Mar-2018
+(defun lse-indent:remove-trailing-whitespace ()
+  (let ((cp (point)))
+    (skip-chars-forward " \t" (lse-tpu:line-tail-pos))
+    (delete-region (point) cp)
+  )
+; lse-indent:remove-trailing-whitespace
 )
 
 ;;; 20-Jan-2011

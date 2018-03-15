@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -106,6 +106,9 @@
 ;;;;     7-Dec-2015 (CT) Change `lse-insert+blank-maybe` to consider `""`...
 ;;;;     8-Dec-2015 (CT) Add `ignore-pairs` to `lse-insert+blank-maybe`
 ;;;;    11-Dec-2015 (CT) Fix pair-matching of `lse-insert+blank-maybe`
+;;;;    15-Mar-2018 (CT) Change `lse-indent-line` to use
+;;;;                     `lse-indent:remove-trailing-whitespace`, not
+;;;;                     `lse-indent:remove-leading-indentation`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-editing)
@@ -859,7 +862,7 @@ Prefix argument means: append to paste buffer."
     (if (not (bolp))
         (lse-tpu:next-beginning-of-line 1)
     )
-    (lse-indent:remove-leading-indentation);2-Jan-98; (delete-horizontal-space)
+    (lse-indent:remove-trailing-whitespace);2-Jan-98; (delete-horizontal-space)
     (insert-before-markers (make-string (lse-previous-indentation) ?\ ))
   )
 ; lse-indent-line
