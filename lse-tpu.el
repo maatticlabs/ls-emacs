@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -222,6 +222,7 @@
 ;;;;    24-Nov-2016 (CT) Factor `gui-get-primary-selection`
 ;;;;                     + Use built-in `gui-get-primary-selection` in Emacs 25
 ;;;;    25-Nov-2016 (CT) Factor `lse-tpu:recenter`; add guard for buffer-window
+;;;;    16-Mar-2018 (CT) Add `lse-tpu:ccp-buffer:*:text`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -683,6 +684,45 @@ lse-tpu:letter-argument. "
     )
   )
 ; lse-tpu:ccp-buffer:complete
+)
+
+;;; 16-Mar-2018
+(defun lse-tpu:ccp-buffer:unit:text (unit)
+  "Value of cut/copy/paste buffer for `unit`"
+  (let* ((ccpb   (lse-tpu:ccp-buffer:active unit))
+         (result (lse-tpu:ccp-buffer:text   ccpb))
+        )
+    result
+  )
+; lse-tpu:ccp-buffer:unit:text
+)
+
+;;; 16-Mar-2018
+(defun lse-tpu:ccp-buffer:char:text ()
+  "Value of cut/copy/paste buffer for `char`"
+  (lse-tpu:ccp-buffer:unit:text :char)
+; lse-tpu:ccp-buffer:char:text
+)
+
+;;; 16-Mar-2018
+(defun lse-tpu:ccp-buffer:line:text ()
+  "Value of cut/copy/paste buffer for `line`"
+  (lse-tpu:ccp-buffer:unit:text :line)
+; lse-tpu:ccp-buffer:line:text
+)
+
+;;; 16-Mar-2018
+(defun lse-tpu:ccp-buffer:region:text ()
+  "Value of cut/copy/paste buffer for `region`"
+  (lse-tpu:ccp-buffer:unit:text :region)
+; lse-tpu:ccp-buffer:region:text
+)
+
+;;; 16-Mar-2018
+(defun lse-tpu:ccp-buffer:word:text ()
+  "Value of cut/copy/paste buffer for `word`"
+  (lse-tpu:ccp-buffer:unit:text :word)
+; lse-tpu:ccp-buffer:word:text
 )
 
 ;;;+

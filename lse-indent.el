@@ -46,6 +46,8 @@
 ;;;;    25-Jan-2011 (CT) `lse-indent:set:curr` added
 ;;;;    28-Jan-2011 (CT) `lse-newline-and-indent-to` added
 ;;;;    15-Mar-2018 (CT) Add `lse-indent:remove-trailing-whitespace`
+;;;;    16-Mar-2018 (CT) Use `lse-tpu:ccp-buffer:line:text`,
+;;;;                     not obsolete `lse-tpu:line-deletion`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-indent)
@@ -401,7 +403,7 @@
         (if (looking-at comment-pat)
             (progn
               (lse-tpu:delete-tail-of-line 1)
-              (setq comment lse-tpu:line-deletion)
+              (setq comment (lse-tpu:ccp-buffer:line:text))
             )
           (setq comment (concat "; " d-name))
         )
