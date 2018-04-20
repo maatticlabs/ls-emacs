@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1996-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -63,6 +63,7 @@
 ;;;;    10-Mar-2015 (CT) Add `lse-byte-compile:test-dot-emacs`
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12` to `set-font` menu
 ;;;;     6-Dec-2015 (CT) Add `browse-url-at-point` to `lse-menu` menu
+;;;;    20-Apr-2018 (CT) Add `lse-save-some-buffers` to file menu
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -532,6 +533,12 @@
 )
 (put 'byte-recompile-directory
   'menu-enable '(not (lse-byte-compile:is-lse-file-p))
+)
+
+;;; 20-Apr-2018
+(define-key menu-bar-file-menu [menu-bar file-menu separator-LSE] '("--"))
+(define-key menu-bar-file-menu [lse-save-some-buffers]
+  '("Save changed buffers" . lse-save-some-buffers)
 )
 
 ;;;  3-Jan-2000

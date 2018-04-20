@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2016 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -711,3 +711,5 @@ Optional argument (the prefix) non-nil means save all with no questions."
   (interactive)
   (lse-toggle-mark lse-buffer-mark@stack)
 )
+
+;;; __END__ lse-buffer.el
