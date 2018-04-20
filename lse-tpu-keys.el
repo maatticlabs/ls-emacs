@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2017 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -224,6 +224,10 @@
 ;;;;    24-Nov-2016 (CT) Don't replace 'mouse-yank-primary binding for Emacs 25
 ;;;;    18-Aug-2017 (CT) Bind `lse-tabulator` to [C-\ ]
 ;;;;    18-Aug-2017 (CT) Bind `lse-tpu:select` to [?\A-\s-,]
+;;;;    20-Apr-2018 (CT) Bind `lse-tpu:page-forward-top` to [A-next]
+;;;;                     + bind `scroll-up-command` to [M-next]
+;;;;                     + Ditto for [A-prior], [M-prior] for backward
+;;;;                       direction
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -722,8 +726,6 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([A-S-right]       lse-tpu:pan-right)                       ; 20-Aug-1995
       ([A-down]          shrink-window)                           ; 18-Jul-1995
       ([A-left]          lse-deindent-line-by-word)               ; 18-Jul-1995
-      ([A-next]          lse-scroll-other-window-forw)            ; 18-Jul-1995
-      ([A-prior]         lse-scroll-other-window-back)            ; 18-Jul-1995
       ([A-return]        lse-split-line-i)                        ; 27-Mar-1997
       ([A-right]         lse-indent-line-by-word)                 ; 18-Jul-1995
       ([A-up]            enlarge-window)                          ; 18-Jul-1995
@@ -1083,12 +1085,16 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([blue C-right]    lse-copy-current-word)
       ([blue s-right]    lse-copy-current-bs-word)
 
-      ([A-end]           lse-goto-last-fill-in);     11-Oct-2007
-      ([C-end]           lse-tpu:move-to-end);       31-Aug-2002
-      ([A-home]          lse-goto-first-fill-in);    11-Oct-2007
-      ([C-home]          lse-tpu:move-to-beginning); 31-Aug-2002
-      ([C-next]          lse-tpu:page-forward);      31-Aug-2002
-      ([C-prior]         lse-tpu:page-backward);      8-Sep-2002
+      ([A-end]           lse-goto-last-fill-in);      11-Oct-2007
+      ([C-end]           lse-tpu:move-to-end);        31-Aug-2002
+      ([A-home]          lse-goto-first-fill-in);     11-Oct-2007
+      ([C-home]          lse-tpu:move-to-beginning);  31-Aug-2002
+      ([A-next]          lse-tpu:page-forward-top);   20-Apr-2018
+      ([C-next]          lse-tpu:page-forward);       31-Aug-2002
+      ([M-next]          scroll-up-command);          20-Apr-2018
+      ([A-prior]         lse-tpu:page-backward-top);  20-Apr-2018
+      ([C-prior]         lse-tpu:page-backward);       8-Sep-2002
+      ([M-prior]         scroll-down-command);        20-Apr-2018
     )
   )
 ; lse-define-cursor-movements

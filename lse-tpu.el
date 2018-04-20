@@ -223,6 +223,7 @@
 ;;;;                     + Use built-in `gui-get-primary-selection` in Emacs 25
 ;;;;    25-Nov-2016 (CT) Factor `lse-tpu:recenter`; add guard for buffer-window
 ;;;;    16-Mar-2018 (CT) Add `lse-tpu:ccp-buffer:*:text`
+;;;;    20-Apr-2018 (CT) Add `lse-tpu:page-forward-top`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3888,7 +3889,7 @@ Accepts a prefix argument for the number of paragraphs."
 ;;;
 ;;;  8-Sep-2002
 (defun lse-tpu:page-forward (&optional count)
-  "Mode to the end of the current page.
+  "Move to the end of the current page.
 A repeat count means move that many pages."
   (interactive "^p")
   (lse-tpu:save-pos-before-search)
@@ -3899,13 +3900,33 @@ A repeat count means move that many pages."
 
 ;;;  8-Sep-2002
 (defun lse-tpu:page-backward (&optional count)
-  "Mode to the beginning of the current page.
+  "Move to the beginning of the current page.
 A repeat count means move that many pages."
   (interactive "^p")
   (lse-tpu:save-pos-before-search)
   (backward-page count)
   (if (bobp) (lse-tpu:recenter 1))
 ; lse-tpu:page-backward
+)
+
+;;; 20-Apr-2018
+(defun lse-tpu:page-forward-top (&optional count)
+  "Move start of next page to top of window.
+A repeat count means move that many pages."
+  (interactive "^p")
+  (lse-tpu:page-forward)
+  (lse-scroll-to-top)
+; lse-tpu:page-forward-top
+)
+
+;;; 20-Apr-2018
+(defun lse-tpu:page-backward-top (&optional count)
+  "Move start of the current page to top of window.
+A repeat count means move that many pages."
+  (interactive "^p")
+  (lse-tpu:page-backward)
+  (lse-scroll-to-top)
+; lse-tpu:page-backward-top
 )
 
 ;;;
