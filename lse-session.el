@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2015 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -74,6 +74,8 @@
 ;;;;     8-Dec-2015 (CT) Add optional argument `ignore-pairs`
 ;;;;     8-Dec-2015 (CT) Change date+time inserting functions to a single call
 ;;;;                     of `lse-insert+blank-maybe`
+;;;;    29-May-2018 (CT) Add `lse_start_replacement_if_in_fill-in`
+;;;;                     to `lse-insert-*` where it was missing
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-session)
@@ -166,6 +168,7 @@
 ;;;  7-Dec-2015
 (defun lse-insert-date-time ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%11s %s" (lse-dd-mmm-yyyy) (lse-date-time)))
 ; lse-insert-date-time
 )
@@ -186,39 +189,46 @@
 
 (defun lse-insert-dd-mmm-yyyy ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (format "%11s" (lse-dd-mmm-yyyy)))
 )
 
 (defun lse-insert-dd-mmm-yyyy+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%11s" (lse-dd-mmm-yyyy)) ignore-pairs)
 )
 
 (defun lse-insert-dd-mm-yyyy ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (format "%10s" (lse-dd-mm-yyyy)))
 )
 
 (defun lse-insert-dd-mm-yyyy+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%10s" (lse-dd-mm-yyyy)) ignore-pairs)
 )
 
 ;;; 26-Aug-1998
 (defun lse-insert-yyyy/mm/dd ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (format "%10s" (lse-yyyy/mm/dd)))
 )
 
 ;;; 26-Aug-1998
 (defun lse-insert-yyyy/mm/dd+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%10s" (lse-yyyy/mm/dd)) ignore-pairs)
 )
 
 ;;; 13-Nov-2014
 (defun lse-insert-yyyy-mm-dd ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (format "%10s" (lse-yyyy-mm-dd)))
 ; lse-insert-yyyy-mm-dd
 )
@@ -226,6 +236,7 @@
 ;;; 13-Nov-2014
 (defun lse-insert-yyyy-mm-dd+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%10s" (lse-yyyy-mm-dd)) ignore-pairs)
 ; lse-insert-yyyy-mm-dd+blank
 )
@@ -233,6 +244,7 @@
 ;;;  7-Dec-2015
 (defun lse-insert-yyyy-mm-dd-time+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe
     (format "%10s %s" (lse-yyyy-mm-dd) (lse-date-time))
     ignore-pairs
@@ -257,6 +269,7 @@
 ;;; 13-Nov-2014
 (defun lse-insert-yyyymmdd ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (format "%8s" (lse-yyyymmdd)))
 ; lse-insert-yyyymmdd
 )
@@ -264,22 +277,26 @@
 ;;; 13-Nov-2014
 (defun lse-insert-yyyymmdd+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (format "%8s" (lse-yyyymmdd)) ignore-pairs)
 ; lse-insert-yyyymmdd+blank
 )
 
 (defun lse-insert-time ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-date-time))
 )
 
 (defun lse-insert-time+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (lse-date-time) ignore-pairs)
 )
 
 (defun lse-insert-year ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-date-year))
 )
 
@@ -315,6 +332,7 @@
 (defun lse-insert-system-domain ()
   "Insert the name of the system's internet domain into the current buffer."
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-system-domain))
 ; lse-insert-system-domain
 )
@@ -335,12 +353,14 @@ This is correct only if the locally used domain is a valid internet domain.
 (defun lse-insert-user-e-mail-address ()
   "Insert user's e-mail addresss into the current buffer."
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-user-e-mail-address))
 ; lse-insert-user-e-mail-address
 )
 
 (defun lse-insert-user-name ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-user-name))
 )
 
@@ -348,53 +368,63 @@ This is correct only if the locally used domain is a valid internet domain.
 (defun lse-insert-user-login-name ()
   "Insert the login name of the current user into the buffer."
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (user-login-name))
 ; lse-insert-user-login-name
 )
 
 (defun lse-insert-user-full-name ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-user-full-name))
 )
 
 (defun lse-insert-user-initials ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-user-initials))
 )
 
 (defun lse-insert-user-initials-tex ()
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-user-initials-tex))
 )
 
 (defun lse-insert-user-name+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (lse-user-name) ignore-pairs)
 )
 
 (defun lse-insert-user--name+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (lse-user-full-name) ignore-pairs)
 )
 
 (defun lse-insert-user-initials+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (lse-user-initials) ignore-pairs)
 )
 
 (defun lse-insert-user-initials-tex+blank (&optional ignore-pairs)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert+blank-maybe (lse-user-initials-tex) ignore-pairs)
 )
 
 (defun lse-insert-buffer-name (&optional buf)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-tpu:insert (lse-buffer:base-name (or buf (current-buffer))))
 )
 
 ;;;  6-Dec-2007
 (defun lse-insert-buffer-name-plus-extension (&optional buf)
   (interactive "*")
+  (lse_start_replacement_if_in_fill-in)
   (lse-insert-buffer-name buf)
   (lse-tpu:insert
     (lse-file-name-extension (buffer-name (or buf (current-buffer))))
