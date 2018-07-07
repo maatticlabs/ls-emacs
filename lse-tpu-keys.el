@@ -228,6 +228,7 @@
 ;;;;                     + bind `scroll-up-command` to [M-next]
 ;;;;                     + Ditto for [A-prior], [M-prior] for backward
 ;;;;                       direction
+;;;;     7-Jul-2018 (CT) Add binding for `([?\A-\C-g] 'keyboard-escape-quit)`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -562,6 +563,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
   (if lse-tpu:use-control-keys-p
       (lse-tpu:redefine-some-control-keys)
   )
+
   (lse-keys/define #'lse-define-key-in-all-maps
     '(
       ([?\A-_]     undo)                                          ; 10-Jan-1998
@@ -569,6 +571,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-g]     abort-recursive-edit)                          ; 10-Jan-1998
       ([?\A-j]     lse-tpu:delete-prev-word)                      ; 10-Jan-1998
       ([?\C-k]     lse-tpu:delete-tail-of-line)                   ;  6-Jan-2002
+      ([?\A-\C-g] 'keyboard-escape-quit)                          ;  7-Jul-2018
     )
   )
 
