@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2007-2015 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2007-2018 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -47,6 +47,7 @@
 ;;;;     9-Jan-2015 (CT) Increase `fill-column` from 77 to 79
 ;;;;    15-Jul-2015 (CT) Use `python-mode-map`, not `py-mode-map`
 ;;;;    10-Dec-2017 (CT) Add `ns` to `lse-macosx` guard
+;;;;    26-Nov-2018 (CT) Set `mouse-wheel-tilt-scroll`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -311,6 +312,7 @@
 
 ;;;  1-Oct-2007
 (mouse-wheel-mode t)
+(setq mouse-wheel-tilt-scroll t); 26-Nov-2018
 
 ;;;  4-Oct-2007
 (add-hook 'before-save-hook 'lse-file:update-copyright)
