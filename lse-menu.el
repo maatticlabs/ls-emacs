@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1996-2018 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1996-2019 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -64,6 +64,7 @@
 ;;;;    15-Sep-2015 (CT) Add `lse-face:font:hack-12` to `set-font` menu
 ;;;;     6-Dec-2015 (CT) Add `browse-url-at-point` to `lse-menu` menu
 ;;;;    20-Apr-2018 (CT) Add `lse-save-some-buffers` to file menu
+;;;;    15-Aug-2019 (CT) Add submenu for date-time insertion to `lse-menu`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -188,6 +189,51 @@
   (cons "Use font default" (lse-key-cmd (lse-frame:set-font lse-face:font:default)))
 )
 
+;;; 15-Aug-2019
+;;; Menu keymap for date/time insertion commands of LS-Emacs
+(define-prefix-command 'lse-menu:insert-date-time nil "Insert date/time")
+
+(define-key lse-menu:lse-menu [insert-date-or-time]
+  (cons "Insert date/time" lse-menu:insert-date-time)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:dd-mm-yyyy]
+  '("Insert dd.mm.yyyy" . lse-insert-dd-mm-yyyy+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:dd-mmm-yyyy]
+  '("Insert dd-mmm-yyyy" . lse-insert-dd-mmm-yyyy+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:yyyy/mm/dd]
+  '("Insert yyyy/mm/dd" . lse-insert-yyyy/mm/dd+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:yyyymmdd]
+  '("Insert yyyymmdd" . lse-insert-yyyymmdd+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:date-time-comment]
+  '("Insert dd-mmm-yyyy-time-comment" . lse-insert-date-time-comment)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:yyyy-mm-dd-time-comment]
+  '("Insert yyyy-mm-dd-time-comment" . lse-insert-yyyy-mm-dd-time-comment)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:time]
+  '("Insert time" . lse-insert-time+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:yyyy-mm-dd-time]
+  '("Insert yyyy-mm-dd-time" . lse-insert-yyyy-mm-dd-time+blank)
+)
+
+(define-key lse-menu:insert-date-time [lse-menu:insert-date-time:yyyy-mm-dd]
+  '("Insert yyyy-mm-dd" . lse-insert-yyyy-mm-dd+blank)
+)
+
+;;; Menu keymap for vc-specific commands of LS-Emacs
 (define-key lse-menu:lse-menu [VCS] (cons "VCS" lse-menu:vcs))
 
 (define-key lse-menu:vcs [lse-vcs:conflict:reset]
