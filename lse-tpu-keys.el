@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2019 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -229,6 +229,10 @@
 ;;;;                     + Ditto for [A-prior], [M-prior] for backward
 ;;;;                       direction
 ;;;;     7-Jul-2018 (CT) Add binding for `([?\A-\C-g] 'keyboard-escape-quit)`
+;;;;    17-Aug-2019 (CT) Bind `lse-tpu:search-next-line` to `[(control \^)]`
+;;;;                     + rebind `lse-tpu:join-line-head` to `?A-^`
+;;;;                     + ditto for `lse-tpu:search-prev-line`,
+;;;;                       and `lse-tpu:join-line-tail`
 ;;;;    ««revision-date»»···
 ;;;;--
 (provide 'lse-tpu-keys)
@@ -526,9 +530,12 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([(control F)]        lse-tpu:search-reverse);            15-Nov-2014
       ([(control n)]        lse-tpu:search-again-forward);      31-Aug-2002
       ([(control p)]        lse-tpu:search-again-reverse);      31-Aug-2002
+      ([(control \^)]       lse-tpu:search-next-line);          17-Aug-2019
+      ([(control \$)]       lse-tpu:search-prev-line);          17-Aug-2019
       ([(control \,)]       lse-tpu:goto-next-occurrence-char); 12-Dec-2014
       ([(control \;)]       lse-tpu:goto-prev-occurrence-char); 12-Dec-2014
       ([(super f)]          lse-tpu:search-reverse);             5-Oct-2007
+      ([?\C-°]              lse-tpu:search-next-line);          17-Aug-2019
     )
   )
   (lse-keys/define #'global-set-key
@@ -571,7 +578,7 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-g]     abort-recursive-edit)                          ; 10-Jan-1998
       ([?\A-j]     lse-tpu:delete-prev-word)                      ; 10-Jan-1998
       ([?\C-k]     lse-tpu:delete-tail-of-line)                   ;  6-Jan-2002
-      ([?\A-\C-g] 'keyboard-escape-quit)                          ;  7-Jul-2018
+      ([?\A-\C-g]  keyboard-escape-quit)                          ;  7-Jul-2018
     )
   )
 
@@ -646,8 +653,8 @@ electric `(` inserts `()` and positions point between the parentheses..."
       ([?\A-z]           lse-tpu:goto-last-position)
       ([?\A-|]           lse-fill-range)                          ; 28-Apr-1996
       ([?\C-\.]          universal-argument)                      ; 28-Jun-1995
-      ([?\C-^]           lse-tpu:join-line-head)                  ;  7-Nov-2015
-      ([?\C-$]           lse-tpu:join-line-tail)                  ;  7-Nov-2015
+      ([?\A-^]           lse-tpu:join-line-head)                  ;  7-Nov-2015
+      ([?\A-$]           lse-tpu:join-line-tail)                  ;  7-Nov-2015
       ([?\C-#]           lse-insert-yyyy-mm-dd-time+blank)        ;  7-Dec-2015
       ([?\C-\A-d]        dabbrev-completion)                      ;  3-Jan-2000
       ([?\C-i]           lse-tabulator)                           ; 13-Sep-2002

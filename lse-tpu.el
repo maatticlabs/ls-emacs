@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2018 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1993-2019 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -224,6 +224,8 @@
 ;;;;    25-Nov-2016 (CT) Factor `lse-tpu:recenter`; add guard for buffer-window
 ;;;;    16-Mar-2018 (CT) Add `lse-tpu:ccp-buffer:*:text`
 ;;;;    20-Apr-2018 (CT) Add `lse-tpu:page-forward-top`
+;;;;    17-Aug-2019 (CT) Add `lse-tpu:search-next-line`,
+;;;;                     and `lse-tpu:search-prev-line`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -3257,6 +3259,34 @@ and backward a character after a failed search.  Arg means end of search."
       )
   )
 ; lse-tpu:adjust-search
+)
+
+;;; 17-Aug-2019
+(defun lse-tpu:search-next-line ()
+  "Search for and mark next line"
+  (interactive)
+  (save-match-data
+    (let ((lse-tpu:search-dir lse-tpu:search-dir-forward)
+         )
+      (when (and (not (eobp)) (bolp)) (lse-tpu:forward-char  1))
+      (lse-tpu:adjust-search t)
+      (lse-tpu:search+goto+set-match "^.+$")
+    )
+  )
+; lse-tpu:search-next-line
+)
+
+;;; 17-Aug-2019
+(defun lse-tpu:search-prev-line ()
+  "Search for and mark previous line"
+  (interactive)
+  (let ((lse-tpu:search-dir lse-tpu:search-dir-reverse)
+       )
+    (when (and (not (bobp)) (bolp)) (lse-tpu:backward-char  1))
+    (lse-tpu:adjust-search t)
+    (lse-tpu:search+goto+set-match "^.+$")
+  )
+; lse-tpu:search-prev-line
 )
 
 ;;; 31-Aug-2002
