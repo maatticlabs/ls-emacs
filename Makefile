@@ -1,7 +1,7 @@
 DOC_FILES    = README $(wildcard doc/*.texi doc/test.* doc/lse.*)
 SCRIPT_FILES = $(wildcard scripts/*)
-EL_FILES     = ls-emacs.el  $(wildcard lse-*.el ) picture.el  django-mode.el
-ELC_FILES    = ls-emacs.elc $(wildcard lse-*.elc) picture.elc django-mode.elc
+EL_FILES     = ls-emacs.el  $(wildcard lse-*.el ) picture.el
+ELC_FILES    = ls-emacs.elc $(wildcard lse-*.elc) picture.elc
 LSE_FILES    = $(wildcard lse/*.lse)
 LSE_LANGS    = $(wildcard lse/lse-language-*.lse)
 LSC_FILES    = $(wildcard lsc/*.lsc)
