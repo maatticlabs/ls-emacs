@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2020 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 ;;;;++
 ;;;; Name
@@ -11,7 +11,9 @@
 ;;;;
 ;;;; Revision Dates
 ;;;;    28-Jun-1994 (CT) Creation
-;;;;-- 
+;;;;     5-Jan-2020 (CT) Add `require 'tex-mode`
+;;;;    ««revision-date»»···
+;;;;--
 (lse-language:define "latex-std"
   '((lse-tpu:ident-chars               "A-Za-z0-9äáàâöóòôüúùûÄÖÜß")
     (lse-tpu:ident-group-chars         "-\@_")
@@ -22,7 +24,7 @@
     (lse-language:initial-fill-in      "««latex»»")
    )
   '(lse-tpu:toggle-newline-and-indent
-    lse-tpu:auto-fill-mode:on 
+    lse-tpu:auto-fill-mode:on
    )
   '("lse-templates-latex"
    )
@@ -30,3 +32,10 @@
 ;   997
 )
 
+
+;;;
+;;; TeX modes
+;;;
+(require 'tex-mode)
+(add-hook 'latex-mode-hook 'lse-latex-mode:define-keys)
+(add-hook 'latex-mode-hook 'lse-menu:add-menubar-index)
