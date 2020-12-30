@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2014 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2020 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -105,6 +105,8 @@
 ;;;;    13-Nov-2014 (CT) Use `lse-keys/define`
 ;;;;    18-Nov-2014 (CT) Add `[letter-prefix]` to
 ;;;;                     `lse-keys:function-key-map-bindings`
+;;;;    29-Dec-2020 (CT) Add `lse-insert-` functions bound to numeric keypad to
+;;;;                     `lse-define-std-keys`
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -259,6 +261,18 @@
       'lse-tpu:undelete-word
       'quoted-insert
       'self-insert-command
+      ;; functions bound to keys of numeric keypad
+      'lse-insert-num-0
+      'lse-insert-num-1
+      'lse-insert-num-2
+      'lse-insert-num-3
+      'lse-insert-num-4
+      'lse-insert-num-5
+      'lse-insert-num-6
+      'lse-insert-num-7
+      'lse-insert-num-8
+      'lse-insert-num-9
+      'lse-insert-num-point
   )
   ;;--
 

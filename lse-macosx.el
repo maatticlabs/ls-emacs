@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 2009-2018 Mag. Christian Tanzer. All rights reserved
+;;;; Copyright (C) 2009-2020 Mag. Christian Tanzer. All rights reserved
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ;;;; ****************************************************************************
 ;;;;
@@ -34,6 +34,9 @@
 ;;;;    12-Dec-2014 (CT) Add `lse-macosx:define-keys:german-keyboard`
 ;;;;    11-Dec-2017 (CT) Adapt to Cocoa-based Emacs
 ;;;;    25-Jan-2018 (CT) Add more translations for `escape <key>` to `M-<key>`
+;;;;    29-Dec-2020 (CT) Add `lse-keys:function-key-map-bindings` for extended
+;;;;                     keyboards
+;;;;    30-Dec-2020 (CT) Fix `[delete]` bindings
 ;;;;    ««revision-date»»···
 ;;;;--
 
@@ -41,21 +44,36 @@
 
 ;;; https://emacsformacosx.com/tips
 
+;;; remove bindings `[delete]` from `local-function-key-map`
+;;; * they break bindings like `[M-delete]`
+;;; 30-Dec-2020
+(defun lse-keys:fix:local-function-key-map ()
+  (define-key local-function-key-map [kp-delete] [delete])
+  (define-key local-function-key-map [delete]    [delete])
+; lse-keys:fix:local-function-key-map
+)
+(add-hook 'window-setup-hook 'lse-keys:fix:local-function-key-map)
+
 (setq
   ns-command-modifier         'alt
-  ns-function-modifier        nil
+  ns-function-modifier         nil
   ns-option-modifier          'super
   ns-right-alternate-modifier  nil
   ns-right-command-modifier    nil
 )
 
-(defvar lse-keys:function-key-map-bindings
-  '(
+(setq lse-keys:function-key-map-bindings
+  '(;; small keyboards
     ([f9]         [insert])
     ([f10]        [red])
     ([f11]        [blue])
     ([f12]        [gold])
     ([s-f12]      [do])
+    ;; extended keyboards
+    ([f13]        [red])
+    ([f14]        [blue])
+    ([f15]        [gold])
+    ([f16]        [do])
     ;; Bindings copied from lse-config.el
     ([(super \#)] [letter-prefix])
    )
@@ -63,23 +81,35 @@
 
 ;;; Putting "…" into function-key-map doesn't work --> put it into
 ;;; key-translation-map instead
-(define-key key-translation-map "…"    [cancel])
-(define-key key-translation-map "∞"    [select])
-(define-key key-translation-map [S-f9] [select])
+(define-key key-translation-map "…"                   [cancel])
+(define-key key-translation-map "∞"                   [select])
+(define-key key-translation-map [S-f9]                [select])
+
+;;; Fix `[insert]` bindings
+(define-key key-translation-map [C-f9]                [C-insert])
+(define-key key-translation-map [s-f9]                [s-insert])
+
+;;; Fix `[delete]` bindings
+(define-key key-translation-map [A-kp-delete]         [A-delete])
+(define-key key-translation-map [C-kp-delete]         [C-delete])
+(define-key key-translation-map [M-kp-delete]         [M-delete])
+(define-key key-translation-map [s-kp-delete]         [s-delete])
+(define-key key-translation-map [C-M-kp-delete]       [C-M-delete])
+(define-key key-translation-map [C-s-kp-delete]       [C-s-delete])
+(define-key key-translation-map [escape delete]       [M-delete])
+(define-key key-translation-map [escape C-deletechar] [C-M-delete])
 
 ;;; As we don't have a free key for Meta, map `ESC key` to `M-key`
-(define-key input-decode-map [escape deletechar]     [M-delete])
-(define-key input-decode-map [escape C-deletechar]   [C-M-delete])
-(define-key input-decode-map [escape down]           [M-down])
-(define-key input-decode-map [escape backspace]      [M-backspace])
-(define-key input-decode-map [escape C-backspace]    [C-M-backspace])
-(define-key input-decode-map [escape f9]             [M-insert])
-(define-key input-decode-map [escape C-f9]           [C-M-insert])
-(define-key input-decode-map [escape left]           [M-left])
-(define-key input-decode-map [escape C-left]         [C-M-left])
-(define-key input-decode-map [escape right]          [M-right])
-(define-key input-decode-map [escape C-right]        [C-M-right])
-(define-key input-decode-map [escape up]             [M-up])
+(define-key input-decode-map [escape down]             [M-down])
+(define-key input-decode-map [escape backspace]        [M-backspace])
+(define-key input-decode-map [escape C-backspace]      [C-M-backspace])
+(define-key input-decode-map [escape f9]               [M-insert])
+(define-key input-decode-map [escape C-f9]             [C-M-insert])
+(define-key input-decode-map [escape left]             [M-left])
+(define-key input-decode-map [escape C-left]           [C-M-left])
+(define-key input-decode-map [escape right]            [M-right])
+(define-key input-decode-map [escape C-right]          [C-M-right])
+(define-key input-decode-map [escape up]               [M-up])
 
 (define-key input-decode-map [escape ?b]             [?\M-b])
 (define-key input-decode-map [escape ?f]             [?\M-f])

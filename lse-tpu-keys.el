@@ -1,6 +1,6 @@
 ;-*- coding: utf-8 -*-
 
-;;;; Copyright (C) 1994-2019 Mag. Christian Tanzer. All rights reserved.
+;;;; Copyright (C) 1994-2020 Mag. Christian Tanzer. All rights reserved.
 ;;;; Glasauergasse 32, A--1130 Wien, Austria. tanzer.co.at
 
 ;;;; This file is part of LS-Emacs, a package built on top of GNU Emacs.
@@ -1128,7 +1128,6 @@ deletions."
       ([delete]            lse-tpu:delete-next-char)
       ([A-delete]          lse-tpu:cut-region)
       ([M-delete]          lse-tpu:delete-next-line)
-      ([?\e C-delete]      lse-tpu:delete-tail-of-line)
       ([C-M-delete]        lse-tpu:delete-tail-of-line)
       ([C-delete]          lse-tpu:delete-next-word)
       ([s-delete]          lse-tpu:delete-next-bs-word-tail)
